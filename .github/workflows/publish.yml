@@ -29,16 +29,16 @@ jobs:
         run: |
           PREFIX=${{ github.event.inputs.image_tag_prefix }}
           DATABASE_URL=${{ secrets.__DEVELOPMENT_DATABASE_URL }}
-          if [ $GITHUB_BRANCH == "refs/heads/master" ]
+          if [ $GITHUB_BRANCH == "refs/heads/main" ]
           then
              PREFIX=prod
              DATABASE_URL=${{ secrets.__PRODUCTION_DATABASE_URL }}
           fi
           IMAGE_TAG=$PREFIX-$(echo $GITHUB_SHA | cut -c 1-7)
           IMAGE_NAME=$(echo $GITHUB_REPOSIOTORY | cut -c 10-)
-          COMPONENT= "api web"
+          COMPONENTS= "api web"
           PROJECT_NAME=us-east4-docker.pkg.dev/chess-gcr1/treasure-chess
-          for component in $COMPONET
+          for COMPONENT in $COMPONENTS
           do
 
               echo "branch: $GITHUB_BRANCH, building image... $PROJECT_NAME/$IMAGE_NAME-$COMPONENT:$IMAGE_TAG"

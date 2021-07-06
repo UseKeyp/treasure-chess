@@ -11,7 +11,7 @@ const MembersLayout = (props) => {
             Members
           </Link>
         </h1>
-        <Link to={routes.newMember()} className="rw-button rw-button-green">
+        <Link to={routes.home()} className="rw-button rw-button-green">
           <div className="rw-button-icon">+</div> New Member
         </Link>
       </header>

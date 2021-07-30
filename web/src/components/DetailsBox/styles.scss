@@ -1,0 +1,20 @@
+.detailsBox {
+  border: 4px solid #8d8c8a;
+  width: 100%;
+  max-width: 100%;
+  text-align: center;
+  &__heading {
+    border-bottom: 1px solid #c4c4c4;
+    font-weight: bold;
+    padding: 0.5rem;
+  }
+  &__items-wrapper {
+    padding: 0.5rem;
+  }
+  &__item {
+    font-size: 1.5rem;
+    &:not(:last-child) {
+      padding-bottom: 16px;
+    }
+  }
+}

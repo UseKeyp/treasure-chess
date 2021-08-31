@@ -1,8 +1,5 @@
 import { db } from 'src/lib/db'
 import { getTreasureId, getTreasureCardColor } from 'src/lib/treasure'
-import ChessWebAPI from 'chess-web-api'
-
-const chessAPI = new ChessWebAPI()
 
 const countMoves = (moves) => {
   return Math.round(moves.trim().split(' ').length / 2)
@@ -80,6 +77,23 @@ const getGameWinnerId = ({ white, black }) => {
   return null
 }
 
+const getGameRuleVariant = (game) => {
+  if (game.rules === 'chess') return 'Standard'
+  return game.rules.replace(/^\w/, (c) => c.toUpperCase())
+}
+
+export const getOpening = (moves) => {
+  // Currently only used in Treasures
+  // TODO: Complete this function
+  return "Queen's Gambit"
+}
+
+export const getAchievements = (moves) => {
+  // Currently only used in Treasures
+  // TODO: Complete this function
+  return 'win/play above 2200,queen side castle,mate with a bishop'
+}
+
 const parseGameFromChessDotCom = (game) => {
   const {
     termination,
@@ -104,9 +118,11 @@ const parseGameFromChessDotCom = (game) => {
     outcome: getGameOutcome({ white: game.white, black: game.black }),
     moves,
     moveCount,
+    ruleVariant: getGameRuleVariant(game),
     blackId: game.black.username,
     whiteId: game.white.username,
     winnerId: getGameWinnerId({ white: game.white, black: game.black }),
+    externalUrl: game.url,
   }
 }
 
@@ -123,21 +139,9 @@ const addTreasureIdToGame = async ({ game, memberId }) => {
 }
 
 export const fetchGames = async (id) => {
-  const options = {}
   const year = 2021
   const month = 8
-  let gameData
-  try {
-    gameData = await chessAPI.getPlayerCompleteMonthlyArchives(
-      id,
-      year,
-      month,
-      options
-    )
-  } catch (e) {
-    throw `Error fetching data from chess.com ${JSON.stringify(e)}`
-  }
-  const { games } = gameData.body
+  const games = await fetchChessDotComGames({ memberId, year, month })
   if (!games) return []
   const gamesWithTreasureIds = await Promise.all(
     games.map(
@@ -155,6 +159,7 @@ export const fetchGame = async ({ id, memberId, endTime }) => {
   const year = new Date(endTime).getFullYear()
   let month = new Date(endTime).getMonth() + 1
   if (month.toString().length < 2) month = '0' + month
+  // TODO: use chess-web-api instead
   const res = await fetch(
     `https://api.chess.com/pub/player/${memberId}/games/${year}/${month}`
   )

@@ -40,10 +40,10 @@ export const treasureNftDetails = async ({ id }) => {
   return null
 }
 
-export const mintTreasure = async ({ gameId, memberId, endTime }) => {
+export const mintTreasure = async ({ gameId, endTime, name }) => {
   // Get user's wallet and sign meta-tx
-  // TODO: Remove memberId from args and pull from auth context
-
+  // TODO: Remove hardcoded member ID and pull from auth context
+  const memberId = 'jschiarizzi'
   // Submit meta-tx to admin wallet
 
   // Create pending transaction in database
@@ -51,7 +51,7 @@ export const mintTreasure = async ({ gameId, memberId, endTime }) => {
   // Get game details
   const game = await fetchGame({ id: gameId, memberId, endTime })
   // Create treasure and connect pending transaction - minter, owner, tokenId
-  const treasure = await createTreasure({ game, memberId })
+  const treasure = await createTreasure({ game, memberId, name })
   return treasure
 }
 

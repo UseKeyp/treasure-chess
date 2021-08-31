@@ -31,7 +31,7 @@ export const schema = gql`
     opening: String!
     achievements: String!
     tokenId: Int
-    mintedAt: DateTime!
+    mintedAt: DateTime
   }
 
   type TreasureNftDetails {
@@ -103,7 +103,7 @@ export const schema = gql`
   }
 
   type Mutation {
-    createTreasure(input: CreateTreasureInput!): Treasure!
+    mintTreasure(gameId: String!): Treasure!
     updateTreasure(id: String!, input: UpdateTreasureInput!): Treasure!
     deleteTreasure(id: String!): Treasure!
   }

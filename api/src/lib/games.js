@@ -1,5 +1,5 @@
 import { db } from 'src/lib/db'
-import { getTreasureId } from 'src/lib/treasure'
+import { getTreasureId, getTreasureCardColor } from 'src/lib/treasure'
 import ChessWebAPI from 'chess-web-api'
 
 const chessAPI = new ChessWebAPI()
@@ -42,7 +42,11 @@ const parsePgn = (pgn) => {
     if (line.includes('[Result ')) winnerRaw = line.split(`"`)[1]
     if (winnerRaw === '0-1') winner = 'black'
     else if (winnerRaw === '1/2-1/2') winner = 'draw'
-    if (line.match(/1./)) moves = line.split(/[0-21/2]+-/)[0].trim()
+    if (line.match(/1./))
+      moves = line
+        .split(/[0-21/2]+-/)[0]
+        .replace(/\{.+?\} /g, '') // remove clock time
+        .trim()
     if (line.includes('[Termination ')) termination = line.split(`"`)[1]
     if (line.includes('[BlackElo ')) blackRating = Number(line.split(`"`)[1])
     if (line.includes('[WhiteElo ')) whiteRating = Number(line.split(`"`)[1])
@@ -69,7 +73,14 @@ const getGameOutcome = ({ white, black }) => {
   return 'draw'
 }
 
-const parseGame = (game) => {
+const getGameWinnerId = ({ white, black }) => {
+  const outcome = getGameOutcome({ white, black })
+  if (outcome === 'white') return white.id
+  if (outcome === 'black') return black.id
+  return null
+}
+
+const parseGameFromChessDotCom = (game) => {
   const {
     termination,
     date,
@@ -83,21 +94,24 @@ const parseGame = (game) => {
   const id = splitUrl[splitUrl.length - 1]
   return {
     id,
-    outcome: getGameOutcome({ white: game.white, black: game.black }),
-    termination,
     blackRating,
     whiteRating,
+    // blackMasterTitle, // TODO:
+    // whiteMasterTitle, // TODO:
     timeControl,
+    termination,
+    endTime: new Date(game.end_time * 1000),
+    outcome: getGameOutcome({ white: game.white, black: game.black }),
+    moves,
+    moveCount,
     blackId: game.black.username,
     whiteId: game.white.username,
-    endTime: new Date(game.end_time * 1000),
-    moveCount,
-    moves,
+    winnerId: getGameWinnerId({ white: game.white, black: game.black }),
   }
 }
 
 const addTreasureIdToGame = async ({ game, memberId }) => {
-  const cardColor = memberId === game.whiteId ? 'white' : 'black'
+  const cardColor = getTreasureCardColor({ game, memberId })
   const treasureId = getTreasureId({
     moves: game.moves,
     endTime: game.endTime,
@@ -112,21 +126,29 @@ export const fetchGames = async (id) => {
   const options = {}
   const year = 2021
   const month = 8
-  const gameData = await chessAPI.getPlayerCompleteMonthlyArchives(
-    id,
-    year,
-    month,
-    options
-  )
-  const games = gameData.body.games
+  let gameData
+  try {
+    gameData = await chessAPI.getPlayerCompleteMonthlyArchives(
+      id,
+      year,
+      month,
+      options
+    )
+  } catch (e) {
+    throw `Error fetching data from chess.com ${JSON.stringify(e)}`
+  }
+  const { games } = gameData.body
   if (!games) return []
-  const gamesAndTreasures = await Promise.all(
-    games.map(async (game) => {
-      const g = parseGame(game)
-      return await addTreasureIdToGame({ game: g, memberId: id })
-    })
+  const gamesWithTreasureIds = await Promise.all(
+    games.map(
+      async (game, i) =>
+        await addTreasureIdToGame({
+          game: parseGameFromChessDotCom(game),
+          memberId: id,
+        })
+    )
   )
-  return gamesAndTreasures
+  return gamesWithTreasureIds
 }
 
 export const fetchGame = async ({ id, memberId, endTime }) => {
@@ -140,5 +162,5 @@ export const fetchGame = async ({ id, memberId, endTime }) => {
   if (!json.games) return null
   const game = json.games.find((g) => g.url.includes(id))
   if (!game) return null
-  return parseGame(game)
+  return parseGameFromChessDotCom(game)
 }

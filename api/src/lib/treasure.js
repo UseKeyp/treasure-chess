@@ -2,7 +2,7 @@ const { id: sha3 } = require('@ethersproject/hash')
 
 import { db } from 'src/lib/db'
 import { fetchMember } from 'src/lib/members'
-
+import { fetchChessDotComUserDetails } from 'src/lib/chessDotCom'
 import { getAchievements, getOpening } from 'src/lib/games'
 
 export const getTreasureCardColor = ({ memberId, game }) =>
@@ -30,8 +30,10 @@ export const createTreasure = async ({ game, memberId, name }) => {
   // Create members if they don't exist
   const white = await fetchMember(game.whiteId, true)
   const black = await fetchMember(game.blackId, true)
-  const whiteMasterTitle = await fetchMemberMasterTitle(game.whiteId)
-  const blackMasterTitle = await fetchMemberMasterTitle(game.blackId)
+  // Get master title
+  const whiteChessDotComMember = await fetchChessDotComUserDetails(game.whiteId)
+  const blackChessDotComMember = await fetchChessDotComUserDetails(game.blackId)
+
   const treasure = db.treasure.create({
     id: treasureId,
     black: { connect: { id: black.id } },
@@ -43,8 +45,8 @@ export const createTreasure = async ({ game, memberId, name }) => {
     cardColor,
     blackRating: game.blackRating,
     whiteRating: game.whiteRating,
-    blackMasterTitle, // Note: Only current master title is used
-    whiteMasterTitle,
+    blackMasterTitle: blackChessDotComMember.title, // Note: Only current master title is used
+    whiteMasterTitle: whiteChessDotComMember.title,
     timeControl: game.timeControl,
     termination: game.termination,
     endTime: game.endTime,

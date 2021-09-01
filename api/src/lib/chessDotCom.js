@@ -3,8 +3,7 @@ import ChessWebAPI from 'chess-web-api'
 const chessAPI = new ChessWebAPI()
 
 export const fetchChessDotComUserDetails = async (id) => {
-  const member = await chessAPI.player(id)
-  return member
+  return await chessAPI.player(id)
 }
 
 export const fetchChessDotComGames = async ({ memberId, year, month }) => {

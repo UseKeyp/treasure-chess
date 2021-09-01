@@ -2,6 +2,7 @@ import ProfileBox from 'src/components/ProfileBox/ProfileBox'
 import MemberActivityCell from 'src/components/MemberActivity/MemberActivityCell'
 import GamesCell from 'src/components/Game/GamesCell'
 import TreasureCardCell from 'src/components/Treasure/TreasureCardCell'
+import MintTreasure from 'src/components/Treasure/MintTreasure'
 import GameCardCell from 'src/components/Game/GameCardCell'
 
 const Member = ({ member }) => {
@@ -41,11 +42,14 @@ const Member = ({ member }) => {
               {activeGame.treasureId ? (
                 <TreasureCardCell id={activeGame.treasureId} />
               ) : (
-                <GameCardCell
-                  id={activeGame.id}
-                  memberId={member.id}
-                  endTime={activeGame.endTime}
-                />
+                <>
+                  <GameCardCell
+                    id={activeGame.id}
+                    memberId={member.id}
+                    endTime={activeGame.endTime}
+                  />
+                  <MintTreasure game={activeGame} />
+                </>
               )}
             </div>
           </div>

@@ -13,7 +13,8 @@
     ]
   },
   "scripts": {
-    "generate-icons": "node src/scripts/generate-icon-system"
+    "generate-icons": "node src/scripts/generate-icon-system",
+    "build-storybook": "yarn rw storybook --build && cp web/public/mockServiceWorker.js web/public/storybook"
   },
   "dependencies": {
     "@ethersproject/hash": "^5.4.0",

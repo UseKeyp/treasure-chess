@@ -142,3 +142,20 @@ docker run -it --rm \
        -p 8910:8910 \
        ghcr.io/pi0neerpat/treasure-chess-redwood-api-main:latest
 ```
+
+## URIs and IPFS
+The Token URI stored on-chain must point to a json to play nice with third parties. It should include a field for image. Like this:
+```javascript
+{"image": "ipfs://ipfshash-of-image", "attributes": [
+  {"trait_type": "Achievement 1", "value": "did a thing"},
+  {"trait_type": "Achievement 2", "value": "another thing"},
+  {"trait_type": "Achievement 3", "value": "a third thing"},     
+  {"trait_type": "Card Level", "value": "Rare"}
+]}
+```
+
+### Flow
+1. Upload image to IPFS, get IPFS link for image
+2. Create a json, add the image IPFS link as `image` field.
+3. Upload json to IPFS, get IPFS link for json
+4. Call `mint` function via web3: supply json's IPFS hash, also supply the id hash of the moves+stuff

@@ -32,6 +32,7 @@ contract Treasure is ERC721URIStorage, Ownable {
 
   mapping(uint256 => Game) public games;
   mapping (uint256 => address) public originalPlayers;
+  mapping (bytes32 => uint) public movesHashToId;
 
   //Events
   event GameMinted(address to, uint256 id, string uri, bytes32 movesHash);
@@ -39,7 +40,6 @@ contract Treasure is ERC721URIStorage, Ownable {
   event AdminRemoved(address addedBy, address newAdmin);
 
   constructor() ERC721("Treasure Chess", "CHESS") {
-    //TODO remove constructor function. use initializer instead
     admins[msg.sender] = true;
   }
 
@@ -67,15 +67,15 @@ contract Treasure is ERC721URIStorage, Ownable {
     Game memory newGame = Game(_moveHash, _level, _achievement1, _achievement2, _achievement3, _color);
     games[newItemId] = newGame;
     originalPlayers[newItemId] = player;
+    movesHashToId[_moveHash] = newItemId; //mapping of offchain id to on chain id
 
     emit GameMinted(player, newItemId, tokenURI, _moveHash);
     return newItemId;
   }
 
-
-    function getOriginalPlayer(uint _id) public view returns(address){
-      return originalPlayers[_id];
-    }
+  function getOriginalPlayer(uint _id) public view returns(address){
+    return originalPlayers[_id];
+  }
 
   function getTotalGames() public view returns (uint256) {
     return _tokenIds.current();

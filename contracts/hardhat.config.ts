@@ -44,4 +44,6 @@ const config: HardhatUserConfig = {
   },
 }
 
+//npx hardhat run --network ropsten deploy/001_deploy_contracts.ts
+
 export default config

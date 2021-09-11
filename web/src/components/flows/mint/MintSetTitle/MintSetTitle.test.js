@@ -1,11 +1,11 @@
 import { render } from '@redwoodjs/testing'
 
-import OldGameCard from './OldGameCard'
+import MintSetTitle from './MintSetTitle'
 
-describe('OldGameCard', () => {
+describe('MintSetTitle', () => {
   it('renders successfully', () => {
     expect(() => {
-      render(<OldGameCard />)
+      render(<MintSetTitle />)
     }).not.toThrow()
   })
 })

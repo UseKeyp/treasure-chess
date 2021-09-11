@@ -21,7 +21,7 @@ const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
   });
 
   const treasureMarketAddress = await deployments.get(contract.TreasureMarket);
-  
+
   await deploy("Paymaster", {
     from: deployer,
     args: [treasureMarketAddress],

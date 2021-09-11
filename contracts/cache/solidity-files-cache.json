@@ -1,50 +1,6 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "/Users/jsch/Desktop/treasure-chess/contracts/contracts/ApprovelistPaymaster.sol": {
-      "lastModificationDate": 1630339861334,
-      "contentHash": "324c3450387bdeaf98408e33bf2d4e96",
-      "sourceName": "contracts/ApprovelistPaymaster.sol",
-      "solcConfig": {
-        "version": "0.8.0",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata",
-                "devdoc",
-                "userdoc",
-                "storageLayout",
-                "evm.gasEstimates"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          },
-          "metadata": {
-            "useLiteralContent": true
-          }
-        }
-      },
-      "imports": [
-        "@opengsn/contracts/src/BasePaymaster.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "SingleRecipientPaymaster"
-      ]
-    },
     "/Users/jsch/Desktop/treasure-chess/contracts/node_modules/@opengsn/contracts/src/BasePaymaster.sol": {
       "lastModificationDate": 1630338963019,
       "contentHash": "6511f1707c643c922653c4a631c78704",
@@ -573,7 +529,7 @@
       ]
     },
     "/Users/jsch/Desktop/treasure-chess/contracts/contracts/TreasureMarket.sol": {
-      "lastModificationDate": 1630351427162,
+      "lastModificationDate": 1630365692406,
       "contentHash": "73d2e46fed1f397136da841b055ea45c",
       "sourceName": "contracts/TreasureMarket.sol",
       "solcConfig": {
@@ -706,7 +662,7 @@
       ]
     },
     "/Users/jsch/Desktop/treasure-chess/contracts/contracts/Treasure.sol": {
-      "lastModificationDate": 1630351062376,
+      "lastModificationDate": 1630365692405,
       "contentHash": "8e1f52b7e70cff25ffc74411c0cb3da5",
       "sourceName": "contracts/Treasure.sol",
       "solcConfig": {
@@ -1229,6 +1185,50 @@
       ],
       "artifacts": [
         "IERC165"
+      ]
+    },
+    "/Users/jsch/Desktop/treasure-chess/contracts/contracts/SingleRecipientPaymaster.sol": {
+      "lastModificationDate": 1630367061020,
+      "contentHash": "324c3450387bdeaf98408e33bf2d4e96",
+      "sourceName": "contracts/SingleRecipientPaymaster.sol",
+      "solcConfig": {
+        "version": "0.8.0",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [
+        "@opengsn/contracts/src/BasePaymaster.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "SingleRecipientPaymaster"
       ]
     }
   }

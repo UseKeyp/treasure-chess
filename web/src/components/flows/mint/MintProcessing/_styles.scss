@@ -1,0 +1,18 @@
+.mint-processing {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  font-size: 16px;
+  width: 320px;
+
+  &__chess-container {
+    width: 60%;
+    margin: 20px auto;
+  }
+
+
+  &__processing-action {
+    width: 100%;
+    font-size: 16px;
+  }
+}

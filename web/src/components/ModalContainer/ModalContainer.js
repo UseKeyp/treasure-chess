@@ -24,7 +24,7 @@ const ModalContainer = ({
         <div
           className="rounded-lg mt-8 h-4"
           style={{
-            width: '80%',
+            width: '60%',
             backgroundColor: '#EEEDED',
           }}
         >

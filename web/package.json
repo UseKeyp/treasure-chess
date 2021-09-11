@@ -28,11 +28,12 @@
     "react": "^17.0.2",
     "react-device-detect": "^1.17.0",
     "react-dom": "^17.0.2",
-    "react-feather": "^2.0.9"
+    "react-feather": "^2.0.9",
+    "react-spring": "^9.2.4"
   },
   "devDependencies": {
-    "autoprefixer": "9.8.6",
     "@redwoodjs/core": "^0.34.1",
+    "autoprefixer": "9.8.6",
     "node-sass-glob-importer": "^5.3.2",
     "postcss-loader": "4.0.2",
     "sass": "^1.35.1",

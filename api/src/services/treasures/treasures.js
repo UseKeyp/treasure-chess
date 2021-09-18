@@ -3,7 +3,6 @@ import { requireAuth } from 'src/lib/auth'
 import { fetchMember } from 'src/lib/members'
 import { getTreasureId, createTreasure } from 'src/lib/treasure'
 
-// Used when the environment variable REDWOOD_SECURE_SERVICES=1
 export const beforeResolver = (rules) => {
   rules.add(requireAuth)
 }

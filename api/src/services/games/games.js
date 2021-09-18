@@ -1,7 +1,6 @@
 import { requireAuth } from 'src/lib/auth'
 import { fetchGame, fetchGames } from 'src/lib/games'
 
-// Used when the environment variable REDWOOD_SECURE_SERVICES=1
 export const beforeResolver = (rules) => {
   rules.add(requireAuth)
 }

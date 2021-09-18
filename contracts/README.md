@@ -125,7 +125,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 * [Hardhat](https://hardhat.org)
 * [Paul R Berg Solidity Template](https://github.com/paulrberg/solidity-template)
-* [0xDanvinci upgraded hardhat template](https://github.com/0xDavinci)
+* [0xdavinchee upgraded hardhat template](https://github.com/0xdavinchee)
 
 
 

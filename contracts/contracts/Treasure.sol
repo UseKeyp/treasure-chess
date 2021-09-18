@@ -83,12 +83,12 @@ contract Treasure is ERC721URIStorage, Ownable {
 
   function addAdmin(address _admin) public onlyOwner {
     admins[_admin] = true;
-    AdminAdded(msg.sender, _admin);
+    emit AdminAdded(msg.sender, _admin);
   }
 
   function removeAdmin(address _admin) public onlyOwner {
     admins[_admin] = false;
-    AdminRemoved(msg.sender, _admin);
+    emit AdminRemoved(msg.sender, _admin);
   }
 
   /*

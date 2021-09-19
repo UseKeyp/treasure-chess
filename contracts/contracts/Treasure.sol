@@ -1,24 +1,26 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import { Ownable } from '@openzeppelin/contracts/access/Ownable.sol';
-import { ERC721 } from '@openzeppelin/contracts/token/ERC721/ERC721.sol';
-import { ERC721URIStorage } from '@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol';
-import { Counters } from '@openzeppelin/contracts/utils/Counters.sol';
+import { OwnableUpgradeable } from '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
+import { Initializable } from "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import { UUPSUpgradeable } from "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
+import { ERC721Upgradeable } from '@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol';
+import { ERC721URIStorageUpgradeable } from '@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721URIStorageUpgradeable.sol';
+import { CountersUpgradeable } from '@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol';
 
 //Only used for rescues.
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 
-contract Treasure is ERC721URIStorage, Ownable {
-  using Counters for Counters.Counter;
-  Counters.Counter private _tokenIds;
+contract Treasure is Initializable, ERC721Upgradeable, ERC721URIStorageUpgradeable, UUPSUpgradeable, OwnableUpgradeable {
+  using CountersUpgradeable for CountersUpgradeable.Counter;
+  CountersUpgradeable.Counter private _tokenIds;
 
   //State Storage
   bool private initialized;
 
   //Access Storage
-  mapping(address => bool) admins;
+  mapping (address => bool) admins;
 
   //Treasure Storage
   struct Game {
@@ -30,7 +32,7 @@ contract Treasure is ERC721URIStorage, Ownable {
     bool color; //0 white, 1 black
   }
 
-  mapping(uint256 => Game) public games;
+  mapping (uint256 => Game) public games;
   mapping (uint256 => address) public originalPlayers;
   mapping (bytes32 => uint) public movesHashToId;
 
@@ -39,9 +41,13 @@ contract Treasure is ERC721URIStorage, Ownable {
   event AdminAdded(address addedBy, address newAdmin);
   event AdminRemoved(address addedBy, address newAdmin);
 
-  constructor() ERC721("Treasure Chess", "CHESS") {
+  function initialize() initializer public {
+    __ERC721_init("Treasure Chess", "CHESS");
+    __Ownable_init();
     admins[msg.sender] = true;
   }
+
+  function _authorizeUpgrade(address) internal override onlyOwner {}
 
   modifier onlyAdmin() {
     require(admins[msg.sender], 'Only admins can call this function.');
@@ -50,7 +56,7 @@ contract Treasure is ERC721URIStorage, Ownable {
 
   function mint(
     address player,
-    string memory tokenURI,
+    string memory _tokenURI,
     bytes32 _moveHash,
     uint8 _level,
     uint16 _achievement1,
@@ -62,14 +68,14 @@ contract Treasure is ERC721URIStorage, Ownable {
 
     uint256 newItemId = _tokenIds.current();
     _mint(player, newItemId);
-    _setTokenURI(newItemId, tokenURI);
+    _setTokenURI(newItemId, _tokenURI);
 
     Game memory newGame = Game(_moveHash, _level, _achievement1, _achievement2, _achievement3, _color);
     games[newItemId] = newGame;
     originalPlayers[newItemId] = player;
     movesHashToId[_moveHash] = newItemId; //mapping of offchain id to on chain id
 
-    emit GameMinted(player, newItemId, tokenURI, _moveHash);
+    emit GameMinted(player, newItemId, _tokenURI, _moveHash);
     return newItemId;
   }
 
@@ -101,4 +107,14 @@ contract Treasure is ERC721URIStorage, Ownable {
   function rescueERC20Owner(address _token, address to, uint amount) public onlyOwner{
 
   }
+
+  // Override functions required for upgradable
+  function _burn(uint256 tokenId) internal virtual override(ERC721URIStorageUpgradeable, ERC721Upgradeable) {
+    super._burn(tokenId);
+  }
+
+  function tokenURI(uint256 tokenId) public view virtual override(ERC721URIStorageUpgradeable, ERC721Upgradeable) returns (string memory) {
+    super.tokenURI(tokenId);
+  }
+
 }

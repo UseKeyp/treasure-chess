@@ -2,7 +2,7 @@
 pragma solidity ^0.8.0;
 pragma experimental ABIEncoderV2;
 
-import "@opengsn/contracts/src/BasePaymaster.sol";
+import '@opengsn/contracts/src/BasePaymaster.sol';
 
 /**
  * a paymaster for a single recipient contract.
@@ -10,48 +10,54 @@ import "@opengsn/contracts/src/BasePaymaster.sol";
  * - reject any request if the target contract reverts.
  */
 contract SingleRecipientPaymaster is BasePaymaster {
+  address public target;
 
-    address public target;
+  event TargetChanged(address oldTarget, address newTarget);
 
-    event TargetChanged(address oldTarget, address newTarget);
+  constructor(address _target) {
+    target = _target;
+  }
 
-    constructor(address _target) {
-        target=_target;
-    }
-
-    function versionPaymaster() external view override virtual returns (string memory){
-        return "2.2.0+opengsn.recipient.ipaymaster";
-    }
-
-    function setTarget(address _target) external onlyOwner {
-        emit TargetChanged(target, _target);
-        target=_target;
-    }
-
-    function preRelayedCall(
-        GsnTypes.RelayRequest calldata relayRequest,
-        bytes calldata signature,
-        bytes calldata approvalData,
-        uint256 maxPossibleGas
-    )
+  function versionPaymaster()
     external
-    override
+    view
     virtual
-    returns (bytes memory context, bool revertOnRecipientRevert) {
-        (relayRequest, signature, approvalData, maxPossibleGas);
-        //require that the meta transaction request is being sent to our target contract.
-        require(relayRequest.request.to==target, "wrong target");
-	       //returning "true" means this paymaster accepts all requests that
-	       // are not rejected by the recipient contract.
-        return ("", true);
-    }
+    override
+    returns (string memory)
+  {
+    return '2.2.0+opengsn.recipient.ipaymaster';
+  }
 
-    function postRelayedCall(
-        bytes calldata context,
-        bool success,
-        uint256 gasUseWithoutPost,
-        GsnTypes.RelayData calldata relayData
-    ) external override virtual {
-        (context, success, gasUseWithoutPost, relayData);
-    }
+  function setTarget(address _target) external onlyOwner {
+    emit TargetChanged(target, _target);
+    target = _target;
+  }
+
+  function preRelayedCall(
+    GsnTypes.RelayRequest calldata relayRequest,
+    bytes calldata signature,
+    bytes calldata approvalData,
+    uint256 maxPossibleGas
+  )
+    external
+    virtual
+    override
+    returns (bytes memory context, bool revertOnRecipientRevert)
+  {
+    (relayRequest, signature, approvalData, maxPossibleGas);
+    //require that the meta transaction request is being sent to our target contract.
+    require(relayRequest.request.to == target, 'wrong target');
+    //returning "true" means this paymaster accepts all requests that
+    // are not rejected by the recipient contract.
+    return ('', true);
+  }
+
+  function postRelayedCall(
+    bytes calldata context,
+    bool success,
+    uint256 gasUseWithoutPost,
+    GsnTypes.RelayData calldata relayData
+  ) external virtual override {
+    (context, success, gasUseWithoutPost, relayData);
+  }
 }

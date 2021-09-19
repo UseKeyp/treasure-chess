@@ -2,17 +2,22 @@
 pragma solidity ^0.8.0;
 
 import { OwnableUpgradeable } from '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
-import { Initializable } from "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
-import { UUPSUpgradeable } from "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
+import { Initializable } from '@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol';
+import { UUPSUpgradeable } from '@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol';
 import { ERC721Upgradeable } from '@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol';
 import { ERC721URIStorageUpgradeable } from '@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721URIStorageUpgradeable.sol';
 import { CountersUpgradeable } from '@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol';
 
 //Only used for rescues.
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
 
-
-contract Treasure is Initializable, ERC721Upgradeable, ERC721URIStorageUpgradeable, UUPSUpgradeable, OwnableUpgradeable {
+contract Treasure is
+  Initializable,
+  ERC721Upgradeable,
+  ERC721URIStorageUpgradeable,
+  UUPSUpgradeable,
+  OwnableUpgradeable
+{
   using CountersUpgradeable for CountersUpgradeable.Counter;
   CountersUpgradeable.Counter private _tokenIds;
 
@@ -20,7 +25,7 @@ contract Treasure is Initializable, ERC721Upgradeable, ERC721URIStorageUpgradeab
   bool private initialized;
 
   //Access Storage
-  mapping (address => bool) admins;
+  mapping(address => bool) admins;
 
   //Treasure Storage
   struct Game {
@@ -32,17 +37,17 @@ contract Treasure is Initializable, ERC721Upgradeable, ERC721URIStorageUpgradeab
     bool color; //0 white, 1 black
   }
 
-  mapping (uint256 => Game) public games;
-  mapping (uint256 => address) public originalPlayers;
-  mapping (bytes32 => uint) public movesHashToId;
+  mapping(uint256 => Game) public games;
+  mapping(uint256 => address) public originalPlayers;
+  mapping(bytes32 => uint256) public movesHashToId;
 
   //Events
   event GameMinted(address to, uint256 id, string uri, bytes32 movesHash);
   event AdminAdded(address addedBy, address newAdmin);
   event AdminRemoved(address addedBy, address newAdmin);
 
-  function initialize() initializer public {
-    __ERC721_init("Treasure Chess", "CHESS");
+  function initialize() public initializer {
+    __ERC721_init('Treasure Chess', 'CHESS');
     __Ownable_init();
     admins[msg.sender] = true;
   }
@@ -70,7 +75,14 @@ contract Treasure is Initializable, ERC721Upgradeable, ERC721URIStorageUpgradeab
     _mint(player, newItemId);
     _setTokenURI(newItemId, _tokenURI);
 
-    Game memory newGame = Game(_moveHash, _level, _achievement1, _achievement2, _achievement3, _color);
+    Game memory newGame = Game(
+      _moveHash,
+      _level,
+      _achievement1,
+      _achievement2,
+      _achievement3,
+      _color
+    );
     games[newItemId] = newGame;
     originalPlayers[newItemId] = player;
     movesHashToId[_moveHash] = newItemId; //mapping of offchain id to on chain id
@@ -79,7 +91,7 @@ contract Treasure is Initializable, ERC721Upgradeable, ERC721URIStorageUpgradeab
     return newItemId;
   }
 
-  function getOriginalPlayer(uint _id) public view returns(address){
+  function getOriginalPlayer(uint256 _id) public view returns (address) {
     return originalPlayers[_id];
   }
 
@@ -100,21 +112,35 @@ contract Treasure is Initializable, ERC721Upgradeable, ERC721URIStorageUpgradeab
   /*
       Rescue ERC20s and ERC721s mistakingly sent to the contract
   */
-  function rescueEtherOwner(address payable to, uint256 amount) public onlyOwner {
+  function rescueEtherOwner(address payable to, uint256 amount)
+    public
+    onlyOwner
+  {
     to.transfer(amount);
   }
 
-  function rescueERC20Owner(address _token, address to, uint amount) public onlyOwner{
-
-  }
+  function rescueERC20Owner(
+    address _token,
+    address to,
+    uint256 amount
+  ) public onlyOwner {}
 
   // Override functions required for upgradable
-  function _burn(uint256 tokenId) internal virtual override(ERC721URIStorageUpgradeable, ERC721Upgradeable) {
+  function _burn(uint256 tokenId)
+    internal
+    virtual
+    override(ERC721URIStorageUpgradeable, ERC721Upgradeable)
+  {
     super._burn(tokenId);
   }
 
-  function tokenURI(uint256 tokenId) public view virtual override(ERC721URIStorageUpgradeable, ERC721Upgradeable) returns (string memory) {
+  function tokenURI(uint256 tokenId)
+    public
+    view
+    virtual
+    override(ERC721URIStorageUpgradeable, ERC721Upgradeable)
+    returns (string memory)
+  {
     super.tokenURI(tokenId);
   }
-
 }

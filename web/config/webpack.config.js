@@ -12,18 +12,18 @@ module.exports = (config, { mode }) => {
 
   // Override exising scss rule
   const scssRule = rules[scssRuleIndex]
-  // TODO: Fix this for updated redwood
-  // const customScssRule = {
-  //   ...scssRule,
-  //   loader: [
-  //     ...scssRule.loader.filter((item) => item !== 'sass-loader'), //remove 'sass-loader'
-  //     {
-  //       loader: 'sass-loader',
-  //       options: { sassOptions: { importer: globImporter() } },
-  //     },
-  //   ],
-  // }
-  // config.module.rules[0].oneOf[scssRuleIndex] = customScssRule
+  const customScssRule = {
+    ...scssRule,
+    use: [
+      ...scssRule.use.filter((item) => item !== 'sass-loader'), //remove 'sass-loader'
+      {
+        loader: 'sass-loader',
+        options: { sassOptions: { importer: globImporter() } },
+      },
+    ],
+  }
+
+  config.module.rules[0].oneOf[scssRuleIndex] = customScssRule
 
   if (mode === 'development') {
     // Add dev plugin

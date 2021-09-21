@@ -9,6 +9,7 @@
   port = 8910
   apiProxyPath = "/api"
   host = "0.0.0.0"
+  title = "Treasure Chess"
 [api]
   port = 8911
   schemaPath = "./api/db/schema.prisma"

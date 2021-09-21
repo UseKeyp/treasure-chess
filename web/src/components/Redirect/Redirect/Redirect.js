@@ -41,6 +41,7 @@ const Redirect = ({ type }) => {
 
   const doRedirect = () => {
     if (data?.redirect) {
+      console.log(data)
       window.location.href = data.redirect.url
     }
   }

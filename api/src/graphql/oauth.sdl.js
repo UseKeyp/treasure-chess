@@ -1,5 +1,5 @@
 export const schema = gql`
-  type Response {
+  type LoginUrl {
     type: String!
     text: String
     url: String
@@ -8,13 +8,7 @@ export const schema = gql`
     url: String!
   }
   type Query {
-    loginUrl(
-      content: String!
-      userId: String!
-      platform: String!
-      guildId: String!
-      guild: JSON!
-    ): Response!
+    loginUrl: LoginUrl!
   }
   type Mutation {
     oauthCodeGrant(

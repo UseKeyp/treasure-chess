@@ -4,6 +4,7 @@ import { getErrorResponse } from 'src/auth/helpers'
 import { LOCAL_TOKEN_KEY } from 'src/auth/constants'
 import { torus, loginWithTorus } from 'src/auth/torus'
 import { isProduction } from 'src/utils/helpers'
+import { toast } from '@redwoodjs/web/toast'
 
 export const LOGIN_URL_QUERY = gql`
   query LoginUrlQuery {
@@ -29,10 +30,9 @@ class TreasureChessAuthClient {
       window.location = url
     } catch (e) {
       /* eslint-disable-next-line no-console */
-      console.log(
-        getErrorResponse(`${e}. See above error for more details.`, 'login')
-          .error.message
-      )
+      const errorMessage = getErrorResponse(`${e}.`, 'login').error.message
+      toast.error(errorMessage)
+      console.log(errorMessage)
     }
   }
 

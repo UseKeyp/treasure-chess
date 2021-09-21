@@ -1,8 +1,8 @@
-import { getLoginUrl, handleOauthCodeGrant } from 'src/lib/auth/auth'
+import { getLoginUrl, handleOauthCodeGrant } from 'src/lib/oauth/oauth'
 
 // Used when the environment variable REDWOOD_SECURE_SERVICES=1
 export const beforeResolver = (rules) => {
-  rules.skip({ only: ['postMessage', 'oauthCodeGrant'] })
+  rules.skip({ only: ['loginUrl', 'oauthCodeGrant'] })
 }
 
 export const loginUrl = (input) => getLoginUrl(input)

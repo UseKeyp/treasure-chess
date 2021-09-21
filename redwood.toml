@@ -13,6 +13,9 @@
 [api]
   port = 8911
   schemaPath = "./api/db/schema.prisma"
+  includeEnvironmentVariables = ['DATABASE_URL','CHESS_OAUTH_URL',
+  'CHESS_TOKEN_URL','CHESS_REDIRECT_URL',
+  'CHESS_CLIENT_ID','CHESS_CLIENT_SECRET','CHESS_REDIRECT_URI']
 [browser]
   open = true
 [experimental]

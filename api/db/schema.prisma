@@ -62,7 +62,7 @@ model Treasure {
   event String // eg. "Live Chess"
   moves String // pgn moves
   moveCount Int // eg. "43"
-  ruleVariant String // eg. "Standard" or "Chess960"
+  ruleVariant String @default("Standard") // eg. "Standard" or "Chess960"
   externalUrl String? // Link to game on chess.com
   opening String // eg. "Queen's Gambit"
   achievements String // List eg. "win/play above 2200,queen side castle,mate with a bishop"

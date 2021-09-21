@@ -2,6 +2,8 @@ import { AuthenticationError } from '@redwoodjs/api'
 
 import { db } from 'src/lib/db'
 import { v4 as uuidv4 } from 'uuid'
+import pkceChallenge from 'pkce-challenge'
+
 // import { fetchGuild } from 'src/lib/guild'
 // import { recoverPersonalSignature } from 'eth-sig-util'
 // import { bufferToHex } from 'ethereumjs-util'
@@ -21,47 +23,39 @@ import { v4 as uuidv4 } from 'uuid'
 // import { TOKEN_TYPES } from 'src/lib/role/constants'
 // import { syncUserRole } from 'src/lib/role'
 
-const onlyRolesWithUnlock = async (roles) => {
-  let rolesWithUnlock = []
-  await Promise.all(
-    roles.map(async (role) => {
-      const tokens = await db.role
-        .findUnique({ where: { id: role.id } })
-        .tokens()
-      const tokensWithUnlock = tokens.filter(
-        (token) => token.type == TOKEN_TYPES.UNLOCK
-      )
-      if (tokensWithUnlock.length)
-        rolesWithUnlock.push({ ...role, tokens: tokensWithUnlock })
-    })
-  )
-  return rolesWithUnlock
-}
-
-export const getLoginUrl = async ({ userId }) => {
+export const getLoginUrl = async () => {
   const oauthState = uuidv4()
   // Create the user in the database
-  const user = await db.user.upsert({
-    where: { id: userId },
-    create: {
-      platform,
-      currentSessionGuild: {
-        connect: { id: guild.id },
-      },
-      oauthState,
-    },
-    update: {
-      currentSessionGuild: {
-        connect: { id: guild.id },
-      },
-      oauthState,
-    },
-  })
-  // Return the unique URL for the response
+  // const user = await db.member.upsert({
+  //   where: { id: userId },
+  //   create: {
+  //     platform,
+  //     oauthState,
+  //   },
+  //   update: {
+  //     currentSessionGuild: {
+  //       connect: { id: guild.id },
+  //     },
+  //     oauthState,
+  //   },
+  // })
+
+  const pkce = pkceChallenge()
+  console.log(pkce)
+  // pkce.code_verifier
+  // Save verifier
+  const url = new URL(process.env.CHESS_OAUTH_URL)
+  url.searchParams.set('client_id', process.env.CHESS_CLIENT_ID)
+  url.searchParams.set('code_challenge', pkce.code_challenge) // eg. 3uWDl1fX2ioAqf38eSOFlKnxVEl_VyfaYKG2GyLndKs
+  url.searchParams.set('code_challenge_method', 'S256')
+  url.searchParams.set('redirect_uri', process.env.CHESS_REDIRECT_URI)
+  url.searchParams.set('scope', 'openid profile')
+  url.searchParams.set('state', oauthState)
+  console.log(url.href)
   return {
-    text: DISCORD_INITIAL_AUTH + getDiscordOauthURL(oauthState),
-    type: 'reply',
-    url: null,
+    text: 'success',
+    type: 'redirect',
+    url: url.href,
   }
 }
 

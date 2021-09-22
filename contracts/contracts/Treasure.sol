@@ -10,8 +10,13 @@ import { Counters } from '@openzeppelin/contracts/utils/Counters.sol';
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 
+/// @title Treasure
+/// @author Joseph Schiarizzi
+/// @notice Save games of chess as NFTs
+/// @dev ERC721 token
 contract Treasure is ERC721URIStorage, Ownable {
   using Counters for Counters.Counter;
+  /// @notice
   Counters.Counter private _tokenIds;
 
   //State Storage
@@ -30,8 +35,11 @@ contract Treasure is ERC721URIStorage, Ownable {
     bool color; //0 white, 1 black
   }
 
+  /// @notice
   mapping(uint256 => Game) public games;
+  /// @notice
   mapping (uint256 => address) public originalPlayers;
+  /// @notice
   mapping (bytes32 => uint) public movesHashToId;
 
   //Events
@@ -39,15 +47,29 @@ contract Treasure is ERC721URIStorage, Ownable {
   event AdminAdded(address addedBy, address newAdmin);
   event AdminRemoved(address addedBy, address newAdmin);
 
+  /// @notice initializes contract.
+  /// @dev keep admin and owner classes seperate, but add owner as an admin to start everything off.
   constructor() ERC721("Treasure Chess", "CHESS") {
     admins[msg.sender] = true;
   }
 
+  /// @dev
   modifier onlyAdmin() {
     require(admins[msg.sender], 'Only admins can call this function.');
     _;
   }
 
+  /// @notice
+  /// @dev
+  /// @param player
+  /// @param tokenURI
+  /// @param _moveHash
+  /// @param _level
+  /// @param _achievement1
+  /// @param _achievement2
+  /// @param _achievement3
+  /// @param _color
+  /// @return
   function mint(
     address player,
     string memory tokenURI,
@@ -73,19 +95,34 @@ contract Treasure is ERC721URIStorage, Ownable {
     return newItemId;
   }
 
+  /// @notice
+  /// @dev
+  /// @param _id
+  /// @return
   function getOriginalPlayer(uint _id) public view returns(address){
     return originalPlayers[_id];
   }
 
+  /// @notice
+  /// @dev
+  /// @return
   function getTotalGames() public view returns (uint256) {
     return _tokenIds.current();
   }
 
+  /// @notice
+  /// @dev
+  /// @param _admin
+  /// @return
   function addAdmin(address _admin) public onlyOwner {
     admins[_admin] = true;
     AdminAdded(msg.sender, _admin);
   }
 
+  /// @notice
+  /// @dev
+  /// @param _admin
+  /// @return
   function removeAdmin(address _admin) public onlyOwner {
     admins[_admin] = false;
     AdminRemoved(msg.sender, _admin);
@@ -95,9 +132,15 @@ contract Treasure is ERC721URIStorage, Ownable {
       Rescue ERC20s and ERC721s mistakingly sent to the contract
   */
   function rescueEtherOwner(address payable to, uint256 amount) public onlyOwner {
-    to.transfer(amount);
+    (bool sent, bytes memory data) = to.call{value: amount}("");
   }
 
+  /// @notice
+  /// @dev
+  /// @param _token
+  /// @param to
+  /// @param amount
+  /// @return
   function rescueERC20Owner(address _token, address to, uint amount) public onlyOwner{
 
   }

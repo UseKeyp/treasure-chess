@@ -17,6 +17,11 @@ model Member {
   address String? @unique // Wallet address
   // --------------- STATE --------------
   dateJoined DateTime?
+  // Oauth
+  accessToken String?
+  refreshToken String?
+  idToken String?
+  expiration String?
   // --------------- LINKS --------------
   treasuresOwned Treasure[] @relation(name: "treasuresOwned" )
   treasuresMinted Treasure[] @relation(name: "treasuresMinted" )
@@ -78,8 +83,10 @@ model OAuth {
   createdAt DateTime @default(now())
 }
 
+// Jschiarizzi's chess.com credentials, used for the app's primary API access
 model SecretToken {
-  id String @id
+  id String @id @default(uuid())
   accessToken String
-  refre
+  refreshToken String
+  idToken String // JWT from chess.com
 }

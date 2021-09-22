@@ -1,28 +1,29 @@
 import { db } from 'src/lib/db'
 import { isHexAddress } from 'src/lib/helpers'
+import { getChessMember } from 'src/lib/chessDotCom'
 
-export const fetchMember = async (idOrAddress, createNewMember) => {
+export const fetchMember = async (idOrAddress, includeChessData) => {
   let member
-  if (isHexAddress(idOrAddress)) {
-    // Wallet address
-    member = await db.member.findUnique({
-      where: {
-        address: idOrAddress,
-      },
-    })
-  } else {
-    // Member ID from chess.com
-    member = await db.member.findUnique({
-      where: {
-        id: idOrAddress,
-      },
-    })
-    // Flag prevents creating members for non-existant chess.com accounts.
-    // eg. when navigating to /members/someRandomString
-    if (!member && createNewMember)
-      member = await db.member.create({ data: { id: idOrAddress } })
+  let memberDetails
+  const address = isHexAddress(idOrAddress) ? idOrAddress : null
+  const id = !isHexAddress(idOrAddress) ? idOrAddress : null
+  member = await db.member.findUnique({
+    where: {
+      ...(address && { address }),
+      ...(id && { id }),
+    },
+  })
+  if (!member && id) {
+    // If we have ID, check if exists on Chess.com
+    memberDetails = await getChessMember({ accessToken, member })
+    if (memberDetails)
+      member = await db.member.create({
+        data: { id: memberDetails.id, ...memberDetails },
+      })
   }
-  // Member is not in our database
+
+  // Member is not in our database, and cannot find a Chess.com user
+  // TODO: Delete this and return null?
   if (!member)
     return {
       address: idOrAddress,
@@ -37,9 +38,13 @@ export const fetchMember = async (idOrAddress, createNewMember) => {
       imageSrc: '',
       country: '',
     }
-  // TODO: Pull these values from chess.com API
-  const rating = 999
-  const country = 'USA'
-  const imageSrc = ''
-  return { ...member, rating, country, imageSrc }
+
+  if (includeChessData && !memberDetails) {
+    memberDetails = await fetchMemberDetails(member.id)
+  }
+  // TODO: Cleanup
+  // const rating = 999
+  // const country = 'USA'
+  // const imageSrc = ''
+  return { ...member, ...memberDetails }
 }

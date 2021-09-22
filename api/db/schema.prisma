@@ -70,3 +70,16 @@ model Treasure {
   tokenId Int?
   mintedAt DateTime?
 }
+
+model OAuth {
+  state String @id
+  codeChallenge String
+  codeVerifier String
+  createdAt DateTime @default(now())
+}
+
+model SecretToken {
+  id String @id
+  accessToken String
+  refre
+}

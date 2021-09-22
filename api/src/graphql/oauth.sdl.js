@@ -11,12 +11,6 @@ export const schema = gql`
     loginUrl: LoginUrl!
   }
   type Mutation {
-    oauthCodeGrant(
-      oauthState: String
-      code: String
-      type: String!
-      signature: String
-      userId: String
-    ): Redirect!
+    oauthCodeGrant(state: String!, code: String!, type: String!): Redirect!
   }
 `

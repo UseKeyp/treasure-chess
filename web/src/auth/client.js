@@ -25,9 +25,9 @@ class TreasureChessAuthClient {
   async login() {
     try {
       // Get redirect URL
-      const url = await this.makeQuery(LOGIN_URL_QUERY)
+      const { data } = await this.makeQuery(LOGIN_URL_QUERY)
       // Redirect user
-      window.location = url
+      window.location = data.loginUrl.url
     } catch (e) {
       /* eslint-disable-next-line no-console */
       const errorMessage = getErrorResponse(`${e}.`, 'login').error.message

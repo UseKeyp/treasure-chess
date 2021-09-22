@@ -9,13 +9,13 @@ import Icon from 'src/components/Icon'
 export const OAUTH_CODE_GRANT_MUTATION = gql`
   mutation OauthCodeGrantMutation(
     $type: String!
-    $oauthState: String
+    $state: String
     $code: String
     $signature: String
     $userId: String
   ) {
     redirect: oauthCodeGrant(
-      oauthState: $oauthState
+      state: $state
       code: $code
       type: $type
       signature: $signature
@@ -28,7 +28,7 @@ export const OAUTH_CODE_GRANT_MUTATION = gql`
 
 const Redirect = ({ type }) => {
   const [errorMessage, setErrorMessage] = React.useState()
-  const { code, state: oauthState, id: userId } = useParams()
+  const { code, state } = useParams()
   const [codeGrantMutation, { error: mutationError, data }] = useMutation(
     OAUTH_CODE_GRANT_MUTATION
   )
@@ -39,9 +39,18 @@ const Redirect = ({ type }) => {
       setErrorMessage('Invalid redirect parameters')
   }
 
+  const submitOauthCodeGrant = () => {
+    const res = await codeGrantMutation({
+      variables: {
+        type: 'chess',
+        code,
+        state,
+      },
+    })
+    console.log(res)
+  }
   const doRedirect = () => {
     if (data?.redirect) {
-      console.log(data)
       window.location.href = data.redirect.url
     }
   }

@@ -17,6 +17,12 @@ const encodeBody = (body) =>
     .map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(body[key]))
     .join('&')
 
+export const CHESS_BASIC_AUTH = Buffer.from(
+  process.env.CHESS_BASIC_AUTH_USERNAME +
+    ':' +
+    process.env.CHESS_BASIC_AUTH_PASSWORD
+).toString('base64')
+
 export const getChessAccessTokenFromCode = async (code, codeVerifier) => {
   try {
     const body = {
@@ -35,7 +41,7 @@ export const getChessAccessTokenFromCode = async (code, codeVerifier) => {
         'Content-Type': 'application/x-www-form-urlencoded',
         // Basic auth required for oauth.chess-x.com development server
         ...(isDevelopment && {
-          Authorization: `Basic ${process.env.CHESS_BASIC_AUTH}`,
+          Authorization: `Basic ${CHESS_BASIC_AUTH}`,
         }),
       },
     }).then((res) => {
@@ -82,7 +88,7 @@ export const refreshChessTokens = async (refreshToken, id) => {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
         ...(isDevelopment && {
-          Authorization: `Basic ${process.env.CHESS_BASIC_AUTH}`,
+          Authorization: `Basic ${CHESS_BASIC_AUTH}`,
         }),
       },
     }).then((res) => {
@@ -102,7 +108,6 @@ export const refreshChessTokens = async (refreshToken, id) => {
       throw 'Failed to refresh tokens from Chess.com'
 
     const decodedIdToken = await verifyChessJwt(newIdToken)
-    console.log(decodedIdToken)
     const newExpirationDate = getExpiration(newExpiration)
     const idTokenExpiration = new Date(decodedIdToken.exp * 1000)
     await db.user.update({

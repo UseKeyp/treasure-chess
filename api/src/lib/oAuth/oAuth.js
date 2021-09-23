@@ -63,8 +63,7 @@ export const handleOauthCodeGrant = async ({ state, code }) => {
 
     // Delete the OAuth Item
     await db.oAuth.delete({ where: { state } })
-    console.log(idTokenExpiration)
-    console.log(accessTokenExpiration)
+
     // Create or update member
     const member = await db.member.upsert({
       where: { id: decodedIdToken.sub },

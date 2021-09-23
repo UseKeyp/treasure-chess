@@ -9,6 +9,7 @@ import { promisify } from 'util'
 import { isDevelopment } from 'src/lib/helpers'
 
 import productionJwks from 'src/lib/oAuth/jwks'
+import { CHESS_BASIC_AUTH } from 'src/lib/oAuth/chessDotCom'
 
 const API_URL = process.env.CHESS_OAUTH_URL
 
@@ -16,7 +17,7 @@ const getKey = async (header) => {
   const client = jwksClient({
     jwksUri: `${API_URL}/certs`,
     requestHeaders: {
-      Authorization: `Basic ${process.env.CHESS_BASIC_AUTH}`,
+      Authorization: `Basic ${CHESS_BASIC_AUTH}`,
     },
     timeout: 30000, // Defaults to 30s
     getKeysInterceptor: () => productionJwks, // Checks production keys vefore jwksUri

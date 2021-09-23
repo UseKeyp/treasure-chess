@@ -25,7 +25,7 @@ task('accounts', 'Prints the list of accounts', async (_args, hre) => {
  */
 const config: HardhatUserConfig = {
   solidity: {
-    version: '0.8.0',
+    version: '0.8.2', // must be 0.8.2 due to ERC1967UpgradeUpgradeable.sol
     settings: {
       optimizer: {
         enabled: true,

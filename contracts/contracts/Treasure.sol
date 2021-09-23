@@ -9,7 +9,7 @@ import { ERC721URIStorageUpgradeable } from '@openzeppelin/contracts-upgradeable
 import { CountersUpgradeable } from '@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol';
 
 //Only used for rescues.
-import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
+import { IERC20Upgradeable } from '@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol';
 
 contract Treasure is
   Initializable,
@@ -121,9 +121,11 @@ contract Treasure is
 
   function rescueERC20Owner(
     address _token,
-    address to,
-    uint256 amount
-  ) public onlyOwner {}
+    address _to,
+    uint256 _amount
+  ) public onlyOwner {
+    IERC20Upgradeable(_token).transfer(_to, _amount);
+  }
 
   // Override functions required for upgradable
   function _burn(uint256 tokenId)
@@ -141,6 +143,6 @@ contract Treasure is
     override(ERC721URIStorageUpgradeable, ERC721Upgradeable)
     returns (string memory)
   {
-    super.tokenURI(tokenId);
+    return super.tokenURI(tokenId);
   }
 }

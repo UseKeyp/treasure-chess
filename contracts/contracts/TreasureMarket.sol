@@ -1,21 +1,23 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import { Ownable } from '@openzeppelin/contracts/access/Ownable.sol';
-import { Pausable } from '@openzeppelin/contracts/security/Pausable.sol';
+import { OwnableUpgradeable } from '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
+import { PausableUpgradeable } from '@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol';
+import { Initializable } from '@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol';
+import { UUPSUpgradeable } from '@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol';
 
 //Includes BaseRelayRecipient, for meta transactions.
-import '@openzeppelin/contracts/security/ReentrancyGuard.sol';
+import { ReentrancyGuardUpgradeable } from '@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol';
 
-import './Treasure.sol';
-
-//import "@openzeppelin/contracts/metatx/ERC2771Context.sol";
+import { Treasure } from './Treasure.sol';
 
 contract TreasureMarket is
-  Pausable, // pausable by owner.
-  Ownable, //owned by deployer.
+  Initializable,
+  UUPSUpgradeable,
+  PausableUpgradeable, // pausable by owner.
+  OwnableUpgradeable, //owned by deployer.
   //ERC2771Context, // meta transactions enabled.
-  ReentrancyGuard
+  ReentrancyGuardUpgradeable
 {
   //Time of last meta transaction by this user.
   //mapping(address => uint) private lastSignedMetaTransaction;
@@ -41,20 +43,21 @@ contract TreasureMarket is
   event FeeSet(uint256 _fee);
   event FeesWithdrawn(address _caller, address _to, uint256 _amount);
 
-  constructor(
+  function initialize(
     uint256 _gasLessRateLimit,
     address _treasureDeployedAddress,
     address _forwarder,
     uint256 _feePercentagePoint,
     uint256 _royaltyPercentagePoint
-  ) {
+  ) public initializer {
     gasLessRateLimit = _gasLessRateLimit;
     treasure = Treasure(_treasureDeployedAddress);
-    //trustedForwarder = _forwarder;
     feePercentagePoint = _feePercentagePoint;
     royaltyPercentagePoint = _royaltyPercentagePoint;
     _trustedForwarder = _forwarder;
   }
+
+  function _authorizeUpgrade(address) internal override onlyOwner {}
 
   //https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v4.3.0/contracts/metatx/ERC2771Context.sol
   function isTrustedForwarder(address forwarder)
@@ -137,16 +140,12 @@ contract TreasureMarket is
     uint256 royalty = ((msg.value * royaltyPercentagePoint) / 1000);
 
     address originalPlayer = treasure.getOriginalPlayer(_id);
-    (bool sentRoyalty, bytes memory dataRoy) = originalPlayer.call{
-      value: royalty
-    }('');
+    (bool sentRoyalty, ) = originalPlayer.call{ value: royalty }('');
     require(sentRoyalty, 'Failed to send royalty. Transaction fails. : ');
 
     uint256 funds = (msg.value *
       (1000 - royaltyPercentagePoint - feePercentagePoint)) / 1000;
-    (bool sentFunds, bytes memory dataFund) = seller[_id].call{ value: funds }(
-      ''
-    );
+    (bool sentFunds, ) = seller[_id].call{ value: funds }('');
     require(sentFunds, 'Failed to send funds to seller. Transaction fails.');
     //remaining funds (msg.value*feePercentagePoint/1000) are held in this contract until owner wants to withdraw.
 
@@ -171,7 +170,7 @@ contract TreasureMarket is
     onlyOwner
   {
     //use `call` here to pass on gas, so you can do more stuff when this is called.
-    (bool sent, bytes memory data) = to.call{ value: amount }('');
+    (bool sent, ) = to.call{ value: amount }('');
     require(sent, 'Failed to send ETH. Transaction fails.');
     emit FeesWithdrawn(_msgSender(), to, amount);
   }

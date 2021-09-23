@@ -13,7 +13,7 @@ export const OAUTH_CODE_GRANT_MUTATION = gql`
     $code: String!
   ) {
     redirect: oauthCodeGrant(state: $state, code: $code, type: $type) {
-      url
+      status
     }
   }
 `

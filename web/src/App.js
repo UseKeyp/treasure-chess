@@ -41,8 +41,7 @@ const ApolloInjector = ({ children }) => {
 
 console.log('++++++++++++++++++++++++++')
 console.log(' ')
-console.log('( ͡ᵔ ͜ʖ ͡ᵔ) Oh hello there! Wanna help make Treasure Chess better?')
-console.log("We're hiring! Reach out to us on Discord.")
+console.log(`( ͡ᵔ ͜ʖ ͡ᵔ) Oh hello there! We're hiring - hit us up on Discord.`)
 console.log(' ')
 console.log('++++++++++++++++++++++++++')
 

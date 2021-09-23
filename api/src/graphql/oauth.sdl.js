@@ -5,7 +5,7 @@ export const schema = gql`
     url: String
   }
   type Redirect {
-    url: String!
+    status: String!
   }
   type Query {
     loginUrl: LoginUrl!

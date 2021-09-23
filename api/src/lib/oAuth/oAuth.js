@@ -31,6 +31,7 @@ export const getLoginUrl = async () => {
   url.searchParams.set('scope', CHESS_SCOPE)
   url.searchParams.set('response_type', 'code')
   url.searchParams.set('state', state)
+  url.searchParams.set('prompt', 'false')
   // console.log(url.href.split('&'))
   return {
     text: 'success',
@@ -50,35 +51,39 @@ export const handleOauthCodeGrant = async ({ state, code }) => {
     if (new Date() - new Date(oAuth.createdAt) > 10 * 60 * 1000)
       throw 'Sorry, authentication must be completed within 10 minutes.'
 
-    // Verify the code challenge is correct
-    // if (!verifyChallenge(oAuth.code_verifier, oAuth.code_challenge))
-    //   throw 'Challenge could not be verified'
-
     // Exchange code for token from Chess.com
-
     const { accessToken, refreshToken, expiration, idToken, user } =
       await getChessAccessTokenFromCode(code, oAuth.codeVerifier)
-    console.log({ accessToken })
-    console.log({ refreshToken })
-    console.log({ expiration })
-    console.log({ user })
+    // console.log({ accessToken })
+    // console.log({ refreshToken })
+    // console.log({ expiration })
+    // console.log({ user })
 
-    // // Delete the OAuth Item
-    // await db.oAuth.delete({ where: { state } })
-    //
-    // // Get member from Chess.com
-    // const memberDetails = await getChessMember(accessToken)
-    // const { username, id } = memberDetails
-    //
-    // // Create or update member
-    // const member = await db.member.upsert({
-    //   where: { id },
-    //   create: { id: user.id, accessToken, refreshToken, expiration },
-    //   update: { accessToken, refreshToken, expiration, idToken },
-    // })
+    // Delete the OAuth Item
+    await db.oAuth.delete({ where: { state } })
+
+    // Create or update member
+    const member = await db.member.upsert({
+      where: { id: user.sub },
+      create: {
+        id: user.sub,
+        accessToken,
+        accessTokenExpiration: expiration,
+        refreshToken,
+        idToken,
+      },
+      update: {
+        accessToken,
+        accessTokenExpiration: expiration,
+        refreshToken,
+        idToken,
+      },
+    })
+
     // Get token from torus? Maybe wait until later when doing transaction stuff.
 
     // Save the Discord auth credentials and update state
+    return { status: 'success' }
   } catch (e) {
     throw new AuthenticationError(`handleOauthCodeGrant() ${e}`)
   }

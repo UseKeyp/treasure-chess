@@ -18,10 +18,10 @@ model Member {
   // --------------- STATE --------------
   dateJoined DateTime?
   // Oauth
-  accessToken String?
+  accessToken String? // API access to chess.com
+  accessTokenExpiration DateTime?
   refreshToken String?
-  idToken String?
-  expiration String?
+  idToken String? // User's JWT from chess.com
   // --------------- LINKS --------------
   treasuresOwned Treasure[] @relation(name: "treasuresOwned" )
   treasuresMinted Treasure[] @relation(name: "treasuresMinted" )

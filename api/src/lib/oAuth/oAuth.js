@@ -13,7 +13,6 @@ import { getChessMember } from 'src/lib/chessDotCom'
 export const getLoginUrl = async () => {
   const state = uuidv4()
   const pkce = pkceChallenge()
-  console.log(state)
   await db.oAuth.create({
     data: {
       state,
@@ -32,7 +31,7 @@ export const getLoginUrl = async () => {
   url.searchParams.set('scope', CHESS_SCOPE)
   url.searchParams.set('response_type', 'code')
   url.searchParams.set('state', state)
-  url.searchParams.set('prompt', 'false')
+  url.searchParams.set('prompt', 'none')
   // console.log(url.href.split('&'))
   return {
     text: 'success',

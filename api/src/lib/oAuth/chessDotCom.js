@@ -2,8 +2,11 @@ import fetch from 'cross-fetch'
 import { AuthenticationError } from '@redwoodjs/api'
 import jwt from 'jsonwebtoken'
 import jwksClient from 'jwks-rsa'
+import { promisify } from 'util'
 
 import { isDevelopment } from 'src/lib/helpers'
+
+import productionJwks from 'src/lib/oAuth/jwks'
 
 const API_URL = process.env.CHESS_OAUTH_URL
 export const CHESS_SCOPE = 'openid profile'
@@ -11,55 +14,19 @@ export const CHESS_SCOPE = 'openid profile'
 const getExpiration = (expiresIn) =>
   new Date(new Date(Date.now() + expiresIn * 1000))
 
-const client = jwksClient({
-  jwksUri: `${API_URL}/.well-known/jwks.json`,
-  requestHeaders: {
-    Authorization: `Basic ${process.env.CHESS_BASIC_AUTH}`,
-  },
-  timeout: 30000, // Defaults to 30s
-})
-
-export const verifyChessJwt = async (token) => {
-  if (isDevelopment) {
-    // https://oauth.chess-x.com/certs
-    const response = await fetch(API_URL + '/certs', {
-      headers: {
-        Authorization: `Basic ${process.env.CHESS_BASIC_AUTH}`,
-      },
-    }).then((res) => {
-      try {
-        return res.json()
-      } catch (e) {
-        throw "Couldn't fetch oauth certs"
-      }
-    })
-    const { keys: certs } = response
-    let user
-    const validCerts = certs.filter(
-      (cert) => cert.use === 'sig' && cert.alg === 'RS256'
-    )
-    if (!validCerts) throw 'No valid keys provided by chess.com'
-    validCerts.map(async (cert) => {
-      try {
-        const key = await client.getSigningKey(cert.kid)
-        const signingKey = key.getPublicKey()
-        console.log(signingKey)
-        const data = jwt.verify(token, signingKey, {
-          algorithms: ['RS256'],
-        })
-        console.log(data)
-        if (data) user = data
-      } catch (e) {
-        console.log(e)
-      }
-    })
-    // TODO: Remove this in favor of actually verifying the jwt
-    return jwt.decode(token)
-    if (!user) throw "Couldn't verify chess.com idToken"
-    return user
-  }
-  // TODO: Update to work with jwks, as above in development environment
-  return jwt.verify(token, process.env.CHESS_CERTS_KID)
+const getKey = async (header) => {
+  const client = jwksClient({
+    jwksUri: `${API_URL}/certs`,
+    requestHeaders: {
+      Authorization: `Basic ${process.env.CHESS_BASIC_AUTH}`,
+    },
+    timeout: 30000, // Defaults to 30s
+    getKeysInterceptor: () => productionJwks, // Checks production keys vefore jwksUri
+  })
+  const getPubKey = promisify(client.getSigningKey)
+  const key = await getPubKey(header.kid)
+  const pubKey = key.getPublicKey()
+  return pubKey
 }
 
 export const getChessAccessTokenFromCode = async (code, codeVerifier) => {
@@ -101,7 +68,18 @@ export const getChessAccessTokenFromCode = async (code, codeVerifier) => {
       id_token: idToken, // JWT that contains identity information about user
     } = response
     if (!response.id_token) throw 'Failed to get id_token from Chess.com'
-    const user = await verifyChessJwt(idToken)
+    const pubKey = await getKey(jwt.decode(idToken, { complete: true }).header)
+    const user = jwt.verify(
+      idToken,
+      pubKey,
+      {
+        algorithms: ['RS256'],
+      },
+      (err, decoded) => {
+        if (err) throw err
+        return decoded
+      }
+    )
     return {
       accessToken,
       refreshToken,
@@ -109,6 +87,7 @@ export const getChessAccessTokenFromCode = async (code, codeVerifier) => {
       idToken,
       user,
     }
+    return
   } catch (e) {
     throw `getChessAccessTokenFromCode() ${e}`
   }

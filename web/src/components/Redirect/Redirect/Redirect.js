@@ -56,7 +56,7 @@ const Redirect = ({ type }) => {
             ⛈️ Oops! Something went wrong
           </h1>
           <div className=" mt-8 rw-cell-error">
-            {mutationError?.message || errorMessage}
+            {(mutationError?.message || errorMessage).substring(0, 200)}
           </div>
           <button onClick={logIn}>
             <p className="mt-8 text-s text-grey-600">

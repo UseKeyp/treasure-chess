@@ -13,6 +13,7 @@ import { getChessMember } from 'src/lib/chessDotCom'
 export const getLoginUrl = async () => {
   const state = uuidv4()
   const pkce = pkceChallenge()
+  console.log(state)
   await db.oAuth.create({
     data: {
       state,
@@ -54,10 +55,6 @@ export const handleOauthCodeGrant = async ({ state, code }) => {
     // Exchange code for token from Chess.com
     const { accessToken, refreshToken, expiration, idToken, user } =
       await getChessAccessTokenFromCode(code, oAuth.codeVerifier)
-    // console.log({ accessToken })
-    // console.log({ refreshToken })
-    // console.log({ expiration })
-    // console.log({ user })
 
     // Delete the OAuth Item
     await db.oAuth.delete({ where: { state } })

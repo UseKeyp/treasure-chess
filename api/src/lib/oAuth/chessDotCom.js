@@ -33,7 +33,6 @@ export const verifyChessJwt = async (token) => {
         throw "Couldn't fetch oauth certs"
       }
     })
-    console.log(response)
     const { keys: certs } = response
     let user
     const validCerts = certs.filter(

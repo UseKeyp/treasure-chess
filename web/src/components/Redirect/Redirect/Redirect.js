@@ -20,13 +20,13 @@ export const OAUTH_CODE_GRANT_MUTATION = gql`
 
 const Redirect = ({ type }) => {
   const [errorMessage, setErrorMessage] = React.useState()
-  const { code, state } = useParams()
+  const { code, state, redirectTo } = useParams()
   const [codeGrantMutation, { error: mutationError, data }] = useMutation(
     OAUTH_CODE_GRANT_MUTATION
   )
   const { logIn } = useAuth()
 
-  const checkForErrors = () => {
+  const checkValidParams = () => {
     if (!code || !state) setErrorMessage('Invalid redirect parameters')
   }
 
@@ -39,18 +39,14 @@ const Redirect = ({ type }) => {
       },
     })
     console.log(res)
-    doRedirect()
-  }
-  const doRedirect = () => {
-    if (data?.redirect) {
-      window.location.href = data.redirect.url
-    }
+    if (res?.data?.redirect?.status === 'success')
+      window.location.href = redirectTo || '/'
   }
 
   React.useEffect(() => {
-    checkForErrors()
+    checkValidParams()
     submitOauthCodeGrant()
-  }, [data])
+  }, [])
 
   if (mutationError || errorMessage)
     return (

@@ -52,34 +52,44 @@ export const handleOauthCodeGrant = async ({ state, code }) => {
       throw 'Sorry, authentication must be completed within 10 minutes.'
 
     // Exchange code for token from Chess.com
-    const { accessToken, refreshToken, expiration, idToken, user } =
-      await getChessAccessTokenFromCode(code, oAuth.codeVerifier)
+    const {
+      accessToken,
+      accessTokenExpiration,
+      refreshToken,
+      idToken,
+      decodedIdToken,
+      idTokenExpiration,
+    } = await getChessAccessTokenFromCode(code, oAuth.codeVerifier)
 
     // Delete the OAuth Item
     await db.oAuth.delete({ where: { state } })
-
+    console.log(idTokenExpiration)
+    console.log(accessTokenExpiration)
     // Create or update member
     const member = await db.member.upsert({
-      where: { id: user.sub },
+      where: { id: decodedIdToken.sub },
       create: {
-        id: user.sub,
+        id: decodedIdToken.sub,
         accessToken,
-        accessTokenExpiration: expiration,
+        accessTokenExpiration,
         refreshToken,
-        idToken,
+        idTokenExpiration,
       },
       update: {
         accessToken,
-        accessTokenExpiration: expiration,
+        accessTokenExpiration,
         refreshToken,
-        idToken,
+        idTokenExpiration,
       },
     })
 
-    // Get token from torus? Maybe wait until later when doing transaction stuff.
+    // Get Torus wallet address if needed
+    if (!member.address) {
+      console.log('TODO: fetch new wallet from Torus')
+    }
 
     // Save the Discord auth credentials and update state
-    return { status: 'success' }
+    return { jwt: idToken }
   } catch (e) {
     throw new AuthenticationError(`handleOauthCodeGrant() ${e}`)
   }

@@ -2,6 +2,8 @@ import { useMutation } from '@redwoodjs/web'
 import { routes, navigate, useParams } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
 
+import { LOCAL_TOKEN_KEY } from 'src/auth/constants'
+
 import DefaultLayout from 'src/layouts/DefaultLayout'
 import Loader from 'src/components/Loader'
 import Icon from 'src/components/Icon'
@@ -12,8 +14,8 @@ export const OAUTH_CODE_GRANT_MUTATION = gql`
     $state: String!
     $code: String!
   ) {
-    redirect: oauthCodeGrant(state: $state, code: $code, type: $type) {
-      status
+    oauthCodeGrant(state: $state, code: $code, type: $type) {
+      jwt
     }
   }
 `
@@ -38,9 +40,10 @@ const Redirect = ({ type }) => {
         state,
       },
     })
-    console.log(res)
-    if (res?.data?.redirect?.status === 'success')
+    if (res?.data?.oauthCodeGrant) {
+      localStorage.setItem(LOCAL_TOKEN_KEY, res.data.oauthCodeGrant.jwt)
       window.location.href = redirectTo || '/'
+    }
   }
 
   React.useEffect(() => {

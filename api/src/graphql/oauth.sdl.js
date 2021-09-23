@@ -4,13 +4,13 @@ export const schema = gql`
     text: String
     url: String
   }
-  type Redirect {
-    status: String!
+  type Jwt {
+    jwt: String!
   }
   type Query {
     loginUrl: LoginUrl!
   }
   type Mutation {
-    oauthCodeGrant(state: String!, code: String!, type: String!): Redirect!
+    oauthCodeGrant(state: String!, code: String!, type: String!): Jwt!
   }
 `

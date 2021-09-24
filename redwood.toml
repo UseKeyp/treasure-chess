@@ -8,9 +8,15 @@
 [web]
   port = 8910
   apiProxyPath = "/api"
+  host = "0.0.0.0"
+  title = "Treasure Chess"
 [api]
   port = 8911
   schemaPath = "./api/db/schema.prisma"
+  includeEnvironmentVariables = ['DATABASE_URL','CHESS_API_URL',
+  'PUBLIC_REDIRECT_URL', 'CHESS_OAUTH_URL',
+  'CHESS_CLIENT_ID','CHESS_CLIENT_SECRET',
+  ]
 [browser]
   open = true
 [experimental]

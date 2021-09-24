@@ -1,7 +1,7 @@
 export const schema = gql`
   type Member {
     id: String!
-    address: String!
+    address: String
     dateJoined: DateTime!
     treasuresOwned: [Treasure]!
     treasuresMinted: [Treasure]!

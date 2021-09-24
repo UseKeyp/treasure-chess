@@ -13,23 +13,26 @@
     ]
   },
   "scripts": {
-    "generate-icons": "node src/scripts/generate-icon-system"
+    "generate-icons": "node src/scripts/generate-icon-system",
+    "build-storybook": "yarn rw storybook --build && cp web/public/mockServiceWorker.js web/public/storybook"
   },
   "dependencies": {
     "@ethersproject/hash": "^5.4.0",
-    "@redwoodjs/auth": "^0.34.1",
-    "@redwoodjs/forms": "^0.34.1",
-    "@redwoodjs/router": "^0.34.1",
-    "@redwoodjs/web": "^0.34.1",
+    "@redwoodjs/auth": "^0.36.4",
+    "@redwoodjs/forms": "^0.36.4",
+    "@redwoodjs/router": "^0.36.4",
+    "@redwoodjs/web": "^0.36.4",
     "@toruslabs/torus-direct-web-sdk": "^4.14.0",
     "flag-icon-css": "^3.5.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-device-detect": "^1.17.0",
     "react-dom": "^17.0.2",
-    "react-feather": "^2.0.9"
+    "react-feather": "^2.0.9",
+    "react-spring": "^9.2.4"
   },
   "devDependencies": {
+    "@redwoodjs/core": "^0.36.4",
     "autoprefixer": "9.8.6",
     "node-sass-glob-importer": "^5.3.2",
     "postcss-loader": "4.0.2",

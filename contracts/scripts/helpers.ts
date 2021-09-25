@@ -30,8 +30,8 @@ export const deployContracts = async () => {
   console.log('Treasure Market deployed at: ', treasureMarketAddress)
 
   return {
-    treasureAddress,
-    treasureMarketAddress,
+    treasureContract,
+    treasureMarketContract,
   }
 }
 

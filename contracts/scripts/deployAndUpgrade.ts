@@ -1,8 +1,8 @@
 import { deployContracts, upgradeContracts } from './helpers'
 
 async function main() {
-  const { treasureAddress, treasureMarketAddress } = await deployContracts()
-  await upgradeContracts(treasureAddress, treasureMarketAddress)
+  const { treasureContract, treasureMarketContract } = await deployContracts()
+  await upgradeContracts(treasureContract.address, treasureMarketContract.address)
 }
 
 main()

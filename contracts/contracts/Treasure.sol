@@ -22,7 +22,7 @@ contract Treasure is
   CountersUpgradeable.Counter private _tokenIds;
 
   //Access Storage
-  mapping(address => bool) admins;
+  mapping(address => bool) public admins;
 
   //Treasure Storage
   struct Game {

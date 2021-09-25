@@ -10,6 +10,8 @@ const torus = new DirectWebSdk({
 })
 
 export const fetchTorusWallet = async (idToken) => {
+  // TODO: Rotate keys
+
   await torus.init({ skipSw: true })
   const { sub } = decodeJwt(idToken)
   const { privateKey, publicAddress } = await torus.getTorusKey(
@@ -18,9 +20,5 @@ export const fetchTorusWallet = async (idToken) => {
     { verifier_id: sub },
     idToken
   )
-  console.log({ publicAddress, privateKey })
-
-  // TODO: Rotate keys
-
   return { publicAddress, privateKey }
 }

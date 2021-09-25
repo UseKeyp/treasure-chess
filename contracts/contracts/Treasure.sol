@@ -21,9 +21,6 @@ contract Treasure is
   using CountersUpgradeable for CountersUpgradeable.Counter;
   CountersUpgradeable.Counter private _tokenIds;
 
-  //State Storage
-  bool private initialized;
-
   //Access Storage
   mapping(address => bool) admins;
 

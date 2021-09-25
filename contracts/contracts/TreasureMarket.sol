@@ -16,7 +16,6 @@ contract TreasureMarket is
   UUPSUpgradeable,
   PausableUpgradeable, // pausable by owner.
   OwnableUpgradeable, //owned by deployer.
-  //ERC2771Context, // meta transactions enabled.
   ReentrancyGuardUpgradeable
 {
   //Time of last meta transaction by this user.

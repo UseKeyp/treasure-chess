@@ -1,11 +1,11 @@
 import { HardhatUserConfig, task } from 'hardhat/config'
 import { config as dotEnvConfig } from 'dotenv'
 dotEnvConfig()
-import 'hardhat-deploy'
-import 'hardhat-deploy-ethers'
 import 'hardhat-prettier'
 import '@typechain/hardhat'
 import 'solidity-coverage'
+import '@nomiclabs/hardhat-ethers'
+import '@openzeppelin/hardhat-upgrades'
 
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html
@@ -37,8 +37,13 @@ const config: HardhatUserConfig = {
     localhost: {
       url: 'http://127.0.0.1:8545',
     },
+    hardhat: {
+    //   forking: {
+    //     url: 'https://ropsten.infura.io/v3/' + process.env.INFURA_API_KEY,
+    //   },
+    },
     ropsten: {
-      url: `${process.env.infuralink}`,
+      url: `https://ropsten.infura.io/v3/${process.env.INFURA_API_KEY}`,
       accounts: [`0x${process.env.ROPSTEN_PRIVATE_KEY}`],
     },
   },

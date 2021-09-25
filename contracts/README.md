@@ -46,22 +46,21 @@
 A simple hardhat template modeled off of running `npx hardhat init`.
 
 This project includes:
-- `hardhat-deploy`: this is a powerful plugin for deployment and testing, allows you to utilize your deploy for testing and makes it easy to deploy to live networks. Also includes neat features like dependencies (allows handling the case where one deployment is dependent on another).
 - `hardhat-prettier`: a plugin that makes it easy to format solidity files based on rules set in `.prettierrc`.
   - `npx hardhat format`
 - `hardhat-typechain`: a plugin that generates typings files for use in test files and possibly even on the front-end.
 - `solidity-coverage`: a plugin that generates a coverage report on how much of your code has been tested.
   - `npx hardhat coverage`
-
-The deploy script and test files have been modified to work in a way that takes full advantage of the features which `hardhat-deploy` offers.
+- `@openzeppelin/hardhat-upgrades`: a plugin which is used in conjunction with hardhat to deploy upgradeable contracts and upgrade them later. The plugin by default prevents you from deploying/upgrading "dangerous" upgradeable contracts. 
 
 ### Built With
 
 * [hardhat](https://hardhat.org)
-* [hardhat-deploy](https://hardhat.org/plugins/hardhat-deploy.html)
 * [hardhat-prettier](https://www.npmjs.com/package/hardhat-prettier)
 * [hardhat-typechain](https://hardhat.org/plugins/hardhat-typechain.html)
 * [solidity-coverage](https://hardhat.org/plugins/solidity-coverage.html)
+* [OpenZeppelin Upgrades Plugin](https://docs.openzeppelin.com/upgrades-plugins/1.x/)
+* [OpenZeppelin Upgradeable Contracts](https://www.npmjs.com/package/@openzeppelin/contracts-upgradeable)
 
 
 
@@ -72,11 +71,16 @@ To get a local copy up and running follow these simple steps.
 
 ### Prerequisites
 
-You just need to have npm to use this project.
+You need to have npm to use this project.
 * npm
   ```sh
   npm install npm@latest -g
   ```
+
+You also need a `.env` file with the following items:
+- `ROPSTEN_PRIVATE_KEY`: A private key (account which will deploy) for testing.
+- `INFURA_API_KEY`: An infura api key which you can obtain from [infura](https://infura.io).
+- `FORWARDER_ADDRESS`: The [opengsn](https://docs.opengsn.org/contracts/addresses.html) forwarder address - this will vary based on which network you are deploying/testing on or if you want to deploy your own forwarder.
 
 ### Installation
 
@@ -99,7 +103,7 @@ You just need to have npm to use this project.
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-To run tests, first compile the project with `yarn compile` and then `yarn test`. If you would like to deploy your project, use `yarn deploy --network <NETWORK>`. Keep in mind, you must add this network to the `hardhat.config.ts` file with the necessary information for this to work.
+To run tests, first compile the project with `yarn compile` and then `yarn test`. If you would like to deploy your project, use `yarn deploy --network <NETWORK>`. Keep in mind, you must add this network to the `hardhat.config.ts` file with the necessary information for this to work. For those curious about how upgradability works or what the plugin is doing, you can read the comments in `test/helpers.ts`. If you want more in-depth information, I would recommend reading some of the information [here](https://docs.openzeppelin.com/openzeppelin/upgrades).
 
 
 <!-- CONTRIBUTING -->

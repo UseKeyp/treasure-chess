@@ -110,6 +110,16 @@ mint(
 
 - function safeTransferFrom( address from, address to, uint256 tokenId)
 
+### making meta transaction calls
+Make meta transaction calls calling the functions normally, and getting end user to sign them normally. The web3 provider that is created knows where the paymaster + [relayer contracts are deployed](https://docs.opengsn.org/contracts/addresses.html#polygon-matic), and actually sends the transaction through the relayer instead of straight to the Treasure or Treasure Market smart contracts.
+
+```javascript
+const { RelayProvider } = require('@opengsn/provider')
+```
+
+
+
+
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.

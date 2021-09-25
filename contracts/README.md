@@ -113,11 +113,58 @@ mint(
 ### making meta transaction calls
 Make meta transaction calls calling the functions normally, and getting end user to sign them normally. The web3 provider that is created knows where the paymaster + [relayer contracts are deployed](https://docs.opengsn.org/contracts/addresses.html#polygon-matic), and actually sends the transaction through the relayer instead of straight to the Treasure or Treasure Market smart contracts.
 
+GSN example: https://docs.opengsn.org/javascript-client/getting-started.html#adding-gsn-support-to-existing-app
+
+Example tests of GSN enabled contract: https://github.com/qbzzt/opengsn/blob/master/01_SimpleUse/test/testcontracts.js
+
+Example JS in UI for GSN transactions: https://github.com/qbzzt/opengsn/blob/master/01_SimpleUse/ui/etherless.js
+
+Set the provider info
 ```javascript
 const { RelayProvider } = require('@opengsn/provider')
 ```
 
+Use the deployed relayer and our Paymaster. Check above for what address the relayer is on each network.
+```
+const conf = {
+	Treasure: '0xabc123',
+  TreasureMarket: '0x1a2b3c',
+	paymaster:   '0x123abc',
+	gasPrice:  1000000000   // 1 Gwei
+}
 
+const Treasure = artifacts.require('Treasure')
+const PayMaster = artifacts.require('Paymaster')
+const TreasureMarket = artifacts.require('TreasureMarket')
+```
+
+Create web3 provider using gsn:
+```
+let gsnProvider = await new gsn.RelayProvider(window.ethereum, {
+    forwarderAddress: conf.forwarder,
+    paymasterAddress: conf.paymaster,
+    verbose: false}).init()
+	provider = new ethers.providers.Web3Provider(gsnProvider)
+	userAddr = gsnProvider.origProvider.selectedAddress
+```
+
+Make a GSN contract call
+```
+const gsnContractCall = async () => {
+	await connect2Gsn()
+	await provider.ready
+
+	const contract = await new ethers.Contract(
+		conf.ourContract, data.abi, provider.getSigner(userAddr))
+
+	const transaction = await contract.captureFlag()
+	const hash = transaction.hash
+	console.log(`Transaction ${hash} sent`)
+
+	const receipt = await provider.waitForTransaction(hash)
+	console.log(`Mined in block: ${receipt.blockNumber}`)
+}   // gsnContractCall
+```
 
 
 ## Contributing

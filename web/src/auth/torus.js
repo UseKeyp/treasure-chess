@@ -16,8 +16,8 @@ export const fetchWalletAddress = async () => {
 
   const { privateKey, publicAddress } = await torus.getTorusKey(
     'treasure-chess-testnet',
-    'sub',
-    { verifier_id: 'sub' },
+    'b1ee4d0a-c94c-11eb-8701-5dd23c44381c',
+    { verifier_id: 'b1ee4d0a-c94c-11eb-8701-5dd23c44381c' },
     idToken
   )
   console.log({ publicAddress, privateKey })

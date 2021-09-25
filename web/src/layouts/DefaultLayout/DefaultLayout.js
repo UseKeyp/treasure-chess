@@ -4,8 +4,6 @@ import { Toaster } from '@redwoodjs/web/toast'
 import { useAuth } from '@redwoodjs/auth'
 import SiteFooter from './SiteFooter'
 
-import { fetchWalletAddress } from 'src/auth/torus'
-
 const DefaultLayout = ({ children }) => {
   const { logIn, logOut } = useAuth()
 
@@ -13,10 +11,6 @@ const DefaultLayout = ({ children }) => {
     if (e.target.id === 'login') logIn()
     if (e.target.id === 'logout') logOut()
   }
-
-  React.useEffect(() => {
-    fetchWalletAddress()
-  }, [])
 
   return (
     <div className="flex flex-col min-h-screen">

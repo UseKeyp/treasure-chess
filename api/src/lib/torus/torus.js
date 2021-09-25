@@ -1,19 +1,26 @@
 import DirectWebSdk from '@toruslabs/torus-direct-web-sdk'
 
+import { isProduction } from 'src/lib/helpers'
+import { decode as decodeJwt } from 'jsonwebtoken'
+
 const torus = new DirectWebSdk({
-  baseUrl: 'http://localhost:3000/auth',
+  baseUrl: `https://0.0.0.0:8910/auth`,
   network: 'testnet',
+  enableLogging: !isProduction,
 })
 
-export const fetchWalletAddress = async (idToken) => {
+export const fetchTorusWallet = async (idToken) => {
   await torus.init({ skipSw: true })
-
-  const { privateKey, publicAddress } = await torus.getTorusKey({
-    verifier: 'treasure-chess-6',
-    verifierId: 'sub',
-    verifierParams: { verifier_id: 'sub' },
-    idToken,
-  })
+  const { sub } = decodeJwt(idToken)
+  const { privateKey, publicAddress } = await torus.getTorusKey(
+    'treasure-chess-testnet',
+    sub,
+    { verifier_id: sub },
+    idToken
+  )
   console.log({ publicAddress, privateKey })
-  return publicAddress
+
+  // TODO: Rotate keys
+
+  return { publicAddress, privateKey }
 }

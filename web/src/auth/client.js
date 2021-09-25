@@ -2,7 +2,6 @@
 
 import { getErrorResponse } from 'src/auth/helpers'
 import { LOCAL_TOKEN_KEY } from 'src/auth/constants'
-import { torus, loginWithTorus } from 'src/auth/torus'
 import { isProduction } from 'src/utils/helpers'
 import { toast } from '@redwoodjs/web/toast'
 import { decode as decodeJwt } from 'jsonwebtoken'

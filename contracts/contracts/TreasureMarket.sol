@@ -44,7 +44,7 @@ contract TreasureMarket is
 
   function initialize(
     uint256 _gasLessRateLimit,
-    address _treasureDeployedAddress,
+    address payable _treasureDeployedAddress,
     address _forwarder,
     uint256 _feePercentagePoint,
     uint256 _royaltyPercentagePoint

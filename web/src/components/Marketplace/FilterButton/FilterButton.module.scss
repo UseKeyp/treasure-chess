@@ -23,3 +23,9 @@
 		box-shadow: 8px 8px 8px rgba(12, 12, 12, 0.95), -6px -6px 6px rgba(48, 48, 48, 0.95);
 	}
 }
+
+.active {
+	border: 2px solid rgba(255,255,255,0.77);
+	background-color: rgba(231,231,231,1);
+	color: rgba(16, 16, 16, 1);
+}

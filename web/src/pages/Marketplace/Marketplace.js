@@ -118,6 +118,30 @@ const Marketplace = () => {
 		updateQuery('opener', openerFilter);
 	}
 
+	const updateColorFilter = (value) => {
+		//todo: update logic so no more than two values can be selected at once
+		if (colorFilter[0] === undefined) {
+			setColorFilter([value]);
+		} else {
+			setColorFilter((v) => {
+				let newList = v.map((filter) => {
+					if (value !== filter) {
+						return filter;
+					}
+				});
+				if (newList === undefined) {
+					return [];
+				}
+				// in THIS FUNCTION filters are mutually exclusive, so we just replace the value.
+				if (newList.toString() == v.toString()) {
+					newList = [value];
+				}
+				return newList;
+			})
+		}
+		updateQuery('title', titleFilter);
+	}
+
 	const updateTitleFilter = (value) => {
 		//todo: update logic so no more than two values can be selected at once
 		if (titleFilter[0] === undefined) {
@@ -141,6 +165,8 @@ const Marketplace = () => {
 		updateQuery('title', titleFilter);
 	}
 
+
+
   return (
     <>
       <Head>
@@ -160,30 +186,41 @@ const Marketplace = () => {
 				</div>
 			</FilterDropdown>
 			<FilterDropdown label={'Opening Moves'}>
-			<div style={{display: 'flex', flexFlow: 'row wrap', maxWidth: '100vw', justifyContent: 'flex-start'}}>
-					{openingList.map((opener, index) => {
-						return <FilterButton
-							label={openingList[index]}
-							clickFunction={() => updateOpenerFilter(openingList[index])}
-							isActive={openerFilter.includes(openingList[index])}
-						/>
-					})}
-				</div>
+				<div style={{display: 'flex', flexFlow: 'row wrap', maxWidth: '100vw', justifyContent: 'flex-start'}}>
+						{openingList.map((opener, index) => {
+							return <FilterButton
+								label={openingList[index]}
+								clickFunction={() => updateOpenerFilter(openingList[index])}
+								isActive={openerFilter.includes(openingList[index])}
+							/>
+						})}
+					</div>
+			</FilterDropdown>
+			<FilterDropdown label={'Card Colors'}>
+				<div style={{display: 'flex', flexFlow: 'row wrap', maxWidth: '100vw', justifyContent: 'flex-start'}}>
+						{colors.map((color, index) => {
+							return <FilterButton
+								label={color}
+								clickFunction={() => updateColorFilter(color)}
+								isActive={colorFilter.includes(color)}
+							/>
+						})}
+					</div>
 			</FilterDropdown>
 			<FilterDropdown label={'Titles'}>
-			<div style={{display: 'flex', flexFlow: 'row wrap', maxWidth: '100vw', justifyContent: 'flex-start'}}>
-					{titles.map((title, index) => {
-						return <FilterButton
-							label={title.label}
-							clickFunction={() => updateTitleFilter(title.label)}
-							isActive={titleFilter.includes(title.label)}
-						/>
-					})}
-				</div>
+				<div style={{display: 'flex', flexFlow: 'row wrap', maxWidth: '100vw', justifyContent: 'flex-start'}}>
+						{titles.map((title, index) => {
+							return <FilterButton
+								label={title.label}
+								clickFunction={() => updateTitleFilter(title.label)}
+								isActive={titleFilter.includes(title.label)}
+							/>
+						})}
+					</div>
 			</FilterDropdown>
 
 			<h2>Query Parameters:</h2>
-			{(achievementFilter?.length >= 1) ?
+			{(achievementFilter[0] !== undefined) ?
 				<>
 					<h3 style={{fontSize: '1.5rem'}}>Achievements:</h3>
 					{achievementFilter.map((achievement, index) => {
@@ -197,6 +234,15 @@ const Marketplace = () => {
 					<h3 style={{fontSize: '1.5rem'}}>Opening Moves:</h3>
 					{openerFilter.map((opener, index) => {
 						return <h4 style={{fontSize: `1rem`, lineHeight: `1`, margin: `1ex 0`}}key={index}>{opener}</h4>
+					})}
+				</>
+				: null
+			}
+			{(colorFilter[0] !== undefined) ?
+				<>
+					<h3 style={{fontSize: '1.5rem'}}>Color:</h3>
+					{colorFilter.map((color, index) => {
+						return <h4 style={{fontSize: `1rem`, lineHeight: `1`, margin: `1ex 0`}}key={index}>{color}</h4>
 					})}
 				</>
 				: null

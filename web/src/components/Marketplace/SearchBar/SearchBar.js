@@ -8,7 +8,7 @@ import styles from './SearchBar.module.scss';
 const SearchBar = ({value, changeHandler}) => {
 
 	return (
-		<input type="text" placeholder={'Search Marketplace'} className={styles.searchBar} value={value} onChange={(e) => changeHandler(e)}/>
+		<input type="text" placeholder={'Search Marketplace'} className={styles.searchBar} value={value} onChange={(e) => changeHandler(e.target.value)}/>
 	)
 }
 

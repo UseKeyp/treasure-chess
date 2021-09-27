@@ -50,9 +50,11 @@ export const schema = gql`
     treasures: [Treasure!]!
     treasure(id: String!): Treasure
     treasureNftDetails(id: String!): TreasureNftDetails
+		treasuresWithFilter(): [Treasure!]! #Populate args with args declared in TreasuresWithFilterCell.js
   }
 
   type Mutation {
     mintTreasure(gameId: String!, endTime: DateTime!, name: String!): Treasure!
   }
+
 `

@@ -267,7 +267,11 @@ const Marketplace = () => {
 			<FilterDropdown label={'Achievements'}>
 				<div style={{display: 'flex', flexFlow: 'row wrap', maxWidth: '100vw', justifyContent: 'flex-start'}}>
 					{achievements.map((achievement) => {
-							return <FilterButton label={achievement.name} clickFunction={() => updateAchievementFilter(achievement.name)} />
+						return <FilterButton
+							label={achievement.name}
+							clickFunction={() => updateAchievementFilter(achievement.name)}
+							isActive={achievementFilter.includes(achievement.name)}
+						/>
 					})}
 				</div>
 			</FilterDropdown>

@@ -1,4 +1,4 @@
-import { AuthenticationError, ForbiddenError, parseJWT } from '@redwoodjs/api'
+import { AuthenticationError, ForbiddenError, parseJWT } from '@redwoodjs/graphql-server'
 import { verifyChessJwt } from 'src/lib/oAuth/jwt'
 
 import { db } from './db'

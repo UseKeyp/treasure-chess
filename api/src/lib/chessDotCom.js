@@ -1,5 +1,5 @@
 import fetch from 'cross-fetch'
-import { AuthenticationError } from '@redwoodjs/api'
+import { AuthenticationError } from '@redwoodjs/graphql-server'
 import ChessWebAPI from 'chess-web-api'
 
 const chessAPI = new ChessWebAPI()

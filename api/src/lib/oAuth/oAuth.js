@@ -1,4 +1,4 @@
-import { AuthenticationError, parseJWT } from '@redwoodjs/api'
+import { AuthenticationError, parseJWT } from '@redwoodjs/graphql-server'
 
 import { db } from 'src/lib/db'
 import { v4 as uuidv4 } from 'uuid'

@@ -1,5 +1,5 @@
 import fetch from 'cross-fetch'
-import { AuthenticationError } from '@redwoodjs/api'
+import { AuthenticationError } from '@redwoodjs/graphql-server'
 
 import { db } from 'src/lib/db'
 

@@ -22,3 +22,4 @@
   open = true
 [experimental]
   esbuild = false
+  useEnvelop = true # https://community.redwoodjs.com/t/using-graphql-envelop-helix-in-redwood-v0-35/2276

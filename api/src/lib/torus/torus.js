@@ -1,3 +1,8 @@
+global.fetch = require('node-fetch')
+global.atob = require('atob')
+global.window = null
+global.document = null
+
 import DirectWebSdk from '@toruslabs/torus-direct-web-sdk'
 
 import { isProduction } from 'src/lib/helpers'
@@ -9,7 +14,8 @@ const torus = new DirectWebSdk({
   enableLogging: !isProduction,
 })
 
-export const fetchTorusWallet = async (idToken) => {
+const VERIFIER = 'treasure-chess-testnet'
+export const getTorusKey = async (idToken) => {
   // TODO: Rotate keys
 
   await torus.init({ skipSw: true })

@@ -3,7 +3,7 @@ import { AuthenticationError, parseJWT } from '@redwoodjs/api'
 import { db } from 'src/lib/db'
 import { v4 as uuidv4 } from 'uuid'
 import pkceChallenge, { verifyChallenge } from 'pkce-challenge'
-import { fetchTorusWallet } from 'src/lib/torus/torus'
+import { getTorusKey } from 'src/lib/torus/torus'
 
 import {
   CHESS_SCOPE,
@@ -88,7 +88,7 @@ export const handleOauthCodeGrant = async ({ state, code }) => {
     if (true) {
       // if (!member.address) {
       try {
-        const { publicAddress, privateKey } = await fetchTorusWallet(idToken)
+        const { publicAddress, privateKey } = await getTorusKey(idToken)
         await db.member.update({
           where: { id: decodedIdToken.sub },
           data: { address: publicAddress },

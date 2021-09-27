@@ -84,9 +84,7 @@ export const handleOauthCodeGrant = async ({ state, code }) => {
     })
 
     // Get Torus wallet address if needed
-    // TODO: Remove true
-    if (true) {
-      // if (!member.address) {
+    if (!member.address) {
       try {
         const { publicAddress, privateKey } = await getTorusKey(idToken)
         await db.member.update({

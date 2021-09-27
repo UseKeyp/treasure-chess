@@ -1,6 +1,6 @@
 .filterButton {
 	display: block;
-	font-size: 1.25rem;
+	font-size: 1rem;
 	font-weight: 700;
 	background-color: rgba(16, 16, 16, 0.95);
 	box-shadow: 4px 4px 8px rgba(16, 16, 16, 0.95), -8px -8px 8px rgba(48, 48, 48, 0.95);
@@ -11,10 +11,11 @@
 	padding-top: 1.5ex;
 	transition: all 0.25s;
 	border: 2px solid transparent;
-	margin: 1rem 0.5rem;
+	margin: 0.5rem 0.5rem;
 	&:hover {
 		box-shadow: 6px 6px 6px rgba(12, 12, 12, 0.95), -6px -6px 6px rgba(48, 48, 48, 0.95);
 		border: 2px solid rgba(255,255,255,0.33);
+		cursor: pointer;
 	}
 	&:focus {
 		outline: none;

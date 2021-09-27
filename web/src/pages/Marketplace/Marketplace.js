@@ -5,6 +5,17 @@ import SearchBar from '../../components/Marketplace/SearchBar/SearchBar'
 import FilterButton from '../../components/Marketplace/FilterButton/FilterButton'
 import TreasuresWithFilterCell from '../../components/Treasure/TreasuresWithFilterCell/TreasuresWithFilterCell'
 import FilterDropdown from '../../components/Marketplace/FilterDropdown/FilterDropdown';
+import {
+	openingList,
+	achievements,
+	colors,
+	ratings,
+	titles,
+	timeControl,
+	termination,
+	outcome,
+	moveCount
+	} from './Filters';
 
 
 const Marketplace = () => {
@@ -13,6 +24,13 @@ const Marketplace = () => {
 	const [queryParameters, setQueryParameters] = useState({}); // for use in a 'makeQuery' function
 	const [achievementFilter, setAchievementFilter] = useState([]); // for use in queryParameters
 	const [openerFilter, setOpenerFilter] = useState([]);
+	const [colorFilter, setColorFilter] = useState([]);
+	const [ratingFilter, setRatingFilter] = useState([]);
+	const [titleFilter, setTitleFilter] = useState([]);
+	const [timeControlFilter, setTimeControlFilter] = useState([]);
+	const [terminationFilter, setTerminationFilter] = useState([]);
+	const [outcomeFilter, setOutcomeFilter] = useState([]);
+	const [moveCountFilter, setMoveCountFilter] = useState([]);
 
 	const [searchResults, setSearchResults] = useState(); //expects an array
 
@@ -100,209 +118,28 @@ const Marketplace = () => {
 		updateQuery('opener', openerFilter);
 	}
 
-	const achievements = [
-		{
-			// index 0
-			name: "Win a game",
-			points: 2,
-		},
-		{
-			// index 1
-			name: "Play a game",
-			points: 1,
-		},
-		{
-			// index 2
-			name: "Win a game against opponent rated 750+",
-			points: 3,
-		},
-		{
-			// index 3
-			name: "Play a game against opponent rated 750+",
-			points: 2,
-		},
-		{
-			// index 4
-			name: "Win a game against opponent rated 1500+",
-			points: 4,
-		},
-		{
-			// index 5
-			name: "Play a game against opponent rated 1500+",
-			points: 2,
-		},
-		{
-			// index 6
-			name: "Play a game against opponent rated 2000+",
-			points: 3,
-		},
-		{
-			// index 7
-			name: "Win a game against opponent rated 2000+",
-			points: 5,
-		},
-		{
-			// index 8
-			name: "Play a game against opponent rated 2250+",
-			points: 3,
-		},
-		{
-			// index 9
-			name: "Win a game against opponent rated 2250+",
-			points: 6,
-		},
-		{
-			// index 10
-			name: "Defeat an IM",
-			points: 4,
-		},
-		{
-			// index 11
-			name: "Defeat a NM",
-			points: 3,
-		},
-		{
-			// index 12
-			name: "Defeat a GM",
-			points: 5,
-		},
-		{
-			// index 13
-			name: "Mate with a bishop",
-			points: 4,
-		},
-		{
-			// index 14
-			name: "Mate with a knight",
-			points: 4,
-		},
-		{
-			// index 15
-			name: "Mate with a pawn",
-			points: 4,
-		},
-		{
-			// index 16
-			name: "Complete a game with more than 100 moves",
-			points: 2,
-		},
-		{
-			// index 17
-			name: "Complete a game with more than 150 moves",
-			points: 3,
-		},
-		{
-			// index 18
-			name: "Complete a game with more than 250 moves",
-			points: 6,
-		},
-		{
-			// index 19
-			name: "Win with checkmate in less than 10 moves",
-			points: 2,
-		},
-		{
-			// index 20
-			name: "Win with checkmate in <5 moves",
-			points: 3,
-		},
-		{
-			// index 21
-			name: "Win with checkmate in 2 moves",
-			points: 5,
-		},
-		{
-			// index 22
-			name: "Draw with a higher rated player",
-			points: 2,
-		},
-		{
-			// index 23
-			name: "Queen side castle",
-			points: 1,
-		},
-		{
-			// index 24
-			name: "Under-promote to a knight",
-			points: 3,
-		},
-		{
-			// index 25
-			name: "Under-promote to a bishop",
-			points: 5,
-		},
-		{
-			// index 26
-			name: "En Passant",
-			points: 2,
-		},
-		{
-			// index 27
-			name: "Checkmate with an En Passant",
-			points: 10,
-		},
-		{
-			// index 28
-			name: "Draw when opponent has a queen, without one",
-			points: 4,
-		},
-		{
-			// index 29
-			name: "Draw by repetition",
-			points: 1,
-		},
-		{
-			// index 30
-			name: "Defeat a higher rated player",
-			points: 3,
-		},
-		{
-			// index 31
-			name: "Put opponent in check",
-			points: 1,
-		},
-		{
-			// index 32
-			name: "Capture <4 pawns",
-			points: 1,
-		},
-		{
-			// index 33
-			name: "Capture all pawns",
-			points: 2,
-		},
-		{
-			// index 34
-			name: "Capture all knights and bishops without losing any.",
-			points: 5,
-		},
-		{
-			// index 35
-			name: "Move king >20 times",
-			points: 1,
-		},
-		{
-			// index 36
-			name: "Capture all pawns without losing any",
-			points: 5,
-		},
-	];
-
-	const openingList =
-	[
-  "King's pawn game",
-  "Queen's Gambit",
-  "Ruy Lopez",
-  "French Defense",
-  "Caro-Kann",
-  "Reti Opening",
-  "English",
-  "Norwegian",
-  "Italian",
-  "Bird's Opening",
-  "Scandinavian",
-  "Scotch"
-	]
+	const updateTitleFilter = (value) => {
+		//todo: update logic so no more than two values can be selected at once
+		if (titleFilter[0] === undefined) {
+			setTitleFilter([value]);
+		} else {
+			setTitleFilter((v) => {
+				let newList = v.map((filter) => {
+					if (value !== filter) {
+						return filter;
+					}
+				});
+				if (newList === undefined) {
+					return [];
+				}
+				if (newList.toString() == v.toString()) {
+					newList = [...v, value];
+				}
+				return newList;
+			})
+		}
+		updateQuery('title', titleFilter);
+	}
 
   return (
     <>
@@ -333,6 +170,18 @@ const Marketplace = () => {
 					})}
 				</div>
 			</FilterDropdown>
+			<FilterDropdown label={'Titles'}>
+			<div style={{display: 'flex', flexFlow: 'row wrap', maxWidth: '100vw', justifyContent: 'flex-start'}}>
+					{titles.map((title, index) => {
+						return <FilterButton
+							label={title.label}
+							clickFunction={() => updateTitleFilter(title.label)}
+							isActive={titleFilter.includes(title.label)}
+						/>
+					})}
+				</div>
+			</FilterDropdown>
+
 			<h2>Query Parameters:</h2>
 			{(achievementFilter?.length >= 1) ?
 				<>
@@ -343,7 +192,7 @@ const Marketplace = () => {
 				</>
 				: null
 			}
-			{(openerFilter?.length >= 1) ?
+			{(openerFilter[0] !== undefined) ?
 				<>
 					<h3 style={{fontSize: '1.5rem'}}>Opening Moves:</h3>
 					{openerFilter.map((opener, index) => {
@@ -352,7 +201,16 @@ const Marketplace = () => {
 				</>
 				: null
 			}
-			<TreasuresWithFilterCell {...queryParameters} />
+			{(titleFilter[0] !== undefined) ?
+				<>
+					<h3 style={{fontSize: '1.5rem'}}>Titles:</h3>
+					{titleFilter.map((title, index) => {
+						return <h4 style={{fontSize: `1rem`, lineHeight: `1`, margin: `1ex 0`}}key={index}>{title}</h4>
+					})}
+				</>
+				: null
+			}
+			{/* <TreasuresWithFilterCell {...queryParameters} /> */}
     </>
   )
 }

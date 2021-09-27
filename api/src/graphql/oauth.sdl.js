@@ -12,5 +12,6 @@ export const schema = gql`
   }
   type Mutation {
     oauthCodeGrant(state: String!, code: String!, type: String!): Jwt!
+    refreshToken: Jwt!
   }
 `

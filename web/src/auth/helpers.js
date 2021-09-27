@@ -1,3 +1,5 @@
+export const saveJwt = (jwt) => localStorage.setItem(LOCAL_TOKEN_KEY, jwt)
+
 export const getErrorResponse = (error, functionName) => {
   const errorText = typeof error === 'string' ? error : error.message
   const res = {

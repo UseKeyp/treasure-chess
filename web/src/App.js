@@ -6,6 +6,7 @@ import { ApolloClient, InMemoryCache } from '@apollo/client'
 
 import { ContextProvider } from 'src/providers/context'
 import CustomAuthClient from 'src/auth/client'
+import { isProduction } from 'src/utils/helpers'
 
 import FatalErrorPage from 'src/pages/FatalErrorPage'
 import Routes from 'src/Routes'
@@ -18,6 +19,7 @@ let customAuthClient
 const ApolloInjector = ({ children }) => {
   const { uri, headers } = useFetchConfig()
   try {
+    // TODO: Replace with new @redwoodjs/graphql-server
     const graphQLClient = new ApolloClient({
       cache: new InMemoryCache(),
       uri,
@@ -31,7 +33,7 @@ const ApolloInjector = ({ children }) => {
 
     customAuthClient = new CustomAuthClient({
       makeQuery,
-      debug: process.NODE_ENV === 'development',
+      debug: !isProduction,
     })
   } catch (e) {
     console.log(e)

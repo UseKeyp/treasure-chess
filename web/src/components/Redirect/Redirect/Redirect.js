@@ -1,8 +1,7 @@
 import { useMutation } from '@redwoodjs/web'
 import { routes, navigate, useParams } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
-
-import { LOCAL_TOKEN_KEY } from 'src/auth/constants'
+import { saveJwt } from 'src/auth/helpers'
 
 import DefaultLayout from 'src/layouts/DefaultLayout'
 import Loader from 'src/components/Loader'
@@ -41,7 +40,7 @@ const Redirect = ({ type }) => {
       },
     })
     if (res?.data?.oauthCodeGrant) {
-      localStorage.setItem(LOCAL_TOKEN_KEY, res.data.oauthCodeGrant.jwt)
+      saveJwt(res.data.oauthCodeGrant.jwt)
       window.location.href = redirectTo || '/'
     }
   }

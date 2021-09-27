@@ -12,7 +12,6 @@ const MobileNav = ({ onClick, forceSmallNav = false }) => {
   const [isExpanded, setExpanded] = useState(false)
 
   const isLoggedIn = !!userMetadata
-
   const userDetails = isLoggedIn ? (
     <>
       <img

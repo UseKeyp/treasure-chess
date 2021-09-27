@@ -75,7 +75,7 @@ export const getChessAccessTokenFromCode = async (code, codeVerifier) => {
   }
 }
 
-export const refreshChessTokens = async (refreshToken, id) => {
+export const refreshChessTokens = async (refreshToken) => {
   try {
     const body = {
       grant_type: 'refresh_token',

@@ -1,4 +1,8 @@
-import { AuthenticationError, ForbiddenError, parseJWT } from '@redwoodjs/graphql-server'
+import {
+  AuthenticationError,
+  ForbiddenError,
+  parseJWT,
+} from '@redwoodjs/graphql-server'
 import { verifyChessJwt } from 'src/lib/oAuth/jwt'
 
 import { db } from './db'
@@ -16,17 +20,20 @@ import { db } from './db'
  * @see https://github.com/redwoodjs/redwood/tree/main/packages/auth for examples
  */
 export const getCurrentUser = async (
-  idToken, // Not decoded for custom auth
-  { _token, _type },
-  { _event, _context }
+  decoded, // Not decoded for custom auth
+  one,
+  two
 ) => {
-  // Do we need to verify here?
-  const user = await verifyChessJwt(idToken)
+  console.log(one)
+  console.log(two)
+  console.log(one.token)
+  const user = await verifyChessJwt(one.token)
+  console.log(user)
   return db.member.findUnique({ where: user.sub })
-  // If expired, rotate the JWT
 }
 
 export const isAuthenticated = () => {
+  console.log(context)
   return !!context.currentUser
 }
 

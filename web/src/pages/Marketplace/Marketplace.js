@@ -12,6 +12,7 @@ const Marketplace = () => {
 	const [searchValue, setSearchValue] = useState();
 	const [queryParameters, setQueryParameters] = useState({}); // for use in a 'makeQuery' function
 	const [achievementFilter, setAchievementFilter] = useState([]); // for use in queryParameters
+	const [openerFilter, setOpenerFilter] = useState([]);
 
 	const [searchResults, setSearchResults] = useState(); //expects an array
 
@@ -67,6 +68,36 @@ const Marketplace = () => {
 			})
 		}
 		updateQuery('achievements', achievementFilter);
+	}
+
+	const updateOpenerFilter = (value) => {
+		if (openerFilter[0] === undefined) {
+			setOpenerFilter([value]);
+		} else {
+			setOpenerFilter((v) => {
+				// if the array is NOT empty, allow the user to toggle achievement filters.
+				// this map removes filters that exactly match the recently toggled achievement.
+				let newList = v.map((filter) => {
+					if (value !== filter) {
+						return filter;
+					}
+				});
+				// if that new list is undefined, that means one filter was toggled
+				// and the datatype must be reinitialized to an empty array.
+				if (newList === undefined) {
+					return [];
+				}
+				// if the newList is not undefined, and we removed no values, we can update the value.
+				// in THIS FUNCTION filters are mutually exclusive, so we just replace the value.
+				// I don't know why I have to stringify these... that's javascript for ya
+				if (newList.toString() == v.toString()) {
+					newList = [value];
+				}
+				// return the new list.
+				return newList;
+			})
+		}
+		updateQuery('opener', openerFilter);
 	}
 
 	const achievements = [
@@ -257,6 +288,22 @@ const Marketplace = () => {
 		},
 	];
 
+	const openingList =
+	[
+  "King's pawn game",
+  "Queen's Gambit",
+  "Ruy Lopez",
+  "French Defense",
+  "Caro-Kann",
+  "Reti Opening",
+  "English",
+  "Norwegian",
+  "Italian",
+  "Bird's Opening",
+  "Scandinavian",
+  "Scotch"
+	]
+
   return (
     <>
       <Head>
@@ -275,12 +322,32 @@ const Marketplace = () => {
 					})}
 				</div>
 			</FilterDropdown>
+			<FilterDropdown label={'Opening Moves'}>
+			<div style={{display: 'flex', flexFlow: 'row wrap', maxWidth: '100vw', justifyContent: 'flex-start'}}>
+					{openingList.map((opener, index) => {
+						return <FilterButton
+							label={openingList[index]}
+							clickFunction={() => updateOpenerFilter(openingList[index])}
+							isActive={openerFilter.includes(openingList[index])}
+						/>
+					})}
+				</div>
+			</FilterDropdown>
 			<h2>Query Parameters:</h2>
 			{(achievementFilter?.length >= 1) ?
 				<>
 					<h3 style={{fontSize: '1.5rem'}}>Achievements:</h3>
 					{achievementFilter.map((achievement, index) => {
 						return <h4 style={{fontSize: `1rem`, lineHeight: `1`, margin: `1ex 0`}}key={index}>{achievement}</h4>
+					})}
+				</>
+				: null
+			}
+			{(openerFilter?.length >= 1) ?
+				<>
+					<h3 style={{fontSize: '1.5rem'}}>Opening Moves:</h3>
+					{openerFilter.map((opener, index) => {
+						return <h4 style={{fontSize: `1rem`, lineHeight: `1`, margin: `1ex 0`}}key={index}>{opener}</h4>
 					})}
 				</>
 				: null

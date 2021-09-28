@@ -48,6 +48,7 @@ const Marketplace = () => {
 	// for state to update before making a query
 	React.useEffect(() => {
 		let query = {};
+		query.searchString = searchValue;
 		query.achievements = achievementFilter;
 		query.openers = openerFilter;
 		query.color = colorFilter;
@@ -58,7 +59,7 @@ const Marketplace = () => {
 		query.outcome = outcomeFilter;
 		query.moveCount = moveCountFilter;
 		setQueryParameters(query);
-	}, [achievementFilter, openerFilter, colorFilter, ratingFilter, titleFilter, timeControlFilter, terminationFilter, outcomeFilter, moveCountFilter]);
+	}, [achievementFilter, openerFilter, colorFilter, ratingFilter, titleFilter, timeControlFilter, terminationFilter, outcomeFilter, moveCountFilter, searchValue]);
 
 	// pass QueryParameters as a dependency to only perfomr this logic when it updates
 	React.useEffect(() => {
@@ -110,6 +111,10 @@ const Marketplace = () => {
 		// updateQuery('moveCount', moveCountFilter);
 	}
 
+	const updateSearchString = (value) => {
+		setSearchValue(value);
+	}
+
 
   return (
     <>
@@ -117,7 +122,7 @@ const Marketplace = () => {
         <title>Treasure Chess | Marketplace</title>
       </Head>
 			<h1 className="font-bold">Treasure Chess Marketplace</h1>
-			<SearchBar value={searchValue} changeHandler={setSearchValue} />
+			<SearchBar value={searchValue} changeHandler={updateSearchString} />
 			<FilterDropdown label={'Filters'}>
 				<div style={{marginLeft: '1rem'}}>
 				<FilterDropdown label={'Achievements'}>

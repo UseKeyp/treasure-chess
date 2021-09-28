@@ -14,8 +14,12 @@ export const loginUrl = (input) => getLoginUrl(input)
 export const oauthCodeGrant = (input) => handleOauthCodeGrant(input)
 
 export const refreshToken = async () => {
-  const { idToken: jwt } = await refreshChessTokens(
-    context.currentUser.refreshToken
-  )
+  try {
+    const { idToken: jwt } = await refreshChessTokens(
+      context.currentUser.refreshToken
+    )
+  } catch (e) {
+    console.log(e)
+  }
   return { jwt }
 }

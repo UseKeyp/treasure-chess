@@ -21,6 +21,7 @@ model Member {
   accessToken String? // API access to chess.com
   accessTokenExpiration DateTime?
   refreshToken String?
+  hashedIdToken String?
   // idToken String? // User's JWT from chess.com
   idTokenExpiration DateTime?
   // --------------- LINKS --------------

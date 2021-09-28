@@ -88,13 +88,16 @@ export const refreshChessTokens = async (refreshToken) => {
       method: 'post',
       body: encodedBody,
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+        'Content-Type': 'application/x-www-form-urlencoded',
+        // Basic auth required for oauth.chess-x.com development server
         ...(isDevelopment && {
           Authorization: `Basic ${CHESS_BASIC_AUTH}`,
         }),
       },
     }).then((res) => {
-      if (res.status == 401) throw new 'Chess.com basic authorization failed'()
+      console.log(res)
+      if (res.status == 401)
+        throw new Error('Chess.com basic authorization failed')
       return res.json()
     })
     if (response.error)

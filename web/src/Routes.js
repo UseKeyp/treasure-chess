@@ -6,9 +6,11 @@ import DefaultLayout from 'src/layouts/DefaultLayout'
 const Routes = () => {
   return (
     <Router>
+      <Route path="/redirect/{type}" page={RedirectPage} name="redirect" />
       <Set wrap={DefaultLayout}>
         <Route path="/" page={HomePage} name="home" />
         <Route path="/faq" page={FaqPage} name="faq" />
+        <Route path="/marketplace" page={MarketplacePage} name="marketplace" />
         <Set wrap={MembersLayout}>
           <Route path="/members/{id}" page={MemberMemberPage} name="member" />
         </Set>

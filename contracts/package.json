@@ -1,4 +1,5 @@
 {
+  "name": "@treasure-chess/contracts",
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.2",
     "@openzeppelin/contracts-upgradeable": "^4.3.1",

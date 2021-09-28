@@ -1,3 +1,5 @@
+import { MetaTags } from '@redwoodjs/web'
+
 import Button from 'src/components/Button'
 
 import TreasureCardCell from 'src/components/Treasure/TreasureCardCell'
@@ -15,6 +17,13 @@ const TreasurePage = ({ id }) => {
   }
   return (
     <div className="item-page max-width-container">
+      <MetaTags
+        title="Treasure"
+        // description="About the awesome team"
+        // ogUrl="https://awesomeredwoodapp.com/start"
+        // ogContentUrl="https://awesomeredwoodapp.com/static/og.png"
+        // robots={['nofollow']}
+      />
       <div className="grid grid-rows-1">
         <div className="grid md:grid-cols-3 grid-cols-1 gap-10">
           <div className="flex justify-center items-start order-2 md:order-1">

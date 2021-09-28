@@ -17,6 +17,12 @@ model Member {
   address String? @unique // Wallet address
   // --------------- STATE --------------
   dateJoined DateTime?
+  // Oauth
+  accessToken String? // API access to chess.com
+  accessTokenExpiration DateTime?
+  refreshToken String?
+  // idToken String? // User's JWT from chess.com
+  idTokenExpiration DateTime?
   // --------------- LINKS --------------
   treasuresOwned Treasure[] @relation(name: "treasuresOwned" )
   treasuresMinted Treasure[] @relation(name: "treasuresMinted" )
@@ -62,11 +68,26 @@ model Treasure {
   event String // eg. "Live Chess"
   moves String // pgn moves
   moveCount Int // eg. "43"
-  ruleVariant String // eg. "Standard" or "Chess960"
+  ruleVariant String @default("Standard") // eg. "Standard" or "Chess960"
   externalUrl String? // Link to game on chess.com
   opening String // eg. "Queen's Gambit"
   achievements String // List eg. "win/play above 2200,queen side castle,mate with a bishop"
   // NFT
   tokenId Int?
   mintedAt DateTime?
+}
+
+model OAuth {
+  state String @id
+  codeChallenge String
+  codeVerifier String
+  createdAt DateTime @default(now())
+}
+
+// Jschiarizzi's chess.com credentials, used for the app's primary API access
+model SecretToken {
+  id String @id @default(uuid())
+  accessToken String
+  refreshToken String
+  idToken String // JWT from chess.com
 }

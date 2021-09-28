@@ -18,3 +18,5 @@ contracts/artifacts
 contracts/node_modules
 contracts/typechain
 contracts/coverage
+zipped
+

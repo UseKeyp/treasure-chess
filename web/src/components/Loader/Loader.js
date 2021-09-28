@@ -3,8 +3,8 @@ import { useSpring, animated } from 'react-spring'
 const Loader = () => {
   const [flip, set] = React.useState(false)
   const props = useSpring({
-    to: { height: '10rem' },
-    from: { height: '12rem' },
+    to: { height: '8rem' },
+    from: { height: '10rem' },
     reset: true,
     reverse: flip,
     onRest: () => set(!flip),

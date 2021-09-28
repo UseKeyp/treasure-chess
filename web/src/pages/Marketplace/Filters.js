@@ -235,7 +235,7 @@ export const titles = [
 	}
 ];
 
-export const timeControl = [
+export const timeControls = [
 	{
 		label: '1 minute',
 		data: 60
@@ -266,14 +266,14 @@ export const timeControl = [
 	}
 ];
 
-export const termination = [
+export const terminations = [
 	"Checkmate",
 	"Resignation",
 	"Stalemate",
 	"Insufficient Material"
 ];
 
-export const outcome = [
+export const outcomes = [
 	{
 		label: 'White wins',
 		data: 'white'
@@ -288,7 +288,7 @@ export const outcome = [
 	}
 ];
 
-export const moveCount = [
+export const moveCounts = [
 	'< 10',
 	'10 - 49',
 	'50 - 99',

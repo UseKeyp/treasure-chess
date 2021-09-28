@@ -1,29 +1,28 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import { Ownable } from '@openzeppelin/contracts/access/Ownable.sol';
-import { ERC721 } from '@openzeppelin/contracts/token/ERC721/ERC721.sol';
-import { ERC721URIStorage } from '@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol';
-import { Counters } from '@openzeppelin/contracts/utils/Counters.sol';
+import { OwnableUpgradeable } from '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
+import { Initializable } from '@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol';
+import { UUPSUpgradeable } from '@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol';
+import { ERC721Upgradeable } from '@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol';
+import { ERC721URIStorageUpgradeable } from '@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721URIStorageUpgradeable.sol';
+import { CountersUpgradeable } from '@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol';
 
 //Only used for rescues.
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import { IERC20Upgradeable } from '@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol';
 
-
-/// @title Treasure
-/// @author Joseph Schiarizzi
-/// @notice Save games of chess as NFTs
-/// @dev ERC721 token
-contract Treasure is ERC721URIStorage, Ownable {
-  using Counters for Counters.Counter;
-  /// @notice
-  Counters.Counter private _tokenIds;
-
-  //State Storage
-  bool private initialized;
+contract Treasure is
+  Initializable,
+  ERC721Upgradeable,
+  ERC721URIStorageUpgradeable,
+  UUPSUpgradeable,
+  OwnableUpgradeable
+{
+  using CountersUpgradeable for CountersUpgradeable.Counter;
+  CountersUpgradeable.Counter private _tokenIds;
 
   //Access Storage
-  mapping(address => bool) admins;
+  mapping(address => bool) public admins;
 
   //Treasure Storage
   struct Game {
@@ -37,23 +36,22 @@ contract Treasure is ERC721URIStorage, Ownable {
 
   /// @notice
   mapping(uint256 => Game) public games;
-  /// @notice
-  mapping (uint256 => address) public originalPlayers;
-  /// @notice
-  mapping (bytes32 => uint) public movesHashToId;
+  mapping(uint256 => address) public originalPlayers;
+  mapping(bytes32 => uint256) public movesHashToId;
 
   //Events
   event GameMinted(address to, uint256 id, string uri, bytes32 movesHash);
   event AdminAdded(address addedBy, address newAdmin);
   event AdminRemoved(address addedBy, address newAdmin);
 
-  /// @notice initializes contract.
-  /// @dev keep admin and owner classes seperate, but add owner as an admin to start everything off.
-  constructor() ERC721("Treasure Chess", "CHESS") {
+  function initialize() public initializer {
+    __ERC721_init('Treasure Chess', 'CHESS');
+    __Ownable_init();
     admins[msg.sender] = true;
   }
 
-  /// @dev
+  function _authorizeUpgrade(address) internal override onlyOwner {}
+
   modifier onlyAdmin() {
     require(admins[msg.sender], 'Only admins can call this function.');
     _;
@@ -72,7 +70,7 @@ contract Treasure is ERC721URIStorage, Ownable {
   /// @return
   function mint(
     address player,
-    string memory tokenURI,
+    string memory _tokenURI,
     bytes32 _moveHash,
     uint8 _level,
     uint16 _achievement1,
@@ -84,22 +82,25 @@ contract Treasure is ERC721URIStorage, Ownable {
 
     uint256 newItemId = _tokenIds.current();
     _mint(player, newItemId);
-    _setTokenURI(newItemId, tokenURI);
+    _setTokenURI(newItemId, _tokenURI);
 
-    Game memory newGame = Game(_moveHash, _level, _achievement1, _achievement2, _achievement3, _color);
+    Game memory newGame = Game(
+      _moveHash,
+      _level,
+      _achievement1,
+      _achievement2,
+      _achievement3,
+      _color
+    );
     games[newItemId] = newGame;
     originalPlayers[newItemId] = player;
     movesHashToId[_moveHash] = newItemId; //mapping of offchain id to on chain id
 
-    emit GameMinted(player, newItemId, tokenURI, _moveHash);
+    emit GameMinted(player, newItemId, _tokenURI, _moveHash);
     return newItemId;
   }
 
-  /// @notice
-  /// @dev
-  /// @param _id
-  /// @return
-  function getOriginalPlayer(uint _id) public view returns(address){
+  function getOriginalPlayer(uint256 _id) public view returns (address) {
     return originalPlayers[_id];
   }
 
@@ -116,7 +117,7 @@ contract Treasure is ERC721URIStorage, Ownable {
   /// @return
   function addAdmin(address _admin) public onlyOwner {
     admins[_admin] = true;
-    AdminAdded(msg.sender, _admin);
+    emit AdminAdded(msg.sender, _admin);
   }
 
   /// @notice
@@ -125,23 +126,43 @@ contract Treasure is ERC721URIStorage, Ownable {
   /// @return
   function removeAdmin(address _admin) public onlyOwner {
     admins[_admin] = false;
-    AdminRemoved(msg.sender, _admin);
+    emit AdminRemoved(msg.sender, _admin);
   }
 
   /*
       Rescue ERC20s and ERC721s mistakingly sent to the contract
   */
-  function rescueEtherOwner(address payable to, uint256 amount) public onlyOwner {
-    (bool sent, bytes memory data) = to.call{value: amount}("");
+  function rescueEtherOwner(address payable to, uint256 amount)
+    public
+    onlyOwner
+  {
+    to.transfer(amount);
   }
 
-  /// @notice
-  /// @dev
-  /// @param _token
-  /// @param to
-  /// @param amount
-  /// @return
-  function rescueERC20Owner(address _token, address to, uint amount) public onlyOwner{
+  function rescueERC20Owner(
+    address _token,
+    address _to,
+    uint256 _amount
+  ) public onlyOwner {
+    IERC20Upgradeable(_token).transfer(_to, _amount);
+  }
 
+  // Override functions required for upgradable
+  function _burn(uint256 tokenId)
+    internal
+    virtual
+    override(ERC721URIStorageUpgradeable, ERC721Upgradeable)
+  {
+    super._burn(tokenId);
+  }
+
+  function tokenURI(uint256 tokenId)
+    public
+    view
+    virtual
+    override(ERC721URIStorageUpgradeable, ERC721Upgradeable)
+    returns (string memory)
+  {
+    return super.tokenURI(tokenId);
   }
 }

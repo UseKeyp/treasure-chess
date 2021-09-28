@@ -1,11 +1,11 @@
 import { HardhatUserConfig, task } from 'hardhat/config'
 import { config as dotEnvConfig } from 'dotenv'
 dotEnvConfig()
-import 'hardhat-deploy'
-import 'hardhat-deploy-ethers'
 import 'hardhat-prettier'
 import '@typechain/hardhat'
 import 'solidity-coverage'
+import '@nomiclabs/hardhat-ethers'
+import '@openzeppelin/hardhat-upgrades'
 
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html
@@ -25,7 +25,7 @@ task('accounts', 'Prints the list of accounts', async (_args, hre) => {
  */
 const config: HardhatUserConfig = {
   solidity: {
-    version: '0.8.0',
+    version: '0.8.2', // must be 0.8.2 due to ERC1967UpgradeUpgradeable.sol
     settings: {
       optimizer: {
         enabled: true,
@@ -36,9 +36,15 @@ const config: HardhatUserConfig = {
   networks: {
     localhost: {
       url: 'http://127.0.0.1:8545',
+	  accounts: [process.env.ROPSTEN_PRIVATE_KEY || ""]
+    },
+    hardhat: {
+    //   forking: {
+    //     url: 'https://ropsten.infura.io/v3/' + process.env.INFURA_API_KEY,
+    //   },
     },
     ropsten: {
-      url: `${process.env.infuralink}`,
+      url: `https://ropsten.infura.io/v3/${process.env.INFURA_API_KEY}`,
       accounts: [`0x${process.env.ROPSTEN_PRIVATE_KEY}`],
     },
   },

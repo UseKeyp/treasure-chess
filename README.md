@@ -106,6 +106,16 @@ export const getTreasureId = ({
 
 # Devops
 
+### Torus in production:
+
+`audience` has to equal `clientId`
+JWT verifier id should be `sub`
+JWK endpoint should be https://oauth.chess.com/certs
+JWT should have 2 elements for validation: `ISS = https://oauth.chess.com`, `aud = clientId`
+
+### Torus in Dev  
+If using chess-x, the JWK endpoint can NOT be chess-x.com/certs because of DNS password. So we use the gist endpoint for chess-4 for this instead. Manually update to use other chess-x test servers. 
+
 ### Serverless Considerations
 
 The built api must be <50MB for Vercel. Use these commands to check the current size
@@ -172,3 +182,4 @@ The Token URI stored on-chain must point to a json to play nice with third parti
 2. Create a json, add the image IPFS link as `image` field.
 3. Upload json to IPFS, get IPFS link for json
 4. Call `mint` function via web3: supply json's IPFS hash, also supply the id hash of the moves+stuff
+

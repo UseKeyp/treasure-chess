@@ -3,6 +3,7 @@ import {
   ForbiddenError,
   parseJWT,
 } from '@redwoodjs/graphql-server'
+import { decode as decodeJwt } from 'jsonwebtoken'
 import { verifyChessJwt } from 'src/lib/oAuth/jwt'
 
 import { db } from './db'
@@ -25,10 +26,12 @@ export const getCurrentUser = async (
   { event, context }
 ) => {
   try {
-    const user = await verifyChessJwt(idToken)
-    const member = await db.member.findUnique({ where: { id: user.sub } })
-    return { ...member, idToken }
+    const decoded = await verifyChessJwt(idToken)
+    console.log(decoded)
+    const member = await db.member.findUnique({ where: { id: decoded.sub } })
+    return member
   } catch (e) {
+    console.log(e)
     return null
   }
 }

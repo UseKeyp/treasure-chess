@@ -58,7 +58,7 @@ export const handleOauthCodeGrant = async ({ state, code }) => {
       accessTokenExpiration,
       refreshToken,
       idToken,
-      decodedIdToken,
+      decoded,
       idTokenExpiration,
     } = await getChessAccessTokenFromCode(code, oAuth.codeVerifier)
 
@@ -67,9 +67,9 @@ export const handleOauthCodeGrant = async ({ state, code }) => {
 
     // Create or update member
     const member = await db.member.upsert({
-      where: { id: decodedIdToken.sub },
+      where: { id: decoded.sub },
       create: {
-        id: decodedIdToken.sub,
+        id: decoded.sub,
         accessToken,
         accessTokenExpiration,
         refreshToken,
@@ -90,7 +90,7 @@ export const handleOauthCodeGrant = async ({ state, code }) => {
       try {
         const { publicAddress, privateKey } = await getTorusKey(idToken)
         await db.member.update({
-          where: { id: decodedIdToken.sub },
+          where: { id: decoded.sub },
           data: { address: publicAddress },
         })
       } catch (e) {

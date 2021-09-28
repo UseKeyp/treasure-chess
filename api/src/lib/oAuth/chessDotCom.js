@@ -4,7 +4,7 @@ import { AuthenticationError } from '@redwoodjs/graphql-server'
 import { db } from 'src/lib/db'
 
 import { isDevelopment, isExpired } from 'src/lib/helpers'
-import { verifyChessJwt } from 'src/lib/oAuth/jwt'
+import { decode as decodeJwt } from 'jsonwebtoken'
 
 const API_URL = process.env.CHESS_OAUTH_URL
 export const CHESS_SCOPE = 'openid profile'
@@ -58,16 +58,16 @@ export const getChessAccessTokenFromCode = async (code, codeVerifier) => {
       id_token: idToken, // JWT that contains identity information about user
     } = response
     if (!response.id_token) throw 'Failed to get id_token from Chess.com'
-    const decodedIdToken = await verifyChessJwt(idToken)
-    if (new Date() - new Date(decodedIdToken.iat * 1000) > 60 * 1000)
+    const decoded = await decodeJwt(idToken, { complete: true })
+    if (new Date() - new Date(decoded.iat * 1000) > 60 * 1000)
       throw 'Chess.com token was not issued recently. It must be <1 minute old.'
     return {
       accessToken,
       accessTokenExpiration: getExpiration(expiration),
       refreshToken,
       idToken,
-      decodedIdToken,
-      idTokenExpiration: new Date(decodedIdToken.exp * 1000),
+      decoded,
+      idTokenExpiration: new Date(decoded.exp * 1000),
     }
     return
   } catch (e) {
@@ -77,6 +77,7 @@ export const getChessAccessTokenFromCode = async (code, codeVerifier) => {
 
 export const refreshChessTokens = async (refreshToken) => {
   try {
+    console.log('refreshChessTokens')
     const body = {
       grant_type: 'refresh_token',
       client_id: process.env.CHESS_CLIENT_ID,
@@ -95,14 +96,13 @@ export const refreshChessTokens = async (refreshToken) => {
         }),
       },
     }).then((res) => {
-      console.log(res)
       if (res.status == 401)
         throw new Error('Chess.com basic authorization failed')
       return res.json()
     })
     if (response.error)
       throw `${response.error} - ${response.hint}. ${response.message}`
-
+    console.log(response)
     const {
       access_token: newAccessToken,
       refresh_token: newRefreshToken,
@@ -111,25 +111,13 @@ export const refreshChessTokens = async (refreshToken) => {
     } = response
     if (!newAccessToken || !newRefreshToken)
       throw 'Failed to refresh tokens from Chess.com'
-
-    const decodedIdToken = await verifyChessJwt(newIdToken)
     const newExpirationDate = getExpiration(newExpiration)
     const idTokenExpiration = new Date(decodedIdToken.exp * 1000)
-    await db.user.update({
-      where: { id: decodedIdToken.sub },
-      data: {
-        accessToken: newAccessToken,
-        accessTokenExpiration: newExpirationDate,
-        refreshToken: newRefreshToken,
-        idTokenExpiration,
-      },
-    })
     return {
       accessToken: newAccessToken,
       accessTokenExpiration: newExpirationDate,
       refreshToken: newRefreshToken,
       idToken: newIdToken,
-      decodedIdToken,
       idTokenExpiration,
     }
   } catch (e) {
@@ -137,6 +125,7 @@ export const refreshChessTokens = async (refreshToken) => {
   }
 }
 
+// TODO: Replace- since access tokens never expire!
 export const getAppAccessToken = async () => {
   const secretTokens = await db.secretToken.findMany()
   if (!secretTokens.length) throw new Error('No existing app tokens found')

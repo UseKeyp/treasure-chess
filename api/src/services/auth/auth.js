@@ -14,19 +14,3 @@ export const beforeResolver = (rules) => {
 export const loginUrl = (input) => getLoginUrl(input)
 
 export const oauthCodeGrant = (input) => handleOauthCodeGrant(input)
-
-export const refreshToken = async () => {
-  try {
-    // Only allow JWT renewal for the most recet session
-    if (id(context.currentUser.idToken) !== context.currentUser.hashedIdToken)
-      throw new AuthenticationError(
-        'Your session has expired. Please log in again.'
-      )
-    const { idToken: jwt } = await refreshChessTokens(
-      context.currentUser.refreshToken
-    )
-  } catch (e) {
-    console.log(e)
-  }
-  return { jwt }
-}

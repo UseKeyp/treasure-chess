@@ -9,7 +9,6 @@ import {
   CHESS_SCOPE,
   getChessAccessTokenFromCode,
 } from 'src/lib/oAuth/chessDotCom'
-import { getChessMember } from 'src/lib/chessDotCom'
 
 export const getLoginUrl = async () => {
   const state = uuidv4()

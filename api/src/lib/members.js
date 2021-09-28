@@ -5,17 +5,19 @@ import { getChessMember } from 'src/lib/chessDotCom'
 export const fetchMember = async (idOrAddress, includeChessData) => {
   let member
   let memberDetails
-  const address = isHexAddress(idOrAddress) ? idOrAddress : null
-  const id = !isHexAddress(idOrAddress) ? idOrAddress : null
+  let id
+  let address
+  isHexAddress(idOrAddress) ? (address = idOrAddress) : (id = idOrAddress)
   member = await db.member.findUnique({
     where: {
       ...(address && { address }),
       ...(id && { id }),
     },
   })
+
   if (!member && id) {
     // If we have ID, check if exists on Chess.com
-    memberDetails = await getChessMember({ accessToken, member })
+    memberDetails = await getChessMember(id)
     if (memberDetails)
       member = await db.member.create({
         data: { id: memberDetails.id, ...memberDetails },

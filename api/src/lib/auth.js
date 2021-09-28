@@ -20,20 +20,22 @@ import { db } from './db'
  * @see https://github.com/redwoodjs/redwood/tree/main/packages/auth for examples
  */
 export const getCurrentUser = async (
-  decoded, // Not decoded for custom auth
-  one,
-  two
+  idToken, // Not decoded for custom auth
+  { token, type, schema },
+  { event, context }
 ) => {
-  console.log(one)
-  console.log(two)
-  console.log(one.token)
-  const user = await verifyChessJwt(one.token)
-  console.log(user)
-  return db.member.findUnique({ where: user.sub })
+  return null
+  // try {
+  //   console.log({ idToken })
+  //   const user = await verifyChessJwt(idToken)
+  //   console.log(user)
+  //   return db.member.findUnique({ where: user.sub })
+  // } catch (e) {
+  //   console.log(e)
+  // }
 }
 
 export const isAuthenticated = () => {
-  console.log(context)
   return !!context.currentUser
 }
 

@@ -9,7 +9,7 @@ import { isProduction } from 'src/lib/helpers'
 import { decode as decodeJwt } from 'jsonwebtoken'
 
 const torus = new DirectWebSdk({
-  baseUrl: `https://0.0.0.0:8910/auth`, // Required placeholder
+  baseUrl: `https://0.0.0.0:8910/auth`, // Required placeholder, no need to change
   network: 'testnet',
   enableLogging: !isProduction,
 })

@@ -2,6 +2,7 @@ import fetch from 'cross-fetch'
 import { AuthenticationError } from '@redwoodjs/graphql-server'
 import ChessWebAPI from 'chess-web-api'
 
+import { getAppAccessToken } from 'src/lib/oAuth/chessDotCom'
 const chessAPI = new ChessWebAPI()
 
 const API_URL = process.env.CHESS_API_URL
@@ -10,7 +11,8 @@ const API_URL = process.env.CHESS_API_URL
 // cross-fetch
 ///////////////////////
 
-export const getChessMember = async ({ accessToken, id }) => {
+export const getChessMember = async (id) => {
+  const accessToken = await getAppAccessToken()
   // TODO: Finish fetching member from chess.com via accessToken
   const response = await fetch(`${API_URL}/@me`, {
     headers: {

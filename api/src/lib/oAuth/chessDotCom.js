@@ -3,7 +3,7 @@ import { AuthenticationError } from '@redwoodjs/graphql-server'
 
 import { db } from 'src/lib/db'
 
-import { isDevelopment } from 'src/lib/helpers'
+import { isDevelopment, isExpired } from 'src/lib/helpers'
 import { verifyChessJwt } from 'src/lib/oAuth/jwt'
 
 const API_URL = process.env.CHESS_OAUTH_URL
@@ -106,7 +106,7 @@ export const refreshChessTokens = async (refreshToken) => {
       expires_in: newExpiration,
       id_token: newIdToken, // JWT that contains identity information about user
     } = response
-    if (!accessToken || !refreshToken)
+    if (!newAccessToken || !newRefreshToken)
       throw 'Failed to refresh tokens from Chess.com'
 
     const decodedIdToken = await verifyChessJwt(newIdToken)
@@ -132,4 +132,14 @@ export const refreshChessTokens = async (refreshToken) => {
   } catch (e) {
     throw `refreshChessTokens() ${e}`
   }
+}
+
+export const getAppAccessToken = async () => {
+  const secretTokens = await db.secretToken.findMany()
+  if (!secretTokens.length) throw new Error('No existing app tokens found')
+  const token = secretTokens[0]
+  let { accessToken, accessTokenExpiration } = token
+  if (isExpired(accessTokenExpiration))
+    ({ accessToken } = await refreshChessTokens(token.refreshToken))
+  return accessToken
 }

@@ -3,6 +3,7 @@ import { AuthProvider } from '@redwoodjs/auth'
 import { RedwoodApolloProvider } from '@redwoodjs/web/apollo'
 
 import { ContextProvider } from 'src/providers/context'
+import TokenSessionProvider from 'src/providers/tokenSession'
 import CustomAuthClient from 'src/auth/client'
 import { isProduction } from 'src/utils/helpers'
 
@@ -11,10 +12,6 @@ import Routes from 'src/Routes'
 
 import './scaffold.css'
 import './index.scss'
-
-let customAuthClient = new CustomAuthClient({
-  debug: !isProduction,
-})
 
 console.log('++++++++++++++++++++++++++')
 console.log(' ')
@@ -25,8 +22,16 @@ console.log('++++++++++++++++++++++++++')
 const App = () => (
   <FatalErrorBoundary page={FatalErrorPage}>
     <RedwoodProvider titleTemplate="%PageTitle | %AppTitle">
-      <AuthProvider client={customAuthClient} type="custom">
+      <AuthProvider
+        client={
+          new CustomAuthClient({
+            debug: !isProduction,
+          })
+        }
+        type="custom"
+      >
         <RedwoodApolloProvider>
+          <TokenSessionProvider />
           <ContextProvider>
             <Routes />
           </ContextProvider>

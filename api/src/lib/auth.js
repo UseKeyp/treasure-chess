@@ -27,7 +27,6 @@ export const getCurrentUser = async (
 ) => {
   try {
     const decoded = await verifyChessJwt(idToken)
-    console.log(decoded)
     const member = await db.member.findUnique({ where: { id: decoded.sub } })
     return member
   } catch (e) {

@@ -62,6 +62,10 @@ class TreasureChessAuthClient {
     return deleteJwt()
   }
 
+  async getCurrentUser() {
+    console.log('Custom getCurrentUser')
+  }
+
   getToken() {
     let jwt = getJwt()
     return jwt

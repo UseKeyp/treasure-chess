@@ -10,6 +10,7 @@ const Routes = () => {
       <Set wrap={DefaultLayout}>
         <Route path="/" page={HomePage} name="home" />
         <Route path="/faq" page={FaqPage} name="faq" />
+        <Route path="/login" page={LoginPage} name="login" />
         <Route path="/marketplace" page={MarketplacePage} name="marketplace" />
         <Set wrap={MembersLayout}>
           <Route path="/members/{id}" page={MemberMemberPage} name="member" />

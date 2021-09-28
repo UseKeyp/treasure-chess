@@ -1,6 +1,12 @@
 // Adapted from https://github.com/oneclickdapp/ethereum-auth
 
-import { getErrorResponse, saveJwt, getJwt, deleteJwt } from 'src/auth/helpers'
+import {
+  getErrorResponse,
+  saveJwt,
+  getJwt,
+  deleteJwt,
+  saveRedirectTo,
+} from 'src/auth/helpers'
 
 import { isProduction } from 'src/utils/helpers'
 import { toast } from '@redwoodjs/web/toast'
@@ -27,8 +33,9 @@ class TreasureChessAuthClient {
     this.type = 'custom'
   }
 
-  async login() {
+  async login({ redirectTo }) {
     try {
+      if (redirectTo) saveRedirectTo(redirectTo)
       const response = await global.fetch(
         `${global.__REDWOOD__API_PROXY_PATH}/graphql`,
         {

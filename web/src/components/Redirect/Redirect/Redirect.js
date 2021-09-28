@@ -1,7 +1,7 @@
 import { useMutation } from '@redwoodjs/web'
 import { routes, navigate, useParams } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
-import { saveJwt } from 'src/auth/helpers'
+import { saveJwt, getRedirectTo } from 'src/auth/helpers'
 import { LOCAL_TOKEN_KEY } from 'src/auth/constants'
 
 import DefaultLayout from 'src/layouts/DefaultLayout'
@@ -22,7 +22,7 @@ export const OAUTH_CODE_GRANT_MUTATION = gql`
 
 const Redirect = ({ type }) => {
   const [errorMessage, setErrorMessage] = React.useState()
-  const { code, state, redirectTo } = useParams()
+  const { code, state } = useParams()
   const [codeGrantMutation, { error: mutationError, data }] = useMutation(
     OAUTH_CODE_GRANT_MUTATION
   )
@@ -42,7 +42,7 @@ const Redirect = ({ type }) => {
     })
     if (res?.data?.oauthCodeGrant) {
       saveJwt(res.data.oauthCodeGrant.jwt)
-      window.location.href = redirectTo || '/'
+      window.location.href = getRedirectTo() || '/'
     }
   }
 

@@ -5,13 +5,8 @@ import Icon from 'src/components/Icon'
 
 const LoginPage = () => {
   const { logIn } = useAuth()
-  const { error } = useParams()
+  const { error, redirectTo } = useParams()
   const [errorText, setErrorText] = React.useState('')
-
-  const onLogin = async () => {
-    await logIn()
-    navigate(redirectTo || routes.home())
-  }
 
   const getErrorText = (error) => {
     if (error === 'expired') return `Session expired, please log in again.`
@@ -31,7 +26,7 @@ const LoginPage = () => {
           className={
             'mt-4 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border rounded-md shadow-sm text-base font-medium hover:bg-gray-300'
           }
-          onClick={onLogin}
+          onClick={() => logIn({ redirectTo })}
         >
           <div className="mr-4">
             <Icon name="chess" />

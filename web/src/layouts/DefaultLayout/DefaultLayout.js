@@ -2,13 +2,15 @@ import MobileNav from 'src/components/MobileNav'
 
 import { Toaster } from '@redwoodjs/web/toast'
 import { useAuth } from '@redwoodjs/auth'
+import { useLocation } from '@redwoodjs/router'
+
 import SiteFooter from './SiteFooter'
 
 const DefaultLayout = ({ children }) => {
   const { logIn, logOut } = useAuth()
-
+  const { pathname } = useLocation()
   const onClick = (e) => {
-    if (e.target.id === 'login') logIn()
+    if (e.target.id === 'login') logIn({ redirectTo: pathname })
     if (e.target.id === 'logout') logOut()
   }
 

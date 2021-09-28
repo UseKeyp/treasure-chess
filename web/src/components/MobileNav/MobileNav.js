@@ -11,6 +11,8 @@ const MobileNav = ({ onClick, forceSmallNav = false }) => {
   const { userMetadata, getCurrentUser, currentUser } = useAuth()
   const [isExpanded, setExpanded] = useState(false)
 
+  console.log(userMetadata)
+
   const isLoggedIn = !!userMetadata
   const userDetails = isLoggedIn ? (
     <>

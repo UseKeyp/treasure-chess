@@ -9,9 +9,9 @@ export const schema = gql`
   }
   type Query {
     loginUrl: LoginUrl!
+    refreshToken: Jwt!
   }
   type Mutation {
     oauthCodeGrant(state: String!, code: String!, type: String!): Jwt!
-    refreshToken: Jwt!
   }
 `

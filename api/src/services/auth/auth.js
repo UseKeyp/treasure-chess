@@ -1,6 +1,7 @@
 import { getLoginUrl, handleOauthCodeGrant } from 'src/lib/oAuth/oAuth'
 import { requireAuth } from 'src/lib/auth'
 import { context } from '@redwoodjs/api'
+import { refreshChessTokens } from 'src/lib/oAuth/chessDotCom'
 
 // Used when the environment variable REDWOOD_SECURE_SERVICES=1
 export const beforeResolver = (rules) => {
@@ -13,6 +14,8 @@ export const loginUrl = (input) => getLoginUrl(input)
 export const oauthCodeGrant = (input) => handleOauthCodeGrant(input)
 
 export const refreshToken = async () => {
-  const { jwt } = await refreshToken(context.currentUser.refreshToken)
+  const { idToken: jwt } = await refreshChessTokens(
+    context.currentUser.refreshToken
+  )
   return { jwt }
 }

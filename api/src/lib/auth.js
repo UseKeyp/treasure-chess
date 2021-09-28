@@ -24,15 +24,12 @@ export const getCurrentUser = async (
   { token, type, schema },
   { event, context }
 ) => {
-  return null
-  // try {
-  //   console.log({ idToken })
-  //   const user = await verifyChessJwt(idToken)
-  //   console.log(user)
-  //   return db.member.findUnique({ where: user.sub })
-  // } catch (e) {
-  //   console.log(e)
-  // }
+  try {
+    const user = await verifyChessJwt(idToken)
+    return db.member.findUnique({ where: { id: user.sub } })
+  } catch (e) {
+    return null
+  }
 }
 
 export const isAuthenticated = () => {

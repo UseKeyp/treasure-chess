@@ -2,6 +2,7 @@ import { useMutation } from '@redwoodjs/web'
 import { routes, navigate, useParams } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
 import { saveJwt } from 'src/auth/helpers'
+import { LOCAL_TOKEN_KEY } from 'src/auth/constants'
 
 import DefaultLayout from 'src/layouts/DefaultLayout'
 import Loader from 'src/components/Loader'

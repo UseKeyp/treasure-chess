@@ -26,7 +26,8 @@ export const getCurrentUser = async (
 ) => {
   try {
     const user = await verifyChessJwt(idToken)
-    return db.member.findUnique({ where: { id: user.sub } })
+    const member = await db.member.findUnique({ where: { id: user.sub } })
+    return { ...member, idToken }
   } catch (e) {
     return null
   }

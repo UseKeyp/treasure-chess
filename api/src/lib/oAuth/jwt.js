@@ -33,15 +33,19 @@ const getKey = async (header) => {
 export const verifyChessJwt = async (jwt) => {
   // Refresh if necessary
   let idToken = jwt
-  let decoded = decodeJwt(idToken, { complete: true })
+  let { header, payload } = decodeJwt(idToken, { complete: true })
+
+  let newJwt
   // TODO: remove true check
   if (true) {
-    // if (new Date(decoded.exp * 1000) > new Date()) {
-    idToken = await refreshJwt(idToken)
-    decoded = decodeJwt(idToken, { complete: true })
+    // if (new Date(payload.exp * 1000) > new Date()) {
+    newIdToken = await refreshJwt({ idToken, userId: payload.sub })
+    idToken = newIdToken
+    ;({ header } = decodeJwt(idToken, { complete: true }))
   }
-  const pubKey = await getKey(decoded.header)
-  const verified = verifyJwt(
+
+  const pubKey = await getKey(header)
+  const decoded = verifyJwt(
     idToken,
     pubKey,
     {
@@ -52,13 +56,12 @@ export const verifyChessJwt = async (jwt) => {
       return _decoded
     }
   )
-  return verified
+  return { decoded, newJwt }
 }
 
-const refreshJwt = async (idToken) => {
+const refreshJwt = async ({ idToken, userId }) => {
   try {
-    const decoded = decodeJwt(idToken)
-    const member = await db.member.findUnique({ where: { id: decoded.sub } })
+    const member = await db.member.findUnique({ where: { id: userId } })
     // Prevents JWT attacks, and restricts renewal to the current session only
     if (id(idToken) !== member.hashedIdToken)
       throw new AuthenticationError('Session expired, please log in again.')
@@ -67,7 +70,7 @@ const refreshJwt = async (idToken) => {
       accessTokenExpiration,
       refreshToken,
       idTokenExpiration,
-      idToken,
+      idToken: newIdToken,
     } = await refreshChessTokens(member.refreshToken)
     await db.member.update({
       where: { id: member.id },
@@ -76,12 +79,11 @@ const refreshJwt = async (idToken) => {
         accessTokenExpiration,
         refreshToken,
         idTokenExpiration,
-        hashedIdToken: id(idToken),
+        hashedIdToken: id(newIdToken),
       },
     })
-    return idToken
+    return newIdToken
   } catch (e) {
-    console.log(idToken)
     console.log(e)
     throw new AuthenticationError(
       'Unable to refresh session. Please log in again.'

@@ -62,56 +62,12 @@ class TreasureChessAuthClient {
     return deleteJwt()
   }
 
-  async getCurrentUser() {
-    console.log('Custom getCurrentUser')
-  }
-
   getToken() {
-    let jwt = getJwt()
-    return jwt
-    // TODO: remove code
-    // TODO: remove sdl for refreshToken
-    // try {
-    // if (!jwt) return null
-    //   const decoded = decodeJwt(jwt)
-    //   // TODO: remove true check
-    //   if (true) {
-    //     // if (new Date(decoded.exp * 1000) > new Date()) {
-    //     const response = await global.fetch(
-    //       `${global.__REDWOOD__API_PROXY_PATH}/graphql`,
-    //       {
-    //         method: 'POST',
-    //         headers: {
-    //           'content-type': 'application/json',
-    //           'auth-provider': 'custom',
-    //           authorization: `Bearer ${jwt}`,
-    //         },
-    //         body: JSON.stringify({
-    //           query: REFRESH_TOKEN_QUERY,
-    //         }),
-    //       }
-    //     )
-    //     if (response.ok) {
-    //       const { data, errors } = await response.json()
-    //       if (errors) throw `Could not refresh token: ${errors[0].message}`
-    //       jwt = data?.refreshToken?.jwt
-    //       saveJwt(jwt)
-    //       return jwt
-    //     } else {
-    //       throw `Could not refresh token: ${response.statusText} (${response.status})`
-    //     }
-    //   }
-    // } catch (e) {
-    //   /* eslint-disable-next-line no-console */
-    //   const errorMessage = getErrorResponse(`${e}.`, 'getToken').error.message
-    //   toast.error(errorMessage)
-    //   return jwt
-    // }
+    return getJwt()
   }
 
   getUserMetadata() {
-    const token = this.getToken()
-    return decodeJwt(token)
+    return decodeJwt(this.getToken())
   }
 }
 

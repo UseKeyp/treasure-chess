@@ -14,7 +14,7 @@ const LoginPage = () => {
   }
 
   const getErrorText = (error) => {
-    if (error === 'expired') `Session expired, please log in again`
+    if (error === 'expired') return `Session expired, please log in again.`
   }
   React.useEffect(() => {
     if (error) setErrorText(getErrorText(error))

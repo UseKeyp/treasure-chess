@@ -58,7 +58,7 @@ export const getChessAccessTokenFromCode = async (code, codeVerifier) => {
       id_token: idToken, // JWT that contains identity information about user
     } = response
     if (!response.id_token) throw 'Failed to get id_token from Chess.com'
-    const decoded = await decodeJwt(idToken, { complete: true })
+    const decoded = await decodeJwt(idToken)
     if (new Date() - new Date(decoded.iat * 1000) > 60 * 1000)
       throw 'Chess.com token was not issued recently. It must be <1 minute old.'
     return {
@@ -77,7 +77,6 @@ export const getChessAccessTokenFromCode = async (code, codeVerifier) => {
 
 export const refreshChessTokens = async (refreshToken) => {
   try {
-    console.log('refreshChessTokens')
     const body = {
       grant_type: 'refresh_token',
       client_id: process.env.CHESS_CLIENT_ID,
@@ -112,7 +111,9 @@ export const refreshChessTokens = async (refreshToken) => {
     if (!newAccessToken || !newRefreshToken)
       throw 'Failed to refresh tokens from Chess.com'
     const newExpirationDate = getExpiration(newExpiration)
-    const idTokenExpiration = new Date(decodedIdToken.exp * 1000)
+    const decoded = decodeJwt(newIdToken)
+    console.log(decoded)
+    const idTokenExpiration = new Date(decoded.exp * 1000)
     return {
       accessToken: newAccessToken,
       accessTokenExpiration: newExpirationDate,

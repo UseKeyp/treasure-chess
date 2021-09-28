@@ -82,6 +82,7 @@ export const refreshChessTokens = async (refreshToken) => {
       client_id: process.env.CHESS_CLIENT_ID,
       // redirect_uri: process.env.PUBLIC_REDIRECT_URL + '/chess',
       refresh_token: refreshToken,
+      scope: CHESS_SCOPE,
     }
     const encodedBody = encodeBody(body)
     const response = await fetch(API_URL + '/token', {
@@ -101,6 +102,7 @@ export const refreshChessTokens = async (refreshToken) => {
     })
     if (response.error)
       throw `${response.error} - ${response.hint}. ${response.message}`
+    // TODO: remove console
     console.log(response)
     const {
       access_token: newAccessToken,
@@ -108,11 +110,10 @@ export const refreshChessTokens = async (refreshToken) => {
       expires_in: newExpiration,
       id_token: newIdToken, // JWT that contains identity information about user
     } = response
-    if (!newAccessToken || !newRefreshToken)
+    if (!newAccessToken || !newRefreshToken || !newIdToken)
       throw 'Failed to refresh tokens from Chess.com'
     const newExpirationDate = getExpiration(newExpiration)
     const decoded = decodeJwt(newIdToken)
-    console.log(decoded)
     const idTokenExpiration = new Date(decoded.exp * 1000)
     return {
       accessToken: newAccessToken,

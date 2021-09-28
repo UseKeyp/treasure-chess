@@ -1,5 +1,5 @@
 import { AuthenticationError, parseJWT } from '@redwoodjs/graphql-server'
-import { keccak256 } from '@ethersproject/keccak256'
+import { id } from '@ethersproject/hash'
 import { v4 as uuidv4 } from 'uuid'
 import pkceChallenge, { verifyChallenge } from 'pkce-challenge'
 
@@ -74,14 +74,14 @@ export const handleOauthCodeGrant = async ({ state, code }) => {
         accessTokenExpiration,
         refreshToken,
         idTokenExpiration,
-        hashedIdToken: keccak256(idToken),
+        hashedIdToken: id(idToken),
       },
       update: {
         accessToken,
         accessTokenExpiration,
         refreshToken,
         idTokenExpiration,
-        hashedIdToken: keccak256(idToken),
+        hashedIdToken: id(idToken),
       },
     })
 

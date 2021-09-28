@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
-    "@ethersproject/keccak256": "^5.4.0",
+    "@ethersproject/hash": "^5.4.0",
     "@redwoodjs/api": "^0.36.4",
     "@redwoodjs/graphql-server": "^0.36.4",
     "@toruslabs/torus-direct-web-sdk": "^4.15.1",

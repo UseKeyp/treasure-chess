@@ -28,8 +28,12 @@ export const getCurrentUser = async (
   try {
     const { decoded, newJwt } = await verifyChessJwt(idToken)
     const member = await db.member.findUnique({ where: { id: decoded.sub } })
-    // TODO: Ensure secrets aren't passed back
-    return { ...member, jwt: newJwt }
+    return {
+      id: member.id,
+      username: member.username,
+      address: member.address,
+      jwt: newJwt,
+    }
   } catch (e) {
     console.log(e)
     return null

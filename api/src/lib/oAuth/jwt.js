@@ -37,12 +37,12 @@ export const verifyChessJwt = async (jwt) => {
 
   let newJwt
   // TODO: remove true check
-  if (true) {
-    // if (new Date(payload.exp * 1000) > new Date()) {
-    newIdToken = await refreshJwt({ idToken, userId: payload.sub })
-    idToken = newIdToken
-    ;({ header } = decodeJwt(idToken, { complete: true }))
-  }
+  // if (true) {
+  //   // if (new Date(payload.exp * 1000) > new Date()) {
+  //   newIdToken = await refreshJwt({ idToken, userId: payload.sub })
+  //   idToken = newIdToken
+  //   ;({ header } = decodeJwt(idToken, { complete: true }))
+  // }
 
   const pubKey = await getKey(header)
   const decoded = verifyJwt(

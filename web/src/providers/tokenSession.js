@@ -7,11 +7,11 @@ const TokenSessionProvider = () => {
 
   React.useEffect(() => {
     if (loading) return
+    // TODO: remove logs
     console.log({ currentUser })
     console.log({ userMetadata })
     if (!currentUser && userMetadata) {
       const redirectTo = window.location.pathname
-      // TODO: uncomment
       // deleteJwt() // Prevent repeated login redirects
       navigate(
         routes.login({

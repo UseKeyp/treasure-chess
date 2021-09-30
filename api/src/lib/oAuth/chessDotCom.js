@@ -28,6 +28,7 @@ export const getChessAccessTokenFromCode = async (code, codeVerifier) => {
     const body = {
       grant_type: 'authorization_code',
       client_id: process.env.CHESS_CLIENT_ID,
+      client_secret: process.env.CHESS_CLIENT_SECRET,
       redirect_uri: process.env.PUBLIC_REDIRECT_URL + '/chess',
       code,
       code_verifier: codeVerifier,
@@ -45,7 +46,8 @@ export const getChessAccessTokenFromCode = async (code, codeVerifier) => {
         }),
       },
     }).then((res) => {
-      if (res.status == 401) throw new 'Chess.com basic authorization failed'()
+      if (res.status == 401)
+        throw 'Chess.com basic authorization failed, or secret invalid'
       return res.json()
     })
     if (response.error)
@@ -80,7 +82,7 @@ export const refreshChessTokens = async (refreshToken) => {
     const body = {
       grant_type: 'refresh_token',
       client_id: process.env.CHESS_CLIENT_ID,
-      // redirect_uri: process.env.PUBLIC_REDIRECT_URL + '/chess',
+      client_secret: process.env.CHESS_CLIENT_SECRET,
       refresh_token: refreshToken,
       scope: CHESS_SCOPE,
     }

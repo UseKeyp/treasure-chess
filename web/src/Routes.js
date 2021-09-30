@@ -13,7 +13,7 @@ const Routes = () => {
         <Route path="/login" page={LoginPage} name="login" />
         <Route path="/marketplace" page={MarketplacePage} name="marketplace" />
         <Set wrap={MembersLayout}>
-          <Route path="/members/{id}" page={MemberMemberPage} name="member" />
+          <Route path="/members/{handle}" page={MemberMemberPage} name="member" />
         </Set>
         <Set wrap={TreasuresLayout}>
           <Route path="/treasures/{id}" page={TreasureTreasurePage} name="treasure" />

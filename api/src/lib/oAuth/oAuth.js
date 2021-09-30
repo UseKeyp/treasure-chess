@@ -64,12 +64,12 @@ export const handleOauthCodeGrant = async ({ state, code }) => {
 
     // Delete the OAuth Item
     await db.oAuth.delete({ where: { state } })
-
     // Create or update member
     const member = await db.member.upsert({
       where: { id: decoded.sub },
       create: {
         id: decoded.sub,
+        username: decoded.preferred_username, // WARNING: Never update username
         accessToken,
         accessTokenExpiration,
         refreshToken,

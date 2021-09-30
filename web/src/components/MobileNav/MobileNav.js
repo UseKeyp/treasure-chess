@@ -80,13 +80,17 @@ const MobileNav = ({ onClick, forceSmallNav = false }) => {
               >
                 Home
               </NavLink>
-              <NavLink
-                to={routes.member({ id: 1 })}
-                activeClassName="underline"
-                className="ml-2"
-              >
-                Profile
-              </NavLink>
+              {isLoggedIn && (
+                <NavLink
+                  to={routes.member({
+                    handle: userMetadata.preferred_username,
+                  })}
+                  activeClassName="underline"
+                  className="ml-2"
+                >
+                  Profile
+                </NavLink>
+              )}
               <NavLink
                 className="ml-2"
                 to={routes.marketplace()}

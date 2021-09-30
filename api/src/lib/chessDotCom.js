@@ -7,18 +7,20 @@ const chessAPI = new ChessWebAPI()
 
 const API_URL = process.env.CHESS_API_URL
 
+const defaultFetchOptions = {
+  headers: {
+    Authorization: `Bearer ${process.env.CHESS_ACCESS_TOKEN}`,
+  },
+}
 ///////////////////////
 // cross-fetch
 ///////////////////////
 
 export const getChessMember = async (id) => {
-  const accessToken = await getAppAccessToken()
-  // TODO: Finish fetching member from chess.com via accessToken
-  const response = await fetch(`${API_URL}/@me`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  }).then((res) => res.json())
+  const response = await fetch(
+    `${API_URL}/members/${id}`,
+    defaultFetchOptions
+  ).then((res) => res.json())
   console.log(response)
   return response.user
 }

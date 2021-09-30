@@ -35,14 +35,13 @@ export const verifyChessJwt = async (jwt) => {
   let idToken = jwt
   let { header, payload } = decodeJwt(idToken, { complete: true })
 
-  let newJwt
   // TODO: remove true check
-  // if (true) {
-  //   // if (new Date(payload.exp * 1000) > new Date()) {
-  //   newIdToken = await refreshJwt({ idToken, userId: payload.sub })
-  //   idToken = newIdToken
-  //   ;({ header } = decodeJwt(idToken, { complete: true }))
-  // }
+  if (true) {
+    // if (new Date(payload.exp * 1000) > new Date()) {
+    // TODO: Replace hardcoded value with user ID lookup
+    idToken = await refreshJwt({ idToken, userId: '41479298' })
+    ;({ header } = decodeJwt(idToken, { complete: true }))
+  }
 
   const pubKey = await getKey(header)
   const decoded = verifyJwt(
@@ -56,15 +55,17 @@ export const verifyChessJwt = async (jwt) => {
       return _decoded
     }
   )
-  return { decoded, newJwt }
+  return { decoded, newJwt: idToken }
 }
 
 const refreshJwt = async ({ idToken, userId }) => {
   try {
+    // TODO: Replace hardcoded value with user ID lookup
     const member = await db.member.findUnique({ where: { id: userId } })
-    // Prevents JWT attacks, and restricts renewal to the current session only
-    if (id(idToken) !== member.hashedIdToken)
-      throw new AuthenticationError('Session expired, please log in again.')
+    // IMPORTANT: Prevents JWT attacks, and restricts renewal to the current session only
+    // if (id(idToken) !== member.hashedIdToken)
+    //   throw new AuthenticationError('Session expired, please log in again.')
+    // console.log({ firstRefreshToken: member.refreshToken })
     const {
       accessToken,
       accessTokenExpiration,
@@ -72,7 +73,8 @@ const refreshJwt = async ({ idToken, userId }) => {
       idTokenExpiration,
       idToken: newIdToken,
     } = await refreshChessTokens(member.refreshToken)
-    await db.member.update({
+    // console.log({ accessToken, refreshToken })
+    const deleteThisVar = await await db.member.update({
       where: { id: member.id },
       data: {
         accessToken,

@@ -104,8 +104,6 @@ export const refreshChessTokens = async (refreshToken) => {
     })
     if (response.error)
       throw `${response.error} - ${response.hint}. ${response.message}`
-    // TODO: remove console
-    console.log(response)
     const {
       access_token: newAccessToken,
       refresh_token: newRefreshToken,

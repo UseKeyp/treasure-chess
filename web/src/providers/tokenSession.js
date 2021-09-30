@@ -1,6 +1,6 @@
 import { useAuth } from '@redwoodjs/auth'
 import { navigate, routes } from '@redwoodjs/router'
-import { deleteJwt } from 'src/auth/helpers'
+import { deleteJwt, saveJwt } from 'src/auth/helpers'
 
 const TokenSessionProvider = () => {
   const { userMetadata, currentUser, loading } = useAuth()
@@ -20,7 +20,7 @@ const TokenSessionProvider = () => {
         })
       )
     }
-    if (currentUser?.jwt) saveJwt(jwt) // Only included if refreshed
+    if (currentUser?.jwt) saveJwt(currentUser.jwt) // Only included if refreshed
   }, [currentUser, userMetadata, loading])
   return <></>
 }

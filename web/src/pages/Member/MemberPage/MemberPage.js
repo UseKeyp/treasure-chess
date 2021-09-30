@@ -1,7 +1,7 @@
 import MemberCell from 'src/components/Member/MemberCell'
 
-const MemberPage = ({ id }) => {
-  return <MemberCell id={id} />
+const MemberPage = ({ username }) => {
+  return <MemberCell username={username} />
 }
 
 export default MemberPage

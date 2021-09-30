@@ -47,22 +47,6 @@ const MemberForm = (props) => {
         <FieldError name="address" className="rw-field-error" />
 
         <Label
-          name="dateJoined"
-          className="rw-label"
-          errorClassName="rw-label rw-label-error"
-        >
-          Date joined
-        </Label>
-        <DatetimeLocalField
-          name="dateJoined"
-          defaultValue={formatDatetime(props.member?.dateJoined)}
-          className="rw-input"
-          errorClassName="rw-input rw-input-error"
-          validation={{ required: true }}
-        />
-        <FieldError name="dateJoined" className="rw-field-error" />
-
-        <Label
           name="rating"
           className="rw-label"
           errorClassName="rw-label rw-label-error"

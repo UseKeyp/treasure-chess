@@ -1,52 +1,58 @@
 import { db } from 'src/lib/db'
 import { isHexAddress } from 'src/lib/helpers'
-import { getChessMember } from 'src/lib/chessDotCom'
+import { fetchChessMember } from 'src/lib/chessDotCom'
 
-export const fetchMember = async (idOrAddress, includeChessData) => {
-  let member
-  let memberDetails
-  let id
-  let address
-  isHexAddress(idOrAddress) ? (address = idOrAddress) : (id = idOrAddress)
-  member = await db.member.findUnique({
-    where: {
-      ...(address && { address }),
-      ...(id && { id }),
-    },
-  })
+export const fetchMember = async (usernameOrAddress, includeChessData) => {
+  try {
+    let member
+    let chessData
+    let username
+    let address
+    isHexAddress(usernameOrAddress)
+      ? (address = usernameOrAddress)
+      : (username = usernameOrAddress)
 
-  if (!member && id) {
-    // If we have ID, check if exists on Chess.com
-    memberDetails = await getChessMember(id)
-    if (memberDetails)
-      member = await db.member.create({
-        data: { id: memberDetails.id, ...memberDetails },
-      })
-  }
+    member = await db.member.findUnique({
+      where: {
+        ...(address && { address }),
+        ...(username && { username }),
+      },
+    })
 
-  // Member is not in our database, and cannot find a Chess.com user
-  // TODO: Delete this and return null?
-  if (!member)
-    return {
-      address: idOrAddress,
-      id: '',
-      dateJoined: new Date(0),
-      treasuresOwned: (_obj, { root }) => [],
-      treasuresMinted: (_obj, { root }) => [],
-      treasuresPlayedWhite: (_obj, { root }) => [],
-      treasuresPlayedBlack: (_obj, { root }) => [],
-      treasuresWon: (_obj, { root }) => [],
-      rating: 0,
-      imageSrc: '',
-      country: '',
+    // Not in our db, but we have username. Or, we want data from chess.com
+    if ((!member && username) || includeChessData) {
+      chessData = await fetchChessMember(username)
+      let country = 'DE'
+      try {
+        country = chessData.country.split('country/')[1]
+      } catch (e) {
+        console.log('Error calculating member country', e)
+      }
+      if (!member) {
+        // Create member if they don't exist (relationship required for treasures)
+        member = await db.member.create({
+          data: {
+            id: chessData.player_id.toString(),
+            username: chessData.username,
+            ...(chessData.avatar && { imageSrc: chessData.avatar }),
+            ...(chessData.masterTitle && {
+              masterTitle: chessData.masterTitle,
+            }),
+            country,
+          },
+        })
+      }
+      return {
+        ...member,
+        ...chessData,
+        // Overwrite with current values from chess.com
+        imageSrc: chessData.avatar,
+        masterTitle: chessData.title,
+        country,
+      }
     }
-
-  if (includeChessData && !memberDetails) {
-    memberDetails = await fetchMemberDetails(member.id)
+    return member
+  } catch (e) {
+    throw new Error(`fetchMember() ${e}`)
   }
-  // TODO: Cleanup
-  // const rating = 999
-  // const country = 'USA'
-  // const imageSrc = ''
-  return { ...member, ...memberDetails }
 }

@@ -22,7 +22,7 @@ export const standard = defineScenario({
         create: {
           id: 'String',
           address: 'String8756755',
-          dateJoined: '2021-08-25T21:34:37Z',
+          username: 'String',
           rating: 9388552,
         },
       },
@@ -31,7 +31,7 @@ export const standard = defineScenario({
         create: {
           id: 'String',
           address: 'String218123',
-          dateJoined: '2021-08-25T21:34:37Z',
+          username: 'String',
           rating: 2625039,
         },
       },
@@ -59,7 +59,7 @@ export const standard = defineScenario({
         create: {
           id: 'String',
           address: 'String5941498',
-          dateJoined: '2021-08-25T21:34:37Z',
+          username: 'String',
           rating: 7363534,
         },
       },
@@ -68,7 +68,7 @@ export const standard = defineScenario({
         create: {
           id: 'String',
           address: 'String6785004',
-          dateJoined: '2021-08-25T21:34:37Z',
+          username: 'String',
           rating: 1926861,
         },
       },

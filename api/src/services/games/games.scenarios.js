@@ -21,8 +21,8 @@ export const standard = defineScenario({
       black: {
         create: {
           id: 'String',
+          username: 'String',
           address: 'String8756755',
-          dateJoined: '2021-08-25T21:34:37Z',
           rating: 9388552,
         },
       },
@@ -30,8 +30,8 @@ export const standard = defineScenario({
       white: {
         create: {
           id: 'String',
+          username: 'String',
           address: 'String218123',
-          dateJoined: '2021-08-25T21:34:37Z',
           rating: 2625039,
         },
       },
@@ -58,17 +58,17 @@ export const standard = defineScenario({
       black: {
         create: {
           id: 'String',
+          username: 'String',
           address: 'String5941498',
-          dateJoined: '2021-08-25T21:34:37Z',
           rating: 7363534,
         },
       },
 
       white: {
         create: {
+          username: 'String',
           id: 'String',
           address: 'String6785004',
-          dateJoined: '2021-08-25T21:34:37Z',
           rating: 1926861,
         },
       },

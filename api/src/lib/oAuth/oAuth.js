@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid'
 import pkceChallenge, { verifyChallenge } from 'pkce-challenge'
 
 import { db } from 'src/lib/db'
+import { fetchMember } from 'src/lib/members'
 import { getTorusKey } from 'src/lib/torus/torus'
 
 import {
@@ -64,24 +65,20 @@ export const handleOauthCodeGrant = async ({ state, code }) => {
 
     // Delete the OAuth Item
     await db.oAuth.delete({ where: { state } })
-    // Create or update member
-    const member = await db.member.upsert({
-      where: { id: decoded.sub },
-      create: {
-        id: decoded.sub,
-        username: decoded.preferred_username, // WARNING: Never update username
+    // Create member if needed, and get current avatar
+    const member = await fetchMember(decoded.preferred_username, true)
+    await db.member.update({
+      where: { id: member.id },
+      data: {
         accessToken,
         accessTokenExpiration,
         refreshToken,
         idTokenExpiration,
         hashedIdToken: id(idToken),
-      },
-      update: {
-        accessToken,
-        accessTokenExpiration,
-        refreshToken,
-        idTokenExpiration,
-        hashedIdToken: id(idToken),
+        // Update with curernt data during login
+        imageSrc: member.imageSrc,
+        country: member.country,
+        ...(member.masterTitle && { masterTitle: member.masterTitle }),
       },
     })
 

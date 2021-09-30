@@ -11,8 +11,8 @@ export const members = () => {
   return db.member.findMany()
 }
 
-export const member = ({ id }) => {
-  return fetchMember(id)
+export const member = ({ username: usernameOrAddress }) => {
+  return fetchMember(usernameOrAddress)
 }
 
 export const Member = {

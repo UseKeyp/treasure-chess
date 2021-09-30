@@ -1,28 +1,26 @@
 export const schema = gql`
   type Member {
     id: String!
+    username: String!
     address: String
-    dateJoined: DateTime!
     treasuresOwned: [Treasure]!
     treasuresMinted: [Treasure]!
     treasuresPlayedWhite: [Treasure]!
     treasuresPlayedBlack: [Treasure]!
     treasuresWon: [Treasure]!
-    rating: Int!
-    imageSrc: String!
-    country: String!
+    imageSrc: String
+    country: String
     masterTitle: String
     activity: JSON
   }
 
   type Query {
     members: [Member!]!
-    member(id: String!): Member
+    member(username: String!): Member
   }
 
   input CreateMemberInput {
     address: String!
-    dateJoined: DateTime!
     rating: Int!
     imageSrc: String!
     country: String!
@@ -31,7 +29,6 @@ export const schema = gql`
 
   input UpdateMemberInput {
     address: String
-    dateJoined: DateTime
     rating: Int
     imageSrc: String
     country: String

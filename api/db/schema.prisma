@@ -17,7 +17,9 @@ model Member {
   username              String     @unique // Chess.com username
   address               String?    @unique // Torus wallet address
   // --------------- STATE --------------
-  dateJoined            DateTime?
+  imageSrc              String? // Avatar URL
+  masterTitle           String? // GM, IM or NM
+  country               String // Player's country  eg. US, DE
   // Oauth
   accessToken           String? // API access to chess.com
   accessTokenExpiration DateTime?
@@ -31,10 +33,6 @@ model Member {
   treasuresPlayedBlack  Treasure[] @relation(name: "treasuresPlayedBlack")
   treasuresWon          Treasure[] @relation(name: "treasuresWon")
   // !! For Scaffolding purposes only - should be commented out
-  // rating Int
-  // imageSrc String // Profile image URL
-  // country String // Player's country
-  // masterTitle String? //
 }
 
 model Treasure {

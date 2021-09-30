@@ -33,20 +33,20 @@ const Member = ({ member }) => {
             <GamesCell
               id={member.id}
               onRowClick={setActiveGame}
-              selectedRowId={activeGame.id}
+              selectedRowId={activeGame?.id}
             />
           </div>
           <div>
             <br />
             <div className="flex justify-center items-center">
-              {activeGame.treasureId ? (
-                <TreasureCardCell id={activeGame.treasureId} />
+              {activeGame?.treasureId ? (
+                <TreasureCardCell id={activeGame?.treasureId} />
               ) : (
                 <>
                   <GameCardCell
-                    id={activeGame.id}
+                    id={activeGame?.id}
                     memberId={member.id}
-                    endTime={activeGame.endTime}
+                    endTime={activeGame?.endTime}
                   />
                   <MintTreasure game={activeGame} />
                 </>

@@ -7,6 +7,8 @@ export const beforeResolver = (rules) => {
   rules.skip({ only: ['member', 'members'] })
 }
 
+// TODO: Limit the values returned to exclude API keys
+
 export const members = () => {
   return db.member.findMany()
 }

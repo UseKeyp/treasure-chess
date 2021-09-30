@@ -27,7 +27,9 @@ export const getCurrentUser = async (
 ) => {
   try {
     const { decoded, newJwt } = await verifyChessJwt(idToken)
-    const member = await db.member.findUnique({ where: { id: decoded.sub } })
+    const member = await db.member.findUnique({
+      where: { id: decoded.publicId }, // TODO: this still needs to be added into the JWT
+    })
     return {
       id: member.id,
       username: member.username,

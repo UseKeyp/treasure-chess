@@ -4,7 +4,7 @@ const Avatar = ({ image, bgColor, size }) => {
       className="avatar"
       style={{ width: size, height: size, backgroundColor: bgColor }}
     >
-      {img ? (
+      {image ? (
         <img className="avatar-img" src={image} alt="chess.com avatar" />
       ) : (
         <EmptyAvatar />

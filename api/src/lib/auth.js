@@ -26,17 +26,18 @@ export const getCurrentUser = async (
   { event, context }
 ) => {
   try {
-    const { decoded, newJwt } = await verifyChessJwt(idToken)
-    const member = await db.member.findUnique({
-      // TODO: Replace hardcoded value with user ID lookup
-      where: { id: '41479298' }, // TODO: this still needs to be added into the JWT
-      // where: { id: decoded.sub }, // TODO: this still needs to be added into the JWT
-    })
+    const { decoded, jwt } = await verifyChessJwt(idToken)
+    //   // TODO: Replace hardcoded value with user ID lookup
+    const member = await db.member.findUnique({ where: { id: '41479298' } })
+    // const member = await db.member.findUnique({
+    //   where: { id: decoded.player_id }, // TODO: this still needs to be added into the JWT
+    //   // where: { id: decoded.sub }, // TODO: this still needs to be added into the JWT
+    // })
     return {
       id: member.id,
       username: member.username,
       address: member.address,
-      jwt: newJwt,
+      jwt,
     }
   } catch (e) {
     console.log(e)

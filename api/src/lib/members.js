@@ -19,10 +19,10 @@ export const fetchMember = async (usernameOrAddress, includeChessData) => {
       },
     })
 
-    // Not in our db, but we have username. Or, we want data from chess.com
+    // Not in our db, but we have username. Or, we want extra data from chess.com
     if ((!member && username) || includeChessData) {
       chessData = await fetchChessMember(username)
-      let country = 'DE'
+      let country = 'US'
       try {
         country = chessData.country.split('country/')[1]
       } catch (e) {

@@ -57,8 +57,7 @@ contract Treasure is
     _;
   }
 
-  /// @notice
-  /// @dev
+
   /// @param player
   /// @param tokenURI
   /// @param _moveHash
@@ -111,19 +110,15 @@ contract Treasure is
     return _tokenIds.current();
   }
 
-  /// @notice
-  /// @dev
+
   /// @param _admin
-  /// @return
+  /// @return emits the sender (who is the owner), and the new admin addresses
   function addAdmin(address _admin) public onlyOwner {
     admins[_admin] = true;
     emit AdminAdded(msg.sender, _admin);
   }
 
-  /// @notice
-  /// @dev
   /// @param _admin
-  /// @return
   function removeAdmin(address _admin) public onlyOwner {
     admins[_admin] = false;
     emit AdminRemoved(msg.sender, _admin);

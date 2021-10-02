@@ -43,6 +43,9 @@ contract Treasure is
   event GameMinted(address to, uint256 id, string uri, bytes32 movesHash);
   event AdminAdded(address addedBy, address newAdmin);
   event AdminRemoved(address addedBy, address newAdmin);
+  event Received(address sender, uint256 amount);
+  event RescuedEther(address recipient, uint256 amount);
+  event RescuedERC20(address token, address recipient, uint256 amount);
 
   function initialize() public initializer {
     __ERC721_init('Treasure Chess', 'CHESS');
@@ -117,6 +120,7 @@ contract Treasure is
     onlyOwner
   {
     to.transfer(amount);
+    emit RescuedEther(to, amount);
   }
 
   function rescueERC20Owner(
@@ -125,6 +129,7 @@ contract Treasure is
     uint256 _amount
   ) public onlyOwner {
     IERC20Upgradeable(_token).transfer(_to, _amount);
+    emit RescuedERC20(_token, _to, _amount);
   }
 
   // Override functions required for upgradable
@@ -144,5 +149,9 @@ contract Treasure is
     returns (string memory)
   {
     return super.tokenURI(tokenId);
+  }
+
+  receive() external payable {
+    emit Received(msg.sender, msg.value);
   }
 }

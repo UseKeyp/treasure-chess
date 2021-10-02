@@ -1,31 +1,16 @@
 import { useMutation } from '@redwoodjs/web'
 import { routes, navigate, useParams } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
-import { saveJwt, getRedirectTo } from 'src/auth/helpers'
+import { getRedirectTo } from 'src/auth/helpers'
 import { LOCAL_TOKEN_KEY } from 'src/auth/constants'
 
 import DefaultLayout from 'src/layouts/DefaultLayout'
 import Loader from 'src/components/Loader'
 import Icon from 'src/components/Icon'
 
-export const OAUTH_CODE_GRANT_MUTATION = gql`
-  mutation OauthCodeGrantMutation(
-    $type: String!
-    $state: String!
-    $code: String!
-  ) {
-    oauthCodeGrant(state: $state, code: $code, type: $type) {
-      jwt
-    }
-  }
-`
-
 const Redirect = ({ type }) => {
   const [errorMessage, setErrorMessage] = React.useState()
   const { code, state } = useParams()
-  const [codeGrantMutation, { error: mutationError, data }] = useMutation(
-    OAUTH_CODE_GRANT_MUTATION
-  )
   const { logIn } = useAuth()
 
   const checkValidParams = () => {
@@ -39,13 +24,10 @@ const Redirect = ({ type }) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ type: 'chess', code, state, method: 'login' }),
     }).then((res) => {
-      // console.log(res)
-      // console.log(res.headers.get('set-cookie'))
       return res.json()
     })
     if (response.error) return setErrorMessage(response.error)
-    console.log(response)
-    if (response.id) window.location.href = getRedirectTo() || '/'
+    if (response.id) navigate(getRedirectTo() || '/')
   }
 
   React.useEffect(() => {
@@ -53,7 +35,7 @@ const Redirect = ({ type }) => {
     submitOauthCodeGrant()
   }, [])
 
-  if (mutationError || errorMessage)
+  if (errorMessage)
     return (
       <DefaultLayout>
         <div className="mt-8 sm:text-center lg:text-left">

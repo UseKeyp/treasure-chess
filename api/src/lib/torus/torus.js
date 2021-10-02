@@ -16,11 +16,14 @@ const torus = new DirectWebSdk({
 
 export const getTorusKey = async (idToken) => {
   await torus.init({ skipSw: true })
-  const { sub } = decodeJwt(idToken)
+  // console.log(process.env.TORUS_VERIFIER)
+  // console.log(isProduction)
+  // console.log(decodeJwt(idToken))
+  const { user_id } = decodeJwt(idToken)
   const { privateKey, publicAddress } = await torus.getTorusKey(
     process.env.TORUS_VERIFIER,
-    sub,
-    { verifier_id: sub },
+    user_id,
+    { verifier_id: user_id },
     idToken
   )
   return { publicAddress, privateKey }

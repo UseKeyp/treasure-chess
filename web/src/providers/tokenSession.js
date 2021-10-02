@@ -5,18 +5,17 @@ const TokenSessionProvider = () => {
   const { userMetadata, currentUser, loading } = useAuth()
 
   React.useEffect(() => {
-    if (loading) return
-    console.log({ currentUser })
-    console.log({ userMetadata })
-    if (!currentUser && userMetadata) {
-      const redirectTo = window.location.pathname
-      navigate(
-        routes.login({
-          error: 'expired',
-          ...(redirectTo !== '/' && { redirectTo }),
-        })
-      )
-    }
+    // TODO: Implement session handling (if necessary for dbAuth)
+    // if (loading) return
+    // if (!currentUser && userMetadata) {
+    //   const redirectTo = window.location.pathname
+    //   navigate(
+    //     routes.login({
+    //       error: 'expired',
+    //       ...(redirectTo !== '/' && { redirectTo }),
+    //     })
+    //   )
+    // }
   }, [currentUser, userMetadata, loading])
   return <></>
 }

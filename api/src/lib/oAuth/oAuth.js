@@ -65,16 +65,18 @@ export const handleOauthCodeGrant = async ({ state, code }) => {
 
     // Delete the OAuth Item
     await db.oAuth.delete({ where: { state } })
+
     // Create member if needed, and get current avatar
     const member = await fetchMember(decoded.preferred_username, true)
+    if (decoded.user_id.toString() !== member.id)
+      throw new AuthenticationError(
+        `user_id in JWT doesn't match player_id from API`
+      )
+
     await db.member.update({
       where: { id: member.id },
       data: {
-        accessToken,
-        accessTokenExpiration,
         refreshToken,
-        idTokenExpiration,
-        hashedIdToken: id(idToken),
         // Update with curernt data during login
         imageSrc: member.imageSrc,
         country: member.country,

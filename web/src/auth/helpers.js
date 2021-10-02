@@ -1,11 +1,8 @@
-import { LOCAL_TOKEN_KEY, LOCAL_REDIRECT_TO_KEY } from 'src/auth/constants'
-
-export const saveJwt = (jwt) => localStorage.setItem(LOCAL_TOKEN_KEY, jwt)
-export const getJwt = () => localStorage.getItem(LOCAL_TOKEN_KEY)
-export const deleteJwt = () => localStorage.removeItem(LOCAL_TOKEN_KEY)
+import { LOCAL_REDIRECT_TO_KEY } from 'src/auth/constants'
 
 export const saveRedirectTo = (redirect) =>
-  localStorage.setItem(LOCAL_REDIRECT_TO_KEY, redirect)
+  redirect && localStorage.setItem(LOCAL_REDIRECT_TO_KEY, redirect)
+
 export const getRedirectTo = () => {
   const url = localStorage.getItem(LOCAL_REDIRECT_TO_KEY)
   localStorage.removeItem(LOCAL_REDIRECT_TO_KEY)

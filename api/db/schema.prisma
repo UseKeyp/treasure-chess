@@ -21,11 +21,7 @@ model Member {
   masterTitle           String? // GM, IM or NM
   country               String // Player's country  eg. US, DE
   // Oauth
-  accessToken           String? // API access to chess.com
-  accessTokenExpiration DateTime?
   refreshToken          String?
-  hashedIdToken         String?
-  idTokenExpiration     DateTime?
   // --------------- LINKS --------------
   treasuresOwned        Treasure[] @relation(name: "treasuresOwned")
   treasuresMinted       Treasure[] @relation(name: "treasuresMinted")

@@ -16,9 +16,6 @@ const torus = new DirectWebSdk({
 
 export const getTorusKey = async (idToken) => {
   await torus.init({ skipSw: true })
-  // console.log(process.env.TORUS_VERIFIER)
-  // console.log(isProduction)
-  // console.log(decodeJwt(idToken))
   const { user_id } = decodeJwt(idToken)
   const { privateKey, publicAddress } = await torus.getTorusKey(
     process.env.TORUS_VERIFIER,
@@ -26,5 +23,12 @@ export const getTorusKey = async (idToken) => {
     { verifier_id: user_id },
     idToken
   )
-  return { publicAddress, privateKey }
+  // TODO: Remove hadcoded test wallet
+  // return { publicAddress, privateKey }
+  return {
+    // WARNING: Totally unsecure test wallet. Do not send real funds here.
+    publicAddress: '0x9771f6081Dc50Ab1226CEC29aEa3C6f2D0a3A09E',
+    privateKey:
+      '0x46e6a254dcb9c917aed7b699b8229943340eab942635d268ef55bf3c9402eb91',
+  }
 }

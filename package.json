@@ -34,7 +34,6 @@
     "@redwoodjs/cli": "0.37.1",
     "@redwoodjs/codemods": "0.37.1",
     "@redwoodjs/core": "0.37.1",
-    "@redwoodjs/dev-server": "0.35.2",
     "@redwoodjs/eslint-config": "0.37.1",
     "@redwoodjs/forms": "0.37.1",
     "@redwoodjs/graphql-server": "0.37.1",

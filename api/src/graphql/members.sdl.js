@@ -34,8 +34,4 @@ export const schema = gql`
     country: String
     masterTitle: String
   }
-
-  type Mutation {
-
-  }
 `

@@ -3,3 +3,5 @@ artifacts
 abi
 coverage
 coverage.json
+.openzeppelin/
+cache/

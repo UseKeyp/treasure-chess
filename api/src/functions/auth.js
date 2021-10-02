@@ -29,8 +29,7 @@ export const handler = async (event, context) => {
     },
 
     // How long a user will remain logged in, in seconds
-    expires: 60 * 60 * 24 * 365 * 10,
-    // expires: 60 * 60 * 24 * 30, // 30 days
+    expires: 60 * 60 * 24 * 30, // 30 days
   }
 
   const signupOptions = {
@@ -89,16 +88,6 @@ export const handler = async (event, context) => {
     signup: signupOptions,
   })
 
-  authHandler._futureExpiresDate = () => {
-    const futureDate = new Date()
-    console.log(authHandler.options.login.expires)
-    futureDate.setSeconds(
-      futureDate.getSeconds() + authHandler.options.login.expires
-    )
-    console.log(futureDate)
-    return futureDate.toUTCString()
-  }
-
   authHandler.login = async () => {
     const { type, code, state } = authHandler.params
 
@@ -118,7 +107,6 @@ export const handler = async (event, context) => {
         ...authHandler._createSessionHeader(sessionData, csrfToken),
       },
     ]
-    console.log(response)
     return response
   }
 

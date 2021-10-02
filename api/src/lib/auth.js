@@ -21,7 +21,6 @@ import { db } from './db'
  * @see https://github.com/redwoodjs/redwood/tree/main/packages/auth for examples
  */
 export const getCurrentUser = async (session) => {
-  console.log(session)
   return await db.member.findUnique({ where: { id: session.id } })
 
   // try {

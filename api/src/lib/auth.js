@@ -20,29 +20,28 @@ import { db } from './db'
  *
  * @see https://github.com/redwoodjs/redwood/tree/main/packages/auth for examples
  */
-export const getCurrentUser = async (
-  idToken, // Not decoded for custom auth
-  { token, type, schema },
-  { event, context }
-) => {
-  try {
-    const { decoded, jwt } = await verifyChessJwt(idToken)
-    //   // TODO: Replace hardcoded value with user ID lookup
-    const member = await db.member.findUnique({ where: { id: '41479298' } })
-    // const member = await db.member.findUnique({
-    //   where: { id: decoded.player_id }, // TODO: this still needs to be added into the JWT
-    //   // where: { id: decoded.sub }, // TODO: this still needs to be added into the JWT
-    // })
-    return {
-      id: member.id,
-      username: member.username,
-      address: member.address,
-      jwt,
-    }
-  } catch (e) {
-    console.log(e)
-    return null
-  }
+export const getCurrentUser = async (session) => {
+  console.log(session)
+  return await db.member.findUnique({ where: { id: session.id } })
+
+  // try {
+  //   const { decoded, jwt } = await verifyChessJwt(idToken)
+  //   //   // TODO: Replace hardcoded value with user ID lookup
+  //   const member = await db.member.findUnique({ where: { id: '41479298' } })
+  //   // const member = await db.member.findUnique({
+  //   //   where: { id: decoded.player_id }, // TODO: this still needs to be added into the JWT
+  //   //   // where: { id: decoded.sub }, // TODO: this still needs to be added into the JWT
+  //   // })
+  //   return {
+  //     id: member.id,
+  //     username: member.username,
+  //     address: member.address,
+  //     jwt,
+  //   }
+  // } catch (e) {
+  //   console.log(e)
+  //   return null
+  // }
 }
 
 export const isAuthenticated = () => {

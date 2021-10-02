@@ -97,7 +97,7 @@ export const handleOauthCodeGrant = async ({ state, code }) => {
     }
 
     // Save the Discord auth credentials and update state
-    return { jwt: idToken }
+    return member
   } catch (e) {
     throw new AuthenticationError(`handleOauthCodeGrant() ${e}`)
   }

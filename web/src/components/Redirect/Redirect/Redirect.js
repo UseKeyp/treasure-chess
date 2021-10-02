@@ -33,17 +33,19 @@ const Redirect = ({ type }) => {
   }
 
   const submitOauthCodeGrant = async () => {
-    const res = await codeGrantMutation({
-      variables: {
-        type: 'chess',
-        code,
-        state,
-      },
+    // Call the dbAuth login function
+    const response = await fetch(`${global.__REDWOOD__API_PROXY_PATH}/auth`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'chess', code, state, method: 'login' }),
+    }).then((res) => {
+      // console.log(res)
+      // console.log(res.headers.get('set-cookie'))
+      return res.json()
     })
-    if (res?.data?.oauthCodeGrant) {
-      saveJwt(res.data.oauthCodeGrant.jwt)
-      window.location.href = getRedirectTo() || '/'
-    }
+    if (response.error) return setErrorMessage(response.error)
+    console.log(response)
+    if (response.id) window.location.href = getRedirectTo() || '/'
   }
 
   React.useEffect(() => {

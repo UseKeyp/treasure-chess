@@ -4,7 +4,8 @@
     "packages": [
       "api",
       "web",
-      "packages/*"
+      "packages/*",
+      "node_modules/_redwood-linked-packages/*"
     ]
   },
   "scripts": {
@@ -12,7 +13,7 @@
     "chromatic": "chromatic --project-token=cafed242b299 --storybook-build-dir web/public/storybook"
   },
   "devDependencies": {
-    "@redwoodjs/core": "^0.36.4",
+    "@redwoodjs/core": "^0.37.1",
     "chromatic": "^5.9.2"
   },
   "eslintConfig": {
@@ -25,5 +26,23 @@
   "engines": {
     "node": "14.x",
     "yarn": "1.x"
+  },
+  "resolutions": {
+    "@redwoodjs/api": "0.37.1",
+    "@redwoodjs/api-server": "0.37.1",
+    "@redwoodjs/auth": "0.37.1",
+    "@redwoodjs/cli": "0.37.1",
+    "@redwoodjs/codemods": "0.37.1",
+    "@redwoodjs/core": "0.37.1",
+    "@redwoodjs/dev-server": "0.37.1",
+    "@redwoodjs/eslint-config": "0.37.1",
+    "@redwoodjs/forms": "0.37.1",
+    "@redwoodjs/graphql-server": "0.37.1",
+    "@redwoodjs/internal": "0.37.1",
+    "@redwoodjs/prerender": "0.37.1",
+    "@redwoodjs/router": "0.37.1",
+    "@redwoodjs/structure": "0.37.1",
+    "@redwoodjs/testing": "0.37.1",
+    "@redwoodjs/web": "0.37.1"
   }
 }

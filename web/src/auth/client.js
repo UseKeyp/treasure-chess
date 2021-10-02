@@ -79,3 +79,35 @@ class TreasureChessAuthClient {
 }
 
 export default TreasureChessAuthClient
+
+export const login = async ({ redirectTo }) => {
+  try {
+    redirectTo && saveRedirectTo(redirectTo)
+    const response = await global.fetch(
+      `${global.__REDWOOD__API_PROXY_PATH}/graphql`,
+      {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          query: LOGIN_URL_QUERY,
+        }),
+      }
+    )
+    if (response.ok) {
+      // Redirect user
+      const { data } = await response.json()
+      window.location = data.loginUrl.url
+    } else {
+      console.log(
+        `Could not get login url: ${response.statusText} (${response.status})`
+      )
+    }
+  } catch (e) {
+    /* eslint-disable-next-line no-console */
+    const errorMessage = getErrorResponse(`${e}.`, 'login').error.message
+    toast.error(errorMessage)
+    console.log(errorMessage)
+  }
+}

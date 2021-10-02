@@ -57,16 +57,6 @@ contract Treasure is
     _;
   }
 
-
-  /// @param player
-  /// @param tokenURI
-  /// @param _moveHash
-  /// @param _level
-  /// @param _achievement1
-  /// @param _achievement2
-  /// @param _achievement3
-  /// @param _color
-  /// @return
   function mint(
     address player,
     string memory _tokenURI,
@@ -103,22 +93,17 @@ contract Treasure is
     return originalPlayers[_id];
   }
 
-  /// @notice
-  /// @dev
-  /// @return
   function getTotalGames() public view returns (uint256) {
     return _tokenIds.current();
   }
 
 
-  /// @param _admin
-  /// @return emits the sender (who is the owner), and the new admin addresses
   function addAdmin(address _admin) public onlyOwner {
     admins[_admin] = true;
     emit AdminAdded(msg.sender, _admin);
   }
 
-  /// @param _admin
+  /// @param _admin the admin to be removed
   function removeAdmin(address _admin) public onlyOwner {
     admins[_admin] = false;
     emit AdminRemoved(msg.sender, _admin);

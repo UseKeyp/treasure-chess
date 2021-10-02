@@ -15,8 +15,8 @@ export const schema = gql`
   }
 
   type Query {
-    members: [Member!]!
-    member(username: String!): Member
+    members: [Member!]! @skipAuth
+    member(username: String!): Member @skipAuth
   }
 
   input CreateMemberInput {
@@ -36,8 +36,6 @@ export const schema = gql`
   }
 
   type Mutation {
-    createMember(input: CreateMemberInput!): Member!
-    updateMember(id: String!, input: UpdateMemberInput!): Member!
-    deleteMember(id: String!): Member!
+
   }
 `

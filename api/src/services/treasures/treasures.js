@@ -1,11 +1,6 @@
 import { db } from 'src/lib/db'
-import { requireAuth } from 'src/lib/auth'
 import { fetchMember } from 'src/lib/members'
 import { getTreasureId, createTreasure } from 'src/lib/treasure'
-
-export const beforeResolver = (rules) => {
-  rules.add(requireAuth)
-}
 
 export const treasures = () => {
   return db.treasure.findMany()

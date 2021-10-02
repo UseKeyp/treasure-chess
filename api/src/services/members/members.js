@@ -1,11 +1,5 @@
 import { db } from 'src/lib/db'
-import { requireAuth } from 'src/lib/auth'
 import { fetchMember } from 'src/lib/members'
-
-export const beforeResolver = (rules) => {
-  rules.add(requireAuth)
-  rules.skip({ only: ['member', 'members'] })
-}
 
 // TODO: Limit the values returned to exclude API keys
 

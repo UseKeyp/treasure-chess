@@ -1,9 +1,4 @@
-import { requireAuth } from 'src/lib/auth'
 import { fetchGame, fetchGames } from 'src/lib/games'
-
-export const beforeResolver = (rules) => {
-  rules.add(requireAuth)
-}
 
 // Games by member id
 export const games = async ({

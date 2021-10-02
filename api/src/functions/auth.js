@@ -1,5 +1,5 @@
-import { db } from 'src/lib/db'
 import { DbAuthHandler } from '@redwoodjs/api'
+import { db } from 'src/lib/db'
 import { handleOauthCodeGrant } from 'src/lib/oAuth/oAuth'
 
 export const handler = async (event, context) => {

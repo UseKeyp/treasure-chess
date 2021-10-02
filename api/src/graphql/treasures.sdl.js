@@ -47,12 +47,13 @@ export const schema = gql`
   }
 
   type Query {
-    treasures: [Treasure!]!
-    treasure(id: String!): Treasure
-    treasureNftDetails(id: String!): TreasureNftDetails
+    treasures: [Treasure!]! @skipAuth
+    treasure(id: String!): Treasure @skipAuth
+    treasureNftDetails(id: String!): TreasureNftDetails @skipAuth
   }
 
   type Mutation {
     mintTreasure(gameId: String!, endTime: DateTime!, name: String!): Treasure!
+      @requireAuth
   }
 `

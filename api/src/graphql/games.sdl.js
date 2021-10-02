@@ -19,7 +19,7 @@ export const schema = gql`
   }
 
   type Query {
-    games(id: String!): [Game!]!
-    game(id: String!, memberId: String!, endTime: DateTime!): Game
+    games(id: String!): [Game!]! @skipAuth
+    game(id: String!, memberId: String!, endTime: DateTime!): Game @skipAuth
   }
 `

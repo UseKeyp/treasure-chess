@@ -1,12 +1,6 @@
 import { db } from 'src/lib/db'
-import { requireAuth } from 'src/lib/auth'
 import { fetchMember } from 'src/lib/members'
 import { getTreasureId, createTreasure } from 'src/lib/treasure'
-
-export const beforeResolver = (rules) => {
-  rules.add(requireAuth)
-  // TODO: Validate the JWT is the most up-to-date
-}
 
 // TODO: Add an afterResolver to update the JWT and send it to the FE
 // How to update the FE JWT???? Does every call need to return the new JWT

@@ -769,6 +769,7 @@
       "TreasureMarket": {
         "src": "contracts/TreasureMarket.sol:14",
         "version": {
+<<<<<<< Updated upstream
           "withMetadata": "af1e3cc69fb889960e732f8e45db304742303c7518b19e51d44a675014d67397",
           "withoutMetadata": "aa9cbe2f3fe2fd9f50bf5bf4a424bb154169a2df486a41aea980862f89efdcd9",
           "linkedWithoutMetadata": "aa9cbe2f3fe2fd9f50bf5bf4a424bb154169a2df486a41aea980862f89efdcd9"
@@ -3063,6 +3064,8 @@
       "TreasureMarket": {
         "src": "contracts/TreasureMarket.sol:14",
         "version": {
+=======
+>>>>>>> Stashed changes
           "withMetadata": "f883e9de84a9523b100923cbdc50cf8d44e08ba2bceef1f549cff265404ca5af",
           "withoutMetadata": "db22c98b283c10ecd2974a8170e33850ef499169a6ada660edbabd943dbc55cc",
           "linkedWithoutMetadata": "db22c98b283c10ecd2974a8170e33850ef499169a6ada660edbabd943dbc55cc"

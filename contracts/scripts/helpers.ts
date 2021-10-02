@@ -25,6 +25,15 @@ export const deployContracts = async () => {
   const treasureMarketContract =
     (await treasureMarketInstance.deployed()) as TreasureMarket
 
+  console.log(
+    'Treasure Contract Address (used for upgrades): ',
+    treasureContract.address
+  )
+  console.log(
+    'Treasure Market Contract Address (used for upgrades): ',
+    treasureMarketContract.address
+  )
+
   return {
     treasureContract,
     treasureMarketContract,
@@ -35,19 +44,21 @@ export const deployContracts = async () => {
  * Utilize OZ upgrades plugin to upgrade, upgradeProxy does the following:
  * 1. Deploy the new implementation contract.
  * 2. Call the ProxyAdmin to update the proxy contract to use the new implementation.
- * @param treasureAddress 
- * @param treasureMarketAddress 
+ * @param treasureAddress
+ * @param treasureMarketAddress
  */
 export const upgradeContracts = async (
   treasureAddress: string,
   treasureMarketAddress: string
 ) => {
   const Treasure = await ethers.getContractFactory('TreasureUpgraded')
-	console.log("Upgrading Treasure...")
-	await upgrades.upgradeProxy(treasureAddress, Treasure);
-	console.log("Treasure upgraded.")
+  console.log('Upgrading Treasure...')
+  await upgrades.upgradeProxy(treasureAddress, Treasure)
+  console.log('Treasure upgraded.')
 
-	const TreasureMarket = await ethers.getContractFactory('TreasureMarketUpgraded')
-	await upgrades.upgradeProxy(treasureMarketAddress, TreasureMarket)
-	console.log("TreasureMarket upgraded.")
+  const TreasureMarket = await ethers.getContractFactory(
+    'TreasureMarketUpgraded'
+  )
+  await upgrades.upgradeProxy(treasureMarketAddress, TreasureMarket)
+  console.log('TreasureMarket upgraded.')
 }

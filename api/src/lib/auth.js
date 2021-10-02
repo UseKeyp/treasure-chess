@@ -8,39 +8,14 @@ import { verifyChessJwt } from 'src/lib/oAuth/jwt'
 
 import { db } from './db'
 
-/**
- * getCurrentUser returns the user information together with
- * an optional collection of roles used by requireAuth() to check
- * if the user is authenticated or has role-based access
- *
- * @param decoded - The decoded access token containing user info and JWT claims like `sub`
- * @param { token, SupportedAuthTypes type } - The access token itself as well as the auth provider type
- * @param { APIGatewayEvent event, Context context } - An object which contains information from the invoker
- * such as headers and cookies, and the context information about the invocation such as IP Address
- *
- * @see https://github.com/redwoodjs/redwood/tree/main/packages/auth for examples
- */
 export const getCurrentUser = async (session) => {
-  return await db.member.findUnique({ where: { id: session.id } })
-
-  // try {
-  //   const { decoded, jwt } = await verifyChessJwt(idToken)
-  //   //   // TODO: Replace hardcoded value with user ID lookup
-  //   const member = await db.member.findUnique({ where: { id: '41479298' } })
-  //   // const member = await db.member.findUnique({
-  //   //   where: { id: decoded.player_id }, // TODO: this still needs to be added into the JWT
-  //   //   // where: { id: decoded.sub }, // TODO: this still needs to be added into the JWT
-  //   // })
-  //   return {
-  //     id: member.id,
-  //     username: member.username,
-  //     address: member.address,
-  //     jwt,
-  //   }
-  // } catch (e) {
-  //   console.log(e)
-  //   return null
-  // }
+  const member = await db.member.findUnique({ where: { id: session.id } })
+  if (!member) return null
+  return {
+    id: member.id,
+    username: member.username,
+    address: member.address,
+  }
 }
 
 export const isAuthenticated = () => {

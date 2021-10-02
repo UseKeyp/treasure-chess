@@ -126,14 +126,3 @@ export const refreshChessTokens = async (refreshToken) => {
     throw `refreshChessTokens() ${e}`
   }
 }
-
-// TODO: Replace- since access tokens never expire!
-export const getAppAccessToken = async () => {
-  const secretTokens = await db.secretToken.findMany()
-  if (!secretTokens.length) throw new Error('No existing app tokens found')
-  const token = secretTokens[0]
-  let { accessToken, accessTokenExpiration } = token
-  if (isExpired(accessTokenExpiration))
-    ({ accessToken } = await refreshChessTokens(token.refreshToken))
-  return accessToken
-}

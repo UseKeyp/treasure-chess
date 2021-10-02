@@ -3,8 +3,14 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
-    "@redwoodjs/api": "^0.34.1",
+    "@redwoodjs/api": "^0.36.4",
+    "@toruslabs/torus-direct-web-sdk": "^4.15.1",
     "chess-web-api": "^1.1.0",
+    "jwks-rsa": "^2.0.4",
+    "pkce-challenge": "^2.2.0",
     "react": "17.0.2"
+  },
+  "devDependencies": {
+    "@netlify/zip-it-and-ship-it": "^4.23.0"
   }
 }

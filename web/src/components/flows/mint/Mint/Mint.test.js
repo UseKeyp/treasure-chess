@@ -1,11 +1,11 @@
 import { render } from '@redwoodjs/testing'
 
-import Mint from './Mint'
+import SearchBar from './SearchBar'
 
-describe('Mint', () => {
+describe('SearchBar', () => {
   it('renders successfully', () => {
     expect(() => {
-      render(<Mint />)
+      render(<SearchBar />)
     }).not.toThrow()
   })
 })

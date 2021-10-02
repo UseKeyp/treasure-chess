@@ -26,12 +26,12 @@ export const schema = gql`
     event: String!
     moves: String!
     moveCount: Int!
-    gameRuleVariant: String!
+    ruleVariant: String!
     externalUrl: String
     opening: String!
     achievements: String!
     tokenId: Int
-    mintedAt: DateTime!
+    mintedAt: DateTime
   }
 
   type TreasureNftDetails {
@@ -52,59 +52,7 @@ export const schema = gql`
     treasureNftDetails(id: String!): TreasureNftDetails
   }
 
-  input CreateTreasureInput {
-    blackId: String!
-    whiteId: String!
-    winnerId: String
-    minterAddress: String
-    ownerAddress: String
-    name: String!
-    cardColor: String!
-    blackRating: Int!
-    timeControl: Int!
-    whiteRating: Int!
-    termination: String!
-    endTime: DateTime!
-    event: String!
-    moves: String!
-    moveCount: Int!
-    gameRuleVariant: String!
-    winner: String!
-    externalUrl: String
-    opening: String!
-    achievements: String!
-    tokenId: Int
-    mintedAt: DateTime!
-  }
-
-  input UpdateTreasureInput {
-    blackId: String
-    whiteId: String
-    winnerId: String
-    minterAddress: String
-    ownerAddress: String
-    name: String
-    cardColor: String
-    blackRating: Int
-    timeControl: Int
-    whiteRating: Int
-    termination: String
-    endTime: DateTime
-    event: String
-    moves: String
-    moveCount: Int
-    gameRuleVariant: String
-    winner: String
-    externalUrl: String
-    opening: String
-    achievements: String
-    tokenId: Int
-    mintedAt: DateTime
-  }
-
   type Mutation {
-    createTreasure(input: CreateTreasureInput!): Treasure!
-    updateTreasure(id: String!, input: UpdateTreasureInput!): Treasure!
-    deleteTreasure(id: String!): Treasure!
+    mintTreasure(gameId: String!, endTime: DateTime!, name: String!): Treasure!
   }
 `

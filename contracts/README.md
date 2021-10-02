@@ -1,8 +1,5 @@
-# Treasure Chess Contracts
+# @treasure-chess/contracts
 
-
-
-<!-- TABLE OF CONTENTS -->
 <details open="open">
   <summary><h2 style="display: inline-block">Table of Contents</h2></summary>
   <ol>
@@ -11,9 +8,6 @@
     </li>
     <li>
       <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
     </li>
     <li>
       <a href="#getting-started">Getting Started</a>
@@ -31,27 +25,26 @@
 </details>
 
 ## Docs
+
 ### Treasure Tips, Tricks, and Design Decisions
+
 - No meta transactions on the main Treasure contract, since only the admin controlled accounts can call minting function , and we only need to make transfers free
 - contract name will be changed at the end, since we want to reserve the url /TreasureChess on third party marketplaces and don't want it scrapped if we decide to test on polygon later.
 - Overrided `approveForAll` check so that OpenSea and our marketplace do not require an approval transaction for use.
 - Achievements are on-chain and also can be part of json URI so make it something that onchain governance can decide
 - The `Owner` should be updated to a multisig wallet (gnosis safe) controlled by the dev team, possibly Victor/a lawyer + a DAO for tiebreakers, while `Admins` should be internal addresses controlled
 
-<!-- ABOUT THE PROJECT -->
 ## About The Project
-
-<!-- [![Product Name Screen Shot][product-screenshot]](https://example.com) -->
 
 A simple hardhat template modeled off of running `npx hardhat init`.
 
 This project includes:
 - `hardhat-prettier`: a plugin that makes it easy to format solidity files based on rules set in `.prettierrc`.
   - `npx hardhat format`
-- `hardhat-typechain`: a plugin that generates typings files for use in test files and possibly even on the front-end.
-- `solidity-coverage`: a plugin that generates a coverage report on how much of your code has been tested.
+- [hardhat-typechain](https://hardhat.org/plugins/hardhat-typechain.html): a plugin that generates typings files for use in test files and possibly even on the front-end.
+- [solidity-coverage](https://hardhat.org/plugins/solidity-coverage.html): a plugin that generates a coverage report on how much of your code has been tested.
   - `npx hardhat coverage`
-- `@openzeppelin/hardhat-upgrades`: a plugin which is used in conjunction with hardhat to deploy upgradeable contracts and upgrade them later. The plugin by default prevents you from deploying/upgrading "dangerous" upgradeable contracts. 
+- `@openzeppelin/hardhat-upgrades`: a plugin which is used in conjunction with hardhat to deploy upgradeable contracts and upgrade them later. The plugin by default prevents you from deploying/upgrading "dangerous" upgradeable contracts.
 
 ### Built With
 
@@ -84,23 +77,19 @@ You also need a `.env` file with the following items:
 
 ### Installation
 
-1. Clone the repo
-   ```sh
-   git clone https://github.com/pi0neerpat/treasure-chess.git
-   ```
-2. Move into this directory
-   ```
-   cd contracts/
-   ```
+Clone the repo
 
-3. Install NPM packages
-   ```sh
-   yarn install
-   ```
+```sh
+git clone https://github.com/pi0neerpat/treasure-chess.git
+```
 
+Move into this directory and install packages
 
+```
+cd contracts/
+yarn install
+```
 
-<!-- USAGE EXAMPLES -->
 ## Usage
 
 To run tests, first compile the project with `yarn compile` and then `yarn test`. 
@@ -113,8 +102,35 @@ To test upgrading the contract, you first need to deploy the `Treasure` and `Tre
 The current setup upgrades the contract to `TreasureUpgraded.sol` and `TreasureMarketUpgraded.sol`, but you can modify the `upgradeContracts` function in `scripts/helpers.ts` to upgraded to any contract (change value passed to `getContractFactory`).
 To upgrade the contracts, use `yarn upgrade-contracts --network <NETWORK>`.
 
+### User functions
 
-<!-- CONTRIBUTING -->
+#### Owner only minting
+
+```js
+mint(
+    address player,
+    string memory tokenURI,
+    bytes32 _moveHash,
+    uint8 _level,
+    uint16 _achievement1,
+    uint16 _achievement2,
+    uint16 _achievement3,
+    bool _color
+  ) public onlyAdmin returns (uint256)
+```
+
+## public user functions
+
+### Market
+
+- function listItem(uint \_id, uint price, uint duration) public
+- function cancelSale(uint \_id) public
+- function instantBuy( uint \_id ) public **payable**
+
+### transfers
+
+- function safeTransferFrom( address from, address to, uint256 tokenId)
+
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
@@ -125,14 +141,10 @@ Contributions are what make the open source community such an amazing place to b
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-
-
-<!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+TODO
 
-<!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
 
 * [Hardhat](https://hardhat.org)

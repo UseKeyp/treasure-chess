@@ -34,6 +34,7 @@ contract Treasure is
     bool color; //0 white, 1 black
   }
 
+  /// @notice
   mapping(uint256 => Game) public games;
   mapping(uint256 => address) public originalPlayers;
   mapping(bytes32 => uint256) public movesHashToId;
@@ -59,6 +60,17 @@ contract Treasure is
     _;
   }
 
+  /// @notice
+  /// @dev
+  /// @param player
+  /// @param tokenURI
+  /// @param _moveHash
+  /// @param _level
+  /// @param _achievement1
+  /// @param _achievement2
+  /// @param _achievement3
+  /// @param _color
+  /// @return
   function mint(
     address player,
     string memory _tokenURI,
@@ -95,15 +107,26 @@ contract Treasure is
     return originalPlayers[_id];
   }
 
+  /// @notice
+  /// @dev
+  /// @return
   function getTotalGames() public view returns (uint256) {
     return _tokenIds.current();
   }
 
+  /// @notice
+  /// @dev
+  /// @param _admin
+  /// @return
   function addAdmin(address _admin) public onlyOwner {
     admins[_admin] = true;
     emit AdminAdded(msg.sender, _admin);
   }
 
+  /// @notice
+  /// @dev
+  /// @param _admin
+  /// @return
   function removeAdmin(address _admin) public onlyOwner {
     admins[_admin] = false;
     emit AdminRemoved(msg.sender, _admin);

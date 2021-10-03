@@ -5,7 +5,7 @@ const Avatar = ({ image, bgColor, size }) => {
       style={{ width: size, height: size, backgroundColor: bgColor }}
     >
       {image ? (
-        <img className="avatar-img" src={image} alt="chess.com avatar" />
+        <img className="avatar-img" src={image} alt="chess.com user avatar" />
       ) : (
         <EmptyAvatar />
       )}

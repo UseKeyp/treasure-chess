@@ -14,6 +14,7 @@ export const getCurrentUser = async (session) => {
     id: member.id,
     username: member.username,
     address: member.address,
+    imageSrc: member.imageSrc,
   }
 }
 

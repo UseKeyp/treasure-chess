@@ -4,11 +4,13 @@ import { NavLink, routes, useLocation } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
 // import treasureProfile from './treasure-profile.png'
 
+import Avatar from 'src/components/Avatar'
 import { isMobile, trimAddress } from 'src/utils/helpers'
 import treasureChessLogoSrc from './treasure-chess-logo.png'
 
 const MobileNav = ({ forceSmallNav = false }) => {
-  const { logIn, logOut } = useAuth()
+  const [isExpanded, setExpanded] = useState(false)
+  const { logIn, logOut, isAuthenticated, currentUser } = useAuth()
   const { pathname } = useLocation()
 
   const onClick = (e) => {
@@ -16,19 +18,11 @@ const MobileNav = ({ forceSmallNav = false }) => {
     if (e.target.id === 'logout') logOut()
   }
 
-  const { userMetadata, getCurrentUser, currentUser } = useAuth()
-  const [isExpanded, setExpanded] = useState(false)
-
-  const isLoggedIn = !!userMetadata
-  const userDetails = isLoggedIn ? (
+  const userDetails = isAuthenticated ? (
     <>
-      <img
-        src={userMetadata?.userInfo?.profileImage}
-        alt="profile"
-        className="w-12"
-      />
+      <Avatar image={currentUser.imageSrc} className="w-12" />
       <div className="ml-4">
-        <div className="text-sm font-bold">{userMetadata?.userInfo?.name}</div>
+        <div className="text-sm font-bold">{currentUser.username}</div>
         <button
           onClick={onClick}
           id="logout"
@@ -37,7 +31,7 @@ const MobileNav = ({ forceSmallNav = false }) => {
             background: 'linear-gradient(180deg, #B9CC36 0%, #7FA650 100%)',
           }}
         >
-          {trimAddress(userMetadata?.publicAddress)}
+          {trimAddress(currentUser.address)}
         </button>
       </div>
     </>
@@ -88,7 +82,7 @@ const MobileNav = ({ forceSmallNav = false }) => {
               >
                 Home
               </NavLink>
-              {isLoggedIn && (
+              {isAuthenticated && (
                 <NavLink
                   to={routes.profile()}
                   activeClassName="underline"

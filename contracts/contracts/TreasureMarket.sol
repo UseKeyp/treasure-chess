@@ -30,7 +30,9 @@ contract TreasureMarket is
   mapping(uint256 => bool) public isForSaleById;
   mapping(uint256 => uint256) public priceById;
   mapping(uint256 => address) public seller;
-  mapping(uint256 => uint256) public endTime;
+
+  //list of token addresses that are allowed to be used in our marketplace.
+  mapping(address => bool) tokenAddressIsAllowed;
 
   Treasure treasure;
 
@@ -48,7 +50,9 @@ contract TreasureMarket is
     address _forwarder,
     uint256 _feePercentagePoint,
     uint256 _royaltyPercentagePoint
+    address _defaultTokenAddress
   ) public initializer {
+
     gasLessRateLimit = _gasLessRateLimit;
     treasure = Treasure(_treasureDeployedAddress);
     feePercentagePoint = _feePercentagePoint;
@@ -57,6 +61,8 @@ contract TreasureMarket is
     __Ownable_init();
     __Pausable_init();
     __ReentrancyGuard_init();
+
+    tokenAddressIsAllowed[_defaultTokenAddress] = true;
   }
 
   function _authorizeUpgrade(address) internal override onlyOwner {}
@@ -96,6 +102,8 @@ contract TreasureMarket is
     }
   }
 
+//======== Marketplace Sales In Native Coin ========//
+
   function listItem(
     uint256 _id,
     uint256 price,
@@ -111,7 +119,6 @@ contract TreasureMarket is
     isForSaleById[_id] = true;
     priceById[_id] = price;
     seller[_id] = _msgSender();
-    endTime[_id] = block.timestamp + duration;
 
     treasure.safeTransferFrom(_msgSender(), address(this), _id);
     emit StartSale(seller[_id], _id, price);
@@ -123,7 +130,6 @@ contract TreasureMarket is
     isForSaleById[_id] = false;
     priceById[_id] = 0;
     seller[_id] = address(0);
-    endTime[_id] = 0;
 
     treasure.safeTransferFrom(address(this), _msgSender(), _id);
     emit CancelSale(_msgSender(), _id);
@@ -135,7 +141,6 @@ contract TreasureMarket is
     //check SignatureChecker of sale. if its invalid, remove it.
     require(isForSaleById[_id], 'Item not for sale.');
     require(msg.value == priceById[_id], 'Incorrect amount of value sent.');
-    require(block.timestamp < endTime[_id], 'Auction has ended.');
     require(seller[_id] != address(0));
 
     //Split profits
@@ -160,6 +165,12 @@ contract TreasureMarket is
     royaltyPercentagePoint = _points;
     emit RoyaltySet(_points);
   }
+
+  //======== Marketplace Sales With Approved Tokens - defualt should be USDC ========//
+
+
+
+  //======== Admin functions ========//
 
   function setFee(uint256 _points) public onlyOwner {
     feePercentagePoint = _points;

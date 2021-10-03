@@ -36,6 +36,8 @@ contract TreasureMarket is
 
   //list of token addresses that are allowed to be used in our marketplace.
   mapping(address => bool) tokenAddressIsAllowed;
+  mapping (uint256 => uint256) priceByIdTokens;
+  mapping (uint => address) forSaleWithToken;
 
   Treasure treasure;
 
@@ -113,14 +115,12 @@ contract TreasureMarket is
   function listItem(
     uint256 _id,
     uint256 price,
-    uint256 duration
   ) public {
     require(
       treasure.ownerOf(_id) == _msgSender(),
       'You can not list assets you dont own.'
     );
     require(price != 0, 'Price can not be set to 0.');
-    require(duration > 1, 'Duration of the sale must be longer');
 
     isForSaleById[_id] = true;
     priceById[_id] = price;
@@ -169,8 +169,16 @@ contract TreasureMarket is
 
   //======== Marketplace Sales With Approved Tokens - defualt should be USDC ========//
 
-  function tokenListIten() public{
+  function tokenListIten(uint _id, uint _price, address _tokenAddress) public{
+    require(tokenAddressIsAllowed[_tokenAddress], "This is not one of the approved tokens for the marketplace. Try USDC or ask an admin what they are.")
+    require(
+      treasure.ownerOf(_id) == _msgSender(),
+      'You can not list assets you dont own.'
+    );
+    require(price != 0, 'Price can not be set to 0.');
 
+    priceByIdTokens[_id] = //TODO 
+    forSaleWithToken[_id] = _tokenAddress
   }
 
   function tokenCancelSale() public{

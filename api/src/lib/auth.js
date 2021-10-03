@@ -4,7 +4,6 @@ import {
   parseJWT,
 } from '@redwoodjs/graphql-server'
 import { decode as decodeJwt } from 'jsonwebtoken'
-import { verifyChessJwt } from 'src/lib/oAuth/jwt'
 
 import { db } from './db'
 

@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@ethersproject/hash": "^5.4.0",
+    "@ethersproject/wallet": "^5.4.0",
     "@redwoodjs/api": "^0.37.1",
     "@redwoodjs/graphql-server": "^0.37.1",
     "@toruslabs/torus-direct-web-sdk": "^4.15.1",

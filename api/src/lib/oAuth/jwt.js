@@ -58,33 +58,16 @@ export const verifyChessJwt = async (jwt) => {
   return { decoded, newJwt: idToken }
 }
 
-const refreshJwt = async ({ idToken, userId }) => {
+const getIdToken = async (refreshToken) => {
   try {
-    // TODO: Replace hardcoded value with user ID lookup
-    const member = await db.member.findUnique({ where: { id: userId } })
-    // IMPORTANT: Prevents JWT attacks, and restricts renewal to the current session only
-    // if (id(idToken) !== member.hashedIdToken)
-    //   throw new AuthenticationError('Session expired, please log in again.')
-    // console.log({ firstRefreshToken: member.refreshToken })
-    const {
-      accessToken,
-      accessTokenExpiration,
-      refreshToken,
-      idTokenExpiration,
-      idToken: newIdToken,
-    } = await refreshChessTokens(member.refreshToken)
-    // console.log({ accessToken, refreshToken })
+    const { refreshToken, idToken } = await refreshChessTokens(refreshToken)
     const deleteThisVar = await await db.member.update({
       where: { id: member.id },
       data: {
-        accessToken,
-        accessTokenExpiration,
         refreshToken,
-        idTokenExpiration,
-        hashedIdToken: id(newIdToken),
       },
     })
-    return newIdToken
+    return idToken
   } catch (e) {
     console.log(e)
     throw new AuthenticationError(

@@ -82,9 +82,7 @@ const MobileNav = ({ onClick, forceSmallNav = false }) => {
               </NavLink>
               {isLoggedIn && (
                 <NavLink
-                  to={routes.member({
-                    username: userMetadata.preferred_username,
-                  })}
+                  to={routes.profile()}
                   activeClassName="underline"
                   className="ml-2"
                 >

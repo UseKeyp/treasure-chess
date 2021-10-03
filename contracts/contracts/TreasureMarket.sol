@@ -6,6 +6,9 @@ import { PausableUpgradeable } from '@openzeppelin/contracts-upgradeable/securit
 import { Initializable } from '@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol';
 import { UUPSUpgradeable } from '@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol';
 
+//for letting users use USDC and other erc20s in the marketplace
+import { IERC20Upgradeable } from '@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol';
+
 //Includes BaseRelayRecipient, for meta transactions.
 import { ReentrancyGuardUpgradeable } from '@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol';
 
@@ -43,13 +46,16 @@ contract TreasureMarket is
   event RoyaltySet(uint256 _royalty);
   event FeeSet(uint256 _fee);
   event FeesWithdrawn(address _caller, address _to, uint256 _amount);
+  event FeesWithdrawnToken(address _caller, address _to, uint256 _amount, address tokenAdd);
+  event AllowedTokenAdded(address _caller, address _token);
+  event AllowedTokenRemoved(address _caller, address _token);
 
   function initialize(
     uint256 _gasLessRateLimit,
     address payable _treasureDeployedAddress,
     address _forwarder,
     uint256 _feePercentagePoint,
-    uint256 _royaltyPercentagePoint
+    uint256 _royaltyPercentagePoint,
     address _defaultTokenAddress
   ) public initializer {
 
@@ -161,16 +167,36 @@ contract TreasureMarket is
     emit SaleComplete(seller[_id], _id, _msgSender());
   }
 
+  //======== Marketplace Sales With Approved Tokens - defualt should be USDC ========//
+
+  function tokenListIten() public{
+
+  }
+
+  function tokenCancelSale() public{
+
+  }
+
+  function tokenInstantBuy() public{
+
+  }
+
+  //======== Admin functions ========//
+
+  function addAllowedToken(address _tokenAddress) public onlyOwner{
+    tokenAddressIsAllowed[_tokenAddress] = true;
+    emit AllowedTokenAdded(_msgSender(), _tokenAddress);
+  }
+
+  function removeAllowedToken(address _tokenAddress) public onlyOwner{
+    tokenAddressIsAllowed[_tokenAddress] = false;
+    emit AllowedTokenRemoved(_msgSender(), _tokenAddress);
+  }
+
   function setRoyalty(uint256 _points) public onlyOwner {
     royaltyPercentagePoint = _points;
     emit RoyaltySet(_points);
   }
-
-  //======== Marketplace Sales With Approved Tokens - defualt should be USDC ========//
-
-
-
-  //======== Admin functions ========//
 
   function setFee(uint256 _points) public onlyOwner {
     feePercentagePoint = _points;
@@ -178,13 +204,18 @@ contract TreasureMarket is
   }
 
   //Marketplace Owner can withdraw fees.
-  function ownerWithdrawFees(address payable to, uint256 amount)
+  function ownerWithdrawFees(address payable _to, uint256 _amount)
     public
     onlyOwner
   {
     //use `call` here to pass on gas, so you can do more stuff when this is called.
-    (bool sent, ) = to.call{ value: amount }('');
+    (bool sent, ) = _to.call{ value: _amount }('');
     require(sent, 'Failed to send ETH. Transaction fails.');
-    emit FeesWithdrawn(_msgSender(), to, amount);
+    emit FeesWithdrawn(_msgSender(), _to, _amount);
+  }
+
+  function ownerWithdrawFeesToken(address _to, uint _amount, address _tokenAdd) public onlyOwner{
+    IERC20Upgradeable(_tokenAdd).transfer(_to, _amount);
+    emit FeesWithdrawnToken(_msgSender(), _to, _amount, _tokenAdd);
   }
 }

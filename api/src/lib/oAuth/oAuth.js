@@ -5,7 +5,7 @@ import pkceChallenge, { verifyChallenge } from 'pkce-challenge'
 
 import { db } from 'src/lib/db'
 import { fetchMember } from 'src/lib/members'
-import { getTorusKey } from 'src/lib/torus/torus'
+import { getTorusPublicAddress } from 'src/lib/torus/torus'
 
 import {
   CHESS_SCOPE,
@@ -68,6 +68,7 @@ export const handleOauthCodeGrant = async ({ state, code }) => {
 
     // Create member if needed, and get current avatar
     const member = await fetchMember(decoded.preferred_username, true)
+    // TODO: Don't convert to string once type is changed in JWT (waiting on Chess.com)
     if (decoded.user_id.toString() !== member.id)
       throw new AuthenticationError(
         `user_id in JWT doesn't match player_id from API`
@@ -87,9 +88,9 @@ export const handleOauthCodeGrant = async ({ state, code }) => {
     // Get Torus wallet address if needed
     if (!member.address) {
       try {
-        const { publicAddress, privateKey } = await getTorusKey(idToken)
+        const publicAddress = await getTorusPublicAddress(member.id)
         await db.member.update({
-          where: { id: decoded.sub },
+          where: { id: member.id },
           data: { address: publicAddress },
         })
       } catch (e) {

@@ -1,13 +1,21 @@
 import { useState } from 'react'
-import treasureChessLogoSrc from './treasure-chess-logo.png'
 import { Menu, X } from 'react-feather'
-// import treasureProfile from './treasure-profile.png'
-import { NavLink, routes } from '@redwoodjs/router'
-// import { useAuth } from '@redwoodjs/auth'
-import { isMobile, trimAddress } from 'src/utils/helpers'
+import { NavLink, routes, useLocation } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
+// import treasureProfile from './treasure-profile.png'
 
-const MobileNav = ({ onClick, forceSmallNav = false }) => {
+import { isMobile, trimAddress } from 'src/utils/helpers'
+import treasureChessLogoSrc from './treasure-chess-logo.png'
+
+const MobileNav = ({ forceSmallNav = false }) => {
+  const { logIn, logOut } = useAuth()
+  const { pathname } = useLocation()
+
+  const onClick = (e) => {
+    if (e.target.id === 'login') logIn({ redirectTo: pathname })
+    if (e.target.id === 'logout') logOut()
+  }
+
   const { userMetadata, getCurrentUser, currentUser } = useAuth()
   const [isExpanded, setExpanded] = useState(false)
 

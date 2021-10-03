@@ -10,7 +10,7 @@ export const LOGIN_URL_QUERY = gql`
   }
 `
 
-export const login = async ({ redirectTo }) => {
+export const logIn = async ({ redirectTo }) => {
   try {
     saveRedirectTo(redirectTo)
     const response = await global.fetch(

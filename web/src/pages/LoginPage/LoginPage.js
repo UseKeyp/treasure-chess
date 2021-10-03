@@ -4,7 +4,7 @@ import { useParams } from '@redwoodjs/router'
 import Icon from 'src/components/Icon'
 
 const LoginPage = () => {
-  const { logIn } = useAuth()
+  const { logIn, isAuthenticated } = useAuth()
   const { error, redirectTo } = useParams()
   const [errorText, setErrorText] = React.useState('')
 
@@ -14,6 +14,12 @@ const LoginPage = () => {
   React.useEffect(() => {
     if (error) setErrorText(getErrorText(error))
   }, [error])
+
+  React.useEffect(() => {
+    if (isAuthenticated) {
+      navigate(routes.home())
+    }
+  }, [isAuthenticated])
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 mt-5">

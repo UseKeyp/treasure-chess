@@ -4,7 +4,7 @@ import { RedwoodApolloProvider } from '@redwoodjs/web/apollo'
 
 import { ContextProvider } from 'src/providers/context'
 import TokenSessionProvider from 'src/providers/tokenSession'
-import { login } from 'src/auth/client'
+import { logIn } from 'src/auth/client'
 import { isProduction } from 'src/utils/helpers'
 
 import FatalErrorPage from 'src/pages/FatalErrorPage'
@@ -20,14 +20,14 @@ console.log(' ')
 console.log('++++++++++++++++++++++++++')
 
 const dbAuth = new AuthProvider({ type: 'dbAuth' })
-dbAuth.logIn = login // Replace with our OAuth redirect
+dbAuth.logIn = logIn // Replace with our OAuth redirect
 const CustomDbAuth = () => dbAuth
 CustomDbAuth.prototype = React.Component.prototype
 
 const App = () => (
   <FatalErrorBoundary page={FatalErrorPage}>
     <RedwoodProvider titleTemplate="%PageTitle | %AppTitle">
-      <CustomDbAuth>
+      <CustomDbAuth type="dbAuth">
         <RedwoodApolloProvider>
           <TokenSessionProvider />
           <ContextProvider>

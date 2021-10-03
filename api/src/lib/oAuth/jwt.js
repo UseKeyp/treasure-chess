@@ -58,20 +58,23 @@ export const verifyChessJwt = async (jwt) => {
   return { decoded, newJwt: idToken }
 }
 
-const getIdToken = async (refreshToken) => {
+export const getNewIdToken = async (userId) => {
   try {
-    const { refreshToken, idToken } = await refreshChessTokens(refreshToken)
-    const deleteThisVar = await await db.member.update({
-      where: { id: member.id },
+    const { refreshToken } = await db.member.findUnique({
+      where: { id: userId },
+    })
+    const { refreshToken: newRefreshToken, idToken } = await refreshChessTokens(
+      refreshToken
+    )
+    await db.member.update({
+      where: { id: userId },
       data: {
-        refreshToken,
+        refreshToken: newRefreshToken,
       },
     })
     return idToken
   } catch (e) {
     console.log(e)
-    throw new AuthenticationError(
-      'Unable to refresh session. Please log in again.'
-    )
+    throw new AuthenticationError('getNewIdToken() Unable to refresh session')
   }
 }

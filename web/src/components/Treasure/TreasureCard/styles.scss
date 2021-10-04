@@ -237,5 +237,10 @@ $brand-dark-green: #85A94E;
     flex-direction: column;
     justify-content: center;
     text-align: justify;
+
+    & code {
+      max-height: 600px;
+      overflow-y: auto;
+    }
   }
 }

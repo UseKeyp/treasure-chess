@@ -10,6 +10,8 @@ import { db } from './db'
 export const getCurrentUser = async (session) => {
   const member = await db.member.findUnique({ where: { id: session.id } })
   if (!member) return null
+  // WARNING: Returned values here are exposed to the FE
+  // Don't include any Chess.com access tokens here
   return {
     id: member.id,
     username: member.username,

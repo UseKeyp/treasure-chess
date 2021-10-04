@@ -78,12 +78,3 @@ model OAuth {
   codeVerifier  String
   createdAt     DateTime @default(now())
 }
-
-// Jschiarizzi's chess.com credentials, used for the app's primary API access
-model SecretToken {
-  id                    String   @id @default(uuid())
-  accessToken           String
-  accessTokenExpiration DateTime
-  refreshToken          String
-  idToken               String // JWT from chess.com
-}

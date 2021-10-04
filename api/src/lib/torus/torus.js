@@ -24,8 +24,10 @@ export const getTorusPublicAddress = async (userId) => {
 const getTorusKey = async (userId) => {
   try {
     const idToken = await getNewIdToken(userId)
-    const { user_id } = decodeJwt(idToken)
-
+    const decoded = decodeJwt(idToken)
+    // TODO: Remove logs
+    console.log(typeof decoded.user_id)
+    console.log(decoded)
     await torus.init({ skipSw: true })
     const { privateKey, publicAddress } = await torus.getTorusKey(
       process.env.TORUS_VERIFIER,

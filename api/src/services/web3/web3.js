@@ -1,3 +1,6 @@
+// TODO:  REMOVE lint disable
+/* eslint-disable */
+
 import { db } from 'src/lib/db'
 import { fetchMember } from 'src/lib/members'
 import { getTreasureId, createTreasure } from 'src/lib/treasure'

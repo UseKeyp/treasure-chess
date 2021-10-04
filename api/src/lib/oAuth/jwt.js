@@ -1,15 +1,9 @@
-import {
-  sign as signJwt,
-  verify as verifyJwt,
-  decode as decodeJwt,
-} from 'jsonwebtoken'
+import { verify as verifyJwt, decode as decodeJwt } from 'jsonwebtoken'
 import jwksClient from 'jwks-rsa'
 import { promisify } from 'util'
-import { id } from '@ethersproject/hash'
 import { AuthenticationError } from '@redwoodjs/graphql-server'
 
 import { db } from 'src/lib/db'
-import { isDevelopment } from 'src/lib/helpers'
 import productionJwks from 'src/lib/oAuth/jwks'
 import { CHESS_BASIC_AUTH, refreshChessTokens } from 'src/lib/oAuth/chessDotCom'
 
@@ -39,7 +33,7 @@ export const verifyChessJwt = async (jwt) => {
   if (true) {
     // if (new Date(payload.exp * 1000) > new Date()) {
     // TODO: Replace hardcoded value with user ID lookup
-    idToken = await refreshJwt({ idToken, userId: '41479298' })
+    idToken = await getNewIdToken(payload.user_id)
     ;({ header } = decodeJwt(idToken, { complete: true }))
   }
 
@@ -74,6 +68,7 @@ export const getNewIdToken = async (userId) => {
     })
     return idToken
   } catch (e) {
+    /* eslint-disable-next-line no-console */
     console.log(e)
     throw new AuthenticationError('getNewIdToken() Unable to refresh session')
   }

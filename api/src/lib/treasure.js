@@ -4,7 +4,8 @@ import { db } from 'src/lib/db'
 import { fetchMember } from 'src/lib/members'
 import { getAchievements, getOpening } from 'src/lib/games'
 
-export const getTreasureCardColor = ({ memberId, game }) =>
+// TODO: Ensure this is correct
+export const getTreasureCardColor = ({ game }) =>
   game.whiteId ? 'white' : 'black'
 
 export const getTreasureId = ({

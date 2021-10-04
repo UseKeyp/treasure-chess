@@ -26,6 +26,7 @@ export const fetchMember = async (usernameOrAddress, includeChessData) => {
       try {
         country = chessData.country.split('country/')[1]
       } catch (e) {
+        /* eslint-disable-next-line no-console */
         console.log('Error calculating member country', e)
       }
       if (!member) {

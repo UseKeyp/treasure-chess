@@ -4,6 +4,8 @@ const adminWallet = new Wallet(process.env.APP_ADMIN_WALLET_MNEMONIC)
 
 export const adminSign = async ({ transaction }) => {
   const adminPublicAddress = await adminWallet.getAddress()
-  console.log(adminPublicAddress)
+
+  // console.log(adminPublicAddress)
   // TODO: Sign transaction
+  return transaction
 }

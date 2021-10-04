@@ -127,8 +127,8 @@ const parseGameFromChessDotCom = (game) => {
   }
 }
 
-const addTreasureIdToGame = async ({ game, memberId }) => {
-  const cardColor = getTreasureCardColor({ game, memberId })
+const addTreasureIdToGame = async ({ game, username }) => {
+  const cardColor = getTreasureCardColor({ game, username })
   const treasureId = getTreasureId({
     moves: game.moves,
     endTime: game.endTime,
@@ -150,7 +150,7 @@ export const fetchGames = async ({ username }) => {
       async (game) =>
         await addTreasureIdToGame({
           game: parseGameFromChessDotCom(game),
-          memberId: id,
+          username,
         })
     )
   )

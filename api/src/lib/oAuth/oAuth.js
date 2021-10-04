@@ -1,7 +1,6 @@
-import { AuthenticationError, parseJWT } from '@redwoodjs/graphql-server'
-import { id } from '@ethersproject/hash'
+import { AuthenticationError } from '@redwoodjs/graphql-server'
 import { v4 as uuidv4 } from 'uuid'
-import pkceChallenge, { verifyChallenge } from 'pkce-challenge'
+import pkceChallenge from 'pkce-challenge'
 
 import { db } from 'src/lib/db'
 import { fetchMember } from 'src/lib/members'
@@ -54,14 +53,10 @@ export const handleOauthCodeGrant = async ({ state, code }) => {
       throw 'Sorry, authentication must be completed within 10 minutes.'
 
     // Exchange code for token from Chess.com
-    const {
-      accessToken,
-      accessTokenExpiration,
-      refreshToken,
-      idToken,
-      decoded,
-      idTokenExpiration,
-    } = await getChessAccessTokenFromCode(code, oAuth.codeVerifier)
+    const { refreshToken, decoded } = await getChessAccessTokenFromCode(
+      code,
+      oAuth.codeVerifier
+    )
 
     // Delete the OAuth Item
     await db.oAuth.delete({ where: { state } })
@@ -78,14 +73,14 @@ export const handleOauthCodeGrant = async ({ state, code }) => {
       where: { id: member.id },
       data: {
         refreshToken,
-        // Update with curernt data during login
+        // NOTE: Updates user with their current avatar and country
         imageSrc: member.imageSrc,
         country: member.country,
         ...(member.masterTitle && { masterTitle: member.masterTitle }),
       },
     })
 
-    // Get Torus wallet address if needed
+    // NOTE: Get Torus wallet address if needed
     if (!member.address) {
       try {
         const publicAddress = await getTorusPublicAddress(member.id)
@@ -94,8 +89,10 @@ export const handleOauthCodeGrant = async ({ state, code }) => {
           data: { address: publicAddress },
         })
       } catch (e) {
+        /* eslint-disable no-console */
         console.log("Error fetching user's wallet from Torus")
         console.log(e)
+        /* eslint-enable no-console */
       }
     }
 

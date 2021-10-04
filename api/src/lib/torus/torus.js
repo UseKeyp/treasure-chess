@@ -7,7 +7,6 @@ import DirectWebSdk from '@toruslabs/torus-direct-web-sdk'
 
 import { isProduction } from 'src/lib/helpers'
 import { getNewIdToken } from 'src/lib/oAuth/jwt'
-import { db } from 'src/lib/db'
 import { decode as decodeJwt } from 'jsonwebtoken'
 
 const torus = new DirectWebSdk({
@@ -24,10 +23,7 @@ export const getTorusPublicAddress = async (userId) => {
 const getTorusKey = async (userId) => {
   try {
     const idToken = await getNewIdToken(userId)
-    const decoded = decodeJwt(idToken)
-    // TODO: Remove logs
-    console.log(typeof decoded.user_id)
-    console.log(decoded)
+    const { user_id } = decodeJwt(idToken)
     await torus.init({ skipSw: true })
     const { privateKey, publicAddress } = await torus.getTorusKey(
       process.env.TORUS_VERIFIER,
@@ -37,6 +33,7 @@ const getTorusKey = async (userId) => {
     )
     return { publicAddress, privateKey }
   } catch (e) {
+    /* eslint-disable-next-line no-console */
     console.log(e)
     return {
       // TODO: Remove hadcoded test wallet

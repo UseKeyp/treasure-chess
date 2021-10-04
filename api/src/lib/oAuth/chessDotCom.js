@@ -1,9 +1,6 @@
 import fetch from 'cross-fetch'
-import { AuthenticationError } from '@redwoodjs/graphql-server'
 
-import { db } from 'src/lib/db'
-
-import { isDevelopment, isExpired } from 'src/lib/helpers'
+import { isDevelopment } from 'src/lib/helpers'
 import { decode as decodeJwt } from 'jsonwebtoken'
 
 const API_URL = process.env.CHESS_OAUTH_URL
@@ -46,7 +43,7 @@ export const getChessAccessTokenFromCode = async (code, codeVerifier) => {
         }),
       },
     }).then((res) => {
-      console.log(res);
+      console.log(res)
       if (res.status == 401)
         throw 'Chess.com basic authorization failed, or secret invalid'
       return res.json()
@@ -72,7 +69,6 @@ export const getChessAccessTokenFromCode = async (code, codeVerifier) => {
       decoded,
       idTokenExpiration: new Date(decoded.exp * 1000),
     }
-    return
   } catch (e) {
     throw `getChessAccessTokenFromCode() ${e}`
   }

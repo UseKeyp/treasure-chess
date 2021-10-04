@@ -15,11 +15,12 @@ export const fetchChessMember = (username) => {
   )
 }
 
-export const fetchChessGames = ({ username, year, month }) => {
-  return fetch(
+export const fetchChessGames = async ({ username, year, month }) => {
+  const response = await fetch(
     `${API_URL}/pub/player/${username}/games/${year}/${month}`,
     defaultFetchOptions
   ).then((res) => res.json())
+  return response.games
 }
 
 export const fetchChessGame = async ({ username, gameId, endTime }) => {

@@ -1,8 +1,8 @@
 import Member from 'src/components/Member/Member'
 
 export const QUERY = gql`
-  query FindMemberById($username: String!) {
-    member: member(username: $username) {
+  query FindMemberByUsernameOrAddress($usernameOrAddress: String!) {
+    member(usernameOrAddress: $usernameOrAddress) {
       id
       username
       address

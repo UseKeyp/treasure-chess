@@ -2,8 +2,8 @@ import Games from 'src/components/Game/Games'
 import Table from 'src/components/Table'
 
 export const QUERY = gql`
-  query GamesByMemberQuery($id: String!) {
-    games: games(id: $id) {
+  query GamesForMemberQuery($id: String!) {
+    gamesForMember(id: $id) {
       id
       endTime
       moveCount

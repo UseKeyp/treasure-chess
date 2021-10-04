@@ -1,5 +1,5 @@
 import ProfileBox from 'src/components/ProfileBox/ProfileBox'
-import MemberActivityCell from 'src/components/MemberActivity/MemberActivityCell'
+import MemberActivity from 'src/components/MemberActivity/MemberActivity'
 import GamesCell from 'src/components/Game/GamesCell'
 import TreasureCardCell from 'src/components/Treasure/TreasureCardCell'
 import MintTreasure from 'src/components/Treasure/MintTreasure'
@@ -21,7 +21,7 @@ const Member = ({ member }) => {
             <ProfileBox member={member} />
           </div>
           <div>
-            <MemberActivityCell address={member.address} />
+            <MemberActivity member={member} />
           </div>
         </div>
       </div>

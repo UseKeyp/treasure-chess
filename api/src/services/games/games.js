@@ -1,11 +1,6 @@
-import { fetchGame, fetchGames } from 'src/lib/games'
+import { fetchGame, fetchGamesForMember } from 'src/lib/games'
 
-// Games by member id
-export const games = async ({
-  id, // user ID
-}) => {
-  return fetchGames(id)
-}
+export const gamesForMember = ({ id }) => fetchGamesForMember(id)
 
 // Game by game id and date
 export const game = ({

@@ -139,12 +139,13 @@ const addTreasureIdToGame = async ({ game, username }) => {
   return game
 }
 
-export const fetchGames = async ({ username }) => {
+export const fetchGamesForMember = async (id) => {
+  const { username } = await db.member.findUnique({ where: { id } })
   // TODO: Remove hard-coded values and add year, month arguments
   const year = 2021
-  const month = 8
+  const month = 10
   const games = await fetchChessGames({ username, year, month })
-  if (!games) return []
+  if (!games?.length) return []
   const gamesWithTreasureIds = await Promise.all(
     games.map(
       async (game) =>

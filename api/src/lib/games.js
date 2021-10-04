@@ -1,6 +1,6 @@
 import { db } from 'src/lib/db'
 import { getTreasureId, getTreasureCardColor } from 'src/lib/treasure'
-import { fetchChessGames } from 'src/lib/chessDotCom'
+import { fetchChessGames, fetchChessGame } from 'src/lib/chessDotCom'
 
 const countMoves = (moves) => {
   return Math.round(moves.trim().split(' ').length / 2)
@@ -139,8 +139,8 @@ const addTreasureIdToGame = async ({ game, memberId }) => {
   return game
 }
 
-// TODO: Add year, month arguments
 export const fetchGames = async ({ username }) => {
+  // TODO: Remove hard-coded values and add year, month arguments
   const year = 2021
   const month = 8
   const games = await fetchChessGames({ username, year, month })
@@ -155,4 +155,9 @@ export const fetchGames = async ({ username }) => {
     )
   )
   return gamesWithTreasureIds
+}
+
+export const fetchGame = async ({ username, gameId, endTime }) => {
+  const game = await fetchChessGame({ username, gameId, endTime })
+  return parseGameFromChessDotCom(game)
 }

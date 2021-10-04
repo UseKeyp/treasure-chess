@@ -31,6 +31,7 @@ const Redirect = () => {
   React.useEffect(() => {
     checkValidParams()
     submitOauthCodeGrant()
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [code, state])
 
   if (errorMessage)

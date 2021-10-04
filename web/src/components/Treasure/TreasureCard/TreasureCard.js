@@ -11,7 +11,7 @@ import ColoredBanner from './ColoredBanner'
 import './styles.scss'
 import 'flag-icon-css/css/flag-icon.css'
 
-const TreasureCard = ({ treasure }) => {
+const TreasureCard = ({ treasure, reference }) => {
   const isWhiteEdition = treasure.cardColor === 'white'
   const isDraw = treasure.outcome === 'draw'
   let winnerText = 'Draw!'
@@ -47,6 +47,7 @@ const TreasureCard = ({ treasure }) => {
         borderColor: isWhiteEdition ? '#BEBDB9' : '#000000',
         color: isWhiteEdition ? '#4B4847' : '#ffffff',
       }}
+      ref={reference}
     >
       <h2 className="game-card-title-cont">{treasure.name}</h2>
       <div className="inner-container">

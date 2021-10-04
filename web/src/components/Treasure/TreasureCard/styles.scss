@@ -215,3 +215,27 @@ $brand-dark-green: #85A94E;
     }
   }
 }
+
+.card-to-convert {
+  &__form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 16px;
+  }
+  &__select {
+    display: flex;
+    justify-content: space-between;
+    & select {
+      background-color: rgb(49, 46, 43);
+    }
+  }
+
+  &__converted {
+    margin: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: justify;
+  }
+}

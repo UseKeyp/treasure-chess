@@ -1,4 +1,5 @@
 import TreasureCard from './TreasureCard'
+import TreasureCardConverter from './TreasureCardConverter'
 
 const TEST_PLAYER_DATA = [
   {
@@ -94,11 +95,21 @@ export const blackWinWhiteEdition = () => {
 }
 
 export const drawWhiteEdition = () => {
-  return (
+  const component = (
     <div className="p-8">
       <TreasureCard {...treasureCardTestProps} winner="DRAW" edition="WHITE" />
     </div>
   )
+  return component
+}
+
+export const drawWhiteEditionConverter = () => {
+  const component = (
+    <div className="p-8">
+      <TreasureCardConverter {...treasureCardTestProps} />
+    </div>
+  )
+  return component
 }
 
 export default { title: 'Components/TreasureCard' }

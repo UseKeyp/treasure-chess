@@ -1,5 +1,4 @@
 import { useAuth } from '@redwoodjs/auth'
-import { navigate, routes } from '@redwoodjs/router'
 
 const TokenSessionProvider = () => {
   const { userMetadata, currentUser, loading } = useAuth()

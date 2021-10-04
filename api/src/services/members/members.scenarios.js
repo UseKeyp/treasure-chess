@@ -8,7 +8,7 @@ export const standard = defineScenario({
         rating: 9435259,
         imageSrc: 'String',
         country: 'String',
-      }
+      },
     },
 
     two: {
@@ -19,7 +19,7 @@ export const standard = defineScenario({
         rating: 7496497,
         imageSrc: 'String',
         country: 'String',
-      }
+      },
     },
   },
 })

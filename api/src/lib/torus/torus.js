@@ -23,6 +23,7 @@ export const getTorusPublicAddress = async (userId) => {
 const getTorusKey = async (userId) => {
   try {
     const idToken = await getNewIdToken(userId)
+    /* eslint-disable-next-line camelcase */
     const { user_id } = decodeJwt(idToken)
     await torus.init({ skipSw: true })
     const { privateKey, publicAddress } = await torus.getTorusKey(

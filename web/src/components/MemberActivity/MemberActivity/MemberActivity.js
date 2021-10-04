@@ -1,12 +1,13 @@
-import MiniButton from 'src/components/MiniButton'
+// import MiniButton from 'src/components/MiniButton'
 import Table from 'src/components/Table/Table'
 
 const MemberActivity = ({ activity }) => {
-  const handleClick = (e) => {
-    // TODO: trigger action
-    /* eslint-disable-next-line no-console */
-    console.log(e)
-  }
+  // const handleClick = (e) => {
+  //   // TODO: trigger action
+  //   /* eslint-disable-next-line no-console */
+  //   console.log(e)
+  // }
+  /* eslint-disable-next-line no-console */
   console.log(activity)
   const activityRows = []
   // activity.map((item) => {

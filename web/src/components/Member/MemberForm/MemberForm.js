@@ -4,16 +4,9 @@ import {
   FieldError,
   Label,
   TextField,
-  DatetimeLocalField,
   NumberField,
   Submit,
 } from '@redwoodjs/forms'
-
-const formatDatetime = (value) => {
-  if (value) {
-    return value.replace(/:\d{2}\.\d{3}\w/, '');
-  }
-}
 
 const MemberForm = (props) => {
   const onSubmit = (data) => {

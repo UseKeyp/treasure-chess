@@ -9,8 +9,8 @@ import MintComplete from '../MintComplete'
 
 const Mint = ({ id }) => {
   const [step, setStep] = React.useState(1)
-  const [error, setError] = React.useState()
-  const [name, setName] = React.useState('')
+  const [error] = React.useState()
+  const [_name, setName] = React.useState('')
 
   const onSubmit = (data) => {
     if (step === 1) setName(data.name) // TODO: Save treasure name to state

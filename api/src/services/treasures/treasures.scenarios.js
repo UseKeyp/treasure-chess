@@ -36,7 +36,7 @@ export const standard = defineScenario({
             rating: 2625039,
           },
         },
-      }
+      },
     },
 
     two: {
@@ -75,7 +75,7 @@ export const standard = defineScenario({
             rating: 1926861,
           },
         },
-      }
+      },
     },
   },
 })

@@ -156,7 +156,7 @@ const TreasureCard = ({ treasure }) => {
           </div>
           <div className="middle-item">
             <span className="green-text">Match</span>{' '}
-            <a href={treasure.externalUrl} target="_blank">
+            <a href={treasure.externalUrl} target="_blank" rel="noreferrer">
               #{matchId}
             </a>
           </div>

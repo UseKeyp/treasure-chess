@@ -43,7 +43,6 @@ export const getChessAccessTokenFromCode = async (code, codeVerifier) => {
         }),
       },
     }).then((res) => {
-      console.log(res)
       if (res.status == 401)
         throw 'Chess.com basic authorization failed, or secret invalid'
       return res.json()

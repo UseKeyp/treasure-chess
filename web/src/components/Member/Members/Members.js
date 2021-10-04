@@ -10,14 +10,6 @@ const truncate = (text) => {
   return output
 }
 
-const timeTag = (datetime) => {
-  return (
-    <time dateTime={datetime} title={datetime}>
-      {new Date(datetime).toUTCString()}
-    </time>
-  )
-}
-
 const MembersList = ({ members }) => {
   return (
     <div className="rw-segment rw-table-wrapper-responsive">

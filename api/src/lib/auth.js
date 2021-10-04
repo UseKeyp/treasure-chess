@@ -1,9 +1,4 @@
-import {
-  AuthenticationError,
-  ForbiddenError,
-  parseJWT,
-} from '@redwoodjs/graphql-server'
-import { decode as decodeJwt } from 'jsonwebtoken'
+import { AuthenticationError, ForbiddenError } from '@redwoodjs/graphql-server'
 
 import { db } from './db'
 

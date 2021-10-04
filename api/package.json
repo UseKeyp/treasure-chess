@@ -8,7 +8,6 @@
     "@redwoodjs/api": "^0.37.1",
     "@redwoodjs/graphql-server": "^0.37.1",
     "@toruslabs/torus-direct-web-sdk": "^4.15.1",
-    "chess-web-api": "^1.1.0",
     "jwks-rsa": "^2.0.4",
     "pkce-challenge": "^2.2.0",
     "react": "17.0.2"

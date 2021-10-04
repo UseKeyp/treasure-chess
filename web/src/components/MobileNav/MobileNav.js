@@ -5,6 +5,7 @@ import { useAuth } from '@redwoodjs/auth'
 // import treasureProfile from './treasure-profile.png'
 
 import Avatar from 'src/components/Avatar'
+
 import { isMobile, trimAddress } from 'src/utils/helpers'
 import treasureChessLogoSrc from './treasure-chess-logo.png'
 

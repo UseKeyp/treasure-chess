@@ -36,7 +36,9 @@ export const Loading = () => <div>Loading...</div>
 export const Empty = () => <div></div>
 
 export const Failure = ({ error }) => (
-  <div style={{ color: 'red' }}>Error: {error.message}</div>
+  <div className="rw-segment p-4">
+    <p className="text-black">Couldn't load Treasure</p>
+  </div>
 )
 
 export const Success = ({ treasure }) => {

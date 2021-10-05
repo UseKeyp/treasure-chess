@@ -12,7 +12,13 @@ const formatDate = (date) => {
   )
 }
 
-const Games = ({ games, onRowClick, selectedRowId }) => {
+const Games = ({ games, onRowClick }) => {
+  const [selectedRowId, setSelectedRowId] = React.useState(games[0].id)
+
+  React.useEffect(() => {
+    onRowClick(games[0])
+  }, [games])
+
   const formatGamesForTable = (games) => {
     return games.map((game) => {
       return {

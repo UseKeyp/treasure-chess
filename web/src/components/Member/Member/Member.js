@@ -3,12 +3,24 @@ import MemberActivity from 'src/components/MemberActivity/MemberActivity'
 import GamesCell from 'src/components/Game/GamesCell'
 import TreasureCardCell from 'src/components/Treasure/TreasureCardCell'
 import TreasureCard from 'src/components/Treasure/TreasureCard'
-import MintTreasure from 'src/components/Treasure/MintTreasure'
+import Mint from 'src/components/flows/mint/Mint'
 import GameCard from 'src/components/Game/GameCard'
 
 const Member = ({ member }) => {
   // ].sort((a, b) => new Date(a.endTime) < new Date(b.endTime))
   const [activeGame, setActiveGame] = React.useState(null)
+  const [isMinting, setIsMinting] = React.useState(false)
+
+  const MintButton = () => {
+    return (
+      <button
+        onClick={() => setIsMinting(true)}
+        className="rect-button green rw-button rw-button-blue mint-set-title__submit"
+      >
+        Mint
+      </button>
+    )
+  }
 
   const RightBar = () => {
     if (!activeGame) return <>Select a game to mint</>
@@ -16,13 +28,9 @@ const Member = ({ member }) => {
       return <TreasureCardCell id={activeGame.treasureId} />
     return (
       <div className="w-full justify-center items-center">
-        <div>
-          <GameCard game={activeGame} />
-          <TreasureCard treasure={activeGame} />
-        </div>
-        <div>
-          <MintTreasure className="w-full" game={activeGame} />
-        </div>
+        <GameCard game={activeGame} />
+        <MintButton />
+        {isMinting && <Mint className="w-full" game={activeGame} />}
       </div>
     )
   }
@@ -46,11 +54,7 @@ const Member = ({ member }) => {
         <div className="grid md:grid-cols-2 grid-cols-1 gap-10">
           <div>
             <h1>Chess.com Games</h1>
-            <GamesCell
-              id={member.id}
-              onRowClick={setActiveGame}
-              selectedRowId={activeGame?.id}
-            />
+            <GamesCell id={member.id} onRowClick={setActiveGame} />
           </div>
           <div>
             <br />

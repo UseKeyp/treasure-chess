@@ -29,13 +29,14 @@ const getFullGameDetails = async ({ game: rawGame, username }) => {
     .join(', ')
   const white = await fetchMember(game.whiteUsername)
   const black = await fetchMember(game.blackUsername)
-  let winner
-  if (game.winnerUsername) winner = await fetchMember(game.winnerUsername)
+  let winnerId
+  if (game.winnerUsername === game.whiteUsername) winnerId = white.id
+  else if (game.winnerUsername === game.blackUsername) winnerId = black.id
   return {
     ...game,
     blackId: black.id,
     whiteId: white.id,
-    winnerId: winner.id,
+    winnerId,
     cardColor,
     opening,
     achievements: achievementsString,

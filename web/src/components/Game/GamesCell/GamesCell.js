@@ -9,8 +9,6 @@ export const QUERY = gql`
       moveCount
       outcome
       termination
-      blackId
-      whiteId
       externalUrl
       achievements
       cardColor
@@ -18,16 +16,16 @@ export const QUERY = gql`
       termination
       whiteRating
       blackRating
-      blackMasterTitle
-      whiteMasterTitle
       externalUrl
       timeControl
-      winnerId
       winnerUsername
-      blackId
+      winnerId
       blackUsername
-      whiteId
+      blackId
+      blackMasterTitle
       whiteUsername
+      whiteId
+      whiteMasterTitle
     }
   }
 `
@@ -46,7 +44,6 @@ export const Failure = ({ error }) => (
   </div>
 )
 
-export const Success = ({ games, ...rest }) => {
-  // TODO: add sorting/filtering
-  return <Games games={games} {...rest} />
+export const Success = ({ games, onRowClick }) => {
+  return <Games games={games} onRowClick={onRowClick} />
 }

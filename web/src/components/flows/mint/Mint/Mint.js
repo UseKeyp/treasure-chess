@@ -7,7 +7,7 @@ import MintPay from '../MintPay'
 import MintProcessing from '../MintProcessing'
 import MintComplete from '../MintComplete'
 
-const Mint = ({ id }) => {
+const Mint = ({ game }) => {
   const [step, setStep] = React.useState(1)
   const [error] = React.useState()
   const [_name, setName] = React.useState('')

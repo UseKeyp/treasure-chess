@@ -1,8 +1,8 @@
 import GameCard from 'src/components/Game/GameCard'
 
 export const QUERY = gql`
-  query GameQuery($id: String!, $memberId: String!, $endTime: DateTime!) {
-    game: game(id: $id, memberId: $memberId, endTime: $endTime) {
+  query GameQuery($id: String!, $username: String!, $endTime: DateTime!) {
+    game(id: $id, username: $username, endTime: $endTime) {
       id
       endTime
       moveCount

@@ -20,7 +20,7 @@ const Member = ({ member }) => {
       <div className="flex w-full justify-center items-center">
         <GameCardCell
           id={activeGame?.id}
-          memberId={member.id}
+          username={member?.username}
           endTime={activeGame?.endTime}
         />
         <MintTreasure className="w-full" game={activeGame} />

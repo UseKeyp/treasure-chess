@@ -20,6 +20,6 @@ export const schema = gql`
 
   type Query {
     gamesForMember(id: String!): [Game!]! @skipAuth
-    game(id: String!, memberId: String!, endTime: DateTime!): Game @skipAuth
+    game(id: String!, username: String!, endTime: DateTime!): Game @skipAuth
   }
 `

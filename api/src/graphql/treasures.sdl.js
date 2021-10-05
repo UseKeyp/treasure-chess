@@ -12,7 +12,7 @@ export const schema = gql`
     minterAddress: String
     owner: Member
     ownerAddress: String
-    name: String!
+    title: String!
     updatedAt: DateTime!
     cardColor: String!
     blackRating: Int!

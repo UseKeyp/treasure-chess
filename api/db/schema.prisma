@@ -48,7 +48,7 @@ model Treasure {
   owner            Member?   @relation(name: "treasuresOwned", fields: [ownerAddress], references: [address])
   ownerAddress     String?
   // --------------- STATE --------------
-  name             String
+  title             String
   updatedAt        DateTime  @updatedAt
   // Chess
   cardColor        String // white or black

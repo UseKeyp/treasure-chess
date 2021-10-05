@@ -3,7 +3,7 @@ import Table from 'src/components/Table'
 
 export const QUERY = gql`
   query GamesForMemberQuery($id: String!) {
-    gamesForMember(id: $id) {
+    games: gamesForMember(id: $id) {
       id
       endTime
       moveCount
@@ -18,7 +18,11 @@ export const QUERY = gql`
 
 export const Loading = () => <div>Loading...</div>
 
-export const Empty = () => <div>Empty</div>
+export const Empty = () => (
+  <div className="rw-segment p-4">
+    <p className="text-black">No games found</p>
+  </div>
+)
 
 export const Failure = ({ error }) => (
   <div className="rw-segment p-4">

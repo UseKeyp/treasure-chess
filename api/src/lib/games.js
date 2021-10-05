@@ -158,7 +158,8 @@ export const fetchGamesForMember = async (id) => {
   return gamesWithTreasureIds
 }
 
-export const fetchGame = async ({ username, gameId, endTime }) => {
+export const fetchGame = async ({ id: gameId, username, endTime }) => {
   const game = await fetchChessGame({ username, gameId, endTime })
+  if (!game) throw new Error("Couldn't find game")
   return parseGameFromChessDotCom(game)
 }

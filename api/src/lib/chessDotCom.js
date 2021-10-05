@@ -20,7 +20,7 @@ export const fetchChessGames = async ({ username, year, month }) => {
     `${API_URL}/pub/player/${username}/games/${year}/${month}`,
     defaultFetchOptions
   ).then((res) => res.json())
-  return response.games
+  return response.games || []
 }
 
 export const fetchChessGame = async ({ username, gameId, endTime }) => {

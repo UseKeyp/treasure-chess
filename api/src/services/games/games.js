@@ -2,13 +2,12 @@ import { fetchGame, fetchGamesForMember } from 'src/lib/games'
 
 export const gamesForMember = ({ id }) => fetchGamesForMember(id)
 
-// Game by game id and date
 export const game = ({
   id, // game ID
-  memberId,
+  username,
   endTime,
 }) => {
-  return fetchGame({ id, memberId, endTime })
+  return fetchGame({ id, username, endTime })
 }
 
 export const Treasure = {}

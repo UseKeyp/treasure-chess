@@ -8,7 +8,6 @@ const MemberActivity = ({ activity }) => {
   //   console.log(e)
   // }
   /* eslint-disable-next-line no-console */
-  console.log(activity)
   const activityRows = []
   // activity.map((item) => {
   //   // TODO: Implement real activities

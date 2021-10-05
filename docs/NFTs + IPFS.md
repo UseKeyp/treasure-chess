@@ -53,12 +53,13 @@ Now that you have all the required variables, create the hash using `@ethersproj
 const { id: sha3 } = require('@ethersproject/hash')
 
 export const getTreasureId = ({
-  moves, // String of moves from the PGN
-  endTime, // String of UNIX timecode from chess.com API
+  moves, // String of moves from the PGN (without timestamps)
+  endTime, // Timecode from chess.com API
   cardColor, // String of version of treasure: "white" or "black"
 }) => {
-  return sha3(moves + endTime + variant)
-  // eg. sha3("1. d4 d5 2. c4 e6 3. Nc3 c6 4. e3 Nf6"+"1612749143"+"white")
+  const endTimeUnix = Date.parse(endTime) / 1000
+  return sha3(`${moves} ${endTimeUnix} ${cardColor}`)
+  // eg. sha3("1. d4 d5 2. c4 e6 3. Nc3 c6 4. e3 Nf6 1612749143 white")
 }
 ```
 

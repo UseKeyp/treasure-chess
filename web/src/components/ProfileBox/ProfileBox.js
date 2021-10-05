@@ -9,13 +9,12 @@ const ProfileBox = ({ member }) => {
   // TODO: Remove hard-coded values
   const treasureCount = 10
   const memberBalance = 0
-
   const url = `${config.baseUrl}${member.address}`
 
   return (
     <div className="profileBox">
       <div className="profileBox__avatarWrapper flex justify-between items-center">
-        <Avatar size={isMobile ? 64 : 165} image={member.imgSrc} />
+        <Avatar size={isMobile ? 64 : 165} image={member.imageSrc} />
       </div>
       <div className="profileBox__contentWrapper flex flex-col flex-1 justify-between">
         <div className="profileBox__contentWrapper__inner flex justify-between">

@@ -10,7 +10,24 @@ const Member = ({ member }) => {
     ...member.treasuresPlayedBlack,
     ...member.treasuresPlayedWhite,
   ].sort((a, b) => new Date(a.endTime) < new Date(b.endTime))
-  const [activeGame, setActiveGame] = React.useState(treasuresList[0])
+  const [activeGame, setActiveGame] = React.useState(null)
+
+  const RightBar = () => {
+    if (!activeGame) return <>Select a game to mint</>
+    if (activeGame?.treasureId)
+      return <TreasureCardCell id={activeGame.treasureId} />
+    return (
+      <div className="flex w-full justify-center items-center">
+        <GameCardCell
+          id={activeGame?.id}
+          memberId={member.id}
+          endTime={activeGame?.endTime}
+        />
+        <MintTreasure className="w-full" game={activeGame} />
+      </div>
+    )
+  }
+
   return (
     <div className="max-width-container">
       <div className="grid grid-rows-1">
@@ -39,18 +56,7 @@ const Member = ({ member }) => {
           <div>
             <br />
             <div className="flex justify-center items-center">
-              {activeGame?.treasureId ? (
-                <TreasureCardCell id={activeGame?.treasureId} />
-              ) : (
-                <>
-                  <GameCardCell
-                    id={activeGame?.id}
-                    memberId={member.id}
-                    endTime={activeGame?.endTime}
-                  />
-                  <MintTreasure game={activeGame} />
-                </>
-              )}
+              <RightBar />
             </div>
           </div>
         </div>

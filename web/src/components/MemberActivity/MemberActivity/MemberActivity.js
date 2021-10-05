@@ -1,7 +1,7 @@
 // import MiniButton from 'src/components/MiniButton'
 import Table from 'src/components/Table/Table'
 
-const MemberActivity = ({ activity }) => {
+const MemberActivity = ({ _activity }) => {
   // const handleClick = (e) => {
   //   // TODO: trigger action
   //   /* eslint-disable-next-line no-console */

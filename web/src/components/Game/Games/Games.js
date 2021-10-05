@@ -17,7 +17,13 @@ const Games = ({ games, onRowClick }) => {
 
   React.useEffect(() => {
     onRowClick(games[0])
-  }, [games])
+  }, [games, onRowClick])
+
+  const onClick = (id) => {
+    const activeGame = games.find((game) => game.id === id)
+    onRowClick(activeGame)
+    setSelectedRowId(id)
+  }
 
   const formatGamesForTable = (games) => {
     return games.map((game) => {
@@ -33,10 +39,7 @@ const Games = ({ games, onRowClick }) => {
       }
     })
   }
-  const onClick = (id) => {
-    const activeGame = games.find((game) => game.id === id)
-    onRowClick(activeGame)
-  }
+
   return (
     <Table
       data={formatGamesForTable(games)}

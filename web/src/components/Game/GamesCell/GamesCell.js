@@ -1,5 +1,4 @@
 import Games from 'src/components/Game/Games'
-import Table from 'src/components/Table'
 
 export const QUERY = gql`
   query GamesForMemberQuery($id: String!) {
@@ -38,9 +37,9 @@ export const Empty = () => (
   </div>
 )
 
-export const Failure = ({ error }) => (
+export const Failure = () => (
   <div className="rw-segment p-4">
-    <p className="text-black">Couldn't load games</p>
+    <p className="text-black">{`Couldn't load games`}</p>
   </div>
 )
 

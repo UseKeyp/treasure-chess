@@ -17,7 +17,7 @@ const Mint = ({ game, onClose }) => {
 
     // TODO: handle success of stripe payments
 
-    if (step === 4) return navigate(routes.treasure({ id }))
+    if (step === 4) return navigate(routes.treasure({ id: game.id }))
 
     return setStep(step + 1)
   }

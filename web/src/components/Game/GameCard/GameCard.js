@@ -1,5 +1,3 @@
-import Table from 'src/components/Table/Table'
-
 const GameCard = ({ game }) => {
   return (
     <>

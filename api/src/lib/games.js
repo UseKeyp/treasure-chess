@@ -23,7 +23,7 @@ const getFullGameDetails = async ({ game: rawGame, username }) => {
     game.pgn,
     cardColor
   )
-  achievementsString = achievements
+  const achievementsString = achievements
     .slice(0, 3)
     .map((item) => item.name)
     .join(', ')
@@ -42,17 +42,6 @@ const getFullGameDetails = async ({ game: rawGame, username }) => {
     achievements: achievementsString,
     achievementScore: score,
   }
-}
-
-const addTreasureIdToGame = async ({ game, username }) => {
-  const treasureId = getTreasureId({
-    moves: game.moves,
-    endTime: game.endTime,
-    cardColor,
-  })
-
-  if (treasure) return { ...game, treasureId }
-  return { ...game, cardColor }
 }
 
 export const fetchGame = async ({ id: gameId, username, endTime }) => {

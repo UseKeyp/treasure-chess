@@ -45,19 +45,6 @@ const parsePgn = (pgn) => {
   }
 }
 
-const getGameOutcome = ({ white, black }) => {
-  if (white.result === 'win') return 'white'
-  if (black.result === 'win') return 'black'
-  return 'draw'
-}
-
-const getGameWinnerUsername = ({ white, black }) => {
-  const outcome = getGameOutcome({ white, black })
-  if (outcome === 'white') return white.id
-  if (outcome === 'black') return black.id
-  return null
-}
-
 const getGameRuleVariant = (game) => {
   if (game.rules === 'chess') return 'Standard'
   return game.rules.replace(/^\w/, (c) => c.toUpperCase())

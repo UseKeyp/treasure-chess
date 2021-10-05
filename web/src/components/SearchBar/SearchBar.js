@@ -1,6 +1,7 @@
 import { useState } from 'react'
+import styles from './SearchBar.module.scss';
 
-const SearchBar = ({ options }) => {
+const SearchBar = (props) => {
   const [value, setValue] = useState(null)
   const [isValueFromSelector, setIsValueFromSelector] = useState(false)
 
@@ -8,13 +9,14 @@ const SearchBar = ({ options }) => {
 
   if (value && !isValueFromSelector) {
     // Limit to 6 options
-    dropdownOptions = options
+    dropdownOptions = props.options
       .filter((option) => option.indexOf(value) > -1)
       .slice(0, 6)
   }
 
   return (
-    <div className="searchBarContainer">
+		<div className={`searchBarContainer ${styles.searchBarContainer}`}>
+			<div className={styles.searchOuterWrap}>
       <input
         placeholder="Search Marketplace"
         onChange={(e) => {
@@ -22,7 +24,9 @@ const SearchBar = ({ options }) => {
           setValue(e.target.value)
         }}
         value={value}
-      />
+				/>
+
+			</div>
       {!!dropdownOptions.length && (
         <div className="dropdownContainer">
           {dropdownOptions.map((option) => (

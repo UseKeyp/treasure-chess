@@ -4513,6 +4513,13 @@
     memory-cache "^0.2.0"
     web3-utils "^1.5.2"
 
+"@treasure-chess/chess-achievements@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.npmjs.org/@treasure-chess/chess-achievements/-/chess-achievements-0.0.6.tgz#399feebe5612eca4d5948121afe88067f3a92916"
+  integrity sha512-AkJoDSI3/1A/nRe8Dz7eq+HWOEREbfAKIqCWNr8VhWgJ5eUZIWVllyg6tCI45Sv0AwmqAJjTpdXE6JZuo8nBCg==
+  dependencies:
+    chess.js "^0.12.0"
+
 "@trysound/sax@0.1.1":
   version "0.1.1"
   resolved "https://registry.npmjs.org/@trysound/sax/-/sax-0.1.1.tgz#3348564048e7a2d7398c935d466c0414ebb6a669"
@@ -7469,6 +7476,11 @@ cheerio@1.0.0-rc.10:
     parse5 "^6.0.1"
     parse5-htmlparser2-tree-adapter "^6.0.1"
     tslib "^2.2.0"
+
+chess.js@^0.12.0:
+  version "0.12.0"
+  resolved "https://registry.npmjs.org/chess.js/-/chess.js-0.12.0.tgz#ffca1773b93a4aa044891de81286e264ca229b00"
+  integrity sha512-eF1xf4j88r/AwIRxqV1FXZbVgMt4yUx05xrL+ZMqUrY+snFrUxGVHs0VgEd3AvngujDE9th7XZqqCwEKEQ7mWQ==
 
 chokidar@3.5.2, "chokidar@>=3.0.0 <4.0.0", chokidar@^3.2.2, chokidar@^3.5.2:
   version "3.5.2"

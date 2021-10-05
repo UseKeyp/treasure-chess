@@ -11,7 +11,23 @@ export const QUERY = gql`
       termination
       blackId
       whiteId
-      treasureId
+      externalUrl
+      achievements
+      cardColor
+      ruleVariant
+      termination
+      whiteRating
+      blackRating
+      blackMasterTitle
+      whiteMasterTitle
+      externalUrl
+      timeControl
+      winnerId
+      winnerUsername
+      blackId
+      blackUsername
+      whiteId
+      whiteUsername
     }
   }
 `

@@ -51,7 +51,7 @@ const getGameOutcome = ({ white, black }) => {
   return 'draw'
 }
 
-const getGameWinnerId = ({ white, black }) => {
+const getGameWinnerUsername = ({ white, black }) => {
   const outcome = getGameOutcome({ white, black })
   if (outcome === 'white') return white.id
   if (outcome === 'black') return black.id
@@ -63,18 +63,6 @@ const getGameRuleVariant = (game) => {
   return game.rules.replace(/^\w/, (c) => c.toUpperCase())
 }
 
-export const getOpening = (_moves) => {
-  // Currently only used in Treasures
-  // TODO: Complete this function
-  return "Queen's Gambit"
-}
-
-export const getAchievements = (_moves) => {
-  // Currently only used in Treasures
-  // TODO: Complete this function
-  return 'win/play above 2200,queen side castle,mate with a bishop'
-}
-
 export const parseGameFromChessDotCom = (game) => {
   const {
     termination,
@@ -83,25 +71,28 @@ export const parseGameFromChessDotCom = (game) => {
     timeControl,
     moveCount,
     moves,
+    winner,
   } = parsePgn(game.pgn)
   const splitUrl = game.url.split('/')
   const id = splitUrl[splitUrl.length - 1]
+  let winnerUsername
+  if (winner === 'white') winnerUsername = game.white.username
+  if (winner === 'black') winnerUsername = game.black.username
   return {
     id,
+    pgn: game.pgn,
     blackRating,
     whiteRating,
-    // blackMasterTitle, // TODO:
-    // whiteMasterTitle, // TODO:
     timeControl,
     termination,
     endTime: new Date(game.end_time * 1000),
-    outcome: getGameOutcome({ white: game.white, black: game.black }),
+    outcome: winner,
     moves,
     moveCount,
     ruleVariant: getGameRuleVariant(game),
-    blackId: game.black.username,
-    whiteId: game.white.username,
-    winnerId: getGameWinnerId({ white: game.white, black: game.black }),
+    blackUsername: game.black.username,
+    whiteUsername: game.white.username,
+    winnerUsername,
     externalUrl: game.url,
   }
 }

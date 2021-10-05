@@ -56,17 +56,18 @@ model Treasure {
   whiteRating      Int
   blackMasterTitle String? // eg. "Grand Master" or "International Master"
   whiteMasterTitle String?
-  timeControl      Int // game time variant
+  timeControl      String // game time variant
   termination      String // eg. "Checkmate",  "Resignation", "Stalemate", "Insufficient Material"
   endTime          DateTime
   outcome          String // "white" "black" "draw" etc.
   event            String // eg. "Live Chess"
   moves            String // pgn moves
-  moveCount        Int // eg. "43"
+  moveCount        Int // eg. 43
   ruleVariant      String    @default("Standard") // eg. "Standard" or "Chess960"
   externalUrl      String? // Link to game on chess.com
   opening          String // eg. "Queen's Gambit"
   achievements     String // List eg. "win/play above 2200,queen side castle,mate with a bishop"
+  achievementScore Int // eg. 10
   // NFT
   tokenId          Int?
   mintedAt         DateTime?

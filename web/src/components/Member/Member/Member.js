@@ -2,14 +2,12 @@ import ProfileBox from 'src/components/ProfileBox/ProfileBox'
 import MemberActivity from 'src/components/MemberActivity/MemberActivity'
 import GamesCell from 'src/components/Game/GamesCell'
 import TreasureCardCell from 'src/components/Treasure/TreasureCardCell'
+import TreasureCard from 'src/components/Treasure/TreasureCard'
 import MintTreasure from 'src/components/Treasure/MintTreasure'
-import GameCardCell from 'src/components/Game/GameCardCell'
+import GameCard from 'src/components/Game/GameCard'
 
 const Member = ({ member }) => {
-  const treasuresList = [
-    ...member.treasuresPlayedBlack,
-    ...member.treasuresPlayedWhite,
-  ].sort((a, b) => new Date(a.endTime) < new Date(b.endTime))
+  // ].sort((a, b) => new Date(a.endTime) < new Date(b.endTime))
   const [activeGame, setActiveGame] = React.useState(null)
 
   const RightBar = () => {
@@ -17,13 +15,14 @@ const Member = ({ member }) => {
     if (activeGame?.treasureId)
       return <TreasureCardCell id={activeGame.treasureId} />
     return (
-      <div className="flex w-full justify-center items-center">
-        <GameCardCell
-          id={activeGame?.id}
-          username={member?.username}
-          endTime={activeGame?.endTime}
-        />
-        <MintTreasure className="w-full" game={activeGame} />
+      <div className="w-full justify-center items-center">
+        <div>
+          <GameCard game={activeGame} />
+          <TreasureCard treasure={activeGame} />
+        </div>
+        <div>
+          <MintTreasure className="w-full" game={activeGame} />
+        </div>
       </div>
     )
   }

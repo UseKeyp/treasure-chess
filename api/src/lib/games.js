@@ -1,18 +1,63 @@
+import achievementsCalculator from '@treasure-chess/chess-achievements'
+
 import { db } from 'src/lib/db'
 import { getTreasureId, getTreasureCardColor } from 'src/lib/treasure'
+import { fetchMember } from 'src/lib/members'
 import { fetchChessGames, fetchChessGame } from 'src/lib/chessCom/chessCom'
 import { parseGameFromChessDotCom } from 'src/lib/chessCom/gameParsing'
 
-const addTreasureIdToGame = async ({ game, username }) => {
+const getFullGameDetails = async ({ game: rawGame, username }) => {
+  const game = parseGameFromChessDotCom(rawGame)
   const cardColor = getTreasureCardColor({ game, username })
   const treasureId = getTreasureId({
     moves: game.moves,
     endTime: game.endTime,
     cardColor,
   })
-  const treasure = await db.treasure.findUnique({ where: { id: treasureId } })
+  const treasure = await db.treasure.findUnique({
+    where: { id: treasureId },
+  })
+  if (treasure) return treasure
+
+  const { opening, score, achievements } = achievementsCalculator(
+    game.pgn,
+    cardColor
+  )
+  achievementsString = achievements
+    .slice(0, 3)
+    .map((item) => item.name)
+    .join(', ')
+  const white = await fetchMember(game.whiteUsername)
+  const black = await fetchMember(game.blackUsername)
+  let winner
+  if (game.winnerUsername) winner = await fetchMember(game.winnerUsername)
+  return {
+    ...game,
+    blackId: black.id,
+    whiteId: white.id,
+    winnerId: winner.id,
+    cardColor,
+    opening,
+    achievements: achievementsString,
+    achievementScore: score,
+  }
+}
+
+const addTreasureIdToGame = async ({ game, username }) => {
+  const treasureId = getTreasureId({
+    moves: game.moves,
+    endTime: game.endTime,
+    cardColor,
+  })
+
   if (treasure) return { ...game, treasureId }
-  return game
+  return { ...game, cardColor }
+}
+
+export const fetchGame = async ({ id: gameId, username, endTime }) => {
+  const game = await fetchChessGame({ username, gameId, endTime })
+  if (!game) return null
+  return parseGameFromChessDotCom(game)
 }
 
 export const fetchGamesForMember = async (id) => {
@@ -22,20 +67,7 @@ export const fetchGamesForMember = async (id) => {
   const month = 10
   const games = await fetchChessGames({ username, year, month })
   if (!games?.length) return []
-  const gamesWithTreasureIds = await Promise.all(
-    games.map(
-      async (game) =>
-        await addTreasureIdToGame({
-          game: parseGameFromChessDotCom(game),
-          username,
-        })
-    )
+  return Promise.all(
+    games.map((game) => getFullGameDetails({ game, username }))
   )
-  return gamesWithTreasureIds
-}
-
-export const fetchGame = async ({ id: gameId, username, endTime }) => {
-  const game = await fetchChessGame({ username, gameId, endTime })
-  if (!game) return null
-  return parseGameFromChessDotCom(game)
 }

@@ -30,7 +30,13 @@ const Member = ({ member }) => {
       <div className="w-full justify-center items-center">
         <GameCard game={activeGame} />
         <MintButton />
-        {isMinting && <Mint className="w-full" game={activeGame} />}
+        {isMinting && (
+          <Mint
+            className="w-full"
+            onClose={() => setIsMinting(false)}
+            game={activeGame}
+          />
+        )}
       </div>
     )
   }

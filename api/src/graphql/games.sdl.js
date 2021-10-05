@@ -23,7 +23,6 @@ export const schema = gql`
     achievements: String!
     blackMasterTitle: String
     whiteMasterTitle: String
-    treasureId: String
   }
 
   type Query {

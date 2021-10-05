@@ -7,7 +7,7 @@ import MintPay from '../MintPay'
 import MintProcessing from '../MintProcessing'
 import MintComplete from '../MintComplete'
 
-const Mint = ({ game }) => {
+const Mint = ({ game, onClose }) => {
   const [step, setStep] = React.useState(1)
   const [error] = React.useState()
   const [_name, setName] = React.useState('')
@@ -65,6 +65,7 @@ const Mint = ({ game }) => {
     <div>
       <ModalContainer
         title="Mint Game"
+        onClose={onClose}
         statusText={setStatusText}
         stepNum={step}
         totalNumSteps={4}

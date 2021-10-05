@@ -4,7 +4,7 @@ import { useAuth } from '@redwoodjs/auth'
 const ProfilePage = () => {
   const { currentUser } = useAuth()
 
-  return <MemberCell username={currentUser.username} />
+  return <MemberCell usernameOrAddress={currentUser.username} />
 }
 
 export default ProfilePage

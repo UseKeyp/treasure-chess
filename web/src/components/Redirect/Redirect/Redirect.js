@@ -1,4 +1,4 @@
-import { navigate, useParams } from '@redwoodjs/router'
+import { Link, navigate, routes, useParams } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
 import { getRedirectTo } from 'src/auth/helpers'
 
@@ -13,12 +13,8 @@ const Redirect = ({ type }) => {
   const { logIn } = useAuth()
 
   // ###############  Chess.com  ################
-  const checkValidChessParams = () => {
-    if (!code || !state) setErrorMessage('Invalid redirect parameters')
-  }
-
   const submitOauthCodeGrant = async () => {
-    // Call the dbAuth login function
+    if (!code || !state) return setErrorMessage('Invalid redirect parameters')
     /* eslint-disable-next-line no-undef */
     const response = await fetch(`${global.__REDWOOD__API_PROXY_PATH}/auth`, {
       method: 'POST',
@@ -32,29 +28,28 @@ const Redirect = ({ type }) => {
   }
 
   // ###############  Wyre  #####################
-  const checkValidWyreParams = () => {
-    if (!orderId) setErrorMessage('Invalid redirect parameters')
-  }
   const submitWyreOrder = async () => {
-    const response = await fetch(`${global.__REDWOOD__API_PROXY_PATH}/wyre`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ orderId, method: 'completeOrder' }),
-    }).then((res) => {
-      return res.json()
+    if (!orderId) return setErrorMessage('Invalid redirect parameters')
+    const response = await fetch(
+      `${global.__REDWOOD__API_PROXY_PATH}/checkout?method=completeOrder&orderId=${orderId}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      }
+    ).then((res) => {
+      console.log(res)
+      if (res.status !== 200) return setErrorMessage(res.message)
+      setOrderSubmitted(true)
+      setTimeout(() => {
+        window.close()
+      }, [3000])
     })
-    if (response.error) return setErrorMessage(response.error)
-    setTimeout(() => {
-      window.close()
-    }, [3000])
   }
 
   React.useEffect(() => {
     if (type === 'wyre') {
-      checkValidWyreParams()
       submitWyreOrder()
     } else if (type === 'chess') {
-      checkValidChessParams()
       submitOauthCodeGrant()
     }
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
@@ -83,10 +78,16 @@ const Redirect = ({ type }) => {
     )
   if (orderSubmitted)
     return (
-      <div className="flex-grow min-w-screen min-h-screen ">
-        <div className="mt-16 flex items-center justify-center">
-          <Icon name="checkmark" width="2rem" height="2rem" color="green" />
-          <p>Purchase successful! Taking you back to Treasure Chess...</p>
+      <div className="min-w-screen min-h-screen ">
+        <div className="mt-16 text-center justify-center">
+          <div className="flex justify-center">
+            <Icon name="checkmark" width="3rem" height="3rem" color="green" />
+            <h1 className="text-5xl ml-4 font-extrabold">Payment complete!</h1>
+          </div>
+          <p className="text-s m-4">Taking you back to Treasure Chess...</p>
+          <Link className="text-s mt-4" to={routes.profile()}>
+            (Go to my Profile)
+          </Link>
         </div>
       </div>
     )

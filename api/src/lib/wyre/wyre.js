@@ -4,7 +4,9 @@ const WYRE_API_KEY = process.env.WYRE_API_KEY
 const API_URL = process.env.WYRE_API_URL
 
 const signature = (url, data) => {
-  const dataToBeSigned = url + data
+  let dataToBeSigned = url
+  if (data) dataToBeSigned = url + data
+  console.log({ dataToBeSigned })
   const token = CryptoJS.enc.Hex.stringify(
     CryptoJS.HmacSHA256(
       dataToBeSigned.toString(CryptoJS.enc.Utf8),
@@ -29,7 +31,7 @@ const fetchWyre = (url, data) => {
   const stringData = JSON.stringify(data)
   return fetch(urlWithTimestamp, {
     method: data ? 'post' : 'get',
-    body: stringData || '', // Use an empty string for the HTTP body in GET requests
+    ...(stringData && { body: stringData }), // Use an empty string for the HTTP body in GET requests
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
@@ -54,13 +56,13 @@ export const createMintReservation = async ({
       sourceCurrency: 'USD',
       destCurrency: 'USD',
       referenceId,
+      hideTrackBtn: true,
       redirectUrl: `${process.env.PUBLIC_REDIRECT_URL}/wyre`,
       failureRedirectUrl: `${process.env.PUBLIC_REDIRECT_URL}/wyre`,
       referrerAccountId: process.env.WYRE_ACCOUNT_ID_TREASURE,
       dest: `account:${process.env.WYRE_ACCOUNT_ID_TREASURE}`,
       country: 'US',
     })
-    console.log(response)
     return response.url
   } catch (e) {
     // TODO:  Add Logging

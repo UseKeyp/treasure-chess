@@ -20,8 +20,8 @@ const MintTreasure = ({ game }) => {
       onCompleted: ({ mintCheckoutUrl }) => {
         window.open(
           mintCheckoutUrl,
-          'mywindow',
-          'width=400,height=200,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
+          'Treasure Chess Checkout',
+          'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
         )
       },
     }

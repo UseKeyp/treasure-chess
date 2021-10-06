@@ -2,7 +2,7 @@ import { db } from 'src/lib/db'
 import { fetchMember } from 'src/lib/members'
 import { createTreasure } from 'src/lib/treasure'
 import { fetchGame } from 'src/lib/games'
-import { getReferenceId, createReservation } from 'src/lib/wyre/wyre'
+import { getReferenceId, createMintReservation } from 'src/lib/wyre/wyre'
 
 export const treasures = () => {
   return db.treasure.findMany()
@@ -44,7 +44,7 @@ export const mintCheckoutUrl = async ({ gameId, endTime }) => {
     endTime,
   })
   const referenceId = getReferenceId({ username, gameId, endTime, address })
-  const url = await createReservation({ referenceId })
+  const url = await createMintReservation({ referenceId })
   return url
 }
 

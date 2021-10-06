@@ -17,8 +17,12 @@ const MintTreasure = ({ game }) => {
   const [mintCheckoutUrl, { loading, error }] = useLazyQuery(
     MINT_CHECKOUT_URL,
     {
-      onCompleted: (url) => {
-        navigate(url)
+      onCompleted: ({ mintCheckoutUrl }) => {
+        window.open(
+          mintCheckoutUrl,
+          'mywindow',
+          'width=400,height=200,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
+        )
       },
     }
   )

@@ -14,7 +14,7 @@ const Member = ({ member }) => {
     return (
       <button
         onClick={() => setIsMinting(true)}
-        className="rect-button green rw-button rw-button-blue mint-set-title__submit"
+        className="mt-6 rect-button green  rw-button rw-button-blue mint-set-title__submit"
       >
         Mint
       </button>
@@ -26,15 +26,11 @@ const Member = ({ member }) => {
     if (activeGame?.treasureId)
       return <TreasureCardCell id={activeGame.treasureId} />
     return (
-      <div className="w-full justify-center items-center">
+      <div className="">
         <GameCard game={activeGame} />
         <MintButton />
         {isMinting && (
-          <Mint
-            className="w-full"
-            onClose={() => setIsMinting(false)}
-            game={activeGame}
-          />
+          <Mint onClose={() => setIsMinting(false)} game={activeGame} />
         )}
       </div>
     )

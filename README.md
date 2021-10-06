@@ -43,6 +43,13 @@ See docs for [Local Postgres Setup](https://redwoodjs.com/docs/local-postgres-se
 
 After you've set up postgres, run `yarn rw prisma migrate dev`
 
+### Ngrok it to the web
+
+```bash
+# Example
+ngrok http --host-header=rewrite 10.61.141.234:8910
+```
+
 # Additional Documentation
 
 - Torus [/docs/Torus.md](/docs/Torus.md)

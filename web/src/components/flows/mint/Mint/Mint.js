@@ -13,7 +13,10 @@ const Mint = ({ game, onClose }) => {
   const [_name, setName] = React.useState('')
 
   const onSubmit = (data) => {
-    if (step === 1) setName(data.name) // TODO: Save treasure name to state
+    if (step === 1) setName(data.name)
+    // Create transaction with game details and name
+
+    // startMintFlow
 
     // TODO: handle success of stripe payments
 

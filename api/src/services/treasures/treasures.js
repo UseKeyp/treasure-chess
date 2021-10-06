@@ -2,6 +2,7 @@ import { db } from 'src/lib/db'
 import { fetchMember } from 'src/lib/members'
 import { createTreasure } from 'src/lib/treasure'
 import { fetchGame } from 'src/lib/games'
+import { getReferenceId, createReservation } from 'src/lib/wyre/wyre'
 
 export const treasures = () => {
   return db.treasure.findMany()
@@ -35,13 +36,16 @@ export const treasureNftDetails = async ({ id }) => {
   return null
 }
 
-export const getMintCheckoutUrl = async ({ gameId, endTime }) => {
+export const mintCheckoutUrl = async ({ gameId, endTime }) => {
+  const { username, address } = context.currentUser
   const game = await fetchGame({
     id: gameId,
-    username: context.currentUser.username,
+    username,
     endTime,
   })
-  return createReservation({})
+  const referenceId = getReferenceId({ username, gameId, endTime, address })
+  const url = await createReservation({ referenceId })
+  return url
 }
 
 // TODO:  Delete this endpoint here and in sdl

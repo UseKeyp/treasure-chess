@@ -14,12 +14,19 @@ const signature = (url, data) => {
   return token
 }
 
-// Use an empty string for the HTTP body in GET requests
+export const getReferenceId = ({ username, gameId, endTime, address }) => {
+  return `${username}-${gameId}-${endTime}-${address}`
+}
+
+export const parseReferenceId = (referenceId) => {
+  const [username, gameId, endTime, address] = referenceId.split('-')
+  return { username, gameId, endTime, address }
+}
 
 const fetchWyre = (url, data) => {
   return fetch(url, {
     method: data ? 'post' : 'get',
-    body: data || '',
+    body: data || '', // Use an empty string for the HTTP body in GET requests
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',

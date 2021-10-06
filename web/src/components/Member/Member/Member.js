@@ -2,7 +2,7 @@ import ProfileBox from 'src/components/ProfileBox/ProfileBox'
 import MemberActivity from 'src/components/MemberActivity/MemberActivity'
 import GamesCell from 'src/components/Game/GamesCell'
 import TreasureCardCell from 'src/components/Treasure/TreasureCardCell'
-import Mint from 'src/components/flows/mint/Mint'
+import Mint from 'src/components/Mint/Mint'
 import GameCard from 'src/components/Game/GameCard'
 
 const Member = ({ member }) => {
@@ -28,10 +28,7 @@ const Member = ({ member }) => {
     return (
       <div className="">
         <GameCard game={activeGame} />
-        <MintButton />
-        {isMinting && (
-          <Mint onClose={() => setIsMinting(false)} game={activeGame} />
-        )}
+        <Mint game={activeGame} />
       </div>
     )
   }

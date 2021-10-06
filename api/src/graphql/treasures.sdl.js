@@ -50,7 +50,11 @@ export const schema = gql`
     treasures: [Treasure!]! @skipAuth
     treasure(id: String!): Treasure @skipAuth
     treasureNftDetails(id: String!): TreasureNftDetails @skipAuth
-    mintCheckoutUrl(gameId: String!, endTime: String!): String! @requireAuth
+    mintCheckoutUrl(
+      gameId: String!
+      endTime: DateTime!
+      title: String!
+    ): String! @requireAuth
   }
 
   type Mutation {

@@ -2,8 +2,18 @@ import styles from './Header.module.scss'
 import SearchBar from '../SearchBar/SearchBar'
 import { ReactComponent as TreasureChest } from '../../assets/icons/TreasureChessChest.svg'
 import { NewButton } from '../Button/Button'
+import { useState } from 'react'
 
-const Header = () => {
+/**
+ *
+ * @param {Bool} isLoggedIn Whether or not the user is currently logged in
+ * @param {Object} profile The user's profile
+ * @returns A nifty header with state
+ */
+const Header = (props) => {
+  const [isLoggedIn, setIsLoggedIn] = useState(props.isLoggedIn || false)
+  const [profile, setProfile] = useState(props.profile || null)
+
   return (
     <div className={styles.header}>
       <div className={styles.iconSearch}>
@@ -21,7 +31,25 @@ const Header = () => {
           <img src="/icons/TreasureChessHelpIcon.png" alt="" />
           FAQ
         </a>
-        <NewButton label="LogIn" />
+        {isLoggedIn ? (
+          <NewButton
+            label="LogIn"
+            clickFunction={() =>
+              alert(
+                "I am a placeholder! Please do not click me! It's my first day :("
+              )
+            }
+          />
+        ) : (
+          <NewButton
+            label="LogOut"
+            clickFunction={() =>
+              alert(
+                "I am a placeholder! Please do not click me! It's my first day :("
+              )
+            }
+          />
+        )}
       </div>
     </div>
   )

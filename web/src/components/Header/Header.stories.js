@@ -5,3 +5,11 @@ export const generated = () => {
 }
 
 export default { title: 'Components/Header' }
+
+export const mobile = () => {
+  return (
+    <div style={{ width: `350px` }}>
+      <Header />
+    </div>
+  )
+}

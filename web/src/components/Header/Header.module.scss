@@ -6,11 +6,52 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	> div {
+  ::selection {
+    background-color: hsla(92, 41%, 44%, 1)
+  }
+  a {
+    transition: all 0.25s;
+    &:hover {
+      transform: translateY(-3px);
+    }
+  }
+	> .iconSearch {
 		display: flex;
 		align-items: center;
-		> * {
-			padding-right: 1em;
-		}
-	}
+
+    > a {
+      padding-right: 1em;
+      user-select: none;
+      > img {
+        max-width: none;
+      }
+    }
+  }
+  .nav {
+    width: clamp(260px, 33vw, 400px);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-right: .75em;
+    user-select: none;
+    button {
+      margin-left: 1em;
+      transform: translateY(-2px);
+    }
+    a {
+      display: flex;
+      align-items: center;
+      padding: 1ex 1em;
+      &:hover {
+        text-decoration: none;
+      }
+      &:focus {
+        outline: 1px solid white;
+      }
+      > img, svg {
+        margin-right: 1ex;
+        transform: translateY(-2px);
+      }
+    }
+  }
 }

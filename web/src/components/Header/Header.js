@@ -31,9 +31,13 @@ const Header = (props) => {
           <img src="/icons/TreasureChessHelpIcon.png" alt="" />
           FAQ
         </a>
+        <a href={`/${profile?.uri || ''}`}>
+          {/* placeholder for Profile Icon */}
+          Profile
+        </a>
         {isLoggedIn ? (
           <NewButton
-            label="LogIn"
+            label="Log Out"
             clickFunction={() =>
               alert(
                 "I am a placeholder! Please do not click me! It's my first day :("
@@ -42,7 +46,7 @@ const Header = (props) => {
           />
         ) : (
           <NewButton
-            label="LogOut"
+            label="Log In"
             clickFunction={() =>
               alert(
                 "I am a placeholder! Please do not click me! It's my first day :("

@@ -35,6 +35,16 @@ export const treasureNftDetails = async ({ id }) => {
   return null
 }
 
+export const getMintCheckoutUrl = async ({ gameId, endTime }) => {
+  const game = await fetchGame({
+    id: gameId,
+    username: context.currentUser.username,
+    endTime,
+  })
+  return createReservation({})
+}
+
+// TODO:  Delete this endpoint here and in sdl
 export const mintTreasure = async ({ gameId, endTime, name }) => {
   // Get user's wallet and sign meta-tx
   const { username, id: memberId } = context.currentUser
@@ -48,19 +58,6 @@ export const mintTreasure = async ({ gameId, endTime, name }) => {
   // Create treasure and connect pending transaction - minter, owner, tokenId
   const treasure = await createTreasure({ game, memberId, name })
   return treasure
-}
-
-export const updateTreasure = ({ id, input }) => {
-  return db.treasure.update({
-    data: input,
-    where: { id },
-  })
-}
-
-export const deleteTreasure = ({ id }) => {
-  return db.treasure.delete({
-    where: { id },
-  })
 }
 
 export const Treasure = {

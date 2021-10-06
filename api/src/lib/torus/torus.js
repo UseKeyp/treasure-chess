@@ -10,17 +10,20 @@ import { getNewIdToken } from 'src/lib/oAuth/jwt'
 import { decode as decodeJwt } from 'jsonwebtoken'
 
 const torus = new DirectWebSdk({
-  baseUrl: `https://0.0.0.0:8910/auth`, // Required placeholder, no need to change
-  network: isProduction ? 'mainnet' : 'testnet', // or 'development'
-  enableLogging: !isProduction,
+  baseUrl: `https://0.0.0.0:8910/auth`, // Dummy required placeholder, no need to change
+  network: isProduction ? 'mainnet' : 'testnet', // also option for 'development'
+  enableLogging: false, // SECURITY WARNING: Better to always leave false
 })
 
 export const getTorusPublicAddress = async (userId) => {
-  const { publicAddress } = await getTorusKey(userId)
+  const { publicAddress } = await torus.getPublicAddress({
+    verifier: process.env.TORUS_VERIFIER,
+    verifierId: userId,
+  })
   return publicAddress
 }
 
-const getTorusKey = async (userId) => {
+const getTorusWallet = async (userId) => {
   try {
     const idToken = await getNewIdToken(userId)
     /* eslint-disable-next-line camelcase */
@@ -32,16 +35,10 @@ const getTorusKey = async (userId) => {
       { verifier_id: user_id },
       idToken
     )
+    // TODO: Add logging here
     return { publicAddress, privateKey }
   } catch (e) {
     /* eslint-disable-next-line no-console */
     console.log(e)
-    return {
-      // TODO: Remove hadcoded test wallet
-      // WARNING: Totally unsecure test wallet. Do not send real funds here.
-      publicAddress: '0x9771f6081Dc50Ab1226CEC29aEa3C6f2D0a3A09E',
-      privateKey:
-        '0x46e6a254dcb9c917aed7b699b8229943340eab942635d268ef55bf3c9402eb91',
-    }
   }
 }

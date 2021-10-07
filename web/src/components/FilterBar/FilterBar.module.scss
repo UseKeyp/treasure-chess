@@ -7,4 +7,16 @@ padding: 1ex 1em;
 border-radius: 0.5rem;
 align-items: center;
 justify-content: flex-start;
+max-width: clamp(264px, 100%, 364px);
+margin-top: 29px;
+}
+
+.resetRow {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  button {
+    padding-top: 1ex;
+    color: #259FC6;
+  }
 }

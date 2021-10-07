@@ -3,19 +3,8 @@ import { gql, useQuery, useLazyQuery } from '@redwoodjs/web'
 import { useState } from 'react'
 import SearchBar from '../../components/Marketplace/SearchBar/SearchBar'
 import FilterBar from '../../components/FilterBar/FilterBar'
-import FilterButton from '../../components/Marketplace/FilterButton/FilterButton'
-// import TreasuresWithFilterCell from '../../components/Treasure/TreasuresWithFilterCell/TreasuresWithFilterCell'
-import FilterDropdown from '../../components/Marketplace/FilterDropdown/FilterDropdown'
 import {
-  openingList,
-  achievements,
-  colors,
-  ratings,
-  titles,
-  timeControls,
-  terminations,
-  outcomes,
-  moveCounts,
+  filters
 } from './Filters'
 import { anyValues, oneValue } from './Logic'
 
@@ -33,9 +22,35 @@ const Marketplace = () => {
   const [outcomeFilter, setOutcomeFilter] = useState([])
   const [moveCountFilter, setMoveCountFilter] = useState([])
 
+  const setFunctions = {
+    setAchievementFilter,
+    setOpenerFilter,
+    setColorFilter,
+    setRatingFilter,
+    setTitleFilter,
+    setTimeControlFilter,
+    setTerminationFilter,
+    setOutcomeFilter,
+    setMoveCountFilter
+  }
+
+  const stateFilters = {
+    achievementFilter,
+    openerFilter,
+    colorFilter,
+    ratingFilter,
+    titleFilter,
+    timeControlFilter,
+    terminationFilter,
+    outcomeFilter,
+    moveCountFilter,
+  }
+
   const [searchResults, setSearchResults] = useState() //expects an array
 
-  const makeQuery = (query) => {}
+  const makeQuery = (query) => {
+    console.log(query);
+  }
 
   // pass each filter as a dependency array to wait
   // for state to update before making a query
@@ -70,50 +85,6 @@ const Marketplace = () => {
     makeQuery(queryParameters)
   }, [queryParameters])
 
-  const updateAchievementFilter = (value) => {
-    anyValues(value, achievementFilter, setAchievementFilter)
-    // updateQuery('achievements', achievementFilter);
-  }
-
-  const updateOpenerFilter = (value) => {
-    oneValue(value, openerFilter, setOpenerFilter)
-    // updateQuery('opener', openerFilter);
-  }
-
-  const updateColorFilter = (value) => {
-    oneValue(value, colorFilter, setColorFilter)
-    // updateQuery('color', colorFilter);
-  }
-
-  const updateRatingFilter = (value) => {
-    anyValues(value, ratingFilter, setRatingFilter)
-    // updateQuery('rating', ratingFilter);
-  }
-
-  const updateTitleFilter = (value) => {
-    anyValues(value, titleFilter, setTitleFilter)
-    // updateQuery('title', titleFilter);
-  }
-
-  const updateTimeControlFilter = (value) => {
-    anyValues(value, timeControlFilter, setTimeControlFilter)
-    // updateQuery('timeControl', timeControlFilter);
-  }
-
-  const updateTerminationFilter = (value) => {
-    anyValues(value, terminationFilter, setTerminationFilter)
-    // updateQuery('termination', terminationFilter);
-  }
-
-  const updateOutcomeFilter = (value) => {
-    anyValues(value, outcomeFilter, setOutcomeFilter)
-    // updateQuery('outcome', outcomeFilter);
-  }
-
-  const updateMoveCountFilter = (value) => {
-    anyValues(value, moveCountFilter, setMoveCountFilter)
-    // updateQuery('moveCount', moveCountFilter);
-  }
 
   const updateSearchString = (value) => {
     setSearchValue(value)
@@ -126,203 +97,6 @@ const Marketplace = () => {
       </Head>
       <h1 className="font-bold">Treasure Chess Marketplace</h1>
       <SearchBar value={searchValue} changeHandler={updateSearchString} />
-      <FilterDropdown label={'Filters'}>
-        <div style={{ marginLeft: '1rem' }}>
-          <FilterDropdown label={'Achievements'}>
-            <div
-              style={{
-                display: 'flex',
-                flexFlow: 'row wrap',
-                maxWidth: '100vw',
-                justifyContent: 'flex-start',
-              }}
-            >
-              {achievements.map((achievement, index) => {
-                return (
-                  <FilterButton
-                    key={`achievement-${index}`}
-                    label={achievement.name}
-                    clickFunction={() =>
-                      updateAchievementFilter(achievement.name)
-                    }
-                    isActive={achievementFilter.includes(achievement.name)}
-                  />
-                )
-              })}
-            </div>
-          </FilterDropdown>
-          <FilterDropdown label={'Opening Moves'}>
-            <div
-              style={{
-                display: 'flex',
-                flexFlow: 'row wrap',
-                maxWidth: '100vw',
-                justifyContent: 'flex-start',
-              }}
-            >
-              {openingList.map((opener, index) => {
-                return (
-                  <FilterButton
-                    key={`opener-${index}`}
-                    label={opener}
-                    clickFunction={() => updateOpenerFilter(opener)}
-                    isActive={openerFilter.includes(opener)}
-                  />
-                )
-              })}
-            </div>
-          </FilterDropdown>
-          <FilterDropdown label={'Card Colors'}>
-            <div
-              style={{
-                display: 'flex',
-                flexFlow: 'row wrap',
-                maxWidth: '100vw',
-                justifyContent: 'flex-start',
-              }}
-            >
-              {colors.map((color, index) => {
-                return (
-                  <FilterButton
-                    key={index}
-                    label={color}
-                    clickFunction={() => updateColorFilter(color)}
-                    isActive={colorFilter.includes(color)}
-                  />
-                )
-              })}
-            </div>
-          </FilterDropdown>
-          <FilterDropdown label={'Player Ranks'}>
-            <div
-              style={{
-                display: 'flex',
-                flexFlow: 'row wrap',
-                maxWidth: '100vw',
-                justifyContent: 'flex-start',
-              }}
-            >
-              {ratings.map((rating, index) => {
-                return (
-                  <FilterButton
-                    key={index}
-                    label={rating}
-                    clickFunction={() => updateRatingFilter(rating)}
-                    isActive={ratingFilter.includes(rating)}
-                  />
-                )
-              })}
-            </div>
-          </FilterDropdown>
-          <FilterDropdown label={'Titles'}>
-            <div
-              style={{
-                display: 'flex',
-                flexFlow: 'row wrap',
-                maxWidth: '100vw',
-                justifyContent: 'flex-start',
-              }}
-            >
-              {titles.map((title, index) => {
-                return (
-                  <FilterButton
-                    key={index}
-                    label={title.label}
-                    clickFunction={() => updateTitleFilter(title.label)}
-                    isActive={titleFilter.includes(title.label)}
-                  />
-                )
-              })}
-            </div>
-          </FilterDropdown>
-          <FilterDropdown label={'Time Control'}>
-            <div
-              style={{
-                display: 'flex',
-                flexFlow: 'row wrap',
-                maxWidth: '100vw',
-                justifyContent: 'flex-start',
-              }}
-            >
-              {timeControls.map((timeControl, index) => {
-                return (
-                  <FilterButton
-                    key={`timeControl-${index}`}
-                    label={timeControl.label}
-                    clickFunction={() =>
-                      updateTimeControlFilter(timeControl.label)
-                    }
-                    isActive={timeControlFilter.includes(timeControl.label)}
-                  />
-                )
-              })}
-            </div>
-          </FilterDropdown>
-          <FilterDropdown label={'Termination'}>
-            <div
-              style={{
-                display: 'flex',
-                flexFlow: 'row wrap',
-                maxWidth: '100vw',
-                justifyContent: 'flex-start',
-              }}
-            >
-              {terminations.map((termination, index) => {
-                return (
-                  <FilterButton
-                    key={`termination-${index}`}
-                    label={termination}
-                    clickFunction={() => updateTerminationFilter(termination)}
-                    isActive={terminationFilter.includes(termination)}
-                  />
-                )
-              })}
-            </div>
-          </FilterDropdown>
-          <FilterDropdown label={'Winner'}>
-            <div
-              style={{
-                display: 'flex',
-                flexFlow: 'row wrap',
-                maxWidth: '100vw',
-                justifyContent: 'flex-start',
-              }}
-            >
-              {outcomes.map((outcome, index) => {
-                return (
-                  <FilterButton
-                    key={`outcome-${index}`}
-                    label={outcome.label}
-                    clickFunction={() => updateOutcomeFilter(outcome.label)}
-                    isActive={outcomeFilter.includes(outcome.label)}
-                  />
-                )
-              })}
-            </div>
-          </FilterDropdown>
-          <FilterDropdown label={'Game Length'}>
-            <div
-              style={{
-                display: 'flex',
-                flexFlow: 'row wrap',
-                maxWidth: '100vw',
-                justifyContent: 'flex-start',
-              }}
-            >
-              {moveCounts.map((moveCount, index) => {
-                return (
-                  <FilterButton
-                    key={`length-${index}`}
-                    label={`${moveCount} turns`}
-                    clickFunction={() => updateMoveCountFilter(moveCount)}
-                    isActive={moveCountFilter.includes(moveCount)}
-                  />
-                )
-              })}
-            </div>
-          </FilterDropdown>
-        </div>
-      </FilterDropdown>
       <FilterBar />
       <h2>Query Parameters:</h2>
       {achievementFilter[0] !== undefined ? (

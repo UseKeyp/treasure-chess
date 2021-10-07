@@ -1,0 +1,22 @@
+.dropdownWrapper {
+  font-size: .925rem;
+}
+
+.dropdown {
+  background-color: #4F4F4F;
+  max-width: clamp(221px, 90%, 300px);
+  font-size: 1rem;
+  margin: 1ex 1em;
+}
+
+.dropdownLabel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 1ex 1em;
+  > span {
+    padding-top: 0.5ex;
+  }
+}

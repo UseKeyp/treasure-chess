@@ -1,4 +1,16 @@
-export const achievements = [
+export const filters = {
+  achievements,
+  openingList,
+  colors,
+  ratings,
+  titles,
+  timeControls,
+  terminations,
+  outcomes,
+  moveCounts
+}
+
+const achievements = [
   {
     // index 0
     name: 'Win a game',
@@ -186,7 +198,7 @@ export const achievements = [
   },
 ]
 
-export const openingList = [
+const openingList = [
   "King's pawn game",
   "Queen's Gambit",
   'Ruy Lopez',
@@ -201,9 +213,9 @@ export const openingList = [
   'Scotch',
 ]
 
-export const colors = ['white', 'black']
+const colors = ['white', 'black']
 
-export const ratings = [
+const ratings = [
   '< 750',
   '750 - 999',
   '1000 - 1499',
@@ -213,7 +225,7 @@ export const ratings = [
   '2400+',
 ]
 
-export const titles = [
+const titles = [
   {
     label: 'Grandmaster',
     data: 'gm',
@@ -232,7 +244,7 @@ export const titles = [
   },
 ]
 
-export const timeControls = [
+const timeControls = [
   {
     label: '1 minute',
     data: 60,
@@ -263,14 +275,14 @@ export const timeControls = [
   },
 ]
 
-export const terminations = [
+const terminations = [
   'Checkmate',
   'Resignation',
   'Stalemate',
   'Insufficient Material',
 ]
 
-export const outcomes = [
+const outcomes = [
   {
     label: 'White wins',
     data: 'white',
@@ -285,4 +297,4 @@ export const outcomes = [
   },
 ]
 
-export const moveCounts = ['< 10', '10 - 49', '50 - 99', '100 - 199', '200+']
+const moveCounts = ['< 10', '10 - 49', '50 - 99', '100 - 199', '200+']

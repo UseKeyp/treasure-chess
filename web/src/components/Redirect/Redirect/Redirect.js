@@ -9,7 +9,7 @@ import Icon from 'src/components/Icon'
 const Redirect = ({ type }) => {
   const [errorMessage, setErrorMessage] = React.useState()
   const [orderSubmitted, setOrderSubmitted] = React.useState()
-  const { code, state, orderId } = useParams()
+  const { code, state } = useParams()
   const { logIn } = useAuth()
 
   // ###############  Chess.com  ################
@@ -28,27 +28,16 @@ const Redirect = ({ type }) => {
   }
 
   // ###############  Wyre  #####################
-  const submitWyreOrder = async () => {
-    if (!orderId) return setErrorMessage('Invalid redirect parameters')
-    const response = await fetch(
-      `${global.__REDWOOD__API_PROXY_PATH}/checkout?method=completeOrder&orderId=${orderId}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-      }
-    ).then((res) => {
-      console.log(res)
-      if (res.status !== 200) return setErrorMessage(res.message)
-      setOrderSubmitted(true)
-      setTimeout(() => {
-        window.close()
-      }, [3000])
-    })
+  const completeWyreOrder = async () => {
+    setOrderSubmitted(true)
+    setTimeout(() => {
+      window.close()
+    }, [3000])
   }
 
   React.useEffect(() => {
     if (type === 'wyre') {
-      submitWyreOrder()
+      completeWyreOrder()
     } else if (type === 'chess') {
       submitOauthCodeGrant()
     }

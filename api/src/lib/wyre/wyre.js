@@ -25,8 +25,8 @@ export const parseReferenceId = (referenceId) => {
 }
 
 const fetchWyre = (url, data) => {
-  let timestamp = Date.now()
-  const urlWithTimestamp = url + `?timestamp=${timestamp}`
+  const timestamp = Date.now()
+  const urlWithTimestamp = url + `?timestamp=${timestamp}000`
   const stringData = JSON.stringify(data)
   return fetch(urlWithTimestamp, {
     method: data ? 'post' : 'get',
@@ -62,6 +62,7 @@ export const createMintReservation = async ({
       dest: `account:${process.env.WYRE_ACCOUNT_ID_TREASURE}`,
       country: 'US',
     })
+    console.log(response)
     return response.url
   } catch (e) {
     // TODO:  Add Logging

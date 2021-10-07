@@ -17,6 +17,8 @@ model Member {
   username             String         @unique // Chess.com username
   address              String?        @unique // Torus wallet address
   // --------------- STATE --------------
+  createdAt            DateTime       @default(now())
+  updatedAt            DateTime       @updatedAt
   imageSrc             String? // Avatar URL
   masterTitle          String? // GM, IM or NM
   country              String // Player's country  eg. US, DE
@@ -85,9 +87,9 @@ model OAuth {
 model mintPurchase {
   id          String    @id // Wyre orderId
   createdAt   DateTime  @default(now())
-  updatedAt   DateTime
+  updatedAt   DateTime  @updatedAt
   // --------------- STATE --------------
-  orderStatus String   @default("INVALID")
+  orderStatus String    @default("INVALID")
   gameId      String
   gameEndTime String
   txHash      String?

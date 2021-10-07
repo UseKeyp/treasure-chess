@@ -16,12 +16,12 @@ const signature = (url, data) => {
   return token
 }
 
-export const getReferenceId = ({ username, gameId, endTime, address }) => {
-  return `${username}-${gameId}-${endTime}-${address}`
-}
+export const getReferenceId = ({ username, gameId, endTime, address }) =>
+  `${username}&${gameId}&${endTime.getTime() / 1000}&${address}`
 
 export const parseReferenceId = (referenceId) => {
-  const [username, gameId, endTime, address] = referenceId.split('-')
+  const [username, gameId, endTimeUnix, address] = referenceId.split('&')
+  let endTime = new Date(endTimeUnix * 1000)
   return { username, gameId, endTime, address }
 }
 
@@ -45,15 +45,21 @@ const fetchWyre = (url, data) => {
   })
 }
 
-const fetchOrder = (orderId) => fetchWyre(`${API_URL}/orders/${orderId}/full`)
+export const fetchOrder = (orderId) =>
+  fetchWyre(`${API_URL}/orders/${orderId}/full`)
+
+// TODO: Delete if unused
 const fetchReservation = (reservationId) =>
   fetchWyre(`${API_URL}/orders/reservation/${reservationId}`)
 
 export const createMintReservation = async ({
-  sourceAmount = 6,
-  referenceId,
+  username,
+  gameId,
+  endTime,
+  address,
 }) => {
   try {
+    const referenceId = getReferenceId({ username, gameId, endTime, address })
     const url = `${API_URL}/orders/reserve`
     const response = await fetchWyre(url, {
       sourceAmount: process.env.WYRE_MINT_USD_SOURCE_AMOUNT,

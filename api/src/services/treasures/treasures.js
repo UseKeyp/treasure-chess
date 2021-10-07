@@ -48,22 +48,6 @@ export const mintCheckoutUrl = async ({ gameId, endTime }) => {
   return url
 }
 
-// TODO:  Delete this endpoint here and in sdl
-export const mintTreasure = async ({ gameId, endTime, name }) => {
-  // Get user's wallet and sign meta-tx
-  const { username, id: memberId } = context.currentUser
-
-  // Submit meta-tx to admin wallet
-
-  // Create pending transaction in database
-
-  // Get game details
-  const game = await fetchGame({ gameId, username, endTime })
-  // Create treasure and connect pending transaction - minter, owner, tokenId
-  const treasure = await createTreasure({ game, memberId, name })
-  return treasure
-}
-
 export const Treasure = {
   black: (_obj, { root }) =>
     db.treasure.findUnique({ where: { id: root.id } }).black(),

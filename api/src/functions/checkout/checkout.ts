@@ -11,7 +11,7 @@ export const handler = async (event: APIGatewayEvent) => {
 
   try {
     // TODO:  Add logging
-    console.log(event.queryStringParameters)
+    console.log(event)
 
     const { orderId, method } = event.queryStringParameters
 

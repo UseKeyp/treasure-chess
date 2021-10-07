@@ -6,7 +6,6 @@ const API_URL = process.env.WYRE_API_URL
 const signature = (url, data) => {
   let dataToBeSigned = url
   if (data) dataToBeSigned = url + data
-  console.log({ dataToBeSigned })
   const token = CryptoJS.enc.Hex.stringify(
     CryptoJS.HmacSHA256(
       dataToBeSigned.toString(CryptoJS.enc.Utf8),

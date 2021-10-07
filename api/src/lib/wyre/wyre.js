@@ -1,4 +1,5 @@
 const CryptoJS = require('crypto-js')
+
 const WYRE_SECRET_KEY = process.env.WYRE_SECRET_KEY
 const WYRE_API_KEY = process.env.WYRE_API_KEY
 const API_URL = process.env.WYRE_API_URL
@@ -37,10 +38,16 @@ const fetchWyre = (url, data) => {
       'X-Api-Key': WYRE_API_KEY,
       'X-Api-Signature': signature(urlWithTimestamp, stringData),
     },
-  }).then((res) => res.json())
+  }).then((res) => {
+    // console.log(res)
+    // TODO: log results?
+    return res.json()
+  })
 }
 
 const fetchOrder = (orderId) => fetchWyre(`${API_URL}/orders/${orderId}/full`)
+const fetchReservation = (reservationId) =>
+  fetchWyre(`${API_URL}/orders/reservation/${reservationId}`)
 
 export const createMintReservation = async ({
   sourceAmount = 6,
@@ -49,7 +56,7 @@ export const createMintReservation = async ({
   try {
     const url = `${API_URL}/orders/reserve`
     const response = await fetchWyre(url, {
-      sourceAmount,
+      sourceAmount: process.env.WYRE_MINT_USD_SOURCE_AMOUNT,
       paymentMethod: 'debit-card',
       amountIncludeFees: true,
       sourceCurrency: 'USD',
@@ -62,24 +69,10 @@ export const createMintReservation = async ({
       dest: `account:${process.env.WYRE_ACCOUNT_ID_TREASURE}`,
       country: 'US',
     })
-    console.log(response)
     return response.url
   } catch (e) {
     // TODO:  Add Logging
     console.log(e)
     throw new Error('createMintReservation() Error creating Wyre reservation')
   }
-}
-
-export const processOrder = async (orderId) => {
-  const order = await fetchOrder(orderId)
-  console.log(order)
-  // TODO: Validate order
-
-  // TODO: Get order details from referenceId
-  // const {address, username, gameId, endTime} = parseReferenceId(referenceId)
-
-  // TODO: Save mint order to database
-
-  // TODO: Trigger minting process
 }

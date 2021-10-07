@@ -29,6 +29,8 @@ const validateReferenceId = async (referenceId) => {
   const member = await fetchMember(username)
   if (!member)
     throw Error(`Member "${username}" could not be found in the Chess API`)
+  if (!member.address)
+    throw Error(`Member ${username} does not have an address.`)
   const memberAddress = member.address.toLowerCase()
   const refereceIdAddress = address.toLowerCase()
   if (memberAddress !== refereceIdAddress)

@@ -45,6 +45,11 @@ contract TreasureMarket is
   event StartSale(address _seller, uint256 _id, uint256 _price);
   event CancelSale(address _seller, uint256 _id);
   event SaleComplete(address _seller, uint256 _id, address _buyer);
+
+  event StartSaleWithToken(address _seller, uint256 _id, uint256 _price, address _tokenAddress);
+  event CancelSaleWithToken(address _seller, uint256 _id);
+  event SaleCompleteWithToken(address _seller, uint256 _id, address _buyer, address _tokenAddress);
+
   event RoyaltySet(uint256 _royalty);
   event FeeSet(uint256 _fee);
   event FeesWithdrawn(address _caller, address _to, uint256 _amount);
@@ -114,24 +119,26 @@ contract TreasureMarket is
 
   function listItem(
     uint256 _id,
-    uint256 price,
+    uint256 _price
   ) public {
     require(
       treasure.ownerOf(_id) == _msgSender(),
       'You can not list assets you dont own.'
     );
-    require(price != 0, 'Price can not be set to 0.');
+    require(_price != 0, 'Price can not be set to 0.');
+    require(isForSaleById[_id] == false && forSaleWithToken[_id] == address(0), "This item is already for sale.");
 
     isForSaleById[_id] = true;
-    priceById[_id] = price;
+    priceById[_id] = _price;
     seller[_id] = _msgSender();
 
     treasure.safeTransferFrom(_msgSender(), address(this), _id);
-    emit StartSale(seller[_id], _id, price);
+    emit StartSale(seller[_id], _id, _price);
   }
 
   function cancelSale(uint256 _id) public {
     require(seller[_id] == _msgSender());
+    require(isForSaleById[_id] == true);
 
     isForSaleById[_id] = false;
     priceById[_id] = 0;
@@ -170,22 +177,55 @@ contract TreasureMarket is
   //======== Marketplace Sales With Approved Tokens - defualt should be USDC ========//
 
   function tokenListIten(uint _id, uint _price, address _tokenAddress) public{
-    require(tokenAddressIsAllowed[_tokenAddress], "This is not one of the approved tokens for the marketplace. Try USDC or ask an admin what they are.")
+    require(tokenAddressIsAllowed[_tokenAddress], "This is not one of the approved tokens for the marketplace. Try USDC or ask an admin what they are.");
     require(
       treasure.ownerOf(_id) == _msgSender(),
       'You can not list assets you dont own.'
     );
-    require(price != 0, 'Price can not be set to 0.');
+    require(_price != 0, 'Price can not be set to 0.');
+    require(isForSaleById[_id] == false && forSaleWithToken[_id] == address(0), "This item is already for sale.");
 
-    priceByIdTokens[_id] = //TODO 
-    forSaleWithToken[_id] = _tokenAddress
+    priceByIdTokens[_id] = _price;
+    forSaleWithToken[_id] = _tokenAddress; //normally is true/false, but with token lets just store the address here
+    seller[_id] = _msgSender();
+
+    treasure.safeTransferFrom(_msgSender(), address(this), _id);
+    emit StartSaleWithToken(seller[_id], _id, _price, _tokenAddress);
   }
 
-  function tokenCancelSale() public{
+  function tokenCancelSale(uint _id) public{
+    require(seller[_id] == _msgSender());
+    require(forSaleWithToken[_id] != address(0));
 
+    priceByIdTokens[_id] = 0;
+    forSaleWithToken[_id] = address(0);
+    seller[_id] = address(0);
+
+    emit CancelSaleWithToken(_msgSender(), _id);
   }
 
-  function tokenInstantBuy() public{
+  function tokenInstantBuy(address _tokenAddress) public{
+    //check SignatureChecker of sale. if its invalid, remove it.
+    require(forSaleWithToken[_id] != address(0), 'Item not for sale.');
+    require(seller[_id] != address(0), "Something is not quite right here. The seller cant be 0");
+
+    //Split profits
+    uint256 royalty = ((priceByIdTokens[_id] * royaltyPercentagePoint) / 1000);
+
+    /**
+    address originalPlayer = treasure.getOriginalPlayer(_id);
+    (bool sentRoyalty, ) = originalPlayer.call{ value: royalty }('');
+    require(sentRoyalty, 'Failed to send royalty. Transaction fails. : ');
+
+    uint256 funds = (priceByIdTokens[_id] *
+      (1000 - royaltyPercentagePoint - feePercentagePoint)) / 1000;
+    (bool sentFunds, ) = seller[_id].call{ value: funds }('');
+    require(sentFunds, 'Failed to send funds to seller. Transaction fails.');
+    //remaining funds (msg.value*feePercentagePoint/1000) are held in this contract until owner wants to withdraw.
+
+    isForSaleById[_id] = false;
+    treasure.safeTransferFrom(treasure.ownerOf(_id), _msgSender(), _id);
+    emit SaleComplete(seller[_id], _id, _msgSender());**/
 
   }
 

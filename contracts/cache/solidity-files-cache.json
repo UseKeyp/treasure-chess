@@ -1,9 +1,187 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "/Users/jsch/Desktop/fresh/contracts/contracts/Treasure.sol": {
-      "lastModificationDate": 1633130616320,
-      "contentHash": "aeef2be2fb96dceade151e388a259034",
+    "/home/dev/repos/treasure-chess/contracts/contracts/ChessCoin.sol": {
+      "lastModificationDate": 1633383890305,
+      "contentHash": "a46544f8191267151d5674f3dab4ae07",
+      "sourceName": "contracts/ChessCoin.sol",
+      "solcConfig": {
+        "version": "0.8.2",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/token/ERC20/ERC20.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ChessCoin"
+      ]
+    },
+    "/home/dev/repos/treasure-chess/contracts/node_modules/@openzeppelin/contracts/token/ERC20/ERC20.sol": {
+      "lastModificationDate": 1633650599427,
+      "contentHash": "2cd550cedf51b8d294607dad5023d717",
+      "sourceName": "@openzeppelin/contracts/token/ERC20/ERC20.sol",
+      "solcConfig": {
+        "version": "0.8.2",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./IERC20.sol",
+        "./extensions/IERC20Metadata.sol",
+        "../../utils/Context.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ERC20"
+      ]
+    },
+    "/home/dev/repos/treasure-chess/contracts/node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol": {
+      "lastModificationDate": 1633650599431,
+      "contentHash": "0eac3e1a83ee62326ca007811285b274",
+      "sourceName": "@openzeppelin/contracts/token/ERC20/IERC20.sol",
+      "solcConfig": {
+        "version": "0.8.2",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC20"
+      ]
+    },
+    "/home/dev/repos/treasure-chess/contracts/node_modules/@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol": {
+      "lastModificationDate": 1633650609467,
+      "contentHash": "aa1be06992a99bb7393b26a6af3c4dfb",
+      "sourceName": "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol",
+      "solcConfig": {
+        "version": "0.8.2",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../IERC20.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC20Metadata"
+      ]
+    },
+    "/home/dev/repos/treasure-chess/contracts/node_modules/@openzeppelin/contracts/utils/Context.sol": {
+      "lastModificationDate": 1633650583932,
+      "contentHash": "851485d5b925529b1a2f34a0be077891",
+      "sourceName": "@openzeppelin/contracts/utils/Context.sol",
+      "solcConfig": {
+        "version": "0.8.2",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "Context"
+      ]
+    },
+    "/home/dev/repos/treasure-chess/contracts/contracts/Treasure.sol": {
+      "lastModificationDate": 1633383890309,
+      "contentHash": "fa668e15917761e7027fb7c557fa47aa",
       "sourceName": "contracts/Treasure.sol",
       "solcConfig": {
         "version": "0.8.2",
@@ -43,8 +221,8 @@
         "Treasure"
       ]
     },
-    "/Users/jsch/Desktop/fresh/contracts/node_modules/@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol": {
-      "lastModificationDate": 1633129574236,
+    "/home/dev/repos/treasure-chess/contracts/node_modules/@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol": {
+      "lastModificationDate": 1633650583932,
       "contentHash": "0961e9d7e3b0767794d82a179f4b88e4",
       "sourceName": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol",
       "solcConfig": {
@@ -80,8 +258,8 @@
         "OwnableUpgradeable"
       ]
     },
-    "/Users/jsch/Desktop/fresh/contracts/node_modules/@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol": {
-      "lastModificationDate": 1633129578760,
+    "/home/dev/repos/treasure-chess/contracts/node_modules/@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol": {
+      "lastModificationDate": 1633650599779,
       "contentHash": "cbb8386f0120d46d66ff42dffbbc16c1",
       "sourceName": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol",
       "solcConfig": {
@@ -114,8 +292,8 @@
         "Initializable"
       ]
     },
-    "/Users/jsch/Desktop/fresh/contracts/node_modules/@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol": {
-      "lastModificationDate": 1633129578759,
+    "/home/dev/repos/treasure-chess/contracts/node_modules/@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol": {
+      "lastModificationDate": 1633650599795,
       "contentHash": "15b6a36d8d42626557f8bc23db5e00a9",
       "sourceName": "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol",
       "solcConfig": {
@@ -151,8 +329,8 @@
         "UUPSUpgradeable"
       ]
     },
-    "/Users/jsch/Desktop/fresh/contracts/node_modules/@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol": {
-      "lastModificationDate": 1633129578761,
+    "/home/dev/repos/treasure-chess/contracts/node_modules/@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol": {
+      "lastModificationDate": 1633650599823,
       "contentHash": "63eb3219a2e5bb37437ba1bc8a06cb20",
       "sourceName": "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol",
       "solcConfig": {
@@ -194,8 +372,8 @@
         "ERC721Upgradeable"
       ]
     },
-    "/Users/jsch/Desktop/fresh/contracts/node_modules/@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721URIStorageUpgradeable.sol": {
-      "lastModificationDate": 1633129581776,
+    "/home/dev/repos/treasure-chess/contracts/node_modules/@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721URIStorageUpgradeable.sol": {
+      "lastModificationDate": 1633650609527,
       "contentHash": "2234ba1fc99283191f9c4e46c7563ddf",
       "sourceName": "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721URIStorageUpgradeable.sol",
       "solcConfig": {
@@ -231,8 +409,8 @@
         "ERC721URIStorageUpgradeable"
       ]
     },
-    "/Users/jsch/Desktop/fresh/contracts/node_modules/@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol": {
-      "lastModificationDate": 1633129574239,
+    "/home/dev/repos/treasure-chess/contracts/node_modules/@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol": {
+      "lastModificationDate": 1633650583944,
       "contentHash": "4961a2524a1c70dae08535e239d5eb37",
       "sourceName": "@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol",
       "solcConfig": {
@@ -265,8 +443,8 @@
         "CountersUpgradeable"
       ]
     },
-    "/Users/jsch/Desktop/fresh/contracts/node_modules/@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol": {
-      "lastModificationDate": 1633129578760,
+    "/home/dev/repos/treasure-chess/contracts/node_modules/@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol": {
+      "lastModificationDate": 1633650599795,
       "contentHash": "3a5432b9dfef2ff5c8f58fcc0b1452b2",
       "sourceName": "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol",
       "solcConfig": {
@@ -299,8 +477,8 @@
         "IERC20Upgradeable"
       ]
     },
-    "/Users/jsch/Desktop/fresh/contracts/node_modules/@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol": {
-      "lastModificationDate": 1633129574239,
+    "/home/dev/repos/treasure-chess/contracts/node_modules/@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol": {
+      "lastModificationDate": 1633650583944,
       "contentHash": "3eaa562e66c40d85f919cc6ee5059ebe",
       "sourceName": "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol",
       "solcConfig": {
@@ -335,8 +513,8 @@
         "ContextUpgradeable"
       ]
     },
-    "/Users/jsch/Desktop/fresh/contracts/node_modules/@openzeppelin/contracts-upgradeable/proxy/ERC1967/ERC1967UpgradeUpgradeable.sol": {
-      "lastModificationDate": 1633129578759,
+    "/home/dev/repos/treasure-chess/contracts/node_modules/@openzeppelin/contracts-upgradeable/proxy/ERC1967/ERC1967UpgradeUpgradeable.sol": {
+      "lastModificationDate": 1633650599799,
       "contentHash": "430950c379ec78aff91b5e8fa04c8aba",
       "sourceName": "@openzeppelin/contracts-upgradeable/proxy/ERC1967/ERC1967UpgradeUpgradeable.sol",
       "solcConfig": {
@@ -374,8 +552,8 @@
         "ERC1967UpgradeUpgradeable"
       ]
     },
-    "/Users/jsch/Desktop/fresh/contracts/node_modules/@openzeppelin/contracts-upgradeable/proxy/beacon/IBeaconUpgradeable.sol": {
-      "lastModificationDate": 1633129578759,
+    "/home/dev/repos/treasure-chess/contracts/node_modules/@openzeppelin/contracts-upgradeable/proxy/beacon/IBeaconUpgradeable.sol": {
+      "lastModificationDate": 1633650599779,
       "contentHash": "02d4784b119cc80015bef24a5e6bb0ea",
       "sourceName": "@openzeppelin/contracts-upgradeable/proxy/beacon/IBeaconUpgradeable.sol",
       "solcConfig": {
@@ -408,8 +586,8 @@
         "IBeaconUpgradeable"
       ]
     },
-    "/Users/jsch/Desktop/fresh/contracts/node_modules/@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol": {
-      "lastModificationDate": 1633129574239,
+    "/home/dev/repos/treasure-chess/contracts/node_modules/@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol": {
+      "lastModificationDate": 1633650583940,
       "contentHash": "25dd93dd672c3114a782e2a4424201b3",
       "sourceName": "@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol",
       "solcConfig": {
@@ -442,8 +620,8 @@
         "AddressUpgradeable"
       ]
     },
-    "/Users/jsch/Desktop/fresh/contracts/node_modules/@openzeppelin/contracts-upgradeable/utils/StorageSlotUpgradeable.sol": {
-      "lastModificationDate": 1633129574239,
+    "/home/dev/repos/treasure-chess/contracts/node_modules/@openzeppelin/contracts-upgradeable/utils/StorageSlotUpgradeable.sol": {
+      "lastModificationDate": 1633650583952,
       "contentHash": "92db084d1a7fc35176205dae79fa7da0",
       "sourceName": "@openzeppelin/contracts-upgradeable/utils/StorageSlotUpgradeable.sol",
       "solcConfig": {
@@ -476,8 +654,8 @@
         "StorageSlotUpgradeable"
       ]
     },
-    "/Users/jsch/Desktop/fresh/contracts/node_modules/@openzeppelin/contracts-upgradeable/token/ERC721/IERC721Upgradeable.sol": {
-      "lastModificationDate": 1633129578761,
+    "/home/dev/repos/treasure-chess/contracts/node_modules/@openzeppelin/contracts-upgradeable/token/ERC721/IERC721Upgradeable.sol": {
+      "lastModificationDate": 1633650599823,
       "contentHash": "19b5eecf9c8a8c2b949ee02c905229d4",
       "sourceName": "@openzeppelin/contracts-upgradeable/token/ERC721/IERC721Upgradeable.sol",
       "solcConfig": {
@@ -512,8 +690,8 @@
         "IERC721Upgradeable"
       ]
     },
-    "/Users/jsch/Desktop/fresh/contracts/node_modules/@openzeppelin/contracts-upgradeable/token/ERC721/IERC721ReceiverUpgradeable.sol": {
-      "lastModificationDate": 1633129578761,
+    "/home/dev/repos/treasure-chess/contracts/node_modules/@openzeppelin/contracts-upgradeable/token/ERC721/IERC721ReceiverUpgradeable.sol": {
+      "lastModificationDate": 1633650599823,
       "contentHash": "4655add0d188acb83025b350b1865d12",
       "sourceName": "@openzeppelin/contracts-upgradeable/token/ERC721/IERC721ReceiverUpgradeable.sol",
       "solcConfig": {
@@ -546,8 +724,8 @@
         "IERC721ReceiverUpgradeable"
       ]
     },
-    "/Users/jsch/Desktop/fresh/contracts/node_modules/@openzeppelin/contracts-upgradeable/token/ERC721/extensions/IERC721MetadataUpgradeable.sol": {
-      "lastModificationDate": 1633129581776,
+    "/home/dev/repos/treasure-chess/contracts/node_modules/@openzeppelin/contracts-upgradeable/token/ERC721/extensions/IERC721MetadataUpgradeable.sol": {
+      "lastModificationDate": 1633650609527,
       "contentHash": "9cd42fc3db4b87cc9110dd648daeee7f",
       "sourceName": "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/IERC721MetadataUpgradeable.sol",
       "solcConfig": {
@@ -582,8 +760,8 @@
         "IERC721MetadataUpgradeable"
       ]
     },
-    "/Users/jsch/Desktop/fresh/contracts/node_modules/@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol": {
-      "lastModificationDate": 1633129574239,
+    "/home/dev/repos/treasure-chess/contracts/node_modules/@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol": {
+      "lastModificationDate": 1633650583972,
       "contentHash": "80d3ad01fbd728e8a0dcde979c610377",
       "sourceName": "@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol",
       "solcConfig": {
@@ -616,8 +794,8 @@
         "StringsUpgradeable"
       ]
     },
-    "/Users/jsch/Desktop/fresh/contracts/node_modules/@openzeppelin/contracts-upgradeable/utils/introspection/ERC165Upgradeable.sol": {
-      "lastModificationDate": 1633129578764,
+    "/home/dev/repos/treasure-chess/contracts/node_modules/@openzeppelin/contracts-upgradeable/utils/introspection/ERC165Upgradeable.sol": {
+      "lastModificationDate": 1633650599831,
       "contentHash": "3649e7528117ffc7d8a3ccf199b0c6d8",
       "sourceName": "@openzeppelin/contracts-upgradeable/utils/introspection/ERC165Upgradeable.sol",
       "solcConfig": {
@@ -653,8 +831,8 @@
         "ERC165Upgradeable"
       ]
     },
-    "/Users/jsch/Desktop/fresh/contracts/node_modules/@openzeppelin/contracts-upgradeable/utils/introspection/IERC165Upgradeable.sol": {
-      "lastModificationDate": 1633129578764,
+    "/home/dev/repos/treasure-chess/contracts/node_modules/@openzeppelin/contracts-upgradeable/utils/introspection/IERC165Upgradeable.sol": {
+      "lastModificationDate": 1633650599831,
       "contentHash": "4db71815975139b4bcedb3b615131302",
       "sourceName": "@openzeppelin/contracts-upgradeable/utils/introspection/IERC165Upgradeable.sol",
       "solcConfig": {
@@ -687,9 +865,9 @@
         "IERC165Upgradeable"
       ]
     },
-    "/Users/jsch/Desktop/fresh/contracts/contracts/TreasureMarket.sol": {
-      "lastModificationDate": 1633129531195,
-      "contentHash": "9e7d34850849ccb103b06b1774278940",
+    "/home/dev/repos/treasure-chess/contracts/contracts/TreasureMarket.sol": {
+      "lastModificationDate": 1633383890313,
+      "contentHash": "37643abe3fafb284614e0868367d5c08",
       "sourceName": "contracts/TreasureMarket.sol",
       "solcConfig": {
         "version": "0.8.2",
@@ -728,8 +906,8 @@
         "TreasureMarket"
       ]
     },
-    "/Users/jsch/Desktop/fresh/contracts/node_modules/@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol": {
-      "lastModificationDate": 1633129574239,
+    "/home/dev/repos/treasure-chess/contracts/node_modules/@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol": {
+      "lastModificationDate": 1633650583940,
       "contentHash": "12a1ac4f7ef141dcf92f6dba57890d16",
       "sourceName": "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol",
       "solcConfig": {
@@ -765,8 +943,8 @@
         "PausableUpgradeable"
       ]
     },
-    "/Users/jsch/Desktop/fresh/contracts/node_modules/@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol": {
-      "lastModificationDate": 1633129574239,
+    "/home/dev/repos/treasure-chess/contracts/node_modules/@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol": {
+      "lastModificationDate": 1633650583940,
       "contentHash": "304d95a6b1f0ca8db842e5fe1f2024a9",
       "sourceName": "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol",
       "solcConfig": {
@@ -801,9 +979,9 @@
         "ReentrancyGuardUpgradeable"
       ]
     },
-    "/Users/jsch/Desktop/fresh/contracts/contracts/TreasureMarketUpgraded.sol": {
-      "lastModificationDate": 1633129531195,
-      "contentHash": "50c05207866402d1ce32410278e810e6",
+    "/home/dev/repos/treasure-chess/contracts/contracts/TreasureMarketUpgraded.sol": {
+      "lastModificationDate": 1633383890313,
+      "contentHash": "46ad845ee69938a3ca6fc395fd09ea4f",
       "sourceName": "contracts/TreasureMarketUpgraded.sol",
       "solcConfig": {
         "version": "0.8.2",
@@ -842,9 +1020,9 @@
         "TreasureMarketUpgraded"
       ]
     },
-    "/Users/jsch/Desktop/fresh/contracts/contracts/TreasureUpgraded.sol": {
-      "lastModificationDate": 1633130569018,
-      "contentHash": "79e8fcfdcac2c79f672e7b2bcc0b0f5c",
+    "/home/dev/repos/treasure-chess/contracts/contracts/TreasureUpgraded.sol": {
+      "lastModificationDate": 1633383890313,
+      "contentHash": "d3c9fbed4ec8f1c5b5e2567020ba04fe",
       "sourceName": "contracts/TreasureUpgraded.sol",
       "solcConfig": {
         "version": "0.8.2",

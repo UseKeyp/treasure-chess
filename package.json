@@ -15,6 +15,9 @@
     "@redwoodjs/core": "^0.37.1",
     "chromatic": "^5.9.2"
   },
+  "scripts": {
+    "compile": "cd contracts && yarn compile && cd ../ && node tasks/updateAbi"
+  },
   "eslintConfig": {
     "extends": "@redwoodjs/eslint-config",
     "root": true,

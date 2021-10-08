@@ -2,6 +2,7 @@ import { db } from 'src/lib/db'
 import { fetchMember } from 'src/lib/members'
 import { getTreasureId, createTreasure } from 'src/lib/treasure'
 import { InputError } from '@redwoodjs/graphql-server'
+import { getNftContract } from 'src/lib/web3/helpers'
 
 export const mintTreasure = async ({ gameId, endTime, title }) => {
   const userId = context.currentUser.id

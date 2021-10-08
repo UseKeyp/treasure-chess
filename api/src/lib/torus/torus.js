@@ -44,7 +44,7 @@ const getTorusWallet = async (userId) => {
     const idToken = await getNewIdToken(userId)
     /* eslint-disable-next-line camelcase */
     const { user_id } = decodeJwt(idToken)
-    await torus.init({ skipSw: true })
+    await torusSdk.init({ skipSw: true })
     const { privateKey, publicAddress } = await torusSdk.getTorusKey(
       TORUS_VERIFIER,
       user_id,

@@ -17,7 +17,14 @@ export const getTreasureId = ({
   // eg. sha3("1. d4 d5 2. c4 e6 3. Nc3 c6 4. e3 Nf6 1612749143 white")
 }
 
-export const createTreasure = async ({ game, title, minter, owner }) => {
+export const createTreasure = async ({
+  game,
+  title,
+  minter,
+  owner,
+  tokenId,
+  mintPurchase,
+}) => {
   const cardColor = getTreasureCardColor({ game, memberId: minter.id })
   const treasureId = getTreasureId({
     moves: game.moves,
@@ -27,7 +34,7 @@ export const createTreasure = async ({ game, title, minter, owner }) => {
   // Create members if they don't exist
   const white = await fetchMember(game.whiteUsername)
   const black = await fetchMember(game.blackUsername)
-  console.log(game)
+
   const treasure = await db.treasure.create({
     data: {
       id: treasureId,
@@ -36,6 +43,7 @@ export const createTreasure = async ({ game, title, minter, owner }) => {
       ...(game.winnerId && { winner: { connect: { id: game.winnerId } } }), // Optional
       minter: { connect: { id: minter.id } },
       owner: { connect: { id: owner.id } },
+      tokenId,
       title,
       cardColor,
       blackRating: game.blackRating,
@@ -54,6 +62,12 @@ export const createTreasure = async ({ game, title, minter, owner }) => {
       opening: game.opening,
       achievements: game.achievements,
       achievementScore: game.achievementScore,
+      // Purchase details
+      mintPurchase: {
+        connect: {
+          id: mintPurchase.id,
+        },
+      },
     },
   })
   return treasure

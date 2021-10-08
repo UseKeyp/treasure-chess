@@ -59,6 +59,7 @@ export const parseGameFromChessDotCom = (game) => {
     moveCount,
     moves,
     winner,
+    event,
   } = parsePgn(game.pgn)
   const splitUrl = game.url.split('/')
   const id = splitUrl[splitUrl.length - 1]
@@ -76,6 +77,7 @@ export const parseGameFromChessDotCom = (game) => {
     outcome: winner,
     moves,
     moveCount,
+    event,
     ruleVariant: getGameRuleVariant(game),
     blackUsername: game.black.username,
     whiteUsername: game.white.username,

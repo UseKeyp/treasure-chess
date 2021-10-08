@@ -27,7 +27,12 @@ const MintForm = (props) => {
           name="title"
           className="rw-input mint-set-title__input "
           errorClassName="rw-input rw-input-error"
-          validation={{ required: true }}
+          validation={{
+            required: true,
+            pattern: {
+              value: /[^@]+@[^\.]+\..+/,
+            },
+          }}
           placeholder="Awesome London System"
         />
         <FieldError name="title" className="rw-field-error" />

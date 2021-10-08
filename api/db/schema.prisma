@@ -71,9 +71,9 @@ model Treasure {
   achievements     String // List eg. "win/play above 2200,queen side castle,mate with a bishop"
   achievementScore Int // eg. 10
   // NFT
-  tokenId          Int?
-  mintedAt         DateTime?
-  mintPurchase     mintPurchase?
+  tokenId?          Int
+  mintedAt?        DateTime
+  mintPurchase     mintPurchase
 }
 
 model OAuth {

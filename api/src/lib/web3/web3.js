@@ -8,23 +8,24 @@ export const mintTreasure = async ({ game, mintPurchase, member, title }) => {
   try {
     if (!member.address) throw 'Minting member does not have a wallet address.'
     if (!title) throw 'Title must not be empty'
-    // Mint here
 
-    // Create treasure and connect pending transaction, minter, owner, tokenId
+    // TODO: Minting here
+
+    await db.mintPurchase.update({
+      where: { id: mintPurchase.id },
+      data: {
+        txHash: 'abc123',
+        txStatus: 'SUBMITTED',
+      },
+    })
+
+    // Create treasure and connect pending transaction, minter, owner
     const treasure = await createTreasure({
       game,
       title,
       minter: member,
       owner: member,
-    })
-
-    await db.mintPurchase.update({
-      where: { id: mintPurchase.id },
-      data: {
-        txHash,
-        txStatus: 'SUBMITTED',
-        treasure: { connect: { id: treasure.id } },
-      },
+      mintPurchase,
     })
 
     return treasure

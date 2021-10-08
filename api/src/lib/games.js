@@ -44,9 +44,15 @@ const getFullGameDetails = async ({ game: rawGame, username }) => {
   }
 }
 
-export const fetchGame = async ({ id: gameId, username, endTime }) => {
+export const fetchGame = async ({
+  id: gameId,
+  username,
+  endTime,
+  includeTreasureData,
+}) => {
   const game = await fetchChessGame({ username, gameId, endTime })
   if (!game) return null
+  if (includeTreasureData) return getFullGameDetails({ game, username })
   return parseGameFromChessDotCom(game)
 }
 

@@ -40,10 +40,23 @@ const validateReferenceId = async (referenceId) => {
       `Member address for ${username} "${memberAddress}" does not match referenceId address "${refereceIdAddress}"`
     )
 
-  const game = await fetchGame({ id: gameId, endTime, username })
+  const game = await fetchGame({
+    username,
+    gameId,
+    endTime,
+    includeTreasureData: true,
+  })
   if (!game)
     throw Error(
       `Game "${gameId}" played by ${username} at ${endTime} could not be found in the Chess API`
+    )
+  if (game.tokenId)
+    throw Error(
+      `Game "${gameId}" played by ${username} at ${endTime} has already been minted. Token ID: ${game.tokenId}`
+    )
+  if (game.blackUsername !== username && game.whiteUsername !== username)
+    throw Error(
+      `Game "${gameId}" at ${endTime} was not played by ${username}. Black: ${game.blackUsername}, White: ${game.whiteUsername}.`
     )
   return { member, game, title }
 }
@@ -52,7 +65,6 @@ export const processOrder = async ({ orderId, referenceId }) => {
   try {
     const order = await fetchOrder(orderId)
     validateMintOrder(order)
-    console.log(order)
     // TODO: WARNING using the referenceId from the webook is unsecure. Waiting for
     // Wyre to add it to the /orders endpoint
     const { member, game, title } = await validateReferenceId(referenceId)
@@ -69,7 +81,7 @@ export const processOrder = async ({ orderId, referenceId }) => {
       update: mintPurchaseData,
     })
 
-    await mintTreasure({ game, mintPurchase, member, title })
+    // await mintTreasure({ game, mintPurchase, member, title })
   } catch (e) {
     // The api/checkout endpoint shouldn't return any specific errors, so
     // we need to track these with our own logging

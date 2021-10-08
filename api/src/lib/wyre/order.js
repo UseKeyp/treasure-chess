@@ -46,17 +46,19 @@ const validateReferenceId = async (referenceId) => {
     endTime,
     includeTreasureData: true,
   })
+  const endTimeString = new Date(endTime * 1000)
   if (!game)
     throw Error(
-      `Game "${gameId}" played by ${username} at ${endTime} could not be found in the Chess API`
+      `Game "${gameId}" played by ${username} at ${endTimeString} could not be found in the Chess API`
     )
-  if (game.tokenId)
+  // TODO: trigger another mint transaction if the last one failed?
+  if (game.mintPurchaseId)
     throw Error(
-      `Game "${gameId}" played by ${username} at ${endTime} has already been minted. Token ID: ${game.tokenId}`
+      `Game "${gameId}" played by ${username} at ${endTimeString} minting process has already started/completed. Token ID: ${game.tokenId}`
     )
   if (game.blackUsername !== username && game.whiteUsername !== username)
     throw Error(
-      `Game "${gameId}" at ${endTime} was not played by ${username}. Black: ${game.blackUsername}, White: ${game.whiteUsername}.`
+      `Game "${gameId}" at ${endTimeString} was not played by ${username}. Black: ${game.blackUsername}, White: ${game.whiteUsername}.`
     )
   return { member, game, title }
 }
@@ -85,6 +87,7 @@ export const processOrder = async ({ orderId, referenceId }) => {
   } catch (e) {
     // The api/checkout endpoint shouldn't return any specific errors, so
     // we need to track these with our own logging
+    // include orderId, referenceId in the error
     console.log(orderId, referenceId)
     console.log(e)
   }

@@ -1,7 +1,15 @@
 import { DbAuthHandler } from '@redwoodjs/api'
 import { InputError } from '@redwoodjs/graphql-server'
+import * as Sentry from '@sentry/node'
+import * as Tracing from '@sentry/tracing'
+
 import { db } from 'src/lib/db'
 import { handleOauthCodeGrant } from 'src/lib/oAuth/oAuth'
+
+Sentry.init({
+  dsn: process.env.SENTRY_DSN,
+  tracesSampleRate: 1.0,
+})
 
 export const handler = async (event, context) => {
   const authHandler = new DbAuthHandler(event, context, {

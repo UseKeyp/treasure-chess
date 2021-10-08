@@ -26,6 +26,8 @@
     background-color: color.scale(#4f4f4f, $lightness: 20%);
     cursor: pointer;
     color: color.scale(#848484, $lightness: 60%);
+    box-shadow: 0px 4px 0px 0px color.scale(#4f4f4f, $lightness: -33%);
+    transform: translateY(-4px);
   }
   &:focus {
     outline: none;
@@ -37,6 +39,9 @@
   color: white;
   &:hover, &:focus {
     background-color: color.scale(#6c9d41, $lightness: 20%);
+    color: white;
+    box-shadow: 0px 4px 0px 0px color.scale(#6c9d41, $lightness: -20%);
+    transform: translateY(-4px);
   }
 }
 

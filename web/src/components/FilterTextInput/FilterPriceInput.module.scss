@@ -1,13 +1,13 @@
 @use "sass:color";
 
-.filterTextWrapper {
+.filterPriceWrapper {
 display: flex;
 font-size: 1rem;
 color: white;
 transition: all 0.25s;
 border-radius: 0.25rem;
 padding: 1ex 1em;
-max-width: 9ch;
+max-width: 80%;
 background-color: #4f4f4f;
 padding-top: 1.5ex;
 overflow: hidden;
@@ -16,7 +16,7 @@ overflow: hidden;
 }
 }
 
-.filterTextInput {
+.filterPriceInput {
   display: inline-block;
   outline: none;
   border: none;

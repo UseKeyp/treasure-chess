@@ -1,11 +1,11 @@
 import { render } from '@redwoodjs/testing/web'
 
-import FilterTextInput from './FilterTextInput'
+import FilterPriceInput from './FilterPriceInput'
 
-describe('FilterTextInput', () => {
+describe('FilterPriceInput', () => {
   it('renders successfully', () => {
     expect(() => {
-      render(<FilterTextInput />)
+      render(<FilterPriceInput />)
     }).not.toThrow()
   })
 })

@@ -20,3 +20,28 @@ margin-top: 29px;
     color: #259FC6;
   }
 }
+
+.dropdownRow {
+  width: 100%;
+  margin-bottom: 1ex;
+}
+.dropdownTwoElementRow {
+  width: 100%;
+  margin-bottom: 1ex;
+  display: flex;
+  justify-content: space-between;
+}
+
+.priceRowWrapper {
+  width: 100%;
+  font-size: 1rem;
+  margin: 1ex 1em;
+  padding: 0 1em;
+}
+.priceRow {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1ex;
+}

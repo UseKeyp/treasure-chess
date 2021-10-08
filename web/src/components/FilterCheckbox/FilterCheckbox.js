@@ -10,19 +10,22 @@ const FilterCheckbox = (props) => {
   }
 
   return (
-    <div className={styles.checkBoxWrapper}>
-      {options?.map((option, index) => {
-        return (
-          <>
-            <FilterListItem
-              isSelected={currentSelection == option ? true : false}
-              label={option}
-              clickFunction={handleSelectionUpdate}
-              key={index}
-            />
-          </>
-        )
-      })}
+    <div className={styles.checkBoxContainer}>
+      <h4>{props.category}</h4>
+      <div className={styles.checkBoxWrapper}>
+        {options?.map((option, index) => {
+          return (
+            <>
+              <FilterListItem
+                isSelected={currentSelection == option ? true : false}
+                label={option}
+                clickFunction={handleSelectionUpdate}
+                key={index}
+              />
+            </>
+          )
+        })}
+      </div>
     </div>
   )
 }
@@ -32,31 +35,24 @@ export default FilterCheckbox
 const FilterListItem = (props) => {
   return (
     <>
-      {props.isSelected ? (
-        <button
-          className={`${styles.filterListItem} ${styles.filterListItemSelected}`}
-          onClick={() => props.clickFunction(props.label)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') {
-              props.clickFunction(props.label)
-            }
-          }}
-        >
-          {props.label}
-        </button>
-      ) : (
-        <button
-          className={styles.filterListItem}
-          onClick={() => props.clickFunction(props.label)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') {
-              props.clickFunction(props.label)
-            }
-          }}
-        >
-          {props.label}
-        </button>
-      )}
+      <button
+        className={
+          props.isSelected
+            ? `${styles.filterListItem} ${styles.filterListItemSelected}`
+            : `${styles.filterListItem}`
+        }
+        onClick={() => props.clickFunction(props.label)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            props.clickFunction(props.label)
+          }
+        }}
+        onMouseLeave={(e) => {
+          e.target.blur()
+        }}
+      >
+        {props.label}
+      </button>
     </>
   )
 }

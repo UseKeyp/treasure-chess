@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import styles from './FilterPriceInput.module.scss'
 
-const FilterPriceInput = () => {
+const FilterPriceInput = (props) => {
   const moneyRegex = /\d+/
   const [amount, setAmount] = useState('')
 

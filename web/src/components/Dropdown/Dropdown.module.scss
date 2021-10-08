@@ -3,6 +3,7 @@
 .dropdownWrapper {
   font-size: .925rem;
   user-select: none;
+  width: 100%;
   h4 {
     margin: 0 1em;
   }
@@ -45,4 +46,17 @@
   &:focus {
     outline: none;
   }
+}
+
+.optionContainerWrap {
+  position: relative;
+  height: 0px;
+}
+
+.optionContainer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: #4F4F4F;
+  width: 100%;
 }

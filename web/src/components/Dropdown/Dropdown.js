@@ -3,8 +3,8 @@ import styles from './Dropdown.module.scss'
 import { ReactComponent as Carat } from '../../assets/icons/carat.svg'
 
 const Dropdown = (props) => {
-  const [isOpen, setIsOpen] = useState(true)
-  const options = props.options
+  const [isOpen, setIsOpen] = useState(false)
+  let options = props.options
   const [currentOption, setCurrentOption] = useState()
 
   const toggleOpen = () => {
@@ -50,52 +50,62 @@ const Dropdown = (props) => {
             </>
           )}
         </div>
-        {isOpen && typeof options !== 'undefined'
-          ? options.map((option, index) => {
-              return (
-                <div
-                  key={index}
-                  className={styles.dropdownObject}
-                  role={'button'}
-                  tabIndex={0}
-                  name={`${dropdownElementName}`}
-                  onClick={() => {
-                    handleSelection(option)
-                  }}
-                  onKeyDown={(e) => {
-                    // jsx ally yelled at me to implement keyboard navigation
-                    let elements = document.querySelectorAll(
-                      `div[name="${props.category}--${styles.dropdownObject}"]`
-                    )
-                    if (e.key === 'Enter') {
-                      handleSelection(option)
-                      toggleOpen()
-                    }
-                    if (e.key === 'ArrowRight') {
-                      handleSelection(option)
-                    }
-                    if (e.key === 'ArrowUp' && index > 0) {
-                      let nextElement = elements[index - 1]
-                      nextElement.focus()
-                    }
-                    if (e.key === 'ArrowUp' && index === 0) {
-                      document
-                        .querySelectorAll(
-                          `div[name="${props.category}--${styles.dropdownLabel}"]`
-                        )[0]
-                        .focus()
-                    }
-                    if (e.key === 'ArrowDown' && index < options.length - 1) {
-                      let nextElement = elements[index + 1]
-                      nextElement.focus()
-                    }
-                  }}
-                >
-                  {option}
-                </div>
-              )
-            })
-          : null}
+        {isOpen && typeof options !== 'undefined' ? (
+          <div className={styles.optionContainerWrap}>
+            <div className={styles.optionContainer}>
+              {options.map((option, index) => {
+                return (
+                  <div
+                    key={index}
+                    className={styles.dropdownObject}
+                    role={'button'}
+                    tabIndex={0}
+                    name={`${dropdownElementName}`}
+                    onClick={() => {
+                      handleSelection(
+                        props.category === 'Time' ? option.label : option
+                      )
+                    }}
+                    onKeyDown={(e) => {
+                      // jsx ally yelled at me to implement keyboard navigation
+                      let elements = document.querySelectorAll(
+                        `div[name="${props.category}--${styles.dropdownObject}"]`
+                      )
+                      if (e.key === 'Enter') {
+                        handleSelection(
+                          props.category === 'Time' ? option.label : option
+                        )
+                        toggleOpen()
+                      }
+                      if (e.key === 'ArrowRight') {
+                        handleSelection(
+                          props.category === 'Time' ? option.label : option
+                        )
+                      }
+                      if (e.key === 'ArrowUp' && index > 0) {
+                        let nextElement = elements[index - 1]
+                        nextElement.focus()
+                      }
+                      if (e.key === 'ArrowUp' && index === 0) {
+                        document
+                          .querySelectorAll(
+                            `div[name="${props.category}--${styles.dropdownLabel}"]`
+                          )[0]
+                          .focus()
+                      }
+                      if (e.key === 'ArrowDown' && index < options.length - 1) {
+                        let nextElement = elements[index + 1]
+                        nextElement.focus()
+                      }
+                    }}
+                  >
+                    {props.category === 'Time' ? option.label : option}
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        ) : null}
       </div>
     </div>
   )

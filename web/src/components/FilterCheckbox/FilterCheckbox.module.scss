@@ -1,10 +1,16 @@
 @use "sass:color";
 
+.checkBoxContainer {
+  font-size: 1rem;
+  padding: 1ex 1em;
+}
+
 .checkBoxWrapper {
   display: flex;
   flex-flow: row wrap;
   align-items: center;
   max-width: 100%;
+  margin-top: 1ex;
 }
 
 .filterListItem {
@@ -20,6 +26,7 @@
   background-color: #4F4F4F;
   transition: all 0.25s;
   line-height: 1;
+  margin: .5ex 0;
   margin-right: 1ex;
   color: #848484;
   &:hover, &:focus {

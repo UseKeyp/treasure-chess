@@ -1,15 +1,3 @@
-export const filters = {
-  achievements,
-  openingList,
-  colors,
-  ratings,
-  titles,
-  timeControls,
-  terminations,
-  outcomes,
-  moveCounts
-}
-
 const achievements = [
   {
     // index 0
@@ -227,6 +215,10 @@ const ratings = [
 
 const titles = [
   {
+    label: 'No Title',
+    data: null,
+  },
+  {
     label: 'Grandmaster',
     data: 'gm',
   },
@@ -237,10 +229,6 @@ const titles = [
   {
     label: 'New Master',
     data: 'nm',
-  },
-  {
-    label: 'No Title',
-    data: null,
   },
 ]
 
@@ -298,3 +286,15 @@ const outcomes = [
 ]
 
 const moveCounts = ['< 10', '10 - 49', '50 - 99', '100 - 199', '200+']
+
+export const filters = {
+  achievements,
+  openingList,
+  colors,
+  ratings,
+  titles,
+  timeControls,
+  terminations,
+  outcomes,
+  moveCounts,
+}

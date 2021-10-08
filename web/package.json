@@ -22,6 +22,7 @@
     "@redwoodjs/forms": "^0.37.1",
     "@redwoodjs/router": "^0.37.1",
     "@redwoodjs/web": "^0.37.1",
+    "bad-words": "^3.0.4",
     "flag-icon-css": "^3.5.0",
     "jsonwebtoken": "^8.5.1",
     "prop-types": "^15.7.2",

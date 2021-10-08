@@ -6,8 +6,11 @@ import {
   Submit,
 } from '@redwoodjs/forms'
 import { Link } from '@redwoodjs/router'
+import ProfanityFilter from 'bad-words'
 
 import PropTypes from 'prop-types'
+
+const profanityFilter = new ProfanityFilter()
 
 const MintForm = (props) => {
   return (
@@ -29,8 +32,16 @@ const MintForm = (props) => {
           errorClassName="rw-input rw-input-error"
           validation={{
             required: true,
-            pattern: {
-              value: /[^@]+@[^\.]+\..+/,
+            maxLength: 50,
+            validate: (str) => {
+              if (
+                !str.match(
+                  /[\uD800-\uDBFF \uDC00-\uDFFF a-z A-Z 0-9 !@#$*%^&()+=-[\]';.\\\/{}|":<>\?]/
+                )
+              )
+                return `Only alphanumeric characters, emojis, and the symbols !@#$%^&*()+=-[]\\/|';.{}":<>? are allowed.`
+              if (profanityFilter.isProfane(str)) return 'Potty mouth!'
+              if (str.includes(',')) return `No "," characters allowed`
             },
           }}
           placeholder="Awesome London System"

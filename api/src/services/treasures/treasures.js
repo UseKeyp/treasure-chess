@@ -3,6 +3,7 @@ import { fetchMember } from 'src/lib/members'
 import { createTreasure } from 'src/lib/treasure'
 import { fetchGame } from 'src/lib/games'
 import { createMintReservation } from 'src/lib/wyre/wyre'
+import { validateTreasureTitle } from 'src/lib/helpers'
 
 export const treasures = () => {
   return db.treasure.findMany()
@@ -37,6 +38,7 @@ export const treasureNftDetails = async ({ id }) => {
 }
 
 export const mintCheckoutUrl = async ({ gameId, endTime, title }) => {
+  validateTreasureTitle(title)
   const { username, address } = context.currentUser
   const game = await fetchGame({
     id: gameId,

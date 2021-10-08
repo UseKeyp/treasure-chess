@@ -17,13 +17,12 @@ model Member {
   username             String         @unique // Chess.com username
   address              String?        @unique // Torus wallet address
   // --------------- LINKS --------------
-  treasuresOwned       Treasure[]     @relation(name: "treasuresOwned")
-  treasuresMinted      Treasure[]     @relation(name: "treasuresMinted")
-  treasuresPlayedWhite Treasure[]     @relation(name: "treasuresPlayedWhite")
-  treasuresPlayedBlack Treasure[]     @relation(name: "treasuresPlayedBlack")
-  treasuresWon         Treasure[]     @relation(name: "treasuresWon")
-  mintPurchase         MintPurchase[] @relation(name: "mintPurchases")
-  MintPurchase         MintPurchase[]
+  treasuresOwned       Treasure[]     @relation("treasuresOwned")
+  treasuresMinted      Treasure[]     @relation("treasuresMinted")
+  treasuresPlayedWhite Treasure[]     @relation("treasuresPlayedWhite")
+  treasuresPlayedBlack Treasure[]     @relation("treasuresPlayedBlack")
+  treasuresWon         Treasure[]     @relation("treasuresWon")
+  mintPurchases        MintPurchase[] @relation("mintPurchases")
   // --------------- STATE --------------
   createdAt            DateTime       @default(now())
   updatedAt            DateTime       @updatedAt
@@ -51,7 +50,7 @@ model Treasure {
   minterAddress    String
   owner            Member       @relation(name: "treasuresOwned", fields: [ownerAddress], references: [address])
   ownerAddress     String
-  mintPurchase     MintPurchase @relation(fields: [mintPurchaseId], references: [id])
+  mintPurchase     MintPurchase @relation(name: "mintPurchase", fields: [mintPurchaseId], references: [id])
   mintPurchaseId   String
   // --------------- STATE --------------
   title            String
@@ -82,17 +81,15 @@ model MintPurchase {
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   // --------------- LINKS --------------
-  member      Member    @relation(fields: [memberId], references: [id])
-  memberId    String
-  treasure    Treasure?
-  treasureId  String?
+  member      Member    @relation("mintPurchases", fields: [memberId], references: [id])
+  treasure    Treasure? @relation("mintPurchase")
   // --------------- STATE --------------
   orderStatus String    @default("INVALID")
   gameId      String
   gameEndTime String
   txHash      String?
   txStatus    String    @default("UNSUBMITTED")
-  Member      Member    @relation("mintPurchases", fields: [memberId], references: [id])
+  memberId    String
 }
 
 model OAuth {

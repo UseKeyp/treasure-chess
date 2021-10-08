@@ -39,7 +39,9 @@ export const createTreasure = async ({
     data: {
       id: treasureId,
       black: { connect: { id: black.id } },
+      blackUsername: black.username,
       white: { connect: { id: white.id } },
+      whiteUsername: white.username,
       ...(game.winnerId && { winner: { connect: { id: game.winnerId } } }), // Optional
       minter: { connect: { id: minter.id } },
       owner: { connect: { id: owner.id } },

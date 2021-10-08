@@ -1,12 +1,5 @@
-import * as Sentry from '@sentry/node'
-import * as Tracing from '@sentry/tracing'
-
+import Sentry from 'src/lib/sentry'
 import { processOrder } from 'src/lib/wyre/order'
-
-Sentry.init({
-  dsn: process.env.SENTRY_DSN,
-  tracesSampleRate: 1.0,
-})
 
 const methods = ['completeOrder']
 
@@ -30,6 +23,7 @@ export const handler = async (event) => {
       },
     }
   } catch (e) {
+    console.log(event)
     Sentry.captureException(e)
     return {
       statusCode, // Always return 200

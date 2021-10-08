@@ -1,7 +1,6 @@
 import { createGraphQLHandler } from '@redwoodjs/graphql-server'
 import { useSentry } from '@envelop/sentry'
-import * as Sentry from '@sentry/node'
-import * as Tracing from '@sentry/tracing'
+import Sentry from 'src/lib/sentry'
 
 import { getCurrentUser } from 'src/lib/auth'
 import { logger } from 'src/lib/logger'
@@ -9,11 +8,6 @@ import directives from 'src/directives/**/*.{js,ts}'
 import sdls from 'src/graphql/**/*.sdl.{js,ts}'
 import services from 'src/services/**/*.{js,ts}'
 import { db } from 'src/lib/db'
-
-Sentry.init({
-  dsn: process.env.SENTRY_DSN,
-  tracesSampleRate: 1.0,
-})
 
 const extraPlugins = [
   useSentry({

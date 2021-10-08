@@ -16,6 +16,14 @@ model Member {
   id                   String         @id // Chess.com id
   username             String         @unique // Chess.com username
   address              String?        @unique // Torus wallet address
+  // --------------- LINKS --------------
+  treasuresOwned       Treasure[]     @relation(name: "treasuresOwned")
+  treasuresMinted      Treasure[]     @relation(name: "treasuresMinted")
+  treasuresPlayedWhite Treasure[]     @relation(name: "treasuresPlayedWhite")
+  treasuresPlayedBlack Treasure[]     @relation(name: "treasuresPlayedBlack")
+  treasuresWon         Treasure[]     @relation(name: "treasuresWon")
+  mintPurchase         MintPurchase[] @relation(name: "mintPurchases")
+  MintPurchase         MintPurchase[]
   // --------------- STATE --------------
   createdAt            DateTime       @default(now())
   updatedAt            DateTime       @updatedAt
@@ -24,33 +32,27 @@ model Member {
   country              String // Player's country  eg. US, DE
   // Oauth
   refreshToken         String?
-  // --------------- LINKS --------------
-  treasuresOwned       Treasure[]     @relation(name: "treasuresOwned")
-  treasuresMinted      Treasure[]     @relation(name: "treasuresMinted")
-  treasuresPlayedWhite Treasure[]     @relation(name: "treasuresPlayedWhite")
-  treasuresPlayedBlack Treasure[]     @relation(name: "treasuresPlayedBlack")
-  treasuresWon         Treasure[]     @relation(name: "treasuresWon")
-  // !! For Scaffolding purposes only - should be commented out
-  mintPurchase         mintPurchase[]
 }
 
 model Treasure {
-  id               String        @id // Moves hash plus end time
-  createdAt        DateTime      @default(now())
-  updatedAt        DateTime      @updatedAt
+  id               String       @id // Moves hash plus end time
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
   // --------------- LINKS --------------
   // Chess.com (required)
-  black            Member        @relation(name: "treasuresPlayedWhite", fields: [blackId], references: [id])
+  black            Member       @relation(name: "treasuresPlayedWhite", fields: [blackId], references: [id])
   blackId          String
-  white            Member        @relation(name: "treasuresPlayedBlack", fields: [whiteId], references: [id])
+  white            Member       @relation(name: "treasuresPlayedBlack", fields: [whiteId], references: [id])
   whiteId          String
-  winner           Member?       @relation(name: "treasuresWon", fields: [winnerId], references: [id])
+  winner           Member?      @relation(name: "treasuresWon", fields: [winnerId], references: [id])
   winnerId         String?
   // NFT
   minter           Member       @relation(name: "treasuresMinted", fields: [minterAddress], references: [address])
   minterAddress    String
   owner            Member       @relation(name: "treasuresOwned", fields: [ownerAddress], references: [address])
   ownerAddress     String
+  mintPurchase     MintPurchase @relation(fields: [mintPurchaseId], references: [id])
+  mintPurchaseId   String
   // --------------- STATE --------------
   title            String
   cardColor        String // white or black
@@ -65,15 +67,32 @@ model Treasure {
   event            String // eg. "Live Chess"
   moves            String // pgn moves
   moveCount        Int // eg. 43
-  ruleVariant      String        @default("Standard") // eg. "Standard" or "Chess960"
+  ruleVariant      String       @default("Standard") // eg. "Standard" or "Chess960"
   externalUrl      String? // Link to game on chess.com
   opening          String // eg. "Queen's Gambit"
   achievements     String // List eg. "win/play above 2200,queen side castle,mate with a bishop"
   achievementScore Int // eg. 10
   // NFT
-  tokenId?          Int
-  mintedAt?        DateTime
-  mintPurchase     mintPurchase
+  tokenId          Int?
+  mintedAt         DateTime?
+}
+
+model MintPurchase {
+  id          String    @id // Wyre orderId
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  // --------------- LINKS --------------
+  member      Member    @relation(fields: [memberId], references: [id])
+  memberId    String
+  treasure    Treasure?
+  treasureId  String?
+  // --------------- STATE --------------
+  orderStatus String    @default("INVALID")
+  gameId      String
+  gameEndTime String
+  txHash      String?
+  txStatus    String    @default("UNSUBMITTED")
+  Member      Member    @relation("mintPurchases", fields: [memberId], references: [id])
 }
 
 model OAuth {
@@ -81,21 +100,4 @@ model OAuth {
   codeChallenge String
   codeVerifier  String
   createdAt     DateTime @default(now())
-}
-
-model mintPurchase {
-  id          String    @id // Wyre orderId
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  // --------------- STATE --------------
-  orderStatus String    @default("INVALID")
-  gameId      String
-  gameEndTime String
-  txHash      String?
-  txStatus    String    @default("UNSUBMITTED")
-  // --------------- LINKS --------------
-  member      Member    @relation(fields: [memberId], references: [id])
-  memberId    String
-  treasure    Treasure? @relation(fields: [treasureId], references: [id])
-  treasureId  String?
 }

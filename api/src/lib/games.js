@@ -26,8 +26,6 @@ const getFullGameDetails = async ({ game: rawGame, username }) => {
     .slice(0, 3)
     .map((item) => item.name)
     .join(', ')
-  console.log(game.pgn)
-  console.log(opening, score, achievementsString)
   const white = await fetchMember(game.whiteUsername)
   const black = await fetchMember(game.blackUsername)
   let winnerId

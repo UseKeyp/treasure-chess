@@ -43,9 +43,8 @@ export const getLoginUrl = async () => {
 
 export const handleOauthCodeGrant = async ({ state, code }) => {
   try {
-    // console.log('handleOauthCodeGrant')
-    // console.log({ state, code })
-    const oAuth = await db.oAuth.findUnique({ where: { state } })
+    // Delete the OAuth Item
+    const oAuth = await db.oAuth.delete({ where: { state } })
     if (!oAuth) throw 'State not valid'
 
     // Check expiration
@@ -57,9 +56,6 @@ export const handleOauthCodeGrant = async ({ state, code }) => {
       code,
       oAuth.codeVerifier
     )
-
-    // Delete the OAuth Item
-    await db.oAuth.delete({ where: { state } })
 
     // Create member if needed, and get current avatar
     const member = await fetchMember(decoded.preferred_username, true)

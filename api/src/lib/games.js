@@ -18,7 +18,6 @@ const getFullGameDetails = async ({ game: rawGame, username }) => {
     where: { id: treasureId },
   })
   if (treasure) return treasure
-
   const { opening, score, achievements } = achievementsCalculator(
     game.pgn,
     cardColor
@@ -27,6 +26,8 @@ const getFullGameDetails = async ({ game: rawGame, username }) => {
     .slice(0, 3)
     .map((item) => item.name)
     .join(', ')
+  console.log(game.pgn)
+  console.log(opening, score, achievementsString)
   const white = await fetchMember(game.whiteUsername)
   const black = await fetchMember(game.blackUsername)
   let winnerId

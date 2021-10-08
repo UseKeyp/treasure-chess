@@ -9,7 +9,6 @@ export const handler = async (event) => {
 
   try {
     // TODO:  Add logging
-    console.log(event)
     // Webhook sent by Wyre (or anyone on the web) after Wyre checkout
     let body = event.body
     if (typeof body === 'string') {
@@ -20,7 +19,6 @@ export const handler = async (event) => {
         throw Error('')
       }
     }
-    console.log(body)
     await processOrder({ orderId: body.orderId, referenceId: body.referenceId })
 
     return {

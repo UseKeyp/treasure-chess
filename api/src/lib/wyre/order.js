@@ -41,8 +41,8 @@ const validateReferenceId = async (referenceId) => {
     )
 
   const game = await fetchGame({
+    id: gameId,
     username,
-    gameId,
     endTime,
     includeTreasureData: true,
   })

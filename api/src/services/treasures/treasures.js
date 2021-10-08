@@ -36,7 +36,7 @@ export const treasureNftDetails = async ({ id }) => {
   return null
 }
 
-export const mintCheckoutUrl = async ({ gameId, endTime }) => {
+export const mintCheckoutUrl = async ({ gameId, endTime, title }) => {
   const { username, address } = context.currentUser
   const game = await fetchGame({
     id: gameId,
@@ -48,6 +48,7 @@ export const mintCheckoutUrl = async ({ gameId, endTime }) => {
     gameId,
     endTime,
     address,
+    title,
   })
   return url
 }

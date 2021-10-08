@@ -1,8 +1,8 @@
 const fs = require('fs-extra')
 const path = require('path')
 
-console.log('====================')
-console.log('Compiling ABIs...')
+console.log('====================================')
+console.log('Copying ABIs to api/src/lib/web3...')
 
 const getAbiString = (abi) => `const abi = ${JSON.stringify(abi)}
 export default abi
@@ -27,4 +27,4 @@ compileAbi(
 )
 
 console.log('Done!')
-console.log('====================')
+console.log('====================================')

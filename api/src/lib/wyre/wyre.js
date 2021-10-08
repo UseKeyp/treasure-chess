@@ -16,13 +16,13 @@ const signature = (url, data) => {
   return token
 }
 
-export const getReferenceId = ({ username, gameId, endTime, address }) =>
-  `${username}&${gameId}&${endTime.getTime() / 1000}&${address}`
+export const getReferenceId = ({ username, gameId, endTime, address, title }) =>
+  `${username},${gameId},${endTime.getTime() / 1000},${address},${title}`
 
 export const parseReferenceId = (referenceId) => {
-  const [username, gameId, endTimeUnix, address] = referenceId.split('&')
+  const [username, gameId, endTimeUnix, address, title] = referenceId.split(',')
   let endTime = new Date(endTimeUnix * 1000)
-  return { username, gameId, endTime, address }
+  return { username, gameId, endTime, address, title }
 }
 
 const fetchWyre = (url, data) => {
@@ -57,9 +57,16 @@ export const createMintReservation = async ({
   gameId,
   endTime,
   address,
+  title,
 }) => {
   try {
-    const referenceId = getReferenceId({ username, gameId, endTime, address })
+    const referenceId = getReferenceId({
+      username,
+      gameId,
+      endTime,
+      address,
+      title,
+    })
     const url = `${API_URL}/orders/reserve`
     const response = await fetchWyre(url, {
       sourceAmount: process.env.WYRE_MINT_USD_SOURCE_AMOUNT,

@@ -23,6 +23,10 @@ const MintTreasure = ({ game }) => {
           'Treasure Chess Checkout',
           'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
         )
+        // TODO: Update state to start polling for mintPurchase by gameId,gameEndTime,username
+
+        // TODO: Once mintPurchase exists, change UI to show that its actually being minted
+        // Show link to transaction on block explorer
       },
     }
   )

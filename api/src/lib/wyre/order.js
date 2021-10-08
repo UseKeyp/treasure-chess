@@ -1,5 +1,6 @@
 import { fetchMember } from 'src/lib/members'
 import { fetchGame } from 'src/lib/games'
+import { mintTreasure } from 'src/lib/web3'
 import { fetchOrder, parseReferenceId } from 'src/lib/wyre/wyre'
 import { db } from 'src/lib/db'
 
@@ -24,7 +25,8 @@ const validateMintOrder = (order) => {
 }
 
 const validateReferenceId = async (referenceId) => {
-  const { username, gameId, endTime, address } = parseReferenceId(referenceId)
+  const { username, gameId, endTime, address, title } =
+    parseReferenceId(referenceId)
 
   const member = await fetchMember(username)
   if (!member)
@@ -43,7 +45,7 @@ const validateReferenceId = async (referenceId) => {
     throw Error(
       `Game "${gameId}" played by ${username} at ${endTime} could not be found in the Chess API`
     )
-  return { member, game }
+  return { member, game, title }
 }
 
 export const processOrder = async ({ orderId, referenceId }) => {
@@ -53,19 +55,21 @@ export const processOrder = async ({ orderId, referenceId }) => {
     console.log(order)
     // TODO: WARNING using the referenceId from the webook is unsecure. Waiting for
     // Wyre to add it to the /orders endpoint
-    const { member, game } = await validateReferenceId(referenceId)
-
-    const mintPurchase = await db.mintPurchase.create({
-      data: {
-        id: orderId,
-        orderStatus: 'COMPLETE',
-        gameId: game.id,
-        gameEndTime: game.endTime,
-        member: { connect: { id: member.id } },
-      },
+    const { member, game, title } = await validateReferenceId(referenceId)
+    const mintPurchaseData = {
+      id: orderId,
+      orderStatus: 'COMPLETE',
+      gameId: game.id,
+      gameEndTime: game.endTime,
+      member: { connect: { id: member.id } },
+    }
+    const mintPurchase = await db.mintPurchase.upsert({
+      where: { id: orderId },
+      create: mintPurchaseData,
+      update: mintPurchaseData,
     })
 
-    // TODO: Trigger minting process
+    await mintTreasure({ game, mintPurchase, member, title })
   } catch (e) {
     // The api/checkout endpoint shouldn't return any specific errors, so
     // we need to track these with our own logging

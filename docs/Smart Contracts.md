@@ -1,5 +1,15 @@
 # Smart Contracts
 
+## 🌞 Production
+
+Copy the most recent version of the contract ABIs to the appropriate `api/` directory by running this command in the root of the repo:
+
+```bash
+yarn compile-abi
+```
+
+## Usage
+
 ### User functions
 
 #### Owner only minting

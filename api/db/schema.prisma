@@ -37,6 +37,7 @@ model Member {
 model Treasure {
   id               String        @id // Moves hash plus end time
   createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
   // --------------- LINKS --------------
   // Chess.com (required)
   black            Member        @relation(name: "treasuresPlayedWhite", fields: [blackId], references: [id])
@@ -45,15 +46,13 @@ model Treasure {
   whiteId          String
   winner           Member?       @relation(name: "treasuresWon", fields: [winnerId], references: [id])
   winnerId         String?
-  // NFT (optional)
-  minter           Member?       @relation(name: "treasuresMinted", fields: [minterAddress], references: [address])
-  minterAddress    String?
-  owner            Member?       @relation(name: "treasuresOwned", fields: [ownerAddress], references: [address])
-  ownerAddress     String?
+  // NFT
+  minter           Member       @relation(name: "treasuresMinted", fields: [minterAddress], references: [address])
+  minterAddress    String
+  owner            Member       @relation(name: "treasuresOwned", fields: [ownerAddress], references: [address])
+  ownerAddress     String
   // --------------- STATE --------------
   title            String
-  updatedAt        DateTime      @updatedAt
-  // Chess
   cardColor        String // white or black
   blackRating      Int // Rating at the time of the game
   whiteRating      Int

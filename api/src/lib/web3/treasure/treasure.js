@@ -1,12 +1,12 @@
 import { getProviderByChainId } from 'src/lib/web3/helpers'
 import { Contract } from '@ethersproject/contracts'
-import erc721Abi from './erc721Abi'
+import treasureAbi from './treasureAbi'
 
-export const getERC721Contract = ({ contractAddress, chainId }) => {
+export const getTreasureContract = ({ contractAddress, chainId }) => {
   try {
     return new Contract(
       contractAddress,
-      erc721Abi,
+      treasureAbi,
       getProviderByChainId(chainId)
     )
   } catch (e) {
@@ -20,6 +20,6 @@ export const getERC721Balance = async ({
   rpcProvider,
   userAddress,
 }) => {
-  const contract = new Contract(contractAddress, erc721Abi, rpcProvider)
+  const contract = new Contract(contractAddress, treasureAbi, rpcProvider)
   return await contract.balanceOf(userAddress)
 }

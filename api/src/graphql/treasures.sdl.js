@@ -56,9 +56,4 @@ export const schema = gql`
       title: String!
     ): String! @requireAuth
   }
-
-  type Mutation {
-    mintTreasure(gameId: String!, endTime: DateTime!, name: String!): Treasure!
-      @requireAuth
-  }
 `

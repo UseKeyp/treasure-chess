@@ -81,7 +81,7 @@ export const processOrder = async ({ orderId, referenceId }) => {
       update: mintPurchaseData,
     })
 
-    // await mintTreasure({ game, mintPurchase, member, title })
+    await mintTreasure({ game, mintPurchase, member, title })
   } catch (e) {
     // The api/checkout endpoint shouldn't return any specific errors, so
     // we need to track these with our own logging

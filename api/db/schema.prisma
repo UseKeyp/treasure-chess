@@ -82,6 +82,7 @@ model MintPurchase {
   updatedAt   DateTime  @updatedAt
   // --------------- LINKS --------------
   member      Member    @relation("mintPurchases", fields: [memberId], references: [id])
+  memberId    String
   treasure    Treasure? @relation("mintPurchase")
   // --------------- STATE --------------
   orderStatus String    @default("INVALID")
@@ -89,7 +90,6 @@ model MintPurchase {
   gameEndTime String
   txHash      String?
   txStatus    String    @default("UNSUBMITTED")
-  memberId    String
 }
 
 model OAuth {

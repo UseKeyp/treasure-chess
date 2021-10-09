@@ -1,27 +1,25 @@
-import { useState } from 'react'
 import styles from './FilterPriceInput.module.scss'
 
 const FilterPriceInput = (props) => {
-  const moneyRegex = /\d+/
-  const [amount, setAmount] = useState('')
+  const moneyRegex = /^[0-9]*$/
 
   const handleChange = (event) => {
     // allows form clearing
     if (event.target.value === '') {
-      setAmount('')
+      props.setValue('')
+    }
+    // no non-number inputs
+    if (!moneyRegex.test(event.target.value)) {
+      props.setValue(props.value)
     }
     // limit inputs
     if (moneyRegex.test(event.target.value)) {
       if (event.target.value.length <= 6) {
-        setAmount(event.target.value)
+        props.setValue(event.target.value)
       }
       if (event.target.value.length > 6) {
-        setAmount((v) => v)
+        props.setValue((v) => v)
       }
-    }
-    // no non-number inputs
-    if (!moneyRegex.test(event.target.value)) {
-      setAmount((v) => v)
     }
   }
 
@@ -31,8 +29,8 @@ const FilterPriceInput = (props) => {
       <input
         type="text"
         className={`${styles.filterPriceInput}`}
-        value={amount}
-        onChange={handleChange}
+        value={props.value}
+        onChange={(e) => handleChange(e)}
       />
     </div>
   )

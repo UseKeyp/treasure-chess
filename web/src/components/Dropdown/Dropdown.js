@@ -5,14 +5,13 @@ import { ReactComponent as Carat } from '../../assets/icons/carat.svg'
 const Dropdown = (props) => {
   const [isOpen, setIsOpen] = useState(false)
   let options = props.options
-  const [currentOption, setCurrentOption] = useState()
 
   const toggleOpen = () => {
     setIsOpen((v) => !v)
   }
 
   const handleSelection = (option) => {
-    setCurrentOption(option)
+    props.queryFilterFunction(option)
   }
 
   const dropdownElementName = `${props.category}--${styles.dropdownObject}`
@@ -40,9 +39,9 @@ const Dropdown = (props) => {
           role={'button'}
           tabIndex={0}
         >
-          {typeof currentOption !== 'undefined' ? (
+          {typeof props.queryFilter !== 'undefined' ? (
             <>
-              <span>{currentOption}</span> <Carat />
+              <span>{props.queryFilter}</span> <Carat />
             </>
           ) : (
             <>

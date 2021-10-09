@@ -2,7 +2,8 @@ import styles from './FilterCheckbox.module.scss'
 import { useState } from 'react'
 
 const FilterCheckbox = (props) => {
-  const [currentSelection, setCurrentSelection] = useState()
+  const setCurrentSelection = props.queryFilterFunction
+  const currentSelection = props.queryFilter
   const options = props.options
 
   const handleSelectionUpdate = (data) => {
@@ -20,7 +21,8 @@ const FilterCheckbox = (props) => {
                 isSelected={currentSelection == option ? true : false}
                 label={option}
                 clickFunction={handleSelectionUpdate}
-                key={index}
+                keyVal={`${option}-${index}`}
+                key={`${option}-filterButton`}
               />
             </>
           )
@@ -50,6 +52,7 @@ const FilterListItem = (props) => {
         onMouseLeave={(e) => {
           e.target.blur()
         }}
+        key={props.keyVal}
       >
         {props.label}
       </button>

@@ -1,4 +1,4 @@
-import { getDescription } from 'src/lib/pinata'
+import { getDescription } from 'src/lib/pinata/helpers'
 
 const PINATA_API_URL = 'https://api.pinata.cloud'
 const PINATA_API_KEY = process.env.PINATA_API_KEY
@@ -22,21 +22,20 @@ const fetchPinata = (url, data) => {
     return res.json()
   })
 }
-export const pin = (blob) =>
+
+const pin = (blob) =>
   fetchPinata(`${PINATA_API_URL}/pinning/pinJSONToIPFS`, blob)
 
-export const pinTreasureToIpfs = ({ treasure }) => {
+export const pinTreasure = async ({ treasure }) => {
   // Generate the HTML
   const htmlString = '<head></head><body></body>'
   // Upload the HTML
-  const animation_url = 'ipfs://QmXpK3dWRdjDPDnTRC14KzPh3Co1eDm6fiQoA3BHE7Kpmk'
-  // const animation_url = await pin(htmlString)
+  const animation_url = await pin(htmlString)
 
   // Generate snapshot of card  @ final position
   const imageSnapshotData = 'dsfgdfgdfgdfg'
   // Upload the snapshot
-  const image = 'ipfs://QmXpK3dWRdjDPDnTRC14KzPh3Co1eDm6fiQoA3BHE7Kpmk'
-  // const image = await pin(imageSnapshotData)
+  const image = await pin(imageSnapshotData)
 
   // Upload the JSON blob
   const achievementsArray = treasure.achievements.split(',')
@@ -52,6 +51,7 @@ export const pinTreasureToIpfs = ({ treasure }) => {
     { trait_type: 'Rule Variant', value: treasure.ruleVariant },
     { trait_type: 'Time Control', value: treasure.timeControl },
   ]
+
   const blob = {
     description: getDescription({ opening: treasure.opening }), // TODO: Update copy for this
     external_url: `${TOKEN_URI_DOMAIN}/treasures`,

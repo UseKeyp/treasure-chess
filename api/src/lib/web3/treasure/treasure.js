@@ -1,4 +1,7 @@
-import { getProviderByChainId } from 'src/lib/web3/helpers'
+import {
+  getProviderByChainId,
+  getIdFromNetworkName,
+} from 'src/lib/web3/helpers'
 import { Contract } from '@ethersproject/contracts'
 import treasureAbi from './treasureAbi'
 import { adminSign } from 'src/lib/web3/admin'

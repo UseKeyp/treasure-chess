@@ -74,6 +74,7 @@ model Treasure {
   opening          String // eg. "Queen's Gambit"
   achievements     String // List eg. "win/play above 2200,queen side castle,mate with a bishop"
   achievementScore Int // eg. 10
+  rarity           String // eg. 10
   // NFT
   tokenId          Int?
   mintedAt         DateTime?

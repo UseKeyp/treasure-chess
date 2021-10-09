@@ -4,7 +4,7 @@ import { getTreasure } from 'src/lib/treasure'
 import { InputError } from '@redwoodjs/graphql-server'
 import { getNftContract } from 'src/lib/web3/helpers'
 import { mint } from 'src/lib/web3/treasure'
-import { pinTreasureToIpfs } from 'src/lib/pinata'
+import { pinTreasure } from 'src/lib/pinata'
 
 export const mintTreasure = async ({ game, mintPurchase, member, title }) => {
   try {
@@ -19,7 +19,7 @@ export const mintTreasure = async ({ game, mintPurchase, member, title }) => {
       mintPurchase,
     })
 
-    const tokenUri = await pinTreasureToIpfs({ treasure })
+    const tokenUri = await pinTreasure({ treasure })
     console.log(tokenUri)
 
     const tx = await mint({ treasure, tokenUri })

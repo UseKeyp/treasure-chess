@@ -204,7 +204,7 @@ contract TreasureMarket is
     emit CancelSaleWithToken(_msgSender(), _id);
   }
 
-  function tokenInstantBuy(address _tokenAddress) public{
+  function tokenInstantBuy(uint _id, address _tokenAddress) public{
     //check SignatureChecker of sale. if its invalid, remove it.
     require(forSaleWithToken[_id] != address(0), 'Item not for sale.');
     require(seller[_id] != address(0), "Something is not quite right here. The seller cant be 0");

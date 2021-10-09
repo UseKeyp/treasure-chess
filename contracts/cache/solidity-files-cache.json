@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/Users/jsch/Desktop/fresh/contracts/contracts/Treasure.sol": {
-      "lastModificationDate": 1633130616320,
-      "contentHash": "aeef2be2fb96dceade151e388a259034",
+      "lastModificationDate": 1633645755002,
+      "contentHash": "fa668e15917761e7027fb7c557fa47aa",
       "sourceName": "contracts/Treasure.sol",
       "solcConfig": {
         "version": "0.8.2",
@@ -688,8 +688,8 @@
       ]
     },
     "/Users/jsch/Desktop/fresh/contracts/contracts/TreasureMarket.sol": {
-      "lastModificationDate": 1633129531195,
-      "contentHash": "9e7d34850849ccb103b06b1774278940",
+      "lastModificationDate": 1633740322718,
+      "contentHash": "1f494db74f61f1bd8e646d833b86e3c7",
       "sourceName": "contracts/TreasureMarket.sol",
       "solcConfig": {
         "version": "0.8.2",
@@ -718,6 +718,7 @@
         "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol",
         "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol",
         "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol",
+        "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol",
         "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol",
         "./Treasure.sol"
       ],
@@ -802,8 +803,8 @@
       ]
     },
     "/Users/jsch/Desktop/fresh/contracts/contracts/TreasureMarketUpgraded.sol": {
-      "lastModificationDate": 1633129531195,
-      "contentHash": "50c05207866402d1ce32410278e810e6",
+      "lastModificationDate": 1633645755004,
+      "contentHash": "46ad845ee69938a3ca6fc395fd09ea4f",
       "sourceName": "contracts/TreasureMarketUpgraded.sol",
       "solcConfig": {
         "version": "0.8.2",
@@ -843,8 +844,8 @@
       ]
     },
     "/Users/jsch/Desktop/fresh/contracts/contracts/TreasureUpgraded.sol": {
-      "lastModificationDate": 1633130569018,
-      "contentHash": "79e8fcfdcac2c79f672e7b2bcc0b0f5c",
+      "lastModificationDate": 1633645755004,
+      "contentHash": "d3c9fbed4ec8f1c5b5e2567020ba04fe",
       "sourceName": "contracts/TreasureUpgraded.sol",
       "solcConfig": {
         "version": "0.8.2",
@@ -882,6 +883,184 @@
       ],
       "artifacts": [
         "TreasureUpgraded"
+      ]
+    },
+    "/Users/jsch/Desktop/fresh/contracts/contracts/ChessCoin.sol": {
+      "lastModificationDate": 1633645755001,
+      "contentHash": "a46544f8191267151d5674f3dab4ae07",
+      "sourceName": "contracts/ChessCoin.sol",
+      "solcConfig": {
+        "version": "0.8.2",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/token/ERC20/ERC20.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ChessCoin"
+      ]
+    },
+    "/Users/jsch/Desktop/fresh/contracts/node_modules/@openzeppelin/contracts/token/ERC20/ERC20.sol": {
+      "lastModificationDate": 1633129578701,
+      "contentHash": "2cd550cedf51b8d294607dad5023d717",
+      "sourceName": "@openzeppelin/contracts/token/ERC20/ERC20.sol",
+      "solcConfig": {
+        "version": "0.8.2",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./IERC20.sol",
+        "./extensions/IERC20Metadata.sol",
+        "../../utils/Context.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ERC20"
+      ]
+    },
+    "/Users/jsch/Desktop/fresh/contracts/node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol": {
+      "lastModificationDate": 1633129578701,
+      "contentHash": "0eac3e1a83ee62326ca007811285b274",
+      "sourceName": "@openzeppelin/contracts/token/ERC20/IERC20.sol",
+      "solcConfig": {
+        "version": "0.8.2",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC20"
+      ]
+    },
+    "/Users/jsch/Desktop/fresh/contracts/node_modules/@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol": {
+      "lastModificationDate": 1633129581767,
+      "contentHash": "aa1be06992a99bb7393b26a6af3c4dfb",
+      "sourceName": "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol",
+      "solcConfig": {
+        "version": "0.8.2",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../IERC20.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC20Metadata"
+      ]
+    },
+    "/Users/jsch/Desktop/fresh/contracts/node_modules/@openzeppelin/contracts/utils/Context.sol": {
+      "lastModificationDate": 1633129574225,
+      "contentHash": "851485d5b925529b1a2f34a0be077891",
+      "sourceName": "@openzeppelin/contracts/utils/Context.sol",
+      "solcConfig": {
+        "version": "0.8.2",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "Context"
       ]
     }
   }

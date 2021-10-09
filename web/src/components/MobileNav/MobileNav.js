@@ -1,27 +1,29 @@
 import { useState } from 'react'
-import treasureChessLogoSrc from './treasure-chess-logo.png'
 import { Menu, X } from 'react-feather'
-// import treasureProfile from './treasure-profile.png'
-import { NavLink, routes } from '@redwoodjs/router'
-// import { useAuth } from '@redwoodjs/auth'
-import { isMobile, trimAddress } from 'src/utils/helpers'
+import { NavLink, routes, useLocation } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
+// import treasureProfile from './treasure-profile.png'
 
-const MobileNav = ({ onClick, forceSmallNav = false }) => {
-  const { userMetadata, getCurrentUser, currentUser } = useAuth()
+import Avatar from 'src/components/Avatar'
+
+import { isMobile, trimAddress } from 'src/utils/helpers'
+import treasureChessLogoSrc from './treasure-chess-logo.png'
+
+const MobileNav = ({ forceSmallNav = false }) => {
   const [isExpanded, setExpanded] = useState(false)
+  const { logIn, logOut, isAuthenticated, currentUser } = useAuth()
+  const { pathname } = useLocation()
 
-  const isLoggedIn = !!userMetadata
+  const onClick = (e) => {
+    if (e.target.id === 'login') logIn({ redirectTo: pathname })
+    if (e.target.id === 'logout') logOut()
+  }
 
-  const userDetails = isLoggedIn ? (
+  const userDetails = isAuthenticated ? (
     <>
-      <img
-        src={userMetadata?.userInfo?.profileImage}
-        alt="profile"
-        className="w-12"
-      />
+      <Avatar image={currentUser.imageSrc} className="w-12" />
       <div className="ml-4">
-        <div className="text-sm font-bold">{userMetadata?.userInfo?.name}</div>
+        <div className="text-sm font-bold">{currentUser.username}</div>
         <button
           onClick={onClick}
           id="logout"
@@ -30,7 +32,7 @@ const MobileNav = ({ onClick, forceSmallNav = false }) => {
             background: 'linear-gradient(180deg, #B9CC36 0%, #7FA650 100%)',
           }}
         >
-          {trimAddress(userMetadata?.publicAddress)}
+          {trimAddress(currentUser.address)}
         </button>
       </div>
     </>
@@ -81,13 +83,15 @@ const MobileNav = ({ onClick, forceSmallNav = false }) => {
               >
                 Home
               </NavLink>
-              <NavLink
-                to={routes.member({ id: 1 })}
-                activeClassName="underline"
-                className="ml-2"
-              >
-                Profile
-              </NavLink>
+              {isAuthenticated && (
+                <NavLink
+                  to={routes.profile()}
+                  activeClassName="underline"
+                  className="ml-2"
+                >
+                  Profile
+                </NavLink>
+              )}
               <NavLink
                 className="ml-2"
                 to={routes.marketplace()}

@@ -1,29 +1,18 @@
-import { AuthenticationError, ForbiddenError, parseJWT } from '@redwoodjs/api'
-import { verifyChessJwt } from 'src/lib/oAuth/jwt'
+import { AuthenticationError, ForbiddenError } from '@redwoodjs/graphql-server'
 
 import { db } from './db'
 
-/**
- * getCurrentUser returns the user information together with
- * an optional collection of roles used by requireAuth() to check
- * if the user is authenticated or has role-based access
- *
- * @param decoded - The decoded access token containing user info and JWT claims like `sub`
- * @param { token, SupportedAuthTypes type } - The access token itself as well as the auth provider type
- * @param { APIGatewayEvent event, Context context } - An object which contains information from the invoker
- * such as headers and cookies, and the context information about the invocation such as IP Address
- *
- * @see https://github.com/redwoodjs/redwood/tree/main/packages/auth for examples
- */
-export const getCurrentUser = async (
-  idToken, // Not decoded for custom auth
-  { _token, _type },
-  { _event, _context }
-) => {
-  // Do we need to verify here?
-  const user = await verifyChessJwt(idToken)
-  return db.member.findUnique({ where: user.sub })
-  // If expired, rotate the JWT
+export const getCurrentUser = async (session) => {
+  const member = await db.member.findUnique({ where: { id: session.id } })
+  if (!member) return null
+  // WARNING: Returned values here are exposed to the FE
+  // Don't include any Chess.com access tokens here
+  return {
+    id: member.id,
+    username: member.username,
+    address: member.address,
+    imageSrc: member.imageSrc,
+  }
 }
 
 export const isAuthenticated = () => {

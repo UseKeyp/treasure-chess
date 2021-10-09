@@ -32,7 +32,8 @@
     "format": "hardhat format",
     "compile": "hardhat compile",
     "test": "hardhat test",
-    "deploy": "hardhat deploy"
+    "deploy": "hardhat run scripts/deploy.ts",
+	"upgrade-contracts": "hardhat run scripts/upgrade.ts"
   },
   "dependencies": {
     "@opengsn/contracts": "^2.2.2",

@@ -1,11 +1,10 @@
 import { FatalErrorBoundary, RedwoodProvider } from '@redwoodjs/web'
-import { RedwoodApolloProvider } from '@redwoodjs/web/apollo'
 import { AuthProvider } from '@redwoodjs/auth'
-import { FetchConfigProvider, useFetchConfig } from '@redwoodjs/web'
-import { ApolloClient, InMemoryCache } from '@apollo/client'
+import { RedwoodApolloProvider } from '@redwoodjs/web/apollo'
 
 import { ContextProvider } from 'src/providers/context'
-import CustomAuthClient from 'src/auth/client'
+import TokenSessionProvider from 'src/providers/tokenSession'
+import { logIn } from 'src/auth/client'
 
 import FatalErrorPage from 'src/pages/FatalErrorPage'
 import Routes from 'src/Routes'
@@ -13,52 +12,32 @@ import Routes from 'src/Routes'
 import './scaffold.css'
 import './index.scss'
 
-let customAuthClient
-// For more examples see https://github.com/oneclickdapp/ethereum-auth
-const ApolloInjector = ({ children }) => {
-  const { uri, headers } = useFetchConfig()
-  try {
-    const graphQLClient = new ApolloClient({
-      cache: new InMemoryCache(),
-      uri,
-      headers,
-    })
-    const makeQuery = (query, variables) =>
-      graphQLClient.query({
-        query,
-        variables,
-      })
-
-    customAuthClient = new CustomAuthClient({
-      makeQuery,
-      debug: process.NODE_ENV === 'development',
-    })
-  } catch (e) {
-    console.log(e)
-  }
-  return React.cloneElement(children, { client: customAuthClient })
-}
-
+/* eslint-disable no-console */
+/* eslint-disable no-irregular-whitespace */
 console.log('++++++++++++++++++++++++++')
-console.log(' ')
+console.log()
 console.log(`( ͡ᵔ ͜ʖ ͡ᵔ) Oh hello there! We're hiring - hit us up on Discord.`)
-console.log(' ')
+console.log()
 console.log('++++++++++++++++++++++++++')
+/* eslint-enable no-irregular-whitespace */
+/* eslint-enable no-console */
+
+const dbAuth = new AuthProvider({ type: 'dbAuth' })
+dbAuth.logIn = logIn // Replace with our OAuth redirect
+const CustomDbAuth = () => dbAuth
+CustomDbAuth.prototype = React.Component.prototype
 
 const App = () => (
   <FatalErrorBoundary page={FatalErrorPage}>
     <RedwoodProvider titleTemplate="%PageTitle | %AppTitle">
-      <FetchConfigProvider>
-        <ApolloInjector>
-          <AuthProvider client={customAuthClient} type="custom">
-            <RedwoodApolloProvider>
-              <ContextProvider>
-                <Routes />
-              </ContextProvider>
-            </RedwoodApolloProvider>
-          </AuthProvider>
-        </ApolloInjector>
-      </FetchConfigProvider>
+      <CustomDbAuth type="dbAuth">
+        <RedwoodApolloProvider>
+          <TokenSessionProvider />
+          <ContextProvider>
+            <Routes />
+          </ContextProvider>
+        </RedwoodApolloProvider>
+      </CustomDbAuth>
     </RedwoodProvider>
   </FatalErrorBoundary>
 )

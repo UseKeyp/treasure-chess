@@ -1,3 +1,5 @@
+import { MetaTags } from '@redwoodjs/web'
+
 import TreasuresCell from 'src/components/Treasure/TreasuresCell'
 
 const TreasuresPage = () => {

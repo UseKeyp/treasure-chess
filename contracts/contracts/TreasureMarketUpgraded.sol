@@ -57,7 +57,7 @@ contract TreasureMarketUpgraded is
 
   function initialize(
     uint256 _gasLessRateLimit,
-    address _treasureDeployedAddress,
+    address payable _treasureDeployedAddress,
     address _forwarder,
     uint256 _feePercentagePoint,
     uint256 _royaltyPercentagePoint
@@ -67,6 +67,9 @@ contract TreasureMarketUpgraded is
     feePercentagePoint = _feePercentagePoint;
     royaltyPercentagePoint = _royaltyPercentagePoint;
     _trustedForwarder = _forwarder;
+    __Ownable_init();
+    __Pausable_init();
+    __ReentrancyGuard_init();
   }
 
   function _authorizeUpgrade(address) internal override onlyOwner {}
@@ -165,8 +168,8 @@ contract TreasureMarketUpgraded is
     //remaining funds (msg.value*feePercentagePoint/1000) are held in this contract until owner wants to withdraw.
 
     isForSaleById[_id] = false;
-    emit SaleComplete(seller[_id], _id, _msgSender());
     treasure.safeTransferFrom(treasure.ownerOf(_id), _msgSender(), _id);
+    emit SaleComplete(seller[_id], _id, _msgSender());
   }
 
   function setRoyalty(uint256 _points) public onlyOwner {

@@ -1,31 +1,13 @@
-import { useMutation } from '@redwoodjs/web'
-import { routes, navigate, useParams } from '@redwoodjs/router'
+import { navigate, useParams } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
-
-import { LOCAL_TOKEN_KEY } from 'src/auth/constants'
+import { getRedirectTo } from 'src/auth/helpers'
 
 import DefaultLayout from 'src/layouts/DefaultLayout'
 import Loader from 'src/components/Loader'
-import Icon from 'src/components/Icon'
 
-export const OAUTH_CODE_GRANT_MUTATION = gql`
-  mutation OauthCodeGrantMutation(
-    $type: String!
-    $state: String!
-    $code: String!
-  ) {
-    oauthCodeGrant(state: $state, code: $code, type: $type) {
-      jwt
-    }
-  }
-`
-
-const Redirect = ({ type }) => {
+const Redirect = () => {
   const [errorMessage, setErrorMessage] = React.useState()
-  const { code, state, redirectTo } = useParams()
-  const [codeGrantMutation, { error: mutationError, data }] = useMutation(
-    OAUTH_CODE_GRANT_MUTATION
-  )
+  const { code, state } = useParams()
   const { logIn } = useAuth()
 
   const checkValidParams = () => {
@@ -33,33 +15,37 @@ const Redirect = ({ type }) => {
   }
 
   const submitOauthCodeGrant = async () => {
-    const res = await codeGrantMutation({
-      variables: {
-        type: 'chess',
-        code,
-        state,
-      },
+    // Call the dbAuth login function
+    /* eslint-disable-next-line no-undef */
+    const response = await fetch(`${global.__REDWOOD__API_PROXY_PATH}/auth`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'chess', code, state, method: 'login' }),
+    }).then((res) => {
+      return res.json()
     })
-    if (res?.data?.oauthCodeGrant) {
-      localStorage.setItem(LOCAL_TOKEN_KEY, res.data.oauthCodeGrant.jwt)
-      window.location.href = redirectTo || '/'
-    }
+    if (response.error) return setErrorMessage(response.error)
+    if (response.id) navigate(getRedirectTo() || '/')
   }
 
   React.useEffect(() => {
     checkValidParams()
     submitOauthCodeGrant()
-  }, [])
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
+  }, [code, state])
 
-  if (mutationError || errorMessage)
+  if (errorMessage)
     return (
       <DefaultLayout>
         <div className="mt-8 sm:text-center lg:text-left">
           <h1 className="text-l tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
-            ⛈️ Oops! Something went wrong
+            <span role="img" aria-label="cloud_with_lightning_and_rain">
+              ⛈️
+            </span>{' '}
+            Oops! Something went wrong
           </h1>
           <div className=" mt-8 rw-cell-error">
-            {(mutationError?.message || errorMessage).substring(0, 200)}
+            {errorMessage.substring(0, 200)}
           </div>
           <button onClick={logIn}>
             <p className="mt-8 text-s text-grey-600">

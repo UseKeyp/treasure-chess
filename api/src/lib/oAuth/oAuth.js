@@ -1,15 +1,15 @@
-import { AuthenticationError, parseJWT } from '@redwoodjs/api'
+import { AuthenticationError } from '@redwoodjs/graphql-server'
+import { v4 as uuidv4 } from 'uuid'
+import pkceChallenge from 'pkce-challenge'
 
 import { db } from 'src/lib/db'
-import { v4 as uuidv4 } from 'uuid'
-import pkceChallenge, { verifyChallenge } from 'pkce-challenge'
-import { getTorusKey } from 'src/lib/torus/torus'
+import { fetchMember } from 'src/lib/members'
+import { getTorusPublicAddress } from 'src/lib/torus/torus'
 
 import {
   CHESS_SCOPE,
   getChessAccessTokenFromCode,
 } from 'src/lib/oAuth/chessDotCom'
-import { getChessMember } from 'src/lib/chessDotCom'
 
 export const getLoginUrl = async () => {
   const state = uuidv4()
@@ -53,52 +53,51 @@ export const handleOauthCodeGrant = async ({ state, code }) => {
       throw 'Sorry, authentication must be completed within 10 minutes.'
 
     // Exchange code for token from Chess.com
-    const {
-      accessToken,
-      accessTokenExpiration,
-      refreshToken,
-      idToken,
-      decodedIdToken,
-      idTokenExpiration,
-    } = await getChessAccessTokenFromCode(code, oAuth.codeVerifier)
+    const { refreshToken, decoded } = await getChessAccessTokenFromCode(
+      code,
+      oAuth.codeVerifier
+    )
 
     // Delete the OAuth Item
     await db.oAuth.delete({ where: { state } })
 
-    // Create or update member
-    const member = await db.member.upsert({
-      where: { id: decodedIdToken.sub },
-      create: {
-        id: decodedIdToken.sub,
-        accessToken,
-        accessTokenExpiration,
+    // Create member if needed, and get current avatar
+    const member = await fetchMember(decoded.preferred_username, true)
+    // TODO: Don't convert to string once type is changed in JWT (waiting on Chess.com)
+    if (decoded.user_id.toString() !== member.id)
+      throw new AuthenticationError(
+        `user_id in JWT doesn't match player_id from API`
+      )
+
+    await db.member.update({
+      where: { id: member.id },
+      data: {
         refreshToken,
-        idTokenExpiration,
-      },
-      update: {
-        accessToken,
-        accessTokenExpiration,
-        refreshToken,
-        idTokenExpiration,
+        // NOTE: Updates user with their current avatar and country
+        imageSrc: member.imageSrc,
+        country: member.country,
+        ...(member.masterTitle && { masterTitle: member.masterTitle }),
       },
     })
 
-    // Get Torus wallet address if needed
+    // NOTE: Get Torus wallet address if needed
     if (!member.address) {
       try {
-        const { publicAddress, privateKey } = await getTorusKey(idToken)
+        const publicAddress = await getTorusPublicAddress(member.id)
         await db.member.update({
-          where: { id: decodedIdToken.sub },
+          where: { id: member.id },
           data: { address: publicAddress },
         })
       } catch (e) {
+        /* eslint-disable no-console */
         console.log("Error fetching user's wallet from Torus")
         console.log(e)
+        /* eslint-enable no-console */
       }
     }
 
     // Save the Discord auth credentials and update state
-    return { jwt: idToken }
+    return member
   } catch (e) {
     throw new AuthenticationError(`handleOauthCodeGrant() ${e}`)
   }

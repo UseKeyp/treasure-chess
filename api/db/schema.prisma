@@ -13,27 +13,22 @@ generator client {
 // Define your own datamodels here and run `yarn redwood prisma migrate dev`
 // to create migrations for them and apply to your dev DB.
 model Member {
-  id                    String     @id // Chess.com username
-  address               String?    @unique // Wallet address
+  id                   String     @id // Chess.com id
+  username             String     @unique // Chess.com username
+  address              String?    @unique // Torus wallet address
   // --------------- STATE --------------
-  dateJoined            DateTime?
+  imageSrc             String? // Avatar URL
+  masterTitle          String? // GM, IM or NM
+  country              String // Player's country  eg. US, DE
   // Oauth
-  accessToken           String? // API access to chess.com
-  accessTokenExpiration DateTime?
-  refreshToken          String?
-  // idToken String? // User's JWT from chess.com
-  idTokenExpiration     DateTime?
+  refreshToken         String?
   // --------------- LINKS --------------
-  treasuresOwned        Treasure[] @relation(name: "treasuresOwned")
-  treasuresMinted       Treasure[] @relation(name: "treasuresMinted")
-  treasuresPlayedWhite  Treasure[] @relation(name: "treasuresPlayedWhite")
-  treasuresPlayedBlack  Treasure[] @relation(name: "treasuresPlayedBlack")
-  treasuresWon          Treasure[] @relation(name: "treasuresWon")
+  treasuresOwned       Treasure[] @relation(name: "treasuresOwned")
+  treasuresMinted      Treasure[] @relation(name: "treasuresMinted")
+  treasuresPlayedWhite Treasure[] @relation(name: "treasuresPlayedWhite")
+  treasuresPlayedBlack Treasure[] @relation(name: "treasuresPlayedBlack")
+  treasuresWon         Treasure[] @relation(name: "treasuresWon")
   // !! For Scaffolding purposes only - should be commented out
-  // rating Int
-  // imageSrc String // Profile image URL
-  // country String // Player's country
-  // masterTitle String? //
 }
 
 model Treasure {
@@ -53,25 +48,26 @@ model Treasure {
   owner            Member?   @relation(name: "treasuresOwned", fields: [ownerAddress], references: [address])
   ownerAddress     String?
   // --------------- STATE --------------
-  name             String
+  title            String
   updatedAt        DateTime  @updatedAt
   // Chess
   cardColor        String // white or black
   blackRating      Int // Rating at the time of the game
-  whiteRating      Int // < 750, 750 - 1000, 1000 - 1499, 1500 - 2000, 2000 - 2199, 2200 - 2399, 2400+
+  whiteRating      Int
   blackMasterTitle String? // eg. "Grand Master" or "International Master"
-  whiteMasterTitle String? // gm, im, nm, or null
-  timeControl      Int // 60, 120, 300, 600, 1800, 3600, null
-  termination      String // "Checkmate", "Resignation", "Stalemate", "Insufficient Material"
-  endTime          DateTime // needs calendar component
-  outcome          String // "white wins", "black wins", "draw"
-  event            String // "Live Chess"
+  whiteMasterTitle String?
+  timeControl      String // game time variant
+  termination      String // eg. "Checkmate",  "Resignation", "Stalemate", "Insufficient Material"
+  endTime          DateTime
+  outcome          String // "white" "black" "draw" etc.
+  event            String // eg. "Live Chess"
   moves            String // pgn moves
-  moveCount        Int // < 10, 10 - 50, 50 - 100, 100 - 200, 200+
-  ruleVariant      String    @default("Standard") // eg. "Standard", "Chess960", "Crazy House", "King of the Hill", ""
+  moveCount        Int // eg. 43
+  ruleVariant      String    @default("Standard") // eg. "Standard" or "Chess960"
   externalUrl      String? // Link to game on chess.com
-  opening          String // "Queen's Gambit", "King's Gambit",
+  opening          String // eg. "Queen's Gambit"
   achievements     String // List eg. "win/play above 2200,queen side castle,mate with a bishop"
+  achievementScore Int // eg. 10
   // NFT
   tokenId          Int?
   mintedAt         DateTime?
@@ -82,12 +78,4 @@ model OAuth {
   codeChallenge String
   codeVerifier  String
   createdAt     DateTime @default(now())
-}
-
-// Jschiarizzi's chess.com credentials, used for the app's primary API access
-model SecretToken {
-  id           String @id @default(uuid())
-  accessToken  String
-  refreshToken String
-  idToken      String // JWT from chess.com
 }

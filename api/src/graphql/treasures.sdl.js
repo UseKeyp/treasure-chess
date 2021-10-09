@@ -12,7 +12,7 @@ export const schema = gql`
     minterAddress: String
     owner: Member
     ownerAddress: String
-    name: String!
+    title: String!
     updatedAt: DateTime!
     cardColor: String!
     blackRating: Int!
@@ -47,14 +47,14 @@ export const schema = gql`
   }
 
   type Query {
-    treasures: [Treasure!]!
-    treasure(id: String!): Treasure
-    treasureNftDetails(id: String!): TreasureNftDetails
-		treasuresWithFilter(): [Treasure!]! #Populate args with args declared in TreasuresWithFilterCell.js
+    treasures: [Treasure!]! @skipAuth
+    treasure(id: String!): Treasure @skipAuth
+    treasureNftDetails(id: String!): TreasureNftDetails @skipAuth
   }
 
   type Mutation {
     mintTreasure(gameId: String!, endTime: DateTime!, name: String!): Treasure!
+      @requireAuth
   }
 
 `

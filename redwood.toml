@@ -10,15 +10,33 @@
   apiProxyPath = "/api"
   host = "0.0.0.0"
   title = "Treasure Chess"
-  includeEnvironmentVariables = ['CHESS_OAUTH_URL']
+  # includeEnvironmentVariables = ['']
 [api]
   port = 8911
   schemaPath = "./api/db/schema.prisma"
-  includeEnvironmentVariables = ['DATABASE_URL','CHESS_API_URL',
-  'PUBLIC_REDIRECT_URL', 'CHESS_OAUTH_URL',
-  'CHESS_CLIENT_ID','CHESS_CLIENT_SECRET',
+  includeEnvironmentVariables = [
+    # Ethereum
+    'APP_ADMIN_WALLET_MNEMONIC',
+    # Chess.com API
+    'CHESS_API_URL',
+    'CHESS_API_ACCESS_TOKEN',
+    # General OAuth + Sessions
+    'PUBLIC_REDIRECT_URL',
+    'SESSION_SECRET',
+    # Torus
+    'TORUS_VERIFIER',
+    # Chess.com OAuth
+    'CHESS_OAUTH_URL',
+    'CHESS_CLIENT_ID',
+    'CHESS_CLIENT_SECRET',
+    'CHESS_BASIC_AUTH_USERNAME',
+    'CHESS_BASIC_AUTH_PASSWORD',
+    # Database
+    'DATABASE_URL',
+    'REDWOOD_SECURE_SERVICES',
   ]
 [browser]
   open = true
 [experimental]
   esbuild = false
+  useEnvelop = true # https://community.redwoodjs.com/t/using-graphql-envelop-helix-in-redwood-v0-35/2276

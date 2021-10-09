@@ -6,4 +6,8 @@ export const isDevelopment =
   process.env.NODE_ENV === 'development' || process.env.NODE_ENV == null
 
 export const isProduction =
-  process.env.NODE_ENV !== 'development' || process.env.NODE_ENV !== null
+  process.env.NODE_ENV !== 'development' && process.env.NODE_ENV !== null
+
+export const isExpired = (expiration) => {
+  return new Date(expiration) > new Date()
+}

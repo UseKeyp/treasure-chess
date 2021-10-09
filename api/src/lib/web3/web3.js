@@ -1,26 +1,17 @@
 import { db } from 'src/lib/db'
 import { fetchMember } from 'src/lib/members'
-import { createTreasure } from 'src/lib/treasure'
+import { getTreasure } from 'src/lib/treasure'
 import { InputError } from '@redwoodjs/graphql-server'
 import { getNftContract } from 'src/lib/web3/helpers'
+import { mint } from 'src/lib/web3/treasure'
+import { pinTreasureToIpfs } from 'src/lib/pinata'
 
 export const mintTreasure = async ({ game, mintPurchase, member, title }) => {
   try {
     if (!member.address) throw 'Minting member does not have a wallet address.'
     if (!title) throw 'Title must not be empty'
 
-    // TODO: Minting here
-
-    await db.mintPurchase.update({
-      where: { id: mintPurchase.id },
-      data: {
-        txHash: 'abc123',
-        txStatus: 'SUBMITTED',
-      },
-    })
-
-    // Create treasure and connect pending transaction, minter, owner
-    const treasure = await createTreasure({
+    const treasure = await getTreasure({
       game,
       title,
       minter: member,
@@ -28,11 +19,26 @@ export const mintTreasure = async ({ game, mintPurchase, member, title }) => {
       mintPurchase,
     })
 
+    const tokenUri = await pinTreasureToIpfs({ treasure })
+    console.log(tokenUri)
+
+    const tx = await mint({ treasure, tokenUri })
+
+    await db.mintPurchase.update({
+      where: { id: mintPurchase.id },
+      data: {
+        txHash: tx.hash,
+        txStatus: 'SUBMITTED',
+      },
+    })
+
+    await db.treasure.create({ data: { ...treasure } })
+
     return treasure
   } catch (e) {
     const errorMessage = `mintTreasure() ${e}`
     console.log(errorMessage)
-    throw new Error(errorMessage)
+    throw e
   }
 }
 

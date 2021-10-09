@@ -17,12 +17,18 @@ export const getTreasureId = ({
   // eg. sha3("1. d4 d5 2. c4 e6 3. Nc3 c6 4. e3 Nf6 1612749143 white")
 }
 
-export const createTreasure = async ({
+const getRarity = (score) => {
+  if (score < 6) return 'Common'
+  if (score < 11) return 'Uncommon'
+  if (score < 14) return 'Rare'
+  return 'Mythic'
+}
+
+export const getTreasure = async ({
   game,
   title,
   minter,
   owner,
-  tokenId,
   mintPurchase,
 }) => {
   const cardColor = getTreasureCardColor({ game, memberId: minter.id })
@@ -35,42 +41,39 @@ export const createTreasure = async ({
   const white = await fetchMember(game.whiteUsername)
   const black = await fetchMember(game.blackUsername)
 
-  const treasure = await db.treasure.create({
-    data: {
-      id: treasureId,
-      black: { connect: { id: black.id } },
-      blackUsername: black.username,
-      white: { connect: { id: white.id } },
-      whiteUsername: white.username,
-      ...(game.winnerId && { winner: { connect: { id: game.winnerId } } }), // Optional
-      minter: { connect: { id: minter.id } },
-      owner: { connect: { id: owner.id } },
-      tokenId,
-      title,
-      cardColor,
-      blackRating: game.blackRating,
-      whiteRating: game.whiteRating,
-      blackMasterTitle: black.title,
-      whiteMasterTitle: white.title,
-      timeControl: game.timeControl,
-      termination: game.termination,
-      endTime: game.endTime,
-      outcome: game.outcome,
-      event: game.event,
-      moves: game.moves,
-      moveCount: game.moveCount,
-      ruleVariant: game.ruleVariant,
-      externalUrl: game.externalUrl,
-      opening: game.opening,
-      achievements: game.achievements,
-      achievementScore: game.achievementScore,
-      // Purchase details
-      mintPurchase: {
-        connect: {
-          id: mintPurchase.id,
-        },
+  return {
+    id: treasureId,
+    black: { connect: { id: black.id } },
+    blackUsername: black.username,
+    white: { connect: { id: white.id } },
+    whiteUsername: white.username,
+    ...(game.winnerId && { winner: { connect: { id: game.winnerId } } }), // Optional
+    minter: { connect: { id: minter.id } },
+    owner: { connect: { id: owner.id } },
+    title,
+    cardColor,
+    blackRating: game.blackRating,
+    whiteRating: game.whiteRating,
+    blackMasterTitle: black.title,
+    whiteMasterTitle: white.title,
+    timeControl: game.timeControl,
+    termination: game.termination,
+    endTime: game.endTime,
+    outcome: game.outcome,
+    event: game.event,
+    moves: game.moves,
+    moveCount: game.moveCount,
+    ruleVariant: game.ruleVariant,
+    externalUrl: game.externalUrl,
+    opening: game.opening,
+    rarity: getRarity(game.achievementScore),
+    achievements: game.achievements,
+    achievementScore: game.achievementScore,
+    // Purchase details
+    mintPurchase: {
+      connect: {
+        id: mintPurchase.id,
       },
     },
-  })
-  return treasure
+  }
 }

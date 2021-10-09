@@ -1,7 +1,7 @@
+import Sentry from 'src/lib/sentry'
 import { db } from 'src/lib/db'
 import { isHexAddress } from 'src/lib/helpers'
 import { fetchChessMember } from 'src/lib/chessCom/chessCom'
-import Sentry from 'src/lib/sentry'
 
 export const fetchMember = async (usernameOrAddress, includeChessData) => {
   try {
@@ -53,7 +53,6 @@ export const fetchMember = async (usernameOrAddress, includeChessData) => {
         country,
       }
     }
-    Sentry.setUser({ username: member.username })
     return member
   } catch (e) {
     Sentry.captureException(e)

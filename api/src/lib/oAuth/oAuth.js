@@ -1,6 +1,7 @@
 import { AuthenticationError } from '@redwoodjs/graphql-server'
 import { v4 as uuidv4 } from 'uuid'
 import pkceChallenge from 'pkce-challenge'
+import Sentry from 'src/lib/sentry'
 
 import { db } from 'src/lib/db'
 import { fetchMember } from 'src/lib/members'
@@ -95,6 +96,7 @@ export const handleOauthCodeGrant = async ({ state, code }) => {
     // Save the Discord auth credentials and update state
     return member
   } catch (e) {
+    Sentry.captureException(e)
     throw new AuthenticationError(`handleOauthCodeGrant() ${e}`)
   }
 }

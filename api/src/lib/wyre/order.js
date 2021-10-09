@@ -1,3 +1,4 @@
+import Sentry from 'src/lib/sentry'
 import { fetchMember } from 'src/lib/members'
 import { fetchGame } from 'src/lib/games'
 import { mintTreasure } from 'src/lib/web3'
@@ -27,6 +28,7 @@ const validateMintOrder = (order) => {
 const validateReferenceId = async (referenceId) => {
   const { username, gameId, endTime, address, title } =
     parseReferenceId(referenceId)
+  Sentry.setUser({ username })
 
   const member = await fetchMember(username)
   if (!member)
@@ -85,10 +87,7 @@ export const processOrder = async ({ orderId, referenceId }) => {
 
     await mintTreasure({ game, mintPurchase, member, title })
   } catch (e) {
-    // The api/checkout endpoint shouldn't return any specific errors, so
-    // we need to track these with our own logging
-    // include orderId, referenceId in the error
     console.log(orderId, referenceId)
-    console.log(e)
+    Sentry.captureException(e)
   }
 }

@@ -19,7 +19,7 @@ const FilterBar = (props) => {
   const [moveCountFilter, setMoveCountFilter] = useState()
   const [rarityFilter, setRarityFilter] = useState()
   const [saleFilter, setSaleFilter] = useState()
-  const [lowPrice, setLowPrice] = useState('')
+  const [lowPrice, setLowPrice] = useState('') // must be initialized to a string to control the input from initial render
   const [highPrice, setHighPrice] = useState('')
 
   const updateAchievementFilter = (data) => {

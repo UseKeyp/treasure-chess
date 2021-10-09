@@ -1,3 +1,16 @@
+import { LOCAL_REDIRECT_TO_KEY } from 'src/auth/constants'
+
+export const saveRedirectTo = (redirect) =>
+  redirect &&
+  !redirect.includes('login') &&
+  localStorage.setItem(LOCAL_REDIRECT_TO_KEY, redirect)
+
+export const getRedirectTo = () => {
+  const url = localStorage.getItem(LOCAL_REDIRECT_TO_KEY)
+  localStorage.removeItem(LOCAL_REDIRECT_TO_KEY)
+  return url
+}
+
 export const getErrorResponse = (error, functionName) => {
   const errorText = typeof error === 'string' ? error : error.message
   const res = {

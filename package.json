@@ -12,7 +12,7 @@
     "chromatic": "chromatic --project-token=cafed242b299 --storybook-build-dir web/public/storybook"
   },
   "devDependencies": {
-    "@redwoodjs/core": "^0.36.4",
+    "@redwoodjs/core": "^0.37.1",
     "chromatic": "^5.9.2"
   },
   "eslintConfig": {
@@ -25,5 +25,6 @@
   "engines": {
     "node": "14.x",
     "yarn": "1.x"
-  }
+  },
+  "resolutions": {}
 }

@@ -2,24 +2,31 @@ export const schema = gql`
   type Game {
     id: String!
     blackId: String!
+    blackUsername: String!
     whiteId: String!
+    whiteUsername: String!
+    winnerId: String
+    winnerUsername: String
     outcome: String!
     termination: String!
     blackRating: Int!
     whiteRating: Int!
-    timeControl: Int!
+    timeControl: String!
     endTime: DateTime!
     event: String!
     moves: String!
     moveCount: Int!
-    gameRuleVariant: String!
+    ruleVariant: String!
     externalUrl: String
     opening: String!
-    treasureId: String
+    cardColor: String!
+    achievements: String!
+    blackMasterTitle: String
+    whiteMasterTitle: String
   }
 
   type Query {
-    games(id: String!): [Game!]!
-    game(id: String!, memberId: String!, endTime: DateTime!): Game
+    gamesForMember(id: String!): [Game!]! @skipAuth
+    game(id: String!, username: String!, endTime: DateTime!): Game @skipAuth
   }
 `

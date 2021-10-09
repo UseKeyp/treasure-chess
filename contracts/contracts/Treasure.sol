@@ -43,6 +43,9 @@ contract Treasure is
   event GameMinted(address to, uint256 id, string uri, bytes32 movesHash);
   event AdminAdded(address addedBy, address newAdmin);
   event AdminRemoved(address addedBy, address newAdmin);
+  event Received(address sender, uint256 amount);
+  event RescuedEther(address recipient, uint256 amount);
+  event RescuedERC20(address token, address recipient, uint256 amount);
 
   function initialize() public initializer {
     __ERC721_init('Treasure Chess', 'CHESS');
@@ -57,17 +60,6 @@ contract Treasure is
     _;
   }
 
-  /// @notice
-  /// @dev
-  /// @param player
-  /// @param tokenURI
-  /// @param _moveHash
-  /// @param _level
-  /// @param _achievement1
-  /// @param _achievement2
-  /// @param _achievement3
-  /// @param _color
-  /// @return
   function mint(
     address player,
     string memory _tokenURI,
@@ -104,26 +96,17 @@ contract Treasure is
     return originalPlayers[_id];
   }
 
-  /// @notice
-  /// @dev
-  /// @return
   function getTotalGames() public view returns (uint256) {
     return _tokenIds.current();
   }
 
-  /// @notice
-  /// @dev
-  /// @param _admin
-  /// @return
+
   function addAdmin(address _admin) public onlyOwner {
     admins[_admin] = true;
     emit AdminAdded(msg.sender, _admin);
   }
 
-  /// @notice
-  /// @dev
-  /// @param _admin
-  /// @return
+  /// @param _admin the admin to be removed
   function removeAdmin(address _admin) public onlyOwner {
     admins[_admin] = false;
     emit AdminRemoved(msg.sender, _admin);
@@ -137,6 +120,7 @@ contract Treasure is
     onlyOwner
   {
     to.transfer(amount);
+    emit RescuedEther(to, amount);
   }
 
   function rescueERC20Owner(
@@ -145,6 +129,7 @@ contract Treasure is
     uint256 _amount
   ) public onlyOwner {
     IERC20Upgradeable(_token).transfer(_to, _amount);
+    emit RescuedERC20(_token, _to, _amount);
   }
 
   // Override functions required for upgradable
@@ -164,5 +149,9 @@ contract Treasure is
     returns (string memory)
   {
     return super.tokenURI(tokenId);
+  }
+
+  receive() external payable {
+    emit Received(msg.sender, msg.value);
   }
 }

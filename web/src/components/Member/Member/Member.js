@@ -1,16 +1,45 @@
 import ProfileBox from 'src/components/ProfileBox/ProfileBox'
-import MemberActivityCell from 'src/components/MemberActivity/MemberActivityCell'
+import MemberActivity from 'src/components/MemberActivity/MemberActivity'
 import GamesCell from 'src/components/Game/GamesCell'
 import TreasureCardCell from 'src/components/Treasure/TreasureCardCell'
-import MintTreasure from 'src/components/Treasure/MintTreasure'
-import GameCardCell from 'src/components/Game/GameCardCell'
+import Mint from 'src/components/flows/mint/Mint'
+import GameCard from 'src/components/Game/GameCard'
 
 const Member = ({ member }) => {
-  const treasuresList = [
-    ...member.treasuresPlayedBlack,
-    ...member.treasuresPlayedWhite,
-  ].sort((a, b) => new Date(a.endTime) < new Date(b.endTime))
-  const [activeGame, setActiveGame] = React.useState(treasuresList[0])
+  // ].sort((a, b) => new Date(a.endTime) < new Date(b.endTime))
+  const [activeGame, setActiveGame] = React.useState(null)
+  const [isMinting, setIsMinting] = React.useState(false)
+
+  const MintButton = () => {
+    return (
+      <button
+        onClick={() => setIsMinting(true)}
+        className="rect-button green rw-button rw-button-blue mint-set-title__submit"
+      >
+        Mint
+      </button>
+    )
+  }
+
+  const RightBar = () => {
+    if (!activeGame) return <>Select a game to mint</>
+    if (activeGame?.treasureId)
+      return <TreasureCardCell id={activeGame.treasureId} />
+    return (
+      <div className="w-full justify-center items-center">
+        <GameCard game={activeGame} />
+        <MintButton />
+        {isMinting && (
+          <Mint
+            className="w-full"
+            onClose={() => setIsMinting(false)}
+            game={activeGame}
+          />
+        )}
+      </div>
+    )
+  }
+
   return (
     <div className="max-width-container">
       <div className="grid grid-rows-1">
@@ -21,7 +50,7 @@ const Member = ({ member }) => {
             <ProfileBox member={member} />
           </div>
           <div>
-            <MemberActivityCell address={member.address} />
+            <MemberActivity member={member} />
           </div>
         </div>
       </div>
@@ -30,27 +59,12 @@ const Member = ({ member }) => {
         <div className="grid md:grid-cols-2 grid-cols-1 gap-10">
           <div>
             <h1>Chess.com Games</h1>
-            <GamesCell
-              id={member.id}
-              onRowClick={setActiveGame}
-              selectedRowId={activeGame.id}
-            />
+            <GamesCell id={member.id} onRowClick={setActiveGame} />
           </div>
           <div>
             <br />
             <div className="flex justify-center items-center">
-              {activeGame.treasureId ? (
-                <TreasureCardCell id={activeGame.treasureId} />
-              ) : (
-                <>
-                  <GameCardCell
-                    id={activeGame.id}
-                    memberId={member.id}
-                    endTime={activeGame.endTime}
-                  />
-                  <MintTreasure game={activeGame} />
-                </>
-              )}
+              <RightBar />
             </div>
           </div>
         </div>

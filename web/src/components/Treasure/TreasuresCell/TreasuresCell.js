@@ -11,7 +11,7 @@ export const QUERY = gql`
       whiteId
       minterAddress
       ownerAddress
-      name
+      title
       updatedAt
       cardColor
       blackRating

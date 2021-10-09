@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { games, game } from './games'
 
 const exampleGame = {

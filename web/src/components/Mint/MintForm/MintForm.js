@@ -32,7 +32,7 @@ const MintForm = (props) => {
           errorClassName="rw-input rw-input-error"
           validation={{
             required: true,
-            maxLength: 50,
+            maxLength: 18,
             validate: (str) => {
               if (
                 !str.match(

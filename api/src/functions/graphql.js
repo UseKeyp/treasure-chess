@@ -9,14 +9,9 @@ import sdls from 'src/graphql/**/*.sdl.{js,ts}'
 import services from 'src/services/**/*.{js,ts}'
 import { db } from 'src/lib/db'
 
-const extraPlugins = [
-  useSentry({
-    includeRawResult: false, // set to `true` in order to include the execution result in the metadata collected
-    includeResolverArgs: false, // set to `true` in order to include the args passed to resolvers
-    includeExecuteVariables: false, // set to `true` in order to include the operation variables values
-    // appendTags: (args) => { return { ... }} // if you wish to add custom "tags" to the Sentry transaction created per operation
-  }),
-]
+import { useRateLimiter } from '@envelop/rate-limiter'
+
+const identifyFn = async (context) => context.request.ip
 
 export const handler = createGraphQLHandler({
   getCurrentUser,
@@ -28,8 +23,24 @@ export const handler = createGraphQLHandler({
   sdls,
   services,
 
-  extraPlugins,
-
+  extraPlugins: [
+    useRateLimiter({
+      // https://www.envelop.dev/plugins/use-rate-limiter
+      identifyFn,
+      // store: new RedisStore(redis.createClient())
+    }),
+    useSentry({
+      includeRawResult: false, // set to `true` in order to include the execution result in the metadata collected
+      includeResolverArgs: false, // set to `true` in order to include the args passed to resolvers
+      includeExecuteVariables: false, // set to `true` in order to include the operation variables values
+      // appendTags: (args) => { return { ... }} // if you wish to add custom "tags" to the Sentry transaction created per operation
+    }),
+  ],
+  depthLimitOptions: {
+    // https://www.envelop.dev/plugins/use-depth-limit
+    maxDepth: 2,
+    ignore: [],
+  },
   onException: () => {
     // Disconnect from your database with an unhandled exception.
     db.$disconnect()

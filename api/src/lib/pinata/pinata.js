@@ -62,8 +62,6 @@ const pinJson = async (jsonString) => {
 
 export const pinTreasure = async ({ treasure }) => {
   try {
-    console.log(treasure)
-
     // Generate the HTML
     const htmlString = '<head></head><body></body>'
     // Upload the HTML

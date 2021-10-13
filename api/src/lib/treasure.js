@@ -49,6 +49,7 @@ export const getTreasure = async ({
     whiteUsername: white.username,
     ...(game.winnerId && { winner: { connect: { id: game.winnerId } } }), // Optional
     minter: { connect: { id: minter.id } },
+    minterAddress: minter.address,
     owner: { connect: { id: owner.id } },
     title,
     cardColor,

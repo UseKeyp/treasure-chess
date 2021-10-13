@@ -10,6 +10,16 @@ const CHAIN_ID = getIdFromNetworkName(process.env.ETHEREUM_NETWORK_NAME)
 
 export const mint = async ({ treasure, tokenUri }) => {
   const treasureContract = getTreasureContract()
+  console.log(
+    treasure.minterAddress, // address player
+    tokenUri, // string memory tokenURI
+    treasure.id, //bytes32 moveHash
+    treasure.achievementScore, // uint8 _level
+    treasure.achievements.split(',')[0], // uint16 _achievement1
+    treasure.achievements.split(',')[1], // uint16 _achievement1
+    treasure.achievements.split(',')[2], // uint16 _achievement1
+    treasure.cardColor
+  )
   const unsignedTx = await treasureContract.populateTransaction.mint(
     treasure.minterAddress, // address player
     tokenUri, // string memory tokenURI
@@ -20,10 +30,10 @@ export const mint = async ({ treasure, tokenUri }) => {
     treasure.achievements.split(',')[2], // uint16 _achievement1
     treasure.cardColor // bool _color
   )
-  console.log(unsignedTx)
-  const tx = await adminSendTransaction(unsignedTx, CHAIN_ID)
-
-  return tx
+  // console.log(unsignedTx)
+  // const tx = await adminSendTransaction(unsignedTx, CHAIN_ID)
+  return null
+  // return tx
 }
 
 export const getTreasureContract = () => {

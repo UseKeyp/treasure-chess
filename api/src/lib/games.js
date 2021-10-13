@@ -22,9 +22,12 @@ const getFullGameDetails = async ({ game: rawGame, username }) => {
     game.pgn,
     cardColor
   )
+
   const achievementsString = achievements
     .slice(0, 3)
-    .map((item) => item.name)
+    // TODO: Remove the placeholder number here once the achievments library has been updated
+    // .map((item) => item.name)
+    .map((item) => `#23. ${item.name}`)
     .join(', ')
   const white = await fetchMember(game.whiteUsername)
   const black = await fetchMember(game.blackUsername)

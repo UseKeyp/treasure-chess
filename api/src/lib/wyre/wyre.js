@@ -39,8 +39,6 @@ const fetchWyre = (url, data) => {
       'X-Api-Signature': signature(urlWithTimestamp, stringData),
     },
   }).then((res) => {
-    // console.log(res)
-    // TODO: log results?
     return res.json()
   })
 }
@@ -84,7 +82,6 @@ export const createMintReservation = async ({
     })
     return response.url
   } catch (e) {
-    // TODO:  Add Logging
     console.log(e)
     throw new Error('createMintReservation() Error creating Wyre reservation')
   }

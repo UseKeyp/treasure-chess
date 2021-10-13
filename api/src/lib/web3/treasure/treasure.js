@@ -29,10 +29,8 @@ export const mint = async ({ treasure, tokenUri }) => {
     achieve3, // uint16 _achievement3
     treasure.cardColor // bool _color
   )
-  console.log(unsignedTx)
-  // const tx = await adminSendTransaction(unsignedTx, CHAIN_ID)
-  return null
-  // return tx
+  const tx = await adminSendTransaction(unsignedTx, CHAIN_ID)
+  return tx
 }
 
 export const getTreasureContract = () => {

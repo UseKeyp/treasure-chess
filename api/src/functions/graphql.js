@@ -9,7 +9,7 @@ import sdls from 'src/graphql/**/*.sdl.{js,ts}'
 import services from 'src/services/**/*.{js,ts}'
 import { db } from 'src/lib/db'
 
-import { useRateLimiter } from '@envelop/rate-limiter'
+// import { useRateLimiter } from '@envelop/rate-limiter'
 
 const identifyFn = async (context) => context.request.ip
 
@@ -24,11 +24,11 @@ export const handler = createGraphQLHandler({
   services,
 
   extraPlugins: [
-    useRateLimiter({
-      // https://www.envelop.dev/plugins/use-rate-limiter
-      identifyFn,
-      // store: new RedisStore(redis.createClient())
-    }),
+    // useRateLimiter({
+    //   // https://www.envelop.dev/plugins/use-rate-limiter
+    //   identifyFn,
+    //   // store: new RedisStore(redis.createClient())
+    // }),
     useSentry({
       includeRawResult: false, // set to `true` in order to include the execution result in the metadata collected
       includeResolverArgs: false, // set to `true` in order to include the args passed to resolvers

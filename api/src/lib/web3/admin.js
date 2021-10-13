@@ -18,7 +18,7 @@ export const adminSendTransaction = async (unsigned, chainId) => {
   try {
     const provider = getProviderByChainId(chainId)
     const walletWithProvider = wallet.connect(provider)
-    walletWithProvider.sendTransaction(unsigned)
+    return walletWithProvider.sendTransaction(unsigned)
   } catch (e) {
     // TODO: Better logging for why tx submission failed
     // console.log(e)

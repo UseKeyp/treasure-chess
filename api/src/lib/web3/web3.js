@@ -22,7 +22,10 @@ export const mintTreasure = async ({ game, mintPurchase, member, title }) => {
     const { tokenUri, uriData } = await pinTreasure({ treasure })
     console.log(uriData)
     console.log(tokenUri)
-    const tx = await mint({ treasure, tokenUri })
+
+    // TODO: Before minting, check on-chain whether there exists a treasure
+    // with the same ID hash
+    const tx = await mint({ treasure, tokenUri, minterAddress: member.address })
     if (!tx?.hash) throw 'Transaction was not submitted'
 
     await db.mintPurchase.update({

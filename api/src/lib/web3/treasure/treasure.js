@@ -8,7 +8,7 @@ import { adminSendTransaction } from 'src/lib/web3/admin'
 
 const CHAIN_ID = getIdFromNetworkName(process.env.ETHEREUM_NETWORK_NAME)
 
-export const mint = async ({ treasure, tokenUri }) => {
+export const mint = async ({ treasure, tokenUri, minterAddress }) => {
   const treasureContract = getTreasureContract()
   const chievs = treasure.achievements.split(',')
   const [achieve1, achieve2, achieve3] = [0, 1, 2].map((index) => {
@@ -20,7 +20,7 @@ export const mint = async ({ treasure, tokenUri }) => {
   })
 
   const unsignedTx = await treasureContract.populateTransaction.mint(
-    treasure.minterAddress, // address player
+    minterAddress, // address player
     tokenUri, // string memory tokenURI
     treasure.id, //bytes32 moveHash
     treasure.achievementScore, // uint8 _level

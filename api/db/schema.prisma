@@ -55,6 +55,7 @@ model Treasure {
   ownerAddress     String
   mintPurchase     MintPurchase @relation(name: "mintPurchase", fields: [mintPurchaseId], references: [id])
   mintPurchaseId   String
+  uriData          String
   // --------------- STATE --------------
   title            String
   cardColor        String // white or black

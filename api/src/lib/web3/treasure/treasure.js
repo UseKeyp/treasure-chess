@@ -1,20 +1,16 @@
 import {
-  getProviderByChainId,
   getIdFromNetworkName,
+  getProviderByChainId,
 } from 'src/lib/web3/helpers'
 import { Contract } from '@ethersproject/contracts'
 import treasureAbi from './treasureAbi'
-import { adminSign } from 'src/lib/web3/admin'
+import { adminSendTransaction } from 'src/lib/web3/admin'
 
 const CHAIN_ID = getIdFromNetworkName(process.env.ETHEREUM_NETWORK_NAME)
 
 export const mint = async ({ treasure, tokenUri }) => {
-  const treasureContract = getTreasureContract({
-    contractAddress: process.env.CONTRACT_ADDRESS_TREASURE,
-    chainId: CHAIN_ID,
-  })
-
-  const unsignedTx = treasureContract.mint(
+  const treasureContract = getTreasureContract()
+  const unsignedTx = await treasureContract.populateTransaction.mint(
     treasure.minterAddress, // address player
     tokenUri, // string memory tokenURI
     treasure.id, //bytes32 moveHash
@@ -24,20 +20,18 @@ export const mint = async ({ treasure, tokenUri }) => {
     treasure.achievements.split(',')[2], // uint16 _achievement1
     treasure.cardColor // bool _color
   )
-  const signedTx = await adminSign(unsignedTx)
-
-  const provider = getProviderByChainId(CHAIN_ID)
-  const tx = await provider.sendTransaction(signedTx)
+  console.log(unsignedTx)
+  const tx = await adminSendTransaction(unsignedTx, CHAIN_ID)
 
   return tx
 }
 
-export const getTreasureContract = ({ contractAddress, chainId }) => {
+export const getTreasureContract = () => {
   try {
     return new Contract(
-      contractAddress,
+      process.env.CONTRACT_ADDRESS_TREASURE,
       treasureAbi,
-      getProviderByChainId(chainId)
+      getProviderByChainId(CHAIN_ID)
     )
   } catch (e) {
     console.log(e)

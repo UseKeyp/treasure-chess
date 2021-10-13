@@ -19,20 +19,22 @@ export const mintTreasure = async ({ game, mintPurchase, member, title }) => {
       mintPurchase,
     })
 
-    const tokenUri = await pinTreasure({ treasure })
+    const { tokenUri, uriData } = await pinTreasure({ treasure })
     console.log(tokenUri)
+    console.log(uriData)
 
     const tx = await mint({ treasure, tokenUri })
+    if (!tx.hash) throw 'Transaction was not submitted'
 
-    await db.mintPurchase.update({
-      where: { id: mintPurchase.id },
-      data: {
-        txHash: tx.hash,
-        txStatus: 'SUBMITTED',
-      },
-    })
-
-    await db.treasure.create({ data: { ...treasure } })
+    // await db.mintPurchase.update({
+    //   where: { id: mintPurchase.id },
+    //   data: {
+    //     txHash: tx.hash,
+    //     txStatus: 'SUBMITTED',
+    //   },
+    // })
+    //
+    await db.treasure.create({ data: { ...treasure, uriData } })
 
     return treasure
   } catch (e) {

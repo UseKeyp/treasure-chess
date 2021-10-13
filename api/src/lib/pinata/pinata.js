@@ -24,13 +24,12 @@ const fetchPinata = (url) => {
 const pinFile = async (blob, filename) => {
   if (!filename) throw 'No filename provided'
   let form = new FormData()
-  // data.append('file', fs.createReadStream('./yourfile.png'))
-  form.append('file', blob, { filepath: 'anyname' })
-  // form.append('pinataMetadata', JSON.stringify({ name: filename }))
+  form.append('file', blob, { filepath: filename })
+  form.append('pinataMetadata', JSON.stringify({ name: filename }))
   const response = await fetch(`${PINATA_API_URL}/pinning/pinFileToIPFS`, {
     method: 'post',
     body: form,
-    // maxBodyLength: 'Infinity', // TODO: delete?
+    maxContentLength: -1,
     headers: {
       'Content-Type': `multipart/form-data; boundary=${form._boundary}`,
       pinata_api_key: PINATA_API_KEY,
@@ -40,14 +39,13 @@ const pinFile = async (blob, filename) => {
     return res.json()
   })
   if (!response.IpfsHash) throw `Couldn't pin file: ${blob}`
-  // TODO:  validate pin successful and return only the URL
   return `ipfs://${response.IpfsHash}`
 }
 
-const pinJson = async (json) => {
+const pinJson = async (jsonString) => {
   const response = await fetch(`${PINATA_API_URL}/pinning/pinJSONToIPFS`, {
     method: 'post',
-    body: JSON.stringify(json),
+    body: jsonString,
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
@@ -59,46 +57,63 @@ const pinJson = async (json) => {
   })
 
   if (!response.IpfsHash) throw `Couldn't pin JSON: ${JSON.stringify(json)}`
-  // TODO:  validate pin successful and return only the URL
   return `ipfs://${response.IpfsHash}`
 }
 
 export const pinTreasure = async ({ treasure }) => {
-  // Generate the HTML
-  const htmlString = '<head></head><body></body>'
-  // Upload the HTML
-  const animation_url = await pinFile(htmlString, `${treasure.id}.html`)
+  try {
+    console.log(treasure)
 
-  // Generate snapshot of card  @ final position
-  const imageSnapshotData = 'dsfgdfgdfgdfg'
-  // Upload the snapshot
-  // TODO: ensure file extension is correct
-  const image = await pinFile(imageSnapshotData, `${treasure.id}.png`)
+    // Generate the HTML
+    const htmlString = '<head></head><body></body>'
+    // Upload the HTML
+    const animation_url = await pinFile(htmlString, `${treasure.id}.html`)
 
-  // Upload the JSON blob
-  const achievementsArray = treasure.achievements.split(',')
-  const attributes = [
-    { trait_type: 'Rarity', value: treasure.rarity },
-    { trait_type: 'Achievement 1', value: achievementsArray[0] },
-    { trait_type: 'Achievement 2', value: achievementsArray[1] },
-    { trait_type: 'Achievement 3', value: achievementsArray[2] },
-    { trait_type: 'White Player', value: treasure.whiteUsername },
-    { trait_type: 'Black Player', value: treasure.blackUsername },
-    { trait_type: 'Winner', value: treasure.outcome },
-    { trait_type: 'Opening', value: treasure.opening },
-    { trait_type: 'Rule Variant', value: treasure.ruleVariant },
-    { trait_type: 'Time Control', value: treasure.timeControl },
-  ]
+    // Generate snapshot of card  @ final position
+    const imageSnapshotData = 'dsfgdfgdfgdfg'
+    // Upload the snapshot
+    // TODO: ensure file extension is correct
+    const image = await pinFile(imageSnapshotData, `${treasure.id}.png`)
 
-  const uriObject = {
-    description: getDescription({ opening: treasure.opening }), // TODO: Update copy for this
-    external_url: `${TOKEN_URI_DOMAIN}/treasures`,
-    name: treasure.title,
-    attributes,
-    animation_url,
-    image,
+    // Upload the JSON blob
+    const [achieve1, achieve2, achieve3] = treasure.achievements.split(',')
+    const attributes = [{ trait_type: 'Rarity', value: treasure.rarity }]
+    if (achieve1)
+      attributes.push({
+        trait_type: 'Achievement 1',
+        value: achieve1,
+      })
+    if (achieve2)
+      attributes.push({
+        trait_type: 'Achievement 2',
+        value: achieve2,
+      })
+    if (achieve3)
+      attributes.push({
+        trait_type: 'Achievement 3',
+        value: achieve3,
+      })
+
+    attributes.push(
+      { trait_type: 'White Player', value: treasure.whiteUsername },
+      { trait_type: 'Black Player', value: treasure.blackUsername },
+      { trait_type: 'Winner', value: treasure.outcome },
+      { trait_type: 'Opening', value: treasure.opening },
+      { trait_type: 'Rule Variant', value: treasure.ruleVariant },
+      { trait_type: 'Time Control', value: treasure.timeControl }
+    )
+    const uriData = {
+      description: getDescription({ opening: treasure.opening }), // TODO: Update copy for this
+      external_url: `${TOKEN_URI_DOMAIN}/treasures`,
+      name: treasure.title,
+      attributes,
+      animation_url,
+      image,
+    }
+    const stringifiedUriData = JSON.stringify(uriData)
+    const tokenUri = await pinJson(stringifiedUriData)
+    return { tokenUri, uriData: stringifiedUriData }
+  } catch (e) {
+    throw `pinTreasure() ${e}`
   }
-  console.log(uriObject)
-
-  return pinJson(uriObject)
 }

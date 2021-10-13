@@ -21,6 +21,7 @@ export const mintTreasure = async ({ game, mintPurchase, member, title }) => {
 
     const { tokenUri, uriData } = await pinTreasure({ treasure })
     console.log(uriData)
+    console.log(tokenUri)
     const tx = await mint({ treasure, tokenUri })
     if (!tx?.hash) throw 'Transaction was not submitted'
 

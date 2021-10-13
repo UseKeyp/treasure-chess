@@ -10,29 +10,26 @@ const CHAIN_ID = getIdFromNetworkName(process.env.ETHEREUM_NETWORK_NAME)
 
 export const mint = async ({ treasure, tokenUri }) => {
   const treasureContract = getTreasureContract()
-  const [achieve1, achieve2, achieve3] = treasure.achievements.split(',')
+  const chievs = treasure.achievements.split(',')
+  const [achieve1, achieve2, achieve3] = [0, 1, 2].map((index) => {
+    try {
+      return Number(chievs[index].split('.')[0].replace('#', ''))
+    } catch {
+      return 0
+    }
+  })
 
-  console.log(
-    treasure.minterAddress, // address player
-    tokenUri, // string memory tokenURI
-    treasure.id, //bytes32 moveHash
-    treasure.achievementScore, // uint8 _level
-    achieve1.split('#')[0], // uint16 _achievement1
-    achieve2.split('#')[0], // uint16 _achievement2
-    achieve3.split('#')[0], // uint16 _achievement3
-    treasure.cardColor
-  )
   const unsignedTx = await treasureContract.populateTransaction.mint(
     treasure.minterAddress, // address player
     tokenUri, // string memory tokenURI
     treasure.id, //bytes32 moveHash
     treasure.achievementScore, // uint8 _level
-    achieve1.split('#')[0], // uint16 _achievement1
-    achieve2.split('#')[0], // uint16 _achievement2
-    achieve3.split('#')[0], // uint16 _achievement3
+    achieve1, // uint16 _achievement1
+    achieve2, // uint16 _achievement2
+    achieve3, // uint16 _achievement3
     treasure.cardColor // bool _color
   )
-  // console.log(unsignedTx)
+  console.log(unsignedTx)
   // const tx = await adminSendTransaction(unsignedTx, CHAIN_ID)
   return null
   // return tx

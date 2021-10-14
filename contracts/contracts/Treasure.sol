@@ -34,7 +34,7 @@ contract Treasure is
     bool color; //0 white, 1 black
   }
 
-  /// @notice
+  /// NFT storage
   mapping(uint256 => Game) public games;
   mapping(uint256 => address) public originalPlayers;
   mapping(bytes32 => uint256) public movesHashToId;
@@ -70,6 +70,8 @@ contract Treasure is
     uint16 _achievement3,
     bool _color
   ) public onlyAdmin returns (uint256) {
+    require(movesHashToId[_moveHash] == 0, "An NFT of this game already exists because a hash of its moves + white/black) already exists. Read Treasure Chess docs for more info.");
+  
     _tokenIds.increment();
 
     uint256 newItemId = _tokenIds.current();

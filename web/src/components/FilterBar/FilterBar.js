@@ -90,7 +90,7 @@ const FilterBar = (props) => {
       </div>
       <div className={styles.dropdownRow}>
         <Dropdown
-          category={'Opener'}
+          category={'Opening'}
           options={filters.openingList}
           queryFilterFunction={(d) => setOpeningFilter(d)} // d for data
           queryFilter={openingFilter}

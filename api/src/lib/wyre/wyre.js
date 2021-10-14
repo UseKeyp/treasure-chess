@@ -1,8 +1,11 @@
 const CryptoJS = require('crypto-js')
+import { isProduction } from 'src/lib/helpers'
 
 const WYRE_SECRET_KEY = process.env.WYRE_SECRET_KEY
 const WYRE_API_KEY = process.env.WYRE_API_KEY
-const API_URL = process.env.WYRE_API_URL
+const API_URL = isProduction
+  ? 'https://api.wyre.com/v3'
+  : 'https://api.testwyre.com/v3'
 
 const signature = (url, data) => {
   let dataToBeSigned = url

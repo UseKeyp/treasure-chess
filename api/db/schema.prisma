@@ -13,21 +13,21 @@ generator client {
 // Define your own datamodels here and run `yarn redwood prisma migrate dev`
 // to create migrations for them and apply to your dev DB.
 model Member {
-  id                    String     @id // Chess.com id
-  username              String     @unique // Chess.com username
-  address               String?    @unique // Torus wallet address
+  id                   String     @id // Chess.com id
+  username             String     @unique // Chess.com username
+  address              String?    @unique // Torus wallet address
   // --------------- STATE --------------
-  imageSrc              String? // Avatar URL
-  masterTitle           String? // GM, IM or NM
-  country               String // Player's country  eg. US, DE
+  imageSrc             String? // Avatar URL
+  masterTitle          String? // GM, IM or NM
+  country              String // Player's country  eg. US, DE
   // Oauth
-  refreshToken          String?
+  refreshToken         String?
   // --------------- LINKS --------------
-  treasuresOwned        Treasure[] @relation(name: "treasuresOwned")
-  treasuresMinted       Treasure[] @relation(name: "treasuresMinted")
-  treasuresPlayedWhite  Treasure[] @relation(name: "treasuresPlayedWhite")
-  treasuresPlayedBlack  Treasure[] @relation(name: "treasuresPlayedBlack")
-  treasuresWon          Treasure[] @relation(name: "treasuresWon")
+  treasuresOwned       Treasure[] @relation(name: "treasuresOwned")
+  treasuresMinted      Treasure[] @relation(name: "treasuresMinted")
+  treasuresPlayedWhite Treasure[] @relation(name: "treasuresPlayedWhite")
+  treasuresPlayedBlack Treasure[] @relation(name: "treasuresPlayedBlack")
+  treasuresWon         Treasure[] @relation(name: "treasuresWon")
   // !! For Scaffolding purposes only - should be commented out
 }
 
@@ -48,7 +48,7 @@ model Treasure {
   owner            Member?   @relation(name: "treasuresOwned", fields: [ownerAddress], references: [address])
   ownerAddress     String?
   // --------------- STATE --------------
-  title             String
+  title            String
   updatedAt        DateTime  @updatedAt
   // Chess
   cardColor        String // white or black

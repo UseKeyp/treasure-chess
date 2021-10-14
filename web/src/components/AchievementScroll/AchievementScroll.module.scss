@@ -1,0 +1,70 @@
+.achievementScrollWrapper {
+  height: 600px;
+  width: 100%;
+  font-size: 1rem;
+  user-select: none;
+  position: relative;
+  background-color: #272522;
+  padding: 1ex 1em;
+  border-radius: .25rem;
+}
+
+.achievementScrollArea {
+  height: 600px;
+  width: 100%;
+  overflow-y: scroll;
+  font-size: 1rem;
+  user-select: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #272522;
+  padding: 1ex 1em;
+  border-radius: .25rem;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.gradientContainer {
+  display: block;
+  height: 600px;
+  width: 252px;
+  z-index: -1;
+}
+
+.topGradient {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 252px;
+  height: 72px;
+  content: '';
+  background: linear-gradient(0deg, rgba(39, 37, 34, 0) 0%, #272522 100%);
+  z-index: 99;
+}
+.bottomGradient {
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 252px;
+  height: 72px;
+  content: '';
+  background: linear-gradient(180deg, rgba(39, 37, 34, 0) 0%, #272522 100%);
+  z-index: 99;
+}
+
+.achievementScrollItem {
+  display: grid;
+  grid-template-columns: 9fr 1fr;
+  background-color: #4f4f4f;
+  padding: 1ex 1em;
+  margin: 1ex 0;
+  border-radius: .25rem;
+}
+
+.activeScrollItem {
+  background-color: #6C9D41;
+}

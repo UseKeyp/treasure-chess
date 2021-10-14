@@ -37,3 +37,13 @@ a {
 .max-width-container {
   max-width: 1600px;
 }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appreance: none;
+  margin: 0;
+}
+
+input {
+  -moz-appearance: textfield;
+}

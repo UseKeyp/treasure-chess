@@ -56,4 +56,5 @@ export const schema = gql`
     mintTreasure(gameId: String!, endTime: DateTime!, name: String!): Treasure!
       @requireAuth
   }
+
 `

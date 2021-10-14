@@ -8,21 +8,6 @@ const PINATA_API_KEY = process.env.PINATA_API_KEY
 const PINATA_API_SECRET_KEY = process.env.PINATA_API_SECRET_KEY
 const TOKEN_URI_DOMAIN = process.env.TOKEN_URI_DOMAIN
 
-// TODO: Delete if unused
-const _fetchPinata = (url) => {
-  return fetch(url, {
-    method: 'get',
-    headers: {
-      Accept: 'application/json',
-      // 'Content-Type': 'application/json',
-      pinata_api_key: PINATA_API_KEY,
-      pinata_secret_api_key: PINATA_API_SECRET_KEY,
-    },
-  }).then((res) => {
-    return res.json()
-  })
-}
-
 const pinFile = async (blob, filename) => {
   if (!filename) throw 'No filename provided'
   let form = new FormData()

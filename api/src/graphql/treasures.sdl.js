@@ -56,5 +56,4 @@ export const schema = gql`
       title: String!
     ): String! @requireAuth
   }
-
 `

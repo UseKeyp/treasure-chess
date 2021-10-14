@@ -2,11 +2,11 @@ import { useState } from 'react'
 import styles from './SearchBar.module.scss'
 import { ReactComponent as SearchIcon } from '../../assets/icons/Search.svg'
 
-const SearchBar = (props) => {
+const SearchBar = () => {
   const [value, setValue] = useState(null)
-  const [isValueFromSelector, setIsValueFromSelector] = useState(false)
+  const [_isValueFromSelector, setIsValueFromSelector] = useState(false)
 
-  // let dropdownOptions = []
+  let dropdownOptions = []
 
   // if (value && !isValueFromSelector) {
   //   // Limit to 6 options

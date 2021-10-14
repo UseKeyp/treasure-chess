@@ -1,5 +1,4 @@
 import styles from './FilterCheckbox.module.scss'
-import { useState } from 'react'
 
 const FilterCheckbox = (props) => {
   const setCurrentSelection = props.queryFilterFunction

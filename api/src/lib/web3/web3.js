@@ -71,8 +71,8 @@ export const transferTreasure = async ({ recipient, _treasureId }) => {
     return true
   } catch (e) {
     const errorMessage = `mintTreasure() ${e}`
-    /* eslint-disable-next-line no-console */
     // TODO: Add Discord bot notifications here
+    /* eslint-disable-next-line no-console */
     console.log(errorMessage)
     throw new Error(errorMessage)
   }

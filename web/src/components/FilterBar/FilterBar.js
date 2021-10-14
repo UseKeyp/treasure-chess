@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react'
 import styles from './FilterBar.module.scss'
 import { filters } from './Filters'
-import { anyValues, oneValue } from './Logic'
+import { anyValues } from './Logic'
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox'
 import FilterPriceInput from '../FilterPriceInput/FilterPriceInput'
 import Dropdown from '../Dropdown/Dropdown'
 import AchievementScroll from '../AchievementScroll/AchievementScroll'
 
-const FilterBar = (props) => {
+const FilterBar = ({ setFilterQuery }) => {
   const [achievementFilter, setAchievementFilter] = useState([])
   const [openingFilter, setOpeningFilter] = useState()
   const [colorFilter, setColorFilter] = useState()
@@ -47,7 +47,7 @@ const FilterBar = (props) => {
     // initalize
     let newQuery = {}
     // change 'query' data type
-    props.setFilterQuery('')
+    setFilterQuery('')
     // populate
     newQuery.achievements = achievementFilter
     newQuery.opener = openingFilter
@@ -63,7 +63,7 @@ const FilterBar = (props) => {
     newQuery.lowPrice = lowPrice
     newQuery.highPrice = highPrice
     // update query
-    props.setFilterQuery(newQuery)
+    setFilterQuery(newQuery)
   }, [
     achievementFilter,
     openingFilter,

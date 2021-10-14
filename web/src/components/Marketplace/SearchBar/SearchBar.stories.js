@@ -1,10 +1,7 @@
-
-import SearchBar from './SearchBar';
+import SearchBar from './SearchBar'
 
 export const single = () => {
-	return <SearchBar />
+  return <SearchBar />
 }
-
-
 
 export default { title: 'Components/Marketplace/SearchBar' }

@@ -68,10 +68,11 @@ const validateReferenceId = async (referenceId) => {
 export const processOrder = async ({ orderId, referenceId }) => {
   try {
     const order = await fetchOrder(orderId)
+    // TODO: add a database funciton to store orders, with referenceId
     validateMintOrder(order)
     // TODO: WARNING using the referenceId from the webook is unsecure. Waiting for
     // Wyre to add it to the /orders endpoint
-    console.log(order) // Delete once they include referenceId
+    // console.log(order) // Delete once they include referenceId
     const { member, game, title } = await validateReferenceId(referenceId)
     const mintPurchaseData = {
       id: orderId,

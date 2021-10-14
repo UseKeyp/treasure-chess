@@ -18,7 +18,6 @@ export const mintTreasure = async ({ game, mintPurchase, member, title }) => {
       owner: member,
       mintPurchase,
     })
-
     const { tokenUri, uriData } = await pinTreasure({ treasure })
     console.log(uriData)
     console.log(tokenUri)
@@ -39,6 +38,7 @@ export const mintTreasure = async ({ game, mintPurchase, member, title }) => {
     const treasureEntity = await db.treasure.create({
       data: { ...treasure, uriData },
     })
+    console.log(treasureEntity)
 
     return treasureEntity
   } catch (e) {

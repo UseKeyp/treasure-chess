@@ -1,12 +1,9 @@
 import Sentry from 'src/lib/sentry'
 import { processOrder } from 'src/lib/wyre/order'
 
-const methods = ['completeOrder']
-
 export const handler = async (event) => {
   // Default response
   let statusCode = 200
-  let message = ''
 
   try {
     // TODO:  Add logging
@@ -23,6 +20,7 @@ export const handler = async (event) => {
       },
     }
   } catch (e) {
+    /* eslint-disable-next-line no-console */
     console.log(event)
     Sentry.captureException(e)
     return {

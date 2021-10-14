@@ -1,4 +1,5 @@
 import FormData from 'form-data'
+import fetch from 'node-fetch'
 
 import { getDescription } from 'src/lib/pinata/helpers'
 
@@ -7,7 +8,8 @@ const PINATA_API_KEY = process.env.PINATA_API_KEY
 const PINATA_API_SECRET_KEY = process.env.PINATA_API_SECRET_KEY
 const TOKEN_URI_DOMAIN = process.env.TOKEN_URI_DOMAIN
 
-const fetchPinata = (url) => {
+// TODO: Delete if unused
+const _fetchPinata = (url) => {
   return fetch(url, {
     method: 'get',
     headers: {
@@ -65,6 +67,7 @@ export const pinTreasure = async ({ treasure }) => {
     // Generate the HTML
     const htmlString = '<head></head><body></body>'
     // Upload the HTML
+    /* eslint-disable-next-line camelcase */
     const animation_url = await pinFile(htmlString, `${treasure.id}.html`)
 
     // Generate snapshot of card  @ final position

@@ -8,8 +8,6 @@ import {
 import { Link } from '@redwoodjs/router'
 import ProfanityFilter from 'bad-words'
 
-import PropTypes from 'prop-types'
-
 const profanityFilter = new ProfanityFilter()
 
 const MintForm = (props) => {

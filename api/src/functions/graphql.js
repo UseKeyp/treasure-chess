@@ -1,5 +1,6 @@
 import { createGraphQLHandler } from '@redwoodjs/graphql-server'
 import { useSentry } from '@envelop/sentry'
+/* eslint-disable-next-line no-unused-vars */
 import Sentry from 'src/lib/sentry'
 
 import { getCurrentUser } from 'src/lib/auth'
@@ -11,7 +12,7 @@ import { db } from 'src/lib/db'
 
 // import { useRateLimiter } from '@envelop/rate-limiter'
 
-const identifyFn = async (context) => context.request.ip
+const _identifyFn = async (context) => context.request.ip
 
 export const handler = createGraphQLHandler({
   getCurrentUser,

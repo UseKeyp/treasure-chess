@@ -1,3 +1,4 @@
+/* eslint-disable-next-line no-unused-vars */
 import Sentry from 'src/lib/sentry'
 
 import { DbAuthHandler } from '@redwoodjs/api'

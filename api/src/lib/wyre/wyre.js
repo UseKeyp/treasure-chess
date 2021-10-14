@@ -1,5 +1,6 @@
 const CryptoJS = require('crypto-js')
 import { isProduction } from 'src/lib/helpers'
+import fetch from 'node-fetch'
 
 const WYRE_SECRET_KEY = process.env.WYRE_SECRET_KEY
 const WYRE_API_KEY = process.env.WYRE_API_KEY
@@ -50,7 +51,7 @@ export const fetchOrder = (orderId) =>
   fetchWyre(`${API_URL}/orders/${orderId}/full`)
 
 // TODO: Delete if unused
-const fetchReservation = (reservationId) =>
+const _fetchReservation = (reservationId) =>
   fetchWyre(`${API_URL}/orders/reservation/${reservationId}`)
 
 export const createMintReservation = async ({
@@ -85,6 +86,7 @@ export const createMintReservation = async ({
     })
     return response.url
   } catch (e) {
+    /* eslint-disable-next-line no-console */
     console.log(e)
     throw new Error('createMintReservation() Error creating Wyre reservation')
   }

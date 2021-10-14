@@ -8,18 +8,6 @@ import GameCard from 'src/components/Game/GameCard'
 const Member = ({ member }) => {
   // ].sort((a, b) => new Date(a.endTime) < new Date(b.endTime))
   const [activeGame, setActiveGame] = React.useState(null)
-  const [isMinting, setIsMinting] = React.useState(false)
-
-  const MintButton = () => {
-    return (
-      <button
-        onClick={() => setIsMinting(true)}
-        className="mt-6 rect-button green  rw-button rw-button-blue mint-set-title__submit"
-      >
-        Mint
-      </button>
-    )
-  }
 
   const RightBar = () => {
     if (!activeGame) return <>Select a game to mint</>

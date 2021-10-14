@@ -41,6 +41,7 @@ export const getTreasureContract = () => {
       getProviderByChainId(CHAIN_ID)
     )
   } catch (e) {
+    /* eslint-disable-next-line no-console */
     console.log(e)
     throw new Error(e)
   }

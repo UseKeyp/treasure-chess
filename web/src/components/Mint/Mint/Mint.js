@@ -1,6 +1,4 @@
 import { useLazyQuery } from '@apollo/client'
-import { toast } from '@redwoodjs/web/toast'
-import { navigate, routes } from '@redwoodjs/router'
 import MintForm from 'src/components/Mint/MintForm'
 
 const MINT_CHECKOUT_URL = gql`

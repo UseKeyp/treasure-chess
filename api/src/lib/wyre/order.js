@@ -89,6 +89,7 @@ export const processOrder = async ({ orderId, referenceId }) => {
 
     await mintTreasure({ game, mintPurchase, member, title })
   } catch (e) {
+    /* eslint-disable-next-line no-console */
     console.log(orderId, referenceId)
     Sentry.captureException(e)
   }

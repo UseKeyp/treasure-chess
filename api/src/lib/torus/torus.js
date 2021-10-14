@@ -20,8 +20,8 @@ const torusSdk = new DirectWebSdk({
   enableLogging: false, // SECURITY WARNING: Better to always leave false
 })
 
-const fetchNodeDetails = new FetchNodeDetails()
-const torusUtils = new TorusUtils()
+// const fetchNodeDetails = new FetchNodeDetails()
+// const torusUtils = new TorusUtils()
 
 export const getTorusPublicAddress = async (userId) => {
   // TODO:  fix to not depend on getTorusWallet()

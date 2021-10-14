@@ -1,7 +1,6 @@
 import { db } from 'src/lib/db'
 import { fetchMember } from 'src/lib/members'
 import { getTreasure } from 'src/lib/treasure'
-import { InputError } from '@redwoodjs/graphql-server'
 import { getNftContract } from 'src/lib/web3/helpers'
 import { mint } from 'src/lib/web3/treasure'
 import { pinTreasure } from 'src/lib/pinata'
@@ -19,7 +18,10 @@ export const mintTreasure = async ({ game, mintPurchase, member, title }) => {
       mintPurchase,
     })
     const { tokenUri, uriData } = await pinTreasure({ treasure })
+    // TODO: remove consoles
+    /* eslint-disable-next-line no-console */
     console.log(uriData)
+    /* eslint-disable-next-line no-console */
     console.log(tokenUri)
 
     // TODO: Before minting, check on-chain whether there exists a treasure
@@ -38,17 +40,20 @@ export const mintTreasure = async ({ game, mintPurchase, member, title }) => {
     const treasureEntity = await db.treasure.create({
       data: { ...treasure, uriData },
     })
+    // TODO:  remove consoles
+    /* eslint-disable-next-line no-console */
     console.log(treasureEntity)
 
     return treasureEntity
   } catch (e) {
     const errorMessage = `mintTreasure() ${e}`
+    /* eslint-disable-next-line no-console */
     console.log(errorMessage)
     throw e
   }
 }
 
-export const transferTreasure = async ({ recipient, treasureId }) => {
+export const transferTreasure = async ({ recipient, _treasureId }) => {
   try {
     const member = await db.member.findUnique({
       where: { id: context.currentUser.id },
@@ -57,8 +62,7 @@ export const transferTreasure = async ({ recipient, treasureId }) => {
     if (!member.address) throw 'Sender does not have a wallet address'
     if (!recipientMember.address)
       throw 'Recipient does not have a wallet address'
-    const idToken = await getIdToken(member.refreshToken)
-    const { privateKey } = await getTorusKeys(idToken)
+
     // TODO: Sign and submit message
 
     // TODO: App admin keys sign and submit

@@ -58,7 +58,7 @@ const pinJson = async (jsonString) => {
     return res.json()
   })
 
-  if (!response.IpfsHash) throw `Couldn't pin JSON: ${JSON.stringify(json)}`
+  if (!response.IpfsHash) throw `Couldn't pin JSON: ${jsonString}`
   return `ipfs://${response.IpfsHash}`
 }
 

@@ -1,6 +1,6 @@
 const { id: sha3 } = require('@ethersproject/hash')
 
-import { fetchGame } from 'src/lib/games'
+import { fetchMember } from 'src/lib/members'
 
 export const getTreasureCardColor = ({ game, memberId }) =>
   game.whiteId === memberId ? 'white' : 'black'

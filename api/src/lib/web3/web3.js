@@ -1,7 +1,6 @@
 import { db } from 'src/lib/db'
 import { fetchMember } from 'src/lib/members'
 import { getTreasure } from 'src/lib/treasure'
-import { getNftContract } from 'src/lib/web3/helpers'
 import { mint } from 'src/lib/web3/treasure'
 import { pinTreasure } from 'src/lib/pinata'
 
@@ -72,6 +71,8 @@ export const transferTreasure = async ({ recipient, _treasureId }) => {
     return true
   } catch (e) {
     const errorMessage = `mintTreasure() ${e}`
+    /* eslint-disable-next-line no-console */
+    // TODO: Add Discord bot notifications here
     console.log(errorMessage)
     throw new Error(errorMessage)
   }

@@ -4,8 +4,8 @@ global.window = null
 global.document = null
 
 import DirectWebSdk from '@toruslabs/torus-direct-web-sdk'
-import FetchNodeDetails from '@toruslabs/fetch-node-details/dist/fetchNodeDetails-node'
-import TorusUtils from '@toruslabs/torus.js/dist/torusUtils-node'
+// import FetchNodeDetails from '@toruslabs/fetch-node-details/dist/fetchNodeDetails-node'
+// import TorusUtils from '@toruslabs/torus.js/dist/torusUtils-node'
 
 import { isProduction } from 'src/lib/helpers'
 import { getNewIdToken } from 'src/lib/oAuth/jwt'

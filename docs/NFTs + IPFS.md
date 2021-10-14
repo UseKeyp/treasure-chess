@@ -1,5 +1,21 @@
 # NFTs and IPFS
 
+# Non-Fungible Tokens (NFT)
+
+## What are NFTs?
+
+Wanna dive deeper? Here are some additional resources:
+
+- Ultimate source of truth: [Ethereum.org - ERC721](https://eips.ethereum.org/EIPS/eip-721)
+- [OpenZeppelin.com - ERC721](https://docs.openzeppelin.com/contracts/4.x/api/token/erc721)
+- [OpenSea.io - NFT Tutorial](https://docs.opensea.io/docs/getting-started)
+
+## What is Treasure Chess?
+
+## What are Treasures?
+
+# Nerdy developer stuff
+
 ## Calculating Treasure IDs
 
 Treasure ID is calculated as `hash(moves + endTime + white/black variant)`. We use the games End Time as the date for the game. You can fetch details about any game via the Chess.com public API like this:
@@ -69,22 +85,39 @@ The URI stored on-chain must point to a JSON object in order to work across all 
 
 ```json
 {
-  "image": "ipfs://ipfshash-of-image",
+  "description": "A chess game collectible. One of the players of this game minted this NFT. Create your own at https://treasure.chess.com",
+  "external_url": "https://treasure.chess.com/treasures",
+  "name": "My First Game",
   "attributes": [
-    { "trait_type": "Achievement 1", "value": "did a thing" },
-    { "trait_type": "Achievement 2", "value": "another thing" },
-    { "trait_type": "Achievement 3", "value": "a third thing" },
-    { "trait_type": "Card Level", "value": "Rare" }
-  ]
+    { "trait_type": "Rarity", "value": "Common" },
+    { "trait_type": "Achievement 1", "value": "Play a game" },
+    { "trait_type": "Achievement 2", "value": "Capture <4 pawns" },
+    { "trait_type": "White Player", "value": "treasure_joseph" },
+    { "trait_type": "Black Player", "value": "treasure_patrick" },
+    { "trait_type": "Winner", "value": "white" },
+    { "trait_type": "Opening", "value": "Bishop's Opening" },
+    { "trait_type": "Rule Variant", "value": "Standard" },
+    { "trait_type": "Time Control", "value": "600" }
+  ],
+  "animation_url": "ipfs://QmUkbaioXZb394DQZaH242ws4EZ63DVZvg6XVL3qjJBe1S",
+  "image": "ipfs://Qma42X59cKjdqxfqg4CaWwXUcQPUJMFvW1PKrA73FCK4Jo"
 }
 ```
 
 ## Minting Steps
 
-Here's a basic outline of how we mint NFTs
+Here's a basic outline of how we mint NFTs:
 
-1. Upload static image to IPFS, and get the IPFS link
-2. Create a JSON with the image IPFS link as `image` field.
-3. Upload JSON to IPFS, and get IPFS link
-4. Calculate the unique Treasure ID (see "Calculating Treasure IDs")
-5. Call `mint` on the contract with the JSON IPFS hash and the Treasure ID.
+1. Generate an HTML file for the Treasure, and take a screenshot of it. Upload both the `.html` and `.png` files to the InterPlanetary File System (IPFS).
+2. Calculate the unique Treasure ID (see "Calculating Treasure IDs")
+3. Create a distinct Uniform Resource Identifier (URI) for the Treasure, based on the game attributes and achievements from the [@treasure-chess/chess-achievements](https://www.npmjs.com/package/@treasure-chess/chess-achievements) package. Upload this data to IPFS. Learn more about URIs on [Open Sea](https://docs.opensea.io/docs/metadata-standards)
+4. Call the `mint()` function on the contract, and provide:
+
+- IPFS link for the URI
+- Treasure ID
+- Achievement numbers
+
+Additional related resources
+
+- [ERC721 standard](https://eips.ethereum.org/EIPS/eip-721)
+- [OpenSea Metadata Standards](https://docs.opensea.io/docs/metadata-standards)

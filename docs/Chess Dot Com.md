@@ -1,11 +1,6 @@
-# Non-Fungible Tokens (NFT)
+## Example game pgn
 
-## What are NFTs?
-
-## What is Treasure Chess?
-
-## What are Treasures?
-
+```
 [Event "Live Chess"]
 [Site "Chess.com"]
 [Date "2021.10.04"]
@@ -29,3 +24,4 @@
 [Link "https://www.chess-4.com/game/live/27130135607"]
 
 1. e4 {[%clk 0:10:00]} 1... Nf6 {[%clk 0:10:00]} 2. Bc4 {[%clk 0:09:59]} 2... e5 {[%clk 0:09:58.6]} 3. Qf3 {[%clk 0:09:57.7]} 3... Nxe4 {[%clk 0:09:57.5]} 4. Qxf7# {[%clk 0:09:56.5]} 1-0
+```

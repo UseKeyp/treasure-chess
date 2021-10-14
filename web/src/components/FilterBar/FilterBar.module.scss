@@ -1,0 +1,47 @@
+.filterBar {
+display: flex;
+flex-flow: column nowrap;
+background-color: hsla(36, 7%, 14%, 1);
+font-size: 1rem;
+padding: 1ex 1em;
+border-radius: 0.5rem;
+align-items: center;
+justify-content: flex-start;
+max-width: clamp(264px, 100%, 364px);
+margin-top: 29px;
+}
+
+.resetRow {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  button {
+    padding-top: 1ex;
+    color: #259FC6;
+  }
+}
+
+.dropdownRow {
+  width: 100%;
+  margin-bottom: 1ex;
+}
+.dropdownTwoElementRow {
+  width: 100%;
+  margin-bottom: 1ex;
+  display: flex;
+  justify-content: space-between;
+}
+
+.priceRowWrapper {
+  width: 100%;
+  font-size: 1rem;
+  margin: 1ex 1em;
+  padding: 0 1em;
+}
+.priceRow {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1ex;
+}

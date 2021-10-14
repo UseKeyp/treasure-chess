@@ -1,0 +1,30 @@
+.filterDropdown {
+
+}
+
+.filterDropdownLabel {
+	user-select: none;
+	display: inline-block;
+	font-size: 1.15rem;
+	font-weight: 700;
+	background-color: rgba(16, 16, 16, 0.95);
+	box-shadow: 4px 4px 8px rgba(16, 16, 16, 0.95), -8px -8px 8px rgba(48, 48, 48, 0.95);
+	color: white;
+	border-radius: 50px;
+	line-height: 1;
+	padding: 1ex 1em;
+	padding-top: 1.5ex;
+	transition: all 0.25s;
+	border: 2px solid transparent;
+	margin: 0.5rem 0.5rem;
+	&:hover {
+		box-shadow: 6px 6px 6px rgba(12, 12, 12, 0.95), -6px -6px 6px rgba(48, 48, 48, 0.95);
+		border: 2px solid rgba(255,255,255,0.33);
+		cursor: pointer;
+	}
+	&:focus {
+		outline: none;
+		border: 2px solid rgba(255,255,255,0.66);
+		box-shadow: 8px 8px 8px rgba(12, 12, 12, 0.95), -6px -6px 6px rgba(48, 48, 48, 0.95);
+	}
+}

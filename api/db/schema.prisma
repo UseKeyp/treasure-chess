@@ -82,7 +82,7 @@ model Treasure {
 }
 
 model MintPurchase {
-  id          String    @id // Wyre orderId
+  id          String    @id
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   // --------------- LINKS --------------
@@ -90,7 +90,9 @@ model MintPurchase {
   memberId    String
   treasure    Treasure? @relation("mintPurchase")
   // --------------- STATE --------------
-  orderStatus String    @default("INVALID")
+  orderId     String? // Wyre orderId
+  reservation String? // Wyre reservation
+  orderStatus String    @default("RESERVATION")
   gameId      String
   gameEndTime String
   txHash      String?

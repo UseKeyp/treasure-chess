@@ -6,10 +6,11 @@ INTERNAL DOCUMENTATION ONLY - DO NOT SHARE
 
 Overview:
 
-1. Create the reservation, get `reservation`
-2. Create the Checkout URL and send the user
+1. Create the reservation, and save `reservation` and details about the game to the database
+2. Send user to the checkout URL
 3. Receive order success webhook from Wyre
-4. Mint the treasure, or show a wallet balance change
+4. Validate the order
+5. Mint the treasure, or show a wallet balance change
 
 ## Test checkout
 
@@ -53,20 +54,27 @@ Example Request:
 
 Example Response:
 
-````js
+```js
 {
-  url: "https://wyr...."
+  url: 'https://wyr....'
 }
 ```
-
 
 TODO:
 
 1. How do we know the user's country before the order is placed?
 
-### Order Success Webhook
+## 2. Send user to checkout URL
 
-Example success order, which can be sent via Postman. Note: this must be sent as a string in the body of the POST request.
+Open a new window for the checkout
+
+## 3. Order Success Webhook
+
+A webhook is registered with Wyre, where they will send all order updates.
+
+Treasure Chess endpoint: `/api/checkout`
+
+Here's an example success order, which can be sent via Postman. Note: this must be sent as a string in the body of the POST request.
 
 ```json
 {
@@ -79,11 +87,34 @@ Example success order, which can be sent via Postman. Note: this must be sent as
   "reservation": "3CVLQTU6U6NWBHJD6CEL",
   "email": "test@wyre.com"
 }
-````
+```
 
-Additional successful orders:
+## 4. Validate the Order
 
-- WO_87736T9Y8X
+Once a webhook is received, we use the orderId to fetch the order details directly directly from Wyre. We cannot trust that any webhook we receive is valid.
+
+Wyre endpoint: `/orders/<orderId>/full`
+Example response:
+
+```js
+data: {
+accountId: "account:AC_ATE69GGNMNC"
+blockchainNetworkTx: null
+dest: "bitcoin:n4VQ5YdHf7hLQ2gWQYYrcxoE5B7nWuDFNF"
+destAmount: 0.00015081
+fees: "{\"USD\":0.44,\"BTC\":0.00005}"
+orderId: "WO_6JC7TUV32G"
+transferId: "TF_A6MUVDYUGRW"
+}
+type: "paymentSuccess"
+}
+```
+
+Then we use the `reservation` to lookup the `MintPurchase` in our database, to get the details about the game to mint.
+
+## 4. Mint the NFT
+
+Submit the game data to be minted!
 
 ### Status codes
 
@@ -99,29 +130,6 @@ Additional successful orders:
 |    ValidationException     |                                There was a problem validating the input you supplied.                                 |        400        |
 |  CustomerSupportException  |                              Please contact us at support@sendwyre.com to resolve this!                               |        400        |
 |    MFARequiredException    | An MFA action is required to complete the request. In general you should not get this exception while using API keys. |        400        |
-
-### Check Order Status
-
-https://api.testwyre.com/v3/orders/{orderId}
-
-https://api.sendwyre.com/v2/transfer/[transferId]/track
-
-paymentSuccess Callback
-once a Wyre has initiated sending destCurrency to the user.
-
-```js
-data: {
-accountId: "account:AC_ATE69GGNMNC"
-blockchainNetworkTx: null
-dest: "bitcoin:n4VQ5YdHf7hLQ2gWQYYrcxoE5B7nWuDFNF"
-destAmount: 0.00015081
-fees: "{\"USD\":0.44,\"BTC\":0.00005}"
-orderId: "WO_6JC7TUV32G"
-transferId: "TF_A6MUVDYUGRW"
-}
-type: "paymentSuccess"
-}
-```
 
 ## Creating the checkout URL
 

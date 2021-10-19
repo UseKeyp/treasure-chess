@@ -7,9 +7,10 @@
 
 [web]
   port = 8910
-  apiProxyPath = "/api"
   host = "0.0.0.0"
   title = "Treasure Chess"
+  apiProxyPort = 8911
+  apiProxyPath = "/api"
   # includeEnvironmentVariables = ['']
 [api]
   port = 8911

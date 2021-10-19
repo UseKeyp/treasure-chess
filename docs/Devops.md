@@ -24,10 +24,11 @@ docker build . -t pi0neerpat/treasure-chess-redwood-web-main -f web/Dockerfile \
 docker build . -t pi0neerpat/treasure-chess-redwood-web-main -f api/Dockerfile \
 --build-arg NODE_ENV=development \
 --build-arg RUNTIME_ENV=local \
---build-arg DATABASE_URL=<MY_DATABASE_URL>
 ```
 
 Run an image locally:
+
+Create a `GITHUB_PAT` in your Github "Developer Settings" with permissions `read:packages`
 
 ```bash
 # Authenticate
@@ -44,4 +45,18 @@ docker-compose up
 docker run -it --rm \
        -p 8910:8910 \
        ghcr.io/pi0neerpat/treasure-chess-redwood-api-main:latest
+```
+
+Killing Docker
+
+```bash
+sudo killall containerd-shim && docker-compose down
+
+docker kill CONTAINER
+# kill stubborn container
+sudo service docker restart
+# kill running containers
+docker kill $(docker ps -q)
+# !!! Remove all containers~!!!
+docker rm --force $(docker ps -a -q)
 ```

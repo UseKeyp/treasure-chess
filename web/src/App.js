@@ -3,6 +3,7 @@ import { AuthProvider } from '@redwoodjs/auth'
 import { RedwoodApolloProvider } from '@redwoodjs/web/apollo'
 
 import { ContextProvider } from 'src/providers/context'
+import { ThemeProvider } from 'src/providers/theme'
 import TokenSessionProvider from 'src/providers/tokenSession'
 import { logIn } from 'src/auth/client'
 
@@ -33,9 +34,11 @@ const App = () => (
       <CustomDbAuth type="dbAuth">
         <RedwoodApolloProvider>
           <TokenSessionProvider />
-          <ContextProvider>
-            <Routes />
-          </ContextProvider>
+          <ThemeProvider>
+            <ContextProvider>
+              <Routes />
+            </ContextProvider>
+          </ThemeProvider>
         </RedwoodApolloProvider>
       </CustomDbAuth>
     </RedwoodProvider>

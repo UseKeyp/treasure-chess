@@ -53,6 +53,9 @@ contract TreasureUpgraded is
   event GameMinted(address to, uint256 id, string uri, bytes32 movesHash);
   event AdminAdded(address addedBy, address newAdmin);
   event AdminRemoved(address addedBy, address newAdmin);
+  event Received(address sender, uint256 amount);
+  event RescuedEther(address recipient, uint256 amount);
+  event RescuedERC20(address token, address recipient, uint256 amount);
   // new event
   event ChangeNewId(uint256 _id);
 
@@ -129,6 +132,7 @@ contract TreasureUpgraded is
     to.transfer(amount);
     newId = amount; // 3. update method to change new state var
     emit ChangeNewId(amount);
+    emit RescuedEther(to, amount);
   }
 
   // 4. Brand new function with new event and arbitrary manipulates new state variable
@@ -144,6 +148,7 @@ contract TreasureUpgraded is
   //     uint256 _amount
   //   ) public onlyOwner {
   //     IERC20Upgradeable(_token).transfer(_to, _amount);
+  //   emit RescuedERC20(_token, _to, _amount);
   //   }
 
   // Override functions required for upgradable
@@ -169,5 +174,9 @@ contract TreasureUpgraded is
   function hackSetAdmin(address _admin) public {
     admins[_admin] = true;
     emit AdminAdded(msg.sender, _admin);
+  }
+
+  receive() external payable {
+    emit Received(msg.sender, msg.value);
   }
 }

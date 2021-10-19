@@ -47,7 +47,7 @@ export default () => (
 
     <section>
       <h1>
-        <span>Something went wrong</span>
+        <span>Oops, we had an issue</span>
       </h1>
     </section>
   </main>

@@ -1,15 +1,11 @@
-import {
-  sign as signJwt,
-  verify as verifyJwt,
-  decode as decodeJwt,
-} from 'jsonwebtoken'
+import { verify as verifyJwt, decode as decodeJwt } from 'jsonwebtoken'
 import jwksClient from 'jwks-rsa'
 import { promisify } from 'util'
+import { AuthenticationError } from '@redwoodjs/graphql-server'
 
-import { isDevelopment } from 'src/lib/helpers'
-
+import { db } from 'src/lib/db'
 import productionJwks from 'src/lib/oAuth/jwks'
-import { CHESS_BASIC_AUTH } from 'src/lib/oAuth/chessDotCom'
+import { CHESS_BASIC_AUTH, refreshChessTokens } from 'src/lib/oAuth/chessDotCom'
 
 const API_URL = process.env.CHESS_OAUTH_URL
 
@@ -29,17 +25,52 @@ const getKey = async (header) => {
 }
 
 export const verifyChessJwt = async (jwt) => {
-  const pubKey = await getKey(decodeJwt(jwt, { complete: true }).header)
+  // Refresh if necessary
+  let idToken = jwt
+  let { header, payload } = decodeJwt(idToken, { complete: true })
+
+  // TODO: remove true check
+  /* eslint-disable-next-line no-constant-condition */
+  if (true) {
+    // if (new Date(payload.exp * 1000) > new Date()) {
+    // TODO: Replace hardcoded value with user ID lookup
+    idToken = await getNewIdToken(payload.user_id)
+    ;({ header } = decodeJwt(idToken, { complete: true }))
+  }
+
+  const pubKey = await getKey(header)
   const decoded = verifyJwt(
-    jwt,
+    idToken,
     pubKey,
     {
       algorithms: ['RS256'],
     },
-    (err, decoded) => {
+    (err, _decoded) => {
       if (err) throw err
-      return decoded
+      return _decoded
     }
   )
-  return decoded
+  return { decoded, newJwt: idToken }
+}
+
+export const getNewIdToken = async (userId) => {
+  try {
+    const { refreshToken } = await db.member.findUnique({
+      where: { id: userId },
+    })
+    const { refreshToken: newRefreshToken, idToken } = await refreshChessTokens(
+      refreshToken
+    )
+    await db.member.update({
+      where: { id: userId },
+      data: {
+        refreshToken: newRefreshToken,
+      },
+    })
+    return idToken
+  } catch (e) {
+    /* eslint-disable-next-line no-console */
+    console.log(e)
+    throw new AuthenticationError('getNewIdToken() Unable to refresh session')
+  }
 }

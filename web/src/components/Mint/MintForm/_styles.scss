@@ -15,7 +15,7 @@
     padding: 8px;
     margin-bottom: 20px;
     width: 100%;
-    border: 1px solid theme('colors.grey.100');
+    border: 1px solid theme('colors.grey');
     box-sizing: border-box;
     border-radius: 5px;
   }
@@ -26,6 +26,6 @@
   &__link {
     font-size: 12px;
     text-decoration: underline;
-    color: theme('colors.grey.100');
+    color: theme('colors.grey');
   }
   }

@@ -1,5 +1,5 @@
 .detailsBox {
-  border: 4px solid theme('colors.grey.200');
+  border: 4px solid theme('colors.greyDark');
   width: 100%;
   max-width: 100%;
   text-align: center;
@@ -9,7 +9,7 @@
       justify-content: center;
       align-items: center;
       padding: theme('spacing.2');
-      border-bottom: 1px solid theme('colors.grey.100');
+      border-bottom: 1px solid theme('colors.grey');
     }
     &-text {
       font-weight: theme('fontWeight.bold');

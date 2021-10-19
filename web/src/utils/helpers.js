@@ -38,7 +38,9 @@ export const trimString = (string, maxLength) => {
 export const getColorFromTheme = (color) => {
   const { theme } = themeConfig
   const isNested = color.includes('.')
+  const isRgb = color.includes('rgb')
 
+  if (isRgb) return color
   if (isNested) {
     const colorsArr = color.split('.')
     return theme.colors[colorsArr[0]][colorsArr[1]]

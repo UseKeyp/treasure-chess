@@ -50,8 +50,9 @@ docker run -it --rm \
 Killing Docker
 
 ```bash
+# WARNING: may kill other containers on your machine
 sudo killall containerd-shim && docker-compose down
-
+#
 docker kill CONTAINER
 # kill stubborn container
 sudo service docker restart

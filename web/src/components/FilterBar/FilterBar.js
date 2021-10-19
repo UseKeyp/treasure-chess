@@ -88,7 +88,7 @@ const FilterBar = ({ setFilterQuery }) => {
           Reset
         </button>
       </div>
-      <div className={styles.dropdownRow}>
+      <div className={styles.dropdownRowSpacing}>
         <Dropdown
           category={'Opener'}
           options={filters.openingList}
@@ -96,7 +96,7 @@ const FilterBar = ({ setFilterQuery }) => {
           queryFilter={openingFilter}
         />
       </div>
-      <div className={styles.dropdownRow}>
+      <div className={styles.dropdownRowSpacing}>
         <Dropdown
           category={'Rarity'}
           options={['Common', 'Uncommon', 'Rare', 'Legendary', 'Exotic']}
@@ -131,7 +131,7 @@ const FilterBar = ({ setFilterQuery }) => {
           queryFilter={outcomeFilter}
         />
       </div>
-      <div className={styles.dropdownRow}>
+      <div className={styles.dropdownRowSpacing}>
         <Dropdown
           category={'Termination'}
           options={filters.terminations}

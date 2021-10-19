@@ -76,12 +76,11 @@ const FilterItems = ({ headline, onChange }) => {
 
   return (
     <div className="filter-items">
-      <H3 ml="1rem" mb={8}>
+      <H3 ml="1rem" mb="0.5rem">
         {headline}
       </H3>
       <div className="filter-items__time-wrap">
-        {/* TODO: Create new dropdown */}
-        <div style={{ flex: 1, flexBasis: 75 }} className="flex">
+        <div style={{ flex: 1, flexBasis: 75, margin: 4 }} className="flex">
           <Dropdown
             category={<CategoryWrap>Day</CategoryWrap>}
             options={daysList}
@@ -91,7 +90,7 @@ const FilterItems = ({ headline, onChange }) => {
             queryFilter={datesToFilter.day}
           />
         </div>
-        <div style={{ flex: 1, flexBasis: 100 }} className="flex">
+        <div style={{ flex: 1, flexBasis: 105, margin: 4 }} className="flex">
           <Dropdown
             category={<CategoryWrap>Month</CategoryWrap>}
             options={monthsList}
@@ -101,7 +100,7 @@ const FilterItems = ({ headline, onChange }) => {
             queryFilter={datesToFilter.month}
           />
         </div>
-        <div style={{ flex: 1, flexBasis: 75 }} className="flex">
+        <div style={{ flex: 1, flexBasis: 75, margin: 4 }} className="flex">
           <Dropdown
             category={<CategoryWrap>Year</CategoryWrap>}
             options={yearsList}

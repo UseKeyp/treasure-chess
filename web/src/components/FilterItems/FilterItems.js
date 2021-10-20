@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
+
 import { H3, Span, P } from 'src/components/Typography'
 import Dropdown from 'src/components/Dropdown'
 import FilterCheckbox from 'src/components/FilterCheckbox'
@@ -134,6 +136,10 @@ const FilterItems = ({ headline, onChange }) => {
       </div>
     </div>
   )
+}
+FilterItems.propTypes = {
+  headline: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
 }
 
 export default FilterItems

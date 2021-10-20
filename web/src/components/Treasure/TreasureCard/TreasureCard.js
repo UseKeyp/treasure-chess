@@ -11,7 +11,8 @@ import ColoredBanner from './ColoredBanner'
 import './styles.scss'
 import 'flag-icon-css/css/flag-icon.css'
 
-const TreasureCard = ({ treasure }) => {
+const TreasureCard = ({ treasure, _isMinted }) => {
+  // TODO: Implement isMinted to show some unminted state
   const isWhiteEdition = treasure.cardColor === 'white'
   const isDraw = treasure.outcome === 'draw'
   let winnerText = 'Draw!'
@@ -156,7 +157,7 @@ const TreasureCard = ({ treasure }) => {
           </div>
           <div className="middle-item">
             <span className="green-text">Match</span>{' '}
-            <a href={treasure.externalUrl} target="_blank">
+            <a href={treasure.externalUrl} target="_blank" rel="noreferrer">
               #{matchId}
             </a>
           </div>

@@ -24,7 +24,6 @@ describe('members', () => {
       input: {
         id: 'String',
         address: 'String6973540',
-        dateJoined: '2021-08-26T03:34:19Z',
         rating: 8198066,
         imageSrc: 'String',
         country: 'String',
@@ -33,7 +32,6 @@ describe('members', () => {
 
     expect(result.id).toEqual('String')
     expect(result.address).toEqual('String6973540')
-    expect(result.dateJoined).toEqual('2021-08-26T03:34:19Z')
     expect(result.rating).toEqual(8198066)
     expect(result.imageSrc).toEqual('String')
     expect(result.country).toEqual('String')

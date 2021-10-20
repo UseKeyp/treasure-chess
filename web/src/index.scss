@@ -11,6 +11,7 @@
 @import './components/**/_styles.scss';
 @import './components/flows/**/**/_styles.scss';
 @import './pages/**/_styles.scss';
+@import './layouts/**/_styles.scss';
 /**
  * END --- TAILWIND GENERATOR EDIT
  */
@@ -35,4 +36,14 @@ a {
 
 .max-width-container {
   max-width: 1600px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appreance: none;
+  margin: 0;
+}
+
+input {
+  -moz-appearance: textfield;
 }

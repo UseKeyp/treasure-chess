@@ -13,81 +13,93 @@ generator client {
 // Define your own datamodels here and run `yarn redwood prisma migrate dev`
 // to create migrations for them and apply to your dev DB.
 model Member {
-  id    String     @id // Chess.com username
-  address String? @unique // Wallet address
-  // --------------- STATE --------------
-  dateJoined DateTime?
-  // Oauth
-  accessToken String? // API access to chess.com
-  accessTokenExpiration DateTime?
-  refreshToken String?
-  // idToken String? // User's JWT from chess.com
-  idTokenExpiration DateTime?
+  id                   String         @id // Chess.com id
+  username             String         @unique // Chess.com username
+  address              String?        @unique // Torus wallet address
   // --------------- LINKS --------------
-  treasuresOwned Treasure[] @relation(name: "treasuresOwned" )
-  treasuresMinted Treasure[] @relation(name: "treasuresMinted" )
-  treasuresPlayedWhite Treasure[] @relation(name: "treasuresPlayedWhite" )
-  treasuresPlayedBlack Treasure[] @relation(name: "treasuresPlayedBlack" )
-  treasuresWon Treasure[] @relation(name: "treasuresWon" )
-  // !! For Scaffolding purposes only - should be commented out
-  // rating Int
-  // imageSrc String // Profile image URL
-  // country String // Player's country
-  // masterTitle String? //
+  treasuresOwned       Treasure[]     @relation("treasuresOwned")
+  treasuresMinted      Treasure[]     @relation("treasuresMinted")
+  treasuresPlayedWhite Treasure[]     @relation("treasuresPlayedWhite")
+  treasuresPlayedBlack Treasure[]     @relation("treasuresPlayedBlack")
+  treasuresWon         Treasure[]     @relation("treasuresWon")
+  mintPurchases        MintPurchase[] @relation("mintPurchases")
+  // --------------- STATE --------------
+  createdAt            DateTime       @default(now())
+  updatedAt            DateTime       @updatedAt
+  imageSrc             String? // Avatar URL
+  masterTitle          String? // GM, IM or NM
+  country              String // Player's country  eg. US, DE
+  // Oauth
+  refreshToken         String?
 }
 
 model Treasure {
-  id   String  @id // Moves hash plus end time
-  createdAt DateTime @default(now())
+  id               String       @id // Moves hash plus end time
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
   // --------------- LINKS --------------
   // Chess.com (required)
-  black Member @relation(name: "treasuresPlayedWhite", fields: [blackId], references: [id])
-  blackId String
-  white Member @relation(name: "treasuresPlayedBlack", fields: [whiteId], references: [id])
-  whiteId String
-  winner Member?  @relation(name: "treasuresWon", fields: [winnerId], references: [id])
-  winnerId String?
-  // NFT (optional)
-  minter Member? @relation(name: "treasuresMinted", fields: [minterAddress], references: [address])
-  minterAddress String?
-  owner Member? @relation(name: "treasuresOwned", fields: [ownerAddress], references: [address])
-  ownerAddress String?
+  black            Member       @relation(name: "treasuresPlayedWhite", fields: [blackId], references: [id])
+  blackId          String
+  blackUsername    String
+  white            Member       @relation(name: "treasuresPlayedBlack", fields: [whiteId], references: [id])
+  whiteId          String
+  whiteUsername    String
+  winner           Member?      @relation(name: "treasuresWon", fields: [winnerId], references: [id])
+  winnerId         String?
+  winnerUsername   String?
+  // NFT
+  minter           Member       @relation(name: "treasuresMinted", fields: [minterAddress], references: [address])
+  minterAddress    String
+  owner            Member       @relation(name: "treasuresOwned", fields: [ownerAddress], references: [address])
+  ownerAddress     String
+  mintPurchase     MintPurchase @relation(name: "mintPurchase", fields: [mintPurchaseId], references: [id])
+  mintPurchaseId   String
+  uriData          String
   // --------------- STATE --------------
-  name String
-  updatedAt DateTime @updatedAt
-  // Chess
-  cardColor String // white or black
-  blackRating Int // Rating at the time of the game
-  whiteRating Int
+  title            String
+  cardColor        String // white or black
+  blackRating      Int // Rating at the time of the game
+  whiteRating      Int
   blackMasterTitle String? // eg. "Grand Master" or "International Master"
   whiteMasterTitle String?
-  timeControl Int // game time variant
-  termination String // eg. "Checkmate",  "Resignation", "Stalemate", "Insufficient Material"
-  endTime DateTime
-  outcome String  // "white" "black" "draw" etc.
-  event String // eg. "Live Chess"
-  moves String // pgn moves
-  moveCount Int // eg. "43"
-  ruleVariant String @default("Standard") // eg. "Standard" or "Chess960"
-  externalUrl String? // Link to game on chess.com
-  opening String // eg. "Queen's Gambit"
-  achievements String // List eg. "win/play above 2200,queen side castle,mate with a bishop"
+  timeControl      String // game time variant
+  termination      String // eg. "Checkmate",  "Resignation", "Stalemate", "Insufficient Material"
+  endTime          DateTime
+  outcome          String // "white" "black" "draw" etc.
+  event            String // eg. "Live Chess"
+  moves            String // pgn moves
+  moveCount        Int // eg. 43
+  ruleVariant      String       @default("Standard") // eg. "Standard" or "Chess960"
+  externalUrl      String? // Link to game on chess.com
+  opening          String // eg. "Queen's Gambit"
+  achievements     String // List eg. "win/play above 2200,queen side castle,mate with a bishop"
+  achievementScore Int // eg. 10
+  rarity           String // eg. 10
   // NFT
-  tokenId Int?
-  mintedAt DateTime?
+  tokenId          Int?
+  mintedAt         DateTime?
+}
+
+model MintPurchase {
+  id          String    @id // Wyre orderId
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  // --------------- LINKS --------------
+  member      Member    @relation("mintPurchases", fields: [memberId], references: [id])
+  memberId    String
+  treasure    Treasure? @relation("mintPurchase")
+  // --------------- STATE --------------
+  orderStatus String    @default("INVALID")
+  gameId      String
+  gameEndTime String
+  txHash      String?
+  txStatus    String    @default("UNSUBMITTED")
 }
 
 model OAuth {
-  state String @id
+  state         String   @id
   codeChallenge String
-  codeVerifier String
-  createdAt DateTime @default(now())
-}
-
-// Jschiarizzi's chess.com credentials, used for the app's primary API access
-model SecretToken {
-  id String @id @default(uuid())
-  accessToken String
-  refreshToken String
-  idToken String // JWT from chess.com
+  codeVerifier  String
+  createdAt     DateTime @default(now())
 }

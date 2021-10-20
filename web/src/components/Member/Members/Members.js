@@ -10,14 +10,6 @@ const truncate = (text) => {
   return output
 }
 
-const timeTag = (datetime) => {
-  return (
-    <time dateTime={datetime} title={datetime}>
-      {new Date(datetime).toUTCString()}
-    </time>
-  )
-}
-
 const MembersList = ({ members }) => {
   return (
     <div className="rw-segment rw-table-wrapper-responsive">
@@ -26,7 +18,6 @@ const MembersList = ({ members }) => {
           <tr>
             <th>Id</th>
             <th>Address</th>
-            <th>Date joined</th>
             <th>Rating</th>
             <th>Image src</th>
             <th>Country</th>
@@ -39,7 +30,6 @@ const MembersList = ({ members }) => {
             <tr key={member.id}>
               <td>{truncate(member.id)}</td>
               <td>{truncate(member.address)}</td>
-              <td>{timeTag(member.dateJoined)}</td>
               <td>{truncate(member.rating)}</td>
               <td>{truncate(member.imageSrc)}</td>
               <td>{truncate(member.country)}</td>

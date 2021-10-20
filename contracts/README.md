@@ -1,8 +1,5 @@
-# Treasure Chess Contracts
+# @treasure-chess/contracts
 
-
-
-<!-- TABLE OF CONTENTS -->
 <details open="open">
   <summary><h2 style="display: inline-block">Table of Contents</h2></summary>
   <ol>
@@ -11,9 +8,6 @@
     </li>
     <li>
       <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
     </li>
     <li>
       <a href="#getting-started">Getting Started</a>
@@ -31,78 +25,78 @@
 </details>
 
 ## Docs
+
 ### Treasure Tips, Tricks, and Design Decisions
+
 - No meta transactions on the main Treasure contract, since only the admin controlled accounts can call minting function , and we only need to make transfers free
 - contract name will be changed at the end, since we want to reserve the url /TreasureChess on third party marketplaces and don't want it scrapped if we decide to test on polygon later.
 - Overrided `approveForAll` check so that OpenSea and our marketplace do not require an approval transaction for use.
 - Achievements are on-chain and also can be part of json URI so make it something that onchain governance can decide
 - The `Owner` should be updated to a multisig wallet (gnosis safe) controlled by the dev team, possibly Victor/a lawyer + a DAO for tiebreakers, while `Admins` should be internal addresses controlled
 
-<!-- ABOUT THE PROJECT -->
 ## About The Project
-
-<!-- [![Product Name Screen Shot][product-screenshot]](https://example.com) -->
 
 A simple hardhat template modeled off of running `npx hardhat init`.
 
 This project includes:
-- `hardhat-deploy`: this is a powerful plugin for deployment and testing, allows you to utilize your deploy for testing and makes it easy to deploy to live networks. Also includes neat features like dependencies (allows handling the case where one deployment is dependent on another).
+
 - `hardhat-prettier`: a plugin that makes it easy to format solidity files based on rules set in `.prettierrc`.
   - `npx hardhat format`
-- `hardhat-typechain`: a plugin that generates typings files for use in test files and possibly even on the front-end.
-- `solidity-coverage`: a plugin that generates a coverage report on how much of your code has been tested.
+- [hardhat-typechain](https://hardhat.org/plugins/hardhat-typechain.html): a plugin that generates typings files for use in test files and possibly even on the front-end.
+- [solidity-coverage](https://hardhat.org/plugins/solidity-coverage.html): a plugin that generates a coverage report on how much of your code has been tested.
   - `npx hardhat coverage`
-
-The deploy script and test files have been modified to work in a way that takes full advantage of the features which `hardhat-deploy` offers.
+- `@openzeppelin/hardhat-upgrades`: a plugin which is used in conjunction with hardhat to deploy upgradeable contracts and upgrade them later. The plugin by default prevents you from deploying/upgrading "dangerous" upgradeable contracts.
 
 ### Built With
 
-* [hardhat](https://hardhat.org)
-* [hardhat-deploy](https://hardhat.org/plugins/hardhat-deploy.html)
-* [hardhat-prettier](https://www.npmjs.com/package/hardhat-prettier)
-* [hardhat-typechain](https://hardhat.org/plugins/hardhat-typechain.html)
-* [solidity-coverage](https://hardhat.org/plugins/solidity-coverage.html)
+- [hardhat](https://hardhat.org)
+- [hardhat-prettier](https://www.npmjs.com/package/hardhat-prettier)
+- [hardhat-typechain](https://hardhat.org/plugins/hardhat-typechain.html)
+- [solidity-coverage](https://hardhat.org/plugins/solidity-coverage.html)
+- [OpenZeppelin Upgrades Plugin](https://docs.openzeppelin.com/upgrades-plugins/1.x/)
+- [OpenZeppelin Upgradeable Contracts](https://www.npmjs.com/package/@openzeppelin/contracts-upgradeable)
 
-
-
-<!-- GETTING STARTED -->
 ## Getting Started
 
 To get a local copy up and running follow these simple steps.
 
 ### Prerequisites
 
-You just need to have npm to use this project.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+You also need a `.env` file with the following items:
+
+- `ROPSTEN_PRIVATE_KEY`: A private key (account which will deploy) for testing.
+- `INFURA_API_KEY`: An infura api key which you can obtain from [infura](https://infura.io).
+- `FORWARDER_ADDRESS`: The [opengsn](https://docs.opengsn.org/contracts/addresses.html) forwarder address - this will vary based on which network you are deploying/testing on or if you want to deploy your own forwarder.
 
 ### Installation
 
-1. Clone the repo
-   ```sh
-   git clone https://github.com/pi0neerpat/treasure-chess.git
-   ```
-2. Move into this directory
-   ```
-   cd contracts/
-   ```
+Clone the repo
 
-3. Install NPM packages
-   ```sh
-   yarn install
-   ```
+```sh
+git clone https://github.com/pi0neerpat/treasure-chess.git
+```
 
+Move into this directory and install packages
 
+```
+cd contracts/
+yarn install
+```
 
-<!-- USAGE EXAMPLES -->
 ## Usage
 
-To run tests, first compile the project with `yarn compile` and then `yarn test`. If you would like to deploy your project, use `yarn deploy --network <NETWORK>`. Keep in mind, you must add this network to the `hardhat.config.ts` file with the necessary information for this to work.
+To run tests, first compile the project with `yarn compile` and then `yarn test`.
 
+To deploy the contracts, simply call `yarn deploy --network <NETWORK>`. Keep in mind, you must add this network to the `hardhat.config.ts` file with the necessary information for this to work.
 
-<!-- CONTRIBUTING -->
+For those curious about how upgradability works or what the plugin is doing, you can read the comments in `test/helpers.ts`. If you want more in-depth information, I would recommend reading some of the information [here](https://docs.openzeppelin.com/openzeppelin/upgrades).
+
+To test upgrading the contract, you first need to deploy the `Treasure` and `TreasureMarket` contracts and copy the addresses over to your `.env` file under `TREASURE_ADDRESS` and `TREASURE_MARKET_ADDRESS`.
+The current setup upgrades the contract to `TreasureUpgraded.sol` and `TreasureMarketUpgraded.sol`, but you can modify the `upgradeContracts` function in `scripts/helpers.ts` to upgraded to any contract (change value passed to `getContractFactory`).
+To upgrade the contracts, use `yarn upgrade-contracts --network <NETWORK>`.
+
+### User functions
+
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
@@ -113,26 +107,16 @@ Contributions are what make the open source community such an amazing place to b
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-
-
-<!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+TODO
 
-<!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
 
-* [Hardhat](https://hardhat.org)
-* [Paul R Berg Solidity Template](https://github.com/paulrberg/solidity-template)
-* [0xDanvinci upgraded hardhat template](https://github.com/0xDavinci)
+- [Hardhat](https://hardhat.org)
+- [Paul R Berg Solidity Template](https://github.com/paulrberg/solidity-template)
+- [0xdavinchee upgraded hardhat template](https://github.com/0xdavinchee)
 
-
-
-
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [contributors-shield]: https://img.shields.io/github/contributors/jschiarizzi/treasure.svg?style=for-the-badge
 [contributors-url]: https://github.com/jschiarizzi/treasure/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/jschiarizzi/treasure.svg?style=for-the-badge

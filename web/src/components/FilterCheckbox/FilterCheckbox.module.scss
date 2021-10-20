@@ -1,0 +1,58 @@
+@use "sass:color";
+
+.checkBoxContainer {
+  font-size: 1rem;
+  padding: 1ex 1em;
+}
+
+.checkBoxWrapper {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  max-width: 100%;
+  margin-top: 1ex;
+}
+
+.filterListItem {
+  display: flex;
+  font-weight: 900;
+  padding: 1ex;
+  padding-top: 1.25ex;
+  font-size: 1rem;
+  user-select: none;
+  border-radius: .25rem;
+  border: 1px solid transparent;
+  outline: none;
+  background-color: #4F4F4F;
+  transition: all 0.25s;
+  line-height: 1;
+  margin: .5ex 0;
+  margin-right: 1ex;
+  color: #848484;
+  &:hover, &:focus {
+    background-color: color.scale(#4f4f4f, $lightness: 20%);
+    cursor: pointer;
+    color: color.scale(#848484, $lightness: 60%);
+    box-shadow: 0px 4px 0px 0px color.scale(#4f4f4f, $lightness: -33%);
+    transform: translateY(-4px);
+  }
+  &:focus {
+    outline: none;
+  }
+  > img {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.filterListItemSelected {
+  background-color: #6c9d41;
+  color: white;
+  &:hover, &:focus {
+    background-color: color.scale(#6c9d41, $lightness: 20%);
+    color: white;
+    box-shadow: 0px 4px 0px 0px color.scale(#6c9d41, $lightness: -20%);
+    transform: translateY(-4px);
+  }
+}
+

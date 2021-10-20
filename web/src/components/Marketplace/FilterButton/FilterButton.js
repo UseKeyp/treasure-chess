@@ -1,4 +1,5 @@
-import styles from './FilterButton.module.scss'
+import styles from './FilterButton.module.scss';
+
 /**
  * This button is used to both Trigger and Filter searches
  * @param {String} label The label the button displays

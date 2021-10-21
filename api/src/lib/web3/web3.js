@@ -16,7 +16,7 @@ export const mintTreasure = async ({ game, mintPurchase, member, title }) => {
       owner: member,
       mintPurchase,
     })
-    if (mintPurchase.txStatus === 'SUBMITTED') {
+    if (mintPurchase.txHash) {
       // TODO: Check the status of the transaction
 
       // TODO: If failed, attempt to mint again

@@ -74,7 +74,7 @@ export const processOrder = async ({ reservation, orderId }) => {
       embed: {
         color: 16740982,
         title: `${DISCORD_PRODUCTION_TITLE}  ⛈️  Mint Order Failed!`,
-        description: `Order ID: **${orderId}**
+        description: `Order ID: ${orderId}
 
 ${e}
 

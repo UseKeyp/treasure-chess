@@ -35,11 +35,11 @@ body {
   min-width: min-content;
   max-width: 100%;
   > :not(:first-child) {
-    border: 1px solid theme('colors.grey.100');
+    border: 1px solid theme('colors.grey');
     border-top: 0;
   }
   > :nth-child(2) {
-    border-top: 1px solid theme('colors.grey.100');
+    border-top: 1px solid theme('colors.grey');
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
   }

@@ -72,7 +72,7 @@ export const processOrder = async ({ reservation, orderId }) => {
     /* eslint-disable-next-line no-console */
     await sendDiscordAlert({
       embed: {
-        // color: '#ff0000',
+        color: 16740982,
         title: `${DISCORD_PRODUCTION_TITLE}  ⛈️  Mint Order Failed!`,
         description: `Order ID: ${orderId}
 

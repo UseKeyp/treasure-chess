@@ -54,7 +54,7 @@ model Treasure {
   owner            Member       @relation(name: "treasuresOwned", fields: [ownerAddress], references: [address])
   ownerAddress     String
   mintPurchase     MintPurchase? @relation(name: "mintPurchase", fields: [mintPurchaseId], references: [id])
-  mintPurchaseId   String?
+  mintPurchaseId   Int?
   uriData          String
   // --------------- STATE --------------
   title            String
@@ -82,7 +82,7 @@ model Treasure {
 }
 
 model MintPurchase {
-  id          String    @id
+  id          Int    @id @default(autoincrement())
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   // --------------- LINKS --------------

@@ -59,7 +59,7 @@ export const mintCheckoutUrl = async ({ gameId, endTime, title }) => {
   await db.mintPurchase.create({
     data: {
       member: { connect: { id: context.currentUser.id } },
-      reservaton,
+      reservation,
       gameId,
       gameEndTime: endTime,
       title,

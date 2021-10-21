@@ -11,7 +11,7 @@ export const handler = async (event) => {
     let body = event.body
     if (typeof body === 'string') body = JSON.parse(body)
 
-    await processOrder(body.orderId)
+    await processOrder(body)
 
     return {
       statusCode,

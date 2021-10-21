@@ -32,17 +32,25 @@ const validateMintOrder = (order) => {
   }
 }
 
-export const processOrder = async (orderId) => {
+export const processOrder = async (orderBody) => {
   try {
+    const { reservation, orderId } = orderBody
+    let mintPurchase = await db.mintPurchase.findUnique({
+      where: { orderId },
+    })
+    // Ensure orderId hasn't already used with another reservation
+    if (mintPurchase && mintPurchase.reservation !== reservation)
+      throw Error(
+        `Wyre mint order invalid. orderId ${orderId} / reservation ${reservation} has already been used with reservation ${mintPurchase.reservation} and purchase #${mintPurchase.id}`
+      )
     const order = await fetchOrder(orderId)
     validateMintOrder(order)
-    const { reservaton } = order
-    const mintPurchase = await db.mintPurchase.findUnique({
+    mintPurchase = await db.mintPurchase.findUnique({
       where: { reservation },
     })
     if (!mintPurchase)
       throw new Error(
-        `MintPurchase not found for reservaton: ${reservaton} orderId: ${orderId}`
+        `MintPurchase not found for reservation: ${reservation} orderId: ${orderId}`
       )
     const { memberId, gameId, gameEndTime, title } = mintPurchase
     const member = await db.member.findUnique({ where: { id: memberId } })
@@ -66,8 +74,8 @@ export const processOrder = async (orderId) => {
     console.log(orderId)
     await sendDiscordAlert({
       embed: {
-        color: '#ff0000',
-        title: `${DISCORD_PRODUCTION_TITLE} ⛈️ Mint Order Failed!`,
+        // color: '#ff0000',
+        title: `${DISCORD_PRODUCTION_TITLE}  ⛈️  Mint Order Failed!`,
         description: `Order ID: ${orderId}
 
 ${e}

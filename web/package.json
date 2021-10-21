@@ -40,5 +40,9 @@
     "sass": "^1.35.1",
     "sass-loader": "^10",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat"
+  },
+  "eslintConfig": {
+    "extends": ".eslintrc.js",
+    "root": true
   }
 }

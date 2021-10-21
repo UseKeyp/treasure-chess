@@ -94,10 +94,10 @@ const MobileNav = ({ forceSmallNav = false }) => {
               )}
               <NavLink
                 className="ml-2"
-                to={routes.marketplace()}
+                to={routes.treasures()}
                 activeClassName="underline"
               >
-                Marketplace
+                Treasures
               </NavLink>
               <NavLink
                 className="ml-2"
@@ -122,8 +122,8 @@ const MobileNav = ({ forceSmallNav = false }) => {
         <a className="mobile-nav-link" href="/profile">
           Profile
         </a>
-        <a className="mobile-nav-link" href={routes.marketplace()}>
-          Marketplace
+        <a className="mobile-nav-link" href={routes.treasures()}>
+          Treasures
         </a>
         <a className="mobile-nav-link" href="/faq">
           FAQ

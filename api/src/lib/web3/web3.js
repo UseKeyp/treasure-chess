@@ -16,13 +16,22 @@ export const mintTreasure = async ({ game, mintPurchase, member, title }) => {
       owner: member,
       mintPurchase,
     })
+    if (mintPurchase.txHash) {
+      // TODO: Check the status of the transaction
+
+      // TODO: If failed, attempt to mint again
+
+      // Remove throw once completed
+      throw `Treasure has already been minted:${treasure.id}`
+    }
+
     const { tokenUri, uriData } = await pinTreasure({ treasure })
     // TODO: remove consoles
     /* eslint-disable-next-line no-console */
     console.log(uriData)
     /* eslint-disable-next-line no-console */
     console.log(tokenUri)
-
+    // TODO: Check whether a treasure with the same id already exists in the database
     // TODO: Before minting, check on-chain whether there exists a treasure
     // with the same ID hash
     const tx = await mint({ treasure, tokenUri, minterAddress: member.address })
@@ -45,10 +54,7 @@ export const mintTreasure = async ({ game, mintPurchase, member, title }) => {
 
     return treasureEntity
   } catch (e) {
-    const errorMessage = `mintTreasure() ${e}`
-    /* eslint-disable-next-line no-console */
-    console.log(errorMessage)
-    throw e
+    throw `mintTreasure() ${e}`
   }
 }
 

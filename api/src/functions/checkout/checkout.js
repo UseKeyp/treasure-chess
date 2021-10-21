@@ -11,7 +11,7 @@ export const handler = async (event) => {
     let body = event.body
     if (typeof body === 'string') body = JSON.parse(body)
 
-    await processOrder({ orderId: body.orderId, referenceId: body.referenceId })
+    await processOrder(body)
 
     return {
       statusCode,
@@ -22,6 +22,7 @@ export const handler = async (event) => {
   } catch (e) {
     /* eslint-disable-next-line no-console */
     console.log(event)
+    // Really these should never happen, since processOrder catches its errors
     Sentry.captureException(e)
     return {
       statusCode, // Always return 200

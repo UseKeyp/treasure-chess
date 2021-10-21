@@ -74,11 +74,14 @@ export const processOrder = async ({ reservation, orderId }) => {
       embed: {
         color: 16740982,
         title: `${DISCORD_PRODUCTION_TITLE}  ⛈️  Mint Order Failed!`,
-        description: `Order ID: ${orderId}
+        description: `Order ID: **${orderId}**
 
 ${e}
 
-Check orders on the [Wyre Dashboard](${DISCORD_WYRE_DASHBOARD_URL})`,
+[Wyre Dashboard](${DISCORD_WYRE_DASHBOARD_URL})`,
+        footer: {
+          text: new Date().toString(),
+        },
         type: 'link',
       },
     })

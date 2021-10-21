@@ -22,7 +22,7 @@ export const mintTreasure = async ({ game, mintPurchase, member, title }) => {
       // TODO: If failed, attempt to mint again
 
       // Remove throw once completed
-      throw `Treasure has already been minted! Treasure ID: ${treasure.id}`
+      throw `Treasure has already been minted:${treasure.id}`
     }
 
     const { tokenUri, uriData } = await pinTreasure({ treasure })

@@ -11,7 +11,6 @@ import { getNewIdToken } from 'src/lib/oAuth/jwt'
 import { decode as decodeJwt } from 'jsonwebtoken'
 
 const TORUS_VERIFIER = process.env.TORUS_VERIFIER
-const TORUS_NETWORK = isProduction ? 'mainnet' : 'testnet'
 
 const fetchNodeDetails = new FetchNodeDetails(
   !isProduction && {

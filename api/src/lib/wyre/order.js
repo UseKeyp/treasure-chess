@@ -32,13 +32,12 @@ const validateMintOrder = (order) => {
   }
 }
 
-export const processOrder = async (orderBody) => {
+export const processOrder = async ({ reservation, orderId }) => {
   try {
-    const { reservation, orderId } = orderBody
     let mintPurchase = await db.mintPurchase.findUnique({
       where: { orderId },
     })
-    // Ensure orderId hasn't already used with another reservation
+    // Ensure orderId hasn't already used with a different reservation
     if (mintPurchase && mintPurchase.reservation !== reservation)
       throw Error(
         `Wyre mint order invalid. orderId ${orderId} / reservation ${reservation} has already been used with reservation ${mintPurchase.reservation} and purchase #${mintPurchase.id}`
@@ -71,7 +70,6 @@ export const processOrder = async (orderBody) => {
     await mintTreasure({ game, mintPurchase, member, title })
   } catch (e) {
     /* eslint-disable-next-line no-console */
-    console.log(orderId)
     await sendDiscordAlert({
       embed: {
         // color: '#ff0000',

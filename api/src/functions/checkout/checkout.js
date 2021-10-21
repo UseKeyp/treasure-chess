@@ -22,6 +22,7 @@ export const handler = async (event) => {
   } catch (e) {
     /* eslint-disable-next-line no-console */
     console.log(event)
+    console.log(e)
     // Really these should never happen, since processOrder catches its errors
     Sentry.captureException(e)
     return {

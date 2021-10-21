@@ -46,6 +46,7 @@ const games = [
 ]
 
 const handleMintClick = (id, title) => {
+  // eslint-disable-next-line no-console
   console.log(`Minting game with id "${id}" and "${title}" title`)
 }
 

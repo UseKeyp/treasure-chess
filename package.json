@@ -13,7 +13,7 @@
     "compile-abi": "cd contracts && yarn compile && cd ../ && node tasks/updateAbi"
   },
   "devDependencies": {
-    "@redwoodjs/core": "^0.37.1",
+    "@redwoodjs/core": "^0.37.5",
     "chromatic": "^5.9.2"
   },
   "eslintConfig": {

@@ -8,15 +8,22 @@ module.exports = {
       lg: '976px',
       xl: '1440px',
     },
-    extend: {
-      colors: {
-        grey: {
-          100: '#C4C4C4',
-          200: '#8D8C8A',
-          300: '#575757',
-        },
-        green: '#7FA650',
+    colors: {
+      black: '#000000',
+      blue: '#47A7FF',
+      blueLink: '#147DDD',
+      chessBlack: {
+        100: '#312E2B',
+        200: '#272522',
+        300: '#21201D',
       },
+      green: '#88C54B',
+      greenDark: '#6C9D41',
+      grey: '#ABB6B9',
+      greyDark: '#4F4F4F',
+      orange: '#FFBB0D',
+      red: '#B23330',
+      white: '#FFFFFF',
     },
   },
   variants: {

@@ -8,27 +8,29 @@ export const QUERY = gql`
       id
       createdAt
       blackId
+      blackUsername
       whiteId
-      minterAddress
-      ownerAddress
+      whiteUsername
+      winnerId
+      winnerUsername
+
       title
-      updatedAt
       cardColor
       blackRating
-      timeControl
       whiteRating
+      blackMasterTitle
+      whiteMasterTitle
+      timeControl
       termination
       endTime
+      outcome
       event
-      moves
-      moveCount
-      gameRuleVariant
-      winner
+      ruleVariant
       externalUrl
       opening
       achievements
-      tokenId
-      mintedAt
+      achievementScore
+      rarity
     }
   }
 `
@@ -39,7 +41,7 @@ export const Empty = () => {
   return (
     <div className="rw-text-center">
       {'No treasures yet. '}
-      <Link to={routes.newTreasure()} className="rw-link">
+      <Link to="" className="rw-link">
         {'Create one?'}
       </Link>
     </div>

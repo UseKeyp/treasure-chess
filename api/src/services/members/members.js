@@ -11,7 +11,7 @@ export const member = ({ usernameOrAddress }) => {
 
 export const usernames = async ({ query }) => {
   const members = await db.member.findMany({
-    take: 100,
+    take: 6,
     where: {
       username: {
         contains: query,

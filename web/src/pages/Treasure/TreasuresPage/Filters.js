@@ -10,6 +10,108 @@ export const filters = {
   moveCounts,
 }
 
+const openingList = [
+  "King's pawn game",
+  "Queen's Gambit",
+  'Ruy Lopez',
+  'French Defense',
+  'Caro-Kann',
+  'Reti Opening',
+  'English',
+  'Norwegian',
+  'Italian',
+  "Bird's Opening",
+  'Scandinavian',
+  'Scotch',
+]
+
+const colors = ['white', 'black']
+
+const ratings = [
+  '< 750',
+  '750 - 999',
+  '1000 - 1499',
+  '1500 - 1999',
+  '2000 - 2199',
+  '2200 - 2399',
+  '2400+',
+]
+
+const titles = [
+  {
+    label: 'Grandmaster',
+    data: 'gm',
+  },
+  {
+    label: 'International Master',
+    data: 'im',
+  },
+  {
+    label: 'New Master',
+    data: 'nm',
+  },
+  {
+    label: 'No Title',
+    data: null,
+  },
+]
+
+const timeControls = [
+  {
+    label: '1 minute',
+    data: 60,
+  },
+  {
+    label: '2 minutes',
+    data: 120,
+  },
+  {
+    label: '5 minutes',
+    data: 300,
+  },
+  {
+    label: '10 minutes',
+    data: 600,
+  },
+  {
+    label: '30 minutes',
+    data: 1800,
+  },
+  {
+    label: '1 hour',
+    data: 3600,
+  },
+  {
+    label: 'Untimed',
+    data: null,
+  },
+]
+
+const terminations = [
+  'Checkmate',
+  'Resignation',
+  'Stalemate',
+  'Insufficient Material',
+]
+
+const outcomes = [
+  {
+    label: 'White wins',
+    data: 'white',
+  },
+  {
+    label: 'Black wins',
+    data: 'black',
+  },
+  {
+    label: 'Draw',
+    data: 'draw',
+  },
+]
+
+const moveCounts = ['< 10', '10 - 49', '50 - 99', '100 - 199', '200+']
+
+// TODO: These should be imported from chess-achievements
 const achievements = [
   {
     // index 0
@@ -197,104 +299,3 @@ const achievements = [
     points: 5,
   },
 ]
-
-const openingList = [
-  "King's pawn game",
-  "Queen's Gambit",
-  'Ruy Lopez',
-  'French Defense',
-  'Caro-Kann',
-  'Reti Opening',
-  'English',
-  'Norwegian',
-  'Italian',
-  "Bird's Opening",
-  'Scandinavian',
-  'Scotch',
-]
-
-const colors = ['white', 'black']
-
-const ratings = [
-  '< 750',
-  '750 - 999',
-  '1000 - 1499',
-  '1500 - 1999',
-  '2000 - 2199',
-  '2200 - 2399',
-  '2400+',
-]
-
-const titles = [
-  {
-    label: 'Grandmaster',
-    data: 'gm',
-  },
-  {
-    label: 'International Master',
-    data: 'im',
-  },
-  {
-    label: 'New Master',
-    data: 'nm',
-  },
-  {
-    label: 'No Title',
-    data: null,
-  },
-]
-
-const timeControls = [
-  {
-    label: '1 minute',
-    data: 60,
-  },
-  {
-    label: '2 minutes',
-    data: 120,
-  },
-  {
-    label: '5 minutes',
-    data: 300,
-  },
-  {
-    label: '10 minutes',
-    data: 600,
-  },
-  {
-    label: '30 minutes',
-    data: 1800,
-  },
-  {
-    label: '1 hour',
-    data: 3600,
-  },
-  {
-    label: 'Untimed',
-    data: null,
-  },
-]
-
-const terminations = [
-  'Checkmate',
-  'Resignation',
-  'Stalemate',
-  'Insufficient Material',
-]
-
-const outcomes = [
-  {
-    label: 'White wins',
-    data: 'white',
-  },
-  {
-    label: 'Black wins',
-    data: 'black',
-  },
-  {
-    label: 'Draw',
-    data: 'draw',
-  },
-]
-
-const moveCounts = ['< 10', '10 - 49', '50 - 99', '100 - 199', '200+']

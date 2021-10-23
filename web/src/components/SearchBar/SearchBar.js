@@ -26,14 +26,18 @@ const SearchBar = ({ setQuery }) => {
   React.useEffect(() => {
     // TODO: Fix this to proper debouncing
     // setTimeout(() => {
-    if (value === '' || dropdownOptions.includes(value))
+    if (value === '') return setDropdownOptions([])
+    if (dropdownOptions.includes(value)) {
+      // Handles typing full username, without using the dropdown
+      setQuery(value)
+      // Prevents performing another query after selection
       return setDropdownOptions([])
+    }
     fetchUsernames({
       variables: {
         query: value,
       },
     })
-    // TODO: Handle typing full username, without using the dropdown
     // }, 1000)
   }, [value])
 

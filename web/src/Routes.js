@@ -9,7 +9,7 @@ const Routes = () => {
       <Route path="/redirect/{type}" page={RedirectPage} name="redirect" />
       <Set wrap={DefaultLayout}>
         <Route path="/" page={HomePage} name="home" />
-        <Route path="/faq" page={FaqPage} name="faq" />
+        <Route path="/about" page={FaqPage} name="faq" />
         <Route path="/login" page={LoginPage} name="login" />
         <Route path="/marketplace" page={MarketplacePage} name="marketplace" />
         <Set wrap={MembersLayout}>

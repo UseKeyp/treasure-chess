@@ -2,7 +2,7 @@
 
 # Force redeploy
 
-name: "redwoodjs-app-main"
+name: "treasure-chess-app-ghcr-build"
 
 on:
   push:

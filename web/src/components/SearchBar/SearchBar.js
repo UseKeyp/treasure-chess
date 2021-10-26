@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import styles from './SearchBar.module.scss'
 import { useLazyQuery } from '@apollo/client'
+import { debounce } from 'src/utils/helpers'
 
 import { ReactComponent as SearchIcon } from '../../assets/icons/Search.svg'
 
@@ -23,9 +24,7 @@ const SearchBar = ({ setQuery }) => {
     },
   })
 
-  React.useEffect(() => {
-    // TODO: Fix this to proper debouncing
-    // setTimeout(() => {
+  const update = () => {
     if (value === '') return setDropdownOptions([])
     if (dropdownOptions.includes(value)) {
       // Handles typing full username, without using the dropdown
@@ -38,7 +37,12 @@ const SearchBar = ({ setQuery }) => {
         query: value,
       },
     })
-    // }, 1000)
+  }
+
+  const debounceUpdate = debounce(update, 1000)
+
+  React.useEffect(() => {
+    debounceUpdate()
   }, [value])
 
   const onSelectUsername = (option) => {

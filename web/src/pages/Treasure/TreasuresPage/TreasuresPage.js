@@ -11,7 +11,8 @@ import { filters } from './Filters'
 import { anyValues, oneValue } from './Logic'
 
 const TreasuresPage = () => {
-  const [searchValue, setSearchValue] = useState('') // string search
+  const [searchString, setSearchString] = useState('') // string search
+
   const [queryParameters, setQueryParameters] = useState({}) // for use in a 'makeQuery' function
   const params = useParams()
 
@@ -38,7 +39,7 @@ const TreasuresPage = () => {
   const debounceUpdateUrl = debounce(updateUrl, 1000)
 
   useEffect(() => {
-    debounceUpdateUrl()
+    // debounceUpdateUrl()
   }, [sort, filter, queryParameters])
 
   const updateSearchString = (value) => {
@@ -46,16 +47,27 @@ const TreasuresPage = () => {
     setSearchValue(value)
   }
 
+  // Populate search bar, filters, and sort from URL params on page load
+  useEffect(() => {
+    const { username } = params
+    setSearchString(username)
+  }, [])
+
   return (
     <>
       <MetaTags title="Treasures" />
       <h1 className="font-bold">Treasure Chess Marketplace</h1>
-      <SearchBar value={searchValue} setQuery={(d) => updateSearchString(d)} />
-      <FilterBar
-        filterQuery={queryParameters}
-        setFilterQuery={(d) => setQueryParameters(d)}
+      <SearchBar
+        initialQuery={searchString}
+        setQuery={(d) => updateSearchString(d)}
       />
-      <TreasuresCell query={queryParameters} sort={sort} />
+      <div className="flex">
+        <FilterBar
+          filterQuery={queryParameters}
+          setFilterQuery={(d) => setQueryParameters(d)}
+        />
+        <TreasuresCell query={queryParameters} sort={sort} />
+      </div>
     </>
   )
 }

@@ -34,6 +34,7 @@ const TreasuresPage = () => {
   }
 
   useEffect(() => {
+    console.log(filter)
     updateUrl()
   }, [sort, filter, username])
 

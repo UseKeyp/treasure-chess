@@ -287,6 +287,12 @@ const outcomes = [
 
 const moveCounts = ['< 10', '10 - 49', '50 - 99', '100 - 199', '200+']
 
+const rarity = ['Common', 'Uncommon', 'Rare', 'Legendary', 'Exotic']
+
+const sale = ['All', 'For Sale', 'Unlisted']
+
+const outcome = ['Black', 'White', 'Either']
+
 export const filters = {
   achievements,
   openingList,
@@ -297,4 +303,7 @@ export const filters = {
   terminations,
   outcomes,
   moveCounts,
+  rarity,
+  sale,
+  outcome,
 }

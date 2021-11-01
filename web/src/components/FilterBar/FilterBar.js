@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react'
 import styles from './FilterBar.module.scss'
 import { filters } from './Filters'
 import { anyValues } from './Logic'
-import FilterCheckbox from '../FilterCheckbox/FilterCheckbox'
-import FilterPriceInput from '../FilterPriceInput/FilterPriceInput'
-import Dropdown from '../Dropdown/Dropdown'
-import AchievementScroll from '../AchievementScroll/AchievementScroll'
+import FilterCheckbox from 'src/components/FilterCheckbox/FilterCheckbox'
+import FilterPriceInput from 'src/components/FilterPriceInput/FilterPriceInput'
+import Dropdown from 'src/components/Dropdown/Dropdown'
+import AchievementScroll from 'src/components/AchievementScroll/AchievementScroll'
 
 const FilterBar = ({ initialFilter, setFilter }) => {
   const [achievementFilter, setAchievementFilter] = useState([])
@@ -48,6 +48,23 @@ const FilterBar = ({ initialFilter, setFilter }) => {
     setFilter(newQuery)
   }
 
+  const onReset = () => {
+    updateFilter({})
+    setAchievementFilter([])
+    setOpeningFilter()
+    setColorFilter()
+    setRatingFilter()
+    setTitleFilter()
+    setTimeControlFilter()
+    setTerminationFilter()
+    setOutcomeFilter()
+    setMoveCountFilter()
+    setRarityFilter()
+    setSaleFilter()
+    setLowPrice('') // must be initialized to a string to control the input from initial render
+    setHighPrice('')
+  }
+
   useEffect(() => {
     updateFilter({
       achievementFilter,
@@ -88,7 +105,7 @@ const FilterBar = ({ initialFilter, setFilter }) => {
   return (
     <div className={styles.filterBar}>
       <div className={styles.resetRow}>
-        <button className={styles.reset} onClick={() => updateFilter({})}>
+        <button className={styles.reset} onClick={onReset}>
           Reset
         </button>
       </div>
@@ -103,7 +120,7 @@ const FilterBar = ({ initialFilter, setFilter }) => {
       <div className={styles.dropdownRow}>
         <Dropdown
           category={'Rarity'}
-          options={['Common', 'Uncommon', 'Rare', 'Legendary', 'Exotic']}
+          options={filters.rarity}
           queryFilterFunction={(d) => setRarityFilter(d)}
           queryFilter={rarityFilter}
         />
@@ -111,7 +128,7 @@ const FilterBar = ({ initialFilter, setFilter }) => {
       <div className={styles.dropdownRow}>
         <FilterCheckbox
           category={'Sale'}
-          options={['All', 'For Sale', 'Unlisted']}
+          options={filters.sale}
           queryFilterFunction={(d) => setSaleFilter(d)}
           queryFilter={saleFilter}
         />
@@ -130,7 +147,7 @@ const FilterBar = ({ initialFilter, setFilter }) => {
       <div className={styles.dropdownRow}>
         <FilterCheckbox
           category={'Outcome'}
-          options={['Black', 'White', 'Either']}
+          options={filters.outcome}
           queryFilterFunction={(d) => setOutcomeFilter(d)}
           queryFilter={outcomeFilter}
         />

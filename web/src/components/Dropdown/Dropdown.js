@@ -62,7 +62,7 @@ const Dropdown = (props) => {
                     name={`${dropdownElementName}`}
                     onClick={() => {
                       handleSelection(
-                        props.category === 'Time' ? option.label : option
+                        props.category === 'Time' ? option.name : option
                       )
                     }}
                     onKeyDown={(e) => {
@@ -72,13 +72,13 @@ const Dropdown = (props) => {
                       )
                       if (e.key === 'Enter') {
                         handleSelection(
-                          props.category === 'Time' ? option.label : option
+                          props.category === 'Time' ? option.name : option
                         )
                         toggleOpen()
                       }
                       if (e.key === 'ArrowRight') {
                         handleSelection(
-                          props.category === 'Time' ? option.label : option
+                          props.category === 'Time' ? option.name : option
                         )
                       }
                       if (e.key === 'ArrowUp' && index > 0) {
@@ -98,7 +98,7 @@ const Dropdown = (props) => {
                       }
                     }}
                   >
-                    {props.category === 'Time' ? option.label : option}
+                    {props.category === 'Time' ? option.name : option}
                   </div>
                 )
               })}

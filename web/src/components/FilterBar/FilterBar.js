@@ -1,6 +1,8 @@
-import { useState, useEffect } from 'react'
-import styles from './FilterBar.module.scss'
+import { useState } from 'react'
 import { filters } from '@common/filters'
+
+import styles from './FilterBar.module.scss'
+
 import { anyValues } from './Logic'
 import FilterCheckbox from 'src/components/FilterCheckbox/FilterCheckbox'
 import FilterPriceInput from 'src/components/FilterPriceInput/FilterPriceInput'
@@ -62,7 +64,7 @@ const FilterBar = ({ initialFilter, setFilter }) => {
     updateFilter()
   }
 
-  useEffect(() => {
+  React.useEffect(() => {
     updateFilter()
   }, [
     achievements,
@@ -149,7 +151,7 @@ const FilterBar = ({ initialFilter, setFilter }) => {
         />
         <Dropdown
           category={'Move Count'}
-          options={filters.moveCounts}
+          options={filters.moveCounts.map((moves) => moves.name)}
           queryFilterFunction={setMoveCount}
           queryFilter={moveCount}
         />
@@ -157,7 +159,7 @@ const FilterBar = ({ initialFilter, setFilter }) => {
       <div className={styles.dropdownRow}>
         <FilterCheckbox
           category={'Master Title'}
-          options={filters.titles.map((title) => title.label)}
+          options={filters.titles.map((title) => title.name)}
           queryFilterFunction={setTitle}
           queryFilter={title}
         />

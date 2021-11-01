@@ -205,62 +205,62 @@ const openingList = [
 const colors = ['white', 'black']
 
 const ratings = [
-  '< 750',
-  '750 - 999',
-  '1000 - 1499',
-  '1500 - 1999',
-  '2000 - 2199',
-  '2200 - 2399',
-  '2400+',
+  { name: '< 750', value: [0, 750] },
+  { name: '750 - 999', value: [750, 999] },
+  { name: '1000 - 1499', value: [1000, 1499] },
+  { name: '1500 - 1999', value: [1500, 1999] },
+  { name: '2000 - 2199', value: [2000, 2199] },
+  { name: '2200 - 2399', value: [2200, 2399] },
+  { name: '2400+', value: [2400, 9999] },
 ]
 
 const titles = [
   {
-    label: 'No Title',
-    data: null,
+    name: 'No Title',
+    value: null,
   },
   {
-    label: 'Grandmaster',
-    data: 'gm',
+    name: 'Grandmaster',
+    value: 'gm',
   },
   {
-    label: 'International Master',
-    data: 'im',
+    name: 'International Master',
+    value: 'im',
   },
   {
-    label: 'New Master',
-    data: 'nm',
+    name: 'New Master',
+    value: 'nm',
   },
 ]
 
 const timeControls = [
   {
-    label: '1 minute',
-    data: 60,
+    name: '1 minute',
+    value: 60,
   },
   {
-    label: '2 minutes',
-    data: 120,
+    name: '2 minutes',
+    value: 120,
   },
   {
-    label: '5 minutes',
-    data: 300,
+    name: '5 minutes',
+    value: 300,
   },
   {
-    label: '10 minutes',
-    data: 600,
+    name: '10 minutes',
+    value: 600,
   },
   {
-    label: '30 minutes',
-    data: 1800,
+    name: '30 minutes',
+    value: 1800,
   },
   {
-    label: '1 hour',
-    data: 3600,
+    name: '1 hour',
+    value: 3600,
   },
   {
-    label: 'Untimed',
-    data: null,
+    name: 'Untimed',
+    value: null,
   },
 ]
 
@@ -271,28 +271,19 @@ const terminations = [
   'Insufficient Material',
 ]
 
-const outcomes = [
-  {
-    label: 'White wins',
-    data: 'white',
-  },
-  {
-    label: 'Black wins',
-    data: 'black',
-  },
-  {
-    label: 'Draw',
-    data: 'draw',
-  },
+const moveCounts = [
+  { name: '< 10', value: [0, 9] },
+  { name: '10 - 49', value: [10, 49] },
+  { name: '50 - 99', value: [50, 99] },
+  { name: '100 - 199', value: [100, 199] },
+  { name: '200+', value: [200, 999] },
 ]
-
-const moveCounts = ['< 10', '10 - 49', '50 - 99', '100 - 199', '200+']
 
 const rarity = ['Common', 'Uncommon', 'Rare', 'Legendary', 'Exotic']
 
 const sale = ['All', 'For Sale', 'Unlisted']
 
-const outcome = ['Black', 'White', 'Either']
+const outcome = ['black', 'white', 'draw']
 
 export const filters = {
   achievements,
@@ -302,7 +293,6 @@ export const filters = {
   titles,
   timeControls,
   terminations,
-  outcomes,
   moveCounts,
   rarity,
   sale,

@@ -11,7 +11,6 @@ import { anyValues, oneValue } from './Logic'
 const TreasuresPage = () => {
   const params = useParams()
 
-  // TODO: set other intiial values too
   const {
     username: initialUsername = '',
     sort: initialSort = '',
@@ -34,7 +33,6 @@ const TreasuresPage = () => {
   }
 
   useEffect(() => {
-    console.log(filter)
     updateUrl()
   }, [sort, filter, username])
 
@@ -44,7 +42,7 @@ const TreasuresPage = () => {
       <h1 className="font-bold">Treasure Chess Marketplace</h1>
       <SearchBar initialQuery={username} setQuery={setUsername} />
       <div className="flex">
-        <FilterBar intialFilter={filter} setFilter={setFilter} />
+        <FilterBar filter={filter} setFilter={setFilter} />
         <TreasuresCell username={username} filter={filter} sort={sort} />
       </div>
     </>

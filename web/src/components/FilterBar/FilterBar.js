@@ -9,20 +9,20 @@ import FilterPriceInput from 'src/components/FilterPriceInput/FilterPriceInput'
 import Dropdown from 'src/components/Dropdown/Dropdown'
 import AchievementScroll from 'src/components/AchievementScroll/AchievementScroll'
 
-const FilterBar = ({ initialFilter, setFilter }) => {
-  const [achievements, setAchievements] = useState([])
-  const [opening, setOpening] = useState()
-  const [color, setColor] = useState()
-  const [rating, setRating] = useState()
-  const [title, setTitle] = useState()
-  const [timeControl, setTimeControl] = useState()
-  const [termination, setTermination] = useState()
-  const [outcome, setOutcome] = useState()
-  const [moveCount, setMoveCount] = useState()
-  const [rarity, setRarity] = useState()
-  const [sale, setSale] = useState()
-  const [lowPrice, setLowPrice] = useState('') // must be initialized to a string to control the input from initial render
-  const [highPrice, setHighPrice] = useState('')
+const FilterBar = ({ filter, setFilter }) => {
+  const [achievements, setAchievements] = useState(filter.achievements)
+  const [opening, setOpening] = useState(filter.opening)
+  const [color, setColor] = useState(filter.color)
+  const [rating, setRating] = useState(filter.rating)
+  const [title, setTitle] = useState(filter.title)
+  const [timeControl, setTimeControl] = useState(filter.timeControl)
+  const [termination, setTermination] = useState(filter.termination)
+  const [outcome, setOutcome] = useState(filter.outcome)
+  const [moveCount, setMoveCount] = useState(filter.moveCount)
+  const [rarity, setRarity] = useState(filter.rarity)
+  const [sale, setSale] = useState(filter.sale)
+  const [lowPrice, setLowPrice] = useState(filter.lowPrice) // must be initialized to a string to control the input from initial render
+  const [highPrice, setHighPrice] = useState(filter.highPrice)
 
   const updateAchievements = (data) => {
     anyValues(data, achievements, setAchievements)
@@ -58,8 +58,8 @@ const FilterBar = ({ initialFilter, setFilter }) => {
     setMoveCount()
     setRarity()
     setSale()
-    setLowPrice('') // must be initialized to a string to control the input from initial render
-    setHighPrice('')
+    setLowPrice() // must be initialized to a string to control the input from initial render
+    setHighPrice()
 
     updateFilter()
   }
@@ -81,11 +81,6 @@ const FilterBar = ({ initialFilter, setFilter }) => {
     lowPrice,
     highPrice,
   ])
-
-  React.useEffect(() => {
-    if (!initialFilter) return
-    updateFilter() // Run once
-  }, [])
 
   return (
     <div className={styles.filterBar}>

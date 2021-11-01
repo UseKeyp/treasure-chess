@@ -7,66 +7,68 @@ import SearchBar from 'src/components/SearchBar'
 import FilterBar from 'src/components/FilterBar/FilterBar'
 import { debounce } from 'src/utils/helpers'
 
-import { filters } from './Filters'
 import { anyValues, oneValue } from './Logic'
 
 const TreasuresPage = () => {
-  const [searchString, setSearchString] = useState('') // string search
-
-  const [queryParameters, setQueryParameters] = useState({}) // for use in a 'makeQuery' function
   const params = useParams()
 
-  const [filter, setFilter] = useState({}) // for use in a 'makeQuery' function
-  const [sort, setSort] = useState('')
+  // TODO: set other intiial values too
+  const {
+    username: initialUsername = '',
+    sort: initialSort = '',
+    ...initialFilter
+  } = params
 
+  // These are the source of truth
+  const [username, setUsername] = useState(initialUsername)
+  const [filter, setFilter] = useState(initialFilter)
+  const [sort, setSort] = useState(initialSort)
+
+  const convertToParams = (obj) => {
+    let params = {}
+    return params
+  }
+
+  console.log(filter)
   const updateUrl = () => {
-    console.log({
-      ...(sort && { sort }),
-      ...(Object.keys(filter) && filter),
-      ...(queryParameters && { queryParameters }),
-    })
-    // TODO:  properly encode each item
-    navigate(
-      routes.treasures({
-        ...(sort && { sort }),
-        ...(Object.keys(filter) && filter),
-        ...(queryParameters && { queryParameters }),
-      }),
-      { replace: true } // Prevent pushing to history stack
-    )
+    // const filterParams = convertToParams(filter)
+    const searchParams = new URLSearchParams(filter)
+    username && searchParams.append('username', username)
+    sort && searchParams.append('sort', sort)
+    // Object.keys(filter).map((key) => {
+    //   console.log(filter[key])
+    //   if (filter[key] && filter[key] !== [])
+    //     searchParams.append(key, encodeURI(filter[key]))
+    // })
+    console.log({ ...searchParams })
+    // window.location.search = searchParams
+    // navigate(
+    //   routes.treasures({
+    //     ...(sort && { sort }),
+    //     ...(Object.keys(filter) && { ...filterObject }),
+    //     ...(username && { username }),
+    //   }),
+    //   { replace: true } // Prevent pushing to history stack
+    // )
+  }
+  const update = () => {
+    updateUrl()
   }
 
-  const debounceUpdateUrl = debounce(updateUrl, 1000)
+  const debounceUpdate = debounce(update, 4000)
 
   useEffect(() => {
-    // debounceUpdateUrl()
-  }, [sort, filter, queryParameters])
-
-  const updateSearchString = (value) => {
-    // TODO: git
-    setSearchValue(value)
-  }
-
-  // Populate search bar, filters, and sort from URL params on page load
-  useEffect(() => {
-    const { username } = params
-    setSearchString(username)
-  }, [])
+    debounceUpdate()
+  }, [sort, filter, username])
 
   return (
     <>
       <MetaTags title="Treasures" />
       <h1 className="font-bold">Treasure Chess Marketplace</h1>
-      <SearchBar
-        initialQuery={searchString}
-        setQuery={(d) => updateSearchString(d)}
-      />
+      <SearchBar initialQuery={username} setQuery={setUsername} />
       <div className="flex">
-        <FilterBar
-          filterQuery={queryParameters}
-          setFilterQuery={(d) => setQueryParameters(d)}
-        />
-        <TreasuresCell query={queryParameters} sort={sort} />
+        <FilterBar intialFilter={filter} setFilter={setFilter} />
+        <TreasuresCell username={username} filter={filter} sort={sort} />
       </div>
     </>
   )

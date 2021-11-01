@@ -12,7 +12,6 @@ const USERNAME_QUERY = gql`
 `
 
 const SearchBar = ({ initialQuery, setQuery }) => {
-  console.log(initialQuery)
   const [value, setValue] = useState(initialQuery)
   const [_isValueFromSelector, setIsValueFromSelector] = useState(false)
   const [dropdownOptions, setDropdownOptions] = useState([])

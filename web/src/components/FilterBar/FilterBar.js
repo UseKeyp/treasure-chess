@@ -7,7 +7,7 @@ import FilterPriceInput from '../FilterPriceInput/FilterPriceInput'
 import Dropdown from '../Dropdown/Dropdown'
 import AchievementScroll from '../AchievementScroll/AchievementScroll'
 
-const FilterBar = ({ setFilterQuery }) => {
+const FilterBar = ({ initialFilter, setFilter }) => {
   const [achievementFilter, setAchievementFilter] = useState([])
   const [openingFilter, setOpeningFilter] = useState()
   const [colorFilter, setColorFilter] = useState()
@@ -26,44 +26,44 @@ const FilterBar = ({ setFilterQuery }) => {
     anyValues(data, achievementFilter, setAchievementFilter)
   }
 
-  const clearFilters = () => {
-    setAchievementFilter()
-    setOpeningFilter()
-    setColorFilter()
-    setRatingFilter()
-    setTitleFilter()
-    setTimeControlFilter()
-    setTerminationFilter()
-    setOutcomeFilter()
-    setMoveCountFilter()
-    setRarityFilter()
-    setSaleFilter()
-    setLowPrice()
-    setHighPrice()
-  }
-
-  // update query
-  useEffect(() => {
+  const updateFilter = (filter) => {
     // initalize
     let newQuery = {}
     // change 'query' data type
-    setFilterQuery('')
-    // populate
-    newQuery.achievements = achievementFilter
-    newQuery.opener = openingFilter
-    newQuery.colors = colorFilter
-    newQuery.rating = ratingFilter
-    newQuery.title = titleFilter
-    newQuery.timeControl = timeControlFilter
-    newQuery.termination = terminationFilter
-    newQuery.outcome = outcomeFilter
-    newQuery.moveCount = moveCountFilter
-    newQuery.rarity = rarityFilter
-    newQuery.sale = saleFilter
-    newQuery.lowPrice = lowPrice
-    newQuery.highPrice = highPrice
+    if (filter.achievementFilter?.length)
+      newQuery.achievements = achievementFilter
+    if (filter.openingFilter) newQuery.opener = openingFilter
+    if (filter.colorFilter) newQuery.colors = colorFilter
+    if (filter.ratingFilter) newQuery.rating = ratingFilter
+    if (filter.titleFilter) newQuery.title = titleFilter
+    if (filter.timeControlFilter) newQuery.timeControl = timeControlFilter
+    if (filter.terminationFilter) newQuery.termination = terminationFilter
+    if (filter.outcomeFilter) newQuery.outcome = outcomeFilter
+    if (filter.moveCountFilter) newQuery.moveCount = moveCountFilter
+    if (filter.rarityFilter) newQuery.rarity = rarityFilter
+    if (filter.saleFilter) newQuery.sale = saleFilter
+    if (filter.lowPrice) newQuery.lowPrice = lowPrice
+    if (filter.highPrice) newQuery.highPrice = highPrice
     // update query
-    setFilterQuery(newQuery)
+    setFilter(newQuery)
+  }
+
+  useEffect(() => {
+    updateFilter({
+      achievementFilter,
+      openingFilter,
+      colorFilter,
+      ratingFilter,
+      titleFilter,
+      timeControlFilter,
+      terminationFilter,
+      outcomeFilter,
+      moveCountFilter,
+      rarityFilter,
+      saleFilter,
+      lowPrice,
+      highPrice,
+    })
   }, [
     achievementFilter,
     openingFilter,
@@ -79,12 +79,16 @@ const FilterBar = ({ setFilterQuery }) => {
     lowPrice,
     highPrice,
   ])
-  // eslint is complaining that 'props' isn't in the dependency array - eslint is wrong, don't add props, that causes an infinite loop that react doesn't catch
+
+  React.useEffect(() => {
+    if (!initialFilter) return
+    setFilter(initialFilter) // Run once
+  }, [])
 
   return (
     <div className={styles.filterBar}>
       <div className={styles.resetRow}>
-        <button className={styles.reset} onClick={() => clearFilters()}>
+        <button className={styles.reset} onClick={() => updateFilter({})}>
           Reset
         </button>
       </div>

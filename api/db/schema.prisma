@@ -34,27 +34,27 @@ model Member {
 }
 
 model Treasure {
-  id               String       @id // Moves hash plus end time
-  createdAt        DateTime     @default(now())
-  updatedAt        DateTime     @updatedAt
+  id               String        @id // Moves hash plus end time
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
   // --------------- LINKS --------------
   // Chess.com (required)
-  black            Member       @relation(name: "treasuresPlayedWhite", fields: [blackId], references: [id])
+  black            Member        @relation(name: "treasuresPlayedWhite", fields: [blackId], references: [id])
   blackId          String
   blackUsername    String
-  white            Member       @relation(name: "treasuresPlayedBlack", fields: [whiteId], references: [id])
+  white            Member        @relation(name: "treasuresPlayedBlack", fields: [whiteId], references: [id])
   whiteId          String
   whiteUsername    String
-  winner           Member?      @relation(name: "treasuresWon", fields: [winnerId], references: [id])
+  winner           Member?       @relation(name: "treasuresWon", fields: [winnerId], references: [id])
   winnerId         String?
   winnerUsername   String?
   // NFT
-  minter           Member       @relation(name: "treasuresMinted", fields: [minterAddress], references: [address])
+  minter           Member        @relation(name: "treasuresMinted", fields: [minterAddress], references: [address])
   minterAddress    String
-  owner            Member       @relation(name: "treasuresOwned", fields: [ownerAddress], references: [address])
+  owner            Member        @relation(name: "treasuresOwned", fields: [ownerAddress], references: [address])
   ownerAddress     String
-  mintPurchase     MintPurchase @relation(name: "mintPurchase", fields: [mintPurchaseId], references: [id])
-  mintPurchaseId   String
+  mintPurchase     MintPurchase? @relation(name: "mintPurchase", fields: [mintPurchaseId], references: [id])
+  mintPurchaseId   Int?
   uriData          String
   // --------------- STATE --------------
   title            String
@@ -70,7 +70,7 @@ model Treasure {
   event            String // eg. "Live Chess"
   moves            String // pgn moves
   moveCount        Int // eg. 43
-  ruleVariant      String       @default("Standard") // eg. "Standard" or "Chess960"
+  ruleVariant      String        @default("Standard") // eg. "Standard" or "Chess960"
   externalUrl      String? // Link to game on chess.com
   opening          String // eg. "Queen's Gambit"
   achievements     String // List eg. "win/play above 2200,queen side castle,mate with a bishop"
@@ -82,7 +82,7 @@ model Treasure {
 }
 
 model MintPurchase {
-  id          String    @id // Wyre orderId
+  id          Int       @id @default(autoincrement())
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   // --------------- LINKS --------------
@@ -90,10 +90,15 @@ model MintPurchase {
   memberId    String
   treasure    Treasure? @relation("mintPurchase")
   // --------------- STATE --------------
-  orderStatus String    @default("INVALID")
+  orderId     String?   @unique // Wyre orderId
+  reservation String?   @unique // Wyre reservation
+  // RESERVATION, COMPLETE
+  orderStatus String    @default("RESERVATION")
   gameId      String
   gameEndTime String
+  title       String    @default("Cool game") // User's desired title
   txHash      String?
+  // UNSUBMITTED, SUBMITTED, COMPLETE, FAILED
   txStatus    String    @default("UNSUBMITTED")
 }
 

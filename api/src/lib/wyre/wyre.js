@@ -84,7 +84,7 @@ export const createMintReservation = async ({
       dest: `account:${process.env.WYRE_ACCOUNT_ID_TREASURE}`,
       country: 'US',
     })
-    return response.url
+    return response
   } catch (e) {
     /* eslint-disable-next-line no-console */
     console.log(e)

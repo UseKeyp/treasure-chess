@@ -3,6 +3,7 @@ import { fetchMember } from 'src/lib/members'
 import { fetchGame } from 'src/lib/games'
 import { createMintReservation } from 'src/lib/wyre/wyre'
 import { validateTreasureTitle } from 'src/lib/helpers'
+import { EnvelopError } from '@envelop/core'
 
 export const treasures = () => {
   return db.treasure.findMany()
@@ -39,18 +40,30 @@ export const treasureNftDetails = async ({ id }) => {
 export const mintCheckoutUrl = async ({ gameId, endTime, title }) => {
   validateTreasureTitle(title)
   const { username, address } = context.currentUser
-  // TODO: Remove if not necessary? The game must already exist right?
-  await fetchGame({
+  const game = await fetchGame({
     id: gameId,
     username,
     endTime,
   })
-  const url = await createMintReservation({
+  if (!game)
+    throw new EnvelopError(
+      `Member ${username} did not participate in this game`
+    )
+  const { url, reservation } = await createMintReservation({
     username,
     gameId,
     endTime,
     address,
     title,
+  })
+  await db.mintPurchase.create({
+    data: {
+      member: { connect: { id: context.currentUser.id } },
+      reservation,
+      gameId,
+      gameEndTime: endTime,
+      title,
+    },
   })
   return url
 }

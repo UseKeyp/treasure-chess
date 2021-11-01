@@ -1,7 +1,7 @@
-import MintSetTitle from './MintSetTitle'
+import MintForm from './MintForm'
 
 export const generated = () => {
-  return <MintSetTitle />
+  return <MintForm />
 }
 
-export default { title: 'Components/MintSetTitle' }
+export default { title: 'Components/MintForm' }

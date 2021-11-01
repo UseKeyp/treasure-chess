@@ -1,11 +1,18 @@
 import { db } from 'src/lib/db'
 import { fetchMember } from 'src/lib/members'
+import filters from '@common/filters'
 import { fetchGame } from 'src/lib/games'
 import { createMintReservation } from 'src/lib/wyre/wyre'
 import { validateTreasureTitle } from 'src/lib/helpers'
 import { EnvelopError } from '@envelop/core'
 
-export const treasures = () => {
+export const treasures = ({ username, sort, filter }) => {
+  const searchParams = new URLSearchParams(filter)
+  let parsedFilter = {}
+  for (var pair of searchParams.entries()) {
+    parsedFilter[pair[0]] = pair[1]
+  }
+  console.log(parsedFilter)
   return db.treasure.findMany()
 }
 

@@ -3,8 +3,12 @@ import { Link, routes } from '@redwoodjs/router'
 import Treasures from 'src/components/Treasure/Treasures'
 
 export const QUERY = gql`
-  query TREASURES {
-    treasures {
+  query TreasuresSearchQuery(
+    $username: String
+    $filter: String
+    $sort: String
+  ) {
+    treasures: treasures(username: $username, filter: $filter, sort: $sort) {
       id
       createdAt
       blackId

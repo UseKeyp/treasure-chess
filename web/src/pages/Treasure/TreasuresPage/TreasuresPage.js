@@ -26,12 +26,13 @@ const TreasuresPage = () => {
     const searchParams = new URLSearchParams(filter)
     username && searchParams.append('username', username)
     sort && searchParams.append('sort', sort)
+    searchParams.sort()
     const newPath = searchParams.toString()
       ? window.location.pathname + '?' + searchParams.toString()
       : window.location.pathname
     window.history.replaceState({}, '', newPath)
   }
-  console.log(filter)
+
   useEffect(() => {
     updateUrl()
   }, [sort, filter, username])
@@ -43,7 +44,11 @@ const TreasuresPage = () => {
       <SearchBar initialQuery={username} setQuery={setUsername} />
       <div className="flex">
         <FilterBar filter={filter} setFilter={setFilter} />
-        <TreasuresCell username={username} filter={filter} sort={sort} />
+        <TreasuresCell
+          username={username}
+          filter={new URLSearchParams(filter).toString()}
+          sort={sort}
+        />
       </div>
     </>
   )

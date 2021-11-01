@@ -1,3 +1,70 @@
+const ratings = [
+  { name: '< 750', value: [0, 750] },
+  { name: '750 - 999', value: [750, 999] },
+  { name: '1000 - 1499', value: [1000, 1499] },
+  { name: '1500 - 1999', value: [1500, 1999] },
+  { name: '2000 - 2199', value: [2000, 2199] },
+  { name: '2200 - 2399', value: [2200, 2399] },
+  { name: '2400+', value: [2400, 9999] },
+]
+const titles = [
+  {
+    name: 'No Title',
+    value: null,
+  },
+  {
+    name: 'Grandmaster',
+    value: 'gm',
+  },
+  {
+    name: 'International Master',
+    value: 'im',
+  },
+  {
+    name: 'New Master',
+    value: 'nm',
+  },
+]
+const timeControls = [
+  {
+    name: '1 minute',
+    value: 60,
+  },
+  {
+    name: '2 minutes',
+    value: 120,
+  },
+  {
+    name: '5 minutes',
+    value: 300,
+  },
+  {
+    name: '10 minutes',
+    value: 600,
+  },
+  {
+    name: '30 minutes',
+    value: 1800,
+  },
+  {
+    name: '1 hour',
+    value: 3600,
+  },
+  {
+    name: 'Untimed',
+    value: null,
+  },
+]
+const moveCounts = [
+  { name: '< 10', value: [0, 9] },
+  { name: '10 - 49', value: [10, 49] },
+  { name: '50 - 99', value: [50, 99] },
+  { name: '100 - 199', value: [100, 199] },
+  { name: '200+', value: [200, 999] },
+]
+
+// Items without name/value pair
+
 // TODO: achievements should be imported from the library instead
 const achievements = [
   {
@@ -186,7 +253,6 @@ const achievements = [
     points: 5,
   },
 ]
-
 const openingList = [
   "King's pawn game",
   "Queen's Gambit",
@@ -201,91 +267,18 @@ const openingList = [
   'Scandinavian',
   'Scotch',
 ]
-
 const colors = ['white', 'black']
-
-const ratings = [
-  { name: '< 750', value: [0, 750] },
-  { name: '750 - 999', value: [750, 999] },
-  { name: '1000 - 1499', value: [1000, 1499] },
-  { name: '1500 - 1999', value: [1500, 1999] },
-  { name: '2000 - 2199', value: [2000, 2199] },
-  { name: '2200 - 2399', value: [2200, 2399] },
-  { name: '2400+', value: [2400, 9999] },
-]
-
-const titles = [
-  {
-    name: 'No Title',
-    value: null,
-  },
-  {
-    name: 'Grandmaster',
-    value: 'gm',
-  },
-  {
-    name: 'International Master',
-    value: 'im',
-  },
-  {
-    name: 'New Master',
-    value: 'nm',
-  },
-]
-
-const timeControls = [
-  {
-    name: '1 minute',
-    value: 60,
-  },
-  {
-    name: '2 minutes',
-    value: 120,
-  },
-  {
-    name: '5 minutes',
-    value: 300,
-  },
-  {
-    name: '10 minutes',
-    value: 600,
-  },
-  {
-    name: '30 minutes',
-    value: 1800,
-  },
-  {
-    name: '1 hour',
-    value: 3600,
-  },
-  {
-    name: 'Untimed',
-    value: null,
-  },
-]
-
 const terminations = [
   'Checkmate',
   'Resignation',
   'Stalemate',
   'Insufficient Material',
 ]
-
-const moveCounts = [
-  { name: '< 10', value: [0, 9] },
-  { name: '10 - 49', value: [10, 49] },
-  { name: '50 - 99', value: [50, 99] },
-  { name: '100 - 199', value: [100, 199] },
-  { name: '200+', value: [200, 999] },
-]
-
 const rarity = ['Common', 'Uncommon', 'Rare', 'Legendary', 'Exotic']
-
 const sale = ['All', 'For Sale', 'Unlisted']
-
 const outcome = ['black', 'white', 'draw']
 
-export const filters = {
+const filters = {
   achievements,
   openingList,
   colors,
@@ -298,3 +291,5 @@ export const filters = {
   sale,
   outcome,
 }
+
+export default filters

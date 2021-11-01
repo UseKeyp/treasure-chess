@@ -5,7 +5,6 @@ import { MetaTags } from '@redwoodjs/web'
 import TreasuresCell from 'src/components/Treasure/TreasuresCell'
 import SearchBar from 'src/components/SearchBar'
 import FilterBar from 'src/components/FilterBar/FilterBar'
-import { debounce } from 'src/utils/helpers'
 
 import { anyValues, oneValue } from './Logic'
 
@@ -24,41 +23,18 @@ const TreasuresPage = () => {
   const [filter, setFilter] = useState(initialFilter)
   const [sort, setSort] = useState(initialSort)
 
-  const convertToParams = (obj) => {
-    let params = {}
-    return params
-  }
-
-  console.log(filter)
   const updateUrl = () => {
-    // const filterParams = convertToParams(filter)
     const searchParams = new URLSearchParams(filter)
     username && searchParams.append('username', username)
     sort && searchParams.append('sort', sort)
-    // Object.keys(filter).map((key) => {
-    //   console.log(filter[key])
-    //   if (filter[key] && filter[key] !== [])
-    //     searchParams.append(key, encodeURI(filter[key]))
-    // })
-    console.log({ ...searchParams })
-    // window.location.search = searchParams
-    // navigate(
-    //   routes.treasures({
-    //     ...(sort && { sort }),
-    //     ...(Object.keys(filter) && { ...filterObject }),
-    //     ...(username && { username }),
-    //   }),
-    //   { replace: true } // Prevent pushing to history stack
-    // )
+    const newPath = searchParams.toString()
+      ? window.location.pathname + '?' + searchParams.toString()
+      : window.location.pathname
+    window.history.replaceState({}, '', newPath)
   }
-  const update = () => {
-    updateUrl()
-  }
-
-  const debounceUpdate = debounce(update, 4000)
 
   useEffect(() => {
-    debounceUpdate()
+    updateUrl()
   }, [sort, filter, username])
 
   return (

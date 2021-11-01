@@ -1,3 +1,4 @@
+// TODO: achievements should be imported from the library instead
 const achievements = [
   {
     // index 0

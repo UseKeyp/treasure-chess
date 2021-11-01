@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import styles from './FilterBar.module.scss'
-import { filters } from './Filters'
+import { filters } from '@common/filters'
 import { anyValues } from './Logic'
 import FilterCheckbox from 'src/components/FilterCheckbox/FilterCheckbox'
 import FilterPriceInput from 'src/components/FilterPriceInput/FilterPriceInput'
@@ -26,29 +26,25 @@ const FilterBar = ({ initialFilter, setFilter }) => {
     anyValues(data, achievements, setAchievements)
   }
 
-  const updateFilter = (filter) => {
-    // initalize
-    let newQuery = {}
-    // change 'query' data type
-    if (filter.achievements?.length) newQuery.achievements = achievements
-    if (filter.opening) newQuery.opener = opening
-    if (filter.color) newQuery.colors = color
-    if (filter.rating) newQuery.rating = rating
-    if (filter.title) newQuery.title = title
-    if (filter.timeControl) newQuery.timeControl = timeControl
-    if (filter.termination) newQuery.termination = termination
-    if (filter.outcome) newQuery.outcome = outcome
-    if (filter.moveCount) newQuery.moveCount = moveCount
-    if (filter.rarity) newQuery.rarity = rarity
-    if (filter.sale) newQuery.sale = sale
-    if (filter.lowPrice) newQuery.lowPrice = lowPrice
-    if (filter.highPrice) newQuery.highPrice = highPrice
-    // update query
-    setFilter(newQuery)
+  const updateFilter = () => {
+    setFilter({
+      ...(achievements?.length && { achievements }),
+      ...(opening && { opening }),
+      ...(color && { color }),
+      ...(rating && { rating }),
+      ...(title && { title }),
+      ...(timeControl && { timeControl }),
+      ...(termination && { termination }),
+      ...(outcome && { outcome }),
+      ...(moveCount && { moveCount }),
+      ...(rarity && { rarity }),
+      ...(sale && { sale }),
+      ...(lowPrice && { lowPrice }),
+      ...(highPrice && { highPrice }),
+    })
   }
 
   const onReset = () => {
-    update({})
     setAchievements([])
     setOpening()
     setColor()
@@ -62,24 +58,12 @@ const FilterBar = ({ initialFilter, setFilter }) => {
     setSale()
     setLowPrice('') // must be initialized to a string to control the input from initial render
     setHighPrice('')
+
+    updateFilter()
   }
 
   useEffect(() => {
-    updateFilter({
-      achievements,
-      opening,
-      color,
-      rating,
-      title,
-      timeControl,
-      termination,
-      outcome,
-      moveCount,
-      rarity,
-      sale,
-      lowPrice,
-      highPrice,
-    })
+    updateFilter()
   }, [
     achievements,
     opening,
@@ -98,7 +82,7 @@ const FilterBar = ({ initialFilter, setFilter }) => {
 
   React.useEffect(() => {
     if (!initialFilter) return
-    updateFilter(initialFilter) // Run once
+    updateFilter() // Run once
   }, [])
 
   return (
@@ -110,9 +94,9 @@ const FilterBar = ({ initialFilter, setFilter }) => {
       </div>
       <div className={styles.dropdownRow}>
         <Dropdown
-          category={'Opener'}
+          category={'Opening'}
           options={filters.openingList}
-          queryFunction={(d) => setOpening(d)} // d for data
+          queryFilterFunction={setOpening}
           query={opening}
         />
       </div>
@@ -120,7 +104,7 @@ const FilterBar = ({ initialFilter, setFilter }) => {
         <Dropdown
           category={'Rarity'}
           options={filters.rarity}
-          queryFunction={(d) => setRarity(d)}
+          queryFilterFunction={setRarity}
           query={rarity}
         />
       </div>
@@ -128,26 +112,23 @@ const FilterBar = ({ initialFilter, setFilter }) => {
         <FilterCheckbox
           category={'Sale'}
           options={filters.sale}
-          queryFunction={(d) => setSale(d)}
+          queryFilterFunction={setSale}
           queryFilter={sale}
         />
       </div>
       <div className={styles.priceRowWrapper}>
         <h4>Price Range</h4>
         <div className={styles.priceRow}>
-          <FilterPriceInput value={lowPrice} setValue={(d) => setLowPrice(d)} />
+          <FilterPriceInput value={lowPrice} setValue={setLowPrice} />
           <span>to</span>
-          <FilterPriceInput
-            value={highPrice}
-            setValue={(d) => setHighPrice(d)}
-          />
+          <FilterPriceInput value={highPrice} setValue={setHighPrice} />
         </div>
       </div>
       <div className={styles.dropdownRow}>
         <FilterCheckbox
           category={'Outcome'}
           options={filters.outcome}
-          queryFilterFunction={(d) => setOutcome(d)}
+          queryFilterFunction={setOutcome}
           queryFilter={outcome}
         />
       </div>
@@ -155,7 +136,7 @@ const FilterBar = ({ initialFilter, setFilter }) => {
         <Dropdown
           category={'Termination'}
           options={filters.terminations}
-          queryFilterFunction={(d) => setTermination(d)}
+          queryFilterFunction={setTermination}
           queryFilter={termination}
         />
       </div>
@@ -163,13 +144,13 @@ const FilterBar = ({ initialFilter, setFilter }) => {
         <Dropdown
           category={'Time'}
           options={filters.timeControls}
-          queryFilterFunction={(d) => setTimeControl(d)}
+          queryFilterFunction={setTimeControl}
           queryFilter={timeControl}
         />
         <Dropdown
           category={'Move Count'}
           options={filters.moveCounts}
-          queryFilterFunction={(d) => setMoveCount(d)}
+          queryFilterFunction={setMoveCount}
           queryFilter={moveCount}
         />
       </div>
@@ -177,7 +158,7 @@ const FilterBar = ({ initialFilter, setFilter }) => {
         <FilterCheckbox
           category={'Master Title'}
           options={filters.titles.map((title) => title.label)}
-          queryFilterFunction={(d) => setTitle(d)}
+          queryFilterFunction={setTitle}
           queryFilter={title}
         />
       </div>
@@ -185,7 +166,7 @@ const FilterBar = ({ initialFilter, setFilter }) => {
         <h4 style={{ marginLeft: `1em` }}>Achievements</h4>
         <AchievementScroll
           achievements={filters.achievements}
-          queryFilterFunction={(d) => updateAchievement(d)}
+          queryFilterFunction={updateAchievements}
           queryFilter={achievements}
         />
       </div>

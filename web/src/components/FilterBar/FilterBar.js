@@ -8,40 +8,39 @@ import Dropdown from 'src/components/Dropdown/Dropdown'
 import AchievementScroll from 'src/components/AchievementScroll/AchievementScroll'
 
 const FilterBar = ({ initialFilter, setFilter }) => {
-  const [achievementFilter, setAchievementFilter] = useState([])
-  const [openingFilter, setOpeningFilter] = useState()
-  const [colorFilter, setColorFilter] = useState()
-  const [ratingFilter, setRatingFilter] = useState()
-  const [titleFilter, setTitleFilter] = useState()
-  const [timeControlFilter, setTimeControlFilter] = useState()
-  const [terminationFilter, setTerminationFilter] = useState()
-  const [outcomeFilter, setOutcomeFilter] = useState()
-  const [moveCountFilter, setMoveCountFilter] = useState()
-  const [rarityFilter, setRarityFilter] = useState()
-  const [saleFilter, setSaleFilter] = useState()
+  const [achievements, setAchievements] = useState([])
+  const [opening, setOpening] = useState()
+  const [color, setColor] = useState()
+  const [rating, setRating] = useState()
+  const [title, setTitle] = useState()
+  const [timeControl, setTimeControl] = useState()
+  const [termination, setTermination] = useState()
+  const [outcome, setOutcome] = useState()
+  const [moveCount, setMoveCount] = useState()
+  const [rarity, setRarity] = useState()
+  const [sale, setSale] = useState()
   const [lowPrice, setLowPrice] = useState('') // must be initialized to a string to control the input from initial render
   const [highPrice, setHighPrice] = useState('')
 
-  const updateAchievementFilter = (data) => {
-    anyValues(data, achievementFilter, setAchievementFilter)
+  const updateAchievements = (data) => {
+    anyValues(data, achievements, setAchievements)
   }
 
   const updateFilter = (filter) => {
     // initalize
     let newQuery = {}
     // change 'query' data type
-    if (filter.achievementFilter?.length)
-      newQuery.achievements = achievementFilter
-    if (filter.openingFilter) newQuery.opener = openingFilter
-    if (filter.colorFilter) newQuery.colors = colorFilter
-    if (filter.ratingFilter) newQuery.rating = ratingFilter
-    if (filter.titleFilter) newQuery.title = titleFilter
-    if (filter.timeControlFilter) newQuery.timeControl = timeControlFilter
-    if (filter.terminationFilter) newQuery.termination = terminationFilter
-    if (filter.outcomeFilter) newQuery.outcome = outcomeFilter
-    if (filter.moveCountFilter) newQuery.moveCount = moveCountFilter
-    if (filter.rarityFilter) newQuery.rarity = rarityFilter
-    if (filter.saleFilter) newQuery.sale = saleFilter
+    if (filter.achievements?.length) newQuery.achievements = achievements
+    if (filter.opening) newQuery.opener = opening
+    if (filter.color) newQuery.colors = color
+    if (filter.rating) newQuery.rating = rating
+    if (filter.title) newQuery.title = title
+    if (filter.timeControl) newQuery.timeControl = timeControl
+    if (filter.termination) newQuery.termination = termination
+    if (filter.outcome) newQuery.outcome = outcome
+    if (filter.moveCount) newQuery.moveCount = moveCount
+    if (filter.rarity) newQuery.rarity = rarity
+    if (filter.sale) newQuery.sale = sale
     if (filter.lowPrice) newQuery.lowPrice = lowPrice
     if (filter.highPrice) newQuery.highPrice = highPrice
     // update query
@@ -49,57 +48,57 @@ const FilterBar = ({ initialFilter, setFilter }) => {
   }
 
   const onReset = () => {
-    updateFilter({})
-    setAchievementFilter([])
-    setOpeningFilter()
-    setColorFilter()
-    setRatingFilter()
-    setTitleFilter()
-    setTimeControlFilter()
-    setTerminationFilter()
-    setOutcomeFilter()
-    setMoveCountFilter()
-    setRarityFilter()
-    setSaleFilter()
+    update({})
+    setAchievements([])
+    setOpening()
+    setColor()
+    setRating()
+    setTitle()
+    setTimeControl()
+    setTermination()
+    setOutcome()
+    setMoveCount()
+    setRarity()
+    setSale()
     setLowPrice('') // must be initialized to a string to control the input from initial render
     setHighPrice('')
   }
 
   useEffect(() => {
     updateFilter({
-      achievementFilter,
-      openingFilter,
-      colorFilter,
-      ratingFilter,
-      titleFilter,
-      timeControlFilter,
-      terminationFilter,
-      outcomeFilter,
-      moveCountFilter,
-      rarityFilter,
-      saleFilter,
+      achievements,
+      opening,
+      color,
+      rating,
+      title,
+      timeControl,
+      termination,
+      outcome,
+      moveCount,
+      rarity,
+      sale,
       lowPrice,
       highPrice,
     })
   }, [
-    achievementFilter,
-    openingFilter,
-    colorFilter,
-    ratingFilter,
-    titleFilter,
-    timeControlFilter,
-    terminationFilter,
-    outcomeFilter,
-    moveCountFilter,
-    rarityFilter,
-    saleFilter,
+    achievements,
+    opening,
+    color,
+    rating,
+    title,
+    timeControl,
+    termination,
+    outcome,
+    moveCount,
+    rarity,
+    sale,
     lowPrice,
     highPrice,
   ])
 
   React.useEffect(() => {
     if (!initialFilter) return
-    setFilter(initialFilter) // Run once
+    updateFilter(initialFilter) // Run once
   }, [])
 
   return (
@@ -113,24 +112,24 @@ const FilterBar = ({ initialFilter, setFilter }) => {
         <Dropdown
           category={'Opener'}
           options={filters.openingList}
-          queryFilterFunction={(d) => setOpeningFilter(d)} // d for data
-          queryFilter={openingFilter}
+          queryFunction={(d) => setOpening(d)} // d for data
+          query={opening}
         />
       </div>
       <div className={styles.dropdownRow}>
         <Dropdown
           category={'Rarity'}
           options={filters.rarity}
-          queryFilterFunction={(d) => setRarityFilter(d)}
-          queryFilter={rarityFilter}
+          queryFunction={(d) => setRarity(d)}
+          query={rarity}
         />
       </div>
       <div className={styles.dropdownRow}>
         <FilterCheckbox
           category={'Sale'}
           options={filters.sale}
-          queryFilterFunction={(d) => setSaleFilter(d)}
-          queryFilter={saleFilter}
+          queryFunction={(d) => setSale(d)}
+          queryFilter={sale}
         />
       </div>
       <div className={styles.priceRowWrapper}>
@@ -148,46 +147,46 @@ const FilterBar = ({ initialFilter, setFilter }) => {
         <FilterCheckbox
           category={'Outcome'}
           options={filters.outcome}
-          queryFilterFunction={(d) => setOutcomeFilter(d)}
-          queryFilter={outcomeFilter}
+          queryFilterFunction={(d) => setOutcome(d)}
+          queryFilter={outcome}
         />
       </div>
       <div className={styles.dropdownRow}>
         <Dropdown
           category={'Termination'}
           options={filters.terminations}
-          queryFilterFunction={(d) => setTerminationFilter(d)}
-          queryFilter={terminationFilter}
+          queryFilterFunction={(d) => setTermination(d)}
+          queryFilter={termination}
         />
       </div>
       <div className={styles.dropdownTwoElementRow}>
         <Dropdown
           category={'Time'}
           options={filters.timeControls}
-          queryFilterFunction={(d) => setTimeControlFilter(d)}
-          queryFilter={timeControlFilter}
+          queryFilterFunction={(d) => setTimeControl(d)}
+          queryFilter={timeControl}
         />
         <Dropdown
           category={'Move Count'}
           options={filters.moveCounts}
-          queryFilterFunction={(d) => setMoveCountFilter(d)}
-          queryFilter={moveCountFilter}
+          queryFilterFunction={(d) => setMoveCount(d)}
+          queryFilter={moveCount}
         />
       </div>
       <div className={styles.dropdownRow}>
         <FilterCheckbox
           category={'Master Title'}
           options={filters.titles.map((title) => title.label)}
-          queryFilterFunction={(d) => setTitleFilter(d)}
-          queryFilter={titleFilter}
+          queryFilterFunction={(d) => setTitle(d)}
+          queryFilter={title}
         />
       </div>
       <div className={styles.dropdownRow}>
         <h4 style={{ marginLeft: `1em` }}>Achievements</h4>
         <AchievementScroll
           achievements={filters.achievements}
-          queryFilterFunction={(d) => updateAchievementFilter(d)}
-          queryFilter={achievementFilter}
+          queryFilterFunction={(d) => updateAchievement(d)}
+          queryFilter={achievements}
         />
       </div>
     </div>

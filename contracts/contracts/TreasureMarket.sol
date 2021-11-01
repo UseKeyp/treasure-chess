@@ -262,7 +262,9 @@ contract TreasureMarket is
     emit FeesWithdrawn(_msgSender(), _to, _amount);
   }
 
-  function ownerWithdrawFeesToken(address _to, uint _amount, address _tokenAdd) public onlyOwner{
+  function ownerWithdrawFeesToken(address _to, uint _amount, address _tokenAdd)
+  public
+  onlyOwner{
     IERC20Upgradeable(_tokenAdd).transfer(_to, _amount);
     emit FeesWithdrawnToken(_msgSender(), _to, _amount, _tokenAdd);
   }

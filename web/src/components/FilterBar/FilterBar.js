@@ -94,7 +94,7 @@ const FilterBar = ({ filter, setFilter }) => {
           category={'Opening'}
           options={filters.openingList}
           queryFilterFunction={setOpening}
-          query={opening}
+          queryFilter={opening}
         />
       </div>
       <div className={styles.dropdownRow}>
@@ -102,7 +102,7 @@ const FilterBar = ({ filter, setFilter }) => {
           category={'Rarity'}
           options={filters.rarity}
           queryFilterFunction={setRarity}
-          query={rarity}
+          queryFilter={rarity}
         />
       </div>
       <div className={styles.dropdownRow}>

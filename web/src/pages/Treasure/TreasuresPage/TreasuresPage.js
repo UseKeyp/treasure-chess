@@ -31,7 +31,7 @@ const TreasuresPage = () => {
       : window.location.pathname
     window.history.replaceState({}, '', newPath)
   }
-
+  console.log(filter)
   useEffect(() => {
     updateUrl()
   }, [sort, filter, username])

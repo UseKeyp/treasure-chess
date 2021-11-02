@@ -1,5 +1,6 @@
 import { db } from 'src/lib/db'
 
+// TODO:  Delete if unused. Maybe need for polling minting completion?
 export const mintPurchases = () => {
   return db.mintPurchase.findMany()
 }

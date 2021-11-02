@@ -97,7 +97,6 @@ export const getTreasuresWithArguments = ({ username, filter, sort }) => {
       value = getValueByName(filters.moveCountList, pair[1])
     filterObj[pair[0]] = value
   }
-  console.log(filterObj)
 
   // Create each TreasureWhereInput
   const usernameQuery = username
@@ -125,7 +124,6 @@ export const getTreasuresWithArguments = ({ username, filter, sort }) => {
       }
     : null
 
-  console.log(achievementQuery)
   return db.treasure.findMany({
     where: {
       ...(usernameQuery && usernameQuery),

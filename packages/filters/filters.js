@@ -29,27 +29,27 @@ const titleList = [
 const timeControlList = [
   {
     name: '1 minute',
-    value: 60,
+    value: '60', // TODO: these will likely be strings
   },
   {
     name: '2 minutes',
-    value: 120,
+    value: '120',
   },
   {
     name: '5 minutes',
-    value: 300,
+    value: '300',
   },
   {
     name: '10 minutes',
-    value: 600,
+    value: '600',
   },
   {
     name: '30 minutes',
-    value: 1800,
+    value: '1800',
   },
   {
     name: '1 hour',
-    value: 3600,
+    value: '3600',
   },
   {
     name: 'Untimed',

@@ -14,7 +14,7 @@ const FilterBar = ({ filter, setFilter }) => {
   const [timeControl, setTimeControl] = useState(filter.timeControl)
   const [moveCount, setMoveCount] = useState(filter.moveCount)
 
-  const [achievements, setAchievements] = useState(filter.achievements)
+  const [achievements, setAchievements] = useState(filter.achievements || [])
   const [opening, setOpening] = useState(filter.opening)
   const [color, setColor] = useState(filter.color)
   const [termination, setTermination] = useState(filter.termination)

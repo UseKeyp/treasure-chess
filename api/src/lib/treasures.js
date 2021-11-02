@@ -86,7 +86,8 @@ const getValueByName = (list, name) =>
 
 export const getTreasuresWithArguments = ({ username, filter, sort }) => {
   const searchParams = new URLSearchParams(filter)
-  let parsedFilter = {}
+  let filterObj = {}
+  // Convert text names to values
   for (var pair of searchParams.entries()) {
     let value = pair[1]
     if (pair[0] === 'title') value = getValueByName(filters.titleList, pair[1])
@@ -94,12 +95,59 @@ export const getTreasuresWithArguments = ({ username, filter, sort }) => {
       value = getValueByName(filters.timeControlList, pair[1])
     else if (pair[0] === 'moveCount')
       value = getValueByName(filters.moveCountList, pair[1])
-    parsedFilter[pair[0]] = value
+    filterObj[pair[0]] = value
   }
-  console.log(parsedFilter)
+  console.log(filterObj)
+
+  // Create each TreasureWhereInput
+  const usernameQuery = username
+    ? {
+        OR: [{ blackUsername: username }, { whiteUsername: username }],
+      }
+    : null
+
+  const achievementQuery = filterObj.achievements
+    ? {
+        AND: filterObj.achievements.split(',').map((chiev) => ({
+          achievements: {
+            contains: chiev,
+          },
+        })),
+      }
+    : null
+
+  const moveCountQuery = filterObj.moveCount
+    ? {
+        AND: [
+          { moveCount: { gte: filterObj.moveCount[0] } },
+          { moveCount: { lte: filterObj.moveCount[1] } },
+        ],
+      }
+    : null
+
+  console.log(achievementQuery)
   return db.treasure.findMany({
     where: {
-      ...(username && { username }),
+      ...(usernameQuery && usernameQuery),
+
+      ...(achievementQuery && achievementQuery),
+      ...(filterObj.opening && { opening: filterObj.opening }),
+      ...(filterObj.color && { cardColor: filterObj.color }),
+      ...(filterObj.title && { title: { contains: filterObj.title } }),
+      ...(filterObj.termination && { termination: filterObj.termination }),
+      ...(filterObj.timeControl && { timeControl: filterObj.timeControl }),
+      ...(filterObj.outcome && { outcome: filterObj.outcome }),
+      ...(moveCountQuery && moveCountQuery),
+      ...(filterObj.rarity && { rarity: filterObj.rarity }),
+      // TODO:  implement sale, and price
+      // sale,
+      // lowPrice,
+      // highPrice,
     },
+    // TODO: add sorting, see https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#orderby
+    // orderBy:
+    // TODO: Add pagination
+    // skip: pageNumber * 100,
+    // take: 100
   })
 }

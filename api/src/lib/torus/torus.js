@@ -1,19 +1,57 @@
-import DirectWebSdk from '@toruslabs/torus-direct-web-sdk'
+global.fetch = require('node-fetch')
+global.atob = require('atob')
+global.window = null
+global.document = null
 
-const torus = new DirectWebSdk({
-  baseUrl: 'http://localhost:3000/auth',
-  network: 'testnet',
-})
+import FetchNodeDetails from '@toruslabs/fetch-node-details/dist/fetchNodeDetails-node'
+import TorusUtils from '@toruslabs/torus.js/dist/torusUtils-node'
 
-export const fetchWalletAddress = async (idToken) => {
-  await torus.init({ skipSw: true })
+import { isProduction } from 'src/lib/helpers'
+import { getNewIdToken } from 'src/lib/oAuth/jwt'
+import { decode as decodeJwt } from 'jsonwebtoken'
 
-  const { privateKey, publicAddress } = await torus.getTorusKey({
-    verifier: 'treasure-chess-6',
-    verifierId: 'sub',
-    verifierParams: { verifier_id: 'sub' },
-    idToken,
-  })
-  console.log({ publicAddress, privateKey })
+const TORUS_VERIFIER = process.env.TORUS_VERIFIER
+
+const fetchNodeDetails = new FetchNodeDetails(
+  !isProduction && {
+    network: 'ropsten',
+    proxyAddress: '0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183',
+  }
+)
+const torusUtils = new TorusUtils()
+
+export const getTorusPublicAddress = async (userId) => {
+  const { torusNodeEndpoints, torusNodePub } =
+    await fetchNodeDetails.getNodeDetails(false, true)
+  const publicAddress = await torusUtils.getPublicAddress(
+    torusNodeEndpoints,
+    torusNodePub,
+    { verifier: TORUS_VERIFIER, verifierId: userId }
+  )
   return publicAddress
+}
+
+export const getTorusWallet = async (userId) => {
+  try {
+    const idToken = await getNewIdToken(userId)
+    /* eslint-disable-next-line camelcase */
+    const { user_id } = decodeJwt(idToken)
+
+    const { torusNodeEndpoints, torusIndexes } =
+      await fetchNodeDetails.getNodeDetails(false, true)
+    const { ethAddress: publicAddress, privKey: privateKey } =
+      await torusUtils.retrieveShares(
+        torusNodeEndpoints,
+        torusIndexes,
+        TORUS_VERIFIER,
+        { verifier_id: user_id },
+        idToken
+      )
+
+    // TODO: Add logging here
+    return { publicAddress, privateKey }
+  } catch (e) {
+    /* eslint-disable-next-line no-console */
+    console.log(e)
+  }
 }

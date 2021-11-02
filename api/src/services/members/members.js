@@ -1,39 +1,24 @@
 import { db } from 'src/lib/db'
-import { requireAuth } from 'src/lib/auth'
 import { fetchMember } from 'src/lib/members'
-import { isHexAddress } from 'src/lib/helpers'
-
-export const beforeResolver = (rules) => {
-  rules.add(requireAuth)
-}
 
 export const members = () => {
   return db.member.findMany()
 }
 
-export const member = ({ id }) => {
-  return fetchMember(id)
-  // const member = await db.member.findUnique({ where: { id } })
-  // return { ...member, }
+export const member = ({ usernameOrAddress }) => {
+  return fetchMember(usernameOrAddress)
 }
 
-export const createMember = ({ input }) => {
-  return db.member.create({
-    data: input,
+export const usernames = async ({ query }) => {
+  const members = await db.member.findMany({
+    take: 6,
+    where: {
+      username: {
+        contains: query,
+      },
+    },
   })
-}
-
-export const updateMember = ({ id, input }) => {
-  return db.member.update({
-    data: input,
-    where: { id },
-  })
-}
-
-export const deleteMember = ({ id }) => {
-  return db.member.delete({
-    where: { id },
-  })
+  return members.map((member) => member.username)
 }
 
 export const Member = {

@@ -1,0 +1,36 @@
+@use "sass:color";
+
+.filterPriceWrapper {
+display: flex;
+font-size: 1rem;
+color: white;
+transition: all 0.25s;
+border-radius: 0.25rem;
+padding: 1ex 1em;
+max-width: 80%;
+background-color: #4f4f4f;
+padding-top: 1.5ex;
+overflow: hidden;
+&:hover {
+  background-color: color.scale(#4f4f4f, $lightness: 20%)
+}
+}
+
+.filterPriceInput {
+  display: inline-block;
+  outline: none;
+  border: none;
+  font-size: inherit;
+  color: inherit;
+  background-color: transparent;
+  max-width: 7ch;
+  &::placeholder {
+    color: color.scale(#4F4F4F, $lightness: 60%)
+  }
+  &:focus {
+    outline: none;
+  }
+}
+
+
+

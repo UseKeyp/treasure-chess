@@ -9,10 +9,12 @@
   },
   "scripts": {
     "build-storybook": "yarn rw storybook --build && cp web/public/mockServiceWorker.js web/public/storybook",
-    "chromatic": "chromatic --project-token=cafed242b299 --storybook-build-dir web/public/storybook"
+    "chromatic": "chromatic --project-token=cafed242b299 --storybook-build-dir web/public/storybook",
+    "compile-abi": "cd contracts && yarn compile && cd ../ && node tasks/updateAbi"
   },
   "devDependencies": {
-    "@redwoodjs/core": "^0.36.4",
+    "@redwoodjs/core": "^0.37.5",
+    "babel-plugin-module-resolver": "^4.1.0",
     "chromatic": "^5.9.2"
   },
   "eslintConfig": {
@@ -25,5 +27,6 @@
   "engines": {
     "node": "14.x",
     "yarn": "1.x"
-  }
+  },
+  "resolutions": {}
 }

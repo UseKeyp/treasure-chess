@@ -2,27 +2,41 @@ export const schema = gql`
   type Treasure {
     id: String!
     createdAt: DateTime!
+    updatedAt: DateTime!
+
     black: Member!
     blackId: String!
+    blackUsername: String!
+
     white: Member!
     whiteId: String!
+    whiteUsername: String!
+
     winner: Member
     winnerId: String
-    minter: Member
-    minterAddress: String
-    owner: Member
-    ownerAddress: String
-    name: String!
-    updatedAt: DateTime!
+    winnerUsername: String
+
+    minter: Member!
+    minterAddress: String!
+    owner: Member!
+    ownerAddress: String!
+
+    mintPurchase: MintPurchase
+    mintPurchaseId: String
+    uriData: String!
+    tokenId: Int
+    mintedAt: DateTime
+
+    title: String!
     cardColor: String!
     blackRating: Int!
-    timeControl: Int!
     whiteRating: Int!
-    outcome: String!
-    termination: String!
     blackMasterTitle: String
     whiteMasterTitle: String
+    timeControl: Int!
+    termination: String!
     endTime: DateTime!
+    outcome: String!
     event: String!
     moves: String!
     moveCount: Int!
@@ -30,8 +44,8 @@ export const schema = gql`
     externalUrl: String
     opening: String!
     achievements: String!
-    tokenId: Int
-    mintedAt: DateTime
+    achievementScore: Int!
+    rarity: String!
   }
 
   type TreasureNftDetails {
@@ -47,12 +61,14 @@ export const schema = gql`
   }
 
   type Query {
-    treasures: [Treasure!]!
-    treasure(id: String!): Treasure
-    treasureNftDetails(id: String!): TreasureNftDetails
-  }
-
-  type Mutation {
-    mintTreasure(gameId: String!, endTime: DateTime!, name: String!): Treasure!
+    treasures(username: String, filter: String, sort: String): [Treasure!]!
+      @skipAuth
+    treasure(id: String!): Treasure @skipAuth
+    treasureNftDetails(id: String!): TreasureNftDetails @skipAuth
+    mintCheckoutUrl(
+      gameId: String!
+      endTime: DateTime!
+      title: String!
+    ): String! @requireAuth
   }
 `

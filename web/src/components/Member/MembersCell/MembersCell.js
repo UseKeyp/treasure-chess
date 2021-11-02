@@ -6,8 +6,8 @@ export const QUERY = gql`
   query MEMBERS {
     members {
       id
+      username
       address
-      dateJoined
       rating
       imageSrc
       country

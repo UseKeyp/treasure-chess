@@ -1,0 +1,34 @@
+.searchBarContainer {
+	.searchOuterWrap {
+		background-color: hsla(0, 0%, 31%, 1);
+		padding: 1ex 1em;
+    padding-top: 1.5ex;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+    border-radius: .5rem;
+    width: clamp(125px, 33vw, 396px);
+    ::selection {
+      background-color: hsla(92, 41%, 44%, 1)
+    }
+    &:hover {
+      cursor: pointer;
+      .iconWrap {
+        svg {
+          fill: white;
+        }
+      }
+    }
+    input {
+      background-color: transparent;
+      outline: none;
+      border: none;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+    .iconWrap {
+      transform: translateY(-2px);
+    }
+	}
+}

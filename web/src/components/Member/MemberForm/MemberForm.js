@@ -4,16 +4,9 @@ import {
   FieldError,
   Label,
   TextField,
-  DatetimeLocalField,
   NumberField,
   Submit,
 } from '@redwoodjs/forms'
-
-const formatDatetime = (value) => {
-  if (value) {
-    return value.replace(/:\d{2}\.\d{3}\w/, '')
-  }
-}
 
 const MemberForm = (props) => {
   const onSubmit = (data) => {
@@ -45,22 +38,6 @@ const MemberForm = (props) => {
           validation={{ required: true }}
         />
         <FieldError name="address" className="rw-field-error" />
-
-        <Label
-          name="dateJoined"
-          className="rw-label"
-          errorClassName="rw-label rw-label-error"
-        >
-          Date joined
-        </Label>
-        <DatetimeLocalField
-          name="dateJoined"
-          defaultValue={formatDatetime(props.member?.dateJoined)}
-          className="rw-input"
-          errorClassName="rw-input rw-input-error"
-          validation={{ required: true }}
-        />
-        <FieldError name="dateJoined" className="rw-field-error" />
 
         <Label
           name="rating"

@@ -1,7 +1,7 @@
 import achievementsCalculator from '@treasure-chess/chess-achievements'
 
 import { db } from 'src/lib/db'
-import { getTreasureId, getTreasureCardColor } from 'src/lib/treasure'
+import { getTreasureId, getTreasureCardColor } from 'src/lib/treasures'
 import { fetchMember } from 'src/lib/members'
 import { fetchChessGames, fetchChessGame } from 'src/lib/chessCom/chessCom'
 import { parseGameFromChessDotCom } from 'src/lib/chessCom/gameParsing'

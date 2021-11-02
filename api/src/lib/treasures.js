@@ -1,4 +1,9 @@
 const { id: sha3 } = require('@ethersproject/hash')
+import { db } from 'src/lib/db'
+
+// TODO: Remove relative import
+import filters from '../../../packages/filters/filters'
+// import filters from '@common/filters'
 
 import { fetchMember } from 'src/lib/members'
 
@@ -74,4 +79,27 @@ export const getTreasure = async ({
       },
     },
   }
+}
+
+const getValueByName = (list, name) =>
+  list.find((item) => item.name === name).value
+
+export const getTreasuresWithArguments = ({ username, filter, sort }) => {
+  const searchParams = new URLSearchParams(filter)
+  let parsedFilter = {}
+  for (var pair of searchParams.entries()) {
+    let value = pair[1]
+    if (pair[0] === 'title') value = getValueByName(filters.titleList, pair[1])
+    else if (pair[0] === 'timeControl')
+      value = getValueByName(filters.timeControlList, pair[1])
+    else if (pair[0] === 'moveCount')
+      value = getValueByName(filters.moveCountList, pair[1])
+    parsedFilter[pair[0]] = value
+  }
+  console.log(parsedFilter)
+  return db.treasure.findMany({
+    where: {
+      ...(username && { username }),
+    },
+  })
 }

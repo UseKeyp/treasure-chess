@@ -1,13 +1,14 @@
-const ratings = [
-  { name: '< 750', value: [0, 750] },
-  { name: '750 - 999', value: [750, 999] },
-  { name: '1000 - 1499', value: [1000, 1499] },
-  { name: '1500 - 1999', value: [1500, 1999] },
-  { name: '2000 - 2199', value: [2000, 2199] },
-  { name: '2200 - 2399', value: [2200, 2399] },
-  { name: '2400+', value: [2400, 9999] },
-]
-const titles = [
+// TODO: Remove if unused
+// const ratings = [
+//   { name: '< 750', value: [0, 750] },
+//   { name: '750 - 999', value: [750, 999] },
+//   { name: '1000 - 1499', value: [1000, 1499] },
+//   { name: '1500 - 1999', value: [1500, 1999] },
+//   { name: '2000 - 2199', value: [2000, 2199] },
+//   { name: '2200 - 2399', value: [2200, 2399] },
+//   { name: '2400+', value: [2400, 9999] },
+// ]
+const titleList = [
   {
     name: 'No Title',
     value: null,
@@ -25,7 +26,7 @@ const titles = [
     value: 'nm',
   },
 ]
-const timeControls = [
+const timeControlList = [
   {
     name: '1 minute',
     value: 60,
@@ -55,7 +56,7 @@ const timeControls = [
     value: null,
   },
 ]
-const moveCounts = [
+const moveCountList = [
   { name: '< 10', value: [0, 9] },
   { name: '10 - 49', value: [10, 49] },
   { name: '50 - 99', value: [50, 99] },
@@ -66,7 +67,7 @@ const moveCounts = [
 // Items without name/value pair
 
 // TODO: achievements should be imported from the library instead
-const achievements = [
+const achievementList = [
   {
     // index 0
     name: 'Win a game',
@@ -267,29 +268,28 @@ const openingList = [
   'Scandinavian',
   'Scotch',
 ]
-const colors = ['white', 'black']
-const terminations = [
+const colorList = ['white', 'black']
+const terminationList = [
   'Checkmate',
   'Resignation',
   'Stalemate',
   'Insufficient Material',
 ]
-const rarity = ['Common', 'Uncommon', 'Rare', 'Legendary', 'Exotic']
-const sale = ['All', 'For Sale', 'Unlisted']
-const outcome = ['black', 'white', 'draw']
+const rarityList = ['Common', 'Uncommon', 'Rare', 'Legendary', 'Exotic']
+const saleList = ['All', 'For Sale', 'Unlisted']
+const outcomeList = ['black', 'white', 'draw']
 
 const filters = {
-  achievements,
+  achievementList,
   openingList,
-  colors,
-  ratings,
-  titles,
-  timeControls,
-  terminations,
-  moveCounts,
-  rarity,
-  sale,
-  outcome,
+  colorList,
+  titleList,
+  timeControlList,
+  terminationList,
+  moveCountList,
+  rarityList,
+  saleList,
+  outcomeList,
 }
 
-export default filters
+module.exports = filters

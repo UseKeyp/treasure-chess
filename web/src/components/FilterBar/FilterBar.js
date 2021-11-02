@@ -10,17 +10,17 @@ import Dropdown from 'src/components/Dropdown/Dropdown'
 import AchievementScroll from 'src/components/AchievementScroll/AchievementScroll'
 
 const FilterBar = ({ filter, setFilter }) => {
+  const [title, setTitle] = useState(filter.title)
+  const [timeControl, setTimeControl] = useState(filter.timeControl)
+  const [moveCount, setMoveCount] = useState(filter.moveCount)
+
   const [achievements, setAchievements] = useState(filter.achievements)
   const [opening, setOpening] = useState(filter.opening)
   const [color, setColor] = useState(filter.color)
-  const [rating, setRating] = useState(filter.rating)
-  const [title, setTitle] = useState(filter.title)
-  const [timeControl, setTimeControl] = useState(filter.timeControl)
   const [termination, setTermination] = useState(filter.termination)
-  const [outcome, setOutcome] = useState(filter.outcome)
-  const [moveCount, setMoveCount] = useState(filter.moveCount)
   const [rarity, setRarity] = useState(filter.rarity)
   const [sale, setSale] = useState(filter.sale)
+  const [outcome, setOutcome] = useState(filter.outcome)
   const [lowPrice, setLowPrice] = useState(filter.lowPrice) // must be initialized to a string to control the input from initial render
   const [highPrice, setHighPrice] = useState(filter.highPrice)
 
@@ -33,7 +33,6 @@ const FilterBar = ({ filter, setFilter }) => {
       ...(achievements?.length && { achievements }),
       ...(opening && { opening }),
       ...(color && { color }),
-      ...(rating && { rating }),
       ...(title && { title }),
       ...(timeControl && { timeControl }),
       ...(termination && { termination }),
@@ -50,7 +49,6 @@ const FilterBar = ({ filter, setFilter }) => {
     setAchievements([])
     setOpening()
     setColor()
-    setRating()
     setTitle()
     setTimeControl()
     setTermination()
@@ -70,7 +68,6 @@ const FilterBar = ({ filter, setFilter }) => {
     achievements,
     opening,
     color,
-    rating,
     title,
     timeControl,
     termination,
@@ -100,7 +97,7 @@ const FilterBar = ({ filter, setFilter }) => {
       <div className={styles.dropdownRow}>
         <Dropdown
           category={'Rarity'}
-          options={filters.rarity}
+          options={filters.rarityList}
           queryFilterFunction={setRarity}
           queryFilter={rarity}
         />
@@ -108,7 +105,7 @@ const FilterBar = ({ filter, setFilter }) => {
       <div className={styles.dropdownRow}>
         <FilterCheckbox
           category={'Sale'}
-          options={filters.sale}
+          options={filters.saleList}
           queryFilterFunction={setSale}
           queryFilter={sale}
         />
@@ -124,7 +121,7 @@ const FilterBar = ({ filter, setFilter }) => {
       <div className={styles.dropdownRow}>
         <FilterCheckbox
           category={'Outcome'}
-          options={filters.outcome}
+          options={filters.outcomeList}
           queryFilterFunction={setOutcome}
           queryFilter={outcome}
         />
@@ -132,7 +129,7 @@ const FilterBar = ({ filter, setFilter }) => {
       <div className={styles.dropdownRow}>
         <Dropdown
           category={'Termination'}
-          options={filters.terminations}
+          options={filters.terminationList}
           queryFilterFunction={setTermination}
           queryFilter={termination}
         />
@@ -140,13 +137,13 @@ const FilterBar = ({ filter, setFilter }) => {
       <div className={styles.dropdownTwoElementRow}>
         <Dropdown
           category={'Time'}
-          options={filters.timeControls}
+          options={filters.timeControlList}
           queryFilterFunction={setTimeControl}
           queryFilter={timeControl}
         />
         <Dropdown
           category={'Move Count'}
-          options={filters.moveCounts.map((moves) => moves.name)}
+          options={filters.moveCountList.map((moves) => moves.name)}
           queryFilterFunction={setMoveCount}
           queryFilter={moveCount}
         />
@@ -154,7 +151,7 @@ const FilterBar = ({ filter, setFilter }) => {
       <div className={styles.dropdownRow}>
         <FilterCheckbox
           category={'Master Title'}
-          options={filters.titles.map((title) => title.name)}
+          options={filters.titleList.map((title) => title.name)}
           queryFilterFunction={setTitle}
           queryFilter={title}
         />
@@ -162,7 +159,7 @@ const FilterBar = ({ filter, setFilter }) => {
       <div className={styles.dropdownRow}>
         <h4 style={{ marginLeft: `1em` }}>Achievements</h4>
         <AchievementScroll
-          achievements={filters.achievements}
+          achievements={filters.achievementList}
           queryFilterFunction={updateAchievements}
           queryFilter={achievements}
         />

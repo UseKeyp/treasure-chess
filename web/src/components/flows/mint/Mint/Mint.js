@@ -7,17 +7,20 @@ import MintPay from '../MintPay'
 import MintProcessing from '../MintProcessing'
 import MintComplete from '../MintComplete'
 
-const Mint = ({ id }) => {
+const Mint = ({ game, onClose }) => {
   const [step, setStep] = React.useState(1)
-  const [error, setError] = React.useState()
-  const [name, setName] = React.useState('')
+  const [error] = React.useState()
+  const [_name, setName] = React.useState('')
 
   const onSubmit = (data) => {
-    if (step === 1) setName(data.name) // TODO: Save treasure name to state
+    if (step === 1) setName(data.name)
+    // Create transaction with game details and name
+
+    // startMintFlow
 
     // TODO: handle success of stripe payments
 
-    if (step === 4) return navigate(routes.treasure({ id }))
+    if (step === 4) return navigate(routes.treasure({ id: game.id }))
 
     return setStep(step + 1)
   }
@@ -65,6 +68,7 @@ const Mint = ({ id }) => {
     <div>
       <ModalContainer
         title="Mint Game"
+        onClose={onClose}
         statusText={setStatusText}
         stepNum={step}
         totalNumSteps={4}

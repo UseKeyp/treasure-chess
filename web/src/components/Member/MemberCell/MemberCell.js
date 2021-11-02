@@ -1,12 +1,11 @@
 import Member from 'src/components/Member/Member'
 
 export const QUERY = gql`
-  query FindMemberById($id: String!) {
-    member: member(id: $id) {
+  query FindMemberByUsernameOrAddress($usernameOrAddress: String!) {
+    member(usernameOrAddress: $usernameOrAddress) {
       id
+      username
       address
-      dateJoined
-      rating
       imageSrc
       country
       masterTitle

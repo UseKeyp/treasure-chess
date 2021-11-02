@@ -4,13 +4,7 @@ export const schema = gql`
     text: String
     url: String
   }
-  type Jwt {
-    jwt: String!
-  }
   type Query {
-    loginUrl: LoginUrl!
-  }
-  type Mutation {
-    oauthCodeGrant(state: String!, code: String!, type: String!): Jwt!
+    loginUrl: LoginUrl! @skipAuth
   }
 `

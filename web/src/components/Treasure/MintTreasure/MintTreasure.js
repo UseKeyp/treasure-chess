@@ -27,7 +27,6 @@ const MintTreasure = ({ game }) => {
   )
 
   const onSave = (input) => {
-    const castInput = Object.assign(input, { tokenId: parseInt(input.tokenId) })
     createTreasure({
       variables: { gameId: game.id, endTime: game.endTime, name: input.name },
     })

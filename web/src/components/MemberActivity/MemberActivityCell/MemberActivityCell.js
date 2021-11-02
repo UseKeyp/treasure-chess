@@ -12,8 +12,10 @@ export const Loading = () => <div>Loading...</div>
 
 export const Empty = () => <div>Empty</div>
 
-export const Failure = ({ error }) => (
-  <div style={{ color: 'red' }}>Error: {error.message}</div>
+export const Failure = () => (
+  <div className="rw-segment p-4">
+    <p className="text-black">{`Couldn't load Member activity`}</p>
+  </div>
 )
 
 export const Success = ({ activity }) => {

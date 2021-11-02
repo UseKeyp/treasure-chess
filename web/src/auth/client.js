@@ -1,10 +1,6 @@
-// Adapted from https://github.com/oneclickdapp/ethereum-auth
+import { getErrorResponse, saveRedirectTo } from 'src/auth/helpers'
 
-import { getErrorResponse } from 'src/auth/helpers'
-import { LOCAL_TOKEN_KEY } from 'src/auth/constants'
-import { isProduction } from 'src/utils/helpers'
 import { toast } from '@redwoodjs/web/toast'
-import { decode as decodeJwt } from 'jsonwebtoken'
 
 export const LOGIN_URL_QUERY = gql`
   query LoginUrlQuery {
@@ -14,40 +10,38 @@ export const LOGIN_URL_QUERY = gql`
   }
 `
 
-class TreasureChessAuthClient {
-  constructor({ debug, onNetworkChange, onDisconnect, makeQuery }) {
-    this.debug = debug
-    this.onNetworkChange = onNetworkChange
-    this.onDisconnect = onDisconnect
-    this.makeQuery = makeQuery
-    this.type = 'custom'
-  }
-
-  async login() {
-    try {
-      // Get redirect URL
-      const { data } = await this.makeQuery(LOGIN_URL_QUERY)
+export const logIn = async ({ redirectTo }) => {
+  try {
+    saveRedirectTo(redirectTo)
+    /* eslint-disable-next-line no-undef */
+    const response = await global.fetch(
+      /* eslint-disable-next-line no-undef */
+      `${global.__REDWOOD__API_PROXY_PATH}/graphql`,
+      {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          query: LOGIN_URL_QUERY,
+        }),
+      }
+    )
+    if (response.ok) {
       // Redirect user
+      const { data } = await response.json()
       window.location = data.loginUrl.url
-    } catch (e) {
+    } else {
       /* eslint-disable-next-line no-console */
-      const errorMessage = getErrorResponse(`${e}.`, 'login').error.message
-      toast.error(errorMessage)
-      console.log(errorMessage)
+      console.log(
+        `Could not get login url: ${response.statusText} (${response.status})`
+      )
     }
-  }
-
-  logout() {
-    return localStorage.removeItem(LOCAL_TOKEN_KEY)
-  }
-
-  getToken() {
-    return localStorage.getItem(LOCAL_TOKEN_KEY)
-  }
-
-  userMetadata() {
-    return decodeJwt(this.getToken())
+  } catch (e) {
+    /* eslint-disable-next-line no-console */
+    const errorMessage = getErrorResponse(`${e}.`, 'login').error.message
+    toast.error(errorMessage)
+    /* eslint-disable-next-line no-console */
+    console.log(errorMessage)
   }
 }
-
-export default TreasureChessAuthClient

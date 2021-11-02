@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react'
 import FilterBar from './FilterBar'
 
 export const generated = () => {

@@ -7,7 +7,7 @@ export const filters = {
   timeControls,
   terminations,
   outcomes,
-  moveCounts
+  moveCounts,
 }
 
 const achievements = [

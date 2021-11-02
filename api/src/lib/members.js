@@ -1,3 +1,4 @@
+import Sentry from 'src/lib/sentry'
 import { db } from 'src/lib/db'
 import { isHexAddress } from 'src/lib/helpers'
 import { fetchChessMember } from 'src/lib/chessCom/chessCom'
@@ -54,6 +55,7 @@ export const fetchMember = async (usernameOrAddress, includeChessData) => {
     }
     return member
   } catch (e) {
+    Sentry.captureException(e)
     throw new Error(`fetchMember() ${e}`)
   }
 }

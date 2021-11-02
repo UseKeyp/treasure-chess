@@ -1,7 +1,9 @@
 import { db } from 'src/lib/db'
 import { fetchMember } from 'src/lib/members'
-import { createTreasure } from 'src/lib/treasure'
 import { fetchGame } from 'src/lib/games'
+import { createMintReservation } from 'src/lib/wyre/wyre'
+import { validateTreasureTitle } from 'src/lib/helpers'
+import { EnvelopError } from '@envelop/core'
 
 export const treasures = () => {
   return db.treasure.findMany()
@@ -35,32 +37,35 @@ export const treasureNftDetails = async ({ id }) => {
   return null
 }
 
-export const mintTreasure = async ({ gameId, endTime, name }) => {
-  // Get user's wallet and sign meta-tx
-  const { username, id: memberId } = context.currentUser
-
-  // Submit meta-tx to admin wallet
-
-  // Create pending transaction in database
-
-  // Get game details
-  const game = await fetchGame({ gameId, username, endTime })
-  // Create treasure and connect pending transaction - minter, owner, tokenId
-  const treasure = await createTreasure({ game, memberId, name })
-  return treasure
-}
-
-export const updateTreasure = ({ id, input }) => {
-  return db.treasure.update({
-    data: input,
-    where: { id },
+export const mintCheckoutUrl = async ({ gameId, endTime, title }) => {
+  validateTreasureTitle(title)
+  const { username, address } = context.currentUser
+  const game = await fetchGame({
+    id: gameId,
+    username,
+    endTime,
   })
-}
-
-export const deleteTreasure = ({ id }) => {
-  return db.treasure.delete({
-    where: { id },
+  if (!game)
+    throw new EnvelopError(
+      `Member ${username} did not participate in this game`
+    )
+  const { url, reservation } = await createMintReservation({
+    username,
+    gameId,
+    endTime,
+    address,
+    title,
   })
+  await db.mintPurchase.create({
+    data: {
+      member: { connect: { id: context.currentUser.id } },
+      reservation,
+      gameId,
+      gameEndTime: endTime,
+      title,
+    },
+  })
+  return url
 }
 
 export const Treasure = {

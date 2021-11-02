@@ -2,12 +2,11 @@
 
 ### Serverless Considerations
 
-The built api must be <50MB for Vercel. Use these commands to check the current size
+The built api must be <50MB for Vercel. Use these commands to check the current size of `/zipped/graphql.zip`
 
-```js
-yarn rw build api
+```bash
+yarn rw build api && \
 yarn zip-it-and-ship-it api/dist/functions/ zipped
-# In your file explorer check the size of /zipped/graphql.zip
 ```
 
 ### Docker

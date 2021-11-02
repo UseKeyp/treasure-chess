@@ -11,8 +11,8 @@ import { useState } from 'react'
  * @returns A nifty header with state
  */
 const Header = (props) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(props.isLoggedIn || false)
-  const [profile, setProfile] = useState(props.profile || null)
+  const [isLoggedIn, _setIsLoggedIn] = useState(props.isLoggedIn || false)
+  const [profile, _setProfile] = useState(props.profile || null)
 
   return (
     <div className={styles.header}>

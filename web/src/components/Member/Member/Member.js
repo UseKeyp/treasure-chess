@@ -2,40 +2,21 @@ import ProfileBox from 'src/components/ProfileBox/ProfileBox'
 import MemberActivity from 'src/components/MemberActivity/MemberActivity'
 import GamesCell from 'src/components/Game/GamesCell'
 import TreasureCardCell from 'src/components/Treasure/TreasureCardCell'
-import Mint from 'src/components/flows/mint/Mint'
+import Mint from 'src/components/Mint/Mint'
 import GameCard from 'src/components/Game/GameCard'
 
 const Member = ({ member }) => {
   // ].sort((a, b) => new Date(a.endTime) < new Date(b.endTime))
   const [activeGame, setActiveGame] = React.useState(null)
-  const [isMinting, setIsMinting] = React.useState(false)
-
-  const MintButton = () => {
-    return (
-      <button
-        onClick={() => setIsMinting(true)}
-        className="rect-button green rw-button rw-button-blue mint-set-title__submit"
-      >
-        Mint
-      </button>
-    )
-  }
 
   const RightBar = () => {
     if (!activeGame) return <>Select a game to mint</>
     if (activeGame?.treasureId)
       return <TreasureCardCell id={activeGame.treasureId} />
     return (
-      <div className="w-full justify-center items-center">
+      <div className="">
         <GameCard game={activeGame} />
-        <MintButton />
-        {isMinting && (
-          <Mint
-            className="w-full"
-            onClose={() => setIsMinting(false)}
-            game={activeGame}
-          />
-        )}
+        <Mint game={activeGame} />
       </div>
     )
   }

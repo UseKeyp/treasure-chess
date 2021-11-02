@@ -1,4 +1,5 @@
 import { AuthenticationError, ForbiddenError } from '@redwoodjs/graphql-server'
+import Sentry from 'src/lib/sentry'
 
 import { db } from './db'
 
@@ -7,6 +8,7 @@ export const getCurrentUser = async (session) => {
   if (!member) return null
   // WARNING: Returned values here are exposed to the FE
   // Don't include any Chess.com access tokens here
+  Sentry.setUser({ username: member.username, id: member.id })
   return {
     id: member.id,
     username: member.username,

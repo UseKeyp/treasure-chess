@@ -30,8 +30,8 @@ const Games = ({ games, onRowClick }) => {
       return {
         id: game.id,
         Treasure: game.treasureId ? 'Yes' : 'No',
-        White: game.whiteId,
-        Black: game.blackId,
+        White: game.whiteUsername,
+        Black: game.blackUsername,
         Winner: game.outcome,
         Result: game.termination,
         Moves: game.moveCount,

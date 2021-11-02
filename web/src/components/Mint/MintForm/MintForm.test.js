@@ -1,11 +1,11 @@
 import { render } from '@redwoodjs/testing'
 
-import MarketplacePage from './MarketplacePage'
+import MintSetTitle from './MintSetTitle'
 
-describe('MarketplacePage', () => {
+describe('MintSetTitle', () => {
   it('renders successfully', () => {
     expect(() => {
-      render(<MarketplacePage />)
+      render(<MintSetTitle />)
     }).not.toThrow()
   })
 })

@@ -18,15 +18,17 @@ const getFullGameDetails = async ({ game: rawGame, username }) => {
     where: { id: treasureId },
   })
   if (treasure) return treasure
-
   const { opening, score, achievements } = achievementsCalculator(
     game.pgn,
     cardColor
   )
+
   const achievementsString = achievements
     .slice(0, 3)
-    .map((item) => item.name)
-    .join(', ')
+    // TODO: Remove the placeholder number here once the achievments library has been updated
+    // .map((item) => item.name)
+    .map((item) => `#23. ${item.name}`)
+    .join(',')
   const white = await fetchMember(game.whiteUsername)
   const black = await fetchMember(game.blackUsername)
   let winnerId
@@ -44,9 +46,15 @@ const getFullGameDetails = async ({ game: rawGame, username }) => {
   }
 }
 
-export const fetchGame = async ({ id: gameId, username, endTime }) => {
+export const fetchGame = async ({
+  id: gameId,
+  username,
+  endTime,
+  includeTreasureData,
+}) => {
   const game = await fetchChessGame({ username, gameId, endTime })
   if (!game) return null
+  if (includeTreasureData) return getFullGameDetails({ game, username })
   return parseGameFromChessDotCom(game)
 }
 

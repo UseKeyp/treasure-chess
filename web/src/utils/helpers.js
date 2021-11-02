@@ -1,3 +1,5 @@
+import themeConfig from '../../tailwind.config'
+
 export const isBrowser = typeof window !== 'undefined'
 export const isProduction = process.env.NODE_ENV === 'production'
 export const isMobile =
@@ -31,4 +33,18 @@ export const trimString = (string, maxLength) => {
   return `${string.substring(0, midpoint - lstrip)}...${string.substring(
     midpoint + rstrip
   )}`
+}
+
+export const getColorFromTheme = (color) => {
+  const { theme } = themeConfig
+  const isNested = color.includes('.')
+  const isRgb = color.includes('rgb')
+
+  if (isRgb) return color
+  if (isNested) {
+    const colorsArr = color.split('.')
+    return theme.colors[colorsArr[0]][colorsArr[1]]
+  } else {
+    return theme.colors[color] ? theme.colors[color] : color
+  }
 }

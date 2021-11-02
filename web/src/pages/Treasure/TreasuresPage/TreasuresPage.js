@@ -33,6 +33,7 @@ const TreasuresPage = () => {
 
   useEffect(() => {
     updateUrl()
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [sort, filter, username])
 
   return (

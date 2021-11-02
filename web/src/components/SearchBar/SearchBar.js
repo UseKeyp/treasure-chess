@@ -43,7 +43,7 @@ const SearchBar = ({ initialQuery, setQuery }) => {
 
   React.useEffect(() => {
     debounceUpdate()
-  }, [value])
+  }, [value, debounceUpdate])
 
   const onSelectUsername = (option) => {
     setIsValueFromSelector(true)

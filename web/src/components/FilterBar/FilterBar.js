@@ -64,6 +64,7 @@ const FilterBar = ({ filter, setFilter }) => {
 
   React.useEffect(() => {
     updateFilter()
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [
     achievements,
     opening,

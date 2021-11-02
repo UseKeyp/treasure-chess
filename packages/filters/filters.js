@@ -8,24 +8,6 @@
 //   { name: '2200 - 2399', value: [2200, 2399] },
 //   { name: '2400+', value: [2400, 9999] },
 // ]
-const titleList = [
-  {
-    name: 'No Title',
-    value: null,
-  },
-  {
-    name: 'Grandmaster',
-    value: 'gm',
-  },
-  {
-    name: 'International Master',
-    value: 'im',
-  },
-  {
-    name: 'New Master',
-    value: 'nm',
-  },
-]
 const timeControlList = [
   {
     name: '1 minute',
@@ -254,6 +236,9 @@ const achievementList = [
     points: 5,
   },
 ]
+
+const titleList = ['Grandmaster', 'International Master', 'New Master']
+
 const openingList = [
   "King's pawn game",
   "Queen's Gambit",

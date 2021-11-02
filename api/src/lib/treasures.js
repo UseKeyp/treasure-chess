@@ -90,7 +90,6 @@ export const getTreasuresWithArguments = ({ username, filter, sort }) => {
   // Convert text names to values
   for (var pair of searchParams.entries()) {
     let value = pair[1]
-    if (pair[0] === 'title') value = getValueByName(filters.titleList, pair[1])
     else if (pair[0] === 'timeControl')
       value = getValueByName(filters.timeControlList, pair[1])
     else if (pair[0] === 'moveCount')

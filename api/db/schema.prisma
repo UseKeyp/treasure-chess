@@ -27,7 +27,7 @@ model Member {
   createdAt            DateTime       @default(now())
   updatedAt            DateTime       @updatedAt
   imageSrc             String? // Avatar URL
-  masterTitle          String? // GM, IM or NM
+  masterTitle          String? // "Grand Master" or "International Master"
   country              String // Player's country  eg. US, DE
   // Oauth
   refreshToken         String?

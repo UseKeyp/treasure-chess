@@ -19,23 +19,33 @@ async function main() {
   // Note: if using PostgreSQL, using `createMany` to insert multiple records is much faster
   // @see: https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#createmany
   // Create members
-  await Promise.all(
-    memberData.map(async (member) => {
-      const record = await db.member.create({
-        data: member,
+  try {
+    await Promise.all(
+      memberData.map(async (member) => {
+        const record = await db.member.create({
+          data: member,
+        })
+        console.log(record)
       })
-      console.log(record)
-    })
-  )
-  // Create treasures
-  await Promise.all(
-    treasureData.map(async (treasure) => {
-      const record = await db.treasure.create({
-        data: treasure,
+    )
+  } catch (e) {
+    console.log("Couldn't create members")
+    console.log(e)
+  }
+  try {
+    // Create treasures
+    await Promise.all(
+      treasureData.map(async (treasure) => {
+        const record = await db.treasure.create({
+          data: treasure,
+        })
+        console.log(record)
       })
-      console.log(record)
-    })
-  )
+    )
+  } catch (e) {
+    console.log("Couldn't create treasures")
+    console.log(e)
+  }
 }
 
 main()

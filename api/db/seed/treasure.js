@@ -3,7 +3,7 @@ const [alice, bob, carl] = members
 
 const treasureData = [
   {
-    id: '0x51a46b84b32f78e00f69e0df78f0b5d391f878c46926f91c9aa02f185bebc221', // Moves hash plus end time
+    id: '0x51a46b84b32f78e00f69e0df78f0b5d391f878c46926f91c9aa02f185bebc222', // Moves hash plus end time
     black: {
       connect: { id: alice.id },
     },
@@ -16,10 +16,10 @@ const treasureData = [
     winnerUsername: bob.username,
     // NFT
     minter: {
-      connect: { address: '0xe4b420F15d6d878dCD0Df7120Ac0fc1509ee9Cab' },
+      connect: { address: alice.address },
     },
     owner: {
-      connect: { address: '0x33f6ba34A34d24885DFE166891A4A8FB83643105' },
+      connect: { address: alice.address },
     },
     uriData: 'TODO!',
     tokenId: 1,
@@ -61,10 +61,10 @@ const treasureData = [
     winnerUsername: bob.username,
     // NFT
     minter: {
-      connect: { address: '0xe4b420F15d6d878dCD0Df7120Ac0fc1509ee9Cab' },
+      connect: { address: bob.address },
     },
     owner: {
-      connect: { address: '0x33f6ba34A34d24885DFE166891A4A8FB83643105' },
+      connect: { address: bob.address },
     },
     uriData: 'TODO!',
     tokenId: 2,

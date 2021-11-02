@@ -1,4 +1,3 @@
-import { Link, routes } from '@redwoodjs/router'
 import CardsListWrapper from 'src/components/CardsListWrapper'
 const TreasuresList = ({ treasures }) => {
   return (

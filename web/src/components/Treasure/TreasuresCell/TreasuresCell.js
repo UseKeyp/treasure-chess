@@ -1,5 +1,3 @@
-import { Link, routes } from '@redwoodjs/router'
-
 import Treasures from 'src/components/Treasure/Treasures'
 
 export const QUERY = gql`

@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react'
-import { useParams, navigate, routes } from '@redwoodjs/router'
+import { useParams } from '@redwoodjs/router'
 import { MetaTags } from '@redwoodjs/web'
 
 import TreasuresCell from 'src/components/Treasure/TreasuresCell'
 import SearchBar from 'src/components/SearchBar'
 import FilterBar from 'src/components/FilterBar/FilterBar'
-
-import { anyValues, oneValue } from './Logic'
 
 const TreasuresPage = () => {
   const params = useParams()
@@ -20,7 +18,7 @@ const TreasuresPage = () => {
   // These are the source of truth
   const [username, setUsername] = useState(initialUsername)
   const [filter, setFilter] = useState(initialFilter)
-  const [sort, setSort] = useState(initialSort)
+  const [sort, _setSort] = useState(initialSort) // TODO: Add sorting
 
   const updateUrl = () => {
     const searchParams = new URLSearchParams(filter)

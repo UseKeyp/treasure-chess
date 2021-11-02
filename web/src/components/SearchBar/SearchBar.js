@@ -16,7 +16,7 @@ const SearchBar = ({ initialQuery, setQuery }) => {
   const [_isValueFromSelector, setIsValueFromSelector] = useState(false)
   const [dropdownOptions, setDropdownOptions] = useState([])
 
-  const [fetchUsernames, { loading, error }] = useLazyQuery(USERNAME_QUERY, {
+  const [fetchUsernames, { _loading, _error }] = useLazyQuery(USERNAME_QUERY, {
     onCompleted: ({ usernames }) => {
       if (usernames.length === 0)
         return setDropdownOptions(['Username not found'])

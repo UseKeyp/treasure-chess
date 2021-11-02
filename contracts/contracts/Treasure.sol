@@ -74,7 +74,7 @@ contract Treasure is
   ) public onlyAdmin returns (uint256) {
     require(
       movesHashToId[_moveHash] == 0,
-      'An NFT of this game already exists because a hash of its moves + white/black) already exists. Read Treasure Chess docs for more info.'
+      'This game has already been minted.'
     );
 
     _tokenIds.increment();

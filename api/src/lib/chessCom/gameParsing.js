@@ -28,7 +28,7 @@ const parsePgn = (pgn) => {
     if (line.includes('[Termination ')) termination = line.split(`"`)[1]
     if (line.includes('[BlackElo ')) blackRating = Number(line.split(`"`)[1])
     if (line.includes('[WhiteElo ')) whiteRating = Number(line.split(`"`)[1])
-    if (line.includes('[TimeControl ')) timeControl = Number(line.split(`"`)[1])
+    if (line.includes('[TimeControl ')) timeControl = line.split(`"`)[1]
   })
 
   return {
@@ -59,6 +59,7 @@ export const parseGameFromChessDotCom = (game) => {
     moveCount,
     moves,
     winner,
+    event,
   } = parsePgn(game.pgn)
   const splitUrl = game.url.split('/')
   const id = splitUrl[splitUrl.length - 1]
@@ -76,6 +77,7 @@ export const parseGameFromChessDotCom = (game) => {
     outcome: winner,
     moves,
     moveCount,
+    event,
     ruleVariant: getGameRuleVariant(game),
     blackUsername: game.black.username,
     whiteUsername: game.white.username,

@@ -1,30 +1,30 @@
 export const QUERY = gql`
   query FindTreasuresWithFilterQuery($achievement: String) {
-    	treasuresWithFilter(achievements: $achievement) {
-				id
-				endTime
-				moveCount
-				outcome
-				cardColor
-				name
-				gameRuleVariant
-				termination
-				achievements
-				whiteRating
-				blackRating
-				blackMasterTitle
-				whiteMasterTitle
-				externalUrl
-				timeControl
-				winner {
-					id
-				}
-				black {
-					id
-				}
-				white {
-					id
-				}
+    treasuresWithFilter(achievements: $achievement) {
+      id
+      endTime
+      moveCount
+      outcome
+      cardColor
+      name
+      gameRuleVariant
+      termination
+      achievements
+      whiteRating
+      blackRating
+      blackMasterTitle
+      whiteMasterTitle
+      externalUrl
+      timeControl
+      winner {
+        id
+      }
+      black {
+        id
+      }
+      white {
+        id
+      }
     }
   }
 `
@@ -38,11 +38,5 @@ export const Failure = ({ error }) => (
 )
 
 export const Success = ({ treasuresWithFilter }) => {
-	return (
-		<>
-			{treasuresWithFilter.map((treasure) => {
-				<TreasureCard treasure={treasure} />
-			})}
-		</>
-	)
+  return <>{treasuresWithFilter.map((treasure) => JSON.stringify(treasure))}</>
 }

@@ -16,7 +16,24 @@
   schemaPath = "./api/db/schema.prisma"
   includeEnvironmentVariables = [
     # Ethereum
+    'APP_ADMIN_WALLET_ADDRESS',
     'APP_ADMIN_WALLET_MNEMONIC',
+    'CONTRACT_ADDRESS_TREASURE',
+    'CONTRACT_ADDRESS_TREASURE_MARKET',
+    'ETHEREUM_NETWORK_NAME',
+    'PINATA_API_KEY',
+    'PINATA_API_SECRET_KEY',
+    'TOKEN_URI_DOMAIN',
+    # Sentry.io
+    'SENTRY_DSN',
+    # Discord
+    'DISCORD_BOT_TOKEN',
+    # Wyre
+    'WYRE_API_KEY',
+    'WYRE_SECRET_KEY',
+    'WYRE_ACCOUNT_ID_TREASURE',
+    'WYRE_MINT_USD_SOURCE_AMOUNT',
+    'WYRE_MINT_USD_PURCHASE_AMOUNT',
     # Chess.com API
     'CHESS_API_URL',
     'CHESS_API_ACCESS_TOKEN',

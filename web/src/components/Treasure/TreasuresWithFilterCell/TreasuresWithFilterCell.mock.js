@@ -2,7 +2,7 @@
 export const standard = () => ({
   match: {
     id: 42,
-    date,
+    date: '2021-10-14T18:16:31.146Z',
     bannerColors: ['#E58F2A', '#C76F07'],
     edition: 'WHITE',
     gameType: 'Standard',
@@ -13,7 +13,6 @@ export const standard = () => ({
       'Pawn Checkmate',
       'Played 2100+ Rated Games',
     ],
-    players,
     title: 'Crazy Pawn Checkmate Comeback',
     winner: 'BLACK',
     wonBy: 'Checkmate',

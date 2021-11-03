@@ -13,44 +13,53 @@ generator client {
 // Define your own datamodels here and run `yarn redwood prisma migrate dev`
 // to create migrations for them and apply to your dev DB.
 model Member {
-  id                   String     @id // Chess.com id
-  username             String     @unique // Chess.com username
-  address              String?    @unique // Torus wallet address
+  id                   String         @id // Chess.com id
+  username             String         @unique // Chess.com username
+  address              String?        @unique // Torus wallet address
+  // --------------- LINKS --------------
+  treasuresOwned       Treasure[]     @relation("treasuresOwned")
+  treasuresMinted      Treasure[]     @relation("treasuresMinted")
+  treasuresPlayedWhite Treasure[]     @relation("treasuresPlayedWhite")
+  treasuresPlayedBlack Treasure[]     @relation("treasuresPlayedBlack")
+  treasuresWon         Treasure[]     @relation("treasuresWon")
+  mintPurchases        MintPurchase[] @relation("mintPurchases")
   // --------------- STATE --------------
+  createdAt            DateTime       @default(now())
+  updatedAt            DateTime       @updatedAt
   imageSrc             String? // Avatar URL
-  masterTitle          String? // GM, IM or NM
+  masterTitle          String? // "Grand Master" or "International Master"
   country              String // Player's country  eg. US, DE
   // Oauth
   refreshToken         String?
-  // --------------- LINKS --------------
-  treasuresOwned       Treasure[] @relation(name: "treasuresOwned")
-  treasuresMinted      Treasure[] @relation(name: "treasuresMinted")
-  treasuresPlayedWhite Treasure[] @relation(name: "treasuresPlayedWhite")
-  treasuresPlayedBlack Treasure[] @relation(name: "treasuresPlayedBlack")
-  treasuresWon         Treasure[] @relation(name: "treasuresWon")
-  // !! For Scaffolding purposes only - should be commented out
 }
 
 model Treasure {
-  id               String    @id // Moves hash plus end time
-  createdAt        DateTime  @default(now())
+  id               String        @id // Moves hash plus end time
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
   // --------------- LINKS --------------
   // Chess.com (required)
-  black            Member    @relation(name: "treasuresPlayedWhite", fields: [blackId], references: [id])
+  black            Member        @relation(name: "treasuresPlayedWhite", fields: [blackId], references: [id])
   blackId          String
-  white            Member    @relation(name: "treasuresPlayedBlack", fields: [whiteId], references: [id])
+  blackUsername    String
+  white            Member        @relation(name: "treasuresPlayedBlack", fields: [whiteId], references: [id])
   whiteId          String
-  winner           Member?   @relation(name: "treasuresWon", fields: [winnerId], references: [id])
+  whiteUsername    String
+  winner           Member?       @relation(name: "treasuresWon", fields: [winnerId], references: [id])
   winnerId         String?
-  // NFT (optional)
-  minter           Member?   @relation(name: "treasuresMinted", fields: [minterAddress], references: [address])
-  minterAddress    String?
-  owner            Member?   @relation(name: "treasuresOwned", fields: [ownerAddress], references: [address])
-  ownerAddress     String?
+  winnerUsername   String?
+  // NFT
+  minter           Member        @relation(name: "treasuresMinted", fields: [minterAddress], references: [address])
+  minterAddress    String
+  owner            Member        @relation(name: "treasuresOwned", fields: [ownerAddress], references: [address])
+  ownerAddress     String
+  mintPurchase     MintPurchase? @relation(name: "mintPurchase", fields: [mintPurchaseId], references: [id])
+  mintPurchaseId   Int?
+  uriData          String
+  tokenId          Int?
+  mintedAt         DateTime?
   // --------------- STATE --------------
   title            String
-  updatedAt        DateTime  @updatedAt
-  // Chess
   cardColor        String // white or black
   blackRating      Int // Rating at the time of the game
   whiteRating      Int
@@ -63,14 +72,33 @@ model Treasure {
   event            String // eg. "Live Chess"
   moves            String // pgn moves
   moveCount        Int // eg. 43
-  ruleVariant      String    @default("Standard") // eg. "Standard" or "Chess960"
+  ruleVariant      String        @default("Standard") // eg. "Standard" or "Chess960"
   externalUrl      String? // Link to game on chess.com
   opening          String // eg. "Queen's Gambit"
   achievements     String // List eg. "win/play above 2200,queen side castle,mate with a bishop"
   achievementScore Int // eg. 10
-  // NFT
-  tokenId          Int?
-  mintedAt         DateTime?
+  rarity           String // eg. 10
+}
+
+model MintPurchase {
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  // --------------- LINKS --------------
+  member      Member    @relation("mintPurchases", fields: [memberId], references: [id])
+  memberId    String
+  treasure    Treasure? @relation("mintPurchase")
+  // --------------- STATE --------------
+  orderId     String?   @unique // Wyre orderId
+  reservation String?   @unique // Wyre reservation
+  // RESERVATION, COMPLETE
+  orderStatus String    @default("RESERVATION")
+  gameId      String
+  gameEndTime String
+  title       String    @default("Cool game") // User's desired title
+  txHash      String?
+  // UNSUBMITTED, SUBMITTED, COMPLETE, FAILED
+  txStatus    String    @default("UNSUBMITTED")
 }
 
 model OAuth {

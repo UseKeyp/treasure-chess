@@ -8,6 +8,9 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+
+@import './styles/index';
+
 @import './components/**/_styles.scss';
 @import './components/flows/**/**/_styles.scss';
 @import './pages/**/_styles.scss';
@@ -16,12 +19,12 @@
  * END --- TAILWIND GENERATOR EDIT
  */
 
-@import url('https://fonts.googleapis.com/css2?family=Overpass:wght@100;200;300;400;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 $background-color: '#312e2b';
 
 body {
-  font-family: 'Overpass', serif;
+  font-family: 'Montserrat', sans-serif;
   font-size: 32px;
   line-height: 1.2;
   color: white;
@@ -32,6 +35,10 @@ a {
   &:hover {
     text-decoration: underline;
   }
+}
+
+button {
+  font-family: 'Montserrat', sans-serif;
 }
 
 .max-width-container {

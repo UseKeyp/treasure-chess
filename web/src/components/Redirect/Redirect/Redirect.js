@@ -1,26 +1,25 @@
-import { navigate, useParams } from '@redwoodjs/router'
+import { Link, navigate, routes, useParams } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
 import { getRedirectTo } from 'src/auth/helpers'
 
 import DefaultLayout from 'src/layouts/DefaultLayout'
 import Loader from 'src/components/Loader'
+import Icon from 'src/components/Icon'
 
-const Redirect = () => {
+const Redirect = ({ type }) => {
   const [errorMessage, setErrorMessage] = React.useState()
+  const [orderSubmitted, setOrderSubmitted] = React.useState()
   const { code, state } = useParams()
   const { logIn } = useAuth()
 
-  const checkValidParams = () => {
-    if (!code || !state) setErrorMessage('Invalid redirect parameters')
-  }
-
+  // ###############  Chess.com  ################
   const submitOauthCodeGrant = async () => {
-    // Call the dbAuth login function
+    if (!code || !state) return setErrorMessage('Invalid redirect parameters')
     /* eslint-disable-next-line no-undef */
     const response = await fetch(`${global.__REDWOOD__API_PROXY_PATH}/auth`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ type: 'chess', code, state, method: 'login' }),
+      body: JSON.stringify({ code, state, method: 'login' }),
     }).then((res) => {
       return res.json()
     })
@@ -28,11 +27,22 @@ const Redirect = () => {
     if (response.id) navigate(getRedirectTo() || '/')
   }
 
+  // ###############  Wyre  #####################
+  const completeWyreOrder = async () => {
+    setOrderSubmitted(true)
+    setTimeout(() => {
+      window.close()
+    }, [3000])
+  }
+
   React.useEffect(() => {
-    checkValidParams()
-    submitOauthCodeGrant()
+    if (type === 'wyre') {
+      completeWyreOrder()
+    } else if (type === 'chess') {
+      submitOauthCodeGrant()
+    }
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
-  }, [code, state])
+  }, [code, state, type])
 
   if (errorMessage)
     return (
@@ -54,6 +64,21 @@ const Redirect = () => {
           </button>
         </div>
       </DefaultLayout>
+    )
+  if (orderSubmitted)
+    return (
+      <div className="min-w-screen min-h-screen ">
+        <div className="mt-16 text-center justify-center">
+          <div className="flex justify-center">
+            <Icon name="checkmark" width="3rem" height="3rem" color="green" />
+            <h1 className="text-5xl ml-4 font-extrabold">Payment complete!</h1>
+          </div>
+          <p className="text-s m-4">Taking you back to Treasure Chess...</p>
+          <Link className="text-s mt-4" to={routes.profile()}>
+            (Go to my Profile)
+          </Link>
+        </div>
+      </div>
     )
   return (
     <div className="min-w-full min-h-screen flex items-center justify-center">

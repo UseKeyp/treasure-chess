@@ -1,6 +1,7 @@
 import { AuthenticationError } from '@redwoodjs/graphql-server'
 import { v4 as uuidv4 } from 'uuid'
 import pkceChallenge from 'pkce-challenge'
+import Sentry from 'src/lib/sentry'
 
 import { db } from 'src/lib/db'
 import { fetchMember } from 'src/lib/members'
@@ -43,9 +44,8 @@ export const getLoginUrl = async () => {
 
 export const handleOauthCodeGrant = async ({ state, code }) => {
   try {
-    // console.log('handleOauthCodeGrant')
-    // console.log({ state, code })
-    const oAuth = await db.oAuth.findUnique({ where: { state } })
+    // Delete the OAuth Item
+    const oAuth = await db.oAuth.delete({ where: { state } })
     if (!oAuth) throw 'State not valid'
 
     // Check expiration
@@ -57,9 +57,6 @@ export const handleOauthCodeGrant = async ({ state, code }) => {
       code,
       oAuth.codeVerifier
     )
-
-    // Delete the OAuth Item
-    await db.oAuth.delete({ where: { state } })
 
     // Create member if needed, and get current avatar
     const member = await fetchMember(decoded.preferred_username, true)
@@ -99,6 +96,7 @@ export const handleOauthCodeGrant = async ({ state, code }) => {
     // Save the Discord auth credentials and update state
     return member
   } catch (e) {
+    Sentry.captureException(e)
     throw new AuthenticationError(`handleOauthCodeGrant() ${e}`)
   }
 }

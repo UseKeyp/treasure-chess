@@ -1,13 +1,9 @@
 import FilterCheckbox from './FilterCheckbox'
 
 export const generated = () => {
-  return <FilterCheckbox options={options}/>
+  return <FilterCheckbox options={options} />
 }
 
 export default { title: 'Components/FilterCheckbox' }
 
-const options = [
-  'A',
-  'B',
-  'C'
-]
+const options = ['A', 'B', 'C']

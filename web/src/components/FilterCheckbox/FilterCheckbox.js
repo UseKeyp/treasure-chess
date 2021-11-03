@@ -1,5 +1,4 @@
 import styles from './FilterCheckbox.module.scss'
-import { useState } from 'react'
 
 const FilterCheckbox = (props) => {
   const setCurrentSelection = props.queryFilterFunction
@@ -15,7 +14,7 @@ const FilterCheckbox = (props) => {
       <h4>{props.category}</h4>
       <div className={styles.checkBoxWrapper}>
         {options?.map((option, index) => {
-          if (option === 'Black') {
+          if (option === 'black') {
             return (
               <>
                 <BlackKingFilterListItem
@@ -28,7 +27,7 @@ const FilterCheckbox = (props) => {
               </>
             )
           }
-          if (option === 'White') {
+          if (option === 'white') {
             return (
               <>
                 <WhiteKingFilterListItem
@@ -41,7 +40,7 @@ const FilterCheckbox = (props) => {
               </>
             )
           }
-          if (option === 'Either') {
+          if (option === 'draw') {
             return (
               <>
                 <TwoKingFilterListItem

@@ -3,6 +3,7 @@ import { AuthProvider } from '@redwoodjs/auth'
 import { RedwoodApolloProvider } from '@redwoodjs/web/apollo'
 
 import { ContextProvider } from 'src/providers/context'
+import { ThemeProvider } from 'src/providers/theme'
 import TokenSessionProvider from 'src/providers/tokenSession'
 import { logIn } from 'src/auth/client'
 
@@ -22,22 +23,26 @@ console.log('++++++++++++++++++++++++++')
 /* eslint-enable no-irregular-whitespace */
 /* eslint-enable no-console */
 
-const dbAuth = new AuthProvider({ type: 'dbAuth' })
-dbAuth.logIn = logIn // Replace with our OAuth redirect
-const CustomDbAuth = () => dbAuth
-CustomDbAuth.prototype = React.Component.prototype
+class AuthProviderExtended extends AuthProvider {
+  constructor(props) {
+    super(props)
+    this.rwClient.login = logIn
+  }
+}
 
 const App = () => (
   <FatalErrorBoundary page={FatalErrorPage}>
     <RedwoodProvider titleTemplate="%PageTitle | %AppTitle">
-      <CustomDbAuth type="dbAuth">
+      <AuthProviderExtended type="dbAuth">
         <RedwoodApolloProvider>
           <TokenSessionProvider />
-          <ContextProvider>
-            <Routes />
-          </ContextProvider>
+          <ThemeProvider>
+            <ContextProvider>
+              <Routes />
+            </ContextProvider>
+          </ThemeProvider>
         </RedwoodApolloProvider>
-      </CustomDbAuth>
+      </AuthProviderExtended>
     </RedwoodProvider>
   </FatalErrorBoundary>
 )

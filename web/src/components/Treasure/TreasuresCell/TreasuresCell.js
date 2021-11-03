@@ -1,34 +1,38 @@
-import { Link, routes } from '@redwoodjs/router'
-
 import Treasures from 'src/components/Treasure/Treasures'
 
 export const QUERY = gql`
-  query TREASURES {
-    treasures {
+  query TreasuresSearchQuery(
+    $username: String
+    $filter: String
+    $sort: String
+  ) {
+    treasures: treasures(username: $username, filter: $filter, sort: $sort) {
       id
       createdAt
       blackId
+      blackUsername
       whiteId
-      minterAddress
-      ownerAddress
+      whiteUsername
+      winnerId
+      winnerUsername
+
       title
-      updatedAt
       cardColor
       blackRating
-      timeControl
       whiteRating
+      blackMasterTitle
+      whiteMasterTitle
+      timeControl
       termination
       endTime
+      outcome
       event
-      moves
-      moveCount
-      gameRuleVariant
-      winner
+      ruleVariant
       externalUrl
       opening
       achievements
-      tokenId
-      mintedAt
+      achievementScore
+      rarity
     }
   }
 `
@@ -36,14 +40,7 @@ export const QUERY = gql`
 export const Loading = () => <div>Loading...</div>
 
 export const Empty = () => {
-  return (
-    <div className="rw-text-center">
-      {'No treasures yet. '}
-      <Link to={routes.newTreasure()} className="rw-link">
-        {'Create one?'}
-      </Link>
-    </div>
-  )
+  return <div className="rw-text-center">{'No treasures found'}</div>
 }
 
 export const Success = ({ treasures }) => {

@@ -1,15 +1,39 @@
 # Devops
 
-### Serverless Considerations
+Operations for Treasure Chess
 
-The built api must be <50MB for Vercel. Use these commands to check the current size of `/zipped/graphql.zip`
+# 🌊 The Flow
 
-```bash
-yarn rw build api && \
-yarn zip-it-and-ship-it api/dist/functions/ zipped
-```
+### Merge to `dev`
 
-### Docker
+- Must pass "CI" action
+
+### Merge `dev` to `main`
+
+- Must pass "CI" action
+- Triggers Docker GHCR deployment
+
+### Deploy to production environment
+
+- Triggered by GCP workflow dispatch
+
+### Test Production Deployment steps:
+
+1. https://github.com/pi0neerpat/treasure-chess/actions/workflows/publish-gcp.yml and click "Run workflow"
+2. Set "Branch:dev" and tag "dev", and run.
+3. (????) check GCP deployment was successful
+4. Ping Chess about new deployment?
+
+### Final Production Deployment steps:
+
+1. https://github.com/pi0neerpat/treasure-chess/actions/workflows/publish-gcp.yml and click "Run workflow"
+2. Set "Branch:main" and tag "prod", and run.
+3. (????) check GCP deployment was successful
+4. Ping Chess about new deployment?
+
+# Other Resources
+
+## Docker
 
 Images are built via Github Action. To build the images locally:
 
@@ -44,4 +68,13 @@ docker-compose up
 docker run -it --rm \
        -p 8910:8910 \
        ghcr.io/pi0neerpat/treasure-chess-redwood-api-main:latest
+```
+
+## Serverless considerations
+
+The built api must be <50MB for Vercel. Use these commands to check the current size of `/zipped/graphql.zip`
+
+```bash
+yarn rw build api && \
+yarn zip-it-and-ship-it api/dist/functions/ zipped
 ```

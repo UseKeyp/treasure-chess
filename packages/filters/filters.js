@@ -1,16 +1,55 @@
-export const filters = {
-  achievements,
-  openingList,
-  colors,
-  ratings,
-  titles,
-  timeControls,
-  terminations,
-  outcomes,
-  moveCounts,
-}
+// TODO: Remove if unused
+// const ratings = [
+//   { name: '< 750', value: [0, 750] },
+//   { name: '750 - 999', value: [750, 999] },
+//   { name: '1000 - 1499', value: [1000, 1499] },
+//   { name: '1500 - 1999', value: [1500, 1999] },
+//   { name: '2000 - 2199', value: [2000, 2199] },
+//   { name: '2200 - 2399', value: [2200, 2399] },
+//   { name: '2400+', value: [2400, 9999] },
+// ]
+const timeControlList = [
+  {
+    name: '1 minute',
+    value: '60', // TODO: these will likely be strings
+  },
+  {
+    name: '2 minutes',
+    value: '120',
+  },
+  {
+    name: '5 minutes',
+    value: '300',
+  },
+  {
+    name: '10 minutes',
+    value: '600',
+  },
+  {
+    name: '30 minutes',
+    value: '1800',
+  },
+  {
+    name: '1 hour',
+    value: '3600',
+  },
+  {
+    name: 'Untimed',
+    value: null,
+  },
+]
+const moveCountList = [
+  { name: '< 10', value: [0, 9] },
+  { name: '10 - 49', value: [10, 49] },
+  { name: '50 - 99', value: [50, 99] },
+  { name: '100 - 199', value: [100, 199] },
+  { name: '200+', value: [200, 999] },
+]
 
-const achievements = [
+// Items without name/value pair
+
+// TODO: achievements should be imported from the library instead
+const achievementList = [
   {
     // index 0
     name: 'Win a game',
@@ -198,6 +237,8 @@ const achievements = [
   },
 ]
 
+const titleList = ['Grandmaster', 'International Master', 'New Master']
+
 const openingList = [
   "King's pawn game",
   "Queen's Gambit",
@@ -212,89 +253,28 @@ const openingList = [
   'Scandinavian',
   'Scotch',
 ]
-
-const colors = ['white', 'black']
-
-const ratings = [
-  '< 750',
-  '750 - 999',
-  '1000 - 1499',
-  '1500 - 1999',
-  '2000 - 2199',
-  '2200 - 2399',
-  '2400+',
-]
-
-const titles = [
-  {
-    label: 'Grandmaster',
-    data: 'gm',
-  },
-  {
-    label: 'International Master',
-    data: 'im',
-  },
-  {
-    label: 'New Master',
-    data: 'nm',
-  },
-  {
-    label: 'No Title',
-    data: null,
-  },
-]
-
-const timeControls = [
-  {
-    label: '1 minute',
-    data: 60,
-  },
-  {
-    label: '2 minutes',
-    data: 120,
-  },
-  {
-    label: '5 minutes',
-    data: 300,
-  },
-  {
-    label: '10 minutes',
-    data: 600,
-  },
-  {
-    label: '30 minutes',
-    data: 1800,
-  },
-  {
-    label: '1 hour',
-    data: 3600,
-  },
-  {
-    label: 'Untimed',
-    data: null,
-  },
-]
-
-const terminations = [
+const colorList = ['white', 'black']
+const terminationList = [
   'Checkmate',
   'Resignation',
   'Stalemate',
   'Insufficient Material',
 ]
+const rarityList = ['Common', 'Uncommon', 'Rare', 'Legendary', 'Exotic']
+const saleList = ['All', 'For Sale', 'Unlisted']
+const outcomeList = ['black', 'white', 'draw']
 
-const outcomes = [
-  {
-    label: 'White wins',
-    data: 'white',
-  },
-  {
-    label: 'Black wins',
-    data: 'black',
-  },
-  {
-    label: 'Draw',
-    data: 'draw',
-  },
-]
+const filters = {
+  achievementList,
+  openingList,
+  colorList,
+  titleList,
+  timeControlList,
+  terminationList,
+  moveCountList,
+  rarityList,
+  saleList,
+  outcomeList,
+}
 
-const moveCounts = ['< 10', '10 - 49', '50 - 99', '100 - 199', '200+']
+module.exports = filters

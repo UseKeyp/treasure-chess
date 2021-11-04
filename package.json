@@ -10,7 +10,7 @@
   "scripts": {
     "build-storybook": "yarn rw storybook --build && cp web/public/mockServiceWorker.js web/public/storybook",
     "chromatic": "chromatic --project-token=cafed242b299 --storybook-build-dir web/public/storybook",
-    "compile-abi": "cd contracts && yarn compile && cd ../ && node tasks/updateAbi"
+    "compile-abi": "node tasks/updateAbi"
   },
   "devDependencies": {
     "@redwoodjs/core": "^0.37.5",

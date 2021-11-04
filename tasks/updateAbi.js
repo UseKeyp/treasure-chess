@@ -18,11 +18,11 @@ const compileAbi = (inputPath, outputPath) => {
 }
 
 compileAbi(
-  '../contracts/artifacts/contracts/Treasure.sol/Treasure.json',
+  './contracts/Treasure.sol/Treasure.json',
   '../api/src/lib/web3/treasure/treasureAbi.js'
 )
 compileAbi(
-  '../contracts/artifacts/contracts/TreasureMarket.sol/TreasureMarket.json',
+  './contracts/TreasureMarket.sol/TreasureMarket.json',
   '../api/src/lib/web3/treasureMarket/treasureMarketAbi.js'
 )
 

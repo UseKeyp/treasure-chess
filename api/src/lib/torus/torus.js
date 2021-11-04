@@ -20,9 +20,6 @@ const fetchNodeDetails = new FetchNodeDetails(
 )
 const torusUtils = new TorusUtils()
 
-// const fetchNodeDetails = new FetchNodeDetails()
-// const torusUtils = new TorusUtils()
-
 export const getTorusPublicAddress = async (userId) => {
   const { torusNodeEndpoints, torusNodePub } =
     await fetchNodeDetails.getNodeDetails(false, true)

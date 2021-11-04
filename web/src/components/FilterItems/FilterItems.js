@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { H3, Span, P } from 'src/components/Typography'
 import Dropdown from 'src/components/Dropdown'
 import FilterCheckbox from 'src/components/FilterCheckbox'
+import UsernameSearchBar from 'src/components/UsernameSearchBar/UsernameSearchBar'
 
 const DAY = 'day'
 const MONTH = 'month'
@@ -99,14 +100,7 @@ const FilterItems = ({ headline, onChange }) => {
         <P fontSize={11} fontWeight="bold" color={transparentWhite} mb="0.5rem">
           Opponent
         </P>
-        <input
-          type="text"
-          onChange={(e) => {
-            setUsername(e.target.value)
-          }}
-          value={username}
-          placeholder="username"
-        />
+        <UsernameSearchBar initialQuery={username} setQuery={setUsername} />
       </div>
       <div className="filter-items__outcome-wrap">
         <P fontSize={11} fontWeight="bold" color={transparentWhite} ml="1rem">

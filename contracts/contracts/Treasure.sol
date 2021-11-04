@@ -34,7 +34,7 @@ contract Treasure is
     bool color; //0 white, 1 black
   }
 
-  /// @notice
+  /// NFT Storage
   mapping(uint256 => Game) public games;
   mapping(uint256 => address) public originalPlayers;
   mapping(bytes32 => uint256) public movesHashToId;

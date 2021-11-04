@@ -25,11 +25,19 @@ margin-top: 29px;
   width: 100%;
   margin-bottom: 1ex;
 }
+.dropdownRowSpacing {
+  width: 100%;
+  padding: 0 1rem;
+}
 .dropdownTwoElementRow {
   width: 100%;
   margin-bottom: 1ex;
   display: flex;
   justify-content: space-between;
+  padding: 0 0.75rem;
+  > div {
+    margin: 4px;
+  }
 }
 
 .priceRowWrapper {

@@ -1,6 +1,6 @@
 import { db } from 'src/lib/db'
 import { fetchMember } from 'src/lib/members'
-import { getTreasure } from 'src/lib/treasure'
+import { getTreasure } from 'src/lib/treasures'
 import { mint } from 'src/lib/web3/treasure'
 import { pinTreasure } from 'src/lib/pinata'
 

@@ -3,11 +3,11 @@ import { fetchMember } from 'src/lib/members'
 import { fetchGame } from 'src/lib/games'
 import { createMintReservation } from 'src/lib/wyre/wyre'
 import { validateTreasureTitle } from 'src/lib/helpers'
+import { getTreasuresWithArguments } from 'src/lib/treasures'
 import { EnvelopError } from '@envelop/core'
 
-export const treasures = () => {
-  return db.treasure.findMany()
-}
+export const treasures = ({ username, sort, filter }) =>
+  getTreasuresWithArguments({ username, sort, filter })
 
 export const treasure = ({ id }) => {
   return db.treasure.findUnique({

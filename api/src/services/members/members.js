@@ -9,6 +9,18 @@ export const member = ({ usernameOrAddress }) => {
   return fetchMember(usernameOrAddress)
 }
 
+export const usernames = async ({ query }) => {
+  const members = await db.member.findMany({
+    take: 6,
+    where: {
+      username: {
+        contains: query,
+      },
+    },
+  })
+  return members.map((member) => member.username)
+}
+
 export const Member = {
   treasuresOwned: (_obj, { root }) =>
     db.member.findUnique({ where: { id: root.id } }).treasuresOwned(),

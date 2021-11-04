@@ -16,53 +16,45 @@ const FilterCheckbox = (props) => {
         {options?.map((option, index) => {
           if (option === 'black') {
             return (
-              <>
-                <BlackKingFilterListItem
-                  isSelected={currentSelection == option ? true : false}
-                  label={option}
-                  clickFunction={handleSelectionUpdate}
-                  keyVal={`${option}-${index}`}
-                  key={`${option}-filterButton`}
-                />
-              </>
-            )
-          }
-          if (option === 'white') {
-            return (
-              <>
-                <WhiteKingFilterListItem
-                  isSelected={currentSelection == option ? true : false}
-                  label={option}
-                  clickFunction={handleSelectionUpdate}
-                  keyVal={`${option}-${index}`}
-                  key={`${option}-filterButton`}
-                />
-              </>
-            )
-          }
-          if (option === 'draw') {
-            return (
-              <>
-                <TwoKingFilterListItem
-                  isSelected={currentSelection == option ? true : false}
-                  label={option}
-                  clickFunction={handleSelectionUpdate}
-                  keyVal={`${option}-${index}`}
-                  key={`${option}-filterButton`}
-                />
-              </>
-            )
-          }
-          return (
-            <>
-              <FilterListItem
+              <BlackKingFilterListItem
                 isSelected={currentSelection == option ? true : false}
                 label={option}
                 clickFunction={handleSelectionUpdate}
                 keyVal={`${option}-${index}`}
                 key={`${option}-filterButton`}
               />
-            </>
+            )
+          }
+          if (option === 'white') {
+            return (
+              <WhiteKingFilterListItem
+                isSelected={currentSelection == option ? true : false}
+                label={option}
+                clickFunction={handleSelectionUpdate}
+                keyVal={`${option}-${index}`}
+                key={`${option}-filterButton`}
+              />
+            )
+          }
+          if (option === 'draw') {
+            return (
+              <TwoKingFilterListItem
+                isSelected={currentSelection == option ? true : false}
+                label={option}
+                clickFunction={handleSelectionUpdate}
+                keyVal={`${option}-${index}`}
+                key={`${option}-filterButton`}
+              />
+            )
+          }
+          return (
+            <FilterListItem
+              isSelected={currentSelection == option ? true : false}
+              label={option}
+              clickFunction={handleSelectionUpdate}
+              keyVal={`${option}-${index}`}
+              key={`${option}-filterButton`}
+            />
           )
         })}
       </div>

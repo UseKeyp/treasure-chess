@@ -39,16 +39,12 @@ const monthsList = [
 ]
 const yearsList = getYearsArray()
 
-const initialDates = {
-  day: daysList[0],
-  month: monthsList[0],
-  year: yearsList[0],
-}
-
 const FilterItems = ({ headline, onChange }) => {
-  const [datesToFilter, setDatesToFilter] = useState(initialDates)
+  const [day, setDay] = useState(daysList[0])
+  const [month, setMonth] = useState(monthsList[0])
+  const [year, setYear] = useState(yearsList[0])
   const [outcome, setOutcome] = useState('Any')
-  const [inputValue, setInputValue] = useState('')
+  const [username, setUsername] = useState('')
 
   const transparentWhite = 'rgba(255, 255, 255, 0.6)'
   const CategoryWrap = ({ children }) => (
@@ -57,24 +53,16 @@ const FilterItems = ({ headline, onChange }) => {
     </Span>
   )
 
-  const handleQueryFilter = ({ type, text }) => {
-    setDatesToFilter({ ...datesToFilter, [type]: text })
-  }
-  const handleOutcomeFilter = (text) => {
-    setOutcome(text)
-  }
-  const handleInputChange = (e) => {
-    setInputValue(e.target.value)
-  }
-
   useEffect(() => {
     const queryData = {
-      dates: datesToFilter,
-      outcome,
-      opponent: inputValue,
+      ...(day && { day }),
+      ...(month && { month }),
+      ...(year && { year }),
+      ...(outcome && { outcome }),
+      ...(username && { username }),
     }
     onChange(queryData)
-  }, [datesToFilter, inputValue, outcome, onChange])
+  }, [day, month, year, username, outcome, onChange])
 
   return (
     <div className="filter-items">
@@ -86,30 +74,24 @@ const FilterItems = ({ headline, onChange }) => {
           <Dropdown
             category={<CategoryWrap>Day</CategoryWrap>}
             options={daysList}
-            queryFilterFunction={(text) =>
-              handleQueryFilter({ type: DAY, text })
-            }
-            queryFilter={datesToFilter.day}
+            queryFilterFunction={setDay}
+            queryFilter={day}
           />
         </div>
         <div style={{ flex: 1, flexBasis: 105, margin: 4 }} className="flex">
           <Dropdown
             category={<CategoryWrap>Month</CategoryWrap>}
             options={monthsList}
-            queryFilterFunction={(text) =>
-              handleQueryFilter({ type: MONTH, text })
-            }
-            queryFilter={datesToFilter.month}
+            queryFilterFunction={setMonth}
+            queryFilter={month}
           />
         </div>
         <div style={{ flex: 1, flexBasis: 75, margin: 4 }} className="flex">
           <Dropdown
             category={<CategoryWrap>Year</CategoryWrap>}
             options={yearsList}
-            queryFilterFunction={(text) =>
-              handleQueryFilter({ type: YEAR, text })
-            }
-            queryFilter={datesToFilter.year}
+            queryFilterFunction={setYear}
+            queryFilter={year}
           />
         </div>
       </div>
@@ -119,8 +101,10 @@ const FilterItems = ({ headline, onChange }) => {
         </P>
         <input
           type="text"
-          onChange={handleInputChange}
-          value={inputValue}
+          onChange={(e) => {
+            setUsername(e.target.value)
+          }}
+          value={username}
           placeholder="username"
         />
       </div>
@@ -130,7 +114,7 @@ const FilterItems = ({ headline, onChange }) => {
         </P>
         <FilterCheckbox
           options={['Any', 'Won', 'Draw', 'Lost']}
-          queryFilterFunction={handleOutcomeFilter}
+          queryFilterFunction={setOutcome}
           queryFilter={outcome}
         />
       </div>

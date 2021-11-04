@@ -26,8 +26,10 @@ const GameExplorer = () => {
   const [filter, setFilter] = React.useState()
 
   const onChangeFilter = (newFilter) => {
-    // TODO: convert to string
-    console.log(newFilter)
+    const filterParams = new URLSearchParams(newFilter)
+    filterParams.sort()
+    console.log(filterParams.toString())
+    setFilter(filterParams.toString())
   }
 
   const onMintClick = (game) => {

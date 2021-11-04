@@ -12,6 +12,36 @@ const Dropdown = (props) => {
 
   const handleSelection = (option) => {
     props.queryFilterFunction(option)
+    setIsOpen(false)
+  }
+
+  const handleKeyDown = (e, option, index) => {
+    // jsx ally yelled at me to implement keyboard navigation
+    let elements = document.querySelectorAll(
+      `div[name="${props.category}--${styles.dropdownObject}"]`
+    )
+    if (e.key === 'Enter') {
+      handleSelection(props.category === 'Time' ? option.label : option)
+      toggleOpen()
+    }
+    if (e.key === 'ArrowRight') {
+      handleSelection(props.category === 'Time' ? option.label : option)
+    }
+    if (e.key === 'ArrowUp' && index > 0) {
+      let nextElement = elements[index - 1]
+      nextElement.focus()
+    }
+    if (e.key === 'ArrowUp' && index === 0) {
+      document
+        .querySelectorAll(
+          `div[name="${props.category}--${styles.dropdownLabel}"]`
+        )[0]
+        .focus()
+    }
+    if (e.key === 'ArrowDown' && index < options.length - 1) {
+      let nextElement = elements[index + 1]
+      nextElement.focus()
+    }
   }
 
   const dropdownElementName = `${props.category}--${styles.dropdownObject}`
@@ -65,38 +95,7 @@ const Dropdown = (props) => {
                         props.category === 'Time' ? option.name : option
                       )
                     }}
-                    onKeyDown={(e) => {
-                      // jsx ally yelled at me to implement keyboard navigation
-                      let elements = document.querySelectorAll(
-                        `div[name="${props.category}--${styles.dropdownObject}"]`
-                      )
-                      if (e.key === 'Enter') {
-                        handleSelection(
-                          props.category === 'Time' ? option.name : option
-                        )
-                        toggleOpen()
-                      }
-                      if (e.key === 'ArrowRight') {
-                        handleSelection(
-                          props.category === 'Time' ? option.name : option
-                        )
-                      }
-                      if (e.key === 'ArrowUp' && index > 0) {
-                        let nextElement = elements[index - 1]
-                        nextElement.focus()
-                      }
-                      if (e.key === 'ArrowUp' && index === 0) {
-                        document
-                          .querySelectorAll(
-                            `div[name="${props.category}--${styles.dropdownLabel}"]`
-                          )[0]
-                          .focus()
-                      }
-                      if (e.key === 'ArrowDown' && index < options.length - 1) {
-                        let nextElement = elements[index + 1]
-                        nextElement.focus()
-                      }
-                    }}
+                    onKeyDown={(e) => handleKeyDown(e, option, index)}
                   >
                     {props.category === 'Time' ? option.name : option}
                   </div>

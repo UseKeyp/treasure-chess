@@ -230,6 +230,28 @@ const Discord = () => (
     />
   </svg>
 )
+const Crown = ({ color = '#C4C4C4', width = 12, height = 13 }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={width}
+    height={height}
+    fill="none"
+    viewBox="0 0 12 13"
+  >
+    <path
+      fill={color}
+      d="M2.587 8.854a1 1 0 00.935.646h4.956a1 1 0 00.936-.646l1.324-3.5A1 1 0 009.802 4H2.198a1 1 0 00-.936 1.354l1.325 3.5zM1.75 11.5a1 1 0 011-1h6.5a1 1 0 110 2h-6.5a1 1 0 01-1-1z"
+    ></path>
+    <path
+      fill={color}
+      d="M5.25 1.25a.75.75 0 011.5 0v2.5a.75.75 0 01-1.5 0v-2.5z"
+    ></path>
+    <path
+      fill={color}
+      d="M4.25 2.25A.75.75 0 015 1.5h2A.75.75 0 017 3H5a.75.75 0 01-.75-.75z"
+    ></path>
+  </svg>
+)
 
 export default {
   treasure_chess: TreasureChess,
@@ -241,4 +263,5 @@ export default {
   network: Network,
   checkmark: Checkmark,
   discord: Discord,
+  crown: Crown,
 }

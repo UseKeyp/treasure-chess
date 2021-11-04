@@ -17,16 +17,16 @@ const getSpacingStyles = (props) => {
 const typographyPropTypes = {
   color: PropTypes.string,
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-  fontSize: PropTypes.number,
-  fontWeight: PropTypes.string,
-  pb: PropTypes.number,
-  pt: PropTypes.number,
-  pl: PropTypes.number,
-  pr: PropTypes.number,
-  mb: PropTypes.number,
-  mt: PropTypes.number,
-  ml: PropTypes.number,
-  mr: PropTypes.number,
+  fontSize: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  fontWeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  pb: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  pt: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  pl: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  pr: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  mb: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  mt: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  ml: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  mr: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 }
 
 export const H1 = ({

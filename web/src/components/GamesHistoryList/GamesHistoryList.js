@@ -7,6 +7,10 @@ const GamesHistoryList = ({ games, onMintClick }) => {
     onMintClick(id, title)
   }
 
+  // TODO: use title and setTitle from parent
+  // TODO: Only one item can be selected
+  // TODO: When a new item is selected, title should be cleared
+
   return (
     <div className="games-history-list">
       <div className="games-history-list__heading">

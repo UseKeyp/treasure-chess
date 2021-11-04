@@ -3,17 +3,25 @@ import { P, H3 } from 'src/components/Typography'
 import ListItem from './components/ListItem/ListItem'
 import { formatDate, getOutcomeText } from 'src/utils/helpers'
 import { useAuth } from '@redwoodjs/auth'
+import { Context } from 'src/providers/context'
 
 const Games = ({ games, onMintClick }) => {
+  const [context, setContext] = React.useContext(Context)
+
   const { currentUser } = useAuth()
 
   const handleSubmit = (id, title) => {
     onMintClick(id, title)
   }
 
-  // TODO: use title and setTitle from parent
-  // TODO: Only one item can be selected
-  // TODO: When a new item is selected, title should be cleared
+  const onChangeTitle = (title) => {
+    setContext({ gameTitle: title, ...context })
+  }
+
+  const onChangeSelectedGame = (newGame) => {
+    // TODO: Only one item can be selected
+    setContext({ activeGame: newGame, gameTitle: '', ...context })
+  }
 
   return (
     <div className="games-history-list">
@@ -40,6 +48,7 @@ const Games = ({ games, onMintClick }) => {
               id={id}
               onSubmit={handleSubmit}
               outcome={outcome}
+              onChangeTitle={onChangeTitle}
             />
           )
         })}

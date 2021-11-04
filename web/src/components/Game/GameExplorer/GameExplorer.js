@@ -1,9 +1,11 @@
 import Table from 'src/components/Table'
 import TreasureCardCell from 'src/components/Treasure/TreasureCardCell'
-import Mint from 'src/components/Mint/Mint'
+
 import GameCard from 'src/components/Game/GameCard'
+import GamesCell from 'src/components/Game/GamesCell'
+
 import FilterItems from 'src/components/FilterItems'
-import GamesCell from 'src/components/Games/GamesCell/GamesCell'
+import { Context } from 'src/providers/context'
 
 const formatDate = (date) => {
   return (
@@ -18,32 +20,18 @@ const formatDate = (date) => {
 }
 
 const GameExplorer = () => {
-  const [activeGame, setActiveGame] = React.useState(games[0].id)
+  const [context, setContext] = React.useContext(Context)
+  const { activeGame, gameTitle } = context
 
-  const onGameClick = (id) => {
-    const active = games.find((game) => game.id === id)
-    setActiveGame(active)
-  }
+  const [filter, setFilter] = React.useState()
 
   const onChangeFilter = (newFilter) => {
+    // TODO: convert to string
     console.log(newFilter)
   }
 
   const onMintClick = (game) => {
     console.log('mint game ', game.id)
-  }
-
-  const RightBar = () => {
-    return <>Select a game to mint</>
-    // if (!activeGame) return <>Select a game to mint</>
-    // if (activeGame?.treasureId)
-    //   return <TreasureCardCell id={activeGame.treasureId} />
-    // return (
-    //   <div className="">
-    //     <GameCard game={activeGame} />
-    //     <Mint game={activeGame} />
-    //   </div>
-    // )
   }
 
   return (
@@ -52,9 +40,11 @@ const GameExplorer = () => {
         <div style={{ width: 330 }}>
           <FilterItems headline="Filter Games" onChange={onChangeFilter} />
         </div>
-        <GamesCell />
+        <GamesCell filter={filter} />
         <div>
-          <RightBar />
+          {gameTitle}
+          <br />
+          {JSON.stringify(activeGame)}
         </div>
       </div>
     </div>

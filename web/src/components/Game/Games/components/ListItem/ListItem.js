@@ -6,7 +6,15 @@ import Icon from 'src/components/Icon/Icon'
 
 const mainColor = '#C4C4C4'
 
-const ListItem = ({ player1, player2, date, id, onSubmit, outcome }) => {
+const ListItem = ({
+  player1,
+  player2,
+  date,
+  id,
+  onSubmit,
+  outcome,
+  onChangeTitle,
+}) => {
   const [isExpanded, setIsExpanded] = useState(false)
   const [inputValue, setInputValue] = useState('')
 
@@ -16,6 +24,7 @@ const ListItem = ({ player1, player2, date, id, onSubmit, outcome }) => {
     onSubmit(id, inputValue)
   }
   const handleChange = (e) => {
+    onChangeTitle(e.target.value)
     setInputValue(e.target.value)
   }
   const handleKeyDown = (e) => {

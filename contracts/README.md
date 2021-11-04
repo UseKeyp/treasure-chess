@@ -89,13 +89,79 @@ To run tests, first compile the project with `yarn compile` and then `yarn test`
 
 To deploy the contracts, simply call `yarn deploy --network <NETWORK>`. Keep in mind, you must add this network to the `hardhat.config.ts` file with the necessary information for this to work.
 
-For those curious about how upgradability works or what the plugin is doing, you can read the comments in `test/helpers.ts`. If you want more in-depth information, I would recommend reading some of the information [here](https://docs.openzeppelin.com/openzeppelin/upgrades).
+### public user functions
 
-To test upgrading the contract, you first need to deploy the `Treasure` and `TreasureMarket` contracts and copy the addresses over to your `.env` file under `TREASURE_ADDRESS` and `TREASURE_MARKET_ADDRESS`.
-The current setup upgrades the contract to `TreasureUpgraded.sol` and `TreasureMarketUpgraded.sol`, but you can modify the `upgradeContracts` function in `scripts/helpers.ts` to upgraded to any contract (change value passed to `getContractFactory`).
-To upgrade the contracts, use `yarn upgrade-contracts --network <NETWORK>`.
+#### Market
 
-### User functions
+```js
+function listItem(uint \_id, uint price, uint duration) public
+
+function cancelSale(uint \_id) public
+
+function instantBuy( uint \_id ) public // **payable**
+```
+
+#### Transfers
+
+- function safeTransferFrom( address from, address to, uint256 tokenId)
+
+#### Meta transactions
+
+Make meta transaction calls calling the functions normally, and getting end user to sign them normally. The web3 provider that is created knows where the paymaster + [relayer contracts are deployed](https://docs.opengsn.org/contracts/addresses.html#polygon-matic), and actually sends the transaction through the relayer instead of straight to the Treasure or Treasure Market smart contracts.
+
+GSN example: https://docs.opengsn.org/javascript-client/getting-started.html#adding-gsn-support-to-existing-app
+
+Example tests of GSN enabled contract: https://github.com/qbzzt/opengsn/blob/master/01_SimpleUse/test/testcontracts.js
+
+Example JS in UI for GSN transactions: https://github.com/qbzzt/opengsn/blob/master/01_SimpleUse/ui/etherless.js
+
+Use the deployed relayer and our Paymaster. Check above for relayer addresses for each network.
+
+```js
+import { RelayProvider } from '@opengsn/provider'
+import Treasure from "/path/to/artifact"
+import PayMaster from "/path/to/artifact"
+import TreasureMarket from "/path/to/artifact"
+
+const conf = {
+	Treasure: '0xabc123', 
+  TreasureMarket: '0x1a2b3c', 
+	paymaster:   '0x123abc',
+	gasPrice:  1000000000   // 1 Gwei
+}
+
+const web3Provider = window.ethereum // Change for node-js environment
+
+const gsnProvider = new gsn.RelayProvider(web3Provider, {
+    forwarderAddress: conf.forwarder, // Needs clarification
+    paymasterAddress: conf.paymaster,
+    verbose: false // logging
+    })
+  await gsnProvider.init()
+   
+gsnProvider = new ethers.providers.Web3Provider(gsnProvider)
+userAddr = gsnProvider.origProvider.selectedAddress
+```
+
+Make a GSN contract call
+
+```js
+const gsnContractCall = async () => {
+	await connect2Gsn() // Needs clarification
+	await provider.ready
+
+// Using Treasure transferFrom as an example
+	const treasureContract = await new ethers.Contract(
+		treasureAddress, treasureAbi, provider.getSigner(userAddr))
+
+	const tx = await treasureContract.transferFrom()
+	console.log(`Transaction ${tx.hash} sent`)
+
+	const receipt = await tx.wait()
+	console.log(`Mined in block: ${receipt.blockNumber}`)
+}   
+```
+
 
 ## Contributing
 

@@ -48,3 +48,13 @@ export const getColorFromTheme = (color) => {
     return theme.colors[color] ? theme.colors[color] : color
   }
 }
+
+export const debounce = (func, delay) => {
+  let timeout
+  return (...params) => {
+    clearTimeout(timeout)
+    timeout = setTimeout(() => {
+      func(params)
+    }, delay)
+  }
+}

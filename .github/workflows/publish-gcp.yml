@@ -1,0 +1,55 @@
+name: publish
+on:
+  workflow_dispatch:
+    inputs:
+      image_tag_prefix:
+        description: 'Image Tag Prefix'
+        required: true
+        default: 'prod'
+env:
+  GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+  GITHUB_SHA: ${{ github.sha }}
+  GITHUB_BRANCH: ${{ github.ref }}
+  GITHUB_REPOSIOTORY: ${{ github.repository }}
+jobs:
+  publish:
+    if: github.event_name == 'workflow_dispatch'
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up gcloud
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          version: '330.0.0'
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+      - name: Configure docker auth
+        run: gcloud auth configure-docker us-east4-docker.pkg.dev
+      - name: Build and push image
+        run: |
+          PREFIX=${{ github.event.inputs.image_tag_prefix }}
+          DATABASE_URL=${{ secrets.__DEVELOPMENT_DATABASE_URL }}
+          if [ $GITHUB_BRANCH == "refs/heads/main" ] ; then
+             PREFIX=prod
+             DATABASE_URL=${{ secrets.__PRODUCTION_DATABASE_URL }}
+          fi
+          IMAGE_TAG=$PREFIX-$(echo $GITHUB_SHA | cut -c 1-7)
+          IMAGE_NAME=$(echo $GITHUB_REPOSIOTORY | cut -c 12-)
+          COMPONENTS="api web"
+          PROJECT_NAME=us-east4-docker.pkg.dev/chess-gcr1/treasure-chess
+          for COMPONENT in $COMPONENTS
+          do
+
+              echo "branch: $GITHUB_BRANCH, building image... $PROJECT_NAME/$IMAGE_NAME-$COMPONENT:$IMAGE_TAG"
+              echo "$GCP_SA_KEY" | base64 -d > ./credentials.json
+              docker build -t $PROJECT_NAME/$IMAGE_NAME-$COMPONENT:$IMAGE_TAG --build-arg DATABASE_URL=$DATABASE_URL -f ./$COMPONENT/Dockerfile .
+
+              echo "pushing image... $PROJECT_NAME/$IMAGE_NAME:$IMAGE_TAG"
+              docker push $PROJECT_NAME/$IMAGE_NAME-$COMPONENT:$IMAGE_TAG
+
+              if [ $PREFIX == "prod" ] ; then
+                 echo "pushing image... $PROJECT_NAME/$IMAGE_NAME-$COMPONENT:latest"
+                 docker tag $PROJECT_NAME/$IMAGE_NAME-$COMPONENT:$IMAGE_TAG $PROJECT_NAME/$IMAGE_NAME-$COMPONENT:latest
+                 docker push $PROJECT_NAME/$IMAGE_NAME-$COMPONENT:latest
+              fi
+          done

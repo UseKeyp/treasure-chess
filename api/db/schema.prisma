@@ -27,7 +27,7 @@ model Member {
   createdAt            DateTime       @default(now())
   updatedAt            DateTime       @updatedAt
   imageSrc             String? // Avatar URL
-  masterTitle          String? // GM, IM or NM
+  masterTitle          String? // "Grand Master" or "International Master"
   country              String // Player's country  eg. US, DE
   // Oauth
   refreshToken         String?
@@ -56,6 +56,8 @@ model Treasure {
   mintPurchase     MintPurchase? @relation(name: "mintPurchase", fields: [mintPurchaseId], references: [id])
   mintPurchaseId   Int?
   uriData          String
+  tokenId          Int?
+  mintedAt         DateTime?
   // --------------- STATE --------------
   title            String
   cardColor        String // white or black
@@ -76,9 +78,6 @@ model Treasure {
   achievements     String // List eg. "win/play above 2200,queen side castle,mate with a bishop"
   achievementScore Int // eg. 10
   rarity           String // eg. 10
-  // NFT
-  tokenId          Int?
-  mintedAt         DateTime?
 }
 
 model MintPurchase {

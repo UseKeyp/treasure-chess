@@ -1,0 +1,31 @@
+.filter-items {
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+  width: 100%;
+  border-radius: 12px;
+  background-color: theme('colors.chessBlack.200');
+  padding: 1rem 0;
+  button {
+    font-size: 13px;
+  }
+  &__time-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 0.75rem;
+    & * {
+      font-size: 14px;
+    }
+  }
+  &__input-wrap {
+    margin: 0 1rem;
+    input {
+      border-radius: 4px;
+      background-color: theme('colors.greyDark');
+      width: 100%;
+      margin-bottom: 0.5rem;
+      font-size: 14px;
+      padding: 12px 8px;
+    }
+  }
+}

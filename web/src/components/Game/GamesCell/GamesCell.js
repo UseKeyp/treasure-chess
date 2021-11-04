@@ -1,8 +1,8 @@
 import Games from 'src/components/Game/Games'
 
 export const QUERY = gql`
-  query GamesForMemberQuery($id: String!) {
-    games: gamesForMember(id: $id) {
+  query GamesQuery {
+    games {
       id
       endTime
       moveCount
@@ -43,6 +43,6 @@ export const Failure = () => (
   </div>
 )
 
-export const Success = ({ games, onRowClick }) => {
-  return <Games games={games} onRowClick={onRowClick} />
+export const Success = ({ games }) => {
+  return <Games games={games} />
 }

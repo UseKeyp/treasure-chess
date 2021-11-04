@@ -1,86 +1,56 @@
-import Table from 'src/components/Table'
-import TreasureCardCell from 'src/components/Treasure/TreasureCardCell'
-import Mint from 'src/components/Mint/Mint'
-import GameCard from 'src/components/Game/GameCard'
-import FilterItems from 'src/components/FilterItems'
-import GamesHistoryList from 'src/components/GamesHistoryList'
+import PropTypes from 'prop-types'
+import { P, H3 } from 'src/components/Typography'
+import ListItem from './components/ListItem/ListItem'
+import { formatDate, getOutcomeText } from 'src/utils/helpers'
+import { useAuth } from '@redwoodjs/auth'
 
-const formatDate = (date) => {
-  return (
-    <>
-      {new Date(date).getMonth() + 1}
-      {'/'}
-      <span className="green-text">{new Date(date).getDate()}</span>
-      {'/'}
-      {new Date(date).getFullYear()}
-    </>
-  )
-}
+const Games = ({ games, onMintClick }) => {
+  const { currentUser } = useAuth()
 
-const Games = ({ games }) => {
-  const [activeGame, setActiveGame] = React.useState(games[0].id)
-
-  const onGameClick = (id) => {
-    const active = games.find((game) => game.id === id)
-    setActiveGame(active)
+  const handleSubmit = (id, title) => {
+    onMintClick(id, title)
   }
 
-  const onChangeFilter = (newFilter) => {
-    console.log(newFilter)
-  }
-
-  const onMintClick = (game) => {
-    console.log('mint game ', game.id)
-  }
-
-  const formatGamesForTable = (games) => {
-    return games.map((game) => {
-      return {
-        id: game.id,
-        Treasure: game.treasureId ? 'Yes' : 'No',
-        White: game.whiteUsername,
-        Black: game.blackUsername,
-        Winner: game.outcome,
-        Result: game.termination,
-        Moves: game.moveCount,
-        Date: formatDate(game.endTime),
-      }
-    })
-  }
-
-  const RightBar = () => {
-    return <>Select a game to mint</>
-    // if (!activeGame) return <>Select a game to mint</>
-    // if (activeGame?.treasureId)
-    //   return <TreasureCardCell id={activeGame.treasureId} />
-    // return (
-    //   <div className="">
-    //     <GameCard game={activeGame} />
-    //     <Mint game={activeGame} />
-    //   </div>
-    // )
-  }
+  // TODO: use title and setTitle from parent
+  // TODO: Only one item can be selected
+  // TODO: When a new item is selected, title should be cleared
 
   return (
-    <div className="grid grid-rows-1">
-      <div className="grid md:grid-cols-3 grid-cols-1 gap-10">
-        <div style={{ width: 330 }}>
-          <FilterItems headline="Filter Games" onChange={onChangeFilter} />
-        </div>
-        <div>
-          <GamesHistoryList games={games} onMintClick={onMintClick} />
-          {/*<Table
-            data={formatGamesForTable(games)}
-            onRowClick={onGameClick}
-            selectedRowId={activeGame.id}
-          /> */}
-        </div>
-        <div>
-          <RightBar />
-        </div>
+    <div className="games-history-list">
+      <div className="games-history-list__heading">
+        <H3 mr={10}>Games</H3>
+        <P fontSize={12} color="grey">
+          {games.length} Games
+        </P>
+      </div>
+      <div className="games-history-list__items">
+        {games.map((game) => {
+          const outcome = getOutcomeText({
+            username: currentUser.username,
+            game,
+          })
+          const { whiteUsername, blackUsername, endTime, id } = game
+          const date = formatDate(endTime)
+          return (
+            <ListItem
+              key={id}
+              player1={whiteUsername}
+              player2={blackUsername}
+              date={date}
+              id={id}
+              onSubmit={handleSubmit}
+              outcome={outcome}
+            />
+          )
+        })}
       </div>
     </div>
   )
+}
+
+Games.propTypes = {
+  games: PropTypes.object.isRequired,
+  onMintClick: PropTypes.func.isRequired,
 }
 
 export default Games

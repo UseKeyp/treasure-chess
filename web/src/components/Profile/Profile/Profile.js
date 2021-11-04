@@ -1,6 +1,6 @@
 import ProfileBox from 'src/components/ProfileBox/ProfileBox'
 import MemberActivity from 'src/components/MemberActivity/MemberActivity'
-import GamesCell from 'src/components/Game/GamesCell'
+import GameExplorer from 'src/components/Game/GameExplorer'
 
 const Profile = ({ profile: member }) => {
   return (
@@ -17,7 +17,7 @@ const Profile = ({ profile: member }) => {
       </div>
       <br />
       <h1>Game History</h1>
-      <GamesCell id={member.id} />
+      <GameExplorer />
     </div>
   )
 }

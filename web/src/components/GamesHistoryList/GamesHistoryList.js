@@ -1,9 +1,12 @@
 import PropTypes from 'prop-types'
 import { P, H3 } from 'src/components/Typography'
 import ListItem from './components/ListItem/ListItem'
-import { formatDate } from 'src/utils/helpers'
+import { formatDate, getOutcomeText } from 'src/utils/helpers'
+import { useAuth } from '@redwoodjs/auth'
 
 const GamesHistoryList = ({ games, onMintClick }) => {
+  const { currentUser } = useAuth()
+
   const handleSubmit = (id, title) => {
     onMintClick(id, title)
   }
@@ -22,6 +25,10 @@ const GamesHistoryList = ({ games, onMintClick }) => {
       </div>
       <div className="games-history-list__items">
         {games.map((game) => {
+          const outcome = getOutcomeText({
+            username: currentUser.username,
+            game,
+          })
           const { whiteUsername, blackUsername, endTime, id } = game
           const date = formatDate(endTime)
           return (
@@ -32,6 +39,7 @@ const GamesHistoryList = ({ games, onMintClick }) => {
               date={date}
               id={id}
               onSubmit={handleSubmit}
+              outcome={outcome}
             />
           )
         })}

@@ -67,3 +67,10 @@ export const formatDate = (rawString) => {
   const year = date.getFullYear()
   return `${month} ${day} ${year}`
 }
+
+export const getOutcomeText = ({ username, game }) => {
+  if (game.outcome === 'draw') return 'Draw'
+  if (game.outcome === 'black' && game.blackUsername === username) return 'Won'
+  if (game.outcome === 'white' && game.whiteUsername === username) return 'Won'
+  return 'Lost'
+}

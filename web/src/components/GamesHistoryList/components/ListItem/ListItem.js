@@ -6,7 +6,7 @@ import Icon from 'src/components/Icon/Icon'
 
 const mainColor = '#C4C4C4'
 
-const ListItem = ({ player1, player2, date, id, onSubmit }) => {
+const ListItem = ({ player1, player2, date, id, onSubmit, outcome }) => {
   const [isExpanded, setIsExpanded] = useState(false)
   const [inputValue, setInputValue] = useState('')
 
@@ -46,6 +46,9 @@ const ListItem = ({ player1, player2, date, id, onSubmit }) => {
             </P>
           </div>
         </div>
+        <P pr="1rem" fontSize={12} color={mainColor} fontWeight={600}>
+          {outcome}
+        </P>
         <P pr="1rem" fontSize={12} color={mainColor} fontWeight={600}>
           {date}
         </P>

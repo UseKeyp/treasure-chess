@@ -92,12 +92,12 @@ const Dropdown = (props) => {
                     name={`${dropdownElementName}`}
                     onClick={() => {
                       handleSelection(
-                        props.category === 'Time' ? option.label : option
+                        props.category === 'Time' ? option.name : option
                       )
                     }}
                     onKeyDown={(e) => handleKeyDown(e, option, index)}
                   >
-                    {props.category === 'Time' ? option.label : option}
+                    {props.category === 'Time' ? option.name : option}
                   </div>
                 )
               })}

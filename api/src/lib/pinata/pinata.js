@@ -57,7 +57,7 @@ export const pinTreasure = async ({ treasure }) => {
 
     // Generate snapshot of card  @ final position
     const imageSnapshotData = 'dsfgdfgdfgdfg'
-    // Upload the snapshot
+    // Upload the snapshot of the whole card
     // TODO: ensure file extension is correct
     const image = await pinFile(imageSnapshotData, `${treasure.id}.png`)
 

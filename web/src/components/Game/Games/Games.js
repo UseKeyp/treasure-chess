@@ -57,9 +57,4 @@ const Games = ({ games, onMintClick }) => {
   )
 }
 
-Games.propTypes = {
-  games: PropTypes.object.isRequired,
-  onMintClick: PropTypes.func.isRequired,
-}
-
 export default Games

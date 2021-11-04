@@ -1,6 +1,10 @@
 import { fetchGame, fetchGamesForMember } from 'src/lib/games'
 
-export const gamesForMember = ({ id }) => fetchGamesForMember(id)
+export const games = async ({ filter }) => {
+  // TODO: parse filters
+  const games = await fetchGamesForMember(context.currentUser.id)
+  return games
+}
 
 export const game = ({
   id, // game ID

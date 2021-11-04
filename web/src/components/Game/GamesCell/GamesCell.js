@@ -1,8 +1,8 @@
 import Games from 'src/components/Game/Games'
 
 export const QUERY = gql`
-  query GamesQuery {
-    games {
+  query GamesQuery($filter: String) {
+    games: games(filter: $filter) {
       id
       endTime
       moveCount

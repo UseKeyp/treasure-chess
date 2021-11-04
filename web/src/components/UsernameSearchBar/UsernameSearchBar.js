@@ -11,7 +11,7 @@ const USERNAME_QUERY = gql`
   }
 `
 
-const UsernameSearchBar = ({ initialQuery, setQuery }) => {
+const UsernameSearchBar = ({ initialQuery = '', setQuery }) => {
   const [value, setValue] = useState(initialQuery)
   const [_isValueFromSelector, setIsValueFromSelector] = useState(false)
   const [dropdownOptions, setDropdownOptions] = useState([])

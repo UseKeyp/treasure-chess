@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import { P, H3 } from 'src/components/Typography'
 import ListItem from './components/ListItem/ListItem'
+import { formatDate } from 'src/utils/helpers'
 
 const GamesHistoryList = ({ games, onMintClick }) => {
   const handleSubmit = (id, title) => {
@@ -21,12 +22,13 @@ const GamesHistoryList = ({ games, onMintClick }) => {
       </div>
       <div className="games-history-list__items">
         {games.map((game) => {
-          const { player1, player2, date, id } = game
+          const { whiteUsername, blackUsername, endTime, id } = game
+          const date = formatDate(endTime)
           return (
             <ListItem
               key={id}
-              player1={player1}
-              player2={player2}
+              player1={whiteUsername}
+              player2={blackUsername}
               date={date}
               id={id}
               onSubmit={handleSubmit}

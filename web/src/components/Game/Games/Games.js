@@ -1,4 +1,9 @@
 import Table from 'src/components/Table'
+import TreasureCardCell from 'src/components/Treasure/TreasureCardCell'
+import Mint from 'src/components/Mint/Mint'
+import GameCard from 'src/components/Game/GameCard'
+import FilterItems from 'src/components/FilterItems'
+import GamesHistoryList from 'src/components/GamesHistoryList'
 
 const formatDate = (date) => {
   return (
@@ -12,17 +17,20 @@ const formatDate = (date) => {
   )
 }
 
-const Games = ({ games, onRowClick }) => {
-  const [selectedRowId, setSelectedRowId] = React.useState(games[0].id)
+const Games = ({ games }) => {
+  const [activeGame, setActiveGame] = React.useState(games[0].id)
 
-  React.useEffect(() => {
-    onRowClick(games[0])
-  }, [games, onRowClick])
+  const onGameClick = (id) => {
+    const active = games.find((game) => game.id === id)
+    setActiveGame(active)
+  }
 
-  const onClick = (id) => {
-    const activeGame = games.find((game) => game.id === id)
-    onRowClick(activeGame)
-    setSelectedRowId(id)
+  const onChangeFilter = (newFilter) => {
+    console.log(newFilter)
+  }
+
+  const onMintClick = (game) => {
+    console.log('mint game ', game.id)
   }
 
   const formatGamesForTable = (games) => {
@@ -40,12 +48,38 @@ const Games = ({ games, onRowClick }) => {
     })
   }
 
+  const RightBar = () => {
+    return <>Select a game to mint</>
+    // if (!activeGame) return <>Select a game to mint</>
+    // if (activeGame?.treasureId)
+    //   return <TreasureCardCell id={activeGame.treasureId} />
+    // return (
+    //   <div className="">
+    //     <GameCard game={activeGame} />
+    //     <Mint game={activeGame} />
+    //   </div>
+    // )
+  }
+
   return (
-    <Table
-      data={formatGamesForTable(games)}
-      onRowClick={onClick}
-      selectedRowId={selectedRowId}
-    />
+    <div className="grid grid-rows-1">
+      <div className="grid md:grid-cols-3 grid-cols-1 gap-10">
+        <div style={{ width: 330 }}>
+          <FilterItems headline="Filter Games" onChange={onChangeFilter} />
+        </div>
+        <div>
+          <GamesHistoryList games={games} onMintClick={onMintClick} />
+          {/*<Table
+            data={formatGamesForTable(games)}
+            onRowClick={onGameClick}
+            selectedRowId={activeGame.id}
+          /> */}
+        </div>
+        <div>
+          <RightBar />
+        </div>
+      </div>
+    </div>
   )
 }
 

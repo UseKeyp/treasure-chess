@@ -26,6 +26,11 @@
 
 ## Docs
 
+## Recent Dev Deploy
+Mumbai:
+Treasure Contract Address:  0x8C7243028492aEeB49c9306355DAa30B5632DE18
+Treasure Market Contract Address:  0x9Ebf0123d8bA676d29aEFa0A490629546cB6DbB3
+
 ### Treasure Tips, Tricks, and Design Decisions
 
 - No meta transactions on the main Treasure contract, since only the admin controlled accounts can call minting function , and we only need to make transfers free
@@ -124,8 +129,8 @@ import PayMaster from "/path/to/artifact"
 import TreasureMarket from "/path/to/artifact"
 
 const conf = {
-	Treasure: '0xabc123', 
-  TreasureMarket: '0x1a2b3c', 
+	Treasure: '0xabc123',
+  TreasureMarket: '0x1a2b3c',
 	paymaster:   '0x123abc',
 	gasPrice:  1000000000   // 1 Gwei
 }
@@ -138,7 +143,7 @@ const gsnProvider = new gsn.RelayProvider(web3Provider, {
     verbose: false // logging
     })
   await gsnProvider.init()
-   
+
 gsnProvider = new ethers.providers.Web3Provider(gsnProvider)
 userAddr = gsnProvider.origProvider.selectedAddress
 ```

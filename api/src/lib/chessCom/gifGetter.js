@@ -1,17 +1,24 @@
 //import fetch from 'cross-fetch'
 const fetch = require('cross-fetch')
 
-function sleep(ms) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms)
-  })
+const debounce = (func, delay) => {
+  let timeout
+  return (...params) => {
+    clearTimeout(timeout)
+    timeout = setTimeout(() => {
+      func(params)
+    }, delay)
+  }
 }
 
 const poll = async (url) => {
+  console.log('getting gif now...')
   const result = await fetch(url)
-  if (result?.status !== 200) return poll(url)
+  if (result?.status !== 200) return debouncePoll(url)
   return result
 }
+
+const debouncePoll = debounce(poll, 1000)
 
 //playerColor should be "white" or "black"
 //tcn via player archive api
@@ -36,13 +43,12 @@ const getGifs = async ({ tcn, playerColor }) => {
   var gifUrl = baseGifUrl + tcn64 + `.gif`
 
   const result = await poll(gifUrl)
-  console.log(result)
 
   var gifdata = result.body
   const gifBuffer = Buffer.from(gifdata, 'utf-8')
   const gif64 = gifBuffer.toString('base64')
 
-  return { gif64, tcn64 }
+  return { gif64, url: gifUrl }
 }
 
 getGifs({

@@ -9,8 +9,8 @@ const htmlString = `<html>
 
 				</div>
 				<div id="rarity-data">
-					<p id="rarity" style="margin: 0;font-weight: bold; font-size: 11px">Common</p>
-					<p id="outcome" style="margin: 0; font-size: 10px;" >White won by checkmate</p>
+					<p id="title" style="margin: 0;font-weight: bold; font-size: 11px">Common</p>
+					<p id="termination" style="margin: 0; font-size: 10px;" >White won by checkmate</p>
 				</div>
 			</div>
 			<div id="player-one" style="width: 100%; display: flex; align-items: center; min-height: 55px; margin: 2pt 0 1pt 0;">
@@ -18,15 +18,15 @@ const htmlString = `<html>
 					<img src="https://picsum.photos/40/40?grayscale" style="width: 100%; border-radius: 2px;" alt="placeholder"/>
 				</div>
 				<div id="player-one-data" style="display: flex; flex-direction: column;">
-					<p id="player-one-name" style="color: white; font-weight: bold;font-size: 13px; margin: 0;">asahi001</p>
+					<p id="topUsername" style="color: white; font-weight: bold;font-size: 13px; margin: 0;">asahi001</p>
 					<div id="player-one-subdata" style="margin: 0;">
-							<p style="margin: 0; color: white; display: flex; align-items: center; font-size: 10px;"><span style="margin-right: 1ex;">+6</span><span style="margin-right: 1ex;">🇺🇸</span><span style="margin-right: 1ex;">2568</span><span style="margin-right: 1ex; background-color: red; font-size: 8px; font-weight: bold; padding: 1pt 2pt;">GM</span></p>
+							<p style="margin: 0; color: white; display: flex; align-items: center; font-size: 10px;"><span style="margin-right: 1ex;">+6</span><span style="margin-right: 1ex;">🇺🇸</span><span id="topRating" style="margin-right: 1ex;">2568</span><span id="topMasterTitle" style="margin-right: 1ex; background-color: red; font-size: 8px; font-weight: bold; padding: 1pt 2pt;">GM</span></p>
 					</div>
 				</div>
 			</div>
 			<div id="game" style="width: 100%; min-height: 258px; margin: 1pt 0;">
 				<a href="chess.com">
-					<img src="https://picsum.photos/200/200?grayscale" style="width: 100%; border-radius: 2px;" alt="placeholder"/>
+					<img id="gif" src="https://picsum.photos/200/200?grayscale" style="width: 100%; border-radius: 2px;" alt="placeholder"/>
 				</a>
 			</div>
 			<div id="player-two" style="width: 100%; display: flex; align-items: center; min-height: 55px; margin: 2pt 0 1pt 0;">
@@ -36,7 +36,7 @@ const htmlString = `<html>
 				<div id="player-two-data" style="display: flex; flex-direction: column;">
 					<p id="player-two-name" style="color: white; font-weight: bold;font-size: 13px; margin: 0;">jschiarizzi</p>
 					<div id="player-two-subdata" style="margin: 0;">
-							<p style="margin: 0; color: white; display: flex; flex-direction: row-reverse; align-items: center; justify-content: flex-end; font-size: 10px;"><span style="margin-right: 1ex;">-6</span><span style="margin-right: 1ex;">🇺🇸</span><span style="margin-right: 1ex;">852</span></p>
+							<p style="margin: 0; color: white; display: flex; align-items: center; justify-content: flex-end; font-size: 10px;"><span style="margin-right: 1ex;">-6</span><span style="margin-right: 1ex;">🇺🇸</span><span style="margin-right: 1ex;">852</span><span id="topRating" style="margin-right: 1ex;">2568</span><span id="bottomMasterTitle" style="margin-right: 1ex; background-color: red; font-size: 8px; font-weight: bold; padding: 1pt 2pt;">GM</span></p>
 					</div>
 				</div>
 			</div>

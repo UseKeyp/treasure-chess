@@ -66,12 +66,11 @@ export const getGamesWithArguments = async ({ username, filter }) => {
     filterObj[pair[0]] = pair[1]
   }
   const year = filterObj.year || new Date().getFullYear()
-  const month = filterObj.month === 'Any' ? null : filterObj.month || 0
+  const month = filterObj.month || 0
+  // const month = filterObj.month === 'Any' ? null : filterObj.month || 0
   // const day = filterObj.day === 'Any' ? null : filterObj.day
 
   const games = await fetchChessGames({ username, year, month })
-  console.log(games)
-  console.log(filterObj)
   if (!games?.length) return []
   // TODO: Limit to 200 most recent games?
   const sortedGames = games.sort((a, b) => b.endTime - a.endTime) //.slice(0, 200)

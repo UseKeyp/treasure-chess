@@ -20,7 +20,7 @@ const daysArr = [...Array(31).keys()].map((i) => i + 1)
 
 const daysList = ['Any', ...daysArr]
 const monthsList = [
-  'Any',
+  // 'Any',
   'January',
   'February',
   'March',

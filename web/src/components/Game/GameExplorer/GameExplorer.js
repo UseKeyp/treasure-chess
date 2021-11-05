@@ -15,7 +15,7 @@ const GameExplorer = () => {
     setFilter(filterParams.toString())
   }
 
-  const onMintClick = (game) => {
+  const onMintClick = (_game) => {
     // console.log('mint game ', game.id)
   }
 

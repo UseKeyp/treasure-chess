@@ -1,5 +1,6 @@
 import Sentry from 'src/lib/sentry'
 import { processOrder } from 'src/lib/wyre/order'
+import { getGifs } from `src/lib/chessCom/gitGetter` 
 
 export const handler = async (event) => {
   // Default response

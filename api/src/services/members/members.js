@@ -9,6 +9,11 @@ export const member = ({ usernameOrAddress }) => {
   return fetchMember(usernameOrAddress)
 }
 
+export const profile = () => {
+  // TODO: Need to add more data here? Or do this in downstream requests?
+  return fetchMember(context.currentUser.username)
+}
+
 export const usernames = async ({ query }) => {
   const members = await db.member.findMany({
     take: 6,

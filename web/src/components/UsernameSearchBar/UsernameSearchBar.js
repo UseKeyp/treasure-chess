@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import styles from './SearchBar.module.scss'
+import styles from './UsernameSearchBar.module.scss'
 import { useLazyQuery } from '@apollo/client'
 import { debounce } from 'src/utils/helpers'
 
@@ -11,7 +11,7 @@ const USERNAME_QUERY = gql`
   }
 `
 
-const SearchBar = ({ initialQuery, setQuery }) => {
+const UsernameSearchBar = ({ initialQuery = '', setQuery }) => {
   const [value, setValue] = useState(initialQuery)
   const [_isValueFromSelector, setIsValueFromSelector] = useState(false)
   const [dropdownOptions, setDropdownOptions] = useState([])
@@ -86,4 +86,4 @@ const SearchBar = ({ initialQuery, setQuery }) => {
   )
 }
 
-export default SearchBar
+export default UsernameSearchBar

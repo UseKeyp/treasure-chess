@@ -26,8 +26,6 @@ const Member = ({ member }) => {
       <div className="grid grid-rows-1">
         <div className="grid md:grid-cols-2 grid-cols-1 gap-10">
           <div>
-            <h1>Personal Profile</h1>
-            <br />
             <ProfileBox member={member} />
           </div>
           <div>
@@ -39,7 +37,7 @@ const Member = ({ member }) => {
       <div className="grid grid-rows-1">
         <div className="grid md:grid-cols-2 grid-cols-1 gap-10">
           <div>
-            <h1>Chess.com Games</h1>
+            <h1>Games History</h1>
             <GamesCell id={member.id} onRowClick={setActiveGame} />
           </div>
           <div>

@@ -14,10 +14,26 @@ export const schema = gql`
     activity: JSON
   }
 
+  type Profile {
+    id: String!
+    username: String!
+    address: String
+    treasuresOwned: [Treasure!]
+    treasuresMinted: [Treasure!]
+    treasuresPlayedWhite: [Treasure!]
+    treasuresPlayedBlack: [Treasure!]
+    treasuresWon: [Treasure!]
+    imageSrc: String
+    country: String
+    masterTitle: String
+    activity: JSON
+  }
+
   type Query {
     members: [Member!]! @skipAuth
     member(usernameOrAddress: String!): Member @skipAuth
     usernames(query: String!): [String]! @skipAuth
+    profile: Profile! @requireAuth
   }
 
   input CreateMemberInput {

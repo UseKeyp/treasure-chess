@@ -3,7 +3,7 @@ import { useParams } from '@redwoodjs/router'
 import { MetaTags } from '@redwoodjs/web'
 
 import TreasuresCell from 'src/components/Treasure/TreasuresCell'
-import SearchBar from 'src/components/SearchBar'
+import UsernameSearchBar from 'src/components/UsernameSearchBar'
 import FilterBar from 'src/components/FilterBar/FilterBar'
 
 const TreasuresPage = () => {
@@ -40,7 +40,7 @@ const TreasuresPage = () => {
     <>
       <MetaTags title="Treasures" />
       <h1 className="font-bold">Treasure Chess Marketplace</h1>
-      <SearchBar initialQuery={username} setQuery={setUsername} />
+      <UsernameSearchBar initialQuery={username} setQuery={setUsername} />
       <div className="flex">
         <FilterBar filter={filter} setFilter={setFilter} />
         <TreasuresCell

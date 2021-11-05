@@ -58,14 +58,44 @@ export const fetchGame = async ({
   return parseGameFromChessDotCom(game)
 }
 
-export const fetchGamesForMember = async (id) => {
-  const { username } = await db.member.findUnique({ where: { id } })
-  // TODO: Remove hard-coded values and add year, month arguments
-  const year = 2021
-  const month = 10
+export const getGamesWithArguments = async ({ username, filter }) => {
+  const filterParams = new URLSearchParams(filter)
+  let filterObj = {}
+  // Convert text names to values
+  for (var pair of filterParams.entries()) {
+    filterObj[pair[0]] = pair[1]
+  }
+  const year = filterObj.year || new Date().getFullYear()
+  const month = filterObj.month || 0
+  // const month = filterObj.month === 'Any' ? null : filterObj.month || 0
+  // const day = filterObj.day === 'Any' ? null : filterObj.day
+
   const games = await fetchChessGames({ username, year, month })
   if (!games?.length) return []
+  // TODO: Limit to 200 most recent games?
+  const sortedGames = games.sort((a, b) => b.endTime - a.endTime) //.slice(0, 200)
+
+  const filteredGames = sortedGames.filter((game) => {
+    if (
+      filterObj.username &&
+      ![game.black.username, game.white.username].includes(filterObj.username)
+    )
+      return false
+    if (filterObj?.outcome !== 'any') {
+      let member = game.white
+      if (game.black.username === username) member = game.black
+      if (filterObj.outcome === 'won' && member.result !== 'win') return false
+      if (filterObj.outcome === 'draw' && member.result !== 'draw') return false
+      if (
+        filterObj.outcome === 'lost' &&
+        (member.result === 'win' || member.result === 'draw')
+      )
+        return false
+    }
+    return true
+  })
+
   return Promise.all(
-    games.map((game) => getFullGameDetails({ game, username }))
+    filteredGames.map((game) => getFullGameDetails({ game, username }))
   )
 }

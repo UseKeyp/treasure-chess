@@ -1,51 +1,61 @@
-import Table from 'src/components/Table'
+import { P, H3 } from 'src/components/Typography'
+import ListItem from './components/ListItem/ListItem'
+import { formatDate, getOutcomeText } from 'src/utils/helpers'
+import { useAuth } from '@redwoodjs/auth'
+import { Context } from 'src/providers/context'
 
-const formatDate = (date) => {
-  return (
-    <>
-      {new Date(date).getMonth() + 1}
-      {'/'}
-      <span className="green-text">{new Date(date).getDate()}</span>
-      {'/'}
-      {new Date(date).getFullYear()}
-    </>
-  )
-}
+const Games = ({ games, onMintClick }) => {
+  const [context, setContext] = React.useContext(Context)
+  const { activeGame } = context
 
-const Games = ({ games, onRowClick }) => {
-  const [selectedRowId, setSelectedRowId] = React.useState(games[0].id)
+  const { currentUser } = useAuth()
 
-  React.useEffect(() => {
-    onRowClick(games[0])
-  }, [games, onRowClick])
-
-  const onClick = (id) => {
-    const activeGame = games.find((game) => game.id === id)
-    onRowClick(activeGame)
-    setSelectedRowId(id)
+  const handleSubmit = (id, title) => {
+    onMintClick(id, title)
   }
 
-  const formatGamesForTable = (games) => {
-    return games.map((game) => {
-      return {
-        id: game.id,
-        Treasure: game.treasureId ? 'Yes' : 'No',
-        White: game.whiteUsername,
-        Black: game.blackUsername,
-        Winner: game.outcome,
-        Result: game.termination,
-        Moves: game.moveCount,
-        Date: formatDate(game.endTime),
-      }
-    })
+  const onChangeTitle = (title) => {
+    setContext({ gameTitle: title, ...context })
+  }
+
+  const onSelectGame = (newGame) => {
+    // TODO: Only one item can be selected
+    setContext({ activeGame: newGame, gameTitle: '', ...context })
   }
 
   return (
-    <Table
-      data={formatGamesForTable(games)}
-      onRowClick={onClick}
-      selectedRowId={selectedRowId}
-    />
+    <div className="games-history-list">
+      <div className="games-history-list__heading">
+        <H3 mr={10}>Games</H3>
+        <P fontSize={12} color="grey">
+          {games.length} Games
+        </P>
+      </div>
+      <div className="games-history-list__items">
+        {games.map((game) => {
+          const outcome = getOutcomeText({
+            username: currentUser.username,
+            game,
+          })
+          const { whiteUsername, blackUsername, endTime, id } = game
+          const date = formatDate(endTime)
+          return (
+            <ListItem
+              key={id}
+              isExpanded={game.id === activeGame?.id}
+              player1={whiteUsername}
+              player2={blackUsername}
+              date={date}
+              id={id}
+              onSubmit={handleSubmit}
+              outcome={outcome}
+              onChangeTitle={onChangeTitle}
+              onSelectGame={onSelectGame}
+            />
+          )
+        })}
+      </div>
+    </div>
   )
 }
 

@@ -6,7 +6,15 @@ import Icon from 'src/components/Icon/Icon'
 
 const mainColor = '#C4C4C4'
 
-const ListItem = ({ player1, player2, date, id, onSubmit }) => {
+const ListItem = ({
+  player1,
+  player2,
+  date,
+  id,
+  onSubmit,
+  outcome,
+  onChangeTitle,
+}) => {
   const [isExpanded, setIsExpanded] = useState(false)
   const [inputValue, setInputValue] = useState('')
 
@@ -16,6 +24,7 @@ const ListItem = ({ player1, player2, date, id, onSubmit }) => {
     onSubmit(id, inputValue)
   }
   const handleChange = (e) => {
+    onChangeTitle(e.target.value)
     setInputValue(e.target.value)
   }
   const handleKeyDown = (e) => {
@@ -47,6 +56,9 @@ const ListItem = ({ player1, player2, date, id, onSubmit }) => {
           </div>
         </div>
         <P pr="1rem" fontSize={12} color={mainColor} fontWeight={600}>
+          {outcome}
+        </P>
+        <P pr="1rem" fontSize={12} color={mainColor} fontWeight={600}>
           {date}
         </P>
       </div>
@@ -74,8 +86,10 @@ ListItem.propTypes = {
   player1: PropTypes.string.isRequired,
   player2: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
-  id: PropTypes.number.isRequired,
+  outcome: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
   onSubmit: PropTypes.func.isRequired,
+  onChangeTitle: PropTypes.func.isRequired,
 }
 
 export default ListItem

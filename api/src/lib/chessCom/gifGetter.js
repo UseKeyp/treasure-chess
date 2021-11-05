@@ -1,26 +1,17 @@
 const fetch = require('cross-fetch')
 
-const debounce = (func, delay) => {
-  let timeout
-  return (...params) => {
-    clearTimeout(timeout)
-    timeout = setTimeout(() => {
-      func(params)
-    }, delay)
-  }
+function sleep(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms)
+  })
 }
 
 const poll = async (url) => {
-  const result = await fetch(url)
-  if (result?.status !== 200) return await debouncePoll(url)
-  console.log(result)
-  return result
+  let result = await fetch(url)
+  if (result.status === 200) return result
+  await sleep(1000)
+  return await poll(url)
 }
-
-const debouncePoll = debounce((args) => {
-  console.log(args)
-  return poll(args)
-}, 1000)
 
 //playerColor should be "white" or "black"
 //tcn via player archive api
@@ -54,14 +45,14 @@ const getGif = async ({ tcn, playerColor }) => {
 module.exports = getGif
 
 // To test, uncomment and run `node gifGetter`
-getGif({
-  tcn: 'mC0KnDKDlB',
-  playerColor: 'white',
-}).then(({ gifBase64, url }) => {
-  const fs = require('fs')
-  fs.createWriteStream('deleteme.html').write(
-    `<body><img src="data:image/gif;base64,${gifBase64}"/></body>`
-  )
-  console.log(url)
-  console.log('Html file created')
-})
+// getGif({
+//   tcn: 'mC0KfA7Mdv9Iv187bsInen',
+//   playerColor: 'white',
+// }).then(({ gifBase64, url }) => {
+//   const fs = require('fs')
+//   fs.createWriteStream('deleteme.html').write(
+//     `<body><img src="data:image/gif;base64,${gifBase64}"/></body>`
+//   )
+//   console.log(url)
+//   console.log('Html file created')
+// })

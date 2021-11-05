@@ -75,7 +75,6 @@ export const getGamesWithArguments = async ({ username, filter }) => {
   // TODO: Limit to 200 most recent games?
   const sortedGames = games.sort((a, b) => b.endTime - a.endTime) //.slice(0, 200)
   const filteredGames = sortedGames.filter((game) => {
-    console.log(game.tcn)
     if (
       filterObj.username &&
       ![game.black.username, game.white.username].includes(filterObj.username)

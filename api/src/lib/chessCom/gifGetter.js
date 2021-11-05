@@ -39,10 +39,10 @@ const getGifs = async ({ tcn, playerColor }) => {
   console.log(result)
 
   var gifdata = result.body
-  const gifBuffer = Buffer.from(gifdata, 'utf-8')
+  const gifBuffer = Buffer.from(gifdata.toString(), 'utf-8')
   const gif64 = gifBuffer.toString('base64')
 
-  return { gif64, tcn64 }
+  return { gif64, gifUrl }
 }
 
 getGifs({

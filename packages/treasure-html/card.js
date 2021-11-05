@@ -1,4 +1,4 @@
-export const _html = `<html>
+const htmlString = `<html>
 	<head>
 
 	</head>
@@ -98,3 +98,5 @@ export const _html = `<html>
 		</div>
 	</body>
 </html>`
+
+module.exports = htmlString

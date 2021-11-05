@@ -45,7 +45,7 @@ const getGifs = async ({ tcn, playerColor }) => {
   const result = await poll(gifUrl)
 
   var gifdata = result.body
-  const gifBuffer = Buffer.from(gifdata, 'utf-8')
+  const gifBuffer = Buffer.from(gifdata.toString(), 'utf-8')
   const gif64 = gifBuffer.toString('base64')
 
   return { gif64, url: gifUrl }

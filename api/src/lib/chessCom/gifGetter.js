@@ -13,10 +13,14 @@ const debounce = (func, delay) => {
 const poll = async (url) => {
   const result = await fetch(url)
   if (result?.status !== 200) return await debouncePoll(url)
+  console.log(result)
   return result
 }
 
-const debouncePoll = debounce(poll, 1000)
+const debouncePoll = debounce((args) => {
+  console.log(args)
+  return poll(args)
+}, 1000)
 
 //playerColor should be "white" or "black"
 //tcn via player archive api
@@ -51,7 +55,7 @@ module.exports = getGif
 
 // To test, uncomment and run `node gifGetter`
 getGif({
-  tcn: 'mCZRgv!Tbs2UlB92CKRKBK7dsdTEpxEKvK2Kks5Qdu0SfH6ZHQZQuEK2eg86jz1LcjLE',
+  tcn: 'mC0KnDKDlB',
   playerColor: 'white',
 }).then(({ gifBase64, url }) => {
   const fs = require('fs')

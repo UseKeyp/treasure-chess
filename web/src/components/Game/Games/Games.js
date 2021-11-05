@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import { P, H3 } from 'src/components/Typography'
 import ListItem from './components/ListItem/ListItem'
 import { formatDate, getOutcomeText } from 'src/utils/helpers'
@@ -7,6 +6,7 @@ import { Context } from 'src/providers/context'
 
 const Games = ({ games, onMintClick }) => {
   const [context, setContext] = React.useContext(Context)
+  const { activeGame } = context
 
   const { currentUser } = useAuth()
 
@@ -18,7 +18,7 @@ const Games = ({ games, onMintClick }) => {
     setContext({ gameTitle: title, ...context })
   }
 
-  const onChangeSelectedGame = (newGame) => {
+  const onSelectGame = (newGame) => {
     // TODO: Only one item can be selected
     setContext({ activeGame: newGame, gameTitle: '', ...context })
   }
@@ -42,6 +42,7 @@ const Games = ({ games, onMintClick }) => {
           return (
             <ListItem
               key={id}
+              isExpanded={game.id === activeGame?.id}
               player1={whiteUsername}
               player2={blackUsername}
               date={date}
@@ -49,6 +50,7 @@ const Games = ({ games, onMintClick }) => {
               onSubmit={handleSubmit}
               outcome={outcome}
               onChangeTitle={onChangeTitle}
+              onSelectGame={onSelectGame}
             />
           )
         })}

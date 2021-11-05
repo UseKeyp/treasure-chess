@@ -86,7 +86,8 @@ ListItem.propTypes = {
   player1: PropTypes.string.isRequired,
   player2: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
-  id: PropTypes.number.isRequired,
+  outcome: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
   onSubmit: PropTypes.func.isRequired,
 }
 

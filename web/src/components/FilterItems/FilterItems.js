@@ -54,16 +54,18 @@ const FilterItems = ({ headline, onChange }) => {
     </Span>
   )
 
+  const onUpdate = (type, value) => {
+    if (type === day) setDay(vlaue)
+  }
   useEffect(() => {
-    const queryData = {
+    onChange({
       ...(day && { day }),
       ...(month && { month }),
       ...(year && { year }),
       ...(outcome && { outcome }),
       ...(username && { username }),
-    }
-    onChange(queryData)
-  }, [day, month, year, username, outcome, onChange])
+    })
+  }, [day, month, year, username, outcome])
 
   return (
     <div className="filter-items">

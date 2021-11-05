@@ -28,7 +28,6 @@ const GameExplorer = () => {
   const onChangeFilter = (newFilter) => {
     const filterParams = new URLSearchParams(newFilter)
     filterParams.sort()
-    console.log(filterParams.toString())
     setFilter(filterParams.toString())
   }
 
@@ -42,7 +41,7 @@ const GameExplorer = () => {
         <div style={{ width: 330 }}>
           <FilterItems headline="Filter Games" onChange={onChangeFilter} />
         </div>
-        <GamesCell filter={filter} />
+        <GamesCell filter={filter} onMintClick={onMintClick} />
         <div>
           {gameTitle}
           <br />

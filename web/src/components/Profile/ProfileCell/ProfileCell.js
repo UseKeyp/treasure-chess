@@ -1,4 +1,4 @@
-import Profile from "src/components/Profile/Profile"
+import Profile from 'src/components/Profile/Profile'
 
 export const QUERY = gql`
   query GetProfileQuery {
@@ -35,10 +35,8 @@ export const Loading = () => <div>Loading...</div>
 
 export const Empty = () => <div>Empty</div>
 
-export const Failure = ({ error }) => (
-  <div>Error fetching your profile</div>
-)
+export const Failure = () => <div>Error fetching your profile</div>
 
 export const Success = ({ profile }) => {
-  return <Profile profile={profile}/>
+  return <Profile profile={profile} />
 }

@@ -31,11 +31,7 @@ export const QUERY = gql`
 
 export const Loading = () => <div>Loading...</div>
 
-export const Empty = () => (
-  <div className="rw-segment p-4">
-    <p className="text-black">No games found</p>
-  </div>
-)
+export const Empty = () => <Games games={[]} />
 
 export const Failure = () => (
   <div className="rw-segment p-4">

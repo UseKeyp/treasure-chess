@@ -52,10 +52,10 @@ const FilterItems = ({ headline, onChange }) => {
 
   useEffect(() => {
     onChange({
-      ...(day && { day }),
-      ...(month && { month }),
+      // ...(day && { day }),
+      ...(month && { month: monthsList.indexOf(month) }),
       ...(year && { year }),
-      ...(outcome && { outcome }),
+      ...(outcome && { outcome: outcome.toLowerCase() }),
       ...(username && { username }),
     })
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
@@ -67,14 +67,14 @@ const FilterItems = ({ headline, onChange }) => {
         {headline}
       </H3>
       <div className="filter-items__time-wrap">
-        <div style={{ flex: 1, flexBasis: 75, margin: 4 }} className="flex">
+        {/*    <div style={{ flex: 1, flexBasis: 75, margin: 4 }} className="flex">
           <Dropdown
             category={<CategoryWrap>Day</CategoryWrap>}
             options={daysList}
             queryFilterFunction={setDay}
             queryFilter={day}
           />
-        </div>
+        </div> */}
         <div style={{ flex: 1, flexBasis: 105, margin: 4 }} className="flex">
           <Dropdown
             category={<CategoryWrap>Month</CategoryWrap>}

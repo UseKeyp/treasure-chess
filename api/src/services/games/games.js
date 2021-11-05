@@ -1,8 +1,10 @@
-import { fetchGame, fetchGamesForMember } from 'src/lib/games'
+import { fetchGame, getGamesWithArguments } from 'src/lib/games'
 
-export const games = async ({ _filter }) => {
-  // TODO: parse filters
-  const games = await fetchGamesForMember(context.currentUser.id)
+export const games = async ({ filter }) => {
+  const games = await getGamesWithArguments({
+    username: context.currentUser.username,
+    filter,
+  })
   return games
 }
 

@@ -7,6 +7,12 @@ function sleep(ms) {
   })
 }
 
+const poll = async (url) => {
+  const result = await fetch(url)
+  if (result?.status !== 200) return poll(url)
+  return result
+}
+
 //playerColor should be "white" or "black"
 //tcn via player archive api
 const getGifs = async ({ tcn, playerColor }) => {
@@ -29,13 +35,8 @@ const getGifs = async ({ tcn, playerColor }) => {
     '/'
   var gifUrl = baseGifUrl + tcn64 + `.gif`
 
-  //poll for gif, until we see a 200
-  let result
-  // await while (result && result.status !== 200) {
-  //   result = await fetch(gifUrl)
-  //   await sleep(5)
-  // }
-  function pollGif(url)
+  const result = await poll(gifUrl)
+  console.log(result)
 
   var gifdata = result.body
   const gifBuffer = Buffer.from(gifdata, 'utf-8')

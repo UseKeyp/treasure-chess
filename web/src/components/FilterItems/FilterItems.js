@@ -38,7 +38,7 @@ const yearsList = getYearsArray()
 
 const FilterItems = ({ headline, onChange }) => {
   // const [day, setDay] = useState(daysList[0])
-  const [month, setMonth] = useState(monthsList[0])
+  const [month, setMonth] = useState(monthsList[new Date().getMonth()])
   const [year, setYear] = useState(yearsList[0])
   const [outcome, setOutcome] = useState('Any')
   const [username, setUsername] = useState('')

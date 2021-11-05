@@ -53,7 +53,7 @@ const FilterItems = ({ headline, onChange }) => {
   useEffect(() => {
     onChange({
       // ...(day && { day }),
-      ...(month && { month: monthsList.indexOf(month) }),
+      ...(month && { month: monthsList.indexOf(month) + 1 }),
       ...(year && { year }),
       ...(outcome && { outcome: outcome.toLowerCase() }),
       ...(username && { username }),

@@ -34,8 +34,8 @@ export const Loading = () => <div>Loading...</div>
 export const Empty = () => <Games games={[]} />
 
 export const Failure = () => (
-  <div className="rw-segment p-4">
-    <p className="text-black">{`Couldn't load games`}</p>
+  <div className="">
+    <p className="text-white">{`Couldn't load games`}</p>
   </div>
 )
 

@@ -6,10 +6,6 @@ import Dropdown from 'src/components/Dropdown'
 import FilterCheckbox from 'src/components/FilterCheckbox'
 import UsernameSearchBar from 'src/components/UsernameSearchBar/UsernameSearchBar'
 
-const DAY = 'day'
-const MONTH = 'month'
-const YEAR = 'year'
-
 const getYearsArray = () => {
   var max = new Date().getFullYear()
   var min = max - 30
@@ -54,9 +50,6 @@ const FilterItems = ({ headline, onChange }) => {
     </Span>
   )
 
-  const onUpdate = (type, value) => {
-    if (type === day) setDay(vlaue)
-  }
   useEffect(() => {
     onChange({
       ...(day && { day }),
@@ -65,6 +58,7 @@ const FilterItems = ({ headline, onChange }) => {
       ...(outcome && { outcome }),
       ...(username && { username }),
     })
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [day, month, year, username, outcome])
 
   return (

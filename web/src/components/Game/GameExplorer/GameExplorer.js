@@ -1,4 +1,3 @@
-import Table from 'src/components/Table'
 import TreasureCardCell from 'src/components/Treasure/TreasureCardCell'
 
 import GameCard from 'src/components/Game/GameCard'
@@ -7,20 +6,8 @@ import GamesCell from 'src/components/Game/GamesCell'
 import FilterItems from 'src/components/FilterItems'
 import { Context } from 'src/providers/context'
 
-const formatDate = (date) => {
-  return (
-    <>
-      {new Date(date).getMonth() + 1}
-      {'/'}
-      <span className="green-text">{new Date(date).getDate()}</span>
-      {'/'}
-      {new Date(date).getFullYear()}
-    </>
-  )
-}
-
 const GameExplorer = () => {
-  const [context, setContext] = React.useContext(Context)
+  const [context, _setContext] = React.useContext(Context)
   const { activeGame, gameTitle } = context
 
   const [filter, setFilter] = React.useState()

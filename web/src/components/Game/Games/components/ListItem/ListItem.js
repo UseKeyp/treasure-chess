@@ -89,6 +89,7 @@ ListItem.propTypes = {
   outcome: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   onSubmit: PropTypes.func.isRequired,
+  onChangeTitle: PropTypes.func.isRequired,
 }
 
 export default ListItem

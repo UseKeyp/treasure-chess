@@ -1,6 +1,3 @@
-import TreasureCardCell from 'src/components/Treasure/TreasureCardCell'
-
-import GameCard from 'src/components/Game/GameCard'
 import GamesCell from 'src/components/Game/GamesCell'
 
 import FilterItems from 'src/components/FilterItems'
@@ -19,7 +16,7 @@ const GameExplorer = () => {
   }
 
   const onMintClick = (game) => {
-    console.log('mint game ', game.id)
+    // console.log('mint game ', game.id)
   }
 
   return (

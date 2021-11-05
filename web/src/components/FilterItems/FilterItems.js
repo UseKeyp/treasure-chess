@@ -16,9 +16,9 @@ const getYearsArray = () => {
   }
   return years
 }
-const daysArr = [...Array(31).keys()].map((i) => i + 1)
+// const daysArr = [...Array(31).keys()].map((i) => i + 1)
 
-const daysList = ['Any', ...daysArr]
+// const daysList = ['Any', ...daysArr]
 const monthsList = [
   // 'Any',
   'January',
@@ -37,7 +37,7 @@ const monthsList = [
 const yearsList = getYearsArray()
 
 const FilterItems = ({ headline, onChange }) => {
-  const [day, setDay] = useState(daysList[0])
+  // const [day, setDay] = useState(daysList[0])
   const [month, setMonth] = useState(monthsList[0])
   const [year, setYear] = useState(yearsList[0])
   const [outcome, setOutcome] = useState('Any')
@@ -59,7 +59,7 @@ const FilterItems = ({ headline, onChange }) => {
       ...(username && { username }),
     })
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
-  }, [day, month, year, username, outcome])
+  }, [month, year, username, outcome])
 
   return (
     <div className="filter-items">

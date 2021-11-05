@@ -1,12 +1,12 @@
-const { DOMParser, serializeToString } = require('xmldom')
+const { DOMParser, XMLSerializer } = require('xmldom')
 
 const htmlString = require('./card.js')
 
 const getCard = ({ treasure }) => {
   const parser = new DOMParser()
   const doc = parser.parseFromString(htmlString, 'text/html')
-  return htmlString
-  // return serializeToString(doc)
+  const serializer = new XMLSerializer()
+  return serializer.serializeToString(doc)
 }
 
 module.exports = getCard

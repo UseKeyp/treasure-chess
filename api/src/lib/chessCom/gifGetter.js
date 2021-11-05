@@ -1,4 +1,3 @@
-//import fetch from 'cross-fetch'
 const fetch = require('cross-fetch')
 
 const debounce = (func, delay) => {
@@ -12,9 +11,8 @@ const debounce = (func, delay) => {
 }
 
 const poll = async (url) => {
-  console.log('getting gif now...')
   const result = await fetch(url)
-  if (result?.status !== 200) return debouncePoll(url)
+  if (result?.status !== 200) return await debouncePoll(url)
   return result
 }
 
@@ -22,7 +20,7 @@ const debouncePoll = debounce(poll, 1000)
 
 //playerColor should be "white" or "black"
 //tcn via player archive api
-const getGifs = async ({ tcn, playerColor }) => {
+const getGif = async ({ tcn, playerColor }) => {
   var colorBit = 0
   if (playerColor === 'black') {
     colorBit = 1
@@ -42,17 +40,24 @@ const getGifs = async ({ tcn, playerColor }) => {
     '/'
   var gifUrl = baseGifUrl + tcn64 + `.gif`
 
-  const result = await poll(gifUrl)
+  const response = await poll(gifUrl)
+  let gifBase64 = await response.buffer()
+  gifBase64 = gifBase64.toString('base64')
 
-  var gifdata = result.body
-  const gifBuffer = Buffer.from(gifdata.toString(), 'utf-8')
-  const gif64 = gifBuffer.toString('base64')
-
-  return { gif64, url: gifUrl }
+  return { gifBase64, url: gifUrl }
 }
 
-getGifs({
-  tcn: 'mC5QfA0KltWGgv9Iks!TcM3VMF2MFwZRegIWiq70blXPjzGyAH6XlA86dy0ZHQZQyWMEvFVNFL7ZqyNFwFT!Fw!VLV?VyG1TGPYPAP6YPZQZzHTLCLZHfbHQayQo',
+module.exports = getGif
+
+// To test, uncomment and run `node gifGetter`
+getGif({
+  tcn: 'mCZRgv!Tbs2UlB92CKRKBK7dsdTEpxEKvK2Kks5Qdu0SfH6ZHQZQuEK2eg86jz1LcjLE',
   playerColor: 'white',
+}).then(({ gifBase64, url }) => {
+  const fs = require('fs')
+  fs.createWriteStream('deleteme.html').write(
+    `<body><img src="data:image/gif;base64,${gifBase64}"/></body>`
+  )
+  console.log(url)
+  console.log('Html file created')
 })
-//export default getGifs

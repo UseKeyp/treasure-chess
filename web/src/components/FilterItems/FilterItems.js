@@ -4,10 +4,7 @@ import PropTypes from 'prop-types'
 import { H3, Span, P } from 'src/components/Typography'
 import Dropdown from 'src/components/Dropdown'
 import FilterCheckbox from 'src/components/FilterCheckbox'
-
-const DAY = 'day'
-const MONTH = 'month'
-const YEAR = 'year'
+import UsernameSearchBar from 'src/components/UsernameSearchBar/UsernameSearchBar'
 
 const getYearsArray = () => {
   var max = new Date().getFullYear()
@@ -19,11 +16,11 @@ const getYearsArray = () => {
   }
   return years
 }
-const daysArr = [...Array(31).keys()].map((i) => i + 1)
+// const daysArr = [...Array(31).keys()].map((i) => i + 1)
 
-const daysList = ['Any', ...daysArr]
+// const daysList = ['Any', ...daysArr]
 const monthsList = [
-  'Any',
+  // 'Any',
   'January',
   'February',
   'March',
@@ -39,16 +36,12 @@ const monthsList = [
 ]
 const yearsList = getYearsArray()
 
-const initialDates = {
-  day: daysList[0],
-  month: monthsList[0],
-  year: yearsList[0],
-}
-
 const FilterItems = ({ headline, onChange }) => {
-  const [datesToFilter, setDatesToFilter] = useState(initialDates)
+  // const [day, setDay] = useState(daysList[0])
+  const [month, setMonth] = useState(monthsList[new Date().getMonth()])
+  const [year, setYear] = useState(yearsList[0])
   const [outcome, setOutcome] = useState('Any')
-  const [inputValue, setInputValue] = useState('')
+  const [username, setUsername] = useState('')
 
   const transparentWhite = 'rgba(255, 255, 255, 0.6)'
   const CategoryWrap = ({ children }) => (
@@ -57,24 +50,16 @@ const FilterItems = ({ headline, onChange }) => {
     </Span>
   )
 
-  const handleQueryFilter = ({ type, text }) => {
-    setDatesToFilter({ ...datesToFilter, [type]: text })
-  }
-  const handleOutcomeFilter = (text) => {
-    setOutcome(text)
-  }
-  const handleInputChange = (e) => {
-    setInputValue(e.target.value)
-  }
-
   useEffect(() => {
-    const queryData = {
-      dates: datesToFilter,
-      outcome,
-      opponent: inputValue,
-    }
-    onChange(queryData)
-  }, [datesToFilter, inputValue, outcome, onChange])
+    onChange({
+      // ...(day && { day }),
+      ...(month && { month: monthsList.indexOf(month) + 1 }),
+      ...(year && { year }),
+      ...(outcome && { outcome: outcome.toLowerCase() }),
+      ...(username && { username }),
+    })
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
+  }, [month, year, username, outcome])
 
   return (
     <div className="filter-items">
@@ -82,34 +67,28 @@ const FilterItems = ({ headline, onChange }) => {
         {headline}
       </H3>
       <div className="filter-items__time-wrap">
-        <div style={{ flex: 1, flexBasis: 75, margin: 4 }} className="flex">
+        {/*    <div style={{ flex: 1, flexBasis: 75, margin: 4 }} className="flex">
           <Dropdown
             category={<CategoryWrap>Day</CategoryWrap>}
             options={daysList}
-            queryFilterFunction={(text) =>
-              handleQueryFilter({ type: DAY, text })
-            }
-            queryFilter={datesToFilter.day}
+            queryFilterFunction={setDay}
+            queryFilter={day}
           />
-        </div>
+        </div> */}
         <div style={{ flex: 1, flexBasis: 105, margin: 4 }} className="flex">
           <Dropdown
             category={<CategoryWrap>Month</CategoryWrap>}
             options={monthsList}
-            queryFilterFunction={(text) =>
-              handleQueryFilter({ type: MONTH, text })
-            }
-            queryFilter={datesToFilter.month}
+            queryFilterFunction={setMonth}
+            queryFilter={month}
           />
         </div>
         <div style={{ flex: 1, flexBasis: 75, margin: 4 }} className="flex">
           <Dropdown
             category={<CategoryWrap>Year</CategoryWrap>}
             options={yearsList}
-            queryFilterFunction={(text) =>
-              handleQueryFilter({ type: YEAR, text })
-            }
-            queryFilter={datesToFilter.year}
+            queryFilterFunction={setYear}
+            queryFilter={year}
           />
         </div>
       </div>
@@ -117,12 +96,7 @@ const FilterItems = ({ headline, onChange }) => {
         <P fontSize={11} fontWeight="bold" color={transparentWhite} mb="0.5rem">
           Opponent
         </P>
-        <input
-          type="text"
-          onChange={handleInputChange}
-          value={inputValue}
-          placeholder="username"
-        />
+        <UsernameSearchBar initialQuery={username} setQuery={setUsername} />
       </div>
       <div className="filter-items__outcome-wrap">
         <P fontSize={11} fontWeight="bold" color={transparentWhite} ml="1rem">
@@ -130,7 +104,7 @@ const FilterItems = ({ headline, onChange }) => {
         </P>
         <FilterCheckbox
           options={['Any', 'Won', 'Draw', 'Lost']}
-          queryFilterFunction={handleOutcomeFilter}
+          queryFilterFunction={setOutcome}
           queryFilter={outcome}
         />
       </div>

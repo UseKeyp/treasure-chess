@@ -1,12 +1,12 @@
 import FaqSection from 'src/components/FaqSection/FaqSection'
-import about from './aboutUs.json'
-import faq from './faq.json'
+import about from './about'
+import faq from './faq'
 
 const FaqPage = () => {
   return (
     <>
-      <FaqSection title="About" questionList={about.ABOUT_US} />
-      <FaqSection title="FAQ's" questionList={faq.FAQ_CONFIG} />
+      <FaqSection title="About" questionList={about} />
+      <FaqSection title="FAQ's" questionList={faq} />
     </>
   )
 }

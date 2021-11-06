@@ -14,7 +14,7 @@ const FaqSection = ({ title, questionList }) => {
   return (
     <div className="faq-container">
       <h2 className="faq-header font-black text-4xl py-5">{title}</h2>
-      {questionList.map((item, idx) => (
+      {questionList?.map((item, idx) => (
         <FaqItem key={idx} question={item.question} answer={item.answer} />
       ))}
     </div>

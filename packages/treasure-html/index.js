@@ -1,41 +1,31 @@
 const { DOMParser, XMLSerializer } = require('xmldom')
 
 const htmlString = require('./card.js')
+const getFlagImageSrc = require('./flag')
 
 const serializer = new XMLSerializer()
 const parser = new DOMParser()
 
 const getOrderedUsers = (treasure) => {
-  const {
-    blackUsername,
-    blackRating,
-    blackMasterTitle,
-    whiteUsername,
-    whiteRating,
-    whiteMasterTitle,
-    cardColor,
-  } = treasure
-  let topUser = {
-    topUsername: blackUsername,
-    topRating: blackRating,
-    topMasterTitle: blackMasterTitle,
+  const blackUser = {
+    imageSrc: treasure.black.imageSrc,
+    username: treasure.blackUsername,
+    rating: treasure.blackRating,
+    masterTitle: treasure.blackMasterTitle,
+    flagImageSrc: getFlagImageSrc(treasure.black.country),
   }
-  let bottomUser = {
-    bottomUsername: whiteUsername,
-    bottomRating: whiteRating,
-    bottomMasterTitle: whiteMasterTitle,
+  const whiteUser = {
+    imageSrc: treasure.white.imageSrc,
+    username: treasure.whiteUsername,
+    rating: treasure.whiteRating,
+    masterTitle: treasure.whiteMasterTitle,
+    flagImageSrc: getFlagImageSrc(treasure.white.country),
   }
-  if (cardColor === 'black') {
-    topUser = {
-      topUsername: whiteUsername,
-      topRating: whiteRating,
-      topMasterTitle: whiteMasterTitle,
-    }
-    bottomUser = {
-      bottomUsername: blackUsername,
-      bottomRating: blackRating,
-      bottomMasterTitle: blackMasterTitle,
-    }
+  topUser = blackUser
+  bottomUser = whiteUser
+  if (treasure.cardColor === 'black') {
+    topUser = whiteUser
+    bottomUser = blackUser
   }
   return { bottomUser, topUser }
 }
@@ -50,22 +40,31 @@ const getCard = ({ treasure, gifData, gifUrl }) => {
       const parent = element.parentNode
       return parent.removeChild(element)
     }
-    const textNode = doc.createTextNode(content)
-    element.replaceChild(textNode, element.childNodes[0])
+    let node = content
+    if (typeof node == 'string' || typeof node == 'number')
+      node = doc.createTextNode(content)
+    element.replaceChild(node, element.childNodes[0])
   }
   const updateTag = (id, tag, content) => {
     const element = doc.getElementById(id)
     if (!element) return console.log(`No element with id ${id}`)
     element.setAttribute(tag, content)
   }
+  console.log(getFlagImageSrc(treasure.white.country))
 
   const { bottomUser, topUser } = getOrderedUsers(treasure)
-  Object.keys(bottomUser).map((key) => updateContent(key, bottomUser[key]))
-  Object.keys(topUser).map((key) => updateContent(key, topUser[key]))
+  Object.keys(topUser).map((key) => updateContent(`top-${key}`, topUser[key]))
+  Object.keys(bottomUser).map((key) =>
+    updateContent(`bottom-${key}`, bottomUser[key])
+  )
+  console.log(bottomUser)
+  console.log(topUser)
+  updateTag('top-imageSrc', 'src', topUser.imageSrc)
+  updateTag('top-flag', 'src', topUser.flagImageSrc)
+  updateTag('bottom-flag', 'src', bottomUser.flagImageSrc)
 
   updateContent('title', treasure.title)
   updateContent('termination', treasure.termination)
-
   updateTag(
     'gif',
     'src',
@@ -79,7 +78,16 @@ module.exports = getCard
 
 // To test, uncomment and run "node index"
 const test = () => {
-  const [treasure] = require('../../api/db/seed/treasure')
+  let [treasure] = require('../../api/db/seed/treasure')
+  const members = require('../../api/db/seed/member')
+  const white = members.find(
+    (member) => member.username === treasure.whiteUsername
+  )
+  const black = members.find(
+    (member) => member.username === treasure.blackUsername
+  )
+  treasure.white = white
+  treasure.black = black
   const html = getCard({ treasure, gifUrl: 'https://picsum.photos/200/200' })
   const fs = require('fs')
   fs.writeFile('deleteme.html', html, (e) => e && console.log(e))

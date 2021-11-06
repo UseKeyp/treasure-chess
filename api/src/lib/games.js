@@ -93,7 +93,10 @@ export const getGamesWithArguments = async ({ username, filter }) => {
     }
     return true
   })
-
+  const stuff = await Promise.all(
+    filteredGames.map((game) => getFullGameDetails({ game, username }))
+  )
+  console.log(stuff)
   return Promise.all(
     filteredGames.map((game) => getFullGameDetails({ game, username }))
   )

@@ -15,12 +15,12 @@ const htmlString = `<html>
 			</div>
 			<div id="player-one" style="width: 100%; display: flex; align-items: center; min-height: 55px; margin: 2pt 0 1pt 0;">
 				<div id="player-one-icon" style="height: 40px; width: 40px;  margin-right: 8px;">
-					<img src="https://picsum.photos/40/40?grayscale" style="width: 100%; border-radius: 2px;" alt="placeholder"/>
+					<img id="top-imageSrc" src="https://picsum.photos/40/40?grayscale" style="width: 100%; border-radius: 2px;" alt="placeholder"/>
 				</div>
 				<div id="player-one-data" style="display: flex; flex-direction: column;">
-					<p id="topUsername" style="color: white; font-weight: bold;font-size: 13px; margin: 0;">asahi001</p>
+					<p id="top-username" style="color: white; font-weight: bold;font-size: 13px; margin: 0;">asahi001</p>
 					<div id="player-one-subdata" style="margin: 0;">
-							<p style="margin: 0; color: white; display: flex; align-items: center; font-size: 10px;"><span style="margin-right: 1ex;">+6</span><span style="margin-right: 1ex;">🇺🇸</span><span id="topRating" style="margin-right: 1ex;">2568</span><span id="topMasterTitle" style="margin-right: 1ex; background-color: red; font-size: 8px; font-weight: bold; padding: 1pt 2pt;">GM</span></p>
+							<p style="margin: 0; color: white; display: flex; align-items: center; font-size: 10px;"><span style="margin-right: 1ex;">+6</span><span id="top-flagImageSrc" style="margin-right: 1ex;">🇺🇸</span><span id="top-rating" style="margin-right: 1ex;">2568</span><span id="top-masterTitle" style="margin-right: 1ex; background-color: red; font-size: 8px; font-weight: bold; padding: 1pt 2pt;">GM</span></p>
 					</div>
 				</div>
 			</div>
@@ -31,12 +31,12 @@ const htmlString = `<html>
 			</div>
 			<div id="player-two" style="width: 100%; display: flex; align-items: center; min-height: 55px; margin: 2pt 0 1pt 0;">
 				<div id="player-two-icon" style="height: 40px; width: 40px; margin-right: 8px;">
-					<img src="https://picsum.photos/40/40?grayscale" style="width: 100%; border-radius: 2px;" alt="placeholder"/>
+					<img id="bottom-imageSrc" src="https://picsum.photos/40/40?grayscale" style="width: 100%; border-radius: 2px;" alt="placeholder"/>
 				</div>
 				<div id="player-two-data" style="display: flex; flex-direction: column;">
-					<p id="player-two-name" style="color: white; font-weight: bold;font-size: 13px; margin: 0;">jschiarizzi</p>
+					<p id="bottom-username" style="color: white; font-weight: bold;font-size: 13px; margin: 0;">jschiarizzi</p>
 					<div id="player-two-subdata" style="margin: 0;">
-							<p style="margin: 0; color: white; display: flex; align-items: center; justify-content: flex-end; font-size: 10px;"><span style="margin-right: 1ex;">-6</span><span style="margin-right: 1ex;">🇺🇸</span><span style="margin-right: 1ex;">852</span><span id="topRating" style="margin-right: 1ex;">2568</span><span id="bottomMasterTitle" style="margin-right: 1ex; background-color: red; font-size: 8px; font-weight: bold; padding: 1pt 2pt;">GM</span></p>
+							<p style="margin: 0; color: white; display: flex; align-items: center; justify-content: flex-start; font-size: 10px;"><span style="margin-right: 1ex;">-6</span><span id="bottom-flagImageSrc" style="margin-right: 1ex;">🇺🇸</span><span id="bottom-rating" style="margin-right: 1ex;">9999</span><span id="bottom-masterTitle" style="margin-right: 1ex; background-color: red; font-size: 8px; font-weight: bold; padding: 1pt 2pt;">GM</span></p>
 					</div>
 				</div>
 			</div>

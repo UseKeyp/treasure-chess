@@ -26,7 +26,7 @@ export const schema = gql`
   }
 
   type Query {
-    gamesForMember(id: String!): [Game!]! @skipAuth
+    games(filter: String): [Game!]! @requireAuth
     game(id: String!, username: String!, endTime: DateTime!): Game @skipAuth
   }
 `

@@ -1,11 +1,11 @@
 import { render } from '@redwoodjs/testing/web'
 
-import GamesHistoryList from './GamesHistoryList'
+import GameExplorer from './GameExplorer'
 
-describe('GamesHistoryList', () => {
+describe('GameExplorer', () => {
   it('renders successfully', () => {
     expect(() => {
-      render(<GamesHistoryList />)
+      render(<GameExplorer />)
     }).not.toThrow()
   })
 })

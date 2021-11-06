@@ -1,8 +1,8 @@
-import { render } from '@redwoodjs/testing'
+import { render } from '@redwoodjs/testing/web'
 
 import Games from './Games'
 
-describe('Games', () => {
+describe('GamesHistoryList', () => {
   it('renders successfully', () => {
     expect(() => {
       render(<Games />)

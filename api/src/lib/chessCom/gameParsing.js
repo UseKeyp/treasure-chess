@@ -53,7 +53,6 @@ const getGameRuleVariant = (game) => {
 }
 
 export const parseGameFromChessDotCom = (game) => {
-  console.log(game)
   const {
     termination,
     blackRatingBefore,

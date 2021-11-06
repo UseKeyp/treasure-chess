@@ -86,6 +86,7 @@ const test = () => {
   const black = members.find(
     (member) => member.username === treasure.blackUsername
   )
+  treasure.blackRatingDelta
   treasure.white = white
   treasure.black = black
   const html = getCard({ treasure, gifUrl: 'https://picsum.photos/200/200' })

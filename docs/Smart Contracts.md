@@ -10,6 +10,22 @@ yarn compile-abi
 
 ## Usage
 
+### Getting Treasures
+
+Call `getFullGameObject(_id)` to return a full game object for a particular id. It returns this object:
+
+```
+struct FullGame {
+  bytes32 movesHash;
+  uint8 level;
+  uint16 achievement1; //65,000 types should be more than enough forever.
+  uint16 achievement2; //If these are onchain, it can be something that future gov token...
+  uint16 achievement3; //...holders can vote on later.
+  bool color; //0 white, 1 black
+  string[3] achTexts; //array of the achiement texts
+}
+```
+
 ### User functions
 
 #### Owner only minting

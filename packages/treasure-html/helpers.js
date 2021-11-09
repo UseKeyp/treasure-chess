@@ -1,3 +1,16 @@
+const fs = require('fs')
+
+const getFlagBase64 = (code) => {
+  let regionNames = new Intl.DisplayNames(['en'], { type: 'region' })
+  if (code === 'XX') {
+    // TODO: show some flag?
+    return ''
+  }
+  const data = fs.readFileSync(`./assets/flags/32/${regionNames.of(code)}.png`)
+  let base64Image = new Buffer(data, 'binary').toString('base64')
+  return `data:image/png;base64,${base64Image}`
+}
+
 const formatDate = (rawString) => {
   const date = new Date(rawString)
   let options = { month: 'short' }
@@ -7,4 +20,4 @@ const formatDate = (rawString) => {
   return `${month} ${day} ${year}`
 }
 
-module.exports = { formatDate }
+module.exports = { formatDate, getFlagBase64 }

@@ -16,16 +16,17 @@ const treasureData = [
     winnerUsername: bob.username,
     // NFT
     minter: {
-      connect: { address: alice.address },
+      connect: { address: bob.address },
     },
     owner: {
-      connect: { address: alice.address },
+      connect: { address: bob.address },
     },
     uriData: 'TODO!',
     tokenId: 1,
     mintedAt: new Date('2021-08-24T21:17:16+0000'),
     // --------------- STATE --------------
     title: 'Erik crushes',
+    // cardColor: 'white', // white or black
     cardColor: 'black', // white or black
     blackRating: 1500,
     whiteRating: 1400,

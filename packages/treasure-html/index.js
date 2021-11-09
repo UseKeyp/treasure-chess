@@ -1,7 +1,6 @@
 const { DOMParser, XMLSerializer } = require('xmldom')
-const { formatDate } = require('./helpers')
+const { formatDate, getFlagBase64 } = require('./helpers')
 const htmlString = require('./card.js')
-const getFlagBase64 = require('./flag')
 
 const treasureBackgroundBase64 = require('./assets/treasureBackground')
 
@@ -56,15 +55,47 @@ const getCard = ({ treasure, gifData, gifUrl }) => {
     element.setAttribute(tag, content)
   }
 
+  // Card color
+  if (treasure.cardColor === 'black') {
+    updateTag(
+      'container',
+      'style',
+      'color: white; width: 258px; border-radius: 12px; background-color: #272522; display: flex; flex-direction: column; padding: 4px;'
+    )
+    updateTag(
+      'match-anchor',
+      'style',
+      'margin: 0; text-decoration: none; color:white'
+    )
+    updateTag(
+      'top-username-anchor',
+      'style',
+      'text-decoration: none; color:white'
+    )
+    updateTag(
+      'bottom-username-anchor',
+      'style',
+      'text-decoration: none; color:white'
+    )
+  }
+
   // Header
   updateContent('title', treasure.title)
   updateContent('termination', treasure.termination)
+  // TODO: Update header color
+  // TODO: Update icon color
+  // TODO: Add TC logo below header
 
   // Users
   const { bottomUser, topUser } = getOrderedUsers(treasure)
   Object.keys(topUser).map((key) => updateContent(`top-${key}`, topUser[key]))
   Object.keys(bottomUser).map((key) =>
     updateContent(`bottom-${key}`, bottomUser[key])
+  )
+  updateTag(
+    'top-username-anchor',
+    'href',
+    `https://www.chess.com/member/${topUser.username}`
   )
   updateTag('top-avatar', 'src', topUser.imageSrc)
   updateTag('bottom-avatar', 'src', bottomUser.imageSrc)
@@ -77,15 +108,17 @@ const getCard = ({ treasure, gifData, gifUrl }) => {
     'src',
     (gifData && `data:image/gif;base64,${gifData}`) || gifUrl
   )
-  // TODO: eplace treasureBackgroundBase64 with final positions image
+  // TODO: Replace treasureBackgroundBase64 with final positions image
+  const staticImageUrl = `data:image/png;base64,${treasureBackgroundBase64}`
   updateTag(
     'game-image',
     'style',
-    `width: 100%; border-radius: 2px; background-image: url('data:image/png;base64,${treasureBackgroundBase64}');`
+    `position: relative; width: 100%; border-radius: 2px; background-repeat: no-repeat; background-image: url('${staticImageUrl}');`
   )
   updateTag('game-anchor', 'href', treasure.externalUrl)
 
   // Achievements
+  // TODO: update all the icon colors if card is black
 
   // Footer
   updateContent(
@@ -95,7 +128,11 @@ const getCard = ({ treasure, gifData, gifUrl }) => {
   updateTag('match-anchor', 'href', treasure.externalUrl)
   updateContent('date', formatDate(treasure.endTime))
 
-  return serializer.serializeToString(doc)
+  let finalString = serializer.serializeToString(doc)
+  if (treasure.cardColor === 'black')
+    finalString.replace('fill="black"', 'fill="white"')
+  console.log(finalString.indexOf('fill="black"'))
+  return finalString
 }
 
 module.exports = getCard
@@ -113,7 +150,10 @@ const test = () => {
   treasure.blackRatingDelta
   treasure.white = white
   treasure.black = black
-  const html = getCard({ treasure, gifUrl: 'https://i.imgur.com/OQCBrle.gif' })
+  const html = getCard({
+    treasure,
+    gifUrl: 'https://i.imgur.com/OQCBrle.gif',
+  })
   const fs = require('fs')
   fs.writeFile('deleteme.html', html, (e) => e && console.log(e))
 }

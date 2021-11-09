@@ -24,7 +24,7 @@ const htmlString = `<html>
 					</div>
 				</div>
 			</div>
-			<div id="game" style="width: 100%; min-height: 258px; margin: 1pt 0;">
+			<div id="game" style="min-height: 258px; margin: 1pt 0; background-image: url('/images/is-it-there.png');">
 				<a href="chess.com">
 					<img id="gif" src="https://picsum.photos/200/200?grayscale" style="width: 100%; border-radius: 2px;" alt="placeholder"/>
 				</a>

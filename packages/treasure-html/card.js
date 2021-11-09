@@ -20,7 +20,7 @@ const htmlString = `<html>
 				<div id="player-one-data" style="display: flex; flex-direction: column;">
 					<p id="top-username" style="color: white; font-weight: bold;font-size: 13px; margin: 0;">asahi001</p>
 					<div id="player-one-subdata" style="margin: 0;">
-							<p style="margin: 0; color: white; display: flex; align-items: center; font-size: 10px;"><span style="margin-right: 1ex;">+6</span><span id="top-flagImageSrc" style="margin-right: 1ex;">🇺🇸</span><span id="top-rating" style="margin-right: 1ex;">2568</span><span id="top-masterTitle" style="margin-right: 1ex; background-color: red; font-size: 8px; font-weight: bold; padding: 1pt 2pt;">GM</span></p>
+							<p style="margin: 0; color: white; display: flex; align-items: center; font-size: 10px;"><span style="margin-right: 1ex;">+6</span><img id="top-flagImageSrc" src="" style="margin-right: 1ex;"/><span id="top-rating" style="margin-right: 1ex;">2568</span><span id="top-masterTitle" style="margin-right: 1ex; background-color: red; font-size: 8px; font-weight: bold; padding: 1pt 2pt;">GM</span></p>
 					</div>
 				</div>
 			</div>

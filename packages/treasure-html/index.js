@@ -60,8 +60,8 @@ const getCard = ({ treasure, gifData, gifUrl }) => {
   console.log(topUser)
   updateTag('top-imageSrc', 'src', topUser.imageSrc)
   updateTag('bottom-imageSrc', 'src', bottomUser.imageSrc)
-  updateTag('top-flag', 'src', topUser.flagImageSrc)
-  updateTag('bottom-flag', 'src', bottomUser.flagImageSrc)
+  updateTag('top-flagImageSrc', 'src', topUser.flagImageSrc)
+  updateTag('bottom-flagImageSrc', 'src', bottomUser.flagImageSrc)
 
   updateContent('title', treasure.title)
   updateContent('termination', treasure.termination)

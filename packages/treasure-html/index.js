@@ -3,6 +3,8 @@ const { formatDate } = require('./helpers')
 const htmlString = require('./card.js')
 const getFlagBase64 = require('./flag')
 
+const treasureBackgroundBase64 = require('./assets/treasureBackground')
+
 const serializer = new XMLSerializer()
 const parser = new DOMParser()
 
@@ -71,16 +73,26 @@ const getCard = ({ treasure, gifData, gifUrl }) => {
 
   // Game GIF / Final positions
   updateTag(
-    'gif',
+    'game-image',
     'src',
     (gifData && `data:image/gif;base64,${gifData}`) || gifUrl
   )
+  // TODO: eplace treasureBackgroundBase64 with final positions image
+  updateTag(
+    'game-image',
+    'style',
+    `width: 100%; border-radius: 2px; background-image: url('data:image/png;base64,${treasureBackgroundBase64}');`
+  )
+  updateTag('game-anchor', 'href', treasure.externalUrl)
 
   // Achievements
 
   // Footer
-  updateContent('match', `Match #${treasure.externalUrl.split('/').pop()}`)
-  updateTag('match', 'href', treasure.externalUrl)
+  updateContent(
+    'match-anchor',
+    `Match #${treasure.externalUrl.split('/').pop()}`
+  )
+  updateTag('match-anchor', 'href', treasure.externalUrl)
   updateContent('date', formatDate(treasure.endTime))
 
   return serializer.serializeToString(doc)
@@ -101,7 +113,7 @@ const test = () => {
   treasure.blackRatingDelta
   treasure.white = white
   treasure.black = black
-  const html = getCard({ treasure, gifUrl: 'https://picsum.photos/200/200' })
+  const html = getCard({ treasure, gifUrl: 'https://i.imgur.com/OQCBrle.gif' })
   const fs = require('fs')
   fs.writeFile('deleteme.html', html, (e) => e && console.log(e))
 }

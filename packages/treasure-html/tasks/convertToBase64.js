@@ -1,6 +1,7 @@
 const fs = require('fs')
 
 // Helper function to convert a png to base64
+// Run with `node convertToBase64.js`
 const getBase64 = () => {
   // Replace with your file
   const filename = '../assets/treasure-image-background'

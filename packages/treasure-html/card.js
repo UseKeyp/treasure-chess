@@ -24,11 +24,11 @@ const htmlString = `<html>
 					</div>
 				</div>
 			</div>
-			<div id="game" style="min-height: 258px; margin: 1pt 0; background-image: url('/images/is-it-there.png');">
-				<a href="chess.com">
-					<img id="gif" src="https://picsum.photos/200/200?grayscale" style="width: 100%; border-radius: 2px;" alt="placeholder"/>
-				</a>
-			</div>
+      <div id="game" style="min-height: 258px; margin: 1pt 0; background-image: url('/images/is-it-there.png');">
+  			<a id="game-anchor" href="chess.com">
+  				<img id="game-image" src="https://picsum.photos/200/200?grayscale" style="width: 100%; border-radius: 2px;" alt="placeholder"/>
+  			</a>
+      </div>
 			<div id="player-two" style="width: 100%; display: flex; align-items: center; min-height: 55px; margin: 2pt 0 1pt 0;">
 				<div id="player-two-icon" style="height: 40px; width: 40px; margin-right: 8px;">
 					<img id="bottom-avatar" src="https://picsum.photos/40/40?grayscale" style="width: 100%; border-radius: 2px;" alt="placeholder"/>
@@ -91,9 +91,9 @@ const htmlString = `<html>
 				</div>
 			</div>
 			<div id="metadata" style="max-width: 100%; display: flex; justify-content: space-between; margin: 0 12px; opacity: 0.75; color: white; font-size: 8px; height: 28px; align-items: center;">
-				<a id="match" href="" target="_blank" style="margin: 0; text-decoration: none; color: white;">Match #1234567</a>
+				<a id="match-anchor" href="" target="_blank" style="margin: 0; text-decoration: none; color: white;">Match #000000</a>
 				<p id="edition" style="margin: 0;">Single Edition</p>
-				<p id="date" style="margin: 0;">July 21 2021</p>
+				<p id="date" style="margin: 0;">Jan 1 1900</p>
 			</div>
 		</div>
 	</body>

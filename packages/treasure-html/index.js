@@ -1,5 +1,5 @@
 const { DOMParser, XMLSerializer } = require('xmldom')
-
+const { formatDate } = require('./helpers')
 const htmlString = require('./card.js')
 const getFlagBase64 = require('./flag')
 
@@ -56,12 +56,17 @@ const getCard = ({ treasure, gifData, gifUrl }) => {
   Object.keys(bottomUser).map((key) =>
     updateContent(`bottom-${key}`, bottomUser[key])
   )
-  console.log(bottomUser)
-  console.log(topUser)
-  updateTag('top-imageSrc', 'src', topUser.imageSrc)
-  updateTag('bottom-imageSrc', 'src', bottomUser.imageSrc)
-  updateTag('top-flagImageSrc', 'src', topUser.flagImageSrc)
-  updateTag('bottom-flagImageSrc', 'src', bottomUser.flagImageSrc)
+
+  updateTag('top-avatar', 'src', topUser.imageSrc)
+  updateTag('bottom-avatar', 'src', bottomUser.imageSrc)
+  updateTag('top-flag', 'src', topUser.flagImageSrc)
+  updateTag('bottom-flag', 'src', bottomUser.flagImageSrc)
+
+  // Match link
+  updateContent('match', `Match #${treasure.externalUrl.split('/').pop()}`)
+  updateTag('match', 'href', treasure.externalUrl)
+  // Date
+  updateContent('date', formatDate(treasure.endTime))
 
   updateContent('title', treasure.title)
   updateContent('termination', treasure.termination)

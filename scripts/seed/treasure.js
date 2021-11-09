@@ -28,6 +28,7 @@ const treasureData = [
     title: 'Erik crushes',
     cardColor: 'black', // white or black
     blackRating: 1500,
+    whiteRating: 1400,
     blackRatingDelta: -6,
     whiteRatingDelta: 6,
     blackMasterTitle: alice.masterTitle,

@@ -1,7 +1,7 @@
 const { DOMParser, XMLSerializer } = require('xmldom')
 
 const htmlString = require('./card.js')
-const getFlagImageSrc = require('./flag')
+const getFlagBase64 = require('./flag')
 
 const serializer = new XMLSerializer()
 const parser = new DOMParser()
@@ -12,14 +12,14 @@ const getOrderedUsers = (treasure) => {
     username: treasure.blackUsername,
     rating: treasure.blackRating,
     masterTitle: treasure.blackMasterTitle,
-    flagImageSrc: getFlagImageSrc(treasure.black.country),
+    flagImageSrc: getFlagBase64(treasure.black.country),
   }
   const whiteUser = {
     imageSrc: treasure.white.imageSrc,
     username: treasure.whiteUsername,
     rating: treasure.whiteRating,
     masterTitle: treasure.whiteMasterTitle,
-    flagImageSrc: getFlagImageSrc(treasure.white.country),
+    flagImageSrc: getFlagBase64(treasure.white.country),
   }
   topUser = blackUser
   bottomUser = whiteUser
@@ -50,7 +50,6 @@ const getCard = ({ treasure, gifData, gifUrl }) => {
     if (!element) return console.log(`No element with id ${id}`)
     element.setAttribute(tag, content)
   }
-  console.log(getFlagImageSrc(treasure.white.country))
 
   const { bottomUser, topUser } = getOrderedUsers(treasure)
   Object.keys(topUser).map((key) => updateContent(`top-${key}`, topUser[key]))
@@ -60,6 +59,7 @@ const getCard = ({ treasure, gifData, gifUrl }) => {
   console.log(bottomUser)
   console.log(topUser)
   updateTag('top-imageSrc', 'src', topUser.imageSrc)
+  updateTag('bottom-imageSrc', 'src', bottomUser.imageSrc)
   updateTag('top-flag', 'src', topUser.flagImageSrc)
   updateTag('bottom-flag', 'src', bottomUser.flagImageSrc)
 
@@ -78,8 +78,8 @@ module.exports = getCard
 
 // To test, uncomment and run "node index"
 const test = () => {
-  let [treasure] = require('../../api/db/seed/treasure')
-  const members = require('../../api/db/seed/member')
+  let [treasure] = require('../../scripts/seed/treasure')
+  const members = require('../../scripts/seed/member')
   const white = members.find(
     (member) => member.username === treasure.whiteUsername
   )

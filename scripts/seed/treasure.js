@@ -28,7 +28,8 @@ const treasureData = [
     title: 'Erik crushes',
     cardColor: 'black', // white or black
     blackRating: 1500,
-    whiteRating: 1400,
+    blackRatingDelta: -6,
+    whiteRatingDelta: 6,
     blackMasterTitle: alice.masterTitle,
     whiteMasterTitle: bob.masterTitle,
     timeControl: '500', // game time variant
@@ -73,7 +74,9 @@ const treasureData = [
     title: 'Erik crushes',
     cardColor: 'black', // white or black
     blackRating: 1500,
+    blackRatingDelta: -4,
     whiteRating: 1400,
+    whiteRatingDelta: 4,
     blackMasterTitle: alice.masterTitle,
     whiteMasterTitle: bob.masterTitle,
     timeControl: '500', // game time variant

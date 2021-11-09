@@ -10,7 +10,6 @@ const getFlagImageSrc = (code) => {
     let base64Image = new Buffer(data, 'binary').toString('base64')
     return `data:image/png;base64,${base64Image}`
   })
-  // TODO: Remove other flag sizes if we don't need them
 }
 
 module.exports = getFlagImageSrc

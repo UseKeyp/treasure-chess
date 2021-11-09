@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
 const { PrismaClient } = require('@prisma/client')
 const dotenv = require('dotenv')
-const memberData = require('./seed/member')
-const treasureData = require('./seed/treasure')
+const memberData = require('./member')
+const treasureData = require('./treasure')
 
 dotenv.config()
 const db = new PrismaClient()

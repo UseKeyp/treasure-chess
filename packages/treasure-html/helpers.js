@@ -1,4 +1,5 @@
 const fs = require('fs')
+const icons = require('./assets/icons')
 
 const getFlagBase64 = (code) => {
   let regionNames = new Intl.DisplayNames(['en'], { type: 'region' })
@@ -20,4 +21,24 @@ const formatDate = (rawString) => {
   return `${month} ${day} ${year}`
 }
 
-module.exports = { formatDate, getFlagBase64 }
+const changeToWhite = (svgString) =>
+  svgString.replace(/fill="black"/, 'fill="white"')
+
+const getIconByPoints = ({ points, color }) => {
+  let icon = pawn
+  if (points == 2) icon = knight
+  if (points == 3) icon = bishop
+  if (points == 4) icon = rook
+  if (points == 5) icon = queen
+  if (color === 'black') return changeToWhite(icon)
+  return icon
+}
+
+const getIconByName = ({ name, color }) => {
+  const icon = icons[name]
+  if (!icon) throw `No icon found for "${name}"`
+  if (color === 'black') return changeToWhite(icon)
+  return icon
+}
+
+module.exports = { formatDate, getFlagBase64, getIconByPoints, getIconByName }

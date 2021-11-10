@@ -1,5 +1,11 @@
 const { DOMParser, XMLSerializer } = require('xmldom')
-const { formatDate, getFlagBase64 } = require('./helpers')
+const {
+  formatDate,
+  getFlagBase64,
+  getIconByName,
+  getIconByPoints,
+} = require('./helpers')
+
 const htmlString = require('./card.js')
 
 const treasureBackgroundBase64 = require('./assets/treasureBackground')
@@ -119,6 +125,8 @@ const getCard = ({ treasure, gifData, gifUrl }) => {
 
   // Achievements
   // TODO: update all the icon colors if card is black
+  updateContent('metadata-ruleVariant', treasure.ruleVariant)
+  updateContent('metadata-timeControl', treasure.timeControl)
 
   // Footer
   updateContent(

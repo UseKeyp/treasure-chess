@@ -26,7 +26,7 @@ const changeToWhite = (svgString) =>
 
 const iconByPoints = (points, color) => {
   let icon = icons['pawn']
-  if (points == 2) icon = icons['bishop']
+  if (points == 2) icon = icons['knight']
   if (points == 3) icon = icons['rook']
   if (points == 4) icon = icons['queen']
   if (points == 5) icon = icons['king']

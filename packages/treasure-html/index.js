@@ -16,18 +16,41 @@ const serializer = new XMLSerializer()
 const parser = new DOMParser()
 
 const getOrderedUsers = (treasure) => {
+  let whiteRatingDeltaColor
+  let blackRatingDeltaColor
+  if (treasure.outcome === 'black') {
+    whiteRatingDeltaColor = '#DA413E'
+    blackRatingDeltaColor = '#88C54B'
+  } else if (treasure.outcome === 'white') {
+    whiteRatingDeltaColor = '#88C54B'
+    blackRatingDeltaColor = '#DA413E'
+  }
+  const blackRatingDelta =
+    treasure.blackRatingDelta > 0
+      ? `+${treasure.blackRatingDelta}`
+      : treasure.blackRatingDelta
+  const whiteRatingDelta =
+    treasure.whiteRatingDelta > 0
+      ? `+${treasure.whiteRatingDelta}`
+      : treasure.whiteRatingDelta
   const blackUser = {
-    imageSrc: treasure.black.imageSrc,
     username: treasure.blackUsername,
     rating: treasure.blackRating,
+    ratingDelta: blackRatingDelta,
     masterTitle: treasure.blackMasterTitle,
+    // Not content, but rather "styles" and "src"
+    ...(blackRatingDeltaColor && { ratingDeltaColor: blackRatingDeltaColor }),
+    imageSrc: treasure.black.imageSrc,
     flagImageSrc: getFlagBase64(treasure.black.country),
   }
   const whiteUser = {
-    imageSrc: treasure.white.imageSrc,
     username: treasure.whiteUsername,
     rating: treasure.whiteRating,
+    ratingDelta: whiteRatingDelta,
     masterTitle: treasure.whiteMasterTitle,
+    // Not content, but rather "styles" and "src"
+    ...(whiteRatingDeltaColor && { ratingDeltaColor: whiteRatingDeltaColor }),
+    imageSrc: treasure.white.imageSrc,
     flagImageSrc: getFlagBase64(treasure.white.country),
   }
   topUser = blackUser
@@ -47,7 +70,7 @@ const getCard = ({ treasure, gifData, gifUrl }) => {
 
   const updateContent = (id, content, isNode) => {
     const element = doc.getElementById(id)
-    if (!element) return console.log(`No element with id ${id}`)
+    if (!element) return //console.log(`No element with id ${id}`)
     if (content === undefined) {
       const parent = element.parentNode
       return parent.removeChild(element)
@@ -108,6 +131,9 @@ const getCard = ({ treasure, gifData, gifUrl }) => {
   updateTag('bottom-avatar', 'src', bottomUser.imageSrc)
   updateTag('top-flag', 'src', topUser.flagImageSrc)
   updateTag('bottom-flag', 'src', bottomUser.flagImageSrc)
+  console.log(topUser)
+  updateStyle('bottom-ratingDelta', 'color', bottomUser.ratingDeltaColor)
+  updateStyle('top-ratingDelta', 'color', topUser.ratingDeltaColor)
 
   // Game GIF / Final positions
   updateTag(

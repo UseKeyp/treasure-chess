@@ -30,8 +30,8 @@ const treasureData = [
     // cardColor: 'black', // white or black
     blackRating: 1500,
     whiteRating: 1400,
-    blackRatingDelta: -6,
-    whiteRatingDelta: 6,
+    blackRatingDelta: -3,
+    whiteRatingDelta: 3,
     blackMasterTitle: alice.masterTitle,
     whiteMasterTitle: bob.masterTitle,
     timeControl: '500', // game time variant

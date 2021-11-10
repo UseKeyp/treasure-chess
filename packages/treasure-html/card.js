@@ -28,7 +28,7 @@ const htmlString = `<html>
 				<div style="display: flex; flex-direction: column;">
 					<a id="top-username-anchor" href="" target="_blank" style="text-decoration: none; color:black;"><p id="top-username" style="font-weight: bold;font-size: 13px; margin: 0;">asahi001</p></a>
 					<div style="margin: 0;">
-							<p style="margin: 0; display: flex; align-items: center; font-size: 10px;"><span style="margin-right: 1ex;">+6</span><span id="top-flag" src="" style="margin-right: 1ex;">🇺🇸</span><span id="top-rating" style="margin-right: 1ex;">2568</span><span id="top-masterTitle" style="margin-right: 1ex; background-color: red; font-size: 8px; font-weight: bold; padding: 1pt 2pt;">GM</span></p>
+							<p style="margin: 0; display: flex; align-items: center; font-size: 10px;"><span id="top-ratingDelta" style="margin-right: 1ex; color: inherit;">+6</span><span id="top-flag" src="" style="margin-right: 1ex;">🇺🇸</span><span id="top-rating" style="margin-right: 1ex;">2568</span><span id="top-masterTitle" style="margin-right: 1ex; background-color: red; font-size: 8px; font-weight: bold; padding: 1pt 2pt;">GM</span></p>
 					</div>
 				</div>
 			</div>
@@ -44,7 +44,7 @@ const htmlString = `<html>
 				<div style="display: flex; flex-direction: column;">
           <a id="bottom-username-anchor" href="" target="_blank" style="text-decoration: none; color:black;"><p id="bottom-username" style="font-weight: bold;font-size: 13px; margin: 0;">jschiarizzi</p></a>
 					<div style="margin: 0;">
-							<p style="margin: 0; display: flex; align-items: center; justify-content: flex-start; font-size: 10px;"><span style="margin-right: 1ex;">-6</span><span id="bottom-flag" style="margin-right: 1ex;">🇺🇸</span><span id="bottom-rating" style="margin-right: 1ex;">9999</span><span id="bottom-masterTitle" style="margin-right: 1ex; background-color: red; font-size: 8px; font-weight: bold; padding: 1pt 2pt;">GM</span></p>
+							<p style="margin: 0; display: flex; align-items: center; justify-content: flex-start; font-size: 10px;"><span id="bottom-ratingDelta" style="margin-right: 1ex; color: inherit;">-6</span><span id="bottom-flag" style="margin-right: 1ex;">🇺🇸</span><span id="bottom-rating" style="margin-right: 1ex;">9999</span><span id="bottom-masterTitle" style="margin-right: 1ex; background-color: red; font-size: 8px; font-weight: bold; padding: 1pt 2pt;">GM</span></p>
 					</div>
 				</div>
 			</div>

@@ -2,22 +2,24 @@ const htmlString = `<html>
 	<head>
 
 	</head>
-	<body style="font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">
-		<div id="container" style="color:black; width: 258px; border-radius: 12px; background-color: #FFF8EE; display: flex; flex-direction: column; padding: 4px;">
-			<div id="banner" style="width: 100%; background-color: #ABB6B9; border-radius: 8px 8px 2px 2px; display: flex;align-items: center; min-height: 39px; box-sizing: border-box;">
-				<div style="min-width: 19px; padding-right: 8px;">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M5.41798 17.3539C5.56512 17.7428 5.93751 18 6.35326 18H17.6475C18.0632 18 18.4356 17.7427 18.5828 17.3539L21.9878 8.35386C22.2353 7.69967 21.7519 7 21.0525 7H2.94761C2.24813 7 1.76478 7.69971 2.01233 8.35391L5.41798 17.3539Z" fill="#312E2B"/>
-            <path d="M3.5 21C3.5 20.4477 3.94772 20 4.5 20H19.5C20.0523 20 20.5 20.4477 20.5 21V23C20.5 23.5523 20.0523 24 19.5 24H4.5C3.94772 24 3.5 23.5523 3.5 23V21Z" fill="#312E2B"/>
-            <path d="M10.5 1C10.5 0.447715 10.9477 0 11.5 0H12.5C13.0523 0 13.5 0.447715 13.5 1V7C13.5 7.55228 13.0523 8 12.5 8H11.5C10.9477 8 10.5 7.55228 10.5 7V1Z" fill="#312E2B"/>
-            <path d="M8.5 3C8.5 2.44772 8.94772 2 9.5 2H14.5C15.0523 2 15.5 2.44772 15.5 3V4C15.5 4.55228 15.0523 5 14.5 5H9.5C8.94772 5 8.5 4.55228 8.5 4V3Z" fill="#312E2B"/>
-          </svg>
-				</div>
-				<div style="color:black;">
-					<p id="title" style="margin: 0;font-weight: bold; font-size: 11px">My fun game</p>
-					<p id="termination" style="margin: 0; font-size: 10px;" >White won by checkmate</p>
-				</div>
-        <img id="banner-image" src="" style="height: 100%" alt="Treasure Chess"/>
+	<body style="font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; background-color:#4F4F4F; height: 100%; overflow: hidden; display: flex; justify-content: center;  align-items: center;" >
+  	<div id="container" style="color:black; width: 258px; border-radius: 12px; background-color: #FFF8EE; display: flex; flex-direction: column; padding: 4px;">
+			<div id="banner" style="width: 100%; background-color: #ABB6B9; border-radius: 8px 8px 2px 2px; display: grid; grid-template-columns: 2fr 1fr; align-items: center; min-height: 39px; box-sizing: border-box; padding: 0 5px 0 5px">
+  			<div style="display: flex;align-items: center; min-height: 39px;">
+  				<div style="min-width: 19px; padding-right: 8px;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5.41798 17.3539C5.56512 17.7428 5.93751 18 6.35326 18H17.6475C18.0632 18 18.4356 17.7427 18.5828 17.3539L21.9878 8.35386C22.2353 7.69967 21.7519 7 21.0525 7H2.94761C2.24813 7 1.76478 7.69971 2.01233 8.35391L5.41798 17.3539Z" fill="#312E2B"/>
+              <path d="M3.5 21C3.5 20.4477 3.94772 20 4.5 20H19.5C20.0523 20 20.5 20.4477 20.5 21V23C20.5 23.5523 20.0523 24 19.5 24H4.5C3.94772 24 3.5 23.5523 3.5 23V21Z" fill="#312E2B"/>
+              <path d="M10.5 1C10.5 0.447715 10.9477 0 11.5 0H12.5C13.0523 0 13.5 0.447715 13.5 1V7C13.5 7.55228 13.0523 8 12.5 8H11.5C10.9477 8 10.5 7.55228 10.5 7V1Z" fill="#312E2B"/>
+              <path d="M8.5 3C8.5 2.44772 8.94772 2 9.5 2H14.5C15.0523 2 15.5 2.44772 15.5 3V4C15.5 4.55228 15.0523 5 14.5 5H9.5C8.94772 5 8.5 4.55228 8.5 4V3Z" fill="#312E2B"/>
+            </svg>
+  				</div>
+  				<div style="color:black;">
+  					<p id="title" style="margin: 0;font-weight: bold; font-size: 11px">My fun game</p>
+  					<p id="termination" style="margin: 0; font-size: 10px;" >White won by checkmate</p>
+  				</div>
+        </div>
+        <img id="banner-image" src="" style="height:32;" alt="Treasure Chess"/>
 			</div>
 			<div style="width: 100%; display: flex; align-items: center; min-height: 55px; margin: 2pt 0 1pt 0;">
 				<div style="height: 40px; width: 40px;  margin-right: 8px;">

@@ -2,8 +2,9 @@ const { DOMParser, XMLSerializer } = require('xmldom')
 const {
   formatDate,
   getFlagBase64,
-  getIconByName,
-  getIconByPoints,
+  iconByName,
+  iconByPoints,
+  formatXml,
 } = require('./helpers')
 
 const htmlString = require('./card.js')
@@ -44,7 +45,7 @@ const getOrderedUsers = (treasure) => {
 const getCard = ({ treasure, gifData, gifUrl }) => {
   const doc = parser.parseFromString(htmlString, 'text/html')
 
-  const updateContent = (id, content) => {
+  const updateContent = (id, content, isNode) => {
     const element = doc.getElementById(id)
     if (!element) return console.log(`No element with id ${id}`)
     if (content === undefined) {
@@ -52,7 +53,10 @@ const getCard = ({ treasure, gifData, gifUrl }) => {
       return parent.removeChild(element)
     }
     let node = content
-    if (typeof node == 'string' || typeof node == 'number')
+    if (isNode) {
+      node = parser.parseFromString(content, 'text/html')
+      element.replaceChild(node, element.childNodes[1])
+    } else if (typeof node == 'string' || typeof node == 'number')
       node = doc.createTextNode(content)
     element.replaceChild(node, element.childNodes[0])
   }
@@ -117,7 +121,26 @@ const getCard = ({ treasure, gifData, gifUrl }) => {
   updateTag('game-anchor', 'href', treasure.externalUrl)
 
   // Achievements
-  // TODO: update all the icon colors if card is black
+  updateContent('achievement-1-icon', iconByPoints(5, treasure.cardColor), true)
+  updateContent('achievement-2-icon', iconByPoints(4, treasure.cardColor), true)
+  updateContent('achievement-3-icon', iconByPoints(3, treasure.cardColor), true)
+
+  // Metadata
+  updateContent(
+    'metadata-1-icon',
+    iconByName('trophy', treasure.cardColor),
+    true
+  )
+  updateContent(
+    'metadata-2-icon',
+    iconByName('board', treasure.cardColor),
+    true
+  )
+  updateContent(
+    'metadata-3-icon',
+    iconByName('timer', treasure.cardColor),
+    true
+  )
   updateContent('metadata-ruleVariant', treasure.ruleVariant)
   updateContent('metadata-timeControl', treasure.timeControl)
   updateContent(
@@ -133,7 +156,7 @@ const getCard = ({ treasure, gifData, gifUrl }) => {
   updateTag('match-anchor', 'href', treasure.externalUrl)
   updateContent('date', formatDate(treasure.endTime))
 
-  return serializer.serializeToString(doc)
+  return formatXml(serializer.serializeToString(doc))
 }
 
 module.exports = getCard

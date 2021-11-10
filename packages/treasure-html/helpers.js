@@ -22,23 +22,42 @@ const formatDate = (rawString) => {
 }
 
 const changeToWhite = (svgString) =>
-  svgString.replace(/fill="black"/, 'fill="white"')
+  svgString.replace(/fill="black"/g, 'fill="white"')
 
-const getIconByPoints = ({ points, color }) => {
-  let icon = pawn
-  if (points == 2) icon = knight
-  if (points == 3) icon = bishop
-  if (points == 4) icon = rook
-  if (points == 5) icon = queen
-  if (color === 'black') return changeToWhite(icon)
+const iconByPoints = (points, color) => {
+  let icon = icons['pawn']
+  if (points == 2) icon = icons['knight']
+  if (points == 3) icon = icons['bishop']
+  if (points == 4) icon = icons['rook']
+  if (points == 5) icon = icons['queen']
+  if (color === 'black') icon = changeToWhite(icon)
   return icon
 }
 
-const getIconByName = ({ name, color }) => {
-  const icon = icons[name]
+const iconByName = (name, color) => {
+  let icon = icons[name]
   if (!icon) throw `No icon found for "${name}"`
-  if (color === 'black') return changeToWhite(icon)
+  if (color === 'black') icon = changeToWhite(icon)
   return icon
 }
 
-module.exports = { formatDate, getFlagBase64, getIconByPoints, getIconByName }
+function formatXml(xml, tab) {
+  // tab = optional indent value, default is tab (\t)
+  var formatted = '',
+    indent = ''
+  tab = tab || '\t'
+  xml.split(/>\s*</).forEach(function (node) {
+    if (node.match(/^\/\w/)) indent = indent.substring(tab.length) // decrease indent by one 'tab'
+    formatted += indent + '<' + node + '>\r\n'
+    if (node.match(/^<?\w[^>]*[^\/]$/)) indent += tab // increase indent
+  })
+  return formatted.substring(1, formatted.length - 3)
+}
+
+module.exports = {
+  formatDate,
+  getFlagBase64,
+  iconByPoints,
+  iconByName,
+  formatXml,
+}

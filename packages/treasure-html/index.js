@@ -102,7 +102,7 @@ const getCard = ({ treasure, gifData, gifUrl }) => {
   updateTag(
     'top-username-anchor',
     'href',
-    `https://www.chess.com/member/${topUser.username}`
+    `https://treasure.chess.com/member/${topUser.username}`
   )
   updateTag('top-avatar', 'src', topUser.imageSrc)
   updateTag('bottom-avatar', 'src', bottomUser.imageSrc)

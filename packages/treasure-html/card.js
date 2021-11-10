@@ -2,7 +2,7 @@ const htmlString = `<html>
 	<head>
 
 	</head>
-	<body style="font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; background-color:#4F4F4F; height: 100%; overflow: hidden; display: flex; justify-content: center;  align-items: center;" >
+	<body style="font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; background-color:#4F4F4F; display: flex; justify-content: center;  align-items: center;" >
   	<div id="container" style="color:black; width: 258px; border-radius: 12px; background-color: #FFF8EE; display: flex; flex-direction: column; padding: 4px;">
 			<div id="banner" style="width: 100%; background-color: #ABB6B9; border-radius: 8px 8px 2px 2px; display: grid; grid-template-columns: 2fr 1fr; align-items: center; min-height: 39px; box-sizing: border-box; padding: 0 5px 0 5px">
   			<div style="display: flex;align-items: center; min-height: 39px;">
@@ -50,12 +50,12 @@ const htmlString = `<html>
 			</div>
 			<div style="width: 100%; display: grid; grid-template-columns: 2fr 1fr; align-items: center;">
 				<div style="width: 100%; display: flex; align-items: center; font-size: 13px;">
-					<div id="achievement-1-icon" style="width: 6pt; height: 10pt;">
+					<div id="achievement-1-icon">
             <svg width="6" height="10" viewBox="0 0 16 28" xmlns="http://www.w3.org/2000/svg">
               <path d="M14 24V22H12C11.056 20.112 11.878 18.084 11.332 16H4.67C4.124 18.082 4.944 20.11 4 22H2V24C1.46957 24 0.960859 24.2107 0.585786 24.5858C0.210714 24.9609 0 25.4696 0 26V28H16V26C16 25.4696 15.7893 24.9609 15.4142 24.5858C15.0391 24.2107 14.5304 24 14 24ZM14 12H11V11.168C11.9098 10.6458 12.666 9.89325 13.1926 8.98605C13.7192 8.07885 13.9977 7.04897 14 6C14 4.4087 13.3679 2.88258 12.2426 1.75736C11.1174 0.632141 9.5913 0 8 0C6.4087 0 4.88258 0.632141 3.75736 1.75736C2.63214 2.88258 2 4.4087 2 6C2 8.216 3.214 10.128 5 11.168V12H2V14H14V12Z" fill="black"/>
             </svg>
 					</div>
-					<div id="achievement-1" style="margin-left:6">
+					<div id="achievement-1">
 						Play A Game Against
 					</div>
 				</div>
@@ -70,12 +70,12 @@ const htmlString = `<html>
 					</div>
 				</div>
 				<div style="width: 100%; display: flex; align-items: center; font-size: 13px;">
-					<div id="achievement-2-icon" style="width: 6pt; height: 10pt;">
+					<div id="achievement-2-icon" >
             <svg width="6" height="10" viewBox="0 0 16 28" xmlns="http://www.w3.org/2000/svg">
               <path d="M14 24V22H12C11.056 20.112 11.878 18.084 11.332 16H4.67C4.124 18.082 4.944 20.11 4 22H2V24C1.46957 24 0.960859 24.2107 0.585786 24.5858C0.210714 24.9609 0 25.4696 0 26V28H16V26C16 25.4696 15.7893 24.9609 15.4142 24.5858C15.0391 24.2107 14.5304 24 14 24ZM14 12H11V11.168C11.9098 10.6458 12.666 9.89325 13.1926 8.98605C13.7192 8.07885 13.9977 7.04897 14 6C14 4.4087 13.3679 2.88258 12.2426 1.75736C11.1174 0.632141 9.5913 0 8 0C6.4087 0 4.88258 0.632141 3.75736 1.75736C2.63214 2.88258 2 4.4087 2 6C2 8.216 3.214 10.128 5 11.168V12H2V14H14V12Z" fill="black"/>
             </svg>
 					</div>
-					<div id="achievement-1" style="margin-left:6">
+					<div id="achievement-1">
 						Pawn Checkmate
 					</div>
 				</div>
@@ -90,12 +90,12 @@ const htmlString = `<html>
 					</div>
 				</div>
 				<div style="width: 100%; display: flex; align-items: center; font-size: 13px;">
-          <div id="achievement-3-icon" style="width: 6pt; height: 10pt;">
+          <div id="achievement-3-icon">
             <svg width="6" height="10" viewBox="0 0 16 28" xmlns="http://www.w3.org/2000/svg">
               <path d="M14 24V22H12C11.056 20.112 11.878 18.084 11.332 16H4.67C4.124 18.082 4.944 20.11 4 22H2V24C1.46957 24 0.960859 24.2107 0.585786 24.5858C0.210714 24.9609 0 25.4696 0 26V28H16V26C16 25.4696 15.7893 24.9609 15.4142 24.5858C15.0391 24.2107 14.5304 24 14 24ZM14 12H11V11.168C11.9098 10.6458 12.666 9.89325 13.1926 8.98605C13.7192 8.07885 13.9977 7.04897 14 6C14 4.4087 13.3679 2.88258 12.2426 1.75736C11.1174 0.632141 9.5913 0 8 0C6.4087 0 4.88258 0.632141 3.75736 1.75736C2.63214 2.88258 2 4.4087 2 6C2 8.216 3.214 10.128 5 11.168V12H2V14H14V12Z" fill="black"/>
             </svg>
           </div>
-					<div id="achievement-1" style="margin-left:6">
+					<div id="achievement-1">
 						Play 2100+ game
 					</div>
 				</div>

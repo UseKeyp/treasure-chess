@@ -1,10 +1,9 @@
 const fs = require('fs')
 
-// Helper function to convert a png to base64
-// Run with `node convertToBase64.js`
+// Replace with your file and run `node convertToBase64.js`
+const filename = '../assets/bannerLogo'
+
 const getBase64 = () => {
-  // Replace with your file
-  const filename = '../assets/treasure-image-background'
   const data = fs.readFileSync(`${filename}.png`)
   let base64Image = new Buffer(data, 'binary').toString('base64')
   const codeSnippet = `const base64Image = "${base64Image}"

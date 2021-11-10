@@ -9,6 +9,7 @@ const {
 const htmlString = require('./card.js')
 
 const treasureBackgroundBase64 = require('./assets/treasureBackground')
+const bannerLogoBase64 = require('./assets/bannerLogo')
 
 const serializer = new XMLSerializer()
 const parser = new DOMParser()
@@ -60,34 +61,30 @@ const getCard = ({ treasure, gifData, gifUrl }) => {
     if (!element) return console.log(`No element with id ${id}`)
     element.setAttribute(tag, content)
   }
+  const updateStyle = (id, property, content) => {
+    const element = doc.getElementById(id)
+    if (!element) return console.log(`No element with id ${id}`)
+    var replace = `${property}:(.+?);`
+    var re = new RegExp(replace)
+    const style = element
+      .getAttribute('style')
+      .replace(re, `${property}: ${content};`)
+    element.setAttribute('style', style)
+  }
 
   // Card color
   if (treasure.cardColor === 'black') {
-    updateTag(
-      'container',
-      'style',
-      'color: white; width: 258px; border-radius: 12px; background-color: #272522; display: flex; flex-direction: column; padding: 4px;'
-    )
-    updateTag(
-      'match-anchor',
-      'style',
-      'margin: 0; text-decoration: none; color:white'
-    )
-    updateTag(
-      'top-username-anchor',
-      'style',
-      'text-decoration: none; color:white'
-    )
-    updateTag(
-      'bottom-username-anchor',
-      'style',
-      'text-decoration: none; color:white'
-    )
+    updateStyle('container', 'background-color', '#272522')
+    updateStyle('container', 'color', 'white')
+    updateStyle('match-anchor', 'color', 'white')
+    updateStyle('top-username-anchor', 'color', 'white')
+    updateStyle('bottom-username-anchor', 'color', 'white')
   }
 
   // Header
   updateContent('title', treasure.title)
   updateContent('termination', treasure.termination)
+  updateTag('banner-image', 'src', `data:image/png;base64,${bannerLogoBase64}`)
   // TODO: Update header color
   // TODO: Update icon color
   // TODO: Add TC logo below header
@@ -116,17 +113,17 @@ const getCard = ({ treasure, gifData, gifUrl }) => {
   )
   // TODO: Replace treasureBackgroundBase64 with final positions image
   const staticImageUrl = `data:image/png;base64,${treasureBackgroundBase64}`
-  updateTag(
-    'game-image',
-    'style',
-    `position: relative; width: 100%; border-radius: 2px; background-repeat: no-repeat; background-image: url('${staticImageUrl}');`
-  )
+  updateStyle('game-image', 'background-image', `url('${staticImageUrl}')`)
   updateTag('game-anchor', 'href', treasure.externalUrl)
 
   // Achievements
   // TODO: update all the icon colors if card is black
   updateContent('metadata-ruleVariant', treasure.ruleVariant)
   updateContent('metadata-timeControl', treasure.timeControl)
+  updateContent(
+    'metadata-rarity',
+    `${treasure.achievementScore} ${treasure.rarity}`
+  )
 
   // Footer
   updateContent(
@@ -136,11 +133,7 @@ const getCard = ({ treasure, gifData, gifUrl }) => {
   updateTag('match-anchor', 'href', treasure.externalUrl)
   updateContent('date', formatDate(treasure.endTime))
 
-  let finalString = serializer.serializeToString(doc)
-  if (treasure.cardColor === 'black')
-    finalString.replace('fill="black"', 'fill="white"')
-  console.log(finalString.indexOf('fill="black"'))
-  return finalString
+  return serializer.serializeToString(doc)
 }
 
 module.exports = getCard

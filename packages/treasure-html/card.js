@@ -5,7 +5,7 @@ const htmlString = `<html>
 	<body style="font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">
 		<div id="container" style="color:black; width: 258px; border-radius: 12px; background-color: #FFF8EE; display: flex; flex-direction: column; padding: 4px;">
 			<div id="banner" style="width: 100%; background-color: #ABB6B9; border-radius: 8px 8px 2px 2px; display: flex;align-items: center; min-height: 39px; box-sizing: border-box;">
-				<div id="icon-container" style="min-width: 19px; padding-right: 8px;">
+				<div style="min-width: 19px; padding-right: 8px;">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M5.41798 17.3539C5.56512 17.7428 5.93751 18 6.35326 18H17.6475C18.0632 18 18.4356 17.7427 18.5828 17.3539L21.9878 8.35386C22.2353 7.69967 21.7519 7 21.0525 7H2.94761C2.24813 7 1.76478 7.69971 2.01233 8.35391L5.41798 17.3539Z" fill="#312E2B"/>
             <path d="M3.5 21C3.5 20.4477 3.94772 20 4.5 20H19.5C20.0523 20 20.5 20.4477 20.5 21V23C20.5 23.5523 20.0523 24 19.5 24H4.5C3.94772 24 3.5 23.5523 3.5 23V21Z" fill="#312E2B"/>
@@ -13,17 +13,18 @@ const htmlString = `<html>
             <path d="M8.5 3C8.5 2.44772 8.94772 2 9.5 2H14.5C15.0523 2 15.5 2.44772 15.5 3V4C15.5 4.55228 15.0523 5 14.5 5H9.5C8.94772 5 8.5 4.55228 8.5 4V3Z" fill="#312E2B"/>
           </svg>
 				</div>
-				<div style="color:black">
-					<p id="title" style="margin: 0;font-weight: bold; font-size: 11px">Common</p>
+				<div style="color:black;">
+					<p id="title" style="margin: 0;font-weight: bold; font-size: 11px">My fun game</p>
 					<p id="termination" style="margin: 0; font-size: 10px;" >White won by checkmate</p>
 				</div>
+        <img id="banner-image" src="" style="height: 100%" alt="Treasure Chess"/>
 			</div>
 			<div style="width: 100%; display: flex; align-items: center; min-height: 55px; margin: 2pt 0 1pt 0;">
 				<div style="height: 40px; width: 40px;  margin-right: 8px;">
 					<img id="top-avatar" src="https://picsum.photos/40/40?grayscale" style="width: 100%; border-radius: 2px;" alt="placeholder"/>
 				</div>
 				<div style="display: flex; flex-direction: column;">
-					<a id="top-username-anchor" href="" target="_blank" style="text-decoration: none; color:black"><p id="top-username" style="font-weight: bold;font-size: 13px; margin: 0;">asahi001</p></a>
+					<a id="top-username-anchor" href="" target="_blank" style="text-decoration: none; color:black;"><p id="top-username" style="font-weight: bold;font-size: 13px; margin: 0;">asahi001</p></a>
 					<div style="margin: 0;">
 							<p style="margin: 0; display: flex; align-items: center; font-size: 10px;"><span style="margin-right: 1ex;">+6</span><span id="top-flag" src="" style="margin-right: 1ex;">🇺🇸</span><span id="top-rating" style="margin-right: 1ex;">2568</span><span id="top-masterTitle" style="margin-right: 1ex; background-color: red; font-size: 8px; font-weight: bold; padding: 1pt 2pt;">GM</span></p>
 					</div>
@@ -39,7 +40,7 @@ const htmlString = `<html>
 					<img id="bottom-avatar" src="https://picsum.photos/40/40?grayscale" style="width: 100%; border-radius: 2px;" alt="placeholder"/>
 				</div>
 				<div style="display: flex; flex-direction: column;">
-          <a id="bottom-username-anchor" href="" target="_blank" style="text-decoration: none; color:black"><p id="bottom-username" style="font-weight: bold;font-size: 13px; margin: 0;">jschiarizzi</p></a>
+          <a id="bottom-username-anchor" href="" target="_blank" style="text-decoration: none; color:black;"><p id="bottom-username" style="font-weight: bold;font-size: 13px; margin: 0;">jschiarizzi</p></a>
 					<div style="margin: 0;">
 							<p style="margin: 0; display: flex; align-items: center; justify-content: flex-start; font-size: 10px;"><span style="margin-right: 1ex;">-6</span><span id="bottom-flag" style="margin-right: 1ex;">🇺🇸</span><span id="bottom-rating" style="margin-right: 1ex;">9999</span><span id="bottom-masterTitle" style="margin-right: 1ex; background-color: red; font-size: 8px; font-weight: bold; padding: 1pt 2pt;">GM</span></p>
 					</div>
@@ -58,7 +59,7 @@ const htmlString = `<html>
           <svg width="6pt" height="10pt" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M23 3H18.6667V1.125C18.6667 0.501562 18.2208 0 17.6667 0H6.33333C5.77917 0 5.33333 0.501562 5.33333 1.125V3H1C0.445833 3 0 3.50156 0 4.125V6.75C0 8.42344 0.9375 10.1438 2.57917 11.4703C3.89167 12.5344 5.4875 13.2094 7.1625 13.425C8.47083 15.8672 10 16.875 10 16.875V20.25H8C6.52917 20.25 5.33333 21.2203 5.33333 22.875V23.4375C5.33333 23.7469 5.55833 24 5.83333 24H18.1667C18.4417 24 18.6667 23.7469 18.6667 23.4375V22.875C18.6667 21.2203 17.4708 20.25 16 20.25H14V16.875C14 16.875 15.5292 15.8672 16.8375 13.425C18.5167 13.2094 20.1125 12.5344 21.4208 11.4703C23.0583 10.1438 24 8.42344 24 6.75V4.125C24 3.50156 23.5542 3 23 3ZM4.1375 9.0375C3.12083 8.2125 2.66667 7.29375 2.66667 6.75V6H5.34167C5.38333 7.52812 5.58333 8.86875 5.875 10.0406C5.24583 9.79688 4.65833 9.45938 4.1375 9.0375ZM21.3333 6.75C21.3333 7.50469 20.5958 8.44219 19.8625 9.0375C19.3417 9.45938 18.75 9.79688 18.1208 10.0406C18.4125 8.86875 18.6125 7.52812 18.6542 6H21.3333V6.75Z" fill="black"/>
           </svg>
-					<div id="data-label" style="margin-left:6; font-size: 10px;">
+					<div id="metadata-rarity" style="margin-left:6; font-size: 10px;">
 						2 Common
 					</div>
 				</div>
@@ -96,7 +97,7 @@ const htmlString = `<html>
 				</div>
 			</div>
 			<div style="max-width: 100%; display: flex; justify-content: space-between; margin: 0 12px; opacity: 0.75;  font-size: 8px; height: 28px; align-items: center;">
-				<a id="match-anchor" href="" target="_blank" style="margin: 0; text-decoration: none; color:black">Match #000000</a>
+				<a id="match-anchor" href="" target="_blank" style="margin: 0; text-decoration: none; color:black;">Match #000000</a>
 				<p id="edition" style="margin: 0;">Single Edition</p>
 				<p id="date" style="margin: 0;">Jan 1 1900</p>
 			</div>

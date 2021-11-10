@@ -1,7 +1,9 @@
 const fs = require('fs')
+const path = require('path')
 
-// Replace with your file and run `node convertToBase64.js`
-const filename = '../assets/bannerLogo'
+// Replace with your file
+// cd to this folder and run `node convertToBase64.js`
+const filename = '../assets/Armenia24'
 
 const getBase64 = () => {
   const data = fs.readFileSync(`${filename}.png`)

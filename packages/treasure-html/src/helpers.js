@@ -1,13 +1,14 @@
 const fs = require('fs')
 const icons = require('./assets/icons')
+const path = require('path')
 
 const getFlagBase64 = (code) => {
   let regionNames = new Intl.DisplayNames(['en'], { type: 'region' })
-  if (code === 'XX') {
-    // TODO: show some flag?
-    return ''
-  }
-  const data = fs.readFileSync(`./assets/flags/24/${regionNames.of(code)}.png`)
+  const filePath = path.join(
+    __dirname,
+    `./assets/flags/24/${regionNames.of(code)}.png`
+  )
+  const data = fs.readFileSync(filePath)
   let base64Image = new Buffer(data, 'binary').toString('base64')
   return `data:image/png;base64,${base64Image}`
 }

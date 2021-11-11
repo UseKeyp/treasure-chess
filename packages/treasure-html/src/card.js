@@ -8,7 +8,7 @@ const htmlString = `<html>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	</head>
 	<body style="font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; background-color:#4F4F4F; display: flex; align-items: center;" >
-  	<div id="container" style="color:black; width: 258px; border-radius: 12px; background-color: #FFF8EE; display: flex; flex-direction: column; padding: 4px;">
+  	<div id="container" style="color:black; width: 258px; min-width: 258px; border-radius: 12px; background-color: #FFF8EE; display: flex; flex-direction: column; padding: 4px;">
 			<div id="banner" style="width: 100%; background-color: #ABB6B9; border-radius: 8px 8px 2px 2px; display: grid; grid-template-columns: 2fr 1fr; align-items: center; min-height: 39px; box-sizing: border-box; padding: 0 5px 0 5px">
   			<div style="display: flex;align-items: center; min-height: 39px;">
   				<div style="min-width: 19px; padding-right: 8px;">
@@ -26,100 +26,106 @@ const htmlString = `<html>
         </div>
         <img id="banner-image" src="" style="height:32;" alt="Treasure Chess"/>
 			</div>
-			<div style="width: 100%; display: flex; align-items: center; min-height: 55px; margin: 2pt 0 1pt 0;">
-				<div style="height: 40px; width: 40px;  margin-right: 8px;">
-					<img id="top-avatar" src="https://picsum.photos/40/40?grayscale" style="width: 100%; border-radius: 2px;" alt="placeholder"/>
-				</div>
-				<div style="display: flex; flex-direction: column;">
-					<a id="top-username-anchor" href="" target="_blank" style="text-decoration: none; color:black;"><p id="top-username" style="font-weight: bold;font-size: 13px; margin: 0;">asahi001</p></a>
-					<div style="margin: 0;">
-							<p style="margin: 0; display: flex; align-items: center; font-size: 10px;"><span id="top-ratingDelta" style="margin-right: 1ex; color: inherit;">+6</span><span id="top-flag" src="" style="margin-right: 1ex;">🇺🇸</span><span id="top-rating" style="margin-right: 1ex;">2568</span><span id="top-masterTitle" style="background-color: red; font-size: 8px; font-weight: bold; padding: 1pt 2pt; color: white; border-radius:2px;">GM</span></p>
-					</div>
-				</div>
-			</div>
-      <div id="game" style="min-height: 258px; margin: 1pt 0; background-image: url('/images/is-it-there.png');">
-  			<a id="game-anchor" href="chess.com">
-  				<img id="game-image" src="" style="width: 100%; border-radius: 2px;" alt="placeholder"/>
-  			</a>
-      </div>
-			<div style="width: 100%; display: flex; align-items: center; min-height: 55px; margin: 2pt 0 1pt 0;">
-				<div style="height: 40px; width: 40px; margin-right: 8px;">
-					<img id="bottom-avatar" src="https://picsum.photos/40/40?grayscale" style="width: 100%; border-radius: 2px;" alt="placeholder"/>
-				</div>
-				<div style="display: flex; flex-direction: column;">
-          <a id="bottom-username-anchor" href="" target="_blank" style="text-decoration: none; color:black;"><p id="bottom-username" style="font-weight: bold;font-size: 13px; margin: 0;">jschiarizzi</p></a>
-					<div style="margin: 0;">
-							<p style="margin: 0; display: flex; align-items: center; justify-content: flex-start; font-size: 10px;"><span id="bottom-ratingDelta" style="margin-right: 1ex; color: inherit;">-6</span><span id="bottom-flag" style="margin-right: 1ex;">🇺🇸</span><span id="bottom-rating" style="margin-right: 1ex;">9999</span><span id="top-masterTitle" style="background-color: red; font-size: 8px; font-weight: bold; padding: 1pt 2pt; color: white; border-radius:2px;">GM</span></p>
-					</div>
-				</div>
-			</div>
-			<div style="width: 100%; display: grid; grid-template-columns: 2fr 1fr; align-items: center;">
-				<div style="width: 100%; display: flex; align-items: center; font-size: 13px;">
-					<div id="achievement-1-icon">
-            <svg width="6" height="10" viewBox="0 0 16 28" xmlns="http://www.w3.org/2000/svg">
-              <path d="M14 24V22H12C11.056 20.112 11.878 18.084 11.332 16H4.67C4.124 18.082 4.944 20.11 4 22H2V24C1.46957 24 0.960859 24.2107 0.585786 24.5858C0.210714 24.9609 0 25.4696 0 26V28H16V26C16 25.4696 15.7893 24.9609 15.4142 24.5858C15.0391 24.2107 14.5304 24 14 24ZM14 12H11V11.168C11.9098 10.6458 12.666 9.89325 13.1926 8.98605C13.7192 8.07885 13.9977 7.04897 14 6C14 4.4087 13.3679 2.88258 12.2426 1.75736C11.1174 0.632141 9.5913 0 8 0C6.4087 0 4.88258 0.632141 3.75736 1.75736C2.63214 2.88258 2 4.4087 2 6C2 8.216 3.214 10.128 5 11.168V12H2V14H14V12Z" fill="black"/>
-            </svg>
-					</div>
-					<div id="achievement-1">
-						Play A Game Against
-					</div>
-				</div>
-				<div style="width: 100%; display: flex; align-items: center; height: 12px;">
-          <div id="metadata-1-icon">
-            <svg width="6" height="10" viewBox="0 0 16 28" xmlns="http://www.w3.org/2000/svg">
-              <path d="M14 24V22H12C11.056 20.112 11.878 18.084 11.332 16H4.67C4.124 18.082 4.944 20.11 4 22H2V24C1.46957 24 0.960859 24.2107 0.585786 24.5858C0.210714 24.9609 0 25.4696 0 26V28H16V26C16 25.4696 15.7893 24.9609 15.4142 24.5858C15.0391 24.2107 14.5304 24 14 24ZM14 12H11V11.168C11.9098 10.6458 12.666 9.89325 13.1926 8.98605C13.7192 8.07885 13.9977 7.04897 14 6C14 4.4087 13.3679 2.88258 12.2426 1.75736C11.1174 0.632141 9.5913 0 8 0C6.4087 0 4.88258 0.632141 3.75736 1.75736C2.63214 2.88258 2 4.4087 2 6C2 8.216 3.214 10.128 5 11.168V12H2V14H14V12Z" fill="black"/>
-            </svg>
-          </div>
-					<div id="metadata-rarity" style="margin-left:6; font-size: 10px; color:#ABB6B9;">
-						2 Common
-					</div>
-				</div>
-				<div style="width: 100%; display: flex; align-items: center; font-size: 13px;">
-					<div id="achievement-2-icon" >
-            <svg width="6" height="10" viewBox="0 0 16 28" xmlns="http://www.w3.org/2000/svg">
-              <path d="M14 24V22H12C11.056 20.112 11.878 18.084 11.332 16H4.67C4.124 18.082 4.944 20.11 4 22H2V24C1.46957 24 0.960859 24.2107 0.585786 24.5858C0.210714 24.9609 0 25.4696 0 26V28H16V26C16 25.4696 15.7893 24.9609 15.4142 24.5858C15.0391 24.2107 14.5304 24 14 24ZM14 12H11V11.168C11.9098 10.6458 12.666 9.89325 13.1926 8.98605C13.7192 8.07885 13.9977 7.04897 14 6C14 4.4087 13.3679 2.88258 12.2426 1.75736C11.1174 0.632141 9.5913 0 8 0C6.4087 0 4.88258 0.632141 3.75736 1.75736C2.63214 2.88258 2 4.4087 2 6C2 8.216 3.214 10.128 5 11.168V12H2V14H14V12Z" fill="black"/>
-            </svg>
-					</div>
-					<div id="achievement-2">
-						Pawn Checkmate
-					</div>
-				</div>
-				<div style="width: 100%; display: flex; align-items: center;">
-          <div id="metadata-2-icon">
-            <svg width="6" height="10" viewBox="0 0 16 28" xmlns="http://www.w3.org/2000/svg">
-              <path d="M14 24V22H12C11.056 20.112 11.878 18.084 11.332 16H4.67C4.124 18.082 4.944 20.11 4 22H2V24C1.46957 24 0.960859 24.2107 0.585786 24.5858C0.210714 24.9609 0 25.4696 0 26V28H16V26C16 25.4696 15.7893 24.9609 15.4142 24.5858C15.0391 24.2107 14.5304 24 14 24ZM14 12H11V11.168C11.9098 10.6458 12.666 9.89325 13.1926 8.98605C13.7192 8.07885 13.9977 7.04897 14 6C14 4.4087 13.3679 2.88258 12.2426 1.75736C11.1174 0.632141 9.5913 0 8 0C6.4087 0 4.88258 0.632141 3.75736 1.75736C2.63214 2.88258 2 4.4087 2 6C2 8.216 3.214 10.128 5 11.168V12H2V14H14V12Z" fill="black"/>
-            </svg>
-          </div>
-					<div id="metadata-ruleVariant" style="font-size: 10px; margin-left:6">
-						Standard
-					</div>
-				</div>
-				<div style="width: 100%; display: flex; align-items: center; font-size: 13px;">
-          <div id="achievement-3-icon">
-            <svg width="6" height="10" viewBox="0 0 16 28" xmlns="http://www.w3.org/2000/svg">
-              <path d="M14 24V22H12C11.056 20.112 11.878 18.084 11.332 16H4.67C4.124 18.082 4.944 20.11 4 22H2V24C1.46957 24 0.960859 24.2107 0.585786 24.5858C0.210714 24.9609 0 25.4696 0 26V28H16V26C16 25.4696 15.7893 24.9609 15.4142 24.5858C15.0391 24.2107 14.5304 24 14 24ZM14 12H11V11.168C11.9098 10.6458 12.666 9.89325 13.1926 8.98605C13.7192 8.07885 13.9977 7.04897 14 6C14 4.4087 13.3679 2.88258 12.2426 1.75736C11.1174 0.632141 9.5913 0 8 0C6.4087 0 4.88258 0.632141 3.75736 1.75736C2.63214 2.88258 2 4.4087 2 6C2 8.216 3.214 10.128 5 11.168V12H2V14H14V12Z" fill="black"/>
-            </svg>
-          </div>
-					<div id="achievement-3">
-						Play 2100+ game
-					</div>
-				</div>
-				<div style="width: 100%; display: flex; align-items: center;">
-          <div id="metadata-3-icon">
-            <svg width="6" height="10" viewBox="0 0 16 28" xmlns="http://www.w3.org/2000/svg">
-              <path d="M14 24V22H12C11.056 20.112 11.878 18.084 11.332 16H4.67C4.124 18.082 4.944 20.11 4 22H2V24C1.46957 24 0.960859 24.2107 0.585786 24.5858C0.210714 24.9609 0 25.4696 0 26V28H16V26C16 25.4696 15.7893 24.9609 15.4142 24.5858C15.0391 24.2107 14.5304 24 14 24ZM14 12H11V11.168C11.9098 10.6458 12.666 9.89325 13.1926 8.98605C13.7192 8.07885 13.9977 7.04897 14 6C14 4.4087 13.3679 2.88258 12.2426 1.75736C11.1174 0.632141 9.5913 0 8 0C6.4087 0 4.88258 0.632141 3.75736 1.75736C2.63214 2.88258 2 4.4087 2 6C2 8.216 3.214 10.128 5 11.168V12H2V14H14V12Z" fill="black"/>
-            </svg>
-          </div>
-					<div id="metadata-timeControl" style="font-size: 10px; margin-left:6">
-						10 Min
-					</div>
-				</div>
-			</div>
-			<div style="max-width: 100%; display: flex; justify-content: space-between; margin: 0 12px; opacity: 0.75;  font-size: 8px; height: 28px; align-items: center;">
-				<a id="match-anchor" href="" target="_blank" style="margin: 0; text-decoration: none; color:black;">Match #000000</a>
-				<p id="edition" style="margin: 0;">Single Edition</p>
-				<p id="date" style="margin: 0;">Jan 1 1900</p>
-			</div>
+      <div style="margin: 0 4">
+  			<div style="width: 100%; display: flex; align-items: center; min-height: 45px; margin: 2pt 0 0 0;">
+  				<div style="height: 40px; width: 40px;  margin-right: 8px;">
+  					<img id="top-avatar" src="https://picsum.photos/40/40?grayscale" style="width: 100%; border-radius: 4px;" alt="placeholder"/>
+  				</div>
+  				<div style="display: flex; flex-direction: column;">
+  					<a id="top-username-anchor" href="" target="_blank" style="text-decoration: none; color:black;"><p id="top-username" style="font-weight: bold;font-size: 13px; margin: 0;">asahi001</p></a>
+  					<div style="margin: 0;">
+  							<p style="margin: 0; display: flex; align-items: center; font-size: 10px;"><span id="top-ratingDelta" style="margin-right: 1ex; color: inherit;">+6</span>
+                <img id="top-flag" style="margin-right: 1ex; height:14;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAABTVBMVEUAAAD///8AAQEAAQEAAQEAAQEAAQEmJiYmJiYmJiYmJiYmJiYmJiYmJiZ9fX10dHR8fHyDg4OIiIiKioqMjIyOjo6QkJACAgJoaGhWVlZXV1dXV1dXV1cCAgJcXFxPT09QUFBQUFBQUFACAgJHR0dGRkZGRkZGRkZGRkbAAgLtPT31PDz3PDz4PDz5PDy/AgLrMzPyMjL1MjL2MjL2MTG9AgLoKCjwJyfzJyf0Jyf0Jye7AgLmJSXuJyfwJyfxJyfyJia6AgLhFRXqFRXtFRXuFRXvFRW4lALgthHovRHqvxHrvxDswBC2kgLdsw3lugzovAzqvQ21kgLZsAjjtwjmuQnnugnouwizkALXrQXfswXjtwXkuAXluAWzkAXVrAfbsQjhtxDjuhbmvRvlvRzmvh/mvyDmvyG4lgy5lxC9mxHAnRHCnxHDoBHEoBH4ads7AAAAB3RSTlMAAAQMECQwISWBWgAAAFhJREFUKFPVjUEOgCAMBHcrcOD/f+WgsdqkJZDgxcSDc5zJtsD3UDJodKMG9sTCIKxxJNZ54LEllGXAPwNGPOR3pyJqcIfa7TBQcJP5s9eTwmXQpTbkweMC/zxfoVRzFjQAAAAASUVORK5CYII="/>
+                <span id="top-rating" style="margin-right: 1ex;">2568</span><span id="top-masterTitle" style="background-color: red; font-size: 8px; font-weight: bold; padding: 1pt 2pt; color: white; border-radius:2px;">GM</span></p>
+  					</div>
+  				</div>
+  			</div>
+        <div id="game" style="min-height: 258px; margin-top: 2pt; background-image: url('/images/is-it-there.png');">
+    			<a id="game-anchor" href="chess.com">
+    				<img id="game-image" src="" style="width: 100%; border-radius: 4px;" alt="placeholder"/>
+    			</a>
+        </div>
+  			<div style="width: 100%; display: flex; align-items: center; min-height: 45px; margin: 0pt 0 1pt 0;">
+  				<div style="height: 40px; width: 40px; margin-right: 8px;">
+  					<img id="bottom-avatar" src="https://picsum.photos/40/40?grayscale" style="width: 100%; border-radius: 4px;" alt="placeholder"/>
+  				</div>
+  				<div style="display: flex; flex-direction: column;">
+            <a id="bottom-username-anchor" href="" target="_blank" style="text-decoration: none; color:black;"><p id="bottom-username" style="font-weight: bold;font-size: 13px; margin: 0;">jschiarizzi</p></a>
+  					<div style="margin: 0;">
+  							<p style="margin: 0; display: flex; align-items: center; justify-content: flex-start; font-size: 10px;"><span id="bottom-ratingDelta" style="margin-right: 1ex; color: inherit;">-6</span>
+                <img id="bottom-flag" style="margin-right: 1ex; height:14;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAABTVBMVEUAAAD///8AAQEAAQEAAQEAAQEAAQEmJiYmJiYmJiYmJiYmJiYmJiYmJiZ9fX10dHR8fHyDg4OIiIiKioqMjIyOjo6QkJACAgJoaGhWVlZXV1dXV1dXV1cCAgJcXFxPT09QUFBQUFBQUFACAgJHR0dGRkZGRkZGRkZGRkbAAgLtPT31PDz3PDz4PDz5PDy/AgLrMzPyMjL1MjL2MjL2MTG9AgLoKCjwJyfzJyf0Jyf0Jye7AgLmJSXuJyfwJyfxJyfyJia6AgLhFRXqFRXtFRXuFRXvFRW4lALgthHovRHqvxHrvxDswBC2kgLdsw3lugzovAzqvQ21kgLZsAjjtwjmuQnnugnouwizkALXrQXfswXjtwXkuAXluAWzkAXVrAfbsQjhtxDjuhbmvRvlvRzmvh/mvyDmvyG4lgy5lxC9mxHAnRHCnxHDoBHEoBH4ads7AAAAB3RSTlMAAAQMECQwISWBWgAAAFhJREFUKFPVjUEOgCAMBHcrcOD/f+WgsdqkJZDgxcSDc5zJtsD3UDJodKMG9sTCIKxxJNZ54LEllGXAPwNGPOR3pyJqcIfa7TBQcJP5s9eTwmXQpTbkweMC/zxfoVRzFjQAAAAASUVORK5CYII="/>
+                <span id="bottom-rating" style="margin-right: 1ex;">9999</span><span id="top-masterTitle" style="background-color: red; font-size: 8px; font-weight: bold; padding: 1pt 2pt; color: white; border-radius:2px;">GM</span></p>
+  					</div>
+  				</div>
+  			</div>
+  			<div style="width: 100%; margin-top: 10px; display: grid; grid-template-columns: 2fr 1fr; align-items: center;">
+  				<div style="width: 100%; display: flex; align-items: center; font-size: 13px;">
+  					<div id="achievement-1-icon">
+              <svg width="6" height="10" viewBox="0 0 16 28" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 24V22H12C11.056 20.112 11.878 18.084 11.332 16H4.67C4.124 18.082 4.944 20.11 4 22H2V24C1.46957 24 0.960859 24.2107 0.585786 24.5858C0.210714 24.9609 0 25.4696 0 26V28H16V26C16 25.4696 15.7893 24.9609 15.4142 24.5858C15.0391 24.2107 14.5304 24 14 24ZM14 12H11V11.168C11.9098 10.6458 12.666 9.89325 13.1926 8.98605C13.7192 8.07885 13.9977 7.04897 14 6C14 4.4087 13.3679 2.88258 12.2426 1.75736C11.1174 0.632141 9.5913 0 8 0C6.4087 0 4.88258 0.632141 3.75736 1.75736C2.63214 2.88258 2 4.4087 2 6C2 8.216 3.214 10.128 5 11.168V12H2V14H14V12Z" fill="black"/>
+              </svg>
+  					</div>
+  					<div id="achievement-1" style="margin:0 0 0 2px">
+  						Play A Game Against
+  					</div>
+  				</div>
+  				<div style="width: 100%; display: flex; align-items: center; height: 12px;">
+            <div id="metadata-1-icon">
+              <svg width="6" height="10" viewBox="0 0 16 28" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 24V22H12C11.056 20.112 11.878 18.084 11.332 16H4.67C4.124 18.082 4.944 20.11 4 22H2V24C1.46957 24 0.960859 24.2107 0.585786 24.5858C0.210714 24.9609 0 25.4696 0 26V28H16V26C16 25.4696 15.7893 24.9609 15.4142 24.5858C15.0391 24.2107 14.5304 24 14 24ZM14 12H11V11.168C11.9098 10.6458 12.666 9.89325 13.1926 8.98605C13.7192 8.07885 13.9977 7.04897 14 6C14 4.4087 13.3679 2.88258 12.2426 1.75736C11.1174 0.632141 9.5913 0 8 0C6.4087 0 4.88258 0.632141 3.75736 1.75736C2.63214 2.88258 2 4.4087 2 6C2 8.216 3.214 10.128 5 11.168V12H2V14H14V12Z" fill="black"/>
+              </svg>
+            </div>
+  					<div id="metadata-rarity" style="margin-left:6; font-size: 10px; color:#ABB6B9;">
+  						2 Common
+  					</div>
+  				</div>
+  				<div style="width: 100%; display: flex; align-items: center; font-size: 13px;  margin-top:6px;">
+  					<div id="achievement-2-icon" >
+              <svg width="6" height="10" viewBox="0 0 16 28" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 24V22H12C11.056 20.112 11.878 18.084 11.332 16H4.67C4.124 18.082 4.944 20.11 4 22H2V24C1.46957 24 0.960859 24.2107 0.585786 24.5858C0.210714 24.9609 0 25.4696 0 26V28H16V26C16 25.4696 15.7893 24.9609 15.4142 24.5858C15.0391 24.2107 14.5304 24 14 24ZM14 12H11V11.168C11.9098 10.6458 12.666 9.89325 13.1926 8.98605C13.7192 8.07885 13.9977 7.04897 14 6C14 4.4087 13.3679 2.88258 12.2426 1.75736C11.1174 0.632141 9.5913 0 8 0C6.4087 0 4.88258 0.632141 3.75736 1.75736C2.63214 2.88258 2 4.4087 2 6C2 8.216 3.214 10.128 5 11.168V12H2V14H14V12Z" fill="black"/>
+              </svg>
+  					</div>
+  					<div id="achievement-2" style="margin:0 0 0 2px">
+  						Pawn Checkmate
+  					</div>
+  				</div>
+  				<div style="width: 100%; display: flex; align-items: center;">
+            <div id="metadata-2-icon">
+              <svg width="6" height="10" viewBox="0 0 16 28" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 24V22H12C11.056 20.112 11.878 18.084 11.332 16H4.67C4.124 18.082 4.944 20.11 4 22H2V24C1.46957 24 0.960859 24.2107 0.585786 24.5858C0.210714 24.9609 0 25.4696 0 26V28H16V26C16 25.4696 15.7893 24.9609 15.4142 24.5858C15.0391 24.2107 14.5304 24 14 24ZM14 12H11V11.168C11.9098 10.6458 12.666 9.89325 13.1926 8.98605C13.7192 8.07885 13.9977 7.04897 14 6C14 4.4087 13.3679 2.88258 12.2426 1.75736C11.1174 0.632141 9.5913 0 8 0C6.4087 0 4.88258 0.632141 3.75736 1.75736C2.63214 2.88258 2 4.4087 2 6C2 8.216 3.214 10.128 5 11.168V12H2V14H14V12Z" fill="black"/>
+              </svg>
+            </div>
+  					<div id="metadata-ruleVariant" style="font-size: 10px; margin-left:6">
+  						Standard
+  					</div>
+  				</div>
+  				<div style="width: 100%; display: flex; align-items: center; font-size: 13px; margin-top:6px;">
+            <div id="achievement-3-icon">
+              <svg width="6" height="10" viewBox="0 0 16 28" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 24V22H12C11.056 20.112 11.878 18.084 11.332 16H4.67C4.124 18.082 4.944 20.11 4 22H2V24C1.46957 24 0.960859 24.2107 0.585786 24.5858C0.210714 24.9609 0 25.4696 0 26V28H16V26C16 25.4696 15.7893 24.9609 15.4142 24.5858C15.0391 24.2107 14.5304 24 14 24ZM14 12H11V11.168C11.9098 10.6458 12.666 9.89325 13.1926 8.98605C13.7192 8.07885 13.9977 7.04897 14 6C14 4.4087 13.3679 2.88258 12.2426 1.75736C11.1174 0.632141 9.5913 0 8 0C6.4087 0 4.88258 0.632141 3.75736 1.75736C2.63214 2.88258 2 4.4087 2 6C2 8.216 3.214 10.128 5 11.168V12H2V14H14V12Z" fill="black"/>
+              </svg>
+            </div>
+  					<div id="achievement-3" style="margin:0 0 0 2px">
+  						Play 2100+ game
+  					</div>
+  				</div>
+  				<div style="width: 100%; display: flex; align-items: center;">
+            <div id="metadata-3-icon">
+              <svg width="6" height="10" viewBox="0 0 16 28" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 24V22H12C11.056 20.112 11.878 18.084 11.332 16H4.67C4.124 18.082 4.944 20.11 4 22H2V24C1.46957 24 0.960859 24.2107 0.585786 24.5858C0.210714 24.9609 0 25.4696 0 26V28H16V26C16 25.4696 15.7893 24.9609 15.4142 24.5858C15.0391 24.2107 14.5304 24 14 24ZM14 12H11V11.168C11.9098 10.6458 12.666 9.89325 13.1926 8.98605C13.7192 8.07885 13.9977 7.04897 14 6C14 4.4087 13.3679 2.88258 12.2426 1.75736C11.1174 0.632141 9.5913 0 8 0C6.4087 0 4.88258 0.632141 3.75736 1.75736C2.63214 2.88258 2 4.4087 2 6C2 8.216 3.214 10.128 5 11.168V12H2V14H14V12Z" fill="black"/>
+              </svg>
+            </div>
+  					<div id="metadata-timeControl" style="font-size: 10px; margin-left:6">
+  						10 Min
+  					</div>
+  				</div>
+  			</div>
+  			<div style="max-width: 100%; display: flex; justify-content: space-between; margin-top: 4px; opacity: 0.75;  font-size: 8px; height: 15px; align-items: center;">
+  				<a id="match-anchor" href="" target="_blank" style="margin: 0; text-decoration: none; color:black;">Match #000000</a>
+  				<p id="edition" style="margin: 0;">Single Edition</p>
+  				<p id="date" style="margin: 0;">Jan 1 1900</p>
+  			</div>
+  		</div>
 		</div>
 	</body>
 </html>`

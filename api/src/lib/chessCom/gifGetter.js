@@ -50,14 +50,14 @@ const getGif = async ({ tcn, playerColor }) => {
 module.exports = getGif
 
 // To test, uncomment and run `node gifGetter`
-getGif({
-  tcn: 'mC0KfA7Mdv9Iv187bsInen',
-  playerColor: 'white',
-}).then(({ gifBase64, url }) => {
-  const fs = require('fs')
-  fs.createWriteStream('deleteme.html').write(
-    `<body><img src="data:image/gif;base64,${gifBase64}"/></body>`
-  )
-  console.log(url)
-  console.log('Html file created')
-})
+// getGif({
+//   tcn: 'mC0KfA7Mdv9Iv187bsInen',
+//   playerColor: 'white',
+// }).then(({ gifBase64, url }) => {
+//   const fs = require('fs')
+//   fs.createWriteStream('deleteme.html').write(
+//     `<body><img src="data:image/gif;base64,${gifBase64}"/></body>`
+//   )
+//   console.log(url)
+//   console.log('Html file created')
+// })

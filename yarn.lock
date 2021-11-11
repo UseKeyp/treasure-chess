@@ -3241,6 +3241,18 @@
   resolved "https://registry.npmjs.org/@open-draft/until/-/until-1.0.3.tgz#db9cc719191a62e7d9200f6e7bab21c5b848adca"
   integrity sha512-Aq58f5HiWdyDlFffbbSjAlv596h/cOnt2DO1w3DOC7OJ5EHs0hd/nycJfiu9RJbT6Yk6F1knnRRXNSpxoIVZ9Q==
 
+"@opengsn/contracts@^2.2.2":
+  version "2.2.4"
+  resolved "https://registry.npmjs.org/@opengsn/contracts/-/contracts-2.2.4.tgz#8b46baf2f1f86f30fbcffa1347df3fad2a24d55c"
+  integrity sha512-3FG8vqGSJSGYRmSeDHp9hUsVFAAL1fOu6UQ6yFUQFJzUYamimF/Ywelm8CtyTwpE54as2ZqnzTOFlDCJmZgXcg==
+  dependencies:
+    "@openzeppelin/contracts" "^4.2.0"
+
+"@openzeppelin/contracts@^4.2.0", "@openzeppelin/contracts@^4.3.1":
+  version "4.3.2"
+  resolved "https://registry.npmjs.org/@openzeppelin/contracts/-/contracts-4.3.2.tgz#ff80affd6d352dbe1bbc5b4e1833c41afd6283b6"
+  integrity sha512-AybF1cesONZStg5kWf6ao9OlqTZuPqddvprc0ky7lrUVOjXeKpmQ2Y9FK+6ygxasb+4aic4O5pneFBfwVsRRRg==
+
 "@panva/asn1.js@^1.0.0":
   version "1.0.0"
   resolved "https://registry.npmjs.org/@panva/asn1.js/-/asn1.js-1.0.0.tgz#dd55ae7b8129e02049f009408b97c61ccf9032f6"
@@ -4736,6 +4748,14 @@
   integrity sha512-AkJoDSI3/1A/nRe8Dz7eq+HWOEREbfAKIqCWNr8VhWgJ5eUZIWVllyg6tCI45Sv0AwmqAJjTpdXE6JZuo8nBCg==
   dependencies:
     chess.js "^0.12.0"
+
+"@treasure-chess/treasure-contracts@^0.0.6-dev.872943.0":
+  version "0.0.6-dev.872943.0"
+  resolved "https://registry.npmjs.org/@treasure-chess/treasure-contracts/-/treasure-contracts-0.0.6-dev.872943.0.tgz#5b7f174b897004e5bffcad22b38d0e3f4826c969"
+  integrity sha512-38pSwl2ftmqkmRWg8AfnPbjAP/9Y9Erxycq645KAdjLE1DRJH1H8nZNIVyiSPKTOkkM/BtSx1rm479V/Ln8sHA==
+  dependencies:
+    "@opengsn/contracts" "^2.2.2"
+    "@openzeppelin/contracts" "^4.3.1"
 
 "@trysound/sax@0.1.1":
   version "0.1.1"

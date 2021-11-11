@@ -16,6 +16,7 @@
     "@toruslabs/fetch-node-details": "^3.0.2",
     "@toruslabs/torus.js": "^3.0.0",
     "@treasure-chess/chess-achievements": "^0.0.6",
+    "@treasure-chess/treasure-contracts": "^0.0.6-dev.872943.0",
     "bad-words": "^3.0.4",
     "form-data": "^4.0.0",
     "jwks-rsa": "^2.0.4",

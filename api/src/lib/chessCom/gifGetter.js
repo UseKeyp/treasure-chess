@@ -7,7 +7,12 @@ function sleep(ms) {
 }
 
 const poll = async (url) => {
-  let result = await fetch(url)
+  let result = await fetch(url, {
+    headers: {
+      // Required to prevent rate-limiting
+      Authorization: `Bearer ${process.env.CHESS_API_ACCESS_TOKEN}`,
+    },
+  })
   if (result.status === 200) return result
   await sleep(1000)
   return await poll(url)
@@ -45,14 +50,14 @@ const getGif = async ({ tcn, playerColor }) => {
 module.exports = getGif
 
 // To test, uncomment and run `node gifGetter`
-// getGif({
-//   tcn: 'mC0KfA7Mdv9Iv187bsInen',
-//   playerColor: 'white',
-// }).then(({ gifBase64, url }) => {
-//   const fs = require('fs')
-//   fs.createWriteStream('deleteme.html').write(
-//     `<body><img src="data:image/gif;base64,${gifBase64}"/></body>`
-//   )
-//   console.log(url)
-//   console.log('Html file created')
-// })
+getGif({
+  tcn: 'mC0KfA7Mdv9Iv187bsInen',
+  playerColor: 'white',
+}).then(({ gifBase64, url }) => {
+  const fs = require('fs')
+  fs.createWriteStream('deleteme.html').write(
+    `<body><img src="data:image/gif;base64,${gifBase64}"/></body>`
+  )
+  console.log(url)
+  console.log('Html file created')
+})

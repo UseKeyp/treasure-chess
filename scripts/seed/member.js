@@ -5,6 +5,7 @@ const memberData = [
     address: '0xaaaaaa34A34d24885DFE166891A4A8FB83643105',
     imageSrc: 'https://ui-avatars.com/api/?name=alice&background=EAE7E2',
     country: 'XX',
+    // masterTitle: 'GM',
   },
   {
     id: '2',
@@ -12,6 +13,7 @@ const memberData = [
     address: '0xbbbbbbF15d6d878dCD0Df7120Ac0fc1509ee9Cab',
     imageSrc: 'https://ui-avatars.com/api/?name=bob&background=B9CBD9',
     country: 'DE',
+    // masterTitle: 'GM',
   },
   {
     id: '3',

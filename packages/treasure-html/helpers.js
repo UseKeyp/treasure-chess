@@ -54,10 +54,18 @@ function formatXml(xml, tab) {
   return formatted.substring(1, formatted.length - 3)
 }
 
+const getRarityColor = (points) => {
+  if (points < 6) return '#ABB6B9'
+  if (points < 11) return '#88C54B'
+  if (points < 14) return '#47A7FF'
+  return '#FFBB0D'
+}
+
 module.exports = {
   formatDate,
   getFlagBase64,
   iconByPoints,
   iconByName,
   formatXml,
+  getRarityColor,
 }

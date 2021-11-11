@@ -45,10 +45,9 @@ const treasureData = [
     ruleVariant: 'Standard', // eg. "Standard" or "Chess960"
     externalUrl: 'https://www.chess.com/game/daily/28103371', // Link to game on chess.com
     opening: 'Scandinavian', // eg. "Queen's Gambit"
-    achievements:
-      'Win a game,Win a game against opponent rated 1500+,Mate with a bishop', // List eg. "win/play above 2200,queen side castle,mate with a bishop"
-    achievementScore: 2,
-    rarity: 'Common',
+    achievements: 'Mythic Winner,A Minor Problem,Criss Cross', // List eg. "win/play above 2200,queen side castle,mate with a bishop"
+    achievementScore: 14,
+    rarity: 'Mythic',
   },
   {
     id: '0x51a46b84b32f78e00f69e0df78f0b5d391f878c46926f91c9aa02f185bebc221', // Moves hash plus end time

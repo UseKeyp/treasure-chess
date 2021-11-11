@@ -5,6 +5,7 @@ const {
   iconByName,
   iconByPoints,
   formatXml,
+  getRarityColor,
 } = require('./helpers')
 
 const htmlString = require('./card.js')
@@ -70,7 +71,7 @@ const getCard = ({ treasure, gifData, gifUrl }) => {
 
   const updateContent = (id, content, isNode) => {
     const element = doc.getElementById(id)
-    if (!element) return //console.log(`No element with id ${id}`)
+    if (!element) return console.log(`No element with id ${id}`)
     if (content === undefined) {
       const parent = element.parentNode
       return parent.removeChild(element)
@@ -112,9 +113,8 @@ const getCard = ({ treasure, gifData, gifUrl }) => {
   updateContent('title', treasure.title)
   updateContent('termination', treasure.termination)
   updateTag('banner-image', 'src', `data:image/png;base64,${bannerLogoBase64}`)
-  // TODO: Update header color
-  // TODO: Update icon color
-  // TODO: Add TC logo below header
+  const rarityColor = getRarityColor(treasure.achievementScore)
+  updateStyle('banner', 'background-color', rarityColor)
 
   // Users
   const { bottomUser, topUser } = getOrderedUsers(treasure)
@@ -131,7 +131,6 @@ const getCard = ({ treasure, gifData, gifUrl }) => {
   updateTag('bottom-avatar', 'src', bottomUser.imageSrc)
   updateTag('top-flag', 'src', topUser.flagImageSrc)
   updateTag('bottom-flag', 'src', bottomUser.flagImageSrc)
-  console.log(topUser)
   updateStyle('bottom-ratingDelta', 'color', bottomUser.ratingDeltaColor)
   updateStyle('top-ratingDelta', 'color', topUser.ratingDeltaColor)
 
@@ -150,6 +149,11 @@ const getCard = ({ treasure, gifData, gifUrl }) => {
   updateContent('achievement-1-icon', iconByPoints(5, treasure.cardColor), true)
   updateContent('achievement-2-icon', iconByPoints(4, treasure.cardColor), true)
   updateContent('achievement-3-icon', iconByPoints(3, treasure.cardColor), true)
+  const achievements = treasure.achievements.split(',')
+  console.log(achievements)
+  updateContent('achievement-1', achievements[0])
+  updateContent('achievement-2', achievements[1])
+  updateContent('achievement-3', achievements[2])
 
   // Metadata
   updateContent(
@@ -169,6 +173,8 @@ const getCard = ({ treasure, gifData, gifUrl }) => {
   )
   updateContent('metadata-ruleVariant', treasure.ruleVariant)
   updateContent('metadata-timeControl', treasure.timeControl)
+  updateStyle('metadata-rarity', 'color', rarityColor)
+  updateTag('trophy-icon-path', 'fill', rarityColor)
   updateContent(
     'metadata-rarity',
     `${treasure.achievementScore} ${treasure.rarity}`

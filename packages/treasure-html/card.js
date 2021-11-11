@@ -28,7 +28,7 @@ const htmlString = `<html>
 				<div style="display: flex; flex-direction: column;">
 					<a id="top-username-anchor" href="" target="_blank" style="text-decoration: none; color:black;"><p id="top-username" style="font-weight: bold;font-size: 13px; margin: 0;">asahi001</p></a>
 					<div style="margin: 0;">
-							<p style="margin: 0; display: flex; align-items: center; font-size: 10px;"><span id="top-ratingDelta" style="margin-right: 1ex; color: inherit;">+6</span><span id="top-flag" src="" style="margin-right: 1ex;">🇺🇸</span><span id="top-rating" style="margin-right: 1ex;">2568</span><span id="top-masterTitle" style="margin-right: 1ex; background-color: red; font-size: 8px; font-weight: bold; padding: 1pt 2pt;">GM</span></p>
+							<p style="margin: 0; display: flex; align-items: center; font-size: 10px;"><span id="top-ratingDelta" style="margin-right: 1ex; color: inherit;">+6</span><span id="top-flag" src="" style="margin-right: 1ex;">🇺🇸</span><span id="top-rating" style="margin-right: 1ex;">2568</span><span id="top-masterTitle" style="background-color: red; font-size: 8px; font-weight: bold; padding: 1pt 2pt; color: white; border-radius:2px;">GM</span></p>
 					</div>
 				</div>
 			</div>
@@ -44,7 +44,7 @@ const htmlString = `<html>
 				<div style="display: flex; flex-direction: column;">
           <a id="bottom-username-anchor" href="" target="_blank" style="text-decoration: none; color:black;"><p id="bottom-username" style="font-weight: bold;font-size: 13px; margin: 0;">jschiarizzi</p></a>
 					<div style="margin: 0;">
-							<p style="margin: 0; display: flex; align-items: center; justify-content: flex-start; font-size: 10px;"><span id="bottom-ratingDelta" style="margin-right: 1ex; color: inherit;">-6</span><span id="bottom-flag" style="margin-right: 1ex;">🇺🇸</span><span id="bottom-rating" style="margin-right: 1ex;">9999</span><span id="bottom-masterTitle" style="margin-right: 1ex; background-color: red; font-size: 8px; font-weight: bold; padding: 1pt 2pt;">GM</span></p>
+							<p style="margin: 0; display: flex; align-items: center; justify-content: flex-start; font-size: 10px;"><span id="bottom-ratingDelta" style="margin-right: 1ex; color: inherit;">-6</span><span id="bottom-flag" style="margin-right: 1ex;">🇺🇸</span><span id="bottom-rating" style="margin-right: 1ex;">9999</span><span id="top-masterTitle" style="background-color: red; font-size: 8px; font-weight: bold; padding: 1pt 2pt; color: white; border-radius:2px;">GM</span></p>
 					</div>
 				</div>
 			</div>
@@ -65,7 +65,7 @@ const htmlString = `<html>
               <path d="M14 24V22H12C11.056 20.112 11.878 18.084 11.332 16H4.67C4.124 18.082 4.944 20.11 4 22H2V24C1.46957 24 0.960859 24.2107 0.585786 24.5858C0.210714 24.9609 0 25.4696 0 26V28H16V26C16 25.4696 15.7893 24.9609 15.4142 24.5858C15.0391 24.2107 14.5304 24 14 24ZM14 12H11V11.168C11.9098 10.6458 12.666 9.89325 13.1926 8.98605C13.7192 8.07885 13.9977 7.04897 14 6C14 4.4087 13.3679 2.88258 12.2426 1.75736C11.1174 0.632141 9.5913 0 8 0C6.4087 0 4.88258 0.632141 3.75736 1.75736C2.63214 2.88258 2 4.4087 2 6C2 8.216 3.214 10.128 5 11.168V12H2V14H14V12Z" fill="black"/>
             </svg>
           </div>
-					<div id="metadata-rarity" style="margin-left:6; font-size: 10px;">
+					<div id="metadata-rarity" style="margin-left:6; font-size: 10px; color:#ABB6B9;">
 						2 Common
 					</div>
 				</div>
@@ -75,7 +75,7 @@ const htmlString = `<html>
               <path d="M14 24V22H12C11.056 20.112 11.878 18.084 11.332 16H4.67C4.124 18.082 4.944 20.11 4 22H2V24C1.46957 24 0.960859 24.2107 0.585786 24.5858C0.210714 24.9609 0 25.4696 0 26V28H16V26C16 25.4696 15.7893 24.9609 15.4142 24.5858C15.0391 24.2107 14.5304 24 14 24ZM14 12H11V11.168C11.9098 10.6458 12.666 9.89325 13.1926 8.98605C13.7192 8.07885 13.9977 7.04897 14 6C14 4.4087 13.3679 2.88258 12.2426 1.75736C11.1174 0.632141 9.5913 0 8 0C6.4087 0 4.88258 0.632141 3.75736 1.75736C2.63214 2.88258 2 4.4087 2 6C2 8.216 3.214 10.128 5 11.168V12H2V14H14V12Z" fill="black"/>
             </svg>
 					</div>
-					<div id="achievement-1">
+					<div id="achievement-2">
 						Pawn Checkmate
 					</div>
 				</div>
@@ -95,7 +95,7 @@ const htmlString = `<html>
               <path d="M14 24V22H12C11.056 20.112 11.878 18.084 11.332 16H4.67C4.124 18.082 4.944 20.11 4 22H2V24C1.46957 24 0.960859 24.2107 0.585786 24.5858C0.210714 24.9609 0 25.4696 0 26V28H16V26C16 25.4696 15.7893 24.9609 15.4142 24.5858C15.0391 24.2107 14.5304 24 14 24ZM14 12H11V11.168C11.9098 10.6458 12.666 9.89325 13.1926 8.98605C13.7192 8.07885 13.9977 7.04897 14 6C14 4.4087 13.3679 2.88258 12.2426 1.75736C11.1174 0.632141 9.5913 0 8 0C6.4087 0 4.88258 0.632141 3.75736 1.75736C2.63214 2.88258 2 4.4087 2 6C2 8.216 3.214 10.128 5 11.168V12H2V14H14V12Z" fill="black"/>
             </svg>
           </div>
-					<div id="achievement-1">
+					<div id="achievement-3">
 						Play 2100+ game
 					</div>
 				</div>

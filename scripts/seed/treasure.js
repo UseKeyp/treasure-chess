@@ -26,8 +26,8 @@ const treasureData = [
     mintedAt: new Date('2021-08-24T21:17:16+0000'),
     // --------------- STATE --------------
     title: 'Erik crushes',
-    cardColor: 'white', // white or black
-    // cardColor: 'black', // white or black
+    // cardColor: 'white', // white or black
+    cardColor: 'black', // white or black
     blackRating: 1500,
     whiteRating: 1400,
     blackRatingDelta: -3,

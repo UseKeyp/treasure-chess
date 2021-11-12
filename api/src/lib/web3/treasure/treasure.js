@@ -3,9 +3,10 @@ import {
   getProviderByChainId,
 } from 'src/lib/web3/helpers'
 import { Contract } from '@ethersproject/contracts'
-import treasureAbi from './treasureAbi'
+import treasureArtifact from '@treasure-chess/treasure-contracts/artifacts/contracts/Treasure.sol/Treasure.json'
 import { adminSendTransaction } from 'src/lib/web3/admin'
 
+const treasureAbi = treasureArtifact.abi
 const CHAIN_ID = getIdFromNetworkName(process.env.ETHEREUM_NETWORK_NAME)
 
 export const mint = async ({ treasure, tokenUri, minterAddress }) => {

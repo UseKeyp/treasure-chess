@@ -1,6 +1,6 @@
 const getCard = require('../src/index')
 
-const test = () => {
+const test = async () => {
   let [treasure] = require('../../../scripts/seed/treasure')
   const members = require('../../../scripts/seed/member')
   const white = members.find(
@@ -12,7 +12,7 @@ const test = () => {
   treasure.blackRatingDelta
   treasure.white = white
   treasure.black = black
-  const html = getCard({
+  const html = await getCard({
     treasure,
     // gifUrl: 'https://i.imgur.com/OQCBrle.gif',
     gifUrl:

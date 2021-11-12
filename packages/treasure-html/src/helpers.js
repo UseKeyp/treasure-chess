@@ -1,6 +1,20 @@
 const fs = require('fs')
 const icons = require('./assets/icons')
 const path = require('path')
+const fetch = require('cross-fetch')
+
+const fetchImageAndEncodeBase64 = async (url) => {
+  const result = await fetch(url, {
+    headers: {
+      // Required to prevent rate-limiting
+      Authorization: `Bearer ${process.env.CHESS_API_ACCESS_TOKEN}`,
+    },
+  })
+  if (result.status !== 200) throw "Couldn't get avatar"
+  let base64Image = await result.buffer()
+  base64Image = base64Image.toString('base64')
+  return `data:image/png;base64,${base64Image}`
+}
 
 const getFlagBase64 = (code) => {
   let regionNames = new Intl.DisplayNames(['en'], { type: 'region' })
@@ -69,4 +83,5 @@ module.exports = {
   iconByName,
   formatXml,
   getRarityColor,
+  fetchImageAndEncodeBase64,
 }

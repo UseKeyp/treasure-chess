@@ -6,6 +6,7 @@ const {
   iconByPoints,
   formatXml,
   getRarityColor,
+  fetchImageAndEncodeBase64,
 } = require('./helpers')
 
 const htmlString = require('./card.js')
@@ -15,6 +16,7 @@ const bannerLogoBase64 = require('./assets/bannerLogo')
 
 const serializer = new XMLSerializer()
 const parser = new DOMParser()
+let regionNames = new Intl.DisplayNames(['en'], { type: 'region' })
 
 const getOrderedUsers = (treasure) => {
   let whiteRatingDeltaColor
@@ -43,6 +45,7 @@ const getOrderedUsers = (treasure) => {
     ...(blackRatingDeltaColor && { ratingDeltaColor: blackRatingDeltaColor }),
     imageSrc: treasure.black.imageSrc,
     flagImageSrc: getFlagBase64(treasure.black.country),
+    flag: treasure.black.country,
   }
   const whiteUser = {
     username: treasure.whiteUsername,
@@ -53,6 +56,7 @@ const getOrderedUsers = (treasure) => {
     ...(whiteRatingDeltaColor && { ratingDeltaColor: whiteRatingDeltaColor }),
     imageSrc: treasure.white.imageSrc,
     flagImageSrc: getFlagBase64(treasure.white.country),
+    flag: treasure.white.country,
   }
   topUser = blackUser
   bottomUser = whiteUser
@@ -66,7 +70,7 @@ const getOrderedUsers = (treasure) => {
 // Pass gifData to get the final HTML to pin to IPFS
 // OR pass gifUrl to fetch a smaller HTML file for the Frontend
 // gifUrl version should load faster, b/c it delays fetching the gif
-const getCard = ({ treasure, gifData, gifUrl }) => {
+const getCard = async ({ treasure, gifData, gifUrl }) => {
   const doc = parser.parseFromString(htmlString, 'text/html')
 
   const updateContent = (id, content, isNode) => {
@@ -126,12 +130,39 @@ const getCard = ({ treasure, gifData, gifUrl }) => {
   updateTag(
     'top-username-anchor',
     'href',
-    `https://treasure.chess.com/member/${topUser.username}`
+    `https://treasure.chess.com/members/${topUser.username}`
   )
-  updateTag('top-avatar', 'src', topUser.imageSrc)
-  updateTag('bottom-avatar', 'src', bottomUser.imageSrc)
-  updateTag('top-flag', 'src', topUser.flagImageSrc)
-  updateTag('bottom-flag', 'src', bottomUser.flagImageSrc)
+  updateTag(
+    'bottom-username-anchor',
+    'href',
+    `https://treasure.chess.com/members/${bottomUser.username}`
+  )
+
+  // The only async function here (this could break things)
+  const topAvatarBase64 = await fetchImageAndEncodeBase64(topUser.imageSrc)
+  const bottomAvatarBase64 = await fetchImageAndEncodeBase64(
+    bottomUser.imageSrc
+  )
+  updateTag('top-avatar', 'src', topAvatarBase64)
+  updateTag(
+    'top-avatar',
+    'alt',
+    `Avatar for chess.com user ${topUser.username}`
+  )
+  updateTag('bottom-avatar', 'src', bottomAvatarBase64)
+  updateTag(
+    'bottom-avatar',
+    'alt',
+    `Avatar for chess.com user ${bottomUser.username}`
+  )
+  updateTag('top-flagImage', 'src', topUser.flagImageSrc)
+  updateTag('top-flagImage', 'alt', `Flag of ${regionNames.of(topUser.flag)}`)
+  updateTag(
+    'bottom-flagImage',
+    'alt',
+    `Flag of ${regionNames.of(bottomUser.flag)}`
+  )
+  updateTag('bottom-flagImage', 'src', bottomUser.flagImageSrc)
   updateStyle('bottom-ratingDelta', 'color', bottomUser.ratingDeltaColor)
   updateStyle('top-ratingDelta', 'color', topUser.ratingDeltaColor)
 
@@ -144,7 +175,11 @@ const getCard = ({ treasure, gifData, gifUrl }) => {
   // TODO: Replace treasureBackgroundBase64 with final positions image
   const staticImageUrl = `data:image/png;base64,${treasureBackgroundBase64}`
   updateStyle('game-image', 'background-image', `url('${staticImageUrl}')`)
-  updateTag('game-anchor', 'href', treasure.externalUrl)
+  updateTag(
+    'game-anchor',
+    'href',
+    `https://treasure.chess.com/treasures/${treasure.tokenId}`
+  )
 
   // Achievements
   updateContent('achievement-1-icon', iconByPoints(5, treasure.cardColor), true)

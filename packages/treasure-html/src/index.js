@@ -9,7 +9,7 @@ const {
   fetchImageAndEncodeBase64,
 } = require('./helpers')
 
-const htmlString = require('./card.js')
+const { card } = require('./card.js')
 
 const treasureBackgroundBase64 = require('./assets/treasureBackground')
 const bannerLogoBase64 = require('./assets/bannerLogo')
@@ -71,7 +71,7 @@ const getOrderedUsers = (treasure) => {
 // OR pass gifUrl to fetch a smaller HTML file for the Frontend
 // gifUrl version should load faster, b/c it delays fetching the gif
 const getCard = async ({ treasure, gifData, gifUrl }) => {
-  const doc = parser.parseFromString(htmlString, 'text/html')
+  const doc = parser.parseFromString(card, 'text/html')
 
   const updateContent = (id, content, isNode) => {
     const element = doc.getElementById(id)

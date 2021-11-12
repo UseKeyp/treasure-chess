@@ -1,4 +1,4 @@
-const htmlString = `<html>
+const card = `<html>
 	<head>
     <title id="page-title">Treasure</title>
     <meta content="Treasure Chess" property="og:title" />
@@ -27,7 +27,7 @@ const htmlString = `<html>
         <img id="banner-image" src="" style="height:32;" alt="Treasure Chess"/>
 			</div>
       <div style="margin: 0 4">
-  			<div style="width: 100%; display: flex; align-items: center; min-height: 45px; margin: 2pt 0 0 0;">
+  			<div style="width: 100%; display: flex; align-items: center; min-height: 40px; margin-top: 6pt;">
   				<div style="height: 40px; width: 40px;  margin-right: 8px;">
   					<img id="top-avatar" src="https://picsum.photos/40/40?grayscale" style="width: 100%; border-radius: 4px;" alt="Avatar image from chess.com"/>
   				</div>
@@ -40,12 +40,12 @@ const htmlString = `<html>
   					</div>
   				</div>
   			</div>
-        <div id="game" style="min-height: 258px; margin-top: 2pt; background-image: url('/images/is-it-there.png');">
+        <div id="game" style="height: 250px; margin-top: 6pt; background-image: url('/images/is-it-there.png');">
     			<a id="game-anchor" href="chess.com">
     				<img id="game-image" src="" style="width: 100%; border-radius: 4px;" alt="Video of the game"/>
     			</a>
         </div>
-  			<div style="width: 100%; display: flex; align-items: center; min-height: 45px; margin: 0pt 0 1pt 0;">
+  			<div style="width: 100%; display: flex; align-items: center; min-height: 40px; margin-top:6pt;">
   				<div style="height: 40px; width: 40px; margin-right: 8px;">
   					<img id="bottom-avatar" src="https://picsum.photos/40/40?grayscale" style="width: 100%; border-radius: 4px;" alt="Avatar image from chess.com"/>
   				</div>
@@ -58,7 +58,7 @@ const htmlString = `<html>
   					</div>
   				</div>
   			</div>
-  			<div style="width: 100%; margin-top: 10px; display: grid; grid-template-columns: 2fr 1fr; align-items: center;">
+  			<div id="achievements" style="width: 100%; margin-top: 10pt; display: grid; grid-template-columns: 2fr 1fr; align-items: center;">
   				<div style="width: 100%; display: flex; align-items: center; font-size: 13px;">
   					<div id="achievement-1-icon">
               <svg width="6" height="10" viewBox="0 0 16 28" xmlns="http://www.w3.org/2000/svg">
@@ -120,7 +120,7 @@ const htmlString = `<html>
   					</div>
   				</div>
   			</div>
-  			<div style="max-width: 100%; display: flex; justify-content: space-between; margin-top: 4px; opacity: 0.75;  font-size: 8px; height: 15px; align-items: center;">
+  			<div style="max-width: 100%; display: flex; justify-content: space-between; margin-top: 4px; opacity: 0.70;  font-size: 8px; height: 15px; align-items: center;">
   				<a id="match-anchor" href="" target="_blank" style="margin: 0; text-decoration: none; color:black;">Match #000000</a>
   				<p id="edition" style="margin: 0;">Single Edition</p>
   				<p id="date" style="margin: 0;">Jan 1 1900</p>
@@ -130,4 +130,6 @@ const htmlString = `<html>
 	</body>
 </html>`
 
-module.exports = htmlString
+const maskedAchievements = `<div style="display:flex; height:64px; width:250px; align-items: center; justify-content: center; background:rgba(220, 220, 220, 0.9); border-radius:4px; color:#147DDD; font-size: 10px; font-weight: bold;">Mint to Generate Game Stats</div>`
+
+module.exports = { card, maskedAchievements }

@@ -1,7 +1,7 @@
 const { DOMParser, XMLSerializer } = require('xmldom')
 const {
   formatDate,
-  getFlagBase64,
+  getFlagSrc,
   iconByName,
   iconByPoints,
   formatXml,
@@ -44,7 +44,7 @@ const getOrderedUsers = (treasure) => {
     // Not content, but rather "styles" and "src"
     ...(blackRatingDeltaColor && { ratingDeltaColor: blackRatingDeltaColor }),
     imageSrc: treasure.black.imageSrc,
-    flagImageSrc: getFlagBase64(treasure.black.country),
+    flagImageSrc: getFlagSrc(treasure.black.country),
     flag: treasure.black.country,
   }
   const whiteUser = {
@@ -55,7 +55,7 @@ const getOrderedUsers = (treasure) => {
     // Not content, but rather "styles" and "src"
     ...(whiteRatingDeltaColor && { ratingDeltaColor: whiteRatingDeltaColor }),
     imageSrc: treasure.white.imageSrc,
-    flagImageSrc: getFlagBase64(treasure.white.country),
+    flagImageSrc: getFlagSrc(treasure.white.country),
     flag: treasure.white.country,
   }
   topUser = blackUser

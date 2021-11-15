@@ -1,7 +1,6 @@
-const fs = require('fs')
 const icons = require('./assets/icons')
-const path = require('path')
 const fetch = require('cross-fetch')
+const flags = require('./assets/flags/flags')
 
 const fetchImageAndEncodeBase64 = async (url) => {
   const result = await fetch(url, {
@@ -16,14 +15,9 @@ const fetchImageAndEncodeBase64 = async (url) => {
   return `data:image/png;base64,${base64Image}`
 }
 
-const getFlagBase64 = (code) => {
+const getFlagSrc = (code) => {
   let regionNames = new Intl.DisplayNames(['en'], { type: 'region' })
-  const filePath = path.join(
-    __dirname,
-    `./assets/flags/24/${regionNames.of(code)}.png`
-  )
-  const data = fs.readFileSync(filePath)
-  let base64Image = new Buffer(data, 'binary').toString('base64')
+  let base64Image = flags[regionNames.of(code)]
   return `data:image/png;base64,${base64Image}`
 }
 
@@ -78,7 +72,7 @@ const getRarityColor = (points) => {
 
 module.exports = {
   formatDate,
-  getFlagBase64,
+  getFlagSrc,
   iconByPoints,
   iconByName,
   formatXml,

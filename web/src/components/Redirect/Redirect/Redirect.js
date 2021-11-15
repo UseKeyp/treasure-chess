@@ -16,7 +16,7 @@ const Redirect = ({ type }) => {
   const submitOauthCodeGrant = async () => {
     if (!code || !state) return setErrorMessage('Invalid redirect parameters')
     /* eslint-disable-next-line no-undef */
-    const response = await fetch(`${global.__REDWOOD__API_PROXY_PATH}/auth`, {
+    const response = await fetch(`${global.RWJS_API_GRAPHQL_URL}/auth`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ code, state, method: 'login' }),

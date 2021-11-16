@@ -1,5 +1,5 @@
 import GamesCell from 'src/components/Game/GamesCell'
-import GameCardCell from 'src/components/Game/GameCardCell'
+import GameCard from 'src/components/Game/GameCard'
 
 import FilterItems from 'src/components/FilterItems'
 import { Context } from 'src/providers/context'
@@ -19,6 +19,7 @@ const GameExplorer = () => {
     // console.log('mint game ', game.id)
   }
 
+  console.log(activeGame)
   return (
     <div className="grid grid-rows-1">
       <div className="grid md:grid-cols-3 grid-cols-1 gap-10">
@@ -26,7 +27,7 @@ const GameExplorer = () => {
           <FilterItems headline="Filter Games" onChange={onChangeFilter} />
         </div>
         <GamesCell filter={filter} onMintClick={onMintClick} />
-        <GameCardCell {...activeGame} />
+        <GameCard game={activeGame} />
       </div>
     </div>
   )

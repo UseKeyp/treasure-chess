@@ -6,12 +6,13 @@ export const games = async ({ filter }) =>
     filter,
   })
 
-export const game = ({
+export const game = async ({
   id, // game ID
   username,
   endTime,
 }) => {
-  return fetchGame({ id, username, endTime })
+  const game = await fetchGame({ id, username, endTime })
+  return getFullGameDetails({ username: context.currentUser.username, game })
 }
 
 export const Treasure = {}

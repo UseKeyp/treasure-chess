@@ -5,10 +5,34 @@ export const QUERY = gql`
     games: games(filter: $filter) {
       id
       endTime
+      white {
+        imageSrc
+        country
+      }
+      black {
+        imageSrc
+        country
+      }
+      moveCount
       outcome
+      termination
+      externalUrl
+      achievements
+      cardColor
+      ruleVariant
+      termination
+      whiteRating
+      blackRating
+      externalUrl
       timeControl
+      winnerUsername
+      winnerId
       blackUsername
+      blackId
+      blackMasterTitle
       whiteUsername
+      whiteId
+      whiteMasterTitle
     }
   }
 `

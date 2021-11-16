@@ -36,6 +36,8 @@ const getFullGameDetails = async ({ game: rawGame, username }) => {
   else if (game.winnerUsername === game.blackUsername) winnerId = black.id
   return {
     ...game,
+    white,
+    black,
     blackId: black.id,
     whiteId: white.id,
     winnerId,
@@ -93,8 +95,8 @@ export const getGamesWithArguments = async ({ username, filter }) => {
     }
     return true
   })
-  return filteredGames
-  // return Promise.all(
-  //   filteredGames.map((game) => getFullGameDetails({ game, username }))
-  // )
+
+  return Promise.all(
+    filteredGames.map((game) => getFullGameDetails({ game, username }))
+  )
 }

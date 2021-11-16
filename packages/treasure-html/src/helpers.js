@@ -5,6 +5,7 @@ const flags = require('./assets/flags')
 const noAvatarBase64 = require('./assets/noAvatar')
 
 const fetchImageAndEncodeBase64 = async (url) => {
+  // If no profile image, show the basic pawn
   if (!url || !url.length) return `data:image/png;base64,${noAvatarBase64}`
   // If browser, just load the image directly
   if (typeof window !== 'undefined') return url
@@ -23,8 +24,9 @@ const fetchImageAndEncodeBase64 = async (url) => {
 const getFlagSrc = (code) => {
   let base64Image = flags['XX']
   if (code) {
-    regionNames = new Intl.DisplayNames(['en'], { type: 'region' })
-    base64Image = flags[regionNames.of(code)]
+    const regionNames = new Intl.DisplayNames(['en'], { type: 'region' })
+    const country = regionNames.of(code)
+    base64Image = flags[country.replace(' ', '-')]
   }
   return `data:image/png;base64,${base64Image}`
 }

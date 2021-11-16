@@ -20,8 +20,8 @@ const card = `<html>
             </svg>
   				</div>
   				<div style="color:black;">
-  					<p id="title" style="margin: 0;font-weight: bold; font-size: 11px">My fun game</p>
-  					<p id="termination" style="margin: 0; font-size: 10px;" >White won by checkmate</p>
+  					<p id="title" style="color:black; margin: 0;font-weight: bold; font-size: 11px">My fun game</p>
+  					<p id="termination" style="color:black; margin: 0; font-size: 10px;" >White won by checkmate</p>
   				</div>
         </div>
         <img id="banner-image" src="" style="height:32;" alt="Treasure Chess"/>
@@ -32,11 +32,11 @@ const card = `<html>
   					<img id="top-avatar" src="https://picsum.photos/40/40?grayscale" style="width: 100%; border-radius: 4px;" alt="Avatar image from chess.com"/>
   				</div>
   				<div style="display: flex; flex-direction: column;">
-  					<a id="top-username-anchor" href="" target="_blank" style="text-decoration: none; color:black;"><p id="top-username" style="font-weight: bold;font-size: 13px; margin: 0;">asahi001</p></a>
+  					<a id="top-username-anchor" href="" target="_blank" style="text-decoration: none;"><p id="top-username" style=" color:black; font-weight: bold;font-size: 13px; margin: 0;">asahi001</p></a>
   					<div style="margin: 0;">
   							<p style="margin: 0; display: flex; align-items: center; font-size: 10px;"><span id="top-ratingDelta" style="margin-right: 1ex; color: inherit;">+6</span>
                 <img id="top-flagImage" alt="" style="margin-right: 1ex; height:14;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAABTVBMVEUAAAD///8AAQEAAQEAAQEAAQEAAQEmJiYmJiYmJiYmJiYmJiYmJiYmJiZ9fX10dHR8fHyDg4OIiIiKioqMjIyOjo6QkJACAgJoaGhWVlZXV1dXV1dXV1cCAgJcXFxPT09QUFBQUFBQUFACAgJHR0dGRkZGRkZGRkZGRkbAAgLtPT31PDz3PDz4PDz5PDy/AgLrMzPyMjL1MjL2MjL2MTG9AgLoKCjwJyfzJyf0Jyf0Jye7AgLmJSXuJyfwJyfxJyfyJia6AgLhFRXqFRXtFRXuFRXvFRW4lALgthHovRHqvxHrvxDswBC2kgLdsw3lugzovAzqvQ21kgLZsAjjtwjmuQnnugnouwizkALXrQXfswXjtwXkuAXluAWzkAXVrAfbsQjhtxDjuhbmvRvlvRzmvh/mvyDmvyG4lgy5lxC9mxHAnRHCnxHDoBHEoBH4ads7AAAAB3RSTlMAAAQMECQwISWBWgAAAFhJREFUKFPVjUEOgCAMBHcrcOD/f+WgsdqkJZDgxcSDc5zJtsD3UDJodKMG9sTCIKxxJNZ54LEllGXAPwNGPOR3pyJqcIfa7TBQcJP5s9eTwmXQpTbkweMC/zxfoVRzFjQAAAAASUVORK5CYII="/>
-                <span id="top-rating" style="margin-right: 1ex;">2568</span><span id="top-masterTitle" style="background-color: red; font-size: 8px; font-weight: bold; padding: 1pt 2pt; color: white; border-radius:2px;">GM</span></p>
+                <span id="top-rating" style="margin-right: 1ex; color:black;">2568</span><span id="top-masterTitle" style="background-color: red; font-size: 8px; font-weight: bold; padding: 1pt 2pt; color: white; border-radius:2px;">GM</span></p>
   					</div>
   				</div>
   			</div>
@@ -50,11 +50,11 @@ const card = `<html>
   					<img id="bottom-avatar" src="https://picsum.photos/40/40?grayscale" style="width: 100%; border-radius: 4px;" alt="Avatar image from chess.com"/>
   				</div>
   				<div style="display: flex; flex-direction: column;">
-            <a id="bottom-username-anchor" href="" target="_blank" style="text-decoration: none; color:black;"><p id="bottom-username" style="font-weight: bold;font-size: 13px; margin: 0;">jschiarizzi</p></a>
+            <a id="bottom-username-anchor" href="" target="_blank" style="text-decoration: none;"><p id="bottom-username" style=" color:black; font-weight: bold;font-size: 13px; margin: 0;">jschiarizzi</p></a>
   					<div style="margin: 0;">
   							<p style="margin: 0; display: flex; align-items: center; justify-content: flex-start; font-size: 10px;"><span id="bottom-ratingDelta" style="margin-right: 1ex; color: inherit;">-6</span>
                 <img id="bottom-flagImage" alt="" style="margin-right: 1ex; height:14;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAABTVBMVEUAAAD///8AAQEAAQEAAQEAAQEAAQEmJiYmJiYmJiYmJiYmJiYmJiYmJiZ9fX10dHR8fHyDg4OIiIiKioqMjIyOjo6QkJACAgJoaGhWVlZXV1dXV1dXV1cCAgJcXFxPT09QUFBQUFBQUFACAgJHR0dGRkZGRkZGRkZGRkbAAgLtPT31PDz3PDz4PDz5PDy/AgLrMzPyMjL1MjL2MjL2MTG9AgLoKCjwJyfzJyf0Jyf0Jye7AgLmJSXuJyfwJyfxJyfyJia6AgLhFRXqFRXtFRXuFRXvFRW4lALgthHovRHqvxHrvxDswBC2kgLdsw3lugzovAzqvQ21kgLZsAjjtwjmuQnnugnouwizkALXrQXfswXjtwXkuAXluAWzkAXVrAfbsQjhtxDjuhbmvRvlvRzmvh/mvyDmvyG4lgy5lxC9mxHAnRHCnxHDoBHEoBH4ads7AAAAB3RSTlMAAAQMECQwISWBWgAAAFhJREFUKFPVjUEOgCAMBHcrcOD/f+WgsdqkJZDgxcSDc5zJtsD3UDJodKMG9sTCIKxxJNZ54LEllGXAPwNGPOR3pyJqcIfa7TBQcJP5s9eTwmXQpTbkweMC/zxfoVRzFjQAAAAASUVORK5CYII="/>
-                <span id="bottom-rating" style="margin-right: 1ex;">9999</span><span id="top-masterTitle" style="background-color: red; font-size: 8px; font-weight: bold; padding: 1pt 2pt; color: white; border-radius:2px;">GM</span></p>
+                <span id="bottom-rating" style="margin-right: 1ex; color:black;">9999</span><span id="top-masterTitle" style="background-color: red; font-size: 8px; font-weight: bold; padding: 1pt 2pt; color: white; border-radius:2px;">GM</span></p>
   					</div>
   				</div>
   			</div>

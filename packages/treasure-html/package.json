@@ -12,5 +12,7 @@
   "dependencies": {
     "xmldom": "^0.6.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.16.0"
+  }
 }

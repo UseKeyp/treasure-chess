@@ -58,8 +58,8 @@ const getOrderedUsers = (treasure) => {
     flagImageSrc: getFlagSrc(treasure.white.country),
     flag: treasure.white.country,
   }
-  topUser = blackUser
-  bottomUser = whiteUser
+  let topUser = blackUser
+  let bottomUser = whiteUser
   if (treasure.cardColor === 'black') {
     topUser = whiteUser
     bottomUser = blackUser
@@ -82,11 +82,12 @@ const getCard = async ({ treasure, gifData, gifUrl }) => {
     }
     let node = content
     if (isNode) {
-      node = parser.parseFromString(content, 'text/html')
+      const node = parser.parseFromString(content, 'text/html')
       element.replaceChild(node, element.childNodes[1])
-    } else if (typeof node == 'string' || typeof node == 'number')
+    } else if (typeof node == 'string' || typeof node == 'number') {
       node = doc.createTextNode(content)
-    element.replaceChild(node, element.childNodes[0])
+    }
+    // element.replaceChild(node, element.childNodes[0])
   }
   const updateTag = (id, tag, content) => {
     const element = doc.getElementById(id)
@@ -109,8 +110,10 @@ const getCard = async ({ treasure, gifData, gifUrl }) => {
     updateStyle('container', 'background-color', '#272522')
     updateStyle('container', 'color', 'white')
     updateStyle('match-anchor', 'color', 'white')
-    updateStyle('top-username-anchor', 'color', 'white')
-    updateStyle('bottom-username-anchor', 'color', 'white')
+    updateStyle('top-username', 'color', 'white')
+    updateStyle('bottom-username', 'color', 'white')
+    updateStyle('bottom-rating', 'color', 'white')
+    updateStyle('top-rating', 'color', 'white')
   }
 
   // Header
@@ -124,10 +127,10 @@ const getCard = async ({ treasure, gifData, gifUrl }) => {
   // Users
   const { bottomUser, topUser } = getOrderedUsers(treasure)
   // TODO:  figure out why this causes import failure
-  // Object.keys(topUser).map((key) => updateContent(`top-${key}`, topUser[key]))
-  // Object.keys(bottomUser).map((key) =>
-  //   updateContent(`bottom-${key}`, bottomUser[key])
-  // )
+  Object.keys(topUser).map((key) => updateContent(`top-${key}`, topUser[key]))
+  Object.keys(bottomUser).map((key) =>
+    updateContent(`bottom-${key}`, bottomUser[key])
+  )
   updateTag(
     'top-username-anchor',
     'href',
@@ -141,7 +144,6 @@ const getCard = async ({ treasure, gifData, gifUrl }) => {
 
   // The only async function here (this could break things)
   const topAvatarBase64 = await fetchImageAndEncodeBase64(topUser.imageSrc)
-  console.log(topAvatarBase64)
   const bottomAvatarBase64 = await fetchImageAndEncodeBase64(
     bottomUser.imageSrc
   )
@@ -229,4 +231,4 @@ const getCard = async ({ treasure, gifData, gifUrl }) => {
   return serializer.serializeToString(doc)
 }
 
-module.exports = getCard
+export default getCard

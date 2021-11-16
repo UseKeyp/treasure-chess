@@ -1,24 +1,58 @@
 .moves-details {
-  border: 4px solid #8d8c8a;
-  width: 100%;
-  max-width: 100%;
-  &__heading {
-    padding: 1rem;
-    text-align: center;
-    font-weight: bold;
-    font-size: 2rem;
+
+  *::-webkit-scrollbar {
+    width: 8px;
   }
-  &__list {
-    list-style: none;
-    padding: 0;
+
+  *::-webkit-scrollbar-track {
+    background: #3D3B38;
+    border-radius: 9.92388px;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: #ABB6B9;
+    border-radius: 24.8097px;
+    border: none;
+  }
+
+  padding: 16px;
+  border-radius: 12px;
+  background-color: #272522;
+  max-height: 470px;
+  &__header {
+      display: flex;
+    }
+  &__player {
+    width: 50%;
+    margin-bottom: 15px;
+  }
+    &__list {
+      padding-right: 10px;
+      max-height: 360px;
+      overflow-y: auto;
+  }
+  &__player-no {
+    font-size: calc(10 / 16 * 1rem);
+  }
+  &__player-photo {
+    margin-right: 8px;
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+  }
+  &__player-avatar {
+    display: flex;
+  }
+  &__player-nick {
+    font-size: calc(13 / 16 * 1rem);
   }
   &__item {
-    padding: 5px 12px;
-    font-weight: bold;
-    font-size: 1.5rem;
-    &:nth-child(odd) {
-      background-color: #575757;
-    }
+    margin-bottom: 4px;
+    padding: 4px 4px 4px 16px;
+    font-size: calc(10 / 16 * 1rem);
+    background-color: #312E2B;
+    border-radius: 4px;
+
     &__inner {
       display: flex;
       flex-direction: row;
@@ -26,6 +60,12 @@
     }
     &__detail {
       flex: 1;
+      &--first {
+        flex: .3;
+      }
+      &--second {
+        flex: 1.3;
+      }
     }
   }
 }

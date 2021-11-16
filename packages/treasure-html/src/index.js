@@ -4,9 +4,9 @@ const {
   getFlagSrc,
   iconByName,
   iconByPoints,
-  formatXml,
   getRarityColor,
   fetchImageAndEncodeBase64,
+  // formatXml,
 } = require('./helpers')
 
 const { card } = require('./card.js')
@@ -123,10 +123,11 @@ const getCard = async ({ treasure, gifData, gifUrl }) => {
 
   // Users
   const { bottomUser, topUser } = getOrderedUsers(treasure)
-  Object.keys(topUser).map((key) => updateContent(`top-${key}`, topUser[key]))
-  Object.keys(bottomUser).map((key) =>
-    updateContent(`bottom-${key}`, bottomUser[key])
-  )
+  // TODO:  figure out why this causes import failure
+  // Object.keys(topUser).map((key) => updateContent(`top-${key}`, topUser[key]))
+  // Object.keys(bottomUser).map((key) =>
+  //   updateContent(`bottom-${key}`, bottomUser[key])
+  // )
   updateTag(
     'top-username-anchor',
     'href',
@@ -223,7 +224,8 @@ const getCard = async ({ treasure, gifData, gifUrl }) => {
   updateTag('match-anchor', 'href', treasure.externalUrl)
   updateContent('date', formatDate(treasure.endTime))
 
-  return formatXml(serializer.serializeToString(doc))
+  // return formatXml(serializer.serializeToString(doc))
+  return serializer.serializeToString(doc)
 }
 
 module.exports = getCard

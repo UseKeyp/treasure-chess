@@ -16,7 +16,7 @@ yarn add @treasure-chess/treasure-html
 ## Usage
 
 ```sh
-import getCard from "@treasure-chess/treasure-html"
+const getCard = require('@common/treasure-html')
 
 const html = await getCard({
   treasure,

@@ -1,12 +1,12 @@
 import GamesCell from 'src/components/Game/GamesCell'
-import GameCard from 'src/components/Game/GameCard'
+import GameCardCell from 'src/components/Game/GameCardCell'
 
 import FilterItems from 'src/components/FilterItems'
 import { Context } from 'src/providers/context'
 
 const GameExplorer = () => {
-  const [context, _setContext] = React.useContext(Context)
-  const { activeGame, gameTitle } = context
+  const [context] = React.useContext(Context)
+  const { activeGame } = context
   const [filter, setFilter] = React.useState()
 
   const onChangeFilter = (newFilter) => {
@@ -26,7 +26,7 @@ const GameExplorer = () => {
           <FilterItems headline="Filter Games" onChange={onChangeFilter} />
         </div>
         <GamesCell filter={filter} onMintClick={onMintClick} />
-        <GameCard game={activeGame} title={gameTitle} />
+        <GameCardCell {...activeGame} />
       </div>
     </div>
   )

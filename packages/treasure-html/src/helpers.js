@@ -1,8 +1,10 @@
-const icons = require('./assets/icons')
 const fetch = require('cross-fetch')
-const flags = require('./assets/flags/flags')
+
+const icons = require('./assets/icons')
+const flags = require('./assets/flags')
 
 const fetchImageAndEncodeBase64 = async (url) => {
+  if (!url) return ''
   const result = await fetch(url, {
     headers: {
       // Required to prevent rate-limiting
@@ -16,8 +18,11 @@ const fetchImageAndEncodeBase64 = async (url) => {
 }
 
 const getFlagSrc = (code) => {
-  let regionNames = new Intl.DisplayNames(['en'], { type: 'region' })
-  let base64Image = flags[regionNames.of(code)]
+  let base64Image = flags['XX']
+  if (code) {
+    regionNames = new Intl.DisplayNames(['en'], { type: 'region' })
+    base64Image = flags[regionNames.of(code)]
+  }
   return `data:image/png;base64,${base64Image}`
 }
 
@@ -50,19 +55,6 @@ const iconByName = (name, color) => {
   return icon
 }
 
-function formatXml(xml, tab) {
-  // tab = optional indent value, default is tab (\t)
-  var formatted = '',
-    indent = ''
-  tab = tab || '\t'
-  xml.split(/>\s*</).forEach(function (node) {
-    if (node.match(/^\/\w/)) indent = indent.substring(tab.length) // decrease indent by one 'tab'
-    formatted += indent + '<' + node + '>\r\n'
-    if (node.match(/^<?\w[^>]*[^\/]$/)) indent += tab // increase indent
-  })
-  return formatted.substring(1, formatted.length - 3)
-}
-
 const getRarityColor = (points) => {
   if (points < 6) return '#ABB6B9'
   if (points < 11) return '#88C54B'
@@ -70,12 +62,26 @@ const getRarityColor = (points) => {
   return '#FFBB0D'
 }
 
+// TODO:  This causes an error when included for some reason?
+// const formatXml = (xml, tab) => {
+//   // tab = optional indent value, default is tab (\t)
+//   var formatted = '',
+//     indent = ''
+//   tab = tab || '\t'
+//   xml.split(/>\s*</).forEach((node) => {
+//     if (node.match(/^\/\w/)) indent = indent.substring(tab.length) // decrease indent by one 'tab'
+//     formatted += indent + '<' + node + '>\r\n'
+//     if (node.match(/^<?\w[^>]*[^\/]$/)) indent += tab // increase indent
+//   })
+//   return formatted.substring(1, formatted.length - 3)
+// }
+
 module.exports = {
   formatDate,
   getFlagSrc,
   iconByPoints,
   iconByName,
-  formatXml,
   getRarityColor,
   fetchImageAndEncodeBase64,
+  // formatXml,
 }

@@ -61,32 +61,32 @@ const iconByName = (name, color) => {
 }
 
 const getRarityColor = (points) => {
+  if (!points) return '#ABB6B9'
   if (points < 6) return '#ABB6B9'
   if (points < 11) return '#88C54B'
   if (points < 14) return '#47A7FF'
   return '#FFBB0D'
 }
 
-// TODO:  This causes an error when included for some reason?
-// const formatXml = (xml, tab) => {
-//   // tab = optional indent value, default is tab (\t)
-//   var formatted = '',
-//     indent = ''
-//   tab = tab || '\t'
-//   xml.split(/>\s*</).forEach((node) => {
-//     if (node.match(/^\/\w/)) indent = indent.substring(tab.length) // decrease indent by one 'tab'
-//     formatted += indent + '<' + node + '>\r\n'
-//     if (node.match(/^<?\w[^>]*[^\/]$/)) indent += tab // increase indent
-//   })
-//   return formatted.substring(1, formatted.length - 3)
-// }
+const formatXml = (xml, tab) => {
+  // tab = optional indent value, default is tab (\t)
+  var formatted = '',
+    indent = ''
+  tab = tab || '\t'
+  xml.split(/>\s*</).forEach((node) => {
+    if (node.match(/^\/\w/)) indent = indent.substring(tab.length) // decrease indent by one 'tab'
+    formatted += indent + '<' + node + '>\r\n'
+    if (node.match(/^<?\w[^>]*[^\/]$/)) indent += tab // increase indent
+  })
+  return formatted.substring(1, formatted.length - 3)
+}
 
-module.exports = {
+export {
   formatDate,
   getFlagSrc,
   iconByPoints,
   iconByName,
   getRarityColor,
   fetchImageAndEncodeBase64,
-  // formatXml,
+  formatXml,
 }

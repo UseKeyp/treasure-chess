@@ -22,7 +22,7 @@ export const schema = gql`
     externalUrl: String
     opening: String!
     cardColor: String!
-    achievements: String!
+    achievements: String
     blackMasterTitle: String
     whiteMasterTitle: String
   }

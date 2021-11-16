@@ -6,10 +6,10 @@ const {
   iconByPoints,
   getRarityColor,
   fetchImageAndEncodeBase64,
-  // formatXml,
+  formatXml,
 } = require('./helpers')
 
-const { card } = require('./card.js')
+const { card, maskedAchievements } = require('./card.js')
 
 const treasureBackgroundBase64 = require('./assets/treasureBackground')
 const bannerLogoBase64 = require('./assets/bannerLogo')
@@ -40,8 +40,10 @@ const getOrderedUsers = (treasure) => {
     username: treasure.blackUsername,
     rating: treasure.blackRating,
     ratingDelta: blackRatingDelta,
-    masterTitle: treasure.blackMasterTitle,
-    // Not content, but rather "styles" and "src"
+    ...(treasure.blackMasterTitle && {
+      masterTitle: treasure.blackMasterTitle,
+    }),
+    // // Not content, but rather "styles" and "src"
     ...(blackRatingDeltaColor && { ratingDeltaColor: blackRatingDeltaColor }),
     imageSrc: treasure.black.imageSrc,
     flagImageSrc: getFlagSrc(treasure.black.country),
@@ -51,8 +53,10 @@ const getOrderedUsers = (treasure) => {
     username: treasure.whiteUsername,
     rating: treasure.whiteRating,
     ratingDelta: whiteRatingDelta,
-    masterTitle: treasure.whiteMasterTitle,
-    // Not content, but rather "styles" and "src"
+    ...(treasure.whiteMasterTitle && {
+      masterTitle: treasure.whiteMasterTitle,
+    }),
+    // // Not content, but rather "styles" and "src"
     ...(whiteRatingDeltaColor && { ratingDeltaColor: whiteRatingDeltaColor }),
     imageSrc: treasure.white.imageSrc,
     flagImageSrc: getFlagSrc(treasure.white.country),
@@ -73,21 +77,21 @@ const getOrderedUsers = (treasure) => {
 const getCard = async ({ treasure, gifData, gifUrl }) => {
   const doc = parser.parseFromString(card, 'text/html')
 
-  const updateContent = (id, content, isNode) => {
+  const updateContent = (id, content, isNodeString) => {
     const element = doc.getElementById(id)
-    if (!element) return console.log(`No element with id ${id}`)
+    if (!element) return //console.log(`No element with id ${id}`)
     if (content === undefined) {
       const parent = element.parentNode
       return parent.removeChild(element)
     }
     let node = content
-    if (isNode) {
+    if (isNodeString) {
       const node = parser.parseFromString(content, 'text/html')
-      element.replaceChild(node, element.childNodes[1])
+      return element.replaceChild(node, element.childNodes)
     } else if (typeof node == 'string' || typeof node == 'number') {
       node = doc.createTextNode(content)
     }
-    // element.replaceChild(node, element.childNodes[0])
+    element.replaceChild(node, element.childNodes[0])
   }
   const updateTag = (id, tag, content) => {
     const element = doc.getElementById(id)
@@ -126,7 +130,6 @@ const getCard = async ({ treasure, gifData, gifUrl }) => {
 
   // Users
   const { bottomUser, topUser } = getOrderedUsers(treasure)
-  // TODO:  figure out why this causes import failure
   Object.keys(topUser).map((key) => updateContent(`top-${key}`, topUser[key]))
   Object.keys(bottomUser).map((key) =>
     updateContent(`bottom-${key}`, bottomUser[key])
@@ -184,40 +187,55 @@ const getCard = async ({ treasure, gifData, gifUrl }) => {
     'href',
     `https://treasure.chess.com/treasures/${treasure.tokenId}`
   )
+  if (treasure.achievements) {
+    // Achievements
+    updateContent(
+      'achievement-1-icon',
+      iconByPoints(5, treasure.cardColor),
+      true
+    )
+    updateContent(
+      'achievement-2-icon',
+      iconByPoints(4, treasure.cardColor),
+      true
+    )
+    updateContent(
+      'achievement-3-icon',
+      iconByPoints(3, treasure.cardColor),
+      true
+    )
+    const achievements = treasure.achievements.split(',')
+    updateContent('achievement-1', achievements[0])
+    updateContent('achievement-2', achievements[1])
+    updateContent('achievement-3', achievements[2])
 
-  // Achievements
-  updateContent('achievement-1-icon', iconByPoints(5, treasure.cardColor), true)
-  updateContent('achievement-2-icon', iconByPoints(4, treasure.cardColor), true)
-  updateContent('achievement-3-icon', iconByPoints(3, treasure.cardColor), true)
-  const achievements = treasure.achievements.split(',')
-  updateContent('achievement-1', achievements[0])
-  updateContent('achievement-2', achievements[1])
-  updateContent('achievement-3', achievements[2])
-
-  // Metadata
-  updateContent(
-    'metadata-1-icon',
-    iconByName('trophy', treasure.cardColor),
-    true
-  )
-  updateContent(
-    'metadata-2-icon',
-    iconByName('board', treasure.cardColor),
-    true
-  )
-  updateContent(
-    'metadata-3-icon',
-    iconByName('timer', treasure.cardColor),
-    true
-  )
-  updateContent('metadata-ruleVariant', treasure.ruleVariant)
-  updateContent('metadata-timeControl', treasure.timeControl)
-  updateStyle('metadata-rarity', 'color', rarityColor)
-  updateTag('trophy-icon-path', 'fill', rarityColor)
-  updateContent(
-    'metadata-rarity',
-    `${treasure.achievementScore} ${treasure.rarity}`
-  )
+    // Metadata
+    updateContent(
+      'metadata-1-icon',
+      iconByName('trophy', treasure.cardColor),
+      true
+    )
+    updateContent(
+      'metadata-2-icon',
+      iconByName('board', treasure.cardColor),
+      true
+    )
+    updateContent(
+      'metadata-3-icon',
+      iconByName('timer', treasure.cardColor),
+      true
+    )
+    updateContent('metadata-ruleVariant', treasure.ruleVariant)
+    updateContent('metadata-timeControl', treasure.timeControl)
+    updateStyle('metadata-rarity', 'color', rarityColor)
+    updateTag('trophy-icon-path', 'fill', rarityColor)
+    updateContent(
+      'metadata-rarity',
+      `${treasure.achievementScore} ${treasure.rarity}`
+    )
+  } else {
+    updateContent('achievements', maskedAchievements, true)
+  }
 
   // Footer
   updateContent(
@@ -227,8 +245,7 @@ const getCard = async ({ treasure, gifData, gifUrl }) => {
   updateTag('match-anchor', 'href', treasure.externalUrl)
   updateContent('date', formatDate(treasure.endTime))
 
-  // return formatXml(serializer.serializeToString(doc))
-  return serializer.serializeToString(doc)
+  return formatXml(serializer.serializeToString(doc))
 }
 
 export default getCard

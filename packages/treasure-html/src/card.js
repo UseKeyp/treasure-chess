@@ -54,7 +54,7 @@ const card = `<html>
   					<div style="margin: 0;">
   							<p style="margin: 0; display: flex; align-items: center; justify-content: flex-start; font-size: 10px;"><span id="bottom-ratingDelta" style="margin-right: 1ex; color: inherit;">-6</span>
                 <img id="bottom-flagImage" alt="" style="margin-right: 1ex; height:14;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAABTVBMVEUAAAD///8AAQEAAQEAAQEAAQEAAQEmJiYmJiYmJiYmJiYmJiYmJiYmJiZ9fX10dHR8fHyDg4OIiIiKioqMjIyOjo6QkJACAgJoaGhWVlZXV1dXV1dXV1cCAgJcXFxPT09QUFBQUFBQUFACAgJHR0dGRkZGRkZGRkZGRkbAAgLtPT31PDz3PDz4PDz5PDy/AgLrMzPyMjL1MjL2MjL2MTG9AgLoKCjwJyfzJyf0Jyf0Jye7AgLmJSXuJyfwJyfxJyfyJia6AgLhFRXqFRXtFRXuFRXvFRW4lALgthHovRHqvxHrvxDswBC2kgLdsw3lugzovAzqvQ21kgLZsAjjtwjmuQnnugnouwizkALXrQXfswXjtwXkuAXluAWzkAXVrAfbsQjhtxDjuhbmvRvlvRzmvh/mvyDmvyG4lgy5lxC9mxHAnRHCnxHDoBHEoBH4ads7AAAAB3RSTlMAAAQMECQwISWBWgAAAFhJREFUKFPVjUEOgCAMBHcrcOD/f+WgsdqkJZDgxcSDc5zJtsD3UDJodKMG9sTCIKxxJNZ54LEllGXAPwNGPOR3pyJqcIfa7TBQcJP5s9eTwmXQpTbkweMC/zxfoVRzFjQAAAAASUVORK5CYII="/>
-                <span id="bottom-rating" style="margin-right: 1ex; color:black;">9999</span><span id="top-masterTitle" style="background-color: red; font-size: 8px; font-weight: bold; padding: 1pt 2pt; color: white; border-radius:2px;">GM</span></p>
+                <span id="bottom-rating" style="margin-right: 1ex; color:black;">9999</span><span id="bottom-masterTitle" style="background-color: red; font-size: 8px; font-weight: bold; padding: 1pt 2pt; color: white; border-radius:2px;">GM</span></p>
   					</div>
   				</div>
   			</div>

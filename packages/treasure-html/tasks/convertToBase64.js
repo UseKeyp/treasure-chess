@@ -1,6 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 
+// Convert a single file to Base64
 // cd to this folder and run `node convertToBase64.js`
 
 const getBase64 = (filename) => {
@@ -10,5 +11,6 @@ const getBase64 = (filename) => {
 module.exports = base64Image`
   fs.writeFile(`${filename}.js`, codeSnippet, (e) => e && console.log(e))
 }
-// getBase64('../assets/Armenia24')
-module.exports = getBase64
+
+const filePath = path.join(__dirname, '../src/assets/flags/24/Armenia.png')
+getBase64(filePath)

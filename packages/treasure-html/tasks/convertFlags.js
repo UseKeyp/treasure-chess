@@ -1,6 +1,5 @@
 const fs = require('fs-extra')
 const path = require('path')
-const getBase64 = require('./convertToBase64')
 
 const directoryPath = path.join(__dirname, '../src/assets/flags/24')
 
@@ -11,12 +10,11 @@ const convertAllFlags = async () => {
     if (!files) throw 'No files found'
     console.log(files)
     let flags = {}
-    const onlyUS = ['United-States.png']
+    // const onlyUS = ['United-States.png']
     await Promise.all(
-      onlyUS.map(async (fileName, index) => {
-        // files.map(async (fileName, index) => {
+      // onlyUS.map(async (fileName, index) => {
+      files.map(async (fileName, index) => {
         if (!fileName.match(/(.png)$/)) return
-        const result = getBase64(path.join(directoryPath, fileName))
         const data = fs.readFileSync(path.join(directoryPath, fileName))
         flags[fileName.split('.')[0]] = new Buffer(data, 'binary').toString(
           'base64'

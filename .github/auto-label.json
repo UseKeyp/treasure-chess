@@ -1,7 +1,12 @@
 {
   "rules": {
-    "web": ["web/"],
-    "api": ["api/"],
-    "dependency change": ["package.json"]
+    "web": ["web/**/*"],
+    "api": ["api/**/*"],
+    "dependency change": [
+      "package.json",
+      "web/package.json",
+      "api/package.json"
+    ],
+    "treasure-html": ["packages/treasure-html/**/*"]
   }
 }

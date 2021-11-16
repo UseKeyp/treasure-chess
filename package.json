@@ -12,8 +12,11 @@
     "chromatic": "chromatic --project-token=cafed242b299 --storybook-build-dir web/public/storybook",
     "compile-abi": "node tasks/updateAbi"
   },
+  "prisma": {
+    "seed": "yarn rw exec seed"
+  },
   "devDependencies": {
-    "@redwoodjs/core": "^0.37.5",
+    "@redwoodjs/core": "^0.38.1",
     "babel-plugin-module-resolver": "^4.1.0",
     "chromatic": "^5.9.2",
     "core-js": "^3.19.1"
@@ -28,6 +31,5 @@
   "engines": {
     "node": "14.x",
     "yarn": "1.x"
-  },
-  "resolutions": {}
+  }
 }

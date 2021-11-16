@@ -19,7 +19,6 @@ const GameExplorer = () => {
     // console.log('mint game ', game.id)
   }
 
-  console.log(activeGame)
   return (
     <div className="grid grid-rows-1">
       <div className="grid md:grid-cols-3 grid-cols-1 gap-10">

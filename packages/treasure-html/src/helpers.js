@@ -6,6 +6,8 @@ const noAvatarBase64 = require('./assets/noAvatar')
 
 const fetchImageAndEncodeBase64 = async (url) => {
   if (!url || !url.length) return `data:image/png;base64,${noAvatarBase64}`
+  // If browser, just load the image directly
+  if (typeof window !== 'undefined') return url
   const result = await fetch(url, {
     headers: {
       // Required to prevent rate-limiting
@@ -13,13 +15,8 @@ const fetchImageAndEncodeBase64 = async (url) => {
     },
   })
   if (result.status !== 200) throw "Couldn't get avatar"
-  let base64Image
-  if (typeof window === 'undefined') {
-    base64Image = await result.buffer() // Node
-  } else {
-    base64Image = await result.blob() // Browser
-  }
-  base64Image = base64Image.toString('base64')
+  const buffer = await result.buffer()
+  const base64Image = buffer.toString('base64')
   return `data:image/jpeg;base64,${base64Image}`
 }
 

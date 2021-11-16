@@ -5,7 +5,6 @@ const GameCard = ({ game }) => {
   const [context] = React.useContext(Context)
   const { gameTitle } = context
   console.log(game)
-  console.log(gameTitle)
 
   const [cardHtml, setCardHtml] = React.useState()
   const update = async () => {
@@ -17,7 +16,6 @@ const GameCard = ({ game }) => {
     })
     setCardHtml(raw)
   }
-  console.log(cardHtml)
   React.useEffect(() => {
     if (!game) return
     update()

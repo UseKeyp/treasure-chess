@@ -141,6 +141,7 @@ const getCard = async ({ treasure, gifData, gifUrl }) => {
 
   // The only async function here (this could break things)
   const topAvatarBase64 = await fetchImageAndEncodeBase64(topUser.imageSrc)
+  console.log(topAvatarBase64)
   const bottomAvatarBase64 = await fetchImageAndEncodeBase64(
     bottomUser.imageSrc
   )

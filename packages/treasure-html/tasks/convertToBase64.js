@@ -9,8 +9,12 @@ const getBase64 = (filename) => {
   let base64Image = new Buffer(data, 'binary').toString('base64')
   const codeSnippet = `const base64Image = "${base64Image}"
 module.exports = base64Image`
-  fs.writeFile(`${filename}.js`, codeSnippet, (e) => e && console.log(e))
+  fs.writeFile(
+    `${filename.split('.')[0]}.js`,
+    codeSnippet,
+    (e) => e && console.log(e)
+  )
 }
 
-const filePath = path.join(__dirname, '../src/assets/flags/24/Armenia.png')
+const filePath = path.join(__dirname, '../src/assets/noavatar.png')
 getBase64(filePath)

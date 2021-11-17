@@ -1,4 +1,5 @@
 const fetch = require('cross-fetch')
+const treasureImage = require('packages/treasure-image/index.js')
 
 function sleep(ms) {
   return new Promise((resolve) => {
@@ -42,7 +43,11 @@ const getGif = async ({ tcn, playerColor }) => {
   return { gifBase64, url: gifUrl }
 }
 
-module.exports = getGif
+const getFinalPositionImage = async ({ tcn, playerColor }) => {
+  return treasureImage.loadFEN(tcn)
+}
+
+module.exports = { getGif, getFinalPositionImage }
 
 // To test, uncomment and run `node gifGetter`
 // getGif({

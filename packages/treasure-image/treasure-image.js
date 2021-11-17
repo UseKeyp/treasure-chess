@@ -21,7 +21,7 @@ const {
  * @param {string} dark Color of dark squares
  * @param {style} style Desired style of pieces
  */
-function ChessImageGenerator(options = {}) {
+function TreasureImage(options = {}) {
   this.chess = new Chess()
 
   this.size = options.size || defaultSize
@@ -32,7 +32,7 @@ function ChessImageGenerator(options = {}) {
   this.ready = false
 }
 
-ChessImageGenerator.prototype = {
+TreasureImage.prototype = {
   /**
    * Loads PGN into chess.js object.
    * @param {string} pgn Chess game PGN
@@ -131,4 +131,4 @@ ChessImageGenerator.prototype = {
   },
 }
 
-export default ChessImageGenerator
+export default TreasureImage

@@ -118,6 +118,9 @@ const getCard = async ({ treasure, gifData, gifUrl }) => {
     updateStyle('bottom-username', 'color', 'white')
     updateStyle('bottom-rating', 'color', 'white')
     updateStyle('top-rating', 'color', 'white')
+    updateStyle('match-anchor', 'color', 'white')
+    updateStyle('edition', 'color', 'white')
+    updateStyle('date', 'color', 'white')
   }
 
   // Header

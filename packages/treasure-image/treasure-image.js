@@ -129,6 +129,15 @@ TreasureImage.prototype = {
     }
     return canvas.toDataURL()
   },
+
+  async convertPngToBase64(data) {
+    //theoretically, this should be the exact same process for any data type.
+    //So no changes should be needed to convert img as data to base64 vs convert string to base64
+    // create a buffer
+    const buff = Buffer.from(str, 'utf-8')
+    // decode buffer as Base64
+    return buff.toString('base64')
+  },
 }
 
 export default TreasureImage

@@ -1,3 +1,3 @@
-const ChessImageGenerator = require('./chess-image-generator');
+const TreasureImage = require('./treasure-image')
 
-module.exports = ChessImageGenerator;
+module.exports = TreasureImage

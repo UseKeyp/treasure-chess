@@ -31,6 +31,25 @@ export const handler = async (event, context) => {
         throw new InputError('signUp is not implemented')
       },
     },
+    forgotPassword: {
+      // https://community.redwoodjs.com/t/v0-38-upgrade-guide/2501
+      handler: () => null,
+      expires: 60 * 60 * 24,
+      errors: {
+        usernameNotFound: 'Error',
+        usernameRequired: 'Error',
+      },
+    },
+    resetPassword: {
+      handler: () => null,
+      allowReusedPassword: false,
+      errors: {
+        resetTokenExpired: 'This reset token is old, try again',
+        resetTokenInvalid: 'This reset token was not found',
+        resetTokenRequired: 'You have to include a reset token',
+        reusedPassword: 'You must choose a new password',
+      },
+    },
   })
 
   authHandler.login = async () => {

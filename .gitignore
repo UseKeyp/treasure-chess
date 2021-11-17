@@ -21,3 +21,4 @@ contracts/typechain
 contracts/coverage
 zipped
 contracts/.openzeppelin
+package-lock.json

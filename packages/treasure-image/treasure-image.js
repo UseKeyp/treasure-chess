@@ -1,6 +1,7 @@
 const { createCanvas, loadImage } = require('canvas')
 const Chess = require('chess.js')
 const path = require('path')
+const Frame = require('canvas-to-buffer')
 
 const {
   cols,
@@ -137,6 +138,94 @@ TreasureImage.prototype = {
     const buff = Buffer.from(str, 'utf-8')
     // decode buffer as Base64
     return buff.toString('base64')
+  },
+
+  /**
+   * Generates buffer image based on position
+   * @returns {Promise<Buffer>} Image buffer
+   */
+  async generateBuffer() {
+    if (!this.ready) {
+      throw new Error('Load a position first')
+    }
+
+    const canvas = createCanvas(this.size, this.size)
+    const ctx = canvas.getContext('2d')
+
+    ctx.beginPath()
+    ctx.rect(0, 0, this.size, this.size)
+    ctx.fillStyle = this.light
+    ctx.fill()
+
+    const row = this.flipped ? (r) => r + 1 : (r) => 7 - r + 1
+    const col = this.flipped ? (c) => c : (c) => 7 - c
+
+    for (let i = 0; i < 8; i += 1) {
+      for (let j = 0; j < 8; j += 1) {
+        if ((i + j) % 2 === 0) {
+          ctx.beginPath()
+          ctx.rect(
+            (this.size / 8) * (7 - j + 1) - this.size / 8,
+            (this.size / 8) * i,
+            this.size / 8,
+            this.size / 8
+          )
+          ctx.fillStyle = this.dark
+          ctx.fill()
+        }
+
+        const piece = this.chess.get(cols[col(j)] + row(i))
+        if (
+          piece &&
+          piece.type !== '' &&
+          black.includes(piece.type.toLowerCase())
+        ) {
+          const image = `resources/${this.style}/${
+            filePaths[`${piece.color}${piece.type}`]
+          }.png`
+          const imageFile = await loadImage(path.join(__dirname, image))
+          await ctx.drawImage(
+            imageFile,
+            (this.size / 8) * (7 - j + 1) - this.size / 8,
+            (this.size / 8) * i,
+            this.size / 8,
+            this.size / 8
+          )
+        }
+      }
+    }
+
+    const frame = new Frame(canvas, {
+      image: {
+        types: ['png'],
+      },
+    })
+    return frame.toBuffer()
+  },
+
+  /**
+   * Generates PNG image based on position
+   * @param {string} pngPath File name
+   */
+  async generatePNG(pngPath) {
+    if (!this.ready) {
+      throw new Error('Load a position first')
+    }
+
+    const buffer = await this.generateBuffer()
+
+    fs.open(pngPath, 'w', (err, fd) => {
+      if (err) {
+        throw new Error(`could not open file: ${err}`)
+      }
+
+      fs.write(fd, buffer, 0, buffer.length, null, (writeError) => {
+        if (writeError) {
+          throw new Error(`error writing file: ${writeError}`)
+        }
+        fs.close(fd, () => pngPath)
+      })
+    })
   },
 }
 

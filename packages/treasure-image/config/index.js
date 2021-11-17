@@ -1,16 +1,16 @@
-const cols = 'abcdefgh';
+const cols = 'abcdefgh'
 
-const white = 'PBNRQK';
+const white = 'PBNRQK'
 
-const black = 'pbnrqk';
+const black = 'pbnrqk'
 
-const defaultSize = 480;
+const defaultSize = 480
 
-const defaultLight = 'rgb(181, 136, 99)';
+const defaultLight = 'rgb(181, 137, 98)'
 
-const defaultDark = 'rgb(240, 217, 181)';
+const defaultDark = 'rgb(241, 216, 180)'
 
-const deafultStyle = 'merida';
+const deafultStyle = 'merida'
 
 const filePaths = {
   wp: 'WhitePawn',
@@ -25,7 +25,7 @@ const filePaths = {
   bq: 'BlackQueen',
   wk: 'WhiteKing',
   bk: 'BlackKing',
-};
+}
 
 module.exports = {
   cols,
@@ -36,4 +36,4 @@ module.exports = {
   defaultDark,
   deafultStyle,
   filePaths,
-};
+}

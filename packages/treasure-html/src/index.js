@@ -83,12 +83,12 @@ const getCard = async ({ treasure, gifData, gifUrl }) => {
   }
   const updateTag = (id, tag, content) => {
     const element = doc.getElementById(id)
-    if (!element) return console.log(`No element with id ${id}`)
+    if (!element) return // console.log(`No element with id ${id}`)
     element.setAttribute(tag, content)
   }
   const updateStyle = (id, property, content) => {
     const element = doc.getElementById(id)
-    if (!element) return console.log(`No element with id ${id}`)
+    if (!element) return // console.log(`No element with id ${id}`)
     var replace = `${property}:(.+?);`
     var re = new RegExp(replace)
     const style = element
@@ -135,6 +135,10 @@ const getCard = async ({ treasure, gifData, gifUrl }) => {
     'href',
     `https://treasure.chess.com/members/${bottomUser.username}`
   )
+  if (!bottomUser.masterTitle)
+    updateStyle('bottom-masterTitle', 'background-color', null)
+  if (!topUser.masterTitle)
+    updateStyle('top-masterTitle', 'background-color', null)
 
   // The only async function here (this could break things)
   const topAvatarBase64 = await fetchImageAndEncodeBase64(topUser.imageSrc)

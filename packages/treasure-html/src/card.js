@@ -39,12 +39,12 @@ const card = `<html>
               <p id="top-ratingDelta" style="margin-right: 1ex; color: inherit;">+6</p>
               <img id="top-flagImage" alt="" style="margin-right: 1ex; height:14px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAABTVBMVEUAAAD///8AAQEAAQEAAQEAAQEAAQEmJiYmJiYmJiYmJiYmJiYmJiYmJiZ9fX10dHR8fHyDg4OIiIiKioqMjIyOjo6QkJACAgJoaGhWVlZXV1dXV1dXV1cCAgJcXFxPT09QUFBQUFBQUFACAgJHR0dGRkZGRkZGRkZGRkbAAgLtPT31PDz3PDz4PDz5PDy/AgLrMzPyMjL1MjL2MjL2MTG9AgLoKCjwJyfzJyf0Jyf0Jye7AgLmJSXuJyfwJyfxJyfyJia6AgLhFRXqFRXtFRXuFRXvFRW4lALgthHovRHqvxHrvxDswBC2kgLdsw3lugzovAzqvQ21kgLZsAjjtwjmuQnnugnouwizkALXrQXfswXjtwXkuAXluAWzkAXVrAfbsQjhtxDjuhbmvRvlvRzmvh/mvyDmvyG4lgy5lxC9mxHAnRHCnxHDoBHEoBH4ads7AAAAB3RSTlMAAAQMECQwISWBWgAAAFhJREFUKFPVjUEOgCAMBHcrcOD/f+WgsdqkJZDgxcSDc5zJtsD3UDJodKMG9sTCIKxxJNZ54LEllGXAPwNGPOR3pyJqcIfa7TBQcJP5s9eTwmXQpTbkweMC/zxfoVRzFjQAAAAASUVORK5CYII="/>
               <p id="top-rating" style="margin-right: 1ex; font-size: 10px; color:black;">2568</p>
-              <p id="top-masterTitle" style="display: flex; justify-content: center; width: 15px; line-height: 10px; height: 11px; align-items: center; background-color: #B23330; font-size: 7px; font-weight: bold; color: white; border-radius:2px;">GM</p>
+              <p id="top-masterTitle" style="display: flex; justify-content: center; width: 15px; line-height: 10px; height: 11px; align-items: center; background-color: #B23330; font-size: 7px; font-weight: bold; color: white; border-radius:2px;"></p>
             </div>
   				</div>
   			</div>
-        <div id="game" style="height: 250px; margin-top: 6px; background-image: url('/images/is-it-there.png');">
-    			<a id="game-anchor" href="chess.com">
+        <div id="game" style="height: 258px; margin-top: 6px; background-image: url('/images/is-it-there.png');">
+    			<a id="game-anchor" href="chess.com" style="display:inline-block;">
     				<img id="game-image" src="" style="width: 100%; border-radius: 4px;" alt="Video of the game"/>
     			</a>
         </div>
@@ -60,7 +60,7 @@ const card = `<html>
               <p id="bottom-ratingDelta" style="margin-right: 1ex; color: inherit; bold;font-size: 10px;">-6</p>
               <img id="bottom-flagImage" alt="" style="margin-right: 1ex; height:14px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAABTVBMVEUAAAD///8AAQEAAQEAAQEAAQEAAQEmJiYmJiYmJiYmJiYmJiYmJiYmJiZ9fX10dHR8fHyDg4OIiIiKioqMjIyOjo6QkJACAgJoaGhWVlZXV1dXV1dXV1cCAgJcXFxPT09QUFBQUFBQUFACAgJHR0dGRkZGRkZGRkZGRkbAAgLtPT31PDz3PDz4PDz5PDy/AgLrMzPyMjL1MjL2MjL2MTG9AgLoKCjwJyfzJyf0Jyf0Jye7AgLmJSXuJyfwJyfxJyfyJia6AgLhFRXqFRXtFRXuFRXvFRW4lALgthHovRHqvxHrvxDswBC2kgLdsw3lugzovAzqvQ21kgLZsAjjtwjmuQnnugnouwizkALXrQXfswXjtwXkuAXluAWzkAXVrAfbsQjhtxDjuhbmvRvlvRzmvh/mvyDmvyG4lgy5lxC9mxHAnRHCnxHDoBHEoBH4ads7AAAAB3RSTlMAAAQMECQwISWBWgAAAFhJREFUKFPVjUEOgCAMBHcrcOD/f+WgsdqkJZDgxcSDc5zJtsD3UDJodKMG9sTCIKxxJNZ54LEllGXAPwNGPOR3pyJqcIfa7TBQcJP5s9eTwmXQpTbkweMC/zxfoVRzFjQAAAAASUVORK5CYII="/>
               <p id="bottom-rating" style="margin-right: 1ex; font-size: 10px; color:black;">9999</p>
-              <p id="bottom-masterTitle" style="display: flex; justify-content: center; width: 15px; line-height: 10px; height: 11px; align-items: center; background-color: #B23330; font-size: 7px; font-weight: bold; color: white; border-radius:2px;">GM</p>
+              <p id="bottom-masterTitle" style="display: flex; justify-content: center; width: 15px; line-height: 10px; height: 11px; align-items: center; background-color: #B23330; font-size: 7px; font-weight: bold; color: white; border-radius:2px;"></p>
             </div>
   				</div>
   			</div>

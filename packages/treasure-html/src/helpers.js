@@ -87,8 +87,9 @@ export const getRatingText = (treasure, playerColor) => {
   let color = '#DA413E'
   if (treasure.outcome === playerColor) {
     color = '#88C54B'
-  } else if (treasure.outcome === null) {
+  } else if (treasure.outcome === 'draw') {
     color = treasure.cardColor === 'black' ? 'white' : 'black'
+    text = '+0'
   }
   return { text, color }
 }

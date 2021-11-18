@@ -15,15 +15,37 @@ yarn add @treasure-chess/treasure-html
 
 ## Usage
 
-```sh
-const getCard = require('@common/treasure-html')
+Here's a React example that displays the card using `dangerouslySetInnerHTML`:
 
-const html = await getCard({
-  treasure,
-  gifUrl:
-    'https://images.chesscomfiles.com/uploads/game-gifs/90px/green/neo/0/cc/0/0/bEJaUmNEIVRtdTJVZ3Y5MmtBOCFiczVaZnRYUGVnNlhweFlJQkpXT2FiN1lzQ1RDdENQSGpyOTVka0h6eEZaVEN0T0dETUd5TVQwVEZOVEx2TVkwTXZYNmZlNFd1Q0xDdEMwVE5VM1VldTU0YmV5cmtyV3FyYnFpQ2tpYWJyYWV1ZTRhcnVhZXVlNlpvdyE5Z29UMGVjWkV2TUVaY0QwVE0zOSEzVDJURFQ,/cm5icWtibnIvcHBwcHBwcHAvOC84LzgvOC9QUFBQUFBQUC9STkJRS0JOUiB3IEtRa3EgLSAwIDE,.gif',
-})
+```js
+import getCard from '@treasure-chess/treasure-html'
+
+const GameCard = ({ game }) => {
+  const [cardHtml, setCardHtml] = React.useState()
+  const update = async () => {
+    const raw = await getCard({
+      treasure: { ...game, title: 'My Game' },
+      gifUrl:
+        'https://images.chesscomfiles.com/uploads/game-gifs/90px/green/neo/0/cc/0/0/bEJaUmNEIVRtdTJVZ3Y5MmtBOCFiczVaZnRYUGVnNlhweFlJQkpXT2FiN1lzQ1RDdENQSGpyOTVka0h6eEZaVEN0T0dETUd5TVQwVEZOVEx2TVkwTXZYNmZlNFd1Q0xDdEMwVE5VM1VldTU0YmV5cmtyV3FyYnFpQ2tpYWJyYWV1ZTRhcnVhZXVlNlpvdyE5Z29UMGVjWkV2TUVaY0QwVE0zOSEzVDJURFQ,/cm5icWtibnIvcHBwcHBwcHAvOC84LzgvOC9QUFBQUFBQUC9STkJRS0JOUiB3IEtRa3EgLSAwIDE,.gif',
+    })
+    setCardHtml(raw)
+  }
+  React.useEffect(() => {
+    if (!game) return
+    update()
+  }, game)
+  return (
+    <div
+      className="min-w-258px"
+      dangerouslySetInnerHTML={{ __html: cardHtml }}
+    />
+  )
+}
 ```
+
+If `treasure.achievements` is undefined, a prompt to mint the Treasure is shown instead.
+
+<img src="./bottom-card-no-achievements.png" width="300"/>
 
 ## Show your support
 

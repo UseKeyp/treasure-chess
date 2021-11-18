@@ -7,7 +7,12 @@ function sleep(ms) {
 }
 
 const poll = async (url) => {
-  let result = await fetch(url)
+  let result = await fetch(url, {
+    headers: {
+      // Required to prevent rate-limiting
+      Authorization: `Bearer ${process.env.CHESS_API_ACCESS_TOKEN}`,
+    },
+  })
   if (result.status === 200) return result
   await sleep(1000)
   return await poll(url)

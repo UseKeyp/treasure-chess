@@ -62,7 +62,9 @@ model Treasure {
   title            String
   cardColor        String // white or black
   blackRating      Int // Rating at the time of the game
-  whiteRating      Int
+  whiteRating      Int // Rating at the time of the game
+  blackRatingDelta Int // Rating at the time of the game
+  whiteRatingDelta Int
   blackMasterTitle String? // eg. "Grand Master" or "International Master"
   whiteMasterTitle String?
   timeControl      String // game time variant

@@ -1,3 +1,0 @@
--- AlterTable
-ALTER TABLE "Member" ALTER COLUMN "address" DROP NOT NULL,
-ALTER COLUMN "dateJoined" DROP NOT NULL;

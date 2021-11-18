@@ -57,6 +57,8 @@ export const getTreasure = async ({
     cardColor,
     blackRating: game.blackRating,
     whiteRating: game.whiteRating,
+    blackRatingDelta: game.blackRatingDelta,
+    whiteRatingDelta: game.whiteRatingDelta,
     blackMasterTitle: black.title,
     whiteMasterTitle: white.title,
     timeControl: game.timeControl,

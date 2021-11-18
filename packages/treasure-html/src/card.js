@@ -24,7 +24,9 @@ const card = `<html>
   					<p id="termination" style="color:black; margin: 0; font-size: 10px;" >White won by checkmate</p>
   				</div>
         </div>
-        <img id="banner-image" src="" style="height:32px;" alt="Treasure Chess"/>
+        <a href="https://treasure.chess.com" target="_blank" rel="noopener">
+          <img id="banner-image" src="" style="height:32px;" alt="Treasure Chess"/>
+        </a>
 			</div>
       <div style="margin: 0 4px">
   			<div style="width: 100%; display: flex; align-items: center; min-height: 40px; margin-top: 6px;">
@@ -32,7 +34,7 @@ const card = `<html>
   					<img id="top-avatar" src="https://picsum.photos/40/40?grayscale" style="width: 100%; border-radius: 4px;" alt="Avatar image from chess.com"/>
   				</div>
           <div>
-  					<a id="top-username-anchor" href="" target="_blank" style="text-decoration: none;">
+  					<a id="top-username-anchor" href="" target="_blank" rel="noopener" style="text-decoration: none;">
               <p id="top-username" style=" color:black; font-weight: bold;font-size: 16px; margin: 0; max-width: 193px; overflow: hidden;">asahi001</p>
             </a>
 						<div style="height:14px; margin-top: 2px; display: flex; align-items: center; font-size: 10px;">
@@ -44,7 +46,7 @@ const card = `<html>
   				</div>
   			</div>
         <div id="game" style="height: 258px; margin-top: 6px; background-image: url('/images/is-it-there.png');">
-    			<a id="game-anchor" href="chess.com" style="display:inline-block;">
+    			<a id="game-anchor" href="chess.com" target="_blank" rel="noopener" style="display:inline-block;">
     				<img id="game-image" src="" style="width: 100%; border-radius: 4px;" alt="Video of the game"/>
     			</a>
         </div>
@@ -53,7 +55,7 @@ const card = `<html>
   					<img id="bottom-avatar" src="https://picsum.photos/40/40?grayscale" style="width: 100%; border-radius: 4px;" alt="Avatar image from chess.com"/>
   				</div>
   				<div>
-            <a id="bottom-username-anchor" href="" target="_blank" style="text-decoration: none;">
+            <a id="bottom-username-anchor" href="" target="_blank" rel="noopener" style="text-decoration: none;">
               <p id="bottom-username" style=" color:black; font-weight: bold;font-size: 16px; margin: 0; max-width: 193px; overflow: hidden;">jschiarizzi</p>
             </a>
 						<div style="height: 14px; margin-top: 2px; display: flex; align-items: center; font-size: 10px;">
@@ -127,7 +129,7 @@ const card = `<html>
   				</div>
   			</div>
   			<div id="footer" style="max-width: 100%; display: flex; justify-content: space-between; margin-top: 4px; align-items: center;">
-  				<a id="match-anchor" href="" target="_blank" style="margin: 0; text-decoration: none; color:black;  opacity: 0.70;  font-size: 8px; ">Match #000000</a>
+  				<a id="match-anchor" href="" target="_blank" rel="noopener" style="margin: 0; text-decoration: none; color:black;  opacity: 0.70;  font-size: 8px; ">Match #000000</a>
   				<p id="edition" style="color: black;  opacity: 0.70;  font-size: 8px;">Single Edition</p>
   				<p id="date" style="color: black;  opacity: 0.70;  font-size: 8px;">Jan 1 1900</p>
   			</div>

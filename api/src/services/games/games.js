@@ -1,4 +1,8 @@
-import { fetchGame, getGamesWithArguments } from 'src/lib/games'
+import {
+  fetchGame,
+  getGamesWithArguments,
+  getFullGameDetails,
+} from 'src/lib/games'
 
 export const games = async ({ filter }) =>
   getGamesWithArguments({

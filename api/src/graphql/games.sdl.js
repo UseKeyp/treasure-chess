@@ -29,6 +29,5 @@ export const schema = gql`
 
   type Query {
     games(filter: String): [Game!]! @requireAuth
-    game(id: String!, username: String!, endTime: DateTime!): Game @requireAuth
   }
 `

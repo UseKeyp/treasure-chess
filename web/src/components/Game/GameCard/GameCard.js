@@ -4,8 +4,7 @@ import { Context } from 'src/providers/context'
 
 const GameCard = ({ game }) => {
   const [context] = React.useContext(Context)
-  const { gameTitle } = context
-  console.log(game)
+  // const { gameTitle } = context
   const [cardHtml, setCardHtml] = React.useState()
   const update = async () => {
     const raw = await getCard({

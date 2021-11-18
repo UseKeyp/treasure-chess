@@ -8,7 +8,7 @@ const card = `<html>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	</head>
 	<body style="font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; background-color:#4F4F4F; display: flex; align-items: center;" >
-  	<div id="container" style="color:black; width: 258px; min-width: 258px; border-radius: 12px; background-color: #FFF8EE; display: flex; flex-direction: column; padding: 4px;">
+  	<div id="container" style="color:black; width: 266px; min-width: 266px; border-radius: 12px; background-color: #FFF8EE; display: flex; flex-direction: column; padding: 4px;">
 			<div id="banner" style="width: 100%; background-color: #ABB6B9; border-radius: 8px 8px 2px 2px; display: grid; grid-template-columns: 2fr 1fr; align-items: center; min-height: 39px; box-sizing: border-box; padding: 0 8px">
   			<div style="display: flex;align-items: center; min-height: 39px;">
   				<div style="padding-right: 8px;">
@@ -35,7 +35,7 @@ const card = `<html>
   					<a id="top-username-anchor" href="" target="_blank" style="text-decoration: none;">
               <p id="top-username" style=" color:black; font-weight: bold;font-size: 16px; margin: 0; max-width: 193px; overflow: hidden;">asahi001</p>
             </a>
-						<div style="height:14px; margin: 0; display: flex; align-items: center; font-size: 10px;">
+						<div style="height:14px; margin-top: 2px; display: flex; align-items: center; font-size: 10px;">
               <p id="top-ratingDelta" style="margin-right: 1ex; color: inherit;">+6</p>
               <img id="top-flagImage" alt="" style="margin-right: 1ex; height:14px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAABTVBMVEUAAAD///8AAQEAAQEAAQEAAQEAAQEmJiYmJiYmJiYmJiYmJiYmJiYmJiZ9fX10dHR8fHyDg4OIiIiKioqMjIyOjo6QkJACAgJoaGhWVlZXV1dXV1dXV1cCAgJcXFxPT09QUFBQUFBQUFACAgJHR0dGRkZGRkZGRkZGRkbAAgLtPT31PDz3PDz4PDz5PDy/AgLrMzPyMjL1MjL2MjL2MTG9AgLoKCjwJyfzJyf0Jyf0Jye7AgLmJSXuJyfwJyfxJyfyJia6AgLhFRXqFRXtFRXuFRXvFRW4lALgthHovRHqvxHrvxDswBC2kgLdsw3lugzovAzqvQ21kgLZsAjjtwjmuQnnugnouwizkALXrQXfswXjtwXkuAXluAWzkAXVrAfbsQjhtxDjuhbmvRvlvRzmvh/mvyDmvyG4lgy5lxC9mxHAnRHCnxHDoBHEoBH4ads7AAAAB3RSTlMAAAQMECQwISWBWgAAAFhJREFUKFPVjUEOgCAMBHcrcOD/f+WgsdqkJZDgxcSDc5zJtsD3UDJodKMG9sTCIKxxJNZ54LEllGXAPwNGPOR3pyJqcIfa7TBQcJP5s9eTwmXQpTbkweMC/zxfoVRzFjQAAAAASUVORK5CYII="/>
               <p id="top-rating" style="margin-right: 1ex; font-size: 10px; color:black;">2568</p>
@@ -56,7 +56,7 @@ const card = `<html>
             <a id="bottom-username-anchor" href="" target="_blank" style="text-decoration: none;">
               <p id="bottom-username" style=" color:black; font-weight: bold;font-size: 16px; margin: 0; max-width: 193px; overflow: hidden;">jschiarizzi</p>
             </a>
-						<div style="height: 14px; margin: 0; display: flex; align-items: center; font-size: 10px;">
+						<div style="height: 14px; margin-top: 2px; display: flex; align-items: center; font-size: 10px;">
               <p id="bottom-ratingDelta" style="margin-right: 1ex; color: inherit; bold;font-size: 10px;">-6</p>
               <img id="bottom-flagImage" alt="" style="margin-right: 1ex; height:14px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAABTVBMVEUAAAD///8AAQEAAQEAAQEAAQEAAQEmJiYmJiYmJiYmJiYmJiYmJiYmJiZ9fX10dHR8fHyDg4OIiIiKioqMjIyOjo6QkJACAgJoaGhWVlZXV1dXV1dXV1cCAgJcXFxPT09QUFBQUFBQUFACAgJHR0dGRkZGRkZGRkZGRkbAAgLtPT31PDz3PDz4PDz5PDy/AgLrMzPyMjL1MjL2MjL2MTG9AgLoKCjwJyfzJyf0Jyf0Jye7AgLmJSXuJyfwJyfxJyfyJia6AgLhFRXqFRXtFRXuFRXvFRW4lALgthHovRHqvxHrvxDswBC2kgLdsw3lugzovAzqvQ21kgLZsAjjtwjmuQnnugnouwizkALXrQXfswXjtwXkuAXluAWzkAXVrAfbsQjhtxDjuhbmvRvlvRzmvh/mvyDmvyG4lgy5lxC9mxHAnRHCnxHDoBHEoBH4ads7AAAAB3RSTlMAAAQMECQwISWBWgAAAFhJREFUKFPVjUEOgCAMBHcrcOD/f+WgsdqkJZDgxcSDc5zJtsD3UDJodKMG9sTCIKxxJNZ54LEllGXAPwNGPOR3pyJqcIfa7TBQcJP5s9eTwmXQpTbkweMC/zxfoVRzFjQAAAAASUVORK5CYII="/>
               <p id="bottom-rating" style="margin-right: 1ex; font-size: 10px; color:black;">9999</p>

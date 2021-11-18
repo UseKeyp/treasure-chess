@@ -4,7 +4,7 @@ const icons = require('./assets/icons')
 const flags = require('./assets/flags')
 const noAvatarBase64 = require('./assets/noAvatar')
 
-const fetchImageAndEncodeBase64 = async (url) => {
+export const fetchImageAndEncodeBase64 = async (url) => {
   // If no profile image, show the basic pawn
   if (!url || !url.length) return `data:image/png;base64,${noAvatarBase64}`
   // If browser, just load the image directly
@@ -21,7 +21,7 @@ const fetchImageAndEncodeBase64 = async (url) => {
   return `data:image/jpeg;base64,${base64Image}`
 }
 
-const getFlagSrc = (code) => {
+export const getFlagBase64 = (code) => {
   let base64Image = flags['XX']
   if (code) {
     const regionNames = new Intl.DisplayNames(['en'], { type: 'region' })
@@ -31,7 +31,7 @@ const getFlagSrc = (code) => {
   return `data:image/png;base64,${base64Image}`
 }
 
-const formatDate = (rawString) => {
+export const formatDate = (rawString) => {
   const date = new Date(rawString)
   let options = { month: 'short' }
   const month = new Intl.DateTimeFormat('en-US', options).format(date)
@@ -43,7 +43,7 @@ const formatDate = (rawString) => {
 const changeToWhite = (svgString) =>
   svgString.replace(/fill="black"/g, 'fill="white"')
 
-const iconByPoints = (points, color) => {
+export const iconByPoints = (points, color) => {
   let icon = icons['pawn']
   if (points == 2) icon = icons['knight']
   if (points == 3) icon = icons['rook']
@@ -53,14 +53,14 @@ const iconByPoints = (points, color) => {
   return icon
 }
 
-const iconByName = (name, color) => {
+export const iconByName = (name, color) => {
   let icon = icons[name]
   if (!icon) throw `No icon found for "${name}"`
   if (color === 'black') icon = changeToWhite(icon)
   return icon
 }
 
-const getRarityColor = (points) => {
+export const getRarityColor = (points) => {
   if (!points) return '#ABB6B9'
   if (points < 6) return '#ABB6B9'
   if (points < 11) return '#88C54B'
@@ -68,7 +68,7 @@ const getRarityColor = (points) => {
   return '#FFBB0D'
 }
 
-const formatXml = (xml, tab) => {
+export const formatXml = (xml, tab) => {
   // tab = optional indent value, default is tab (\t)
   var formatted = '',
     indent = ''
@@ -81,12 +81,14 @@ const formatXml = (xml, tab) => {
   return formatted.substring(1, formatted.length - 3)
 }
 
-export {
-  formatDate,
-  getFlagSrc,
-  iconByPoints,
-  iconByName,
-  getRarityColor,
-  fetchImageAndEncodeBase64,
-  formatXml,
+export const getRatingText = (treasure, playerColor) => {
+  const delta = treasure[`${playerColor}RatingDelta`]
+  let text = delta > 0 ? `+${delta}` : delta
+  let color = '#DA413E'
+  if (treasure.outcome === playerColor) {
+    color = '#88C54B'
+  } else if (treasure.outcome === null) {
+    color = treasure.cardColor === 'black' ? 'white' : 'black'
+  }
+  return { text, color }
 }

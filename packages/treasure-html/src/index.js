@@ -1,12 +1,13 @@
 const { DOMParser, XMLSerializer } = require('xmldom')
 const {
   formatDate,
-  getFlagSrc,
+  getFlagBase64,
   iconByName,
   iconByPoints,
   getRarityColor,
   fetchImageAndEncodeBase64,
   formatXml,
+  getRatingText,
 } = require('./helpers')
 
 const { card, maskedAchievements } = require('./card.js')
@@ -19,23 +20,10 @@ const parser = new DOMParser()
 let regionNames = new Intl.DisplayNames(['en'], { type: 'region' })
 
 const getOrderedUsers = (treasure) => {
-  let whiteRatingDeltaColor
-  let blackRatingDeltaColor
-  if (treasure.outcome === 'black') {
-    whiteRatingDeltaColor = '#DA413E'
-    blackRatingDeltaColor = '#88C54B'
-  } else if (treasure.outcome === 'white') {
-    whiteRatingDeltaColor = '#88C54B'
-    blackRatingDeltaColor = '#DA413E'
-  }
-  const blackRatingDelta =
-    treasure.blackRatingDelta > 0
-      ? `+${treasure.blackRatingDelta}`
-      : treasure.blackRatingDelta
-  const whiteRatingDelta =
-    treasure.whiteRatingDelta > 0
-      ? `+${treasure.whiteRatingDelta}`
-      : treasure.whiteRatingDelta
+  const { text: blackRatingDelta, color: blackRatingDeltaColor } =
+    getRatingText(treasure, 'black')
+  const { text: whiteRatingDelta, color: whiteRatingDeltaColor } =
+    getRatingText(treasure, 'white')
   const blackUser = {
     username: treasure.blackUsername,
     rating: treasure.blackRating,
@@ -46,7 +34,7 @@ const getOrderedUsers = (treasure) => {
     // // Not content, but rather "styles" and "src"
     ...(blackRatingDeltaColor && { ratingDeltaColor: blackRatingDeltaColor }),
     imageSrc: treasure.black.imageSrc,
-    flagImageSrc: getFlagSrc(treasure.black.country),
+    flagImageSrc: getFlagBase64(treasure.black.country),
     flag: treasure.black.country,
   }
   const whiteUser = {
@@ -59,7 +47,7 @@ const getOrderedUsers = (treasure) => {
     // // Not content, but rather "styles" and "src"
     ...(whiteRatingDeltaColor && { ratingDeltaColor: whiteRatingDeltaColor }),
     imageSrc: treasure.white.imageSrc,
-    flagImageSrc: getFlagSrc(treasure.white.country),
+    flagImageSrc: getFlagBase64(treasure.white.country),
     flag: treasure.white.country,
   }
   let topUser = blackUser

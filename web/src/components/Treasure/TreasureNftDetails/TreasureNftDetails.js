@@ -1,6 +1,7 @@
 import MemberLink from 'src/components/MemberLink'
 import DetailsBox from 'src/components/DetailsBox'
 import { trimString } from 'src/utils/helpers'
+import TreasureSocial from '../TreasureSocial/TreasureSocial'
 
 const TreasureNftDetails = ({ treasureNftDetails }) => {
   const bidItems = treasureNftDetails.bids.map(({ price, bidder }, i) => {
@@ -35,6 +36,11 @@ const TreasureNftDetails = ({ treasureNftDetails }) => {
       <DetailsBox heading="Bids" items={bidItems} />
       <br />
       <DetailsBox heading="NFT History" items={historyItems} />
+      <TreasureSocial
+        minter={treasureNftDetails.minter.username}
+        owner={treasureNftDetails.owner.username}
+        treasureId={treasureNftDetails.id}
+      />
     </div>
   )
 }

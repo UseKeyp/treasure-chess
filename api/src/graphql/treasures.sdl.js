@@ -31,6 +31,8 @@ export const schema = gql`
     cardColor: String!
     blackRating: Int!
     whiteRating: Int!
+    blackRatingDelta: Int!
+    whiteRatingDelta: Int!
     blackMasterTitle: String
     whiteMasterTitle: String
     timeControl: Int!

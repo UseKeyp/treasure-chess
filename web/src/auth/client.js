@@ -16,7 +16,7 @@ export const logIn = async ({ redirectTo }) => {
     /* eslint-disable-next-line no-undef */
     const response = await global.fetch(
       /* eslint-disable-next-line no-undef */
-      `${global.__REDWOOD__API_PROXY_PATH}/graphql`,
+      `${global.RWJS_API_GRAPHQL_URL}/graphql`,
       {
         method: 'POST',
         headers: {

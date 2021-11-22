@@ -1,9 +1,14 @@
-const fs = require('fs')
-const icons = require('./assets/icons')
-const path = require('path')
 const fetch = require('cross-fetch')
 
-const fetchImageAndEncodeBase64 = async (url) => {
+const icons = require('./assets/icons')
+const flags = require('./assets/flags')
+const noAvatarBase64 = require('./assets/noAvatar')
+
+export const fetchImageAndEncodeBase64 = async (url) => {
+  // If no profile image, show the basic pawn
+  if (!url || !url.length) return `data:image/png;base64,${noAvatarBase64}`
+  // If browser, just load the image directly
+  if (typeof window !== 'undefined') return url
   const result = await fetch(url, {
     headers: {
       // Required to prevent rate-limiting
@@ -11,23 +16,22 @@ const fetchImageAndEncodeBase64 = async (url) => {
     },
   })
   if (result.status !== 200) throw "Couldn't get avatar"
-  let base64Image = await result.buffer()
-  base64Image = base64Image.toString('base64')
+  const buffer = await result.buffer()
+  const base64Image = buffer.toString('base64')
+  return `data:image/jpeg;base64,${base64Image}`
+}
+
+export const getFlagBase64 = (code) => {
+  let base64Image = flags['XX']
+  if (code) {
+    const regionNames = new Intl.DisplayNames(['en'], { type: 'region' })
+    const country = regionNames.of(code)
+    base64Image = flags[country.replace(' ', '-')]
+  }
   return `data:image/png;base64,${base64Image}`
 }
 
-const getFlagBase64 = (code) => {
-  let regionNames = new Intl.DisplayNames(['en'], { type: 'region' })
-  const filePath = path.join(
-    __dirname,
-    `./assets/flags/24/${regionNames.of(code)}.png`
-  )
-  const data = fs.readFileSync(filePath)
-  let base64Image = new Buffer(data, 'binary').toString('base64')
-  return `data:image/png;base64,${base64Image}`
-}
-
-const formatDate = (rawString) => {
+export const formatDate = (rawString) => {
   const date = new Date(rawString)
   let options = { month: 'short' }
   const month = new Intl.DateTimeFormat('en-US', options).format(date)
@@ -39,7 +43,7 @@ const formatDate = (rawString) => {
 const changeToWhite = (svgString) =>
   svgString.replace(/fill="black"/g, 'fill="white"')
 
-const iconByPoints = (points, color) => {
+export const iconByPoints = (points, color) => {
   let icon = icons['pawn']
   if (points == 2) icon = icons['knight']
   if (points == 3) icon = icons['rook']
@@ -49,19 +53,27 @@ const iconByPoints = (points, color) => {
   return icon
 }
 
-const iconByName = (name, color) => {
+export const iconByName = (name, color) => {
   let icon = icons[name]
   if (!icon) throw `No icon found for "${name}"`
   if (color === 'black') icon = changeToWhite(icon)
   return icon
 }
 
-function formatXml(xml, tab) {
+export const getRarityColor = (points) => {
+  if (!points) return '#ABB6B9'
+  if (points < 6) return '#ABB6B9'
+  if (points < 11) return '#88C54B'
+  if (points < 14) return '#47A7FF'
+  return '#FFBB0D'
+}
+
+export const formatXml = (xml, tab) => {
   // tab = optional indent value, default is tab (\t)
   var formatted = '',
     indent = ''
   tab = tab || '\t'
-  xml.split(/>\s*</).forEach(function (node) {
+  xml.split(/>\s*</).forEach((node) => {
     if (node.match(/^\/\w/)) indent = indent.substring(tab.length) // decrease indent by one 'tab'
     formatted += indent + '<' + node + '>\r\n'
     if (node.match(/^<?\w[^>]*[^\/]$/)) indent += tab // increase indent
@@ -69,19 +81,15 @@ function formatXml(xml, tab) {
   return formatted.substring(1, formatted.length - 3)
 }
 
-const getRarityColor = (points) => {
-  if (points < 6) return '#ABB6B9'
-  if (points < 11) return '#88C54B'
-  if (points < 14) return '#47A7FF'
-  return '#FFBB0D'
-}
-
-module.exports = {
-  formatDate,
-  getFlagBase64,
-  iconByPoints,
-  iconByName,
-  formatXml,
-  getRarityColor,
-  fetchImageAndEncodeBase64,
+export const getRatingText = (treasure, playerColor) => {
+  const delta = treasure[`${playerColor}RatingDelta`]
+  let text = delta > 0 ? `+${delta}` : delta
+  let color = '#DA413E'
+  if (treasure.outcome === playerColor) {
+    color = '#88C54B'
+  } else if (treasure.outcome === 'draw') {
+    color = treasure.cardColor === 'black' ? 'white' : 'black'
+    text = '+0'
+  }
+  return { text, color }
 }

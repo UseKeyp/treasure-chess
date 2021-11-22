@@ -1,8 +1,10 @@
 export const schema = gql`
   type Game {
     id: String!
+    black: Member
     blackId: String!
     blackUsername: String!
+    white: Member
     whiteId: String!
     whiteUsername: String!
     winnerId: String
@@ -20,13 +22,12 @@ export const schema = gql`
     externalUrl: String
     opening: String!
     cardColor: String!
-    achievements: String!
+    achievements: String
     blackMasterTitle: String
     whiteMasterTitle: String
   }
 
   type Query {
     games(filter: String): [Game!]! @requireAuth
-    game(id: String!, username: String!, endTime: DateTime!): Game @skipAuth
   }
 `

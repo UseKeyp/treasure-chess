@@ -1,4 +1,4 @@
-const getCard = require('../src/index')
+import getCard from '../src/index'
 
 const test = async () => {
   let [treasure] = require('../../../scripts/seed/treasure')

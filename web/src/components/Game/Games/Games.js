@@ -22,6 +22,9 @@ const Games = ({ games, onMintClick }) => {
     // TODO: Only one item can be selected
     setContext({ activeGame: newGame, gameTitle: '', ...context })
   }
+  React.useEffect(() => {
+    setContext({ activeGame: games[0], gameTitle: '', ...context })
+  }, [])
 
   return (
     <div className="games-history-list">

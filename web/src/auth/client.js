@@ -16,7 +16,7 @@ export const logIn = async ({ redirectTo }) => {
     /* eslint-disable-next-line no-undef */
     const response = await global.fetch(
       /* eslint-disable-next-line no-undef */
-      `${global.RWJS_API_GRAPHQL_URL}/graphql`,
+      global.RWJS_API_GRAPHQL_URL,
       {
         method: 'POST',
         headers: {

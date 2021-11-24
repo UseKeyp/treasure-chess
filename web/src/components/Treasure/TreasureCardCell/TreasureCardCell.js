@@ -9,7 +9,7 @@ export const QUERY = gql`
       outcome
       cardColor
       title
-      gameRuleVariant
+      ruleVariant
       termination
       achievements
       whiteRating

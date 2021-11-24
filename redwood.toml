@@ -10,7 +10,7 @@
   host = "0.0.0.0"
   title = "Treasure Chess"
   apiProxyPort = 8911
-  apiProxyPath = "/api"
+  apiUrl = "/api"
   # includeEnvironmentVariables = ['']
 [api]
   port = 8911

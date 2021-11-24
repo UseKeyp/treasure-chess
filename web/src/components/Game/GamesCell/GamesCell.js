@@ -5,6 +5,14 @@ export const QUERY = gql`
     games: games(filter: $filter) {
       id
       endTime
+      white {
+        imageSrc
+        country
+      }
+      black {
+        imageSrc
+        country
+      }
       moveCount
       outcome
       termination

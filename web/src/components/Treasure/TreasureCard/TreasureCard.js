@@ -131,7 +131,7 @@ const TreasureCard = ({ treasure, _isMinted }) => {
         >
           <div className="flex bottom-bar-info-datum">
             <img alt="" src={chessBoardIcon} className="bottom-bar-icon" />
-            {treasure.gameRuleVariant}
+            {treasure.ruleVariant}
           </div>
           <div className="flex bottom-bar-info-datum">
             <img alt="" src={clockIcon} className="bottom-bar-icon" />

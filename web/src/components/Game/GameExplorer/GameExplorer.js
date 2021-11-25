@@ -3,12 +3,14 @@ import GameCard from 'src/components/Game/GameCard'
 
 import FilterItems from 'src/components/FilterItems'
 import { Context } from 'src/providers/context'
+import { CHECKOUT, MINTING } from 'src/components/Game/Games/constants'
 
 const GameExplorer = () => {
   const [context] = React.useContext(Context)
-  const { activeGame } = context
+  const { activeGame, mintingStatus } = context
   const [filter, setFilter] = React.useState()
   const onChangeFilter = (newFilter) => {
+    if (mintingStatus === CHECKOUT || mintingStatus === MINTING) return
     const filterParams = new URLSearchParams(newFilter)
     filterParams.sort()
     setFilter(filterParams.toString())

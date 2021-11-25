@@ -1,19 +1,27 @@
-import { P, H3 } from 'src/components/Typography'
-import ListItem from './components/ListItem/ListItem'
-import { formatDate, getOutcomeText } from 'src/utils/helpers'
 import { useAuth } from '@redwoodjs/auth'
+
 import { Context } from 'src/providers/context'
+import { getOutcomeText } from 'src/utils/helpers'
+import { P, H3 } from 'src/components/Typography'
+
+import ListItem from './components/ListItem/ListItem'
+
+import {
+  UNMINTED,
+  CHECKOUT,
+  MINTING,
+  SUCCESS,
+} from 'src/components/Game/Games/constants'
 
 const Games = ({ games }) => {
   const [context, setContext] = React.useContext(Context)
-  const { activeGame } = context
+  const { activeGame, mintingStatus } = context
 
   const { currentUser } = useAuth()
 
-  const handleSubmit = (id, title) => {
-    onMintClick(id, title)
+  const onSubmitMint = (gameId) => {
+    setContext({ ...context, mintingStatus: CHECKOUT })
   }
-  console.log(context)
 
   const onChangeTitle = (title) => {
     setContext({ ...context, gameTitle: title })
@@ -41,20 +49,16 @@ const Games = ({ games }) => {
             username: currentUser.username,
             game,
           })
-          const { whiteUsername, blackUsername, endTime, id } = game
-          const date = formatDate(endTime)
           return (
             <ListItem
-              key={id}
-              player1={whiteUsername}
-              player2={blackUsername}
-              date={date}
-              id={id}
-              onSubmit={handleSubmit}
+              key={game.id}
+              game={game}
               outcome={outcome}
-              onChangeTitle={onChangeTitle}
               onClick={onClickRow}
+              onChangeTitle={onChangeTitle}
+              onSubmit={onSubmitMint}
               isExpanded={game.id === activeGame?.id}
+              mintingStatus={mintingStatus}
             />
           )
         })}

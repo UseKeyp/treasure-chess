@@ -1,45 +1,66 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+
 import { P } from 'src/components/Typography'
 import Button from 'src/components/Button/Button'
 import Icon from 'src/components/Icon/Icon'
 
+import { formatDate } from 'src/utils/helpers'
+
+import { CHECKOUT, MINTING } from 'src/components/Game/Games/constants'
+
 const mainColor = '#C4C4C4'
 
 const ListItem = ({
-  player1,
-  player2,
-  date,
-  id,
-  onSubmit,
+  game,
   outcome,
-  onChangeTitle,
   onClick,
+  onChangeTitle,
+  onSubmit,
   isExpanded,
+  mintingStatus,
 }) => {
   const [inputValue, setInputValue] = useState('')
 
+  const {
+    whiteUsername: player1,
+    blackUsername: player2,
+    endTime,
+    id,
+    tokenId,
+  } = game
+  const date = formatDate(endTime)
+
+  const isMinting = mintingStatus === CHECKOUT || mintingStatus === MINTING
+
   const handleSubmit = (e) => {
+    if (isMinting) return
     e.stopPropagation()
     if (!inputValue) return
     onSubmit(id, inputValue)
   }
   const handleChange = (e) => {
+    if (isMinting) return
     onChangeTitle(e.target.value)
     setInputValue(e.target.value)
   }
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') handleSubmit(e)
   }
+  const handleSelectRow = () => {
+    if (isMinting) return
+    onClick(id)
+  }
+
   React.useEffect(() => {
-    setInputValue(null)
+    setInputValue('')
   }, [isExpanded])
 
   return (
     <div
       className="games-history-list__item"
       role="button"
-      onClick={() => onClick(id)}
+      onClick={handleSelectRow}
       tabIndex={0}
       onKeyDown={() => {}}
     >

@@ -33,6 +33,8 @@ export const QUERY = gql`
       whiteUsername
       whiteId
       whiteMasterTitle
+      tokenId
+      title
     }
   }
 `

@@ -1,9 +1,10 @@
 import { useAuth } from '@redwoodjs/auth'
 // import { useLazyQuery } from '@apollo/client'
-
-import { Context } from 'src/providers/context'
-import { getOutcomeText } from 'src/utils/helpers'
 import { P, H3 } from 'src/components/Typography'
+
+import { getOutcomeText } from 'src/utils/helpers'
+
+import { GamesContext } from 'src/providers/context/GamesContext'
 
 import ListItem from './components/ListItem/ListItem'
 
@@ -25,7 +26,7 @@ const MINT_CHECKOUT_URL = gql`
 `
 
 const Games = ({ games }) => {
-  const [context, setContext] = React.useContext(Context)
+  const [context, setContext] = React.useContext(GamesContext)
   const { activeGame, mintingStatus } = context
   // const [mintCheckoutUrl, { loading, error }] = useLazyQuery(
   //   MINT_CHECKOUT_URL,

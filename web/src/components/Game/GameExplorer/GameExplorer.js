@@ -1,12 +1,13 @@
 import GamesCell from 'src/components/Game/GamesCell'
 import GameCard from 'src/components/Game/GameCard'
-
 import FilterItems from 'src/components/FilterItems'
-import { Context } from 'src/providers/context'
+
+import { GamesContext } from 'src/providers/context/GamesContext'
+
 import { CHECKOUT, MINTING } from 'src/components/Game/Games/constants'
 
 const GameExplorer = () => {
-  const [context] = React.useContext(Context)
+  const [context] = React.useContext(GamesContext)
   const { activeGame, mintingStatus } = context
   const [filter, setFilter] = React.useState()
   const onChangeFilter = (newFilter) => {

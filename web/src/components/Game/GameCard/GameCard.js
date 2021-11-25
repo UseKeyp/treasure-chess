@@ -1,8 +1,8 @@
 import getCard from '@common/treasure-html'
-import { Context } from 'src/providers/context'
+import { GamesContext } from 'src/providers/context/GamesContext'
 
 const GameCard = ({ game }) => {
-  const [context] = React.useContext(Context)
+  const [context] = React.useContext(GamesContext)
   const { gameTitle } = context
   const [cardHtml, setCardHtml] = React.useState()
   const update = async () => {

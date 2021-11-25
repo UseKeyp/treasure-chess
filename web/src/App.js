@@ -2,7 +2,7 @@ import { FatalErrorBoundary, RedwoodProvider } from '@redwoodjs/web'
 import { AuthProvider } from '@redwoodjs/auth'
 import { RedwoodApolloProvider } from '@redwoodjs/web/apollo'
 
-import { ContextProvider } from 'src/providers/context'
+import AllContextProviders from 'src/providers/context'
 import { ThemeProvider } from 'src/providers/theme'
 import TokenSessionProvider from 'src/providers/tokenSession'
 import { logIn } from 'src/auth/client'
@@ -37,9 +37,9 @@ const App = () => (
         <RedwoodApolloProvider>
           <TokenSessionProvider />
           <ThemeProvider>
-            <ContextProvider>
+            <AllContextProviders>
               <Routes />
-            </ContextProvider>
+            </AllContextProviders>
           </ThemeProvider>
         </RedwoodApolloProvider>
       </AuthProviderExtended>

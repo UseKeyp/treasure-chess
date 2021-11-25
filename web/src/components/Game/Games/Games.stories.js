@@ -1,5 +1,8 @@
 import Games from './Games'
 
+// import { GamesContext } from 'src/providers/context/GamesContext'
+import { GamesContext } from 'src/providers/context/GamesContext'
+
 const games = [
   {
     __typename: 'Game',
@@ -76,6 +79,37 @@ export const generated = () => {
     <div style={{ height: 550, width: 530 }}>
       <Games games={games} />
     </div>
+  )
+}
+//
+// export const checkout = () => {
+//   const [context, setContext] = React.useContext(GamesContext)
+//
+//   mockCurrentUser({
+//     username: 'treasure_joseph',
+//   })
+//   React.useEffect(() => {
+//     setContext({ ...context, mintingStatus: 'CHECKOUT' })
+//   }, [])
+//
+//   return (
+//     <div style={{ height: 550, width: 530 }}>
+//       <Games games={games} />
+//     </div>
+//   )
+// }
+
+export const minting = () => {
+  mockCurrentUser({
+    username: 'treasure_patrick',
+  })
+
+  return (
+    <GamesContext.Provider value={{ mintingStatus: 'SUCCESS' }}>
+      <div style={{ height: 550, width: 530 }}>
+        <Games games={games} />
+      </div>
+    </GamesContext.Provider>
   )
 }
 

@@ -26,8 +26,7 @@ const MINT_CHECKOUT_URL = gql`
 
 const Games = ({ games }) => {
   const [context, setContext] = React.useContext(Context)
-  // const { activeGame, mintingStatus } = context
-  return <>{JSON.stringify(games)}</>
+  const { activeGame, mintingStatus } = context
   // const [mintCheckoutUrl, { loading, error }] = useLazyQuery(
   //   MINT_CHECKOUT_URL,
   //   {
@@ -46,7 +45,6 @@ const Games = ({ games }) => {
   // )
 
   const { currentUser } = useAuth()
-
   const onSubmitMint = async (gameId, title) => {
     setContext({ ...context, mintingStatus: CHECKOUT })
     // Call the mint function here
@@ -85,7 +83,7 @@ const Games = ({ games }) => {
       <div className="games-history-list__items">
         {games.map((game) => {
           const outcome = getOutcomeText({
-            username: currentUser.username,
+            username: currentUser?.username,
             game,
           })
           return (

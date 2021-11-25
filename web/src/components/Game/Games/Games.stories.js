@@ -68,6 +68,10 @@ const games = [
 ]
 
 export const generated = () => {
+  mockCurrentUser({
+    username: 'treasure_joseph',
+  })
+
   return (
     <div style={{ height: 550, width: 530 }}>
       <Games games={games} />

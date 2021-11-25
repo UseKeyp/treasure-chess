@@ -34,10 +34,10 @@
     }
   }
   &__mint-section {
-    display: flex;
     align-items: center;
     justify-content: space-between;
     margin-top: 1rem;
+    z-index: 10;
     button {
       color: theme('colors.white');
       font-weight: bold;

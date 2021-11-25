@@ -19,7 +19,7 @@ const Games = ({ games }) => {
 
   const { currentUser } = useAuth()
 
-  const onSubmitMint = (gameId) => {
+  const onSubmitMint = (gameId, title) => {
     setContext({ ...context, mintingStatus: CHECKOUT })
   }
 
@@ -31,6 +31,7 @@ const Games = ({ games }) => {
     const game = games.find((game) => game.id === gameId)
     setContext({ ...context, activeGame: game, gameTitle: '' })
   }
+
   React.useEffect(() => {
     setContext({ ...context, activeGame: games[0], gameTitle: '' })
   }, [])

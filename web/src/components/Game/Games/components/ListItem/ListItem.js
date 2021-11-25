@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { P } from 'src/components/Typography'
 import Button from 'src/components/Button/Button'
 import Icon from 'src/components/Icon/Icon'
+import MintForm from 'src/components/Game/Games/components/MintForm'
 
 import { formatDate } from 'src/utils/helpers'
 
@@ -20,8 +21,6 @@ const ListItem = ({
   isExpanded,
   mintingStatus,
 }) => {
-  const [inputValue, setInputValue] = useState('')
-
   const {
     whiteUsername: player1,
     blackUsername: player2,
@@ -34,28 +33,15 @@ const ListItem = ({
 
   const isMinting = mintingStatus === CHECKOUT || mintingStatus === MINTING
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (title) => {
     if (isMinting) return
-    e.stopPropagation()
-    if (!inputValue) return
-    onSubmit(id, inputValue)
+    onSubmit(id, title)
   }
-  const handleChange = (e) => {
-    if (isMinting) return
-    onChangeTitle(e.target.value)
-    setInputValue(e.target.value)
-  }
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter') handleSubmit(e)
-  }
+
   const handleSelectRow = () => {
     if (isMinting) return
     onClick(id)
   }
-
-  React.useEffect(() => {
-    setInputValue('')
-  }, [isExpanded])
 
   return (
     <div
@@ -101,31 +87,18 @@ const ListItem = ({
         </div>
       </div>
       {isExpanded && !tokenId && (
-        <div className="games-history-list__mint-section flex">
-          <input
-            type="text"
-            value={inputValue}
-            placeholder="Game Title"
-            className="games-history-list__input"
-            onClick={(e) => e.stopPropagation()}
-            onChange={handleChange}
-            onKeyDown={handleKeyDown}
-          />
-          <Button variant="green" onClick={handleSubmit}>
-            Mint
-          </Button>
-        </div>
+        <MintForm
+          onSubmit={handleSubmit}
+          onChangeTitle={onChangeTitle}
+          isMinting={isMinting}
+        />
       )}
     </div>
   )
 }
 
 ListItem.propTypes = {
-  player1: PropTypes.string.isRequired,
-  player2: PropTypes.string.isRequired,
-  date: PropTypes.string.isRequired,
   outcome: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
   onSubmit: PropTypes.func.isRequired,
   onChangeTitle: PropTypes.func.isRequired,
 }

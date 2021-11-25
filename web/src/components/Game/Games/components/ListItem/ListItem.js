@@ -14,8 +14,9 @@ const ListItem = ({
   onSubmit,
   outcome,
   onChangeTitle,
+  onClick,
+  isExpanded,
 }) => {
-  const [isExpanded, setIsExpanded] = useState(false)
   const [inputValue, setInputValue] = useState('')
 
   const handleSubmit = (e) => {
@@ -35,7 +36,7 @@ const ListItem = ({
     <div
       className="games-history-list__item"
       role="button"
-      onClick={() => setIsExpanded(!isExpanded)}
+      onClick={() => onClick(id)}
       tabIndex={0}
       onKeyDown={() => {}}
     >

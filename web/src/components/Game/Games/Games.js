@@ -4,7 +4,7 @@ import { formatDate, getOutcomeText } from 'src/utils/helpers'
 import { useAuth } from '@redwoodjs/auth'
 import { Context } from 'src/providers/context'
 
-const Games = ({ games, onMintClick }) => {
+const Games = ({ games }) => {
   const [context, setContext] = React.useContext(Context)
   const { activeGame } = context
 
@@ -18,13 +18,15 @@ const Games = ({ games, onMintClick }) => {
     setContext({ gameTitle: title, ...context })
   }
 
-  const onSelectGame = (newGame) => {
+  const onClickRow = (gameId) => {
+    const game = games.find((game) => game.id === gameId)
+    console.log(game)
     // TODO: Only one item can be selected
-    setContext({ activeGame: newGame, gameTitle: '', ...context })
+    setContext({ activeGame: game, gameTitle: '', ...context })
   }
-  React.useEffect(() => {
-    setContext({ activeGame: games[0], gameTitle: '', ...context })
-  }, [])
+  // React.useEffect(() => {
+  //   setContext({ activeGame: games[0], gameTitle: '', ...context })
+  // }, [])
 
   return (
     <div className="games-history-list">
@@ -53,7 +55,7 @@ const Games = ({ games, onMintClick }) => {
               onSubmit={handleSubmit}
               outcome={outcome}
               onChangeTitle={onChangeTitle}
-              onSelectGame={onSelectGame}
+              onClick={onClickRow}
             />
           )
         })}

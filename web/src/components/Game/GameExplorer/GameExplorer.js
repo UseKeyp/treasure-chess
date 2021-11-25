@@ -15,17 +15,13 @@ const GameExplorer = () => {
     setFilter(filterParams.toString())
   }
 
-  const onMintClick = (_game) => {
-    // console.log('mint game ', game.id)
-  }
-
   return (
     <div className="grid grid-rows-1">
       <div className="grid md:grid-cols-3 grid-cols-1 gap-10">
         <div style={{ width: 330 }}>
           <FilterItems headline="Filter Games" onChange={onChangeFilter} />
         </div>
-        <GamesCell filter={filter} onMintClick={onMintClick} />
+        <GamesCell filter={filter} />
         <GameCard game={activeGame} />
       </div>
     </div>

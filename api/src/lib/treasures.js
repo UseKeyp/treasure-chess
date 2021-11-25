@@ -7,8 +7,8 @@ import filters from '../../../packages/filters/filters'
 
 import { fetchMember } from 'src/lib/members'
 
-export const getTreasureCardColor = ({ game, memberId }) =>
-  game.whiteId === memberId ? 'white' : 'black'
+export const getTreasureCardColor = ({ game, username }) =>
+  game.whiteUsername === username ? 'white' : 'black'
 
 export const getTreasureId = ({
   moves, // String of moves from the PGN (without timestamps)

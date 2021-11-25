@@ -1,4 +1,5 @@
 import { useAuth } from '@redwoodjs/auth'
+import { useLazyQuery } from '@apollo/client'
 
 import { Context } from 'src/providers/context'
 import { getOutcomeText } from 'src/utils/helpers'
@@ -13,14 +14,45 @@ import {
   SUCCESS,
 } from 'src/components/Game/Games/constants'
 
+const MINT_CHECKOUT_URL = gql`
+  query mintCheckoutUrl(
+    $gameId: String!
+    $endTime: DateTime!
+    $title: String!
+  ) {
+    mintCheckoutUrl(gameId: $gameId, endTime: $endTime, title: $title)
+  }
+`
+
 const Games = ({ games }) => {
   const [context, setContext] = React.useContext(Context)
   const { activeGame, mintingStatus } = context
+  const [mintCheckoutUrl, { loading, error }] = useLazyQuery(
+    MINT_CHECKOUT_URL,
+    {
+      onCompleted: ({ mintCheckoutUrl }) => {
+        window.open(
+          mintCheckoutUrl,
+          'Treasure Chess Checkout',
+          'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
+        )
+        // TODO: Update state to start polling for mintPurchase by gameId,gameEndTime,username
+
+        // TODO: Once mintPurchase exists, change UI to show that its actually being minted
+        // Show link to transaction on block explorer
+      },
+    }
+  )
 
   const { currentUser } = useAuth()
 
   const onSubmitMint = (gameId, title) => {
     setContext({ ...context, mintingStatus: CHECKOUT })
+    // Call the mint function here
+
+    mintCheckoutUrl({
+      variables: { gameId: game.id, endTime: game.endTime, title: input.title },
+    })
   }
 
   const onChangeTitle = (title) => {

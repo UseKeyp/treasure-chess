@@ -1,15 +1,19 @@
 # React Context in RedwoodJS
 
-> A simple and scalable pattern for using React Context in Redwood apps, and mocking it in Storybook.
+> A simple and scalable pattern for using React Context in RedwoodJS and the associated Storybook setup.
 
-If you're reading this, it means you're quickly progressing in your knowledge of RedwoodJS, so congrats! Nothing here is "new" but rather opinions and organization that will hopefully save you (and my future self) 30 minutes of time. Feel free to make suggestions.
+If you're reading this, it means you're quickly progressing in your knowledge of RedwoodJS, so congrats! Let's go deeper into uncharted territory, fellow pioneer.
+
+The purpose of React Context is to provide a local store of variables in your app. However, if you're planning to use Storybook (duh!), then you'll need to do a bit of extra leg-work for Context to work there too.
+
+Nothing here is "new" in the world of React development, but rather opinions and organization that will hopefully save you (and my future self) 30 minutes of time. Comments and suggestions are always welcome.
 
 - Just getting started with Storybook & mocking? Start here [RW Docs - Introduction to Storybook](https://learn.redwoodjs.com/docs/tutorial2/introduction-to-storybook)
 - Looking to mock `currentUser` instead? See [RW Docs - Mocking currentUser for Storybook](https://learn.redwoodjs.com/docs/tutorial2/role-based-authorization-control-rbac/#mocking-currentuser-for-storybook)
 
 ## Create the Context
 
-For each "chunk" of your app, create a new context file. This pattern is recommended in Storybook Docs.
+For each "chunk" of your app, create a new context file. This pattern is recommended in the Storybook Docs.
 
 > "We recommend dividing context containers up over specific pages or views in your app" [Storybook Docs - Context mocking](https://storybook.js.org/docs/react/workflows/build-pages-with-storybook)
 
@@ -157,4 +161,4 @@ export const minting = () => {
 }
 ```
 
-Here we are creating a mock function to update context. This should be enough to get you started and set you down the right path! Good luck redwood jedi.
+Here we have a mock function to allow updating context. This should be enough to get you started in the right direction! Good luck fellow Redwood pioneers!

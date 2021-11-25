@@ -6,20 +6,14 @@ export const schema = gql`
 
     black: Member!
     blackId: String!
-    blackUsername: String!
-
     white: Member!
     whiteId: String!
-    whiteUsername: String!
-
     winner: Member
     winnerId: String
-    winnerUsername: String
-
     minter: Member!
-    minterAddress: String!
+    minterId: String!
     owner: Member!
-    ownerAddress: String!
+    ownerId: String!
 
     mintPurchase: MintPurchase
     mintPurchaseId: String

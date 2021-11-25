@@ -70,7 +70,7 @@ const games = [
   },
 ]
 
-export const generated = () => {
+export const unminted = () => {
   mockCurrentUser({
     username: 'treasure_joseph',
   })
@@ -81,31 +81,31 @@ export const generated = () => {
     </div>
   )
 }
-//
-// export const checkout = () => {
-//   const [context, setContext] = React.useContext(GamesContext)
-//
-//   mockCurrentUser({
-//     username: 'treasure_joseph',
-//   })
-//   React.useEffect(() => {
-//     setContext({ ...context, mintingStatus: 'CHECKOUT' })
-//   }, [])
-//
-//   return (
-//     <div style={{ height: 550, width: 530 }}>
-//       <Games games={games} />
-//     </div>
-//   )
-// }
 
+export const checkout = () => {
+  mockCurrentUser({
+    username: 'treasure_patrick',
+  })
+
+  return (
+    <GamesContext.Provider
+      value={[{ mintingStatus: 'CHECKOUT', activeGame: games[0] }, () => {}]}
+    >
+      <div style={{ height: 550, width: 530 }}>
+        <Games games={games} />
+      </div>
+    </GamesContext.Provider>
+  )
+}
 export const minting = () => {
   mockCurrentUser({
     username: 'treasure_patrick',
   })
 
   return (
-    <GamesContext.Provider value={{ mintingStatus: 'SUCCESS' }}>
+    <GamesContext.Provider
+      value={[{ mintingStatus: 'MINTING', activeGame: games[0] }, () => {}]}
+    >
       <div style={{ height: 550, width: 530 }}>
         <Games games={games} />
       </div>

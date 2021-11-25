@@ -31,6 +31,9 @@ const ListItem = ({
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') handleSubmit(e)
   }
+  React.useEffect(() => {
+    setInputValue(null)
+  }, [isExpanded])
 
   return (
     <div

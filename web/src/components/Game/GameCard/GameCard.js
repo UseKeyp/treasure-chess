@@ -16,7 +16,7 @@ const GameCard = ({ game }) => {
   React.useEffect(() => {
     if (!game) return
     update()
-  }, game)
+  }, [game])
   if (!game) return null
   return (
     <div

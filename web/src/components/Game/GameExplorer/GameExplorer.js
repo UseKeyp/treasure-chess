@@ -8,7 +8,6 @@ const GameExplorer = () => {
   const [context] = React.useContext(Context)
   const { activeGame } = context
   const [filter, setFilter] = React.useState()
-
   const onChangeFilter = (newFilter) => {
     const filterParams = new URLSearchParams(newFilter)
     filterParams.sort()

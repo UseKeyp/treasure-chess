@@ -13,16 +13,15 @@ const Games = ({ games }) => {
   const handleSubmit = (id, title) => {
     onMintClick(id, title)
   }
+  console.log(context)
 
   const onChangeTitle = (title) => {
     setContext({ gameTitle: title, ...context })
   }
 
-  const onClickRow = (gameId) => {
+  const onClickRow = async (gameId) => {
     const game = games.find((game) => game.id === gameId)
-    console.log(game)
-    // TODO: Only one item can be selected
-    setContext({ activeGame: game, gameTitle: '', ...context })
+    setContext({ activeGame: game, gameTitle: '' })
   }
   // React.useEffect(() => {
   //   setContext({ activeGame: games[0], gameTitle: '', ...context })
@@ -47,7 +46,6 @@ const Games = ({ games }) => {
           return (
             <ListItem
               key={id}
-              isExpanded={game.id === activeGame?.id}
               player1={whiteUsername}
               player2={blackUsername}
               date={date}
@@ -56,6 +54,7 @@ const Games = ({ games }) => {
               outcome={outcome}
               onChangeTitle={onChangeTitle}
               onClick={onClickRow}
+              isExpanded={game.id === activeGame?.id}
             />
           )
         })}

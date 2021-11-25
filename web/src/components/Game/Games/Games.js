@@ -52,7 +52,7 @@ const Games = ({ games }) => {
           return (
             <ListItem
               key={game.id}
-              game={game}
+              game={{ ...game, tokenId: 1, title: 'My Title' }}
               outcome={outcome}
               onClick={onClickRow}
               onChangeTitle={onChangeTitle}

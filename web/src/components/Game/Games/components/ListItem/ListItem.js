@@ -28,6 +28,7 @@ const ListItem = ({
     endTime,
     id,
     tokenId,
+    title,
   } = game
   const date = formatDate(endTime)
 
@@ -64,7 +65,12 @@ const ListItem = ({
       tabIndex={0}
       onKeyDown={() => {}}
     >
-      <div className="flex justify-between mb-4">
+      {title && (
+        <P pb={8} fontWeight={700} fontSize={16}>
+          {title}
+        </P>
+      )}
+      <div className="flex justify-between">
         <div className="games-history-list__players">
           <div className="flex items-center pb-1">
             <div className="games-history-list__color-box" />
@@ -80,14 +86,21 @@ const ListItem = ({
             </P>
           </div>
         </div>
-        <P pr="1rem" fontSize={12} color={mainColor} fontWeight={600}>
+        <P fontSize={12} color={mainColor} fontWeight={600}>
           {outcome}
         </P>
-        <P pr="1rem" fontSize={12} color={mainColor} fontWeight={600}>
-          {date}
-        </P>
+        <div className="flex flex-col text-right">
+          <P pb={3} fontSize={12} color={mainColor} fontWeight={600}>
+            {date}
+          </P>
+          {tokenId && (
+            <P fontSize={12} color={'#FFBB0D'} fontWeight={400}>
+              Minted
+            </P>
+          )}
+        </div>
       </div>
-      {isExpanded && (
+      {isExpanded && !tokenId && (
         <div className="games-history-list__mint-section flex">
           <input
             type="text"

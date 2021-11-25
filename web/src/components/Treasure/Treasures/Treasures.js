@@ -8,9 +8,9 @@ const TreasuresList = ({ treasures }) => {
           <br />
           opening: {treasure.opening}
           <br />
-          black: {treasure.blackUsername}
+          black: {treasure.black.username}
           <br />
-          white: {treasure.whiteUsername}
+          white: {treasure.white.username}
           <br />
           winner: {treasure.outcome}
           <br />

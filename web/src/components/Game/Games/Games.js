@@ -72,7 +72,7 @@ const Games = ({ games }) => {
   React.useEffect(() => {
     setContext({ ...context, activeGame: games[0], gameTitle: '' })
   }, [])
-
+  console.log(context)
   return (
     <div className="games-history-list">
       <div className="games-history-list__heading">

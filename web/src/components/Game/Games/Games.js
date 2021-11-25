@@ -16,16 +16,16 @@ const Games = ({ games }) => {
   console.log(context)
 
   const onChangeTitle = (title) => {
-    setContext({ gameTitle: title, ...context })
+    setContext({ ...context, gameTitle: title })
   }
 
   const onClickRow = async (gameId) => {
     const game = games.find((game) => game.id === gameId)
-    setContext({ activeGame: game, gameTitle: '' })
+    setContext({ ...context, activeGame: game, gameTitle: '' })
   }
-  // React.useEffect(() => {
-  //   setContext({ activeGame: games[0], gameTitle: '', ...context })
-  // }, [])
+  React.useEffect(() => {
+    setContext({ ...context, activeGame: games[0], gameTitle: '' })
+  }, [])
 
   return (
     <div className="games-history-list">

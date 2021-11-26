@@ -10,7 +10,8 @@
   "scripts": {
     "build-storybook": "yarn rw storybook --build && cp web/public/mockServiceWorker.js web/public/storybook",
     "chromatic": "chromatic --project-token=cafed242b299 --storybook-build-dir web/public/storybook",
-    "compile-abi": "node tasks/updateAbi"
+    "compile-abi": "node tasks/updateAbi",
+    "seed": "yarn rw exec seed"
   },
   "prisma": {
     "seed": "yarn rw exec seed"

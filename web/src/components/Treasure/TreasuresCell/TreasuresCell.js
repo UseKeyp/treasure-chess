@@ -9,13 +9,18 @@ export const QUERY = gql`
     treasures: treasures(username: $username, filter: $filter, sort: $sort) {
       id
       createdAt
-      blackId
-      blackUsername
-      whiteId
-      whiteUsername
-      winnerId
-      winnerUsername
-
+      black {
+        username
+        id
+      }
+      white {
+        username
+        id
+      }
+      winner {
+        username
+        id
+      }
       title
       cardColor
       blackRating

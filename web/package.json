@@ -34,6 +34,7 @@
   },
   "devDependencies": {
     "@redwoodjs/core": "^0.38.1",
+    "@storybook/addon-essentials": "^6.3.12",
     "autoprefixer": "9.8.6",
     "node-sass-glob-importer": "^5.3.2",
     "postcss-loader": "4.0.2",

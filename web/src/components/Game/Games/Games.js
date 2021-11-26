@@ -1,31 +1,88 @@
-import { P, H3 } from 'src/components/Typography'
-import ListItem from './components/ListItem/ListItem'
-import { formatDate, getOutcomeText } from 'src/utils/helpers'
 import { useAuth } from '@redwoodjs/auth'
-import { Context } from 'src/providers/context'
+import { useLazyQuery } from '@apollo/client'
+import { P, H3 } from 'src/components/Typography'
 
-const Games = ({ games, onMintClick }) => {
-  const [context, setContext] = React.useContext(Context)
-  const { activeGame } = context
+import { getOutcomeText } from 'src/utils/helpers'
+
+import { GamesContext } from 'src/providers/context/GamesContext'
+
+import ListItem from './components/ListItem/ListItem'
+
+import {
+  CHECKOUT,
+  MINTING,
+  _SUCCESS,
+} from 'src/components/Game/Games/constants'
+
+const MINT_CHECKOUT_URL = gql`
+  query mintCheckoutUrl(
+    $gameId: String!
+    $endTime: DateTime!
+    $title: String!
+  ) {
+    mintCheckoutUrl(gameId: $gameId, endTime: $endTime, title: $title)
+  }
+`
+
+const Games = ({ games }) => {
+  const [context, setContext] = React.useContext(GamesContext)
+  const { activeGame, mintingStatus } = context
+  const [mintCheckoutUrl, { _loading, _error }] = useLazyQuery(
+    MINT_CHECKOUT_URL,
+    {
+      onCompleted: ({ mintCheckoutUrl }) => {
+        if (mintCheckoutUrl.includes('https')) {
+          setContext({ ...context, mintingStatus: CHECKOUT })
+          window.open(
+            mintCheckoutUrl,
+            'Treasure Chess Checkout',
+            'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
+          )
+        } else {
+          setContext({ ...context, mintingStatus: MINTING })
+        }
+      },
+    }
+  )
 
   const { currentUser } = useAuth()
-
-  const handleSubmit = (id, title) => {
-    onMintClick(id, title)
+  const onSubmitMint = async (title) => {
+    await mintCheckoutUrl({
+      variables: { gameId: activeGame.id, endTime: activeGame.endTime, title },
+    })
+    // TODO: Start polling for mintPurchase by gameId,gameEndTime,username
+    // TODO: Once mintPurchase exists, change UI to show that its actually being minted
+    // Show link to transaction on block explorer
+    // setContext({ ...context, mintingStatus: SUCCESS })
+    // TODO: on success update card to show full details?
   }
 
   const onChangeTitle = (title) => {
-    setContext({ gameTitle: title, ...context })
+    setContext({ ...context, gameTitle: title })
   }
 
-  const onSelectGame = (newGame) => {
-    // TODO: Only one item can be selected
-    setContext({ activeGame: newGame, gameTitle: '', ...context })
+  const onClickRow = (gameId) => {
+    const game = games.find((game) => game.id === gameId)
+    setContext({
+      ...context,
+      activeGame: game,
+      gameTitle: '',
+      mintingStatus: null, // Reset after successful minting
+    })
   }
+
+  const onReset = () => {
+    setContext({
+      ...context,
+      gameTitle: '',
+      mintingStatus: null,
+    })
+  }
+
   React.useEffect(() => {
-    setContext({ activeGame: games[0], gameTitle: '', ...context })
+    setContext({ ...context, activeGame: games[0], gameTitle: '' })
+    /* eslint-disable react-hooks/exhaustive-deps */
   }, [])
-
   return (
     <div className="games-history-list">
       <div className="games-history-list__heading">
@@ -37,23 +94,20 @@ const Games = ({ games, onMintClick }) => {
       <div className="games-history-list__items">
         {games.map((game) => {
           const outcome = getOutcomeText({
-            username: currentUser.username,
+            username: currentUser?.username,
             game,
           })
-          const { whiteUsername, blackUsername, endTime, id } = game
-          const date = formatDate(endTime)
           return (
             <ListItem
-              key={id}
-              isExpanded={game.id === activeGame?.id}
-              player1={whiteUsername}
-              player2={blackUsername}
-              date={date}
-              id={id}
-              onSubmit={handleSubmit}
+              key={game.id}
+              game={game}
+              onReset={onReset}
               outcome={outcome}
+              onClick={onClickRow}
               onChangeTitle={onChangeTitle}
-              onSelectGame={onSelectGame}
+              onSubmit={onSubmitMint}
+              isExpanded={game.id === activeGame?.id}
+              mintingStatus={mintingStatus}
             />
           )
         })}

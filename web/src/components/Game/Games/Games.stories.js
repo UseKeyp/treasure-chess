@@ -109,7 +109,10 @@ export const minting = () => {
 
   return (
     <GamesContext.Provider
-      value={[{ mintingStatus: MINTING, activeGame: games[0] }, () => {}]}
+      value={[
+        { mintingStatus: MINTING, activeGame: games[0], gameTitle: 'My Title' },
+        () => {},
+      ]}
     >
       <div style={{ height: 550, width: 530 }}>
         <Games games={games} />

@@ -5,6 +5,7 @@ import { P } from 'src/components/Typography'
 import Button from 'src/components/Button/Button'
 import Icon from 'src/components/Icon/Icon'
 import MintForm from 'src/components/Game/Games/components/MintForm'
+import LoadingDots from 'src/components/LoadingDots'
 
 import { formatDate } from 'src/utils/helpers'
 
@@ -43,6 +44,41 @@ const ListItem = ({
     onClick(id)
   }
 
+  const onReset = () => {}
+
+  const BottomHalf = () => {
+    if (!tokenId && !isMinting)
+      return (
+        <MintForm
+          onSubmit={handleSubmit}
+          onChangeTitle={onChangeTitle}
+          isMinting={isMinting}
+        />
+      )
+    if (mintingStatus === CHECKOUT)
+      return (
+        <div className="games-history-list__status">
+          Complete checkout in the Wyre popup.
+          <button
+            className="games-history-list__reset-button"
+            onClick={onReset}
+          >
+            Reset
+          </button>
+        </div>
+      )
+    if (mintingStatus === MINTING)
+      return (
+        <div className="games-history-list__status">
+          Your Treasure is being minted.
+          <div className="games-history-list__loading-status">
+            This can take up to 3 minutes.
+            <LoadingDots />
+          </div>
+        </div>
+      )
+  }
+
   return (
     <div
       className="games-history-list__item"
@@ -56,7 +92,7 @@ const ListItem = ({
           {title}
         </P>
       )}
-      <div className="flex justify-between">
+      <div className="games-history-list__top-half">
         <div className="games-history-list__players">
           <div className="flex items-center pb-1">
             <div className="games-history-list__color-box" />
@@ -86,13 +122,7 @@ const ListItem = ({
           )}
         </div>
       </div>
-      {isExpanded && !tokenId && (
-        <MintForm
-          onSubmit={handleSubmit}
-          onChangeTitle={onChangeTitle}
-          isMinting={isMinting}
-        />
-      )}
+      {isExpanded && <BottomHalf />}
     </div>
   )
 }

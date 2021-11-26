@@ -53,4 +53,29 @@
     margin-right: 1rem;
     width: 68%;
   }
+  &__top-half {
+    display: flex;
+    justify-content: space-between;
+  }
+  &__status {
+    border-radius: 4px;
+    background-color: theme('colors.chessBlack.300');
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    color: theme('colors.grey');
+    font-weight: 400;
+    align-items: center;
+    padding: 10px 16px 10px 8px;
+    margin: 16px 0 0 0;
+  }
+  &__reset-button {
+    color: theme('colors.orange');
+  }
+  &__loading-status {
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+  }
 }

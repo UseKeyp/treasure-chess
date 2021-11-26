@@ -84,6 +84,7 @@ export const mintCheckoutUrl = async ({ gameId, endTime, title }) => {
         gameId,
         gameEndTime: endTime,
         title,
+        orderStatus: 'RESERVATION',
       },
     })
     return url

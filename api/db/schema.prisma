@@ -97,7 +97,8 @@ model MintPurchase {
   // Wyre
   orderId     String?   @unique // Wyre orderId
   reservation String?   @unique // Wyre reservation
-  orderStatus String?   @default("RESERVATION") // RESERVATION, COMPLETE
+  // TODO: remove default for orderStatus?
+  orderStatus String?   // RESERVATION, COMPLETE
   // NFT
   txHash      String?
   txStatus    String    @default("UNSUBMITTED") // UNSUBMITTED, SUBMITTED, COMPLETE, FAILED

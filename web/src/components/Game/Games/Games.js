@@ -46,10 +46,9 @@ const Games = ({ games }) => {
     await mintCheckoutUrl({
       variables: { gameId: activeGame.id, endTime: activeGame.endTime, title },
     })
-    // TODO: Update state to start polling for mintPurchase by gameId,gameEndTime,username
+    // TODO: Start polling for mintPurchase by gameId,gameEndTime,username
     // TODO: Once mintPurchase exists, change UI to show that its actually being minted
     // Show link to transaction on block explorer
-
     // setContext({ ...context, mintingStatus: SUCCESS })
     // TODO: on success update card to show full details?
   }

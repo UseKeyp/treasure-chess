@@ -52,7 +52,7 @@ const moveCountList = [
 
 ////////////////////////////////
 // Items without name/value pair
-const titleList = ['Grandmaster', 'International Master', 'New Master']
+const titleList = ['gm', 'im', 'nm']
 const openingList = [
   "King's pawn game",
   "Queen's Gambit",

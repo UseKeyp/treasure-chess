@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import filters from '@common/filters'
 
+import styles from './FilterBar.module.scss'
+
 import { anyValues } from './Logic'
 import FilterCheckbox from 'src/components/FilterCheckbox/FilterCheckbox'
 import FilterPriceInput from 'src/components/FilterPriceInput/FilterPriceInput'
@@ -150,7 +152,7 @@ const FilterBar = ({ filter, setFilter }) => {
       <div className={styles.dropdownRow}>
         <FilterCheckbox
           category={'Master Title'}
-          options={filters.titleList.map((title) => title.name)}
+          options={filters.titleList.map((title) => title.toUpperCase())}
           queryFilterFunction={setTitle}
           queryFilter={title}
         />

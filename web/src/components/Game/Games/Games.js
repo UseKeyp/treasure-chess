@@ -8,7 +8,11 @@ import { GamesContext } from 'src/providers/context/GamesContext'
 
 import ListItem from './components/ListItem/ListItem'
 
-import { CHECKOUT, MINTING, SUCCESS } from 'src/components/Game/Games/constants'
+import {
+  CHECKOUT,
+  MINTING,
+  _SUCCESS,
+} from 'src/components/Game/Games/constants'
 
 const MINT_CHECKOUT_URL = gql`
   query mintCheckoutUrl(
@@ -23,7 +27,7 @@ const MINT_CHECKOUT_URL = gql`
 const Games = ({ games }) => {
   const [context, setContext] = React.useContext(GamesContext)
   const { activeGame, mintingStatus } = context
-  const [mintCheckoutUrl, { loading, error }] = useLazyQuery(
+  const [mintCheckoutUrl, { _loading, _error }] = useLazyQuery(
     MINT_CHECKOUT_URL,
     {
       onCompleted: ({ mintCheckoutUrl }) => {

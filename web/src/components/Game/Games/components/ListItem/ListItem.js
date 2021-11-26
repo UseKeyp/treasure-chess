@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import { P } from 'src/components/Typography'
 import Icon from 'src/components/Icon/Icon'

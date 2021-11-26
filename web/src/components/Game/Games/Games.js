@@ -80,6 +80,7 @@ const Games = ({ games }) => {
 
   React.useEffect(() => {
     setContext({ ...context, activeGame: games[0], gameTitle: '' })
+    /* eslint-disable react-hooks/exhaustive-deps */
   }, [])
   return (
     <div className="games-history-list">

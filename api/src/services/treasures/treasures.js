@@ -52,6 +52,9 @@ export const mintCheckoutUrl = async ({ gameId, endTime, title }) => {
   const { mintCredits } = await db.member.findUnique({ where: { username } })
   if (mintCredits > 0) {
     // Minting is free, don't show the checkout
+    // TODO: create special mintPurchase
+
+    // TODO: decrement mintCredits
     return ''
   } else {
     const { url, reservation } = await createMintReservation({

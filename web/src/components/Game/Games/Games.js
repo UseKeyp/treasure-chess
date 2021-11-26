@@ -47,7 +47,6 @@ const Games = ({ games }) => {
       variables: { gameId: activeGame.id, endTime: activeGame.endTime, title },
     })
     // TODO: Update state to start polling for mintPurchase by gameId,gameEndTime,username
-
     // TODO: Once mintPurchase exists, change UI to show that its actually being minted
     // Show link to transaction on block explorer
 

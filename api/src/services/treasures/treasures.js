@@ -49,23 +49,29 @@ export const mintCheckoutUrl = async ({ gameId, endTime, title }) => {
     throw new EnvelopError(
       `Member ${username} did not participate in this game`
     )
-  const { url, reservation } = await createMintReservation({
-    username,
-    gameId,
-    endTime,
-    address,
-    title,
-  })
-  await db.mintPurchase.create({
-    data: {
-      member: { connect: { id: context.currentUser.id } },
-      reservation,
+  const { mintCredits } = await db.member.findUnique({ where: { username } })
+  if (mintCredits > 0) {
+    // Minting is free, don't show the checkout
+    return ''
+  } else {
+    const { url, reservation } = await createMintReservation({
+      username,
       gameId,
-      gameEndTime: endTime,
+      endTime,
+      address,
       title,
-    },
-  })
-  return url
+    })
+    await db.mintPurchase.create({
+      data: {
+        member: { connect: { id: context.currentUser.id } },
+        reservation,
+        gameId,
+        gameEndTime: endTime,
+        title,
+      },
+    })
+    return url
+  }
 }
 
 export const Treasure = {

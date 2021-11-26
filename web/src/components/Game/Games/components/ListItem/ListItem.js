@@ -35,7 +35,7 @@ const ListItem = ({
 
   const handleSubmit = (title) => {
     if (isMinting) return
-    onSubmit(id, title)
+    onSubmit(title)
   }
 
   const handleSelectRow = () => {

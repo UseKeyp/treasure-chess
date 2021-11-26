@@ -1,5 +1,5 @@
 import { useAuth } from '@redwoodjs/auth'
-// import { useLazyQuery } from '@apollo/client'
+import { useLazyQuery } from '@apollo/client'
 import { P, H3 } from 'src/components/Typography'
 
 import { getOutcomeText } from 'src/utils/helpers'
@@ -10,49 +10,48 @@ import ListItem from './components/ListItem/ListItem'
 
 import { CHECKOUT, MINTING, SUCCESS } from 'src/components/Game/Games/constants'
 
-// const MINT_CHECKOUT_URL = gql`
-//   query mintCheckoutUrl(
-//     $gameId: String!
-//     $endTime: DateTime!
-//     $title: String!
-//   ) {
-//     mintCheckoutUrl(gameId: $gameId, endTime: $endTime, title: $title)
-//   }
-// `
+const MINT_CHECKOUT_URL = gql`
+  query mintCheckoutUrl(
+    $gameId: String!
+    $endTime: DateTime!
+    $title: String!
+  ) {
+    mintCheckoutUrl(gameId: $gameId, endTime: $endTime, title: $title)
+  }
+`
 
 const Games = ({ games }) => {
   const [context, setContext] = React.useContext(GamesContext)
   const { activeGame, mintingStatus } = context
-  // const [mintCheckoutUrl, { loading, error }] = useLazyQuery(
-  //   MINT_CHECKOUT_URL,
-  //   {
-  //     onCompleted: ({ mintCheckoutUrl }) => {
-  //       window.open(
-  //         mintCheckoutUrl,
-  //         'Treasure Chess Checkout',
-  //         'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
-  //       )
-  //       // TODO: Update state to start polling for mintPurchase by gameId,gameEndTime,username
-  //
-  //       // TODO: Once mintPurchase exists, change UI to show that its actually being minted
-  //       // Show link to transaction on block explorer
-  //     },
-  //   }
-  // )
+  const [mintCheckoutUrl, { loading, error }] = useLazyQuery(
+    MINT_CHECKOUT_URL,
+    {
+      onCompleted: ({ mintCheckoutUrl }) => {
+        if (mintCheckoutUrl) {
+          setContext({ ...context, mintingStatus: CHECKOUT })
+          window.open(
+            mintCheckoutUrl,
+            'Treasure Chess Checkout',
+            'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
+          )
+        } else {
+          setContext({ ...context, mintingStatus: MINTING })
+        }
+      },
+    }
+  )
 
   const { currentUser } = useAuth()
-  const onSubmitMint = async (_gameId, _title) => {
-    setContext({ ...context, mintingStatus: CHECKOUT })
-    await setTimeout(async () => {
-      setContext({ ...context, mintingStatus: MINTING })
-    }, 2000)
-    await setTimeout(async () => {
-      setContext({ ...context, mintingStatus: SUCCESS })
-    }, 2000)
+  const onSubmitMint = async (title) => {
+    await mintCheckoutUrl({
+      variables: { gameId: activeGame.id, endTime: activeGame.endTime, title },
+    })
+    // TODO: Update state to start polling for mintPurchase by gameId,gameEndTime,username
 
-    // mintCheckoutUrl({
-    //   variables: { gameId: game.id, endTime: game.endTime, title: input.title },
-    // })
+    // TODO: Once mintPurchase exists, change UI to show that its actually being minted
+    // Show link to transaction on block explorer
+
+    // setContext({ ...context, mintingStatus: SUCCESS })
     // TODO: on success update card to show full details?
   }
 

@@ -27,7 +27,7 @@ const Games = ({ games }) => {
     MINT_CHECKOUT_URL,
     {
       onCompleted: ({ mintCheckoutUrl }) => {
-        if (mintCheckoutUrl) {
+        if (mintCheckoutUrl.includes('https')) {
           setContext({ ...context, mintingStatus: CHECKOUT })
           window.open(
             mintCheckoutUrl,

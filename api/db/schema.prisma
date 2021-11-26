@@ -52,7 +52,7 @@ model Treasure {
   owner            Member        @relation(name: "treasuresOwned", fields: [ownerId], references: [id])
   ownerId          String
   mintPurchase     MintPurchase? @relation(name: "mintPurchase", fields: [mintPurchaseId], references: [id])
-  mintPurchaseId   Int?
+  mintPurchaseId   Int?          @unique
   uriData          String
   tokenId          Int?
   mintedAt         DateTime?
@@ -89,16 +89,18 @@ model MintPurchase {
   memberId    String
   treasure    Treasure? @relation("mintPurchase")
   // --------------- STATE --------------
-  orderId     String?   @unique // Wyre orderId
-  reservation String?   @unique // Wyre reservation
-  // RESERVATION, COMPLETE
-  orderStatus String    @default("RESERVATION")
   gameId      String
   gameEndTime String
   title       String    @default("Cool game") // User's desired title
+  // Order
+  paymentType String    @default("WYRE") // WYRE, MINTCREDIT
+  // Wyre
+  orderId     String?   @unique // Wyre orderId
+  reservation String?   @unique // Wyre reservation
+  orderStatus String?   @default("RESERVATION") // RESERVATION, COMPLETE
+  // NFT
   txHash      String?
-  // UNSUBMITTED, SUBMITTED, COMPLETE, FAILED
-  txStatus    String    @default("UNSUBMITTED")
+  txStatus    String    @default("UNSUBMITTED") // UNSUBMITTED, SUBMITTED, COMPLETE, FAILED
 }
 
 model OAuth {

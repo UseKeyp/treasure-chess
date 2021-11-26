@@ -9,7 +9,7 @@ import LoadingDots from 'src/components/LoadingDots'
 
 import { formatDate } from 'src/utils/helpers'
 
-import { CHECKOUT, MINTING } from 'src/components/Game/Games/constants'
+import { CHECKOUT, MINTING, SUCCESS } from 'src/components/Game/Games/constants'
 
 const mainColor = '#C4C4C4'
 
@@ -17,6 +17,7 @@ const ListItem = ({
   game,
   outcome,
   onClick,
+  onReset,
   onChangeTitle,
   onSubmit,
   isExpanded,
@@ -44,17 +45,8 @@ const ListItem = ({
     onClick(id)
   }
 
-  const onReset = () => {}
-
-  const BottomHalf = () => {
-    if (!tokenId && !isMinting)
-      return (
-        <MintForm
-          onSubmit={handleSubmit}
-          onChangeTitle={onChangeTitle}
-          isMinting={isMinting}
-        />
-      )
+  const bottomHalf = () => {
+    if (!isExpanded) return <></>
     if (mintingStatus === CHECKOUT)
       return (
         <div className="games-history-list__status">
@@ -73,9 +65,23 @@ const ListItem = ({
           Your Treasure is being minted.
           <div className="games-history-list__loading-status">
             This can take up to 3 minutes.
-            <LoadingDots />
+            <LoadingDots className="ml-2" />
           </div>
         </div>
+      )
+    if (mintingStatus === SUCCESS)
+      return (
+        <div className="games-history-list__status">
+          Your Treasure was minted.
+        </div>
+      )
+    if (!tokenId && !isMinting)
+      return (
+        <MintForm
+          onSubmit={handleSubmit}
+          onChangeTitle={onChangeTitle}
+          isMinting={isMinting}
+        />
       )
   }
 
@@ -122,7 +128,7 @@ const ListItem = ({
           )}
         </div>
       </div>
-      {isExpanded && <BottomHalf />}
+      {bottomHalf()}
     </div>
   )
 }

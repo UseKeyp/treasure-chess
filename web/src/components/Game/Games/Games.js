@@ -48,13 +48,13 @@ const Games = ({ games }) => {
   const { currentUser } = useAuth()
   const onSubmitMint = async (gameId, title) => {
     setContext({ ...context, mintingStatus: CHECKOUT })
-    // Call the mint function here
-    await setTimeout(function () {
+    await setTimeout(async () => {
       setContext({ ...context, mintingStatus: MINTING })
     }, 2000)
-    await setTimeout(function () {
+    await setTimeout(async () => {
       setContext({ ...context, mintingStatus: SUCCESS })
     }, 2000)
+
     // mintCheckoutUrl({
     //   variables: { gameId: game.id, endTime: game.endTime, title: input.title },
     // })
@@ -64,9 +64,22 @@ const Games = ({ games }) => {
     setContext({ ...context, gameTitle: title })
   }
 
-  const onClickRow = async (gameId) => {
+  const onClickRow = (gameId) => {
     const game = games.find((game) => game.id === gameId)
-    setContext({ ...context, activeGame: game, gameTitle: '' })
+    setContext({
+      ...context,
+      activeGame: game,
+      gameTitle: '',
+      mintingStatus: null, // Reset after successful minting
+    })
+  }
+
+  const onReset = () => {
+    setContext({
+      ...context,
+      gameTitle: '',
+      mintingStatus: null,
+    })
   }
 
   React.useEffect(() => {
@@ -90,7 +103,7 @@ const Games = ({ games }) => {
             <ListItem
               key={game.id}
               game={game}
-              // game={{ ...game, tokenId: 1, title: 'My Title' }}
+              onReset={onReset}
               outcome={outcome}
               onClick={onClickRow}
               onChangeTitle={onChangeTitle}

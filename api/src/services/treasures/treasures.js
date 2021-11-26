@@ -58,11 +58,11 @@ export const mintCheckoutUrl = async ({ gameId, endTime, title }) => {
         member: { connect: { id: context.currentUser.id } },
         gameId,
         paymentType: 'MINTCREDIT',
+        orderStatus: 'COMPLETE',
         gameEndTime: endTime,
         title,
       },
     })
-
     const remainingCredits = mintCredits - 1
     await db.member.update({
       where: { id: context.currentUser.id },

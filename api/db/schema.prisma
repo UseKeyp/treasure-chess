@@ -94,11 +94,10 @@ model MintPurchase {
   title       String    @default("Cool game") // User's desired title
   // Order
   paymentType String    @default("WYRE") // WYRE, MINTCREDIT
+  orderStatus String?   // RESERVATION, COMPLETE
   // Wyre
   orderId     String?   @unique // Wyre orderId
   reservation String?   @unique // Wyre reservation
-  // TODO: remove default for orderStatus?
-  orderStatus String?   // RESERVATION, COMPLETE
   // NFT
   txHash      String?
   txStatus    String    @default("UNSUBMITTED") // UNSUBMITTED, SUBMITTED, COMPLETE, FAILED

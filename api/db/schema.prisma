@@ -29,6 +29,7 @@ model Member {
   imageSrc             String? // Avatar URL
   masterTitle          String? // "Grand Master" or "International Master"
   country              String // Player's country  eg. US, DE
+  mintCredits          Int            @default(3) // Mint for free!
   // Oauth
   refreshToken         String?
 }

@@ -5939,6 +5939,13 @@
   dependencies:
     chess.js "^0.12.0"
 
+"@treasure-chess/chess-achievements@^0.0.9":
+  version "0.0.9"
+  resolved "https://registry.npmjs.org/@treasure-chess/chess-achievements/-/chess-achievements-0.0.9.tgz#bd7273615b176113413ad922684b5e9bc3d4cd25"
+  integrity sha512-1IoJ59wrjpdYg9LbZmNL9r5aj0UqDEbH3KFSJEaguCifUqMpKFh4ZI5BhveU1cAqXaO2CcG6Ew5gwO+YkeYIhg==
+  dependencies:
+    chess.js "^0.12.0"
+
 "@treasure-chess/treasure-contracts@^0.0.6-dev.872943.0":
   version "0.0.6-dev.872943.0"
   resolved "https://registry.npmjs.org/@treasure-chess/treasure-contracts/-/treasure-contracts-0.0.6-dev.872943.0.tgz#5b7f174b897004e5bffcad22b38d0e3f4826c969"

@@ -1,7 +1,8 @@
 import FilterBar from './FilterBar'
 
 export const generated = () => {
-  return <FilterBar />
+  const [filter, setFilter] = React.useState({})
+  return <FilterBar filter={filter} setFilter={setFilter} />
 }
 
 export default { title: 'Components/FilterBar' }

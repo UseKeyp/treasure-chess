@@ -1,8 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 import { P } from 'src/components/Typography'
-import Button from 'src/components/Button/Button'
 import Icon from 'src/components/Icon/Icon'
 import MintForm from 'src/components/Game/Games/components/MintForm'
 import LoadingDots from 'src/components/LoadingDots'
@@ -131,12 +130,6 @@ const ListItem = ({
       {bottomHalf()}
     </div>
   )
-}
-
-ListItem.propTypes = {
-  outcome: PropTypes.string.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  onChangeTitle: PropTypes.func.isRequired,
 }
 
 export default ListItem

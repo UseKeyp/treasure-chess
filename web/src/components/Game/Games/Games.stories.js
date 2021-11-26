@@ -1,12 +1,7 @@
 import Games from './Games'
 
 import { GamesContext } from 'src/providers/context/GamesContext'
-import {
-  UNMINTED,
-  CHECKOUT,
-  MINTING,
-  SUCCESS,
-} from 'src/components/Game/Games/constants'
+import { CHECKOUT, MINTING, SUCCESS } from 'src/components/Game/Games/constants'
 
 const games = [
   {

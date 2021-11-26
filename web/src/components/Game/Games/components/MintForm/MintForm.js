@@ -1,10 +1,3 @@
-import {
-  Form,
-  FormError,
-  FieldError,
-  TextField,
-  Submit,
-} from '@redwoodjs/forms'
 import { P } from 'src/components/Typography'
 
 import Button from 'src/components/Button/Button'

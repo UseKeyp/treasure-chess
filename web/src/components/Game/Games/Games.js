@@ -8,22 +8,17 @@ import { GamesContext } from 'src/providers/context/GamesContext'
 
 import ListItem from './components/ListItem/ListItem'
 
-import {
-  UNMINTED,
-  CHECKOUT,
-  MINTING,
-  SUCCESS,
-} from 'src/components/Game/Games/constants'
+import { CHECKOUT, MINTING, SUCCESS } from 'src/components/Game/Games/constants'
 
-const MINT_CHECKOUT_URL = gql`
-  query mintCheckoutUrl(
-    $gameId: String!
-    $endTime: DateTime!
-    $title: String!
-  ) {
-    mintCheckoutUrl(gameId: $gameId, endTime: $endTime, title: $title)
-  }
-`
+// const MINT_CHECKOUT_URL = gql`
+//   query mintCheckoutUrl(
+//     $gameId: String!
+//     $endTime: DateTime!
+//     $title: String!
+//   ) {
+//     mintCheckoutUrl(gameId: $gameId, endTime: $endTime, title: $title)
+//   }
+// `
 
 const Games = ({ games }) => {
   const [context, setContext] = React.useContext(GamesContext)
@@ -46,7 +41,7 @@ const Games = ({ games }) => {
   // )
 
   const { currentUser } = useAuth()
-  const onSubmitMint = async (gameId, title) => {
+  const onSubmitMint = async (_gameId, _title) => {
     setContext({ ...context, mintingStatus: CHECKOUT })
     await setTimeout(async () => {
       setContext({ ...context, mintingStatus: MINTING })
@@ -58,6 +53,7 @@ const Games = ({ games }) => {
     // mintCheckoutUrl({
     //   variables: { gameId: game.id, endTime: game.endTime, title: input.title },
     // })
+    // TODO: on success update card to show full details?
   }
 
   const onChangeTitle = (title) => {

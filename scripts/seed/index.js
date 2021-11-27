@@ -42,14 +42,17 @@ async function main() {
         console.log(record)
       } catch (e) {
         console.log("Couldn't create treasures")
+        console.log(treasure)
         console.log(e)
       }
     })
   )
 }
 
-main()
+const seed = main()
   .catch((e) => console.error(e))
   .finally(async () => {
     await db.$disconnect()
   })
+
+exports.default = seed

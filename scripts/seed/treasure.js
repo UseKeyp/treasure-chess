@@ -7,19 +7,16 @@ const treasureData = [
     black: {
       connect: { id: alice.id },
     },
-    blackUsername: alice.username,
     white: {
       connect: { id: bob.id },
     },
-    whiteUsername: bob.username,
     winner: { connect: { id: bob.id } },
-    winnerUsername: bob.username,
     // NFT
     minter: {
-      connect: { address: bob.address },
+      connect: { id: bob.id },
     },
     owner: {
-      connect: { address: bob.address },
+      connect: { id: bob.id },
     },
     uriData: 'TODO!',
     tokenId: 1,
@@ -54,19 +51,16 @@ const treasureData = [
     black: {
       connect: { id: alice.id },
     },
-    blackUsername: alice.username,
     white: {
       connect: { id: bob.id },
     },
-    whiteUsername: bob.username,
     winner: { connect: { id: bob.id } },
-    winnerUsername: bob.username,
     // NFT
     minter: {
-      connect: { address: bob.address },
+      connect: { id: bob.id },
     },
     owner: {
-      connect: { address: bob.address },
+      connect: { id: bob.id },
     },
     uriData: 'TODO!',
     tokenId: 2,

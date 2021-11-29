@@ -1,4 +1,5 @@
 import ProfanityFilter from 'bad-words'
+import { EnvelopError } from '@envelop/core'
 
 const profanityFilter = new ProfanityFilter()
 
@@ -18,7 +19,7 @@ export const isExpired = (expiration) => {
 
 export const checkProfanity = (string) => {
   if (profanityFilter.isProfane(string))
-    throw new Error('String contains profanity')
+    throw new EnvelopError('String contains profanity')
 }
 
 export const validateTreasureTitle = (string) => {

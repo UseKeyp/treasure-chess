@@ -27,7 +27,7 @@ const MINT_CHECKOUT_URL = gql`
 const Games = ({ games }) => {
   const [context, setContext] = React.useContext(GamesContext)
   const { activeGame, mintingStatus } = context
-  const [mintCheckoutUrl, { _loading, _error }] = useLazyQuery(
+  const [mintCheckoutUrl, { loading, error }] = useLazyQuery(
     MINT_CHECKOUT_URL,
     {
       onCompleted: ({ mintCheckoutUrl }) => {
@@ -108,6 +108,7 @@ const Games = ({ games }) => {
               onSubmit={onSubmitMint}
               isExpanded={game.id === activeGame?.id}
               mintingStatus={mintingStatus}
+              errorText={error?.message}
             />
           )
         })}

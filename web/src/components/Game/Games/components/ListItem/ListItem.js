@@ -20,6 +20,7 @@ const ListItem = ({
   onSubmit,
   isExpanded,
   mintingStatus,
+  errorText,
 }) => {
   const {
     whiteUsername: player1,
@@ -76,6 +77,7 @@ const ListItem = ({
     if (!tokenId && !isMinting)
       return (
         <MintForm
+          errorText={errorText}
           onSubmit={handleSubmit}
           onChangeTitle={onChangeTitle}
           isMinting={isMinting}

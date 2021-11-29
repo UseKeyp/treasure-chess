@@ -11,6 +11,7 @@ const GameExplorer = () => {
   const { activeGame, mintingStatus } = context
   const [filter, setFilter] = React.useState()
   const onChangeFilter = (newFilter) => {
+    // Prevent change during mint
     if (mintingStatus === CHECKOUT || mintingStatus === MINTING) return
     const filterParams = new URLSearchParams(newFilter)
     filterParams.sort()

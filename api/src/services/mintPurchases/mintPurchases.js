@@ -1,13 +1,14 @@
 import { db } from 'src/lib/db'
 
-// TODO:  Delete if unused. Maybe need for polling minting completion?
 export const mintPurchases = () => {
-  return db.mintPurchase.findMany()
-}
-
-export const mintPurchase = ({ id }) => {
-  return db.mintPurchase.findUnique({
-    where: { id },
+  return db.mintPurchase.findMany({
+    where: { member: { id: context.currentUser.id } },
+    orderBy: [
+      {
+        updatedAt: 'desc',
+      },
+    ],
+    include: { treasures: true },
   })
 }
 

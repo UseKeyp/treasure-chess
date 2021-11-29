@@ -15,4 +15,8 @@ export const schema = gql`
     txHash: String
     txStatus: String!
   }
+
+  type Query {
+    mintPurchases: [MintPurchase!]! @requireAuth
+  }
 `

@@ -48,7 +48,7 @@ export const mintCheckoutUrl = async ({ gameId, endTime, title }) => {
     },
   })
   if (existingPurchase.length)
-    throw new EnvelopError(`This treasure is currently being minted.`)
+    throw new EnvelopError(`This Treasure cannot be minted right now.`)
   const game = await fetchGame({
     id: gameId,
     username,

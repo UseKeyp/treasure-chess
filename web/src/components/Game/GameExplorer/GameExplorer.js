@@ -11,6 +11,7 @@ import {
   MINTING,
   COMPLETE,
   FAILED,
+  SUCCESS,
 } from 'src/components/Game/constants'
 
 const MINT_PURCHASES = gql`
@@ -54,8 +55,6 @@ const GameExplorer = () => {
   const consumeMintPurchasesData = async () => {
     const { mintPurchases } = mintPurchasesData
     if (!mintPurchases) return
-    console.log('polled')
-    // User-initiated the minting, so we must use the activeGame
     const mintPurchase = mintPurchases.find(
       (purchase) =>
         purchase.gameEndTime === activeGame?.endTime &&
@@ -63,15 +62,15 @@ const GameExplorer = () => {
     )
     if (!mintPurchase) return
     if (mintPurchase.orderStatus !== COMPLETE) return
-    if (mintingStatus === CHECKOUT) {
+    if (mintingStatus === CHECKOUT)
       // For Wyre orders, update mintStatus if order is complete
       setContext({ ...context, mintStatus: MINTING })
-    }
+
     if ([COMPLETE, FAILED].includes(mintPurchase.txStatus)) {
       stopPolling()
+      setContext({ ...context, mintingStatus: SUCCESS })
       // TODO: on success update card to show full details?
       // Show link to transaction on block explorer
-      // setContext({ ...context, mintingStatus: SUCCESS })
       // TODO: Add state for mint purchase polling?
     }
   }
@@ -85,13 +84,12 @@ const GameExplorer = () => {
   }
 
   React.useEffect(() => {
-    if (!mintPurchasesData) return
+    if (!isMinting || !mintPurchasesData) return
     consumeMintPurchasesData()
   }, [mintPurchasesData])
 
   React.useEffect(() => {
-    console.log(mintingStatus)
-    if (![CHECKOUT, MINTING].includes(mintingStatus)) return
+    if (!isMinting) return
     startPolling()
   }, [mintingStatus])
 

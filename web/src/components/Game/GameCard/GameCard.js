@@ -38,8 +38,12 @@ const GameCard = ({ game, isMinting }) => {
   return (
     <div className="game-card-wrapper">
       {isMinting && (
-        <div className="game-card-overlay">
-          <P size={15}>Minting in progress</P>
+        <div className="game-card-minting-container">
+          <div className="game-card-minting-container__overlay" />
+          <Loader />
+          <P size={15} color={'chessBlack.100'}>
+            Minting in progress
+          </P>
         </div>
       )}
       <div

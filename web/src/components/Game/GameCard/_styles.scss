@@ -6,14 +6,19 @@
 .game-card-html {
   // min-width: 258px;
 }
-.game-card-overlay {
+.game-card-minting-container {
   position: absolute;
+  width: 266px;
+  height: 492px;
   color: theme('colors.chessBlack.100');
   align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 100%;
-  background-color: white;
-  opacity: 90%;
-  border-radius: 12px;
+
+  &__overlay {
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    opacity: 90%;
+    border-radius: 12px;
+  }
 }

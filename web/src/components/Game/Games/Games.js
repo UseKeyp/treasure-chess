@@ -71,10 +71,36 @@ const Games = ({ games }) => {
     })
   }
 
+  const getItems = () => {
+    if (!activeGame && mintingStatus === MINTING)
+      return 'Minting in progress...'
+    return games.map((game) => {
+      const outcome = getOutcomeText({
+        username: currentUser?.username,
+        game,
+      })
+      return (
+        <ListItem
+          key={game.id}
+          game={game}
+          onReset={onReset}
+          outcome={outcome}
+          onClick={onClickRow}
+          onChangeTitle={onChangeTitle}
+          onSubmit={onSubmitMint}
+          isExpanded={game.id === activeGame?.id}
+          mintingStatus={mintingStatus}
+          errorText={mintCheckoutError?.message}
+        />
+      )
+    })
+  }
+
   React.useEffect(() => {
-    setContext({ ...context, activeGame: games[0], gameTitle: '' })
+    setContext({ ...context, gameTitle: '' })
     /* eslint-disable react-hooks/exhaustive-deps */
   }, [])
+
   return (
     <div className="games-history-list">
       <div className="games-history-list__heading">
@@ -83,28 +109,7 @@ const Games = ({ games }) => {
           {games.length} Games
         </P>
       </div>
-      <div className="games-history-list__items">
-        {games.map((game) => {
-          const outcome = getOutcomeText({
-            username: currentUser?.username,
-            game,
-          })
-          return (
-            <ListItem
-              key={game.id}
-              game={game}
-              onReset={onReset}
-              outcome={outcome}
-              onClick={onClickRow}
-              onChangeTitle={onChangeTitle}
-              onSubmit={onSubmitMint}
-              isExpanded={game.id === activeGame?.id}
-              mintingStatus={mintingStatus}
-              errorText={mintCheckoutError?.message}
-            />
-          )
-        })}
-      </div>
+      <div className="games-history-list__items">{getItems()}</div>
     </div>
   )
 }

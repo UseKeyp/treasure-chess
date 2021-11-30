@@ -1,4 +1,4 @@
-import { useLazyQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 
 import GamesCell from 'src/components/Game/GamesCell'
 import GameCard from 'src/components/Game/GameCard'
@@ -35,15 +35,19 @@ const MINT_PURCHASES = gql`
 `
 
 const GameExplorer = () => {
-  const [context] = React.useContext(GamesContext)
+  const [context, setContext] = React.useContext(GamesContext)
   const { activeGame, mintingStatus } = context
   const [filter, setFilter] = React.useState()
 
-  const [
-    stopPolling,
+  const {
     startPolling,
-    { data: mintPurchasesData, error: mintPurchasesError },
-  ] = useLazyQuery(MINT_PURCHASES, { pollInterval: 1000 })
+    stopPolling,
+    data: mintPurchasesData,
+    error: mintPurchasesError,
+  } = useQuery(MINT_PURCHASES, {
+    pollInterval: 1000,
+    fetchPolicy: 'network-only',
+  })
 
   const isMinting = [CHECKOUT, MINTING].includes(mintingStatus)
 

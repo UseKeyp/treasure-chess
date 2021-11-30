@@ -1,7 +1,7 @@
 import getCard from '@common/treasure-html'
 import { GamesContext } from 'src/providers/context/GamesContext'
 
-const GameCard = ({ game }) => {
+const GameCard = ({ game, isMinting }) => {
   const [context] = React.useContext(GamesContext)
   const { gameTitle } = context
   const [cardHtml, setCardHtml] = React.useState()
@@ -18,6 +18,7 @@ const GameCard = ({ game }) => {
     update()
     /* eslint-disable react-hooks/exhaustive-deps */
   }, [game, gameTitle])
+  if (isMinting) return <>Minting...</>
   if (!game) return null
   return (
     <div

@@ -8,7 +8,7 @@ export const mintPurchases = () => {
         updatedAt: 'desc',
       },
     ],
-    include: { treasures: true },
+    include: { treasure: true },
   })
 }
 

@@ -23,15 +23,6 @@ const MINT_CHECKOUT_URL = gql`
     mintCheckoutUrl(gameId: $gameId, endTime: $endTime, title: $title)
   }
 `
-const MINT_STATUS = gql`
-  query mintCheckoutUrl(
-    $gameId: String!
-    $endTime: DateTime!
-    $title: String!
-  ) {
-    mintCheckoutUrl(gameId: $gameId, endTime: $endTime, title: $title)
-  }
-`
 
 const Games = ({ games }) => {
   const [context, setContext] = React.useContext(GamesContext)
@@ -55,34 +46,11 @@ const Games = ({ games }) => {
       },
     }
   )
-  const [mintStatus, { data: mintStatusData, error: mintStatusError }] =
-    useLazyQuery(MINT_STATUS, {
-      onCompleted: ({ mintCheckoutUrl }) => {
-        if (mintCheckoutUrl.includes('https')) {
-          setContext({ ...context, mintingStatus: CHECKOUT })
-          window.open(
-            mintCheckoutUrl,
-            'Treasure Chess Checkout',
-            'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
-          )
-        } else {
-          setContext({ ...context, mintingStatus: MINTING })
-        }
-      },
-    })
-
-  const formErrorText = mintCheckoutError?.message || mintStatusError?.message
 
   const onSubmitMint = async (title) => {
     await mintCheckoutUrl({
       variables: { gameId: activeGame.id, endTime: activeGame.endTime, title },
     })
-    mintStatus.startPolling(1000)
-    // TODO: Start polling for mintPurchase by gameId,gameEndTime,username
-    // TODO: Once mintPurchase exists, change UI to show that its actually being minted
-    // Show link to transaction on block explorer
-    // setContext({ ...context, mintingStatus: SUCCESS })
-    // TODO: on success update card to show full details?
   }
 
   const onChangeTitle = (title) => {
@@ -136,7 +104,7 @@ const Games = ({ games }) => {
               onSubmit={onSubmitMint}
               isExpanded={game.id === activeGame?.id}
               mintingStatus={mintingStatus}
-              errorText={formErrorText}
+              errorText={mintCheckoutError?.message}
             />
           )
         })}

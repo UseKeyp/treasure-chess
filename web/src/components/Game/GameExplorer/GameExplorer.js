@@ -41,12 +41,7 @@ const GameExplorer = () => {
   const [filter, setFilter] = React.useState()
   const [isPolling, setIsPolling] = React.useState()
 
-  const {
-    startPolling,
-    stopPolling,
-    data: mintPurchasesData,
-    // error: mintPurchasesError,
-  } = useQuery(MINT_PURCHASES, {
+  const { data: mintPurchasesData } = useQuery(MINT_PURCHASES, {
     pollInterval: 1000,
     skip: !isPolling,
     fetchPolicy: 'network-only',
@@ -69,12 +64,12 @@ const GameExplorer = () => {
       setContext({ ...context, mintStatus: MINTING })
 
     if ([COMPLETE, FAILED].includes(mintPurchase.txStatus)) {
-      // stopPolling()
       setIsPolling(false)
-      setContext({ ...context, mintingStatus: SUCCESS })
-      // TODO: on success update card to show full details?
-      // Show link to transaction on block explorer
-      // TODO: Add state for mint purchase polling?
+      setContext({
+        ...context,
+        mintingStatus: SUCCESS,
+        activeGame: mintPurchase.treasure,
+      })
     }
   }
 
@@ -87,15 +82,13 @@ const GameExplorer = () => {
   }
 
   React.useEffect(() => {
-    if (!isMinting) return stopPolling()
-    if (!mintPurchasesData) return
+    if (!isMinting || !mintPurchasesData) return
     consumeMintPurchasesData()
     /* eslint-disable react-hooks/exhaustive-deps*/
   }, [mintPurchasesData])
 
   React.useEffect(() => {
     if (!isMinting) return
-    console.log('start polling')
     setIsPolling(true)
     /* eslint-disable react-hooks/exhaustive-deps*/
   }, [mintingStatus])

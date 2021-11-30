@@ -5,6 +5,7 @@ import { P, H3 } from 'src/components/Typography'
 import { getOutcomeText } from 'src/utils/helpers'
 
 import { GamesContext } from 'src/providers/context/GamesContext'
+import LoadingDots from 'src/components/LoadingDots'
 
 import ListItem from './components/ListItem/ListItem'
 
@@ -73,7 +74,15 @@ const Games = ({ games }) => {
 
   const getItems = () => {
     if (!activeGame && mintingStatus === MINTING)
-      return 'Minting in progress...'
+      return (
+        <div className="games-history-list__status">
+          Your Treasure is being minted.
+          <div className="games-history-list__loading-status">
+            This can take up to 3 minutes.
+            <LoadingDots className="ml-2" />
+          </div>
+        </div>
+      )
     return games.map((game) => {
       const outcome = getOutcomeText({
         username: currentUser?.username,

@@ -55,25 +55,12 @@ const GameExplorer = () => {
     const { mintPurchases } = mintPurchasesData
     if (!mintPurchases) return
     console.log('polled')
-    let mintPurchase
-    if (!mintingStatus) {
-      // User may have refreshed the page, get the most recent mintPurchase
-      mintPurchase = mintPurchases[0]
-      // if (
-      //   mintPurchase.orderStatus === COMPLETE &&
-      //   [COMPLETE, FAILED].includes(mintPurchase.txStatus)
-      // )
-      //   return stopPolling() // Stop if nothing is currently being minted
-      setContext({ ...context, mintingStatus: MINTING })
-      // TODO: Update activeGame??
-    } else {
-      // User-initiated the minting, so we must use the activeGame
-      mintPurchase = mintPurchases.find(
-        (purchase) =>
-          purchase.gameEndTime === activeGame?.endTime &&
-          purchase.gameId === activeGame?.id
-      )
-    }
+    // User-initiated the minting, so we must use the activeGame
+    const mintPurchase = mintPurchases.find(
+      (purchase) =>
+        purchase.gameEndTime === activeGame?.endTime &&
+        purchase.gameId === activeGame?.id
+    )
     if (!mintPurchase) return
     if (mintPurchase.orderStatus !== COMPLETE) return
     if (mintingStatus === CHECKOUT) {
@@ -81,7 +68,7 @@ const GameExplorer = () => {
       setContext({ ...context, mintStatus: MINTING })
     }
     if ([COMPLETE, FAILED].includes(mintPurchase.txStatus)) {
-      // stopPolling()
+      stopPolling()
       // TODO: on success update card to show full details?
       // Show link to transaction on block explorer
       // setContext({ ...context, mintingStatus: SUCCESS })
@@ -103,12 +90,10 @@ const GameExplorer = () => {
   }, [mintPurchasesData])
 
   React.useEffect(() => {
+    console.log(mintingStatus)
     if (![CHECKOUT, MINTING].includes(mintingStatus)) return
     startPolling()
   }, [mintingStatus])
-
-  // Always run at least once, in case user re-freshes the page
-  startPolling()
 
   return (
     <div className="grid grid-rows-1">

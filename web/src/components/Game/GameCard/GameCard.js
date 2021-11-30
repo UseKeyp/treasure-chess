@@ -12,7 +12,7 @@ const GameCard = ({ game, isMinting }) => {
   const [cardHtml, setCardHtml] = React.useState()
   const update = async () => {
     let raw
-    if (isMinting) {
+    if (isMinting && !game) {
       raw = await getCard({
         treasure: { ...placeholderGame },
         gifUrl:

@@ -26,7 +26,7 @@ const Games = ({ games }) => {
   const { activeGame, mintingStatus } = context
   const { currentUser } = useAuth()
 
-  const [mintCheckoutUrl, { loading, error: mintCheckoutError }] = useLazyQuery(
+  const [mintCheckoutUrl, { error: mintCheckoutError }] = useLazyQuery(
     MINT_CHECKOUT_URL,
     {
       onCompleted: ({ mintCheckoutUrl }) => {

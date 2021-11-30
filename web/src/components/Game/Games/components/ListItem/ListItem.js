@@ -7,7 +7,7 @@ import LoadingDots from 'src/components/LoadingDots'
 
 import { formatDate } from 'src/utils/helpers'
 
-import { CHECKOUT, MINTING, SUCCESS } from 'src/components/Game/Games/constants'
+import { CHECKOUT, MINTING, SUCCESS } from 'src/components/Game/constants'
 
 const mainColor = '#C4C4C4'
 

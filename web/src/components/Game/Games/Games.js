@@ -8,11 +8,7 @@ import { GamesContext } from 'src/providers/context/GamesContext'
 
 import ListItem from './components/ListItem/ListItem'
 
-import {
-  CHECKOUT,
-  MINTING,
-  _SUCCESS,
-} from 'src/components/Game/Games/constants'
+import { CHECKOUT, MINTING, _SUCCESS } from 'src/components/Game/constants'
 
 const MINT_CHECKOUT_URL = gql`
   query mintCheckoutUrl(

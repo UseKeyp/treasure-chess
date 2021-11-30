@@ -1,4 +1,4 @@
-import themeConfig from '../../tailwind.config'
+import themeConfig from '../../config/tailwind.config'
 
 const ThemeContext = React.createContext()
 

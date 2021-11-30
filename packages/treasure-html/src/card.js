@@ -46,7 +46,7 @@ const card = `<html>
   				</div>
   			</div>
         <div id="game" style="height: 258px; margin-top: 6px; background-image: url('');">
-    			<a id="game-anchor" href="chess.com" target="_blank" rel="noopener" style="display:inline-block;">
+    			<a id="game-anchor" href="" target="_blank" rel="noopener" style="display:inline-block;">
     				<img id="game-image" src="" style="width: 100%; border-radius: 4px;" alt="Video of the game"/>
     			</a>
         </div>

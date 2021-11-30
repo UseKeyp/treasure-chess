@@ -69,11 +69,11 @@ const games = [
 export const white = () => {
   return (
     <>
-      white
+      <p className="pt-4 pb-4">white</p>
       <GameCard game={games[0]} />
-      black
+      <p className="pt-4 pb-4">black</p>
       <GameCard game={games[1]} />
-      isMinting = true
+      <p className="pt-4 pb-4">isMinting = true</p>
       <GameCard isMinting={true} />
     </>
   )

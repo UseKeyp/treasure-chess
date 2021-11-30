@@ -34,18 +34,26 @@ const GameCard = ({ game, isMinting }) => {
     /* eslint-disable react-hooks/exhaustive-deps */
   }, [game, gameTitle, isMinting])
 
+  const MintingOverlay = () => (
+    <>
+      <div className="game-card-minting-overlay" />
+      <div className="game-card-minting-container">
+        <div className="items-center">
+          <Loader />
+          <P fontWeight={700} fontSize={16} color={'chessBlack.100'}>
+            Minting
+            <br />
+            in progress
+          </P>
+        </div>
+      </div>
+    </>
+  )
+
   if (!isMinting && !game) return null
   return (
     <div className="game-card-wrapper">
-      {isMinting && (
-        <div className="game-card-minting-container">
-          <div className="game-card-minting-container__overlay" />
-          <Loader />
-          <P size={15} color={'chessBlack.100'}>
-            Minting in progress
-          </P>
-        </div>
-      )}
+      {isMinting && <MintingOverlay />}
       <div
         className="game-card-html"
         dangerouslySetInnerHTML={{ __html: cardHtml }}

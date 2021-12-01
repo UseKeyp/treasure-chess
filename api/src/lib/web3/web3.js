@@ -50,7 +50,7 @@ export const mintTreasure = async ({ game, mintPurchase, member, title }) => {
     })
 
     const treasure = await db.treasure.create({
-      data: { ...treasureData, uriData },
+      data: { ...treasureData, uriData, tokenUri },
     })
     // TODO:  remove consoles
     /* eslint-disable-next-line no-console */

@@ -1,13 +1,14 @@
 .header {
-	background-color: hsla(36, 7%, 14%, 1);
-	padding: 2ex;
-	font-size: 1rem;
-	border-radius: 1rem;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
+  background-color: hsla(36, 7%, 14%, 1);
+  padding: 2ex;
+  font-size: 1rem;
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  margin: 1rem;
+
   ::selection {
-    background-color: hsla(92, 41%, 44%, 1)
+    background-color: hsla(92, 41%, 44%, 1);
   }
   a {
     transition: all 0.25s;
@@ -15,9 +16,9 @@
       transform: translateY(-3px);
     }
   }
-	> .iconSearch {
-		display: flex;
-		align-items: center;
+  > .iconSearch {
+    display: flex;
+    align-items: center;
 
     > a {
       padding-right: 1em;
@@ -31,8 +32,8 @@
     width: clamp(260px, 33vw, 400px);
     display: flex;
     align-items: center;
-    justify-content: flex-end;
-    margin-right: .75em;
+    flex: 1;
+    margin-right: 0.75em;
     user-select: none;
     button {
       margin-left: 1em;
@@ -48,10 +49,29 @@
       &:focus {
         outline: 1px solid white;
       }
-      > img, svg {
+      > img,
+      svg {
         margin-right: 1ex;
         transform: translateY(-2px);
       }
+    }
+    &--username {
+      color: #147DDD;
+      font-weight: bold;
+      padding: 0 !important;
+    }
+    &--address {
+      font-weight: light;
+      color: #ABB6B9;
+    }
+    &--balance {
+      font-weight: bold;
+      color: #ABB6B9;
+    }
+    &--fund-wallet {
+      color: #147DDD;
+      font-weight: light;
+      padding: 0 !important;
     }
   }
 }

@@ -2,9 +2,10 @@ import FormData from 'form-data'
 import fetch from 'node-fetch'
 
 const esmImport = require('esm')(module)
-const getCard = esmImport('@treasure-chess/treasure-html')
+const getCard = esmImport('@common/treasure-html')
 
 import { getDescription } from 'src/lib/pinata/helpers'
+import { getGifBase64 } from 'src/lib/chessCom/gifGetter'
 
 const PINATA_API_URL = 'https://api.pinata.cloud'
 const PINATA_API_KEY = process.env.PINATA_API_KEY

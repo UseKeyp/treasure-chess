@@ -24,7 +24,6 @@ export const mintTreasure = async ({ game, mintPurchase, member, title }) => {
       // Remove throw once completed
       throw `Treasure has already been minted:${treasureData.id}`
     }
-
     const { tokenUri, uriData } = await pinTreasure({
       treasure: treasureData,
       tcn: game.tcn,

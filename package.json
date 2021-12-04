@@ -4,7 +4,8 @@
     "packages": [
       "api",
       "web",
-      "packages/*"
+      "packages/*",
+      "packages/treasure-chess"
     ]
   },
   "scripts": {

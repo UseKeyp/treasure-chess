@@ -30,7 +30,6 @@
   }
   .nav {
     width: clamp(260px, 33vw, 400px);
-    display: flex;
     align-items: center;
     flex: 1;
     margin-right: 0.75em;
@@ -55,7 +54,9 @@
         transform: translateY(-2px);
       }
     }
-    &--username {
+    &--username,
+    &--login
+    {
       color: #147DDD;
       font-weight: bold;
       padding: 0 !important;

@@ -1,4 +1,5 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { useLocation } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
 
@@ -18,6 +19,78 @@ const WalletBalance = () => {
         </a>
       </div>
     </div>
+  )
+}
+
+const MobileNav = () => {
+  const { isAuthenticated: isLoggedIn, logIn } = useAuth()
+  const { pathname } = useLocation()
+  const [isOpen, setOpen] = useState(false)
+
+  const handleLogIn = () => logIn({ redirectTo: pathname })
+
+  const navItemClasses = 'block text-center mt-4 flex'
+  const navAnchorClasses = 'text-center w-full font-bold'
+
+  if (!isOpen) {
+    return (
+      <button type="button" className="font-bold" onClick={() => setOpen(true)}>
+        Menu
+      </button>
+    )
+  }
+
+  return createPortal(
+    <div
+      className="fixed flex inset-0"
+      style={{ backgroundColor: 'hsla(36, 7%, 14%, 1)' }}
+      role="dialog"
+      aria-label="Mobile navigation"
+    >
+      <div className="flex-1 flex justify-center">
+        <nav>
+          <ul className="h-full relative">
+            <li className={navItemClasses}>
+              <a href="/">
+                <img src="/TreasureChessLogo.png" alt="TreasureChess.com" />
+                <span className="sr-only">home</span>
+              </a>
+            </li>
+            <li className={navItemClasses}>
+              <a href="/" className={navAnchorClasses}>
+                Treasures
+              </a>
+            </li>
+            <li className={navItemClasses}>
+              <a href="/" className={navAnchorClasses}>
+                About
+              </a>
+            </li>
+            {!isLoggedIn ? (
+              <li className={navItemClasses}>
+                <button
+                  type="button"
+                  className={navAnchorClasses}
+                  onClick={() => handleLogIn()}
+                >
+                  Log In
+                </button>
+              </li>
+            ) : null}
+            <li className="absolute" style={{ bottom: '10%' }}>
+              <button
+                type="button"
+                className={navAnchorClasses}
+                onClick={() => setOpen(false)}
+              >
+                Close Menu
+              </button>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>,
+    document.querySelector('body')
   )
 }
 
@@ -50,9 +123,14 @@ const Header = () => {
         <a href="/">
           <img src="/TreasureChessLogo.png" alt="TreasureChess.com" />
         </a>
-        <SearchBar />
+        <div className="hidden lg:block">
+          <SearchBar />
+        </div>
       </div>
-      <div className={styles.nav}>
+      <div className="flex flex-1 items-center justify-end lg:hidden">
+        <MobileNav />
+      </div>
+      <div className={`${styles.nav} hidden lg:flex`}>
         <div className="flex-1 flex items-center">
           <div>
             <a href="/" className="font-bold">
@@ -69,12 +147,23 @@ const Header = () => {
         </div>
         {isLoggedIn ? (
           <div className="flex items-center">
-            <div className="mr-4 w-8 h-8 rounded-md">
-              {imageSrc ? <img src={imageSrc} alt="" /> : <EmptyAvatar className="rounded-md" />}
+            <div className="mr-4 w-8 h-8 flex items-center justify-center">
+              {imageSrc ? (
+                <img
+                  src={imageSrc}
+                  className="h-auto w-full rounded-md"
+                  alt=""
+                />
+              ) : (
+                <EmptyAvatar className="rounded-md" />
+              )}
             </div>
             <div className="mr-4">
               <div className="flex flex-col text-sm text-left">
-                <a className={styles['nav--username']} href={`/${profile?.uri || ''}`}>
+                <a
+                  className={styles['nav--username']}
+                  href={`/${profile?.uri || ''}`}
+                >
                   {profile.username}
                 </a>
                 <div className={styles['nav--address']}>{address}</div>
@@ -83,7 +172,11 @@ const Header = () => {
             <WalletBalance />
           </div>
         ) : (
-          <button type="button" className="font-bold text-blue-500" onClick={() => handleLogIn()}>
+          <button
+            type="button"
+            className={styles['nav--login']}
+            onClick={() => handleLogIn()}
+          >
             Log In
           </button>
         )}

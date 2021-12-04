@@ -4,15 +4,15 @@
 
 module.exports = {
   extends: '../babel.config.js',
-  presets: ['@redwoodjs/core/config/babel-preset'],
-  plugins: [
-    [
-      require.resolve('babel-plugin-module-resolver'),
-      {
-        alias: {
-          '@common': path.join(getPaths().base, './packages'),
-        },
-      },
-    ],
-  ],
+  // presets: ['@redwoodjs/core/config/babel-preset'],
+  // plugins: [
+  //   [
+  //     require.resolve('babel-plugin-module-resolver'),
+  //     {
+  //       alias: {
+  //         '@common': path.join(getPaths().base, './packages'),
+  //       },
+  //     },
+  //   ],
+  // ],
 }

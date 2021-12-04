@@ -1,8 +1,9 @@
 import FormData from 'form-data'
 import fetch from 'node-fetch'
 
-const esmImport = require('esm')(module)
-const getCard = esmImport('@common/treasure-html')
+// const esmImport = require('esm')(module)
+// const getCard = esmImport('@treasure-chess/treasure-html')
+import getCard from '@treasure-chess/treasure-html'
 
 import { getDescription } from 'src/lib/pinata/helpers'
 import { getGifBase64 } from 'src/lib/chessCom/gifGetter'

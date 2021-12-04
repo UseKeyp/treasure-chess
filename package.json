@@ -17,8 +17,8 @@
     "seed": "yarn rw exec seed"
   },
   "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.16.0",
     "@redwoodjs/core": "^0.38.1",
-    "babel-plugin-module-resolver": "^4.1.0",
     "chromatic": "^5.9.2",
     "core-js": "^3.19.1"
   },

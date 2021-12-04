@@ -25,7 +25,10 @@ export const mintTreasure = async ({ game, mintPurchase, member, title }) => {
       throw `Treasure has already been minted:${treasureData.id}`
     }
 
-    const { tokenUri, uriData } = await pinTreasure({ treasure: treasureData })
+    const { tokenUri, uriData } = await pinTreasure({
+      treasure: treasureData,
+      tcn: game.tcn,
+    })
     // TODO: remove consoles
     /* eslint-disable-next-line no-console */
     console.log(uriData)

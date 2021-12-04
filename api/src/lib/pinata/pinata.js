@@ -1,6 +1,8 @@
 import FormData from 'form-data'
 import fetch from 'node-fetch'
 
+import getCard from '@treasure-chess/treasure-html'
+
 import { getDescription } from 'src/lib/pinata/helpers'
 
 const PINATA_API_URL = 'https://api.pinata.cloud'
@@ -47,10 +49,16 @@ const pinJson = async (jsonString) => {
   return `ipfs://${response.IpfsHash}`
 }
 
-export const pinTreasure = async ({ treasure }) => {
+export const pinTreasure = async ({ treasure, tcn }) => {
   try {
+    const { gifData } = await getGifBase64({
+      tcn,
+      playerColor: treasure.cardColor,
+    })
     // Generate the HTML
-    const htmlString = '<head></head><body></body>'
+    const htmlString = await getCard({ treasure, gifData })
+    // const htmlString = 'await getCard({ treasure, gifData })'
+    console.log(htmlString)
     // Upload the HTML
     /* eslint-disable-next-line camelcase */
     const animation_url = await pinFile(htmlString, `${treasure.id}.html`)

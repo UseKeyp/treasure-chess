@@ -1,7 +1,8 @@
 {
-  "name": "treasure-html",
+  "name": "@treasure-chess/treasure-html",
   "version": "1.0.0",
   "description": "",
+  "module": "src/index.js",
   "main": "src/index.js",
   "scripts": {
     "test": "babel-node tests/full.test.js"

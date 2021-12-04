@@ -1,7 +1,8 @@
 import FormData from 'form-data'
 import fetch from 'node-fetch'
 
-import getCard from '@treasure-chess/treasure-html'
+const esmImport = require('esm')(module)
+const getCard = esmImport('@treasure-chess/treasure-html')
 
 import { getDescription } from 'src/lib/pinata/helpers'
 

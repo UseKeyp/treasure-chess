@@ -1,5 +1,5 @@
 {
-  "name": "filters",
+  "name": "@treasure-chess/treasure-filters",
   "version": "1.0.0",
   "description": "",
   "main": "filters.js",

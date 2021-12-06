@@ -18,7 +18,7 @@ export const getUsdcBal = async () => {
   } catch (e) {
     /* eslint-disable-next-line no-console */
     console.log(e)
-    return 'Could not retrieve USDC balance'
+    return 'Unable to fetch balance'
   }
 
   try {
@@ -27,7 +27,7 @@ export const getUsdcBal = async () => {
   } catch (e) {
     /* eslint-disable-next-line no-console */
     console.log(e)
-    return 'Could not retrieve USDC balance'
+    return 'Unable to fetch balance'
   }
 }
 

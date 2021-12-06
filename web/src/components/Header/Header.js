@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { useLocation } from '@redwoodjs/router'
+import { Link, routes, useLocation } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
 
 import EmptyAvatar from 'src/components/Avatar/EmptyAvatar'
@@ -32,6 +32,10 @@ const MobileNav = () => {
   const navItemClasses = 'block text-center mt-4 flex'
   const navAnchorClasses = 'text-center w-full font-bold'
 
+  React.useEffect(() => {
+    setOpen(false)
+  }, [pathname])
+
   if (!isOpen) {
     return (
       <button type="button" className="font-bold" onClick={() => setOpen(true)}>
@@ -51,20 +55,20 @@ const MobileNav = () => {
         <nav>
           <ul className="h-full relative">
             <li className={navItemClasses}>
-              <a href="/">
+              <Link to={routes.home()}>
                 <img src="/TreasureChessLogo.png" alt="TreasureChess.com" />
                 <span className="sr-only">home</span>
-              </a>
+              </Link>
             </li>
             <li className={navItemClasses}>
-              <a href="/" className={navAnchorClasses}>
+              <Link to={routes.treasures()} className={navAnchorClasses}>
                 Treasures
-              </a>
+              </Link>
             </li>
             <li className={navItemClasses}>
-              <a href="/" className={navAnchorClasses}>
+              <Link to={routes.faq()} className={navAnchorClasses}>
                 About
-              </a>
+              </Link>
             </li>
             {!isLoggedIn ? (
               <li className={navItemClasses}>
@@ -120,9 +124,9 @@ const Header = () => {
   return (
     <div className={styles.header}>
       <div className={styles.iconSearch}>
-        <a href="/">
+        <Link to={routes.home()}>
           <img src="/TreasureChessLogo.png" alt="TreasureChess.com" />
-        </a>
+        </Link>
         <div className="hidden lg:block">
           <SearchBar />
         </div>
@@ -133,16 +137,16 @@ const Header = () => {
       <div className={`${styles.nav} hidden lg:flex`}>
         <div className="flex-1 flex items-center">
           <div>
-            <a href="/" className="font-bold">
+            <Link to={routes.treasures()} className="font-bold">
               <TreasureChest />
               Treasures
-            </a>
+            </Link>
           </div>
           <div>
-            <a href="/" className="font-bold">
+            <Link to={routes.faq()} className="font-bold">
               <img src="/icons/TreasureChessHelpIcon.png" alt="" />
               About
-            </a>
+            </Link>
           </div>
         </div>
         {isLoggedIn ? (
@@ -160,12 +164,9 @@ const Header = () => {
             </div>
             <div className="mr-4">
               <div className="flex flex-col text-sm text-left">
-                <a
-                  className={styles['nav--username']}
-                  href={`/${profile?.uri || ''}`}
-                >
+                <Link className={styles['nav--username']} to={routes.profile()}>
                   {profile.username}
-                </a>
+                </Link>
                 <div className={styles['nav--address']}>{address}</div>
               </div>
             </div>

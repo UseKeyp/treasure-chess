@@ -5,7 +5,8 @@
   border-radius: 1rem;
   display: flex;
   align-items: center;
-  margin: 1rem;
+  margin: 1rem auto;
+  max-width: 80rem;
 
   ::selection {
     background-color: hsla(92, 41%, 44%, 1);

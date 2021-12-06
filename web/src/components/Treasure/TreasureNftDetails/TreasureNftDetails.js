@@ -37,7 +37,7 @@ const TreasureNftDetails = ({ treasureNftDetails }) => {
       <br />
       <DetailsBox heading="NFT History" items={historyItems} />
       <TreasureSocial
-        minter={treasureNftDetails.minter.username}
+        creator={treasureNftDetails.minter.username}
         owner={treasureNftDetails.owner.username}
         treasureId={treasureNftDetails.id}
       />

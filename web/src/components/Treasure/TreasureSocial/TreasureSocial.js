@@ -1,4 +1,5 @@
 import Twitter from './Twitter.svg'
+import Facebook from './facebook.svg'
 
 const TreasureSocial = ({ creator, owner, treasureId }) => {
   return (
@@ -14,6 +15,7 @@ const TreasureSocial = ({ creator, owner, treasureId }) => {
       <div className="treasure-social__socials">
         <p className="treasure-social__title">Share Your Treasure</p>
         <div className="treasure-social__buttons">
+          <Facebook />
           <a
             href="https://twitter.com/share?ref_src=twsrc%5Etfw"
             className="twitter-share-button"

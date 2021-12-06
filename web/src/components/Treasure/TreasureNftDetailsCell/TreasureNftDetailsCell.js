@@ -6,10 +6,12 @@ export const QUERY = gql`
       owner {
         id
         address
+        username
       }
       minter {
         id
         address
+        username
       }
       bids
       history

@@ -4562,7 +4562,7 @@
 
 "@redwoodjs/api-server@0.38.3":
   version "0.38.3"
-  resolved "https://registry.yarnpkg.com/@redwoodjs/api-server/-/api-server-0.38.3.tgz#f62480f8299b768552180df81f260f1a94658db9"
+  resolved "https://registry.npmjs.org/@redwoodjs/api-server/-/api-server-0.38.3.tgz#f62480f8299b768552180df81f260f1a94658db9"
   integrity sha512-MfOqLFOkgpVg7l+8SpMAvzhC6ovC9hclgCUCdNUTaJwq+c89tSfY6DsoX1aewbAV3+BU/iogv1ZsYbQ61q81pA==
   dependencies:
     "@babel/plugin-transform-runtime" "7.15.8"
@@ -4598,7 +4598,7 @@
 
 "@redwoodjs/api@0.38.3", "@redwoodjs/api@^0.38.3":
   version "0.38.3"
-  resolved "https://registry.yarnpkg.com/@redwoodjs/api/-/api-0.38.3.tgz#bcb4b9e61b97a0e5483de712b33e0ec21cdfac17"
+  resolved "https://registry.npmjs.org/@redwoodjs/api/-/api-0.38.3.tgz#bcb4b9e61b97a0e5483de712b33e0ec21cdfac17"
   integrity sha512-wKVnpKglyG/d6yqQ87xE55+BqZKjsCskgxrKhINBxXHkbMIlmSLFXjL2utinbi7UUXQq5Yaoakh16YI52J2i9Q==
   dependencies:
     "@prisma/client" "3.3.0"
@@ -4619,7 +4619,7 @@
 
 "@redwoodjs/auth@0.38.3", "@redwoodjs/auth@^0.38.3":
   version "0.38.3"
-  resolved "https://registry.yarnpkg.com/@redwoodjs/auth/-/auth-0.38.3.tgz#3e1a30b5ce8dbb76b3ca09e04fbc29efe11feec2"
+  resolved "https://registry.npmjs.org/@redwoodjs/auth/-/auth-0.38.3.tgz#3e1a30b5ce8dbb76b3ca09e04fbc29efe11feec2"
   integrity sha512-4tOXuqUJ2NN6HfHyYigz615oWSfboqvvq03Qw1/332JcHx12dvHkAma+XNsrX0LNyhvAr8eVhu4vLKDaKXf6Ag==
 
 "@redwoodjs/cli@0.38.1":
@@ -4662,7 +4662,7 @@
 
 "@redwoodjs/cli@0.38.3":
   version "0.38.3"
-  resolved "https://registry.yarnpkg.com/@redwoodjs/cli/-/cli-0.38.3.tgz#b61c86c83549cc2ad8f2834a2d204b6787d9acf5"
+  resolved "https://registry.npmjs.org/@redwoodjs/cli/-/cli-0.38.3.tgz#b61c86c83549cc2ad8f2834a2d204b6787d9acf5"
   integrity sha512-lmD6icArs1tgBhcWhyw6y3fwNgyDEP1Gn1Rdpp18TSSW//I/p48TolHCpz36i+h0SsDD7Fr1SN9KE8x2o2YdcA==
   dependencies:
     "@prisma/sdk" "3.3.0"
@@ -4758,7 +4758,7 @@
 
 "@redwoodjs/core@^0.38.3":
   version "0.38.3"
-  resolved "https://registry.yarnpkg.com/@redwoodjs/core/-/core-0.38.3.tgz#6a3d05307c5dffd6014e853ec82a6f060606f45b"
+  resolved "https://registry.npmjs.org/@redwoodjs/core/-/core-0.38.3.tgz#6a3d05307c5dffd6014e853ec82a6f060606f45b"
   integrity sha512-v/+XOgeOK22b2QTu/HYnYLDF4yxfrZDajrYD1kLCCgZYF5M9rudto5hwAMlTYW/kD9zkQknFrkGmtHOm9O7KmQ==
   dependencies:
     "@babel/cli" "7.15.7"
@@ -4838,7 +4838,7 @@
 
 "@redwoodjs/eslint-config@0.38.3":
   version "0.38.3"
-  resolved "https://registry.yarnpkg.com/@redwoodjs/eslint-config/-/eslint-config-0.38.3.tgz#ffda93b12c33c1d634c485239638fb60fcf94122"
+  resolved "https://registry.npmjs.org/@redwoodjs/eslint-config/-/eslint-config-0.38.3.tgz#ffda93b12c33c1d634c485239638fb60fcf94122"
   integrity sha512-op0FLAr5AMwK7dLEJen09wfiSeoKFl7f4UDMTbs74BCm6Kvs0JDIg+F87cRgOrRgRpOLzfX2FeqolDIAbxptAg==
   dependencies:
     "@babel/core" "7.15.8"
@@ -4860,7 +4860,7 @@
 
 "@redwoodjs/forms@^0.38.3":
   version "0.38.3"
-  resolved "https://registry.yarnpkg.com/@redwoodjs/forms/-/forms-0.38.3.tgz#0e7afba2b540a89497a884f1290583d1495b0e12"
+  resolved "https://registry.npmjs.org/@redwoodjs/forms/-/forms-0.38.3.tgz#0e7afba2b540a89497a884f1290583d1495b0e12"
   integrity sha512-Apd1B9L9+rQ+NZtvAPlIibado2jkWaXLxjGuqru3jiEwSE7EiHky1jW4ziRo4PTa20klz6sG0iGKcwGDTjoJZg==
   dependencies:
     "@types/pascalcase" "1.0.1"
@@ -4897,7 +4897,7 @@
 
 "@redwoodjs/graphql-server@0.38.3", "@redwoodjs/graphql-server@^0.38.3":
   version "0.38.3"
-  resolved "https://registry.yarnpkg.com/@redwoodjs/graphql-server/-/graphql-server-0.38.3.tgz#a7677d42c5dd4864bb849ea55e7bedbdb439b9f2"
+  resolved "https://registry.npmjs.org/@redwoodjs/graphql-server/-/graphql-server-0.38.3.tgz#a7677d42c5dd4864bb849ea55e7bedbdb439b9f2"
   integrity sha512-O4ZKAVa4KEe4DCxNFOj8Pi/uuRtvlhQvv2wdT81vAXgTmTf+/+F+QMWSZmKpwgWilxfAbOMlg4vxB/zTy0CxwA==
   dependencies:
     "@envelop/core" "1.3.0"
@@ -4958,7 +4958,7 @@
 
 "@redwoodjs/internal@0.38.3":
   version "0.38.3"
-  resolved "https://registry.yarnpkg.com/@redwoodjs/internal/-/internal-0.38.3.tgz#3dcd631a576e29039f5e67ff2f9afa7e9b917781"
+  resolved "https://registry.npmjs.org/@redwoodjs/internal/-/internal-0.38.3.tgz#3dcd631a576e29039f5e67ff2f9afa7e9b917781"
   integrity sha512-OXuOUNx2xrUhlGnzubAn+YRaHVWrJNSFn30YhsU8/oH27ihNjRrtlT+WHZu5JdSPK8xuhL9EL3UxYw/83IppoA==
   dependencies:
     "@babel/parser" "7.15.8"
@@ -5007,7 +5007,7 @@
 
 "@redwoodjs/prerender@0.38.3":
   version "0.38.3"
-  resolved "https://registry.yarnpkg.com/@redwoodjs/prerender/-/prerender-0.38.3.tgz#1dad2fc867e3f11edd7679193589419031b0fd69"
+  resolved "https://registry.npmjs.org/@redwoodjs/prerender/-/prerender-0.38.3.tgz#1dad2fc867e3f11edd7679193589419031b0fd69"
   integrity sha512-RWhOW/x6u8u83mfCixhv4sQTOQjVm8A5LxkPavtwMZ2LNen9uM77C02wRRE5Xo0mQuTD8FdzruPskBn1xd1myw==
   dependencies:
     "@redwoodjs/auth" "0.38.3"
@@ -5032,7 +5032,7 @@
 
 "@redwoodjs/router@0.38.3", "@redwoodjs/router@^0.38.3":
   version "0.38.3"
-  resolved "https://registry.yarnpkg.com/@redwoodjs/router/-/router-0.38.3.tgz#b7f1f965dd1ef382db1a4773918e9dc12ce736a8"
+  resolved "https://registry.npmjs.org/@redwoodjs/router/-/router-0.38.3.tgz#b7f1f965dd1ef382db1a4773918e9dc12ce736a8"
   integrity sha512-qbqdXWM599uYCVz2Pd2HeXrrerbT8evRjP1XRYtNIpRGgF0ycIEGkDjuSTPKtZxi2mkvrTt83OSA2WsIspsILA==
   dependencies:
     "@reach/skip-nav" "0.16.0"
@@ -5069,7 +5069,7 @@
 
 "@redwoodjs/structure@0.38.3":
   version "0.38.3"
-  resolved "https://registry.yarnpkg.com/@redwoodjs/structure/-/structure-0.38.3.tgz#c6c8c2175e6a2d91e4f9d6817b607c8bcf51b6cf"
+  resolved "https://registry.npmjs.org/@redwoodjs/structure/-/structure-0.38.3.tgz#c6c8c2175e6a2d91e4f9d6817b607c8bcf51b6cf"
   integrity sha512-BhCGciWKqf1u8q4INFEkeJYP6ByJzCzJuBUZNcJP7qF3EjBwNJiUMGn3FQQythjwDBwAYGJnrW0kR2i3ic3Rug==
   dependencies:
     "@prisma/sdk" "3.3.0"
@@ -5127,7 +5127,7 @@
 
 "@redwoodjs/testing@0.38.3":
   version "0.38.3"
-  resolved "https://registry.yarnpkg.com/@redwoodjs/testing/-/testing-0.38.3.tgz#877149e139dd3e0a695a0cd0cbc80f034d9dd722"
+  resolved "https://registry.npmjs.org/@redwoodjs/testing/-/testing-0.38.3.tgz#877149e139dd3e0a695a0cd0cbc80f034d9dd722"
   integrity sha512-GuyJRlUxtycd9FXQWXB8ezlWyvBiZwtJKVv1dbhIIoqH6UyreoxnbdUekJWIJWv/yns4qj67kxK1eXymxDkuUw==
   dependencies:
     "@redwoodjs/auth" "0.38.3"
@@ -5171,7 +5171,7 @@
 
 "@redwoodjs/web@0.38.3", "@redwoodjs/web@^0.38.3":
   version "0.38.3"
-  resolved "https://registry.yarnpkg.com/@redwoodjs/web/-/web-0.38.3.tgz#b1a79bf2d35d311f17277774740f20eb8a526035"
+  resolved "https://registry.npmjs.org/@redwoodjs/web/-/web-0.38.3.tgz#b1a79bf2d35d311f17277774740f20eb8a526035"
   integrity sha512-9uCxaMzVrPS7Fbp+cGAwyhMUTQRQRN/5ua/sJYzN5i5ZRfzTAnNUIuDegA9JyuEXN6wdmmuXpUN+0MCe7qFlUw==
   dependencies:
     "@apollo/client" "3.4.16"

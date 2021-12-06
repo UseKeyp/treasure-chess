@@ -1,0 +1,29 @@
+.game-card-wrapper {
+  position: relative;
+  display: flex;
+  width: 266px;
+  height: 492px;
+}
+.game-card-html {
+  // min-width: 258px;
+}
+.game-card-minting-container {
+  position: absolute;
+  width: 266px;
+  height: 492px;
+  color: theme('colors.chessBlack.100');
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  display: flex;
+  pointer-events: none;
+}
+
+.game-card-minting-overlay {
+  position: absolute;
+  width: 266px;
+  height: 492px;
+  background-color: white;
+  opacity: 80%;
+  border-radius: 12px;
+}

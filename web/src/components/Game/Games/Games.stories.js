@@ -1,7 +1,7 @@
 import Games from './Games'
 
 import { GamesContext } from 'src/providers/context/GamesContext'
-import { CHECKOUT, MINTING, SUCCESS } from 'src/components/Game/Games/constants'
+import { CHECKOUT, MINTING, SUCCESS } from 'src/components/Game/constants'
 
 const games = [
   {

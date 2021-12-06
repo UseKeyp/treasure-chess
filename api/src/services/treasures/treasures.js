@@ -40,6 +40,15 @@ export const treasureNftDetails = async ({ id }) => {
 export const mintCheckoutUrl = async ({ gameId, endTime, title }) => {
   validateTreasureTitle(title)
   const { username, address } = context.currentUser
+  const existingPurchase = await db.mintPurchase.findMany({
+    where: {
+      gameId,
+      gameEndTime: endTime,
+      memberId: context.currentUser.id,
+    },
+  })
+  if (existingPurchase.length)
+    throw new EnvelopError(`This Treasure cannot be minted right now.`)
   const game = await fetchGame({
     id: gameId,
     username,
@@ -47,7 +56,7 @@ export const mintCheckoutUrl = async ({ gameId, endTime, title }) => {
   })
   if (!game)
     throw new EnvelopError(
-      `Member ${username} did not participate in this game`
+      `Member ${username} did not participate in this game.`
     )
   const { mintCredits } = await db.member.findUnique({
     where: { id: context.currentUser.id },

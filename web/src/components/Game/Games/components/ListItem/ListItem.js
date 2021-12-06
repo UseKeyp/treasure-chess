@@ -7,7 +7,7 @@ import LoadingDots from 'src/components/LoadingDots'
 
 import { formatDate } from 'src/utils/helpers'
 
-import { CHECKOUT, MINTING, SUCCESS } from 'src/components/Game/Games/constants'
+import { CHECKOUT, MINTING, SUCCESS } from 'src/components/Game/constants'
 
 const mainColor = '#C4C4C4'
 
@@ -20,6 +20,7 @@ const ListItem = ({
   onSubmit,
   isExpanded,
   mintingStatus,
+  errorText,
 }) => {
   const {
     whiteUsername: player1,
@@ -76,6 +77,7 @@ const ListItem = ({
     if (!tokenId && !isMinting)
       return (
         <MintForm
+          errorText={errorText}
           onSubmit={handleSubmit}
           onChangeTitle={onChangeTitle}
           isMinting={isMinting}

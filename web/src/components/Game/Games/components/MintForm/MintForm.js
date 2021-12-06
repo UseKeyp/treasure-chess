@@ -5,7 +5,12 @@ import Button from 'src/components/Button/Button'
 import ProfanityFilter from 'bad-words'
 const profanityFilter = new ProfanityFilter()
 
-const MintForm = ({ onSubmit, onChangeTitle, isMinting }) => {
+const MintForm = ({
+  onSubmit,
+  onChangeTitle,
+  isMinting,
+  errorText: queryErrorText,
+}) => {
   const [inputValue, setInputValue] = React.useState('')
   const [errorText, setErrorText] = React.useState('')
 
@@ -17,10 +22,11 @@ const MintForm = ({ onSubmit, onChangeTitle, isMinting }) => {
   }
 
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter') handleSubmit()
+    if (e.key === 'Enter') handleSubmit(e)
   }
 
   const handleSubmit = (e) => {
+    setErrorText('')
     e.stopPropagation()
     const error = validateTitle(inputValue)
     if (error) return setErrorText(error)
@@ -42,6 +48,10 @@ const MintForm = ({ onSubmit, onChangeTitle, isMinting }) => {
   React.useEffect(() => {
     setInputValue('')
   }, [])
+
+  React.useEffect(() => {
+    setErrorText(queryErrorText)
+  }, [queryErrorText])
 
   return (
     <div className="games-history-list__mint-section">

@@ -41,11 +41,15 @@ const getGifUrl = ({ tcn, playerColor }) => {
 //playerColor should be "white" or "black"
 //tcn via player archive api
 const getGifBase64 = async ({ tcn, playerColor }) => {
-  const gifUrl = getGifUrl({ tcn, playerColor })
-  const response = await poll(gifUrl)
-  let gifBase64 = await response.buffer()
-  gifBase64 = gifBase64.toString('base64')
-  return { gifBase64, url: gifUrl }
+  try {
+    const gifUrl = getGifUrl({ tcn, playerColor })
+    const response = await poll(gifUrl)
+    let gifBase64 = await response.buffer()
+    gifBase64 = gifBase64.toString('base64')
+    return { gifBase64, url: gifUrl }
+  } catch (e) {
+    throw ('getGifBase64() ', e)
+  }
 }
 
 module.exports = { getGifUrl, getGifBase64 }

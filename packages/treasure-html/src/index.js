@@ -59,10 +59,10 @@ const getOrderedUsers = (treasure) => {
   return { bottomUser, topUser }
 }
 
-// Pass gifData to get the final HTML to pin to IPFS
+// Pass gifBase64 to get the final HTML to pin to IPFS
 // OR pass gifUrl to fetch a smaller HTML file for the Frontend
 // gifUrl version should load faster, b/c it delays fetching the gif
-const getCard = async ({ treasure, gifData, gifUrl }) => {
+const getCard = async ({ treasure, gifBase64, gifUrl }) => {
   const doc = parser.parseFromString(card, 'text/html')
 
   const updateContent = (id, content, isNodeString) => {
@@ -172,7 +172,7 @@ const getCard = async ({ treasure, gifData, gifUrl }) => {
   updateTag(
     'game-image',
     'src',
-    (gifData && `data:image/gif;base64,${gifData}`) || gifUrl
+    (gifBase64 && `data:image/gif;base64,${gifBase64}`) || gifUrl
   )
   // TODO: Replace treasureBackgroundBase64 with final positions image
   const staticImageUrl = `data:image/png;base64,${treasureBackgroundBase64}`

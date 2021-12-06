@@ -52,12 +52,12 @@ const pinJson = async (jsonString) => {
 
 export const pinTreasure = async ({ treasure, tcn }) => {
   try {
-    const { gifData } = await getGifBase64({
+    const { gifBase64 } = await getGifBase64({
       tcn,
       playerColor: treasure.cardColor,
     })
     // Generate the HTML
-    const htmlString = await getCard({ treasure, gifData })
+    const htmlString = await getCard({ treasure, gifBase64 })
     // const htmlString = 'await getCard({ treasure, gifData })'
     console.log(htmlString)
     // Upload the HTML

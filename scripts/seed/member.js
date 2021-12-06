@@ -23,7 +23,7 @@ const memberData = [
     address: '0xcccccc94C5364a98D14E3b391F84d753A0fa5f14',
     imageSrc:
       'https://cssjs.chesscomfiles-4.com/bundles/web/images/noavatar_l.84a92436@2x.gif',
-    masterTitle: 'Grand Master',
+    masterTitle: 'GM',
     country: 'US',
   },
 ]

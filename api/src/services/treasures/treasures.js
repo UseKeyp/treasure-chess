@@ -40,6 +40,15 @@ export const treasureNftDetails = async ({ id }) => {
 export const mintCheckoutUrl = async ({ gameId, endTime, title }) => {
   validateTreasureTitle(title)
   const { username, address } = context.currentUser
+  const existingPurchase = await db.mintPurchase.findMany({
+    where: {
+      gameId,
+      gameEndTime: endTime,
+      memberId: context.currentUser.id,
+    },
+  })
+  if (existingPurchase.length)
+    throw new EnvelopError(`This Treasure cannot be minted right now.`)
   const game = await fetchGame({
     id: gameId,
     username,
@@ -47,25 +56,48 @@ export const mintCheckoutUrl = async ({ gameId, endTime, title }) => {
   })
   if (!game)
     throw new EnvelopError(
-      `Member ${username} did not participate in this game`
+      `Member ${username} did not participate in this game.`
     )
-  const { url, reservation } = await createMintReservation({
-    username,
-    gameId,
-    endTime,
-    address,
-    title,
+  const { mintCredits } = await db.member.findUnique({
+    where: { id: context.currentUser.id },
   })
-  await db.mintPurchase.create({
-    data: {
-      member: { connect: { id: context.currentUser.id } },
-      reservation,
+  if (mintCredits > 0) {
+    const mintPurchase = await db.mintPurchase.create({
+      data: {
+        member: { connect: { id: context.currentUser.id } },
+        gameId,
+        paymentType: 'MINTCREDIT',
+        orderStatus: 'COMPLETE',
+        gameEndTime: endTime,
+        title,
+      },
+    })
+    const remainingCredits = mintCredits - 1
+    await db.member.update({
+      where: { id: context.currentUser.id },
+      data: { mintCredits: remainingCredits },
+    })
+    return mintPurchase.id
+  } else {
+    const { url, reservation } = await createMintReservation({
+      username,
       gameId,
-      gameEndTime: endTime,
+      endTime,
+      address,
       title,
-    },
-  })
-  return url
+    })
+    await db.mintPurchase.create({
+      data: {
+        member: { connect: { id: context.currentUser.id } },
+        reservation,
+        gameId,
+        gameEndTime: endTime,
+        title,
+        orderStatus: 'RESERVATION',
+      },
+    })
+    return url
+  }
 }
 
 export const Treasure = {

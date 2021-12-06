@@ -1,9 +1,10 @@
-import styles from './Header.module.scss'
-import SearchBar from '../SearchBar/SearchBar'
-import { ReactComponent as TreasureChest } from '../../assets/icons/TreasureChessChest.svg'
-import { NewButton } from '../Button/Button'
 import { useState } from 'react'
 
+import SearchBar from 'src/components/Marketplace/SearchBar'
+import { ReactComponent as TreasureChest } from 'src/assets/icons/TreasureChessChest.svg'
+import { NewButton } from 'src/components/Button/Button'
+
+import styles from './Header.module.scss'
 /**
  *
  * @param {Bool} isLoggedIn Whether or not the user is currently logged in

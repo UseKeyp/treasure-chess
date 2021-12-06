@@ -177,11 +177,12 @@ const getCard = async ({ treasure, gifData, gifUrl }) => {
   // TODO: Replace treasureBackgroundBase64 with final positions image
   const staticImageUrl = `data:image/png;base64,${treasureBackgroundBase64}`
   updateStyle('game-image', 'background-image', `url('${staticImageUrl}')`)
-  updateTag(
-    'game-anchor',
-    'href',
-    `https://treasure.chess.com/treasures/${treasure.tokenId}`
-  )
+  if (treasure.tokenId)
+    updateTag(
+      'game-anchor',
+      'href',
+      `https://treasure.chess.com/treasures/${treasure.tokenId}`
+    )
   if (treasure.achievements) {
     // Achievements
     updateContent(

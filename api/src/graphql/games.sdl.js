@@ -25,6 +25,8 @@ export const schema = gql`
     achievements: String
     blackMasterTitle: String
     whiteMasterTitle: String
+    tokenId: Int
+    title: String
   }
 
   type Query {

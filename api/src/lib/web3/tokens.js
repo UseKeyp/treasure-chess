@@ -4,13 +4,14 @@ import {
   getProviderByChainId,
   getIdFromNetworkName,
 } from 'src/lib/web3/helpers.js'
-const contractAddress = process.env.CONTRACT_ADDRESS_TREASURE //'0xfe4f5145f6e09952a5ba9e956ed0c25e3fa4c7f1' //mumbai contract
+const contractAddress = process.env.CONTRACT_ADDRESS_TREASURE
+import { EnvelopError } from '@envelop/core'
 
-export const getUsdcBal = async () => {
+export const getUsdcBalance = async (address) => {
   try {
-    CHAIN_ID = getIdFromNetworkName(process.env.ETHEREUM_NETWORK_NAME)
-    provider = getProviderByChainId(CHAIN_ID)
-    contract = new Contract(
+    const CHAIN_ID = getIdFromNetworkName(process.env.ETHEREUM_NETWORK_NAME)
+    const provider = getProviderByChainId(CHAIN_ID)
+    const contract = new Contract(
       contractAddress,
       ['function balanceOf(address) external view returns (uint256)'],
       provider
@@ -18,20 +19,15 @@ export const getUsdcBal = async () => {
   } catch (e) {
     /* eslint-disable-next-line no-console */
     console.log(e)
-    return 'Unable to fetch balance'
+    throw new EnvelopError('Unable to get USDC balance')
   }
 
   try {
-    bal = await contract.balanceOf(context.currentUser.address)
-    return JSON.stringify(formatEther(bal).toString())
+    const bal = await contract.balanceOf(address)
+    return formatEther(bal).toString()
   } catch (e) {
     /* eslint-disable-next-line no-console */
     console.log(e)
-    return 'Unable to fetch balance'
+    throw new EnvelopError('Unable to get USDC balance')
   }
-}
-
-export const usdcBalanceGetter = async () => {
-  const usdcBalance = await getUsdcBal()
-  return usdcBalance
 }

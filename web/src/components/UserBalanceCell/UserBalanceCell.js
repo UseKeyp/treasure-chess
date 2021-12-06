@@ -13,5 +13,5 @@ export const Failure = ({ error }) => (
 )
 
 export const Success = ({ userBalance }) => {
-  return <div>{JSON.stringify(userBalance)}</div>
+  return <div>{userBalance}</div>
 }

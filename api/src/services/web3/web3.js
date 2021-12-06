@@ -1,5 +1,4 @@
-import tokens from 'src/lib/web3/tokens.js'
+import { getUsdcBal } from 'src/lib/web3/tokens.js'
 
-export const getUsdcBalance = async () => {
-  return await tokens.usdcBalanceGetter()
-}
+export const getUsdcBalance = async () =>
+  getUsdcBal(context.currentUser.address)

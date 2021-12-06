@@ -31,9 +31,5 @@
   "engines": {
     "node": "14.x",
     "yarn": "1.x"
-  },
-  "dependencies": {
-    "@ethersproject/bignumber": "^5.5.0",
-    "@ethersproject/units": "^5.5.0"
   }
 }

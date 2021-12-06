@@ -50,6 +50,31 @@ eg. `[app] Update login page routing` or `[feather] add CallToAction`
 
 eg.  `app-update-login-page-routing` or `feather-add-calltoaction` 
 
+### Object destructuring
+
+When there is only one argument - destructure **inline** 
+
+```js
+socialList.map(({id, backgroundColor, iconName}) => {
+```
+
+When there are multiple arguments, it depends on how many are objects.
+
+_case 1_: multiple arguments but only one object - destructure **inline**
+
+```js
+socialList.map(({id, backgroundColor, iconName}, index) => {
+```
+
+_case 2_: multiple arguments w/ multiple objects - destructure in the function body
+
+```js
+const myFunction = (data, options) => {
+  const {id, title} = data
+  const {isExpanded, isHidden} = options
+``` 
+
+
 ## Next Steps
 ### Follow the readme instructions and get the app going
 1. Get your .env setup by using the template

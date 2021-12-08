@@ -1,9 +1,20 @@
 .treasure-social {
   padding: 16px;
   background-color: #272522;
-  border-radius: 12px;
+    border-radius: 12px;
   display: flex;
   justify-content: space-between;
+  width: 100%;
+
+  & * {
+    color: #ABB6B9;
+  }
+
+  &__person {
+    & a {
+      color: #47A7FF;
+    }
+  }
 
   &__persons {
     display: flex;

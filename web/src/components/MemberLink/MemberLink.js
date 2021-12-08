@@ -5,7 +5,7 @@ const MemberLink = ({ id, member }) => {
   // Pass a full member object, or just an id or address
   if (!member && !id) return <></>
   let idOrAddress = id
-  if (member) idOrAddress = member.id || member.address
+  if (member) idOrAddress = member.username || member.address || member.id
   const linkText = isHexAddress(idOrAddress)
     ? trimAddress(idOrAddress)
     : idOrAddress

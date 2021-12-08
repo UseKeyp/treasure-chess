@@ -6,6 +6,7 @@ import TreasureCardCell from 'src/components/Treasure/TreasureCardCell'
 import TreasureOpeningCell from 'src/components/Treasure/TreasureOpeningCell'
 import TreasureMovesCell from 'src/components/Treasure/TreasureMovesCell'
 import TreasureNftDetailsCell from 'src/components/Treasure/TreasureNftDetailsCell'
+import TreasureSocialCell from 'src/components/Treasure/TreasureSocial/TreasureSocialCell'
 
 const TreasurePage = ({ id }) => {
   const ACCEPT_HIGHEST_BID = 'accept highest bid'
@@ -52,8 +53,9 @@ const TreasurePage = ({ id }) => {
               </Button>
             </div>
           </div>
-          <div className="flex justify-center items-start order-3">
+          <div className="flex flex-col items-start order-3">
             <TreasureNftDetailsCell id={id} />
+            <TreasureSocialCell id={id} />
           </div>
         </div>
       </div>

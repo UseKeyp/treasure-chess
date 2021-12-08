@@ -28,7 +28,7 @@ const card = `<html>
           <img id="banner-image" src="" style="height:32px;" alt="Treasure Chess"/>
         </a>
 			</div>
-      <div style="margin: 0 4px">
+      <div id="top-member" style="margin: 0 4px">
   			<div style="width: 100%; display: flex; align-items: center; min-height: 40px; margin-top: 6px;">
   				<div style="height: 40px; width: 40px;  margin-right: 8px;">
   					<img id="top-avatar" src="https://picsum.photos/40/40?grayscale" style="width: 100%; border-radius: 4px;" alt="Avatar image from chess.com"/>
@@ -50,7 +50,7 @@ const card = `<html>
     				<img id="game-image" src="" style="width: 100%; border-radius: 4px;" alt="Video of the game"/>
     			</a>
         </div>
-  			<div style="width: 100%; display: flex; align-items: center; min-height: 40px; margin-top:6px;">
+  			<div id="bottom-member" style="width: 100%; display: flex; align-items: center; min-height: 40px; margin-top:6px;">
   				<div style="height: 40px; width: 40px; margin-right: 8px;">
   					<img id="bottom-avatar" src="https://picsum.photos/40/40?grayscale" style="width: 100%; border-radius: 4px;" alt="Avatar image from chess.com"/>
   				</div>

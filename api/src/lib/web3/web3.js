@@ -16,6 +16,7 @@ export const mintTreasure = async ({ game, mintPurchase, member, title }) => {
       owner: member,
       mintPurchase,
     })
+
     if (mintPurchase.txHash) {
       // TODO: Check the status of the transaction
 
@@ -25,7 +26,11 @@ export const mintTreasure = async ({ game, mintPurchase, member, title }) => {
       throw `Treasure has already been minted:${treasureData.id}`
     }
     const { tokenUri, uriData } = await pinTreasure({
-      treasure: treasureData,
+      treasure: {
+        ...treasureData,
+        black: { username: game.blackUsername },
+        white: { username: game.whiteUsername },
+      },
       tcn: game.tcn,
     })
     // TODO: remove consoles

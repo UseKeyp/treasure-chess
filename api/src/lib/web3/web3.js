@@ -17,19 +17,20 @@ export const mintTreasure = async ({ game, mintPurchase, member, title }) => {
       mintPurchase,
     })
 
+    console.log(treasureData)
     if (mintPurchase.txHash) {
       // TODO: Check the status of the transaction
 
       // TODO: If failed, attempt to mint again
 
       // Remove throw once completed
-      throw `Treasure has already been minted:${treasureData.id}`
+      throw `Treasure has already been minted. Id: ${treasureData.id} txHash: ${mintPurchase.txHash}`
     }
     const { tokenUri, uriData } = await pinTreasure({
       treasure: {
         ...treasureData,
-        black: { username: game.blackUsername },
-        white: { username: game.whiteUsername },
+        black: { ...game.black }, // Inject the players manually
+        white: { ...game.white },
       },
       tcn: game.tcn,
     })

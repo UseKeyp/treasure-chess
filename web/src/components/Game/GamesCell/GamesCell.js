@@ -6,12 +6,16 @@ export const QUERY = gql`
       id
       endTime
       white {
+        username
         imageSrc
         country
+        masterTitle
       }
       black {
+        username
         imageSrc
         country
+        masterTitle
       }
       moveCount
       outcome
@@ -25,14 +29,6 @@ export const QUERY = gql`
       blackRating
       externalUrl
       timeControl
-      winnerUsername
-      winnerId
-      blackUsername
-      blackId
-      blackMasterTitle
-      whiteUsername
-      whiteId
-      whiteMasterTitle
       tokenId
       title
     }

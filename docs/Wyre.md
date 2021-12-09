@@ -18,7 +18,9 @@ Make a test purchase using these details:
 
 ```js
 Test Account
-4111 1111 1111 1111
+4111111111111111
+CVV 	123
+expiration 10/23
 123 Abc St
 23456
 Cityville

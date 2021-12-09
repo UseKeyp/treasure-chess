@@ -17,7 +17,6 @@ export const mintTreasure = async ({ game, mintPurchase, member, title }) => {
       mintPurchase,
     })
 
-    console.log(treasureData)
     if (mintPurchase.txHash) {
       // TODO: Check the status of the transaction
 

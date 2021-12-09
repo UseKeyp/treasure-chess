@@ -12,10 +12,12 @@ export const QUERY = gql`
       black {
         username
         id
+        imageSrc
       }
       white {
         username
         id
+        imageSrc
       }
       winner {
         username
@@ -24,7 +26,8 @@ export const QUERY = gql`
       title
       cardColor
       blackRating
-      whiteRating
+      blackRatingDelta
+      whiteRatingDelta
       blackMasterTitle
       whiteMasterTitle
       timeControl

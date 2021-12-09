@@ -3,7 +3,6 @@ export const getDescription = ({ _opening }) => {
 }
 
 export const getAttributes = (treasure) => {
-  console.log(treasure)
   const [achieve1, achieve2, achieve3] = treasure.achievements.split(',')
   const attributes = [{ trait_type: 'Rarity', value: treasure.rarity }]
   if (achieve1)

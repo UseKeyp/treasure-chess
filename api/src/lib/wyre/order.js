@@ -53,7 +53,7 @@ export const processOrder = async ({ reservation, orderId }) => {
       throw new Error(
         `MintPurchase not found for reservation: ${reservation} orderId: ${orderId}`
       )
-    const { memberId, gameId, gameEndTime, title, member } = mintPurchase
+    const { gameId, gameEndTime, title, member } = mintPurchase
     Sentry.setUser({ username: member.username })
     const game = await fetchGame({
       id: gameId,

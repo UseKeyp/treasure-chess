@@ -26,7 +26,9 @@ export const QUERY = gql`
       ruleVariant
       termination
       whiteRating
+      whiteRatingDelta
       blackRating
+      blackRatingDelta
       externalUrl
       timeControl
       tokenId

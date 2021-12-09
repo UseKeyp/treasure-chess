@@ -7,7 +7,9 @@ export const schema = gql`
     outcome: String!
     termination: String!
     blackRating: Int!
+    blackRatingDelta: String!
     whiteRating: Int!
+    whiteRatingDelta: String!
     timeControl: String!
     endTime: DateTime!
     event: String!

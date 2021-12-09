@@ -38,7 +38,7 @@ const card = `<html>
               <p id="top-username" style=" color:black; font-weight: bold;font-size: 16px; margin: 0; max-width: 193px; overflow: hidden;">asahi001</p>
             </a>
 						<div style="height:14px; margin-top: 2px; display: flex; align-items: center; font-size: 10px;">
-              <p id="top-ratingDelta" style="margin-right: 1ex; color: inherit;">+6</p>
+              <p id="top-ratingDelta" style="margin-right: 1ex; color: inherit; font-size: 10px;">+6</p>
               <img id="top-flagImage" alt="" style="margin-right: 1ex; height:14px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAABTVBMVEUAAAD///8AAQEAAQEAAQEAAQEAAQEmJiYmJiYmJiYmJiYmJiYmJiYmJiZ9fX10dHR8fHyDg4OIiIiKioqMjIyOjo6QkJACAgJoaGhWVlZXV1dXV1dXV1cCAgJcXFxPT09QUFBQUFBQUFACAgJHR0dGRkZGRkZGRkZGRkbAAgLtPT31PDz3PDz4PDz5PDy/AgLrMzPyMjL1MjL2MjL2MTG9AgLoKCjwJyfzJyf0Jyf0Jye7AgLmJSXuJyfwJyfxJyfyJia6AgLhFRXqFRXtFRXuFRXvFRW4lALgthHovRHqvxHrvxDswBC2kgLdsw3lugzovAzqvQ21kgLZsAjjtwjmuQnnugnouwizkALXrQXfswXjtwXkuAXluAWzkAXVrAfbsQjhtxDjuhbmvRvlvRzmvh/mvyDmvyG4lgy5lxC9mxHAnRHCnxHDoBHEoBH4ads7AAAAB3RSTlMAAAQMECQwISWBWgAAAFhJREFUKFPVjUEOgCAMBHcrcOD/f+WgsdqkJZDgxcSDc5zJtsD3UDJodKMG9sTCIKxxJNZ54LEllGXAPwNGPOR3pyJqcIfa7TBQcJP5s9eTwmXQpTbkweMC/zxfoVRzFjQAAAAASUVORK5CYII="/>
               <p id="top-rating" style="margin-right: 1ex; font-size: 10px; color:black;">2568</p>
               <p id="top-masterTitle" style="display: flex; justify-content: center; width: 15px; line-height: 10px; height: 11px; align-items: center; background-color: #B23330; font-size: 7px; font-weight: bold; color: white; border-radius:2px;"></p>

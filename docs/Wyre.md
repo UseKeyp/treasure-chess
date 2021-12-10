@@ -18,8 +18,8 @@ Make a test purchase using these details:
 
 ```js
 Test Account
-4111111111111111
-CVV 	123
+4444333322221111
+CVV 	555
 expiration 10/23
 123 Abc St
 23456

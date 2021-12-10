@@ -18,10 +18,10 @@ const TreasureSocial = ({ treasure }) => {
     <div className="treasure-social">
       <div className="treasure-social__persons">
         <p className="treasure-social__person">
-          Owner <MemberLink id={owner.id} member={owner} />
+          Owner <MemberLink usernameOrAddress={owner.username} />
         </p>
         <p className="treasure-social__person">
-          Creator <MemberLink id={minter.id} member={minter} />
+          Creator <MemberLink usernameOrAddress={minter.username} />
         </p>
       </div>
       <div className="treasure-social__socials">

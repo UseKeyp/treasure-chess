@@ -183,6 +183,7 @@ const getCard = async ({ treasure, gifBase64, gifUrl }) => {
         'href',
         `https://treasure.chess.com/treasures/${treasure.tokenId}`
       )
+
     if (treasure.achievements) {
       // Achievements
       updateContent(

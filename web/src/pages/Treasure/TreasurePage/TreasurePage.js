@@ -6,7 +6,7 @@ import TreasureCardCell from 'src/components/Treasure/TreasureCardCell'
 import TreasureOpeningCell from 'src/components/Treasure/TreasureOpeningCell'
 import TreasureMovesCell from 'src/components/Treasure/TreasureMovesCell'
 import TreasureNftDetailsCell from 'src/components/Treasure/TreasureNftDetailsCell'
-import TreasureSocialCell from 'src/components/Treasure/TreasureSocial/TreasureSocialCell'
+import TreasureSocialCell from 'src/components/Treasure/TreasureSocialCell/TreasureSocialCell'
 
 const TreasurePage = ({ tokenId }) => {
   const ACCEPT_HIGHEST_BID = 'accept highest bid'

@@ -16,7 +16,7 @@ const parsePgn = (str) => {
 const TABLE_TITLE = 'Moves'
 
 const TreasureMoves = ({ treasure }) => {
-  if (!treasure) return <DetailsBox heading={TABLE_TITLE} />
+  if (!treasure?.moves) return <DetailsBox heading={TABLE_TITLE} />
   let list = []
   if (treasure?.moves) list = parsePgn(treasure?.moves)
 

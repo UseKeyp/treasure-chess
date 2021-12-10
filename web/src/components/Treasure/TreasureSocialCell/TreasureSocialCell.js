@@ -1,9 +1,9 @@
-import TreasureSocial from './TreasureSocial'
+import TreasureSocial from 'src/components/Treasure/TreasureSocial'
 
 export const QUERY = gql`
-  query TreasureSocialQuery($id: String!) {
-    treasure: treasure(id: $id) {
-      id
+  query TreasureSocialQuery($tokenId: Int!) {
+    treasure: treasure(tokenId: $tokenId) {
+      tokenId
       black {
         username
       }

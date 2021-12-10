@@ -18,7 +18,7 @@ const Routes = () => {
           </Private>
         </Set>
         <Set wrap={TreasuresLayout}>
-          <Route path="/treasures/{id}" page={TreasureTreasurePage} name="treasure" />
+          <Route path="/treasures/{tokenId:Int}" page={TreasureTreasurePage} name="treasure" />
           <Route path="/treasures" page={TreasureTreasuresPage} name="treasures" />
         </Set>
       </Set>

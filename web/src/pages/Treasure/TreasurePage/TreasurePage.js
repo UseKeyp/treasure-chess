@@ -8,13 +8,13 @@ import TreasureMovesCell from 'src/components/Treasure/TreasureMovesCell'
 import TreasureNftDetailsCell from 'src/components/Treasure/TreasureNftDetailsCell'
 import TreasureSocialCell from 'src/components/Treasure/TreasureSocial/TreasureSocialCell'
 
-const TreasurePage = ({ id }) => {
+const TreasurePage = ({ tokenId }) => {
   const ACCEPT_HIGHEST_BID = 'accept highest bid'
   const PUT_ON_SALE = 'put on sale'
   const TRANSFER_NFT = 'transfer nft'
-  const onClick = (id) => {
+  const onClick = (tokenId) => {
     /* eslint-disable-next-line no-console */
-    console.log(id)
+    console.log(tokenId)
   }
   return (
     <div className="item-page max-width-container">
@@ -31,13 +31,13 @@ const TreasurePage = ({ id }) => {
             <div className="details-wrapper">
               <h2 className="text-center text-5xl">Game Details</h2>
               <br />
-              <TreasureOpeningCell id={id} />
+              <TreasureOpeningCell tokenId={tokenId} />
               <br />
-              <TreasureMovesCell id={id} />
+              <TreasureMovesCell tokenId={tokenId} />
             </div>
           </div>
           <div className="flex flex-col justify-start items-center order-1 md:order-2">
-            <TreasureCardCell id={id} />
+            <TreasureCardCell tokenId={tokenId} />
             <div className="buttons-wrapper w-full flex flex-wrap justify-center">
               <Button
                 onClick={() => onClick(ACCEPT_HIGHEST_BID)}
@@ -54,8 +54,8 @@ const TreasurePage = ({ id }) => {
             </div>
           </div>
           <div className="flex flex-col items-start order-3">
-            <TreasureNftDetailsCell id={id} />
-            <TreasureSocialCell id={id} />
+            <TreasureNftDetailsCell tokenId={tokenId} />
+            <TreasureSocialCell tokenId={tokenId} />
           </div>
         </div>
       </div>

@@ -59,8 +59,8 @@ export const schema = gql`
   type Query {
     treasures(username: String, filter: String, sort: String): [Treasure!]!
       @skipAuth
-    treasure(id: String!): Treasure @skipAuth
-    treasureNftDetails(id: String!): TreasureNftDetails @skipAuth
+    treasure(tokenId: Int!): Treasure @skipAuth
+    treasureNftDetails(tokenId: Int!): TreasureNftDetails @skipAuth
     mintCheckoutUrl(
       gameId: String!
       endTime: DateTime!

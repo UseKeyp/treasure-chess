@@ -9,19 +9,20 @@ import { EnvelopError } from '@envelop/core'
 export const treasures = ({ username, sort, filter }) =>
   getTreasuresWithArguments({ username, sort, filter })
 
-export const treasure = ({ id }) => {
-  return db.treasure.findUnique({
-    where: { id },
+export const treasure = ({ tokenId }) =>
+  db.treasure.findUnique({
+    where: { tokenId },
   })
-}
 
-export const treasureNftDetails = async ({ id }) => {
+export const treasureNftDetails = async ({ tokenId }) => {
   const treasure = await db.treasure.findUnique({
-    where: { id },
+    where: { tokenId },
+    include: {
+      owner: true,
+      minter: true,
+    },
   })
   if (treasure) {
-    treasure.owner = await fetchMember(treasure.ownerAddress)
-    treasure.minter = await fetchMember(treasure.minterAddress)
     // TODO: pull from subgraph
     treasure.bids = [
       { price: '1.00', bidder: 'jschiarizzi' },

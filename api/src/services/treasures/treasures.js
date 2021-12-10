@@ -1,5 +1,4 @@
 import { db } from 'src/lib/db'
-import { fetchMember } from 'src/lib/members'
 import { fetchGame } from 'src/lib/games'
 import { createMintReservation } from 'src/lib/wyre/wyre'
 import { validateTreasureTitle } from 'src/lib/helpers'

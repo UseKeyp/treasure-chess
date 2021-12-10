@@ -17,16 +17,17 @@ const TABLE_TITLE = 'Moves'
 
 const TreasureMoves = ({ treasure }) => {
   if (!treasure) return <DetailsBox heading={TABLE_TITLE} />
-  const list = parsePgn(treasure.moves)
+  let list = []
+  if (treasure?.moves) list = parsePgn(treasure?.moves)
 
   return (
     <div
       className="moves-details"
-      style={{ minHeight: treasure.moves.length > 0 ? 0 : 120 }}
+      style={{ minHeight: treasure?.moves.length > 0 ? 0 : 120 }}
     >
       <h3 className="moves-details__heading">{TABLE_TITLE}</h3>
       <ul className="moves-details__list">
-        {list.map((round) => {
+        {list?.map((round) => {
           const [turn, white, black] = round
 
           return (

@@ -1,4 +1,4 @@
-const achievements = require('@treasure-chess/chess-achievements/achievementsList.json')
+const achievements = require('@treasure-chess/chess-achievements/achievementsList')
 ////////////////////////////////
 // Items with name/value pair
 

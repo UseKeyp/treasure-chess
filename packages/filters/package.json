@@ -10,6 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@treasure-chess/chess-achievements": "^0.0.9"
+    "@treasure-chess/chess-achievements": "^0.0.10-PR24.b5f8ded.0"
   }
 }

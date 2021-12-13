@@ -12,7 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@treasure-chess/chess-achievements": "^0.0.10-PR24.5998899.0",
+    "@treasure-chess/chess-achievements": "^0.1.1",
     "xmldom": "^0.6.0"
   },
   "devDependencies": {

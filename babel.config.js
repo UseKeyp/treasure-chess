@@ -4,6 +4,7 @@ const { getPaths } = require('@redwoodjs/internal')
 module.exports = {
   presets: ['@redwoodjs/core/config/babel-preset'],
   plugins: [
+    // '@babel/plugin-transform-modules-commonjs',
     [
       require.resolve('babel-plugin-module-resolver'),
       {

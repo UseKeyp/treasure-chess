@@ -43,7 +43,7 @@ const GameCard = ({ game }) => {
 }
 ```
 
-If `treasure.achievements` is undefined, a prompt to mint the Treasure is shown instead.
+If `treasure.achievements` is undefined, a prompt to mint the Treasure is shown instead, which looks like this:
 
 <img src="./bottom-card-no-achievements.png" width="300"/>
 

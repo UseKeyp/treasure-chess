@@ -17,11 +17,11 @@
   },
   "dependencies": {
     "@ethersproject/hash": "^5.4.0",
-    "@ethersproject/units": "^5.5.0",
     "@redwoodjs/auth": "^0.38.3",
     "@redwoodjs/forms": "^0.38.3",
     "@redwoodjs/router": "^0.38.3",
     "@redwoodjs/web": "^0.38.3",
+    "@treasure-chess/treasure-html": "^1.0.0",
     "bad-words": "^3.0.4",
     "flag-icon-css": "^3.5.0",
     "jsonwebtoken": "^8.5.1",

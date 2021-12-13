@@ -100,7 +100,7 @@ const GameExplorer = () => {
           <FilterItems headline="Filter Games" onChange={onChangeFilter} />
         </div>
         <GamesCell filter={filter} />
-        <GameCard game={activeGame} isMinting={isMinting} />
+        <GameCard game={activeGame} isMinting={mintingStatus === MINTING} />
       </div>
     </div>
   )

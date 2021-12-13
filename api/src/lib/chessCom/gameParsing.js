@@ -71,6 +71,7 @@ export const parseGameFromChessDotCom = (game) => {
   return {
     id,
     pgn: game.pgn,
+    tcn: game.tcn,
     blackRating: game.black.rating,
     blackRatingDelta: game.black.rating - blackRatingBefore,
     whiteRating: game.white.rating,

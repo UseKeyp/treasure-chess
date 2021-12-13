@@ -11,7 +11,7 @@
     "paths": {
       "src/*": ["./src/*", "../.redwood/types/mirror/web/src/*"],
       "types/*": ["./types/*"],
-      "@common/*": ["../packages/*"]
+      "@common/": ["../packages/*"]
     },
     "typeRoots": ["../node_modules/@types", "./node_modules/@types"],
     "types": ["jest"],

@@ -1,6 +1,6 @@
 import { db } from 'src/lib/db'
 import { fetchMember } from 'src/lib/members'
-import { getTreasure } from 'src/lib/treasures'
+import { generateTreasureData } from 'src/lib/treasures'
 import { mint } from 'src/lib/web3/treasure'
 import { pinTreasure } from 'src/lib/pinata'
 
@@ -9,23 +9,30 @@ export const mintTreasure = async ({ game, mintPurchase, member, title }) => {
     if (!member.address) throw 'Minting member does not have a wallet address.'
     if (!title) throw 'Title must not be empty'
 
-    const treasure = await getTreasure({
+    const treasureData = await generateTreasureData({
       game,
       title,
       minter: member,
       owner: member,
       mintPurchase,
     })
+
     if (mintPurchase.txHash) {
       // TODO: Check the status of the transaction
 
       // TODO: If failed, attempt to mint again
 
       // Remove throw once completed
-      throw `Treasure has already been minted:${treasure.id}`
+      throw `Treasure has already been minted. Id: ${treasureData.id} txHash: ${mintPurchase.txHash}`
     }
-
-    const { tokenUri, uriData } = await pinTreasure({ treasure })
+    const { tokenUri, uriData } = await pinTreasure({
+      treasure: {
+        ...treasureData,
+        black: { ...game.black }, // Inject the players manually
+        white: { ...game.white },
+      },
+      tcn: game.tcn,
+    })
     // TODO: remove consoles
     /* eslint-disable-next-line no-console */
     console.log(uriData)
@@ -34,7 +41,11 @@ export const mintTreasure = async ({ game, mintPurchase, member, title }) => {
     // TODO: Check whether a treasure with the same id already exists in the database
     // TODO: Before minting, check on-chain whether there exists a treasure
     // with the same ID hash
-    const tx = await mint({ treasure, tokenUri, minterAddress: member.address })
+    const tx = await mint({
+      treasure: treasureData,
+      tokenUri,
+      minterAddress: member.address,
+    })
     if (!tx?.hash) throw 'Transaction was not submitted'
 
     await db.mintPurchase.update({
@@ -45,14 +56,14 @@ export const mintTreasure = async ({ game, mintPurchase, member, title }) => {
       },
     })
 
-    const treasureEntity = await db.treasure.create({
-      data: { ...treasure, uriData },
+    const treasure = await db.treasure.create({
+      data: { ...treasureData, uriData, tokenUri },
     })
     // TODO:  remove consoles
     /* eslint-disable-next-line no-console */
-    console.log(treasureEntity)
+    console.log(treasure)
 
-    return treasureEntity
+    return treasure
   } catch (e) {
     throw `mintTreasure() ${e}`
   }

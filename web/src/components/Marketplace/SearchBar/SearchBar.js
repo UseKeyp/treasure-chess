@@ -8,7 +8,7 @@ import { ReactComponent as SearchIcon } from 'src/assets/icons/Search.svg'
  */
 const SearchBar = ({ value, changeHandler }) => {
   return (
-    <div className="relative">
+    <div className={styles.searchBarContainer}>
       <input
         type="text"
         placeholder={'Search Marketplace'}
@@ -16,7 +16,7 @@ const SearchBar = ({ value, changeHandler }) => {
         value={value}
         onChange={(e) => changeHandler(e.target.value)}
       />
-      <div className="absolute right-0 bottom-0 flex items-center h-full pr-4">
+      <div className={styles.iconWrap}>
         <SearchIcon />
       </div>
     </div>

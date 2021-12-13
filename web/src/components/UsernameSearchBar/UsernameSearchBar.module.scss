@@ -7,7 +7,6 @@
 		align-items: center;
 		justify-content: space-between;
     border-radius: .5rem;
-    width: clamp(125px, 33vw, 396px);
     ::selection {
       background-color: hsla(92, 41%, 44%, 1)
     }
@@ -25,6 +24,9 @@
       border: none;
       &:hover {
         cursor: pointer;
+      }
+      &::placeholder {
+        color: white;
       }
     }
     .iconWrap {

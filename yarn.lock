@@ -2452,6 +2452,14 @@
     core-js-pure "^3.0.0"
     regenerator-runtime "^0.13.4"
 
+"@babel/runtime-corejs3@^7.16.3":
+  version "7.16.3"
+  resolved "https://registry.npmjs.org/@babel/runtime-corejs3/-/runtime-corejs3-7.16.3.tgz#1e25de4fa994c57c18e5fdda6cc810dac70f5590"
+  integrity sha512-IAdDC7T0+wEB4y2gbIL0uOXEYpiZEeuFUTVbdGq+UwCcF35T/tS8KrmMomEwEc5wBbyfH3PJVpTSUqrhPDXFcQ==
+  dependencies:
+    core-js-pure "^3.19.0"
+    regenerator-runtime "^0.13.4"
+
 "@babel/runtime@^7.0.0", "@babel/runtime@^7.10.2", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.5", "@babel/runtime@^7.14.0", "@babel/runtime@^7.3.1", "@babel/runtime@^7.5.0", "@babel/runtime@^7.5.5", "@babel/runtime@^7.7.2", "@babel/runtime@^7.7.6", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.2", "@babel/runtime@^7.9.6":
   version "7.14.0"
   resolved "https://registry.npmjs.org/@babel/runtime/-/runtime-7.14.0.tgz#46794bc20b612c5f75e62dd071e24dfd95f1cbe6"
@@ -6255,13 +6263,6 @@
   dependencies:
     chess.js "^0.12.0"
 
-"@treasure-chess/chess-achievements@^0.0.10-PR24.b5f8ded.0":
-  version "0.0.10-PR24.b5f8ded.0"
-  resolved "https://npm.pkg.github.com/download/@treasure-chess/chess-achievements/0.0.10-PR24.b5f8ded.0/e74429ddf780890c5b7fce24ed6ebf6835c300025c096b9b6c9327335ea8ccfe#63962e27fb6d6b1bdd493bc229a5ef1ddcc59494"
-  integrity sha512-bFuQ4rk6EoQXCAhm0Vbip/9G05wpvML9TzdbExD99ZByq9qd7vwxeTBwWgB/Yudb1Wu2/xxj7CoIt5JZ0UvgeA==
-  dependencies:
-    chess.js "^0.12.0"
-
 "@treasure-chess/chess-achievements@^0.0.9":
   version "0.0.9"
   resolved "https://registry.npmjs.org/@treasure-chess/chess-achievements/-/chess-achievements-0.0.9.tgz#bd7273615b176113413ad922684b5e9bc3d4cd25"
@@ -9953,6 +9954,11 @@ core-js-pure@^3.16.0, core-js-pure@^3.8.1, core-js-pure@^3.8.2:
   version "3.18.0"
   resolved "https://registry.npmjs.org/core-js-pure/-/core-js-pure-3.18.0.tgz#e5187347bae66448c9e2d67c01c34c4df3261dc5"
   integrity sha512-ZnK+9vyuMhKulIGqT/7RHGRok8RtkHMEX/BGPHkHx+ouDkq+MUvf9mfIgdqhpmPDu8+V5UtRn/CbCRc9I4lX4w==
+
+core-js-pure@^3.19.0:
+  version "3.19.3"
+  resolved "https://registry.npmjs.org/core-js-pure/-/core-js-pure-3.19.3.tgz#c69b2b36b58927317824994b532ec3f0f7e49607"
+  integrity sha512-N3JruInmCyt7EJj5mAq3csCgGYgiSqu7p7TQp2KOztr180/OAIxyIvL1FCjzgmQk/t3Yniua50Fsak7FShI9lA==
 
 core-js@3.18.3:
   version "3.18.3"

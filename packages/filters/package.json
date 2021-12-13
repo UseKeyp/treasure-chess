@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "filters.js",
+  "files": [
+    "src/achievementsList.js"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@treasure-chess/chess-achievements": "^0.0.10-PR24.b5f8ded.0"
-  }
+    "@treasure-chess/chess-achievements": "^0.0.10-PR24.5998899.0"
+  },
+  "devDependencies": {}
 }

@@ -32,7 +32,7 @@ const Redirect = ({ type }) => {
     setOrderSubmitted(true)
     setTimeout(() => {
       window.close()
-    }, [3000])
+    }, [1000])
   }
 
   React.useEffect(() => {

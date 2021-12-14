@@ -6,32 +6,41 @@ import { Contract } from '@ethersproject/contracts'
 import treasureArtifact from '@treasure-chess/treasure-contracts/artifacts/contracts/Treasure.sol/Treasure.json'
 import { adminSendTransaction } from 'src/lib/web3/admin'
 
+import achievementsList from '@treasure-chess/chess-achievements/src/achievementsList'
+
 const treasureAbi = treasureArtifact.abi
 const CHAIN_ID = getIdFromNetworkName(process.env.ETHEREUM_NETWORK_NAME)
 
 export const mint = async ({ treasure, tokenUri, minterAddress }) => {
-  const treasureContract = getTreasureContract()
-  const chievs = treasure.achievements.split(',')
-  const [achieve1, achieve2, achieve3] = [0, 1, 2].map((index) => {
-    try {
-      return Number(chievs[index].split('.')[0].replace('#', ''))
-    } catch {
-      return 0
-    }
-  })
+  try {
+    if (!minterAddress) throw 'No minterAddress provided'
+    if (!tokenUri) throw 'No tokenUri provided'
+    if (!treasure) throw 'No treasure provided'
 
-  const unsignedTx = await treasureContract.populateTransaction.mint(
-    minterAddress, // address player
-    tokenUri, // string memory tokenURI
-    treasure.id, //bytes32 moveHash
-    treasure.achievementScore, // uint8 _level
-    achieve1, // uint16 _achievement1
-    achieve2, // uint16 _achievement2
-    achieve3, // uint16 _achievement3
-    treasure.cardColor // bool _color
-  )
-  const tx = await adminSendTransaction(unsignedTx, CHAIN_ID)
-  return tx
+    const treasureContract = getTreasureContract()
+
+    let chievScore = [0, 0, 0]
+    treasure.achievements.split(',').map((chiev, index) => {
+      // Lookup the number for the achievement
+      const match = achievementsList.find((item) => item.name == chiev)
+      if (match) chievScore[index] = match.number
+    })
+
+    const unsignedTx = await treasureContract.populateTransaction.mint(
+      minterAddress, // address player
+      tokenUri, // string memory tokenURI
+      treasure.id, //bytes32 moveHash
+      treasure.achievementScore, // uint8 _level
+      chievScore[0], // uint16 _achievement1
+      chievScore[1], // uint16 _achievement2
+      chievScore[2], // uint16 _achievement3
+      treasure.cardColor === 'black' // bool _color);
+    )
+    const tx = await adminSendTransaction(unsignedTx, CHAIN_ID)
+    return tx
+  } catch (e) {
+    throw new Error(`mint() ${e}`)
+  }
 }
 
 export const getTreasureContract = () => {

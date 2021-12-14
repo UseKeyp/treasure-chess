@@ -87,7 +87,7 @@ export const transferTreasure = async ({ recipient, _treasureId }) => {
 
     return true
   } catch (e) {
-    const errorMessage = `mintTreasure() ${e}`
+    const errorMessage = `transferTreasure() ${e}`
     // TODO: Add Discord bot notifications here
     /* eslint-disable-next-line no-console */
     console.log(errorMessage)

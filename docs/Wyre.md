@@ -17,13 +17,14 @@ Overview:
 Make a test purchase using these details:
 
 ```js
-Test Account
-4444333322221111
+Jeff Bezos
+4111111111111111
 CVV 	555
 expiration 10/23
-123 Abc St
-23456
-Cityville
+1255 Baller St
+99501
+Anchorage
+Alaska
 test@wyre.com
 2254655767
 // Bank and Phone verification codes:

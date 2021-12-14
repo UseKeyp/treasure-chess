@@ -1,7 +1,5 @@
 import PropTypes from 'prop-types'
 
-import { ReactComponent as WyreLogo } from '../../assets/icons/wyre.svg'
-
 const headerStyle = {
   display: 'flex',
   fontSize: '20px',
@@ -13,16 +11,17 @@ const ModalContainer = ({
   headerText,
   bodyText,
   submitText,
+  //mobileSubmit,
   onSubmit,
   onClose,
-  // iconSrc,
+  iconSrc,
 }) => {
   return (
     <div id="overlay">
       <div className="modal-outer-container">
-        <div className="modal-header-container flex pb-2" style={headerStyle}>
+        <div className="modal-header-container pb-2 center" style={headerStyle}>
           <h2 className="header-text">{headerText}</h2>
-          <WyreLogo />
+          <img src={iconSrc} alt="" style={{ height: '30px' }} />
         </div>
         <p
           className="body-text"
@@ -31,7 +30,7 @@ const ModalContainer = ({
           {bodyText}
         </p>
         <div className="modal-button-container pt-3" style={headerStyle}>
-          <button className="modal-close-button" onClick={onClose}>
+          <button className="modal-close-button pr-10" onClick={onClose}>
             Cancel
           </button>
           <button className="modal-submit-button" onClick={onSubmit}>

@@ -1,12 +1,11 @@
 @use "sass:color";
 
-#overlay {
+#root {
   position: fixed;
   width: 100%;
   height: 100%;
-  background-color: rgba(0,0,0,0.5);
-  z-index: 2;
-  //display: none;
+  background: rgba(49, 46, 43, .5); //chess-b1 to RGB
+  background-size: cover;
 }
 
 .modal-outer-container {
@@ -18,18 +17,15 @@
 
   transform: translate(-50%, -50%);
   position: fixed;
-  // width: 432px;
-  height: auto;
+  width: 90%;
   max-width: 432px;
   background: #4F4F4F;
   box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.4);
   border-radius: 12px;
 }
 
-.modal-close-button {
-  &:focus {
-    outline: none;
-  }
+.modal-close-button{:focus {
+    outline: none;}
 }
 
 .modal-submit-button {
@@ -37,9 +33,9 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 0px 8px 1px;
+  padding: 8px 8px 8px;
   position: relative;
-  height: 40px;
+  //height: 40px;
   left: 0px;
   top: 0px;
   background: #125BF5;

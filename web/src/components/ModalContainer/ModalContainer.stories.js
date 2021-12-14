@@ -1,6 +1,8 @@
 import { Montserrat } from '@common/treasure-html/src/assets/flags'
 import ModalContainer from './ModalContainer'
 
+import logo from '../../assets/icons/wyre.png'
+
 const bodyWyreDeposit =
   'Fund your wallet using Wyre. Funds are typically added in less than 3 minutes, and can be withdrawn anytime according to the limits set by Wyre.'
 
@@ -26,13 +28,14 @@ const bodyDeposit = (
   </div>
 )
 
-export const WyreDeposit = () => {
+export const wyreDeposit = () => {
   return (
     <div>
       <ModalContainer
         headerText="Deposit Funds"
         bodyText={bodyWyreDeposit}
         submitText="Deposit with Wyre"
+        iconSrc={logo}
         onSubmit={() => {
           /* eslint-disable-next-line no-console */
           console.log('ONSUBMIT MODAL')
@@ -42,26 +45,25 @@ export const WyreDeposit = () => {
           console.log('CLOSED MODAL')
         }}
       />
-      <div style={{ paddingTop: 100 }}>
-        <div>blah blah blah home content</div>
-        <div>blah blah blah home content</div>
-        <div>blah blah blah home content</div>
-        <div>blah blah blah home content</div>
-        <div>blah blah blah home content</div>
-        <div>blah blah blah home content</div>
-        <div>blah blah blah home content</div>
+      <div>
+        <p style={{ fontSize: '20px' }}>
+          “Money never made a man happy yet, nor will it. There is nothing in
+          its nature to produce happiness. The more a man has, the more he
+          wants. Instead of its filling a vacuum, it makes one.”
+        </p>
       </div>
     </div>
   )
 }
 
-export const WyreWithdrawal = () => {
+export const wyreWithdrawal = () => {
   return (
     <div>
       <ModalContainer
         headerText="Withdrawal Funds"
         bodyText={bodyWyreWithdrawal}
         submitText="Withdrawal with Wyre"
+        iconSrc={logo}
         onSubmit={() => {
           /* eslint-disable-next-line no-console */
           console.log('ONSUBMIT MODAL')
@@ -71,7 +73,7 @@ export const WyreWithdrawal = () => {
           console.log('CLOSED MODAL')
         }}
       />
-      <div style={{ paddingTop: 100 }}>
+      <div>
         <div>blah blah blah home content</div>
         <div>blah blah blah home content</div>
         <div>blah blah blah home content</div>
@@ -84,7 +86,7 @@ export const WyreWithdrawal = () => {
   )
 }
 
-export const Deposit = () => {
+export const deposit = () => {
   return (
     <div>
       <ModalContainer
@@ -100,7 +102,7 @@ export const Deposit = () => {
           console.log('CLOSED MODAL')
         }}
       />
-      <div style={{ paddingTop: 100 }}>
+      <div>
         <div>blah blah blah home content</div>
         <div>blah blah blah home content</div>
         <div>blah blah blah home content</div>

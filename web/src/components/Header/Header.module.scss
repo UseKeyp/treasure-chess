@@ -5,8 +5,9 @@
   border-radius: 1rem;
   display: flex;
   align-items: center;
-  margin: 1rem auto;
+  margin: 0 auto;
   max-width: 80rem;
+  width: 100%;
 
   ::selection {
     background-color: hsla(92, 41%, 44%, 1);
@@ -14,6 +15,9 @@
   a {
     transition: all 0.25s;
     &:hover {
+      background-color: rgb(200 200 200 / 0.5);
+      border: 1px solid transparent;
+      border-radius: 4px;
       transform: translateY(-3px);
     }
   }

@@ -5250,10 +5250,10 @@
     memory-cache "^0.2.0"
     web3-utils "^1.6.0"
 
-"@treasure-chess/chess-achievements@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.npmjs.org/@treasure-chess/chess-achievements/-/chess-achievements-0.1.1.tgz#552c73696e8bc196f19a8abbc47fad5e85a2d12b"
-  integrity sha512-OV32lVU40oHo8hZsTkl150U75SARDxryyfPBpg+HIdH2iwaUYbGPJvMMByJD+zAYjzjw2frCFhigVICty/txYQ==
+"@treasure-chess/chess-achievements@0.1.2":
+  version "0.1.2"
+  resolved "https://registry.npmjs.org/@treasure-chess/chess-achievements/-/chess-achievements-0.1.2.tgz#2828b49fecbde914cbaa5565818877c123ecb323"
+  integrity sha512-twkCsX/IV91STbJNHB+rofflJF25ibDKk4DKXavuprYd3EiSu6q9yg335BX+EXf/7sQwlahiktn1b/UD3IYKKw==
   dependencies:
     chess.js "^0.12.0"
 

@@ -1,16 +1,15 @@
 .moves-details {
-
   *::-webkit-scrollbar {
     width: 8px;
   }
 
   *::-webkit-scrollbar-track {
-    background: #3D3B38;
+    background: #3d3b38;
     border-radius: 9.92388px;
   }
 
   *::-webkit-scrollbar-thumb {
-    background-color: #ABB6B9;
+    background-color: #abb6b9;
     border-radius: 24.8097px;
     border: none;
   }
@@ -19,26 +18,23 @@
   border-radius: 12px;
   background-color: #272522;
   max-height: 470px;
-  &__header {
-      display: flex;
-    }
-  &__player {
-    width: 50%;
+  min-height: 300px;
+  &__players {
+    display: flex;
+    height: 40px;
+    align-items: flex-end;
     margin-bottom: 15px;
   }
-    &__list {
-      padding-right: 10px;
-      max-height: 360px;
-      overflow-y: auto;
+  &__player {
+    width: 50%;
+  }
+  &__list {
+    padding-right: 10px;
+    max-height: 360px;
+    overflow-y: auto;
   }
   &__player-no {
     font-size: calc(10 / 16 * 1rem);
-  }
-  &__player-photo {
-    margin-right: 8px;
-    width: 16px;
-    height: 16px;
-    border-radius: 4px;
   }
   &__player-avatar {
     display: flex;
@@ -51,7 +47,7 @@
     margin-bottom: 4px;
     padding: 4px 4px 4px 16px;
     font-size: calc(10 / 16 * 1rem);
-    background-color: #312E2B;
+    background-color: #312e2b;
     border-radius: 4px;
 
     &__inner {
@@ -62,7 +58,7 @@
     &__detail {
       flex: 1;
       &--first {
-        flex: .3;
+        flex: 0.3;
       }
       &--second {
         flex: 1.3;

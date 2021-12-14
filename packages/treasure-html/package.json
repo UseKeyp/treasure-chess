@@ -1,7 +1,7 @@
 {
   "name": "@treasure-chess/treasure-html",
   "version": "1.0.0",
-  "description": "",
+  "description": "Generates a beautiful html card for a treasure.",
   "main": "dist/index.js",
   "scripts": {
     "test": "babel-node tests/full.test.js",
@@ -12,7 +12,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@treasure-chess/chess-achievements": "^0.1.1",
     "xmldom": "^0.6.0"
   },
   "devDependencies": {

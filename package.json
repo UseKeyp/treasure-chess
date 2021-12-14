@@ -19,6 +19,7 @@
   "devDependencies": {
     "@babel/plugin-transform-modules-commonjs": "^7.16.0",
     "@redwoodjs/core": "^0.38.1",
+    "babel-loader": "^8.2.3",
     "chromatic": "^5.9.2",
     "core-js": "^3.19.1"
   },

@@ -1,4 +1,4 @@
-const achievementList = require('@treasure-chess/chess-achievements/src/achievementsList')
+const achievements = require('@treasure-chess/chess-achievements/achievementsList')
 ////////////////////////////////
 // Items with name/value pair
 

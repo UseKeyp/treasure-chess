@@ -5,6 +5,14 @@ export const QUERY = gql`
     treasure: treasure(id: $id) {
       id
       moves
+      white {
+        username
+        imageSrc
+      }
+      black {
+        username
+        imageSrc
+      }
     }
   }
 `

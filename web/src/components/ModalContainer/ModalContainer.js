@@ -11,7 +11,6 @@ const ModalContainer = ({
   headerText,
   bodyText,
   submitText,
-  //mobileSubmit,
   onSubmit,
   onClose,
   iconSrc,

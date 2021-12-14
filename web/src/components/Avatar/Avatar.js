@@ -7,9 +7,9 @@ const Avatar = ({ src, bgColor, size }) => {
       style={{ width: size, height: size, backgroundColor: bgColor }}
     >
       {src ? (
-        <img className="avatar-img" src={src} alt="chess.com user avatar" />
+        <img className="avatar-img" src={src} alt="chess.com member avatar" />
       ) : (
-        <EmptyAvatar />
+        <EmptyAvatar alt="chess.com member avatar" />
       )}
     </div>
   )

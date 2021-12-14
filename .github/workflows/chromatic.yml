@@ -22,7 +22,7 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Build packages
-        run: yarn rw build-packages
+        run: yarn build-packages
         shell: bash
 
       - name: Build Storybook

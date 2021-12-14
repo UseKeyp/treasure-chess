@@ -145,7 +145,7 @@ const Header = () => {
         {isLoggedIn ? (
           <div className="flex items-center">
             <div className="mr-4 w-8 h-8 flex items-center justify-center">
-              <Avatar src={imageSrc} />
+              <Avatar size="32px" src={imageSrc} />
             </div>
             <div className="mr-4">
               <div className="flex flex-col text-sm text-left">

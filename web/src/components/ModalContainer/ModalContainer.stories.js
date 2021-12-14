@@ -1,24 +1,37 @@
+import { Montserrat } from '@common/treasure-html/src/assets/flags'
 import ModalContainer from './ModalContainer'
 
-const body =
+const bodyWyreDeposit =
   'Fund your wallet using Wyre. Funds are typically added in less than 3 minutes, and can be withdrawn anytime according to the limits set by Wyre.'
 
-export const generated = () => {
+const bodyWyreWithdrawal =
+  'Withdraw your funds using Wyre. Funds can be withdrawn anytime according to the limits set by Wyre.'
+
+const bodyStyle = { fontSize: '16px', fontFamily: Montserrat }
+
+const bodyDeposit = (
+  <div>
+    <p className="pb-2" style={bodyStyle}>
+      WARNING: At this time you can only deposit USDC on the Polygon Network
+      (Matic).
+    </p>
+    <p className="pb-2" style={bodyStyle}>
+      Do not send anything else to this address, or use other networks. You will
+      not be able to recover other assets, and they may be lost forever. We
+      cannot guarantee support will be added for other networks or assets.
+    </p>
+    <p className="pb-2" style={bodyStyle}>
+      By continuing you agree you’ve read this and understand these risks.
+    </p>
+  </div>
+)
+
+export const WyreDeposit = () => {
   return (
-    <div
-      // Simulating a mobile device
-      style={{
-        width: '100%',
-        height: 800,
-        overflowY: 'scroll',
-        border: '1px solid #fff',
-        borderRadius: 10,
-        position: 'relative',
-      }}
-    >
+    <div>
       <ModalContainer
         headerText="Deposit Funds"
-        bodyText={body}
+        bodyText={bodyWyreDeposit}
         submitText="Deposit with Wyre"
         onSubmit={() => {
           /* eslint-disable-next-line no-console */
@@ -28,10 +41,74 @@ export const generated = () => {
           /* eslint-disable-next-line no-console */
           console.log('CLOSED MODAL')
         }}
-      >
-        ModalContainer content
-        <button className="rect-button green">Modal content button</button>
-      </ModalContainer>
+      />
+      <div style={{ paddingTop: 100 }}>
+        <div>blah blah blah home content</div>
+        <div>blah blah blah home content</div>
+        <div>blah blah blah home content</div>
+        <div>blah blah blah home content</div>
+        <div>blah blah blah home content</div>
+        <div>blah blah blah home content</div>
+        <div>blah blah blah home content</div>
+      </div>
+    </div>
+  )
+}
+
+export const WyreWithdrawal = () => {
+  return (
+    <div>
+      <ModalContainer
+        headerText="Withdrawal Funds"
+        bodyText={bodyWyreWithdrawal}
+        submitText="Withdrawal with Wyre"
+        onSubmit={() => {
+          /* eslint-disable-next-line no-console */
+          console.log('ONSUBMIT MODAL')
+        }}
+        onClose={() => {
+          /* eslint-disable-next-line no-console */
+          console.log('CLOSED MODAL')
+        }}
+      />
+      <div style={{ paddingTop: 100 }}>
+        <div>blah blah blah home content</div>
+        <div>blah blah blah home content</div>
+        <div>blah blah blah home content</div>
+        <div>blah blah blah home content</div>
+        <div>blah blah blah home content</div>
+        <div>blah blah blah home content</div>
+        <div>blah blah blah home content</div>
+      </div>
+    </div>
+  )
+}
+
+export const Deposit = () => {
+  return (
+    <div>
+      <ModalContainer
+        headerText="Deposit USDC"
+        bodyText={bodyDeposit}
+        submitText="Copy Wallet Address"
+        onSubmit={() => {
+          /* eslint-disable-next-line no-console */
+          console.log('ADDRESS COPIED')
+        }}
+        onClose={() => {
+          /* eslint-disable-next-line no-console */
+          console.log('CLOSED MODAL')
+        }}
+      />
+      <div style={{ paddingTop: 100 }}>
+        <div>blah blah blah home content</div>
+        <div>blah blah blah home content</div>
+        <div>blah blah blah home content</div>
+        <div>blah blah blah home content</div>
+        <div>blah blah blah home content</div>
+        <div>blah blah blah home content</div>
+        <div>blah blah blah home content</div>
+      </div>
     </div>
   )
 }

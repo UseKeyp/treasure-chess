@@ -1,4 +1,3 @@
-import DetailsBox from 'src/components/DetailsBox'
 import Avatar from 'src/components/Avatar'
 
 const parsePgn = (str) => {

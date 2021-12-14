@@ -1,11 +1,13 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { createPortal } from 'react-dom'
 import { Link, routes, useLocation } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
 
-import EmptyAvatar from 'src/components/Avatar/EmptyAvatar'
+import Avatar from 'src/components/Avatar/Avatar'
 import SearchBar from 'src/components/Marketplace/SearchBar'
 import { ReactComponent as TreasureChest } from 'src/assets/icons/TreasureChessChest.svg'
+
+import { trimAddress } from 'src/utils/helpers'
 
 import styles from './Header.module.scss'
 
@@ -38,7 +40,11 @@ const MobileNav = () => {
 
   if (!isOpen) {
     return (
-      <button type="button" className="font-bold" onClick={() => setOpen(true)}>
+      <button
+        type="button"
+        className="font-bold hover:underline"
+        onClick={() => setOpen(true)}
+      >
         Menu
       </button>
     )
@@ -104,22 +110,9 @@ const Header = () => {
 
   const handleLogIn = () => logIn({ redirectTo: pathname })
 
-  const imageSrc = useMemo(() => {
-    if (profile === null || profile.imageSrc === null) {
-      return false
-    }
-    return profile.imageSrc
-  }, [profile])
+  const imageSrc = profile?.imageSrc || null
 
-  const address = useMemo(() => {
-    if (profile === null || profile.address === null) {
-      return null
-    }
-    const address1 = profile.address.slice(0, 6)
-    const address2 = profile.address.slice(profile.address.length - 4)
-
-    return `${address1}...${address2}`
-  }, [profile])
+  const address = trimAddress(profile?.address) || null
 
   return (
     <div className={styles.header}>
@@ -152,15 +145,7 @@ const Header = () => {
         {isLoggedIn ? (
           <div className="flex items-center">
             <div className="mr-4 w-8 h-8 flex items-center justify-center">
-              {imageSrc ? (
-                <img
-                  src={imageSrc}
-                  className="h-auto w-full rounded-md"
-                  alt=""
-                />
-              ) : (
-                <EmptyAvatar className="rounded-md" />
-              )}
+              <Avatar src={imageSrc} />
             </div>
             <div className="mr-4">
               <div className="flex flex-col text-sm text-left">

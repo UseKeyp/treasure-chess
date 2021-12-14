@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom'
 import { Link, routes, useLocation } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
 
-import EmptyAvatar from 'src/components/Avatar/EmptyAvatar'
+import Avatar from 'src/components/Avatar/Avatar'
 import SearchBar from 'src/components/Marketplace/SearchBar'
 import { ReactComponent as TreasureChest } from 'src/assets/icons/TreasureChessChest.svg'
 
@@ -146,15 +146,7 @@ const Header = () => {
           {isLoggedIn ? (
             <div className="flex items-center">
               <div className="mr-4 w-8 h-8 flex items-center justify-center">
-                {imageSrc ? (
-                  <img
-                    src={imageSrc}
-                    className="h-auto w-full rounded-md"
-                    alt=""
-                  />
-                ) : (
-                  <EmptyAvatar className="rounded-md" />
-                )}
+                <Avatar src={imageSrc} className="rounded-md" />
               </div>
               <div className="mr-4">
                 <div className="flex flex-col text-sm text-left">

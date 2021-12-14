@@ -1,5 +1,5 @@
 .header {
-  background-color: hsla(36, 7%, 14%, 1);
+  background-color: theme('colors.chessBlack.200');
   padding: 2ex;
   font-size: 1rem;
   border-radius: 1rem;
@@ -56,22 +56,21 @@
       }
     }
     &--username,
-    &--login
-    {
-      color: #147DDD;
+    &--login {
+      color: #147ddd;
       font-weight: bold;
       padding: 0 !important;
     }
     &--address {
       font-weight: light;
-      color: #ABB6B9;
+      color: theme('colors.grey');
     }
     &--balance {
       font-weight: bold;
-      color: #ABB6B9;
+      color: theme('colors.grey');
     }
     &--fund-wallet {
-      color: #147DDD;
+      color: theme('colors.blueLink');
       font-weight: light;
       padding: 0 !important;
     }

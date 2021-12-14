@@ -1,4 +1,5 @@
 import styles from './SearchBar.module.scss'
+import { ReactComponent as SearchIcon } from 'src/assets/icons/Search.svg'
 /**
  * This is a search bar
  * @param {*} value Pass a stateful variable as a value to control the state of the input
@@ -7,13 +8,18 @@ import styles from './SearchBar.module.scss'
  */
 const SearchBar = ({ value, changeHandler }) => {
   return (
-    <input
-      type="text"
-      placeholder={'Search Marketplace'}
-      className={styles.searchBar}
-      value={value}
-      onChange={(e) => changeHandler(e.target.value)}
-    />
+    <div className="relative">
+      <input
+        type="text"
+        placeholder={'Search Marketplace'}
+        className={styles.searchBar}
+        value={value}
+        onChange={(e) => changeHandler(e.target.value)}
+      />
+      <div className="absolute right-0 bottom-0 flex items-center h-full pr-4">
+        <SearchIcon />
+      </div>
+    </div>
   )
 }
 

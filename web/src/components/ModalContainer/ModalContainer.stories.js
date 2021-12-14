@@ -1,5 +1,8 @@
 import ModalContainer from './ModalContainer'
 
+const body =
+  'Fund your wallet using Wyre. Funds are typically added in less than 3 minutes, and can be withdrawn anytime according to the limits set by Wyre.'
+
 export const generated = () => {
   return (
     <div
@@ -14,27 +17,21 @@ export const generated = () => {
       }}
     >
       <ModalContainer
-        title="Mint Game"
+        headerText="Deposit Funds"
+        bodyText={body}
+        submitText="Deposit with Wyre"
+        onSubmit={() => {
+          /* eslint-disable-next-line no-console */
+          console.log('ONSUBMIT MODAL')
+        }}
         onClose={() => {
           /* eslint-disable-next-line no-console */
           console.log('CLOSED MODAL')
         }}
-        stepNum={1}
-        totalNumSteps={2}
-        statusText="Processing"
       >
         ModalContainer content
         <button className="rect-button green">Modal content button</button>
       </ModalContainer>
-      <div style={{ paddingTop: 100 }}>
-        <div>blah blah blah home content</div>
-        <div>blah blah blah home content</div>
-        <div>blah blah blah home content</div>
-        <div>blah blah blah home content</div>
-        <div>blah blah blah home content</div>
-        <div>blah blah blah home content</div>
-        <div>blah blah blah home content</div>
-      </div>
     </div>
   )
 }

@@ -1,55 +1,50 @@
-import { X } from 'react-feather'
 import PropTypes from 'prop-types'
 
-const ModalContainer = ({
-  title,
-  onClose,
-  children,
-  stepNum = undefined,
-  totalNumSteps = undefined,
-  statusText = undefined,
-}) => {
-  const showProgressIndicator =
-    Number.isInteger(stepNum) && Number.isInteger(totalNumSteps)
+import { ReactComponent as WyreLogo } from '../../assets/icons/wyre.svg'
 
+const headerStyle = {
+  display: 'flex',
+  fontSize: '20px',
+  justifyContent: 'space-between',
+  width: '100%',
+}
+
+const ModalContainer = ({
+  headerText,
+  bodyText,
+  submitText,
+  onSubmit,
+  onClose,
+  // iconSrc,
+}) => {
   return (
-    <div className="modal-outer-container bg-white flex-col flex items-center border-black border-solid border fixed sm:w-64 md:w-96">
-      <button className="absolute modal-close-button" onClick={onClose}>
-        <X size={32} color="#fff" />
-      </button>
-      <h2 className="flex justify-center font-black text-2xl mx-auto mb-0 mt-0">
-        {title}
-      </h2>
-      {showProgressIndicator && (
-        <div
-          className="rounded-lg mt-8 h-4"
-          style={{
-            width: '60%',
-            backgroundColor: '#EEEDED',
-          }}
-        >
-          <div
-            className="h-full rounded-lg"
-            style={{
-              width: `${((stepNum / totalNumSteps) * 100).toFixed(0)}%`,
-              backgroundColor: '#B9CC36',
-            }}
-          />
-        </div>
-      )}
-      {statusText && <div className="text-sm mt-4 font-bold">{statusText}</div>}
-      <div className="text-lg p-6 text-center">{children}</div>
+    <div className="modal-outer-container">
+      <div className="modal-header-container flex pb-2" style={headerStyle}>
+        <h2 className="header-text">{headerText}</h2>
+        <WyreLogo />
+      </div>
+      <p className="body-text" style={{ fontSize: '16px', paddingTop: '10px' }}>
+        {bodyText}
+      </p>
+      <div className="modal-button-container pt-3" style={headerStyle}>
+        <button className="modal-close-button" onClick={onClose}>
+          Cancel
+        </button>
+        <button className="modal-submit-button" onClick={onSubmit}>
+          {submitText}
+        </button>
+      </div>
     </div>
   )
 }
 
 ModalContainer.propTypes = {
-  title: PropTypes.string.isRequired,
+  headerText: PropTypes.string.isRequired,
+  bodyText: PropTypes.string.isRequired,
+  submitText: PropTypes.string.isRequired,
+  onSubmit: PropTypes.func,
   onClose: PropTypes.func,
-  children: PropTypes.element,
-  stepNum: PropTypes.number,
-  totalNumSteps: PropTypes.number,
-  statusText: PropTypes.string,
+  iconSrc: PropTypes.string,
 }
 
 export default ModalContainer

@@ -33,11 +33,6 @@ export const mintTreasure = async ({ game, mintPurchase, member, title }) => {
       },
       tcn: game.tcn,
     })
-    // TODO: remove consoles
-    /* eslint-disable-next-line no-console */
-    console.log(uriData)
-    /* eslint-disable-next-line no-console */
-    console.log(tokenUri)
     // TODO: Check whether a treasure with the same id already exists in the database
     // TODO: Before minting, check on-chain whether there exists a treasure
     // with the same ID hash

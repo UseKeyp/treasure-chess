@@ -20,6 +20,10 @@ const getFullGameDetails = async ({
   })
   const treasure = await db.treasure.findUnique({
     where: { id: treasureId },
+    include: {
+      black: true,
+      white: true,
+    },
   })
   if (treasure) return treasure
   const { opening, score, achievements } = achievementsCalculator(

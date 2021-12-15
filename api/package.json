@@ -2,9 +2,6 @@
   "name": "api",
   "version": "0.0.0",
   "private": true,
-  "scripts": {
-    "build": "cp ../packages/treasure-html ./"
-  },
   "dependencies": {
     "@envelop/rate-limiter": "^1.0.0",
     "@envelop/sentry": "^1.1.0",

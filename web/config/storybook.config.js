@@ -4,5 +4,6 @@ module.exports = {
    *
    * @see {@link https://storybook.js.org/addons/tag/essentials}
    */
+  typescript: { reactDocgen: false },
   addons: ['@storybook/addon-essentials'],
 }

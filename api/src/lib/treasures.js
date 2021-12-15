@@ -1,9 +1,7 @@
 const { id: sha3 } = require('@ethersproject/hash')
 import { db } from 'src/lib/db'
 
-// TODO: Remove relative import
-import filters from '../../../packages/filters/filters'
-// import filters from '@common/filters'
+const filters = require('@treasure-chess/treasure-filters')
 
 import { fetchMember } from 'src/lib/members'
 

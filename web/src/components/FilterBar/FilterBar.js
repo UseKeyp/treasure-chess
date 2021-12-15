@@ -1,4 +1,4 @@
-import filters from '@common/filters'
+import filters from '@treasure-chess/treasure-filters'
 import { useState } from 'react'
 
 import styles from './FilterBar.module.scss'

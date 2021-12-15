@@ -24,7 +24,8 @@
   border-radius: 12px;
 }
 
-.modal-close-button{:focus {
+.modal-close-button{
+  &:focus {
     outline: none;}
 }
 

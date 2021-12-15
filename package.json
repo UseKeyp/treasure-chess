@@ -20,8 +20,7 @@
     "@redwoodjs/core": "^0.40.0",
     "babel-loader": "^8.2.3",
     "chromatic": "^5.9.2",
-    "core-js": "^3.19.1",
-    "webpack": "5.65.0"
+    "core-js": "^3.19.1"
   },
   "eslintConfig": {
     "extends": "@redwoodjs/eslint-config",

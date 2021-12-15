@@ -1,7 +1,6 @@
 import ProfileBox from 'src/components/ProfileBox/ProfileBox'
 import MemberActivity from 'src/components/MemberActivity/MemberActivity'
 import GamesCell from 'src/components/Game/GamesCell'
-import TreasureCardCell from 'src/components/Treasure/TreasureCardCell'
 import GameCard from 'src/components/Game/GameCard'
 
 const Member = ({ member }) => {
@@ -10,8 +9,7 @@ const Member = ({ member }) => {
 
   const RightBar = () => {
     if (!activeGame) return <>Select a game to mint</>
-    if (activeGame?.treasureId)
-      return <TreasureCardCell id={activeGame.treasureId} />
+    if (activeGame?.treasureId) return <></>
     return (
       <div className="">
         <GameCard game={activeGame} />

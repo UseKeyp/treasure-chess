@@ -2,9 +2,6 @@
   "name": "api",
   "version": "0.0.0",
   "private": true,
-  "scripts": {
-    "build": "cp ../packages/treasure-html ./"
-  },
   "dependencies": {
     "@envelop/rate-limiter": "^1.0.0",
     "@envelop/sentry": "^1.1.0",
@@ -12,8 +9,8 @@
     "@ethersproject/hash": "^5.4.0",
     "@ethersproject/providers": "^5.4.5",
     "@ethersproject/wallet": "^5.4.0",
-    "@redwoodjs/api": "^0.38.3",
-    "@redwoodjs/graphql-server": "^0.38.3",
+    "@redwoodjs/api": "^0.40.0",
+    "@redwoodjs/graphql-server": "^0.40.0",
     "@sentry/node": "^6.13.3",
     "@sentry/tracing": "^6.13.3",
     "@toruslabs/fetch-node-details": "^3.0.2",

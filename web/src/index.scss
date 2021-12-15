@@ -1,10 +1,3 @@
-/**
- * START --- TAILWIND GENERATOR EDIT
- *
- * `yarn rw setup tailwind` placed these imports here
- * to inject Tailwind's styles into your CSS.
- * For more information, see: https://tailwindcss.com/docs/installation#add-tailwind-to-your-css
- */
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
@@ -12,12 +5,8 @@
 @import './styles/index';
 
 @import './components/**/_styles.scss';
-@import './components/flows/**/**/_styles.scss';
 @import './pages/**/_styles.scss';
 @import './layouts/**/_styles.scss';
-/**
- * END --- TAILWIND GENERATOR EDIT
- */
 
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 

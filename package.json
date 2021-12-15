@@ -4,8 +4,7 @@
     "packages": [
       "api",
       "web",
-      "packages/*",
-      "packages/treasure-chess"
+      "packages/*"
     ]
   },
   "scripts": {
@@ -18,8 +17,7 @@
     "seed": "yarn rw exec seed"
   },
   "devDependencies": {
-    "@babel/plugin-transform-modules-commonjs": "^7.16.0",
-    "@redwoodjs/core": "^0.38.1",
+    "@redwoodjs/core": "^0.40.0",
     "babel-loader": "^8.2.3",
     "chromatic": "^5.9.2",
     "core-js": "^3.19.1"
@@ -32,7 +30,7 @@
     }
   },
   "engines": {
-    "node": "14.x",
-    "yarn": "1.x"
+    "node": ">=14.17 <=16.x",
+    "yarn": ">=1.15 <2"
   }
 }

@@ -16,31 +16,28 @@
     "generate-icons": "node src/scripts/generate-icon-system"
   },
   "dependencies": {
-    "@ethersproject/hash": "^5.4.0",
-    "@redwoodjs/auth": "^0.38.3",
-    "@redwoodjs/forms": "^0.38.3",
-    "@redwoodjs/router": "^0.38.3",
-    "@redwoodjs/web": "^0.38.3",
+    "@redwoodjs/auth": "^0.40.0",
+    "@redwoodjs/forms": "^0.40.0",
+    "@redwoodjs/router": "^0.40.0",
+    "@redwoodjs/web": "^0.40.0",
     "@treasure-chess/treasure-html": "^1.0.0",
+    "@treasure-chess/treasure-filters": "^1.0.0",
     "bad-words": "^3.0.4",
-    "flag-icon-css": "^3.5.0",
-    "jsonwebtoken": "^8.5.1",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
-    "react-device-detect": "^1.17.0",
     "react-dom": "^17.0.2",
     "react-feather": "^2.0.9",
     "react-spring": "^9.2.4"
   },
   "devDependencies": {
-    "@redwoodjs/core": "^0.38.3",
+    "@redwoodjs/core": "^0.40.0",
     "@storybook/addon-essentials": "^6.3.12",
-    "autoprefixer": "9.8.6",
+    "autoprefixer": "^9.0.0",
     "node-sass-glob-importer": "^5.3.2",
-    "null-loader": "^4.0.1",
-    "postcss-loader": "4.0.2",
+    "postcss": "^8.4.5",
+    "postcss-loader": "^6.2.1",
     "sass": "^1.35.1",
     "sass-loader": "^10",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat"
+    "tailwindcss": "3.0.2"
   }
 }

@@ -2,7 +2,6 @@ import { MetaTags } from '@redwoodjs/web'
 
 import Button from 'src/components/Button'
 
-import TreasureCardCell from 'src/components/Treasure/TreasureCardCell'
 import TreasureOpeningCell from 'src/components/Treasure/TreasureOpeningCell'
 import TreasureMovesCell from 'src/components/Treasure/TreasureMovesCell'
 import TreasureNftDetailsCell from 'src/components/Treasure/TreasureNftDetailsCell'
@@ -36,7 +35,6 @@ const TreasurePage = ({ id }) => {
             </div>
           </div>
           <div className="flex flex-col justify-start items-center order-1 md:order-2">
-            <TreasureCardCell id={id} />
             <div className="buttons-wrapper w-full flex flex-wrap justify-center">
               <Button
                 onClick={() => onClick(ACCEPT_HIGHEST_BID)}

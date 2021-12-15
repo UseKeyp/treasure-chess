@@ -112,7 +112,7 @@ const Header = () => {
 
   const imageSrc = profile?.imageSrc || null
 
-  const address = trimAddress(profile?.address) || null
+  const address = trimAddress(profile?.address) || 'No address set'
 
   return (
     <div className={styles.header}>

@@ -5,7 +5,7 @@
   border-radius: 20px;
   width: 100%;
   max-width: 816px;
-  padding: theme('padding[2.5]');
+  padding: theme('padding.5');
   @screen md {
     padding: theme('padding.5');
   }
@@ -30,7 +30,7 @@
       font-size: theme('fontSize.base');
     }
     svg {
-      margin-left: theme('margin[1.5]');
+      margin-left: theme('margin.5');
     }
   }
   &__contentWrapper {
@@ -40,7 +40,7 @@
   }
   &__content {
     &__inner {
-      padding-top: theme('padding[2.5]');
+      padding-top: theme('padding.5');
     }
   }
   &__text {

@@ -8,7 +8,7 @@ const MemberDetails = ({ member }) => {
   // TODO: Remove hard-coded values
   const treasureCount = 10
   const memberBalance = 0
-  const url = `${config.baseUrl}${member.address}`
+  const url = `${config.blockExplorerBaseUrl}${member.address}`
 
   return (
     <div className="MemberDetails">

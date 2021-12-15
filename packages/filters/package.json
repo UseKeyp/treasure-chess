@@ -1,5 +1,5 @@
 {
-  "name": "filters",
+  "name": "@treasure-chess/treasure-filters",
   "version": "1.0.0",
   "description": "",
   "main": "filters.js",
@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@treasure-chess/chess-achievements": "^0.0.9"
-  }
+    "@treasure-chess/chess-achievements": "0.1.2"
+  },
+  "devDependencies": {}
 }

@@ -1,5 +1,5 @@
-import { useState } from 'react'
 import filters from '@common/filters'
+import { useState } from 'react'
 
 import styles from './FilterBar.module.scss'
 

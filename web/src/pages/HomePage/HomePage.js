@@ -1,5 +1,6 @@
 import FaqSection from 'src/components/FaqSection/FaqSection'
 import { Head } from '@redwoodjs/web'
+
 const HomePage = () => {
   return (
     <>

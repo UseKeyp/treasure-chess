@@ -2,6 +2,9 @@
   "name": "api",
   "version": "0.0.0",
   "private": true,
+  "scripts": {
+    "build": "cp ../packages/treasure-html ./"
+  },
   "dependencies": {
     "@envelop/rate-limiter": "^1.0.0",
     "@envelop/sentry": "^1.1.0",
@@ -15,8 +18,9 @@
     "@sentry/tracing": "^6.13.3",
     "@toruslabs/fetch-node-details": "^3.0.2",
     "@toruslabs/torus.js": "^3.0.0",
-    "@treasure-chess/chess-achievements": "^0.0.6",
+    "@treasure-chess/chess-achievements": "0.1.2",
     "@treasure-chess/treasure-contracts": "^0.0.6-dev.872943.0",
+    "@treasure-chess/treasure-html": "^1.0.0",
     "bad-words": "^3.0.4",
     "form-data": "^4.0.0",
     "jwks-rsa": "^2.0.4",

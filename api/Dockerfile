@@ -19,7 +19,6 @@ COPY api api
 # TODO: Figure our better solution than copy web, and remove react dep
 COPY web web
 COPY .nvmrc .
-COPY babel.config.js .
 COPY graphql.config.js .
 COPY package.json .
 COPY redwood.toml .

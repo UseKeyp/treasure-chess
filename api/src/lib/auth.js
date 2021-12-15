@@ -4,17 +4,16 @@ import Sentry from 'src/lib/sentry'
 import { db } from './db'
 
 export const getCurrentUser = async (session) => {
-  const member = await db.member.findUnique({ where: { id: session.id } })
+  const member = await db.member.findUnique({
+    where: { id: session.id },
+    // Warning: don't send any confidential data here
+    select: { id: true, username: true, address: true, imageSrc: true },
+  })
   if (!member) return null
   // WARNING: Returned values here are exposed to the FE
   // Don't include any Chess.com access tokens here
-  Sentry.setUser({ username: member.username, id: member.id })
-  return {
-    id: member.id,
-    username: member.username,
-    address: member.address,
-    imageSrc: member.imageSrc,
-  }
+  Sentry.setUser(member)
+  return member
 }
 
 export const isAuthenticated = () => {

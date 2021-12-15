@@ -41,6 +41,6 @@
     "postcss-loader": "4.0.2",
     "sass": "^1.35.1",
     "sass-loader": "^10",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat"
+    "tailwindcss": "^3.0.2"
   }
 }

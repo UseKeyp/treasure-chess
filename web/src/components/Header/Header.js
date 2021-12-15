@@ -115,62 +115,57 @@ const Header = () => {
   const address = trimAddress(profile?.address) || null
 
   return (
-    <div className="w-full p-4 flex">
-      <div className={styles.header}>
-        <div className={styles.iconSearch}>
-          <Link to={routes.home()}>
-            <img src="/TreasureChessLogo.png" alt="TreasureChess.com" />
-          </Link>
-          <div className="hidden lg:block">
-            <SearchBar />
+    <div className={styles.header}>
+      <div className={styles.iconSearch}>
+        <Link to={routes.home()}>
+          <img src="/TreasureChessLogo.png" alt="TreasureChess.com" />
+        </Link>
+        <div className="hidden lg:block">
+          <SearchBar />
+        </div>
+      </div>
+      <div className="flex flex-1 items-center justify-end lg:hidden">
+        <MobileNav />
+      </div>
+      <div className={`${styles.nav} hidden lg:flex`}>
+        <div className="flex-1 flex items-center">
+          <div>
+            <Link to={routes.treasures()} className="font-bold">
+              <TreasureChest />
+              Treasures
+            </Link>
+          </div>
+          <div>
+            <Link to={routes.faq()} className="font-bold">
+              <img src="/icons/TreasureChessHelpIcon.png" alt="" />
+              About
+            </Link>
           </div>
         </div>
-        <div className="flex flex-1 items-center justify-end lg:hidden">
-          <MobileNav />
-        </div>
-        <div className={`${styles.nav} hidden lg:flex`}>
-          <div className="flex-1 flex items-center">
-            <div className="mx-2">
-              <Link to={routes.treasures()} className="font-bold">
-                <TreasureChest />
-                Treasures
-              </Link>
+        {isLoggedIn ? (
+          <div className="flex items-center">
+            <div className="mr-4 w-8 h-8 flex items-center justify-center">
+              <Avatar size="32px" src={imageSrc} />
             </div>
-            <div className="mx-2">
-              <Link to={routes.faq()} className="font-bold">
-                <img src="/icons/TreasureChessHelpIcon.png" alt="" />
-                About
-              </Link>
+            <div className="mr-4">
+              <div className="flex flex-col text-sm text-left">
+                <Link className={styles['nav--username']} to={routes.profile()}>
+                  {profile.username}
+                </Link>
+                <div className={styles['nav--address']}>{address}</div>
+              </div>
             </div>
+            <WalletBalance />
           </div>
-          {isLoggedIn ? (
-            <div className="flex items-center">
-              <div className="mr-4 h-8 flex items-center justify-center">
-                <Avatar src={imageSrc} size="32px" />
-              </div>
-              <div className="mr-4">
-                <div className="flex flex-col text-sm text-left">
-                  <Link
-                    className={styles['nav--username']}
-                    to={routes.profile()}
-                  >
-                    {profile.username}
-                  </Link>
-                  <div className={styles['nav--address']}>{address}</div>
-                </div>
-              </div>
-              <WalletBalance />
-            </div>
-          ) : (
-            <button
-              type="button"
-              className={styles['nav--login']}
-              onClick={() => handleLogIn()}
-            >
-              Log In
-            </button>
-          )}
-        </div>
+        ) : (
+          <button
+            type="button"
+            className={styles['nav--login']}
+            onClick={() => handleLogIn()}
+          >
+            Log In
+          </button>
+        )}
       </div>
     </div>
   )

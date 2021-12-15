@@ -11,7 +11,7 @@
     "build-storybook": "yarn rw storybook --build && cp web/public/mockServiceWorker.js web/public/storybook",
     "chromatic": "chromatic --project-token=cafed242b299 --storybook-build-dir web/public/storybook",
     "seed": "yarn rw exec seed",
-    "build-packages": "cd packages/treasure-html && yarn build"
+    "build-packages": "cd packages/treasure-html; yarn build && cd ../web3-helpers; yarn build"
   },
   "prisma": {
     "seed": "yarn rw exec seed"

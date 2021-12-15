@@ -1,4 +1,4 @@
-const EIP_155_NETWORK_SPEC = [
+export const EIP_155_NETWORK_SPEC = [
   { name: 'mainnet', chainId: 1 },
   { name: 'ropsten', chainId: 3 },
   { name: 'rinkeby', chainId: 4 },
@@ -12,17 +12,17 @@ const EIP_155_NETWORK_SPEC = [
   { name: 'bsc-testnet', chainId: 97 },
 ]
 
-const getNetworkNameFromId = (chainId) => {
+export const getNetworkNameFromId = (chainId) => {
   const network = EIP_155_NETWORK_SPEC.find((item) => item.chainId === chainId)
   if (!network) return { name: 'private', chainId }
   return network
 }
-const getIdFromNetworkName = (name) => {
+export const getIdFromNetworkName = (name) => {
   return EIP_155_NETWORK_SPEC.find((item) => item.name === name.toLowerCase())
     .chainId
 }
 
-const getExplorerBaseUrlFromName = (name) => {
+export const getExplorerBaseUrlFromName = (name) => {
   if (['ropsten', 'rinkeby', 'goerli', 'kovan', 'mainnet'].includes(name)) {
     if (name === 'mainnet') return 'https://etherscan.io/'
     return `https://${name}.etherscan.io/`
@@ -33,11 +33,4 @@ const getExplorerBaseUrlFromName = (name) => {
   } else if (name === 'mumbai') {
     return `https://mumbai.polygonscan.com/`
   }
-}
-
-module.exports = {
-  EIP_155_NETWORK_SPEC,
-  getNetworkNameFromId,
-  getIdFromNetworkName,
-  getExplorerBaseUrlFromName,
 }

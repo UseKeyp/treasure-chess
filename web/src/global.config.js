@@ -1,4 +1,4 @@
-const { getExplorerBaseUrlFromName } = require('@treasure-chess/web3-helpers')
+import { getExplorerBaseUrlFromName } from '@treasure-chess/web3-helpers'
 
 const config = {
   explorerBaseUrl: getExplorerBaseUrlFromName(

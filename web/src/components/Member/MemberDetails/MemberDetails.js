@@ -8,7 +8,6 @@ const MemberDetails = ({ member }) => {
   // TODO: Remove hard-coded values
   const treasureCount = 10
   const memberBalance = 0
-  const url = `${config.blockExplorerBaseUrl}${member.address}`
 
   return (
     <div className="MemberDetails">
@@ -49,7 +48,7 @@ const MemberDetails = ({ member }) => {
         {member.address && (
           <div className="MemberDetails__addressWrapper">
             <a
-              href={url}
+              href=""
               target="_blank"
               rel="noopener noreferrer"
               className="flex"

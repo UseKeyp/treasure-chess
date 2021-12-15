@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Generates a beautiful html card for a treasure.",
   "main": "dist/index.js",
+  "module": "src/index.js",
   "scripts": {
     "test": "babel-node tests/full.test.js",
     "build": "babel src -d dist",

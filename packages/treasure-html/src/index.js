@@ -17,7 +17,6 @@ const bannerLogoBase64 = require('./assets/bannerLogo')
 
 const serializer = new XMLSerializer()
 const parser = new DOMParser()
-let regionNames = new Intl.DisplayNames(['en'], { type: 'region' })
 
 const getOrderedUsers = (treasure) => {
   const { text: blackRatingDelta, color: blackRatingDeltaColor } =
@@ -25,7 +24,7 @@ const getOrderedUsers = (treasure) => {
   const { text: whiteRatingDelta, color: whiteRatingDeltaColor } =
     getRatingText(treasure, 'white')
   const blackUser = {
-    username: treasure.blackUsername,
+    username: treasure.black.username,
     rating: treasure.blackRating,
     ratingDelta: blackRatingDelta,
     ...(treasure.blackMasterTitle && {
@@ -38,7 +37,7 @@ const getOrderedUsers = (treasure) => {
     flag: treasure.black.country,
   }
   const whiteUser = {
-    username: treasure.whiteUsername,
+    username: treasure.white.username,
     rating: treasure.whiteRating,
     ratingDelta: whiteRatingDelta,
     ...(treasure.whiteMasterTitle && {
@@ -59,189 +58,195 @@ const getOrderedUsers = (treasure) => {
   return { bottomUser, topUser }
 }
 
-// Pass gifData to get the final HTML to pin to IPFS
+// Pass gifBase64 to get the final HTML to pin to IPFS
 // OR pass gifUrl to fetch a smaller HTML file for the Frontend
 // gifUrl version should load faster, b/c it delays fetching the gif
-const getCard = async ({ treasure, gifData, gifUrl }) => {
-  const doc = parser.parseFromString(card, 'text/html')
+const getCard = async ({ treasure, gifBase64, gifUrl }) => {
+  try {
+    const doc = parser.parseFromString(card, 'text/html')
 
-  const updateContent = (id, content, isNodeString) => {
-    const element = doc.getElementById(id)
-    if (!element) return //console.log(`No element with id ${id}`)
-    if (content === undefined) {
-      const parent = element.parentNode
-      return parent.removeChild(element)
+    const updateContent = (id, content, isNodeString) => {
+      const element = doc.getElementById(id)
+      if (!element) return //console.log(`No element with id ${id}`)
+      if (content === undefined) {
+        const parent = element.parentNode
+        return parent.removeChild(element)
+      }
+      let node = content
+      if (isNodeString) {
+        const node = parser.parseFromString(content, 'text/html')
+        return element.replaceChild(node, element.childNodes)
+      } else if (typeof node == 'string' || typeof node == 'number') {
+        node = doc.createTextNode(content)
+      }
+      element.replaceChild(node, element.childNodes[0])
     }
-    let node = content
-    if (isNodeString) {
-      const node = parser.parseFromString(content, 'text/html')
-      return element.replaceChild(node, element.childNodes)
-    } else if (typeof node == 'string' || typeof node == 'number') {
-      node = doc.createTextNode(content)
+    const updateTag = (id, tag, content) => {
+      const element = doc.getElementById(id)
+      if (!element) return // console.log(`No element with id ${id}`)
+      element.setAttribute(tag, content)
     }
-    element.replaceChild(node, element.childNodes[0])
-  }
-  const updateTag = (id, tag, content) => {
-    const element = doc.getElementById(id)
-    if (!element) return // console.log(`No element with id ${id}`)
-    element.setAttribute(tag, content)
-  }
-  const updateStyle = (id, property, content) => {
-    const element = doc.getElementById(id)
-    if (!element) return // console.log(`No element with id ${id}`)
-    var replace = `${property}:(.+?);`
-    var re = new RegExp(replace)
-    const style = element
-      .getAttribute('style')
-      .replace(re, `${property}: ${content};`)
-    element.setAttribute('style', style)
-  }
+    const updateStyle = (id, property, content) => {
+      const element = doc.getElementById(id)
+      if (!element) return // console.log(`No element with id ${id}`)
+      var replace = `${property}:(.+?);`
+      var re = new RegExp(replace)
+      const style = element
+        .getAttribute('style')
+        .replace(re, `${property}: ${content};`)
+      element.setAttribute('style', style)
+    }
 
-  // Card color
-  if (treasure.cardColor === 'black') {
-    updateStyle('container', 'background-color', '#272522')
-    updateStyle('container', 'color', 'white')
-    updateStyle('match-anchor', 'color', 'white')
-    updateStyle('top-username', 'color', 'white')
-    updateStyle('bottom-username', 'color', 'white')
-    updateStyle('bottom-rating', 'color', 'white')
-    updateStyle('top-rating', 'color', 'white')
-    updateStyle('match-anchor', 'color', 'white')
-    updateStyle('edition', 'color', 'white')
-    updateStyle('date', 'color', 'white')
-  }
+    // Card color
+    if (treasure.cardColor === 'black') {
+      updateStyle('container', 'background-color', '#272522')
+      updateStyle('container', 'color', 'white')
+      updateStyle('match-anchor', 'color', 'white')
+      updateStyle('top-username', 'color', 'white')
+      updateStyle('bottom-username', 'color', 'white')
+      updateStyle('bottom-rating', 'color', 'white')
+      updateStyle('top-rating', 'color', 'white')
+      updateStyle('match-anchor', 'color', 'white')
+      updateStyle('edition', 'color', 'white')
+      updateStyle('date', 'color', 'white')
+    }
 
-  // Header
-  updateContent('title', treasure.title)
-  updateContent('page-title', treasure.title)
-  updateContent('termination', treasure.termination)
-  updateTag('banner-image', 'src', `data:image/png;base64,${bannerLogoBase64}`)
-  const rarityColor = getRarityColor(treasure.achievementScore)
-  updateStyle('banner', 'background-color', rarityColor)
-
-  // Users
-  const { bottomUser, topUser } = getOrderedUsers(treasure)
-  Object.keys(topUser).map((key) => updateContent(`top-${key}`, topUser[key]))
-  Object.keys(bottomUser).map((key) =>
-    updateContent(`bottom-${key}`, bottomUser[key])
-  )
-  updateTag(
-    'top-username-anchor',
-    'href',
-    `https://treasure.chess.com/members/${topUser.username}`
-  )
-  updateTag(
-    'bottom-username-anchor',
-    'href',
-    `https://treasure.chess.com/members/${bottomUser.username}`
-  )
-  if (!bottomUser.masterTitle)
-    updateStyle('bottom-masterTitle', 'background-color', null)
-  if (!topUser.masterTitle)
-    updateStyle('top-masterTitle', 'background-color', null)
-
-  // The only async function here (this could break things)
-  const topAvatarBase64 = await fetchImageAndEncodeBase64(topUser.imageSrc)
-  const bottomAvatarBase64 = await fetchImageAndEncodeBase64(
-    bottomUser.imageSrc
-  )
-  updateTag('top-avatar', 'src', topAvatarBase64)
-  updateTag(
-    'top-avatar',
-    'alt',
-    `Avatar for chess.com user ${topUser.username}`
-  )
-  updateTag('bottom-avatar', 'src', bottomAvatarBase64)
-  updateTag(
-    'bottom-avatar',
-    'alt',
-    `Avatar for chess.com user ${bottomUser.username}`
-  )
-  updateTag('top-flagImage', 'src', topUser.flagImageSrc)
-  updateTag('top-flagImage', 'alt', `Flag of ${regionNames.of(topUser.flag)}`)
-  updateTag(
-    'bottom-flagImage',
-    'alt',
-    `Flag of ${regionNames.of(bottomUser.flag)}`
-  )
-  updateTag('bottom-flagImage', 'src', bottomUser.flagImageSrc)
-  updateStyle('bottom-ratingDelta', 'color', bottomUser.ratingDeltaColor)
-  updateStyle('top-ratingDelta', 'color', topUser.ratingDeltaColor)
-
-  // Game GIF / Final positions
-  updateTag(
-    'game-image',
-    'src',
-    (gifData && `data:image/gif;base64,${gifData}`) || gifUrl
-  )
-  // TODO: Replace treasureBackgroundBase64 with final positions image
-  const staticImageUrl = `data:image/png;base64,${treasureBackgroundBase64}`
-  updateStyle('game-image', 'background-image', `url('${staticImageUrl}')`)
-  if (treasure.tokenId)
+    // Header
+    updateContent('title', treasure.title)
+    updateContent('page-title', treasure.title)
+    updateContent('termination', treasure.termination)
     updateTag(
-      'game-anchor',
+      'banner-image',
+      'src',
+      `data:image/png;base64,${bannerLogoBase64}`
+    )
+    const rarityColor = getRarityColor(treasure.achievementScore)
+    updateStyle('banner', 'background-color', rarityColor)
+
+    // Users
+    const { bottomUser, topUser } = getOrderedUsers(treasure)
+    Object.keys(topUser).map((key) => updateContent(`top-${key}`, topUser[key]))
+    Object.keys(bottomUser).map((key) =>
+      updateContent(`bottom-${key}`, bottomUser[key])
+    )
+    updateTag(
+      'top-username-anchor',
       'href',
-      `https://treasure.chess.com/treasures/${treasure.tokenId}`
+      `https://treasure.chess.com/members/${topUser.username}`
     )
-  if (treasure.achievements) {
-    // Achievements
-    updateContent(
-      'achievement-1-icon',
-      iconByPoints(5, treasure.cardColor),
-      true
+    updateTag(
+      'bottom-username-anchor',
+      'href',
+      `https://treasure.chess.com/members/${bottomUser.username}`
     )
-    updateContent(
-      'achievement-2-icon',
-      iconByPoints(4, treasure.cardColor),
-      true
-    )
-    updateContent(
-      'achievement-3-icon',
-      iconByPoints(3, treasure.cardColor),
-      true
-    )
-    const achievements = treasure.achievements.split(',')
-    updateContent('achievement-1', achievements[0])
-    updateContent('achievement-2', achievements[1])
-    updateContent('achievement-3', achievements[2])
+    if (!bottomUser.masterTitle)
+      updateStyle('bottom-masterTitle', 'background-color', null)
+    if (!topUser.masterTitle)
+      updateStyle('top-masterTitle', 'background-color', null)
 
-    // Metadata
-    updateContent(
-      'metadata-1-icon',
-      iconByName('trophy', treasure.cardColor),
-      true
+    // The only async function here (this could break things)
+    const topAvatarBase64 = await fetchImageAndEncodeBase64(topUser.imageSrc)
+    const bottomAvatarBase64 = await fetchImageAndEncodeBase64(
+      bottomUser.imageSrc
     )
-    updateContent(
-      'metadata-2-icon',
-      iconByName('board', treasure.cardColor),
-      true
+    updateTag('top-avatar', 'src', topAvatarBase64)
+    updateTag(
+      'top-avatar',
+      'alt',
+      `Avatar for chess.com user ${topUser.username}`
     )
-    updateContent(
-      'metadata-3-icon',
-      iconByName('timer', treasure.cardColor),
-      true
+    updateTag('bottom-avatar', 'src', bottomAvatarBase64)
+    updateTag(
+      'bottom-avatar',
+      'alt',
+      `Avatar for chess.com user ${bottomUser.username}`
     )
-    updateContent('metadata-ruleVariant', treasure.ruleVariant)
-    updateContent('metadata-timeControl', treasure.timeControl)
-    updateStyle('metadata-rarity', 'color', rarityColor)
-    updateTag('trophy-icon-path', 'fill', rarityColor)
-    updateContent(
-      'metadata-rarity',
-      `${treasure.achievementScore} ${treasure.rarity}`
+    updateTag('top-flagImage', 'src', topUser.flagImageSrc)
+    updateTag('top-flagImage', 'alt', `Flag of ${topUser.country}`)
+    updateTag('bottom-flagImage', 'alt', `Flag of ${bottomUser.country}`)
+    updateTag('bottom-flagImage', 'src', bottomUser.flagImageSrc)
+    updateStyle('bottom-ratingDelta', 'color', bottomUser.ratingDeltaColor)
+    updateStyle('top-ratingDelta', 'color', topUser.ratingDeltaColor)
+
+    // Game GIF / Final positions
+    updateTag(
+      'game-image',
+      'src',
+      (gifBase64 && `data:image/gif;base64,${gifBase64}`) || gifUrl
     )
-  } else {
-    updateContent('achievements', maskedAchievements, true)
+    // TODO: Replace treasureBackgroundBase64 with final positions image
+    const staticImageUrl = `data:image/png;base64,${treasureBackgroundBase64}`
+    updateStyle('game-image', 'background-image', `url('${staticImageUrl}')`)
+    if (treasure.tokenId)
+      updateTag(
+        'game-anchor',
+        'href',
+        `https://treasure.chess.com/treasures/${treasure.tokenId}`
+      )
+
+    if (treasure.achievements) {
+      // Achievements
+      updateContent(
+        'achievement-1-icon',
+        iconByPoints(5, treasure.cardColor),
+        true
+      )
+      updateContent(
+        'achievement-2-icon',
+        iconByPoints(4, treasure.cardColor),
+        true
+      )
+      updateContent(
+        'achievement-3-icon',
+        iconByPoints(3, treasure.cardColor),
+        true
+      )
+      const achievements = treasure.achievements.split(',')
+      updateContent('achievement-1', achievements[0])
+      updateContent('achievement-2', achievements[1])
+      updateContent('achievement-3', achievements[2])
+
+      // Metadata
+      updateContent(
+        'metadata-1-icon',
+        iconByName('trophy', treasure.cardColor),
+        true
+      )
+      updateContent(
+        'metadata-2-icon',
+        iconByName('board', treasure.cardColor),
+        true
+      )
+      updateContent(
+        'metadata-3-icon',
+        iconByName('timer', treasure.cardColor),
+        true
+      )
+      updateContent('metadata-ruleVariant', treasure.ruleVariant)
+      updateContent('metadata-timeControl', treasure.timeControl)
+      updateStyle('metadata-rarity', 'color', rarityColor)
+      updateTag('trophy-icon-path', 'fill', rarityColor)
+      updateContent(
+        'metadata-rarity',
+        `${treasure.achievementScore} ${treasure.rarity}`
+      )
+    } else {
+      updateContent('achievements', maskedAchievements, true)
+    }
+
+    // Footer
+    updateContent(
+      'match-anchor',
+      `Match #${treasure.externalUrl.split('/').pop()}`
+    )
+    updateTag('match-anchor', 'href', treasure.externalUrl)
+    updateContent('date', formatDate(treasure.endTime))
+
+    return formatXml(serializer.serializeToString(doc))
+  } catch (e) {
+    console.log(e)
+    throw e
   }
-
-  // Footer
-  updateContent(
-    'match-anchor',
-    `Match #${treasure.externalUrl.split('/').pop()}`
-  )
-  updateTag('match-anchor', 'href', treasure.externalUrl)
-  updateContent('date', formatDate(treasure.endTime))
-
-  return formatXml(serializer.serializeToString(doc))
 }
 
 export default getCard

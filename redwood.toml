@@ -58,3 +58,6 @@
 [experimental]
   esbuild = false
   useEnvelop = true # https://community.redwoodjs.com/t/using-graphql-envelop-helix-in-redwood-v0-35/2276
+[build]
+# Note: This isn't being run, maybe need to delete
+  command = "cd packages/treasure-html; yarn build && yarn rw build"

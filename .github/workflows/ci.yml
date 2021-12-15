@@ -43,6 +43,9 @@ jobs:
       # - name: Run tests
       #   run: yarn rw test
       #   shell: bash
+      - name: Build packages
+        run: yarn build-packages
+        shell: bash
       - name: Build
         run: yarn rw build
         shell: bash

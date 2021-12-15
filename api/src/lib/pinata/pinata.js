@@ -1,7 +1,10 @@
 import FormData from 'form-data'
 import fetch from 'node-fetch'
 
-import { getDescription } from 'src/lib/pinata/helpers'
+import getCard from '@treasure-chess/treasure-html'
+
+import { getDescription, getAttributes } from 'src/lib/pinata/helpers'
+import { getGifBase64 } from 'src/lib/chessCom/gifGetter'
 
 const PINATA_API_URL = 'https://api.pinata.cloud'
 const PINATA_API_KEY = process.env.PINATA_API_KEY
@@ -47,47 +50,30 @@ const pinJson = async (jsonString) => {
   return `ipfs://${response.IpfsHash}`
 }
 
-export const pinTreasure = async ({ treasure }) => {
+export const pinTreasure = async ({ treasure, tcn }) => {
   try {
+    const { gifBase64 } = await getGifBase64({
+      tcn,
+      playerColor: treasure.cardColor,
+    })
     // Generate the HTML
-    const htmlString = '<head></head><body></body>'
+    const htmlString = await getCard({ treasure, gifBase64 })
+    // const htmlString = 'await getCard({ treasure, gifData })'
+
     // Upload the HTML
     /* eslint-disable-next-line camelcase */
     const animation_url = await pinFile(htmlString, `${treasure.id}.html`)
 
     // Generate snapshot of card  @ final position
-    const imageSnapshotData = 'dsfgdfgdfgdfg'
     // Upload the snapshot of the whole card
+    const imageSnapshotData =
+      'ipfs://QmW98R2H88EQMXcp3fECDWkxxtLn6YFJYePKbctQb5oe2B'
+
     // TODO: ensure file extension is correct
     const image = await pinFile(imageSnapshotData, `${treasure.id}.png`)
 
-    // Upload the JSON blob
-    const [achieve1, achieve2, achieve3] = treasure.achievements.split(',')
-    const attributes = [{ trait_type: 'Rarity', value: treasure.rarity }]
-    if (achieve1)
-      attributes.push({
-        trait_type: 'Achievement 1',
-        value: achieve1,
-      })
-    if (achieve2)
-      attributes.push({
-        trait_type: 'Achievement 2',
-        value: achieve2,
-      })
-    if (achieve3)
-      attributes.push({
-        trait_type: 'Achievement 3',
-        value: achieve3,
-      })
+    const attributes = getAttributes(treasure)
 
-    attributes.push(
-      { trait_type: 'White Player', value: treasure.whiteUsername },
-      { trait_type: 'Black Player', value: treasure.blackUsername },
-      { trait_type: 'Winner', value: treasure.outcome },
-      { trait_type: 'Opening', value: treasure.opening },
-      { trait_type: 'Rule Variant', value: treasure.ruleVariant },
-      { trait_type: 'Time Control', value: treasure.timeControl }
-    )
     const uriData = {
       description: getDescription({ opening: treasure.opening }), // TODO: Update copy for this
       external_url: `${TOKEN_URI_DOMAIN}/treasures`,

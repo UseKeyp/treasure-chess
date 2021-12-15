@@ -10,14 +10,15 @@
   "scripts": {
     "build-storybook": "yarn rw storybook --build && cp web/public/mockServiceWorker.js web/public/storybook",
     "chromatic": "chromatic --project-token=cafed242b299 --storybook-build-dir web/public/storybook",
-    "seed": "yarn rw exec seed"
+    "seed": "yarn rw exec seed",
+    "build-packages": "cd packages/treasure-html && yarn build"
   },
   "prisma": {
     "seed": "yarn rw exec seed"
   },
   "devDependencies": {
-    "@redwoodjs/core": "^0.38.1",
-    "babel-plugin-module-resolver": "^4.1.0",
+    "@redwoodjs/core": "^0.40.0",
+    "babel-loader": "^8.2.3",
     "chromatic": "^5.9.2",
     "core-js": "^3.19.1"
   },
@@ -29,7 +30,7 @@
     }
   },
   "engines": {
-    "node": "14.x",
-    "yarn": "1.x"
+    "node": ">=14.17 <=16.x",
+    "yarn": ">=1.15 <2"
   }
 }

@@ -1,4 +1,4 @@
-const achievements = require('@treasure-chess/chess-achievements/achievementsList')
+const achievementList = require('@treasure-chess/chess-achievements/src/achievementsList')
 ////////////////////////////////
 // Items with name/value pair
 
@@ -79,7 +79,7 @@ const saleList = ['All', 'For Sale', 'Unlisted']
 const outcomeList = ['black', 'white', 'draw']
 
 const filters = {
-  achievementList: achievements,
+  achievementList,
   openingList,
   colorList,
   titleList,

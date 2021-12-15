@@ -1,11 +1,11 @@
 import { render } from '@redwoodjs/testing'
 
-import ProfileBox from './ProfileBox'
+import ProfileDetails from './ProfileDetails'
 
-describe('ProfileBox', () => {
+describe('ProfileDetails', () => {
   it('renders successfully', () => {
     expect(() => {
-      render(<ProfileBox />)
+      render(<ProfileDetails />)
     }).not.toThrow()
   })
 })

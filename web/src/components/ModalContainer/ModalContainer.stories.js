@@ -1,4 +1,3 @@
-import { Montserrat } from '@common/treasure-html/src/assets/flags'
 import ModalContainer from './ModalContainer'
 
 import logo from '../../assets/icons/wyre.png'
@@ -9,7 +8,7 @@ const bodyWyreDeposit =
 const bodyWyreWithdrawal =
   'Withdraw your funds using Wyre. Funds can be withdrawn anytime according to the limits set by Wyre.'
 
-const bodyStyle = { fontSize: '16px', fontFamily: Montserrat }
+const bodyStyle = { fontSize: '16px' }
 
 const bodyDeposit = (
   <div>

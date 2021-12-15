@@ -1,11 +1,13 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { createPortal } from 'react-dom'
 import { Link, routes, useLocation } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
 
-import EmptyAvatar from 'src/components/Avatar/EmptyAvatar'
+import Avatar from 'src/components/Avatar/Avatar'
 import SearchBar from 'src/components/Marketplace/SearchBar'
 import { ReactComponent as TreasureChest } from 'src/assets/icons/TreasureChessChest.svg'
+
+import { trimAddress } from 'src/utils/helpers'
 
 import styles from './Header.module.scss'
 
@@ -38,7 +40,11 @@ const MobileNav = () => {
 
   if (!isOpen) {
     return (
-      <button type="button" className="font-bold" onClick={() => setOpen(true)}>
+      <button
+        type="button"
+        className="font-bold hover:underline"
+        onClick={() => setOpen(true)}
+      >
         Menu
       </button>
     )
@@ -104,83 +110,67 @@ const Header = () => {
 
   const handleLogIn = () => logIn({ redirectTo: pathname })
 
-  const imageSrc = useMemo(() => {
-    if (profile === null || profile.imageSrc === null) {
-      return false
-    }
-    return profile.imageSrc
-  }, [profile])
+  const imageSrc = profile?.imageSrc || null
 
-  const address = useMemo(() => {
-    if (profile === null || profile.address === null) {
-      return null
-    }
-    const address1 = profile.address.slice(0, 6)
-    const address2 = profile.address.slice(profile.address.length - 4)
-
-    return `${address1}...${address2}`
-  }, [profile])
+  const address = trimAddress(profile?.address) || null
 
   return (
-    <div className={styles.header}>
-      <div className={styles.iconSearch}>
-        <Link to={routes.home()}>
-          <img src="/TreasureChessLogo.png" alt="TreasureChess.com" />
-        </Link>
-        <div className="hidden lg:block">
-          <SearchBar />
-        </div>
-      </div>
-      <div className="flex flex-1 items-center justify-end lg:hidden">
-        <MobileNav />
-      </div>
-      <div className={`${styles.nav} hidden lg:flex`}>
-        <div className="flex-1 flex items-center">
-          <div>
-            <Link to={routes.treasures()} className="font-bold">
-              <TreasureChest />
-              Treasures
-            </Link>
-          </div>
-          <div>
-            <Link to={routes.faq()} className="font-bold">
-              <img src="/icons/TreasureChessHelpIcon.png" alt="" />
-              About
-            </Link>
+    <div className="w-full p-4 flex">
+      <div className={styles.header}>
+        <div className={styles.iconSearch}>
+          <Link to={routes.home()}>
+            <img src="/TreasureChessLogo.png" alt="TreasureChess.com" />
+          </Link>
+          <div className="hidden lg:block">
+            <SearchBar />
           </div>
         </div>
-        {isLoggedIn ? (
-          <div className="flex items-center">
-            <div className="mr-4 w-8 h-8 flex items-center justify-center">
-              {imageSrc ? (
-                <img
-                  src={imageSrc}
-                  className="h-auto w-full rounded-md"
-                  alt=""
-                />
-              ) : (
-                <EmptyAvatar className="rounded-md" />
-              )}
+        <div className="flex flex-1 items-center justify-end lg:hidden">
+          <MobileNav />
+        </div>
+        <div className={`${styles.nav} hidden lg:flex`}>
+          <div className="flex-1 flex items-center">
+            <div className="mx-2">
+              <Link to={routes.treasures()} className="font-bold">
+                <TreasureChest />
+                Treasures
+              </Link>
             </div>
-            <div className="mr-4">
-              <div className="flex flex-col text-sm text-left">
-                <Link className={styles['nav--username']} to={routes.profile()}>
-                  {profile.username}
-                </Link>
-                <div className={styles['nav--address']}>{address}</div>
+            <div className="mx-2">
+              <Link to={routes.faq()} className="font-bold">
+                <img src="/icons/TreasureChessHelpIcon.png" alt="" />
+                About
+              </Link>
+            </div>
+          </div>
+          {isLoggedIn ? (
+            <div className="flex items-center">
+              <div className="mr-4 h-8 flex items-center justify-center">
+                <Avatar src={imageSrc} size="32px" />
               </div>
+              <div className="mr-4">
+                <div className="flex flex-col text-sm text-left">
+                  <Link
+                    className={styles['nav--username']}
+                    to={routes.profile()}
+                  >
+                    {profile.username}
+                  </Link>
+                  <div className={styles['nav--address']}>{address}</div>
+                </div>
+              </div>
+              <WalletBalance />
             </div>
-            <WalletBalance />
-          </div>
-        ) : (
-          <button
-            type="button"
-            className={styles['nav--login']}
-            onClick={() => handleLogIn()}
-          >
-            Log In
-          </button>
-        )}
+          ) : (
+            <button
+              type="button"
+              className={styles['nav--login']}
+              onClick={() => handleLogIn()}
+            >
+              Log In
+            </button>
+          )}
+        </div>
       </div>
     </div>
   )

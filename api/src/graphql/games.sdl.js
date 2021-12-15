@@ -2,17 +2,14 @@ export const schema = gql`
   type Game {
     id: String!
     black: Member
-    blackId: String!
-    blackUsername: String!
     white: Member
-    whiteId: String!
-    whiteUsername: String!
-    winnerId: String
-    winnerUsername: String
+    winner: Member
     outcome: String!
     termination: String!
     blackRating: Int!
+    blackRatingDelta: String!
     whiteRating: Int!
+    whiteRatingDelta: String!
     timeControl: String!
     endTime: DateTime!
     event: String!
@@ -23,8 +20,6 @@ export const schema = gql`
     opening: String!
     cardColor: String!
     achievements: String
-    blackMasterTitle: String
-    whiteMasterTitle: String
     tokenId: Int
     title: String
   }

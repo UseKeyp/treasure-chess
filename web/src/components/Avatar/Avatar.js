@@ -1,15 +1,15 @@
 import EmptyAvatar from './EmptyAvatar'
 
-const Avatar = ({ image, bgColor, size }) => {
+const Avatar = ({ src, bgColor, size }) => {
   return (
     <div
       className="avatar"
       style={{ width: size, height: size, backgroundColor: bgColor }}
     >
-      {image ? (
-        <img className="avatar-img" src={image} alt="chess.com user avatar" />
+      {src ? (
+        <img className="avatar-img" src={src} alt="chess.com member avatar" />
       ) : (
-        <EmptyAvatar />
+        <EmptyAvatar alt="chess.com member avatar" />
       )}
     </div>
   )

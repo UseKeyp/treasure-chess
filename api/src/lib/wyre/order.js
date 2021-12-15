@@ -13,20 +13,22 @@ const DISCORD_PRODUCTION_TITLE = isProduction ? '[prod]' : '[dev]'
 
 const validateMintOrder = (order) => {
   try {
-    if (order.status !== 'COMPLETE') throw 'status not COMPLETE'
-    if (order.sourceCurrency !== 'USD') throw 'sourceCurrency is not USD'
-    if (order.destCurrency !== 'USD') throw 'destCurrency is not USD'
+    if (order.status !== 'COMPLETE') throw "status' not COMPLETE"
+    if (order.sourceCurrency !== 'USD') throw "sourceCurrency' is not USD"
+    if (order.destCurrency !== 'USD') throw "destCurrency' is not USD"
     // TODO: Check if this is still valid we finalize the fee amount with Wyre
     if (order.usdSourceAmount != process.env.WYRE_MINT_USD_SOURCE_AMOUNT)
-      throw `usdSourceAmount is not ${process.env.WYRE_MINT_USD_SOURCE_AMOUNT}`
+      throw `usdSourceAmount' is not ${process.env.WYRE_MINT_USD_SOURCE_AMOUNT}`
 
     if (order.usdPurchaseAmount != process.env.WYRE_MINT_USD_PURCHASE_AMOUNT)
-      throw `usdPurchaseAmount is not ${process.env.WYRE_MINT_USD_PURCHASE_AMOUNT}`
+      throw `usdPurchaseAmount' is not ${process.env.WYRE_MINT_USD_PURCHASE_AMOUNT}`
     const destString = `account:${process.env.WYRE_ACCOUNT_ID_TREASURE}`
-    if (order.dest !== destString) throw `dest is not ${destString}`
+    if (order.dest !== destString) throw `dest' is not ${destString}`
   } catch (e) {
     throw Error(
-      `Wyre mint order invalid: order.${e} . Received: ${JSON.stringify(order)}`
+      `Wyre mint order invalid: 'order.${e} . Received from Wyre: ${JSON.stringify(
+        order
+      )}`
     )
   }
 }
@@ -38,20 +40,20 @@ export const processOrder = async ({ reservation, orderId }) => {
     })
     // Ensure orderId hasn't already used with a different reservation
     if (mintPurchase && mintPurchase.reservation !== reservation)
-      throw Error(
+      throw new Error(
         `Wyre mint order invalid. orderId ${orderId} / reservation ${reservation} has already been used with reservation ${mintPurchase.reservation} and purchase #${mintPurchase.id}`
       )
     const order = await fetchOrder(orderId)
     validateMintOrder(order)
     mintPurchase = await db.mintPurchase.findUnique({
       where: { reservation },
+      include: { member: true },
     })
     if (!mintPurchase)
       throw new Error(
         `MintPurchase not found for reservation: ${reservation} orderId: ${orderId}`
       )
-    const { memberId, gameId, gameEndTime, title } = mintPurchase
-    const member = await db.member.findUnique({ where: { id: memberId } })
+    const { gameId, gameEndTime, title, member } = mintPurchase
     Sentry.setUser({ username: member.username })
     const game = await fetchGame({
       id: gameId,
@@ -69,6 +71,7 @@ export const processOrder = async ({ reservation, orderId }) => {
     await mintTreasure({ game, mintPurchase, member, title })
   } catch (e) {
     /* eslint-disable-next-line no-console */
+    console.log(e)
     await sendDiscordAlert({
       embed: {
         color: 16740982,

@@ -1,10 +1,12 @@
 {
-  "name": "treasure-html",
+  "name": "@treasure-chess/treasure-html",
   "version": "1.0.0",
-  "description": "",
-  "main": "src/index.js",
+  "description": "Generates a beautiful html card for a treasure.",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "babel-node tests/full.test.js"
+    "test": "babel-node tests/full.test.js",
+    "build": "babel src -d dist",
+    "build:watch": "nodemon --watch src --ext \"js,ts,tsx\" --ignore dist --exec \"yarn build\""
   },
   "keywords": [],
   "author": "",
@@ -14,6 +16,7 @@
   },
   "devDependencies": {
     "@babel/node": "^7.16.0",
-    "@babel/preset-env": "^7.16.0"
+    "@babel/preset-env": "^7.16.0",
+    "nodemon": "^2.0.15"
   }
 }

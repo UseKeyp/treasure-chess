@@ -69,8 +69,9 @@ export const formatDate = (rawString) => {
 }
 
 export const getOutcomeText = ({ username, game }) => {
+  if (!game || !game.black || !game.white) return '?'
   if (game.outcome === 'draw') return 'Draw'
-  if (game.outcome === 'black' && game.blackUsername === username) return 'Won'
-  if (game.outcome === 'white' && game.whiteUsername === username) return 'Won'
+  if (game.outcome === 'black' && game.black.username === username) return 'Won'
+  if (game.outcome === 'white' && game.white.username === username) return 'Won'
   return 'Lost'
 }

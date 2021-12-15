@@ -28,6 +28,9 @@ COPY yarn.lock .
 # Install dependencies
 RUN yarn install --frozen-lockfile
 
+# Build packages
+RUN yarn build-packages
+
 # Build api
 RUN yarn rw build api
 

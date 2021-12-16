@@ -6,9 +6,7 @@ export const decorators = [
   (Story) => (
     <ThemeProvider>
       <AllContextProviders>
-        <div style={{ padding: '1em', backgroundColor: '#312e2b' }}>
-          <Story />
-        </div>
+        <Story />
       </AllContextProviders>
     </ThemeProvider>
   ),

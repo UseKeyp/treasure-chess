@@ -12,7 +12,7 @@ const MemberDetails = ({ member }) => {
   return (
     <div className="MemberDetails">
       <div className="MemberDetails__avatarWrapper flex justify-between items-center">
-        <Avatar size={isMobile ? 64 : 165} image={member.imageSrc} />
+        <Avatar size={isMobile ? 64 : 165} src={member.imageSrc} />
       </div>
       <div className="MemberDetails__contentWrapper flex flex-col flex-1 justify-between">
         <div className="MemberDetails__contentWrapper__inner flex justify-between">

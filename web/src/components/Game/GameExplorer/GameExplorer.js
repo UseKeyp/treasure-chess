@@ -1,22 +1,20 @@
 import GamesCell from 'src/components/Game/GamesCell'
-
+import GameCard from 'src/components/Game/GameCard'
 import FilterItems from 'src/components/FilterItems'
-import { Context } from 'src/providers/context'
+
+import { GamesContext } from 'src/providers/context/GamesContext'
+
+import { CHECKOUT, MINTING } from 'src/components/Game/Games/constants'
 
 const GameExplorer = () => {
-  const [context, _setContext] = React.useContext(Context)
-  const { activeGame, gameTitle } = context
-
+  const [context] = React.useContext(GamesContext)
+  const { activeGame, mintingStatus } = context
   const [filter, setFilter] = React.useState()
-
   const onChangeFilter = (newFilter) => {
+    if (mintingStatus === CHECKOUT || mintingStatus === MINTING) return
     const filterParams = new URLSearchParams(newFilter)
     filterParams.sort()
     setFilter(filterParams.toString())
-  }
-
-  const onMintClick = (_game) => {
-    // console.log('mint game ', game.id)
   }
 
   return (
@@ -25,12 +23,8 @@ const GameExplorer = () => {
         <div style={{ width: 330 }}>
           <FilterItems headline="Filter Games" onChange={onChangeFilter} />
         </div>
-        <GamesCell filter={filter} onMintClick={onMintClick} />
-        <div>
-          {gameTitle}
-          <br />
-          {JSON.stringify(activeGame)}
-        </div>
+        <GamesCell filter={filter} />
+        <GameCard game={activeGame} />
       </div>
     </div>
   )

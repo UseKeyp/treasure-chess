@@ -5,6 +5,14 @@ export const QUERY = gql`
     games: games(filter: $filter) {
       id
       endTime
+      white {
+        imageSrc
+        country
+      }
+      black {
+        imageSrc
+        country
+      }
       moveCount
       outcome
       termination
@@ -25,6 +33,8 @@ export const QUERY = gql`
       whiteUsername
       whiteId
       whiteMasterTitle
+      tokenId
+      title
     }
   }
 `
@@ -39,6 +49,6 @@ export const Failure = () => (
   </div>
 )
 
-export const Success = ({ games, onMintClick }) => {
-  return <Games games={games} onMintClick={onMintClick} />
+export const Success = ({ games }) => {
+  return <Games games={games} />
 }

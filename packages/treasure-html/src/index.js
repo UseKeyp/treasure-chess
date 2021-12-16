@@ -4,12 +4,13 @@ const {
   getFlagBase64,
   iconByName,
   iconByPoints,
-  formatXml,
   getRarityColor,
   fetchImageAndEncodeBase64,
+  formatXml,
+  getRatingText,
 } = require('./helpers')
 
-const { card } = require('./card.js')
+const { card, maskedAchievements } = require('./card.js')
 
 const treasureBackgroundBase64 = require('./assets/treasureBackground')
 const bannerLogoBase64 = require('./assets/bannerLogo')
@@ -19,29 +20,18 @@ const parser = new DOMParser()
 let regionNames = new Intl.DisplayNames(['en'], { type: 'region' })
 
 const getOrderedUsers = (treasure) => {
-  let whiteRatingDeltaColor
-  let blackRatingDeltaColor
-  if (treasure.outcome === 'black') {
-    whiteRatingDeltaColor = '#DA413E'
-    blackRatingDeltaColor = '#88C54B'
-  } else if (treasure.outcome === 'white') {
-    whiteRatingDeltaColor = '#88C54B'
-    blackRatingDeltaColor = '#DA413E'
-  }
-  const blackRatingDelta =
-    treasure.blackRatingDelta > 0
-      ? `+${treasure.blackRatingDelta}`
-      : treasure.blackRatingDelta
-  const whiteRatingDelta =
-    treasure.whiteRatingDelta > 0
-      ? `+${treasure.whiteRatingDelta}`
-      : treasure.whiteRatingDelta
+  const { text: blackRatingDelta, color: blackRatingDeltaColor } =
+    getRatingText(treasure, 'black')
+  const { text: whiteRatingDelta, color: whiteRatingDeltaColor } =
+    getRatingText(treasure, 'white')
   const blackUser = {
     username: treasure.blackUsername,
     rating: treasure.blackRating,
     ratingDelta: blackRatingDelta,
-    masterTitle: treasure.blackMasterTitle,
-    // Not content, but rather "styles" and "src"
+    ...(treasure.blackMasterTitle && {
+      masterTitle: treasure.blackMasterTitle,
+    }),
+    // // Not content, but rather "styles" and "src"
     ...(blackRatingDeltaColor && { ratingDeltaColor: blackRatingDeltaColor }),
     imageSrc: treasure.black.imageSrc,
     flagImageSrc: getFlagBase64(treasure.black.country),
@@ -51,15 +41,17 @@ const getOrderedUsers = (treasure) => {
     username: treasure.whiteUsername,
     rating: treasure.whiteRating,
     ratingDelta: whiteRatingDelta,
-    masterTitle: treasure.whiteMasterTitle,
-    // Not content, but rather "styles" and "src"
+    ...(treasure.whiteMasterTitle && {
+      masterTitle: treasure.whiteMasterTitle,
+    }),
+    // // Not content, but rather "styles" and "src"
     ...(whiteRatingDeltaColor && { ratingDeltaColor: whiteRatingDeltaColor }),
     imageSrc: treasure.white.imageSrc,
     flagImageSrc: getFlagBase64(treasure.white.country),
     flag: treasure.white.country,
   }
-  topUser = blackUser
-  bottomUser = whiteUser
+  let topUser = blackUser
+  let bottomUser = whiteUser
   if (treasure.cardColor === 'black') {
     topUser = whiteUser
     bottomUser = blackUser
@@ -73,29 +65,30 @@ const getOrderedUsers = (treasure) => {
 const getCard = async ({ treasure, gifData, gifUrl }) => {
   const doc = parser.parseFromString(card, 'text/html')
 
-  const updateContent = (id, content, isNode) => {
+  const updateContent = (id, content, isNodeString) => {
     const element = doc.getElementById(id)
-    if (!element) return console.log(`No element with id ${id}`)
+    if (!element) return //console.log(`No element with id ${id}`)
     if (content === undefined) {
       const parent = element.parentNode
       return parent.removeChild(element)
     }
     let node = content
-    if (isNode) {
-      node = parser.parseFromString(content, 'text/html')
-      element.replaceChild(node, element.childNodes[1])
-    } else if (typeof node == 'string' || typeof node == 'number')
+    if (isNodeString) {
+      const node = parser.parseFromString(content, 'text/html')
+      return element.replaceChild(node, element.childNodes)
+    } else if (typeof node == 'string' || typeof node == 'number') {
       node = doc.createTextNode(content)
+    }
     element.replaceChild(node, element.childNodes[0])
   }
   const updateTag = (id, tag, content) => {
     const element = doc.getElementById(id)
-    if (!element) return console.log(`No element with id ${id}`)
+    if (!element) return // console.log(`No element with id ${id}`)
     element.setAttribute(tag, content)
   }
   const updateStyle = (id, property, content) => {
     const element = doc.getElementById(id)
-    if (!element) return console.log(`No element with id ${id}`)
+    if (!element) return // console.log(`No element with id ${id}`)
     var replace = `${property}:(.+?);`
     var re = new RegExp(replace)
     const style = element
@@ -109,8 +102,13 @@ const getCard = async ({ treasure, gifData, gifUrl }) => {
     updateStyle('container', 'background-color', '#272522')
     updateStyle('container', 'color', 'white')
     updateStyle('match-anchor', 'color', 'white')
-    updateStyle('top-username-anchor', 'color', 'white')
-    updateStyle('bottom-username-anchor', 'color', 'white')
+    updateStyle('top-username', 'color', 'white')
+    updateStyle('bottom-username', 'color', 'white')
+    updateStyle('bottom-rating', 'color', 'white')
+    updateStyle('top-rating', 'color', 'white')
+    updateStyle('match-anchor', 'color', 'white')
+    updateStyle('edition', 'color', 'white')
+    updateStyle('date', 'color', 'white')
   }
 
   // Header
@@ -137,6 +135,10 @@ const getCard = async ({ treasure, gifData, gifUrl }) => {
     'href',
     `https://treasure.chess.com/members/${bottomUser.username}`
   )
+  if (!bottomUser.masterTitle)
+    updateStyle('bottom-masterTitle', 'background-color', null)
+  if (!topUser.masterTitle)
+    updateStyle('top-masterTitle', 'background-color', null)
 
   // The only async function here (this could break things)
   const topAvatarBase64 = await fetchImageAndEncodeBase64(topUser.imageSrc)
@@ -180,40 +182,55 @@ const getCard = async ({ treasure, gifData, gifUrl }) => {
     'href',
     `https://treasure.chess.com/treasures/${treasure.tokenId}`
   )
+  if (treasure.achievements) {
+    // Achievements
+    updateContent(
+      'achievement-1-icon',
+      iconByPoints(5, treasure.cardColor),
+      true
+    )
+    updateContent(
+      'achievement-2-icon',
+      iconByPoints(4, treasure.cardColor),
+      true
+    )
+    updateContent(
+      'achievement-3-icon',
+      iconByPoints(3, treasure.cardColor),
+      true
+    )
+    const achievements = treasure.achievements.split(',')
+    updateContent('achievement-1', achievements[0])
+    updateContent('achievement-2', achievements[1])
+    updateContent('achievement-3', achievements[2])
 
-  // Achievements
-  updateContent('achievement-1-icon', iconByPoints(5, treasure.cardColor), true)
-  updateContent('achievement-2-icon', iconByPoints(4, treasure.cardColor), true)
-  updateContent('achievement-3-icon', iconByPoints(3, treasure.cardColor), true)
-  const achievements = treasure.achievements.split(',')
-  updateContent('achievement-1', achievements[0])
-  updateContent('achievement-2', achievements[1])
-  updateContent('achievement-3', achievements[2])
-
-  // Metadata
-  updateContent(
-    'metadata-1-icon',
-    iconByName('trophy', treasure.cardColor),
-    true
-  )
-  updateContent(
-    'metadata-2-icon',
-    iconByName('board', treasure.cardColor),
-    true
-  )
-  updateContent(
-    'metadata-3-icon',
-    iconByName('timer', treasure.cardColor),
-    true
-  )
-  updateContent('metadata-ruleVariant', treasure.ruleVariant)
-  updateContent('metadata-timeControl', treasure.timeControl)
-  updateStyle('metadata-rarity', 'color', rarityColor)
-  updateTag('trophy-icon-path', 'fill', rarityColor)
-  updateContent(
-    'metadata-rarity',
-    `${treasure.achievementScore} ${treasure.rarity}`
-  )
+    // Metadata
+    updateContent(
+      'metadata-1-icon',
+      iconByName('trophy', treasure.cardColor),
+      true
+    )
+    updateContent(
+      'metadata-2-icon',
+      iconByName('board', treasure.cardColor),
+      true
+    )
+    updateContent(
+      'metadata-3-icon',
+      iconByName('timer', treasure.cardColor),
+      true
+    )
+    updateContent('metadata-ruleVariant', treasure.ruleVariant)
+    updateContent('metadata-timeControl', treasure.timeControl)
+    updateStyle('metadata-rarity', 'color', rarityColor)
+    updateTag('trophy-icon-path', 'fill', rarityColor)
+    updateContent(
+      'metadata-rarity',
+      `${treasure.achievementScore} ${treasure.rarity}`
+    )
+  } else {
+    updateContent('achievements', maskedAchievements, true)
+  }
 
   // Footer
   updateContent(
@@ -226,4 +243,4 @@ const getCard = async ({ treasure, gifData, gifUrl }) => {
   return formatXml(serializer.serializeToString(doc))
 }
 
-module.exports = getCard
+export default getCard

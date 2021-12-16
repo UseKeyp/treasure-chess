@@ -1,8 +1,8 @@
 import AchievementScroll from './AchievementScroll'
-import { achievements } from './achievements'
+import filters from '@common/filters'
 
 export const generated = () => {
-  return <AchievementScroll achievements={achievements} />
+  return <AchievementScroll achievements={filters.achievementList} />
 }
 
 export default { title: 'Components/AchievementScroll' }

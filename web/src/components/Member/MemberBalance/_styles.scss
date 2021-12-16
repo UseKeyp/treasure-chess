@@ -1,0 +1,14 @@
+.memberBalance {
+  display: flex;
+  h4 {
+    font-weight: bold;
+  }
+  &__title {
+    margin-right: 4px;
+    color: theme('colors.grey');
+  }
+  &__balance {
+    display: flex;
+    color: theme('colors.white');
+  }
+}

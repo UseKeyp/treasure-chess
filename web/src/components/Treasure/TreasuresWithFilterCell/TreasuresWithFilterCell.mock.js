@@ -18,5 +18,5 @@ export const standard = () => {
       winner: 'BLACK',
       wonBy: 'Checkmate',
     },
-  };
-};
+  }
+}

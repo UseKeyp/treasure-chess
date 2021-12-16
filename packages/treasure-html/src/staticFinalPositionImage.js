@@ -1,4 +1,4 @@
-var ChessImageGenerator = require('@treasure-chess/chess-image-generator')
+import ChessImageGenerator from '@treasure-chess/chess-image-generator'
 
 //outputs base64 data for a jpeg, NOT a png
 export const getFinalPositionImage = async (pgn, playerColor) => {
@@ -6,17 +6,15 @@ export const getFinalPositionImage = async (pgn, playerColor) => {
     throw new Error('no PGN passed')
   }
 
-  let flipped = true
-  if (playerColor === 'white') {
-    flipped = false
-  }
+  let flipped = false
+  if (playerColor === 'black') flipped = true
 
   var imageGenerator = new ChessImageGenerator({
     size: 640,
     dark: 'rgb(181, 137, 98)',
     light: 'rgb(241, 216, 180)',
     style: 'neo',
-    flipped, // false = white, true = black
+    flipped,
   })
 
   await imageGenerator.loadPGN(pgn)

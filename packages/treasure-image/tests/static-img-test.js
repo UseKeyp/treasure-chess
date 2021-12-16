@@ -33,7 +33,7 @@ console.log('test img generated. heres the base64 buffer: \n')
 const buffer = imageGenerator.generateBuffer()
 // decode buffer as Base64
 const base64str = buffer.toString('base64')
-console.log(base64str)
+console.log(String(base64str))
 
 console.log('========== done ==========')
 

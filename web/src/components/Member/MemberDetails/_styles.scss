@@ -32,45 +32,21 @@
   &__flagsRow {
     padding: 2.5px 0;
     margin-top: 8px;
-
+    width: 100%;
+    display: flex;
+    align-content: center;
+    &__countryFlag {
+      height: 19px;
+      margin-left: 8px;
+    }
     p {
       display: flex;
       justify-content: center;
       width: 29px;
-      height: 19px;
-      // line-height: 10px;
       align-items: center;
       background-color: #b23330;
       font-weight: bold;
       border-radius: 2px;
-    }
-  }
-  // UNUSED delete?
-
-  &__content {
-    &__inner {
-      padding-top: theme('padding.5');
-    }
-  }
-  &__coloredText {
-    color: theme('colors.grey');
-  }
-  &__logo {
-    padding: 0;
-    padding-right: 4px;
-    @screen md {
-      padding: 0 4px 0 8px;
-    }
-  }
-  &__logoWrapper {
-    align-items: flex-start;
-    font-size: theme('fontSize.2xl');
-    img {
-      max-height: 22px;
-    }
-    @media (max-width: 896px) {
-      align-items: flex-end;
-      font-size: theme('fontSize.lg');
     }
   }
 }

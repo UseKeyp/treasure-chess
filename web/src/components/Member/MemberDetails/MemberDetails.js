@@ -4,6 +4,7 @@ import globalConfig from 'src/global.config'
 import Section from 'src/components/Section'
 import { trimAddress } from 'src/utils/helpers'
 
+import { getFlagBase64 } from '@treasure-chess/treasure-html'
 import Icon from 'src/components/Icon' //TODO Replace it when <Icon> component is done
 
 const MemberDetails = ({ member }) => {
@@ -12,6 +13,7 @@ const MemberDetails = ({ member }) => {
   const memberBalance = 0
 
   const onClickAddress = () => {}
+
   return (
     <Section>
       <div className="MemberDetails">
@@ -38,6 +40,10 @@ const MemberDetails = ({ member }) => {
             {member.masterTitle && (
               <p id="top-masterTitle">{member.masterTitle}</p>
             )}
+            <img
+              className="MemberDetails__flagsRow__countryFlag"
+              src={getFlagBase64(member.country)}
+            />
           </div>
         </div>
         <div className="MemberDetails__columnWrapper"></div>

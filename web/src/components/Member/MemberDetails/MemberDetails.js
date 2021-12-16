@@ -1,64 +1,48 @@
 import Avatar from 'src/components/Avatar'
 import { isMobile } from 'src/utils/helpers'
-import config from 'src/global.config'
+import globalConfig from 'src/global.config'
+import Section from 'src/components/Section'
+import { trimAddress } from 'src/utils/helpers'
 
-import ExtUrl from './external_url.svg' //TODO Replace it when <Icon> component is done
+import Icon from 'src/components/Icon' //TODO Replace it when <Icon> component is done
 
 const MemberDetails = ({ member }) => {
   // TODO: Remove hard-coded values
   const treasureCount = 10
   const memberBalance = 0
 
+  const onClickAddress = () => {}
   return (
-    <div className="MemberDetails">
-      <div className="MemberDetails__avatarWrapper flex justify-between items-center">
-        <Avatar size={isMobile ? 64 : 165} src={member.imageSrc} />
-      </div>
-      <div className="MemberDetails__contentWrapper flex flex-col flex-1 justify-between">
-        <div className="MemberDetails__contentWrapper__inner flex justify-between">
-          <div className="MemberDetails__content flex flex-col justify-between">
-            <div className="MemberDetails__content__inner">
-              <p className="MemberDetails__text">{member.username}</p>
-            </div>
-          </div>
-          <div className="MemberDetails__content flex flex-col justify-between text-right">
-            <div className="flex items-center flex-wrap justify-end">
-              <p className="MemberDetails__text MemberDetails__text--small">
-                <span className="MemberDetails__coloredText">Treasures:</span>{' '}
-              </p>
-              <div className="MemberDetails__logoWrapper MemberDetails__text flex items-start">
-                <img
-                  className="MemberDetails__logo"
-                  src=""
-                  aria-hidden
-                  alt=""
-                />{' '}
-                <span>{treasureCount}</span>
-              </div>
-            </div>
-            <p className="MemberDetails__text MemberDetails__coloredText">
-              $
-              {memberBalance.toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}
-            </p>
-          </div>
+    <Section>
+      <div className="MemberDetails">
+        <div className="MemberDetails__avatarWrapper">
+          <Avatar size="96px" src={member.imageSrc} />
         </div>
-        {member.address && (
-          <div className="MemberDetails__addressWrapper">
+        <div className="MemberDetails__columnWrapper">
+          <h3 className="MemberDetails__username">
             <a
-              href=""
+              href={`${globalConfig.chessComBaseUrl}members/${member.username}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex"
             >
-              {member.address} <ExtUrl />
+              {member.username}
             </a>
+          </h3>
+          <p className="MemberDetails__address">
+            {trimAddress(member.address)}
+            <button onClick={onClickAddress}>
+              <Icon name="copy" color="#147DDD" />
+            </button>
+          </p>
+          <div className="MemberDetails__flagsRow">
+            {member.masterTitle && (
+              <p id="top-masterTitle">{member.masterTitle}</p>
+            )}
           </div>
-        )}
+        </div>
+        <div className="MemberDetails__columnWrapper"></div>
       </div>
-    </div>
+    </Section>
   )
 }
 

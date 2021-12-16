@@ -252,6 +252,26 @@ const Crown = ({ color = '#C4C4C4', width = 12, height = 13 }) => (
     ></path>
   </svg>
 )
+const Copy = ({ color = '#147DDD', width = 12, height = 13 }) => (
+  <svg
+    width={width}
+    height={height}
+    viewBox="0 0 12 14"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <rect x="4.5" y="0.5" width="7" height="9" rx="0.5" stroke={color} />
+    <rect
+      x="0.5"
+      y="4.5"
+      width="7"
+      height="9"
+      rx="0.5"
+      fill="none"
+      stroke={color}
+    />
+  </svg>
+)
 
 export default {
   treasure_chess: TreasureChess,
@@ -264,4 +284,5 @@ export default {
   checkmark: Checkmark,
   discord: Discord,
   crown: Crown,
+  copy: Copy,
 }

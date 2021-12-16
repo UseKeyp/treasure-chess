@@ -7,11 +7,7 @@ import { trimAddress } from 'src/utils/helpers'
 import { getFlagBase64 } from '@treasure-chess/treasure-html'
 import Icon from 'src/components/Icon' //TODO Replace it when <Icon> component is done
 
-const MemberDetails = ({ member }) => {
-  // TODO: Remove hard-coded values
-  const treasureCount = 10
-  const memberBalance = 0
-
+const MemberDetails = ({ member, isProfile }) => {
   const onClickAddress = () => {}
 
   return (
@@ -37,16 +33,16 @@ const MemberDetails = ({ member }) => {
             </button>
           </p>
           <div className="MemberDetails__flagsRow">
-            {member.masterTitle && (
-              <p id="top-masterTitle">{member.masterTitle}</p>
-            )}
+            {member.masterTitle && <p>{member.masterTitle}</p>}
             <img
               className="MemberDetails__flagsRow__countryFlag"
               src={getFlagBase64(member.country)}
             />
           </div>
         </div>
-        <div className="MemberDetails__columnWrapper"></div>
+        {isProfile && (
+          <div className="MemberDetails__columnWrapper">Another column</div>
+        )}
       </div>
     </Section>
   )

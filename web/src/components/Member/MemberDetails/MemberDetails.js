@@ -2,43 +2,42 @@ import Avatar from 'src/components/Avatar'
 import { isMobile } from 'src/utils/helpers'
 import config from 'src/global.config'
 
-import treasureLogo from './treasure_chess_logo.png'
 import ExtUrl from './external_url.svg' //TODO Replace it when <Icon> component is done
 
-const ProfileBox = ({ member }) => {
+const MemberDetails = ({ member }) => {
   // TODO: Remove hard-coded values
   const treasureCount = 10
   const memberBalance = 0
   const url = `${config.baseUrl}${member.address}`
 
   return (
-    <div className="profileBox">
-      <div className="profileBox__avatarWrapper flex justify-between items-center">
+    <div className="MemberDetails">
+      <div className="MemberDetails__avatarWrapper flex justify-between items-center">
         <Avatar size={isMobile ? 64 : 165} image={member.imageSrc} />
       </div>
-      <div className="profileBox__contentWrapper flex flex-col flex-1 justify-between">
-        <div className="profileBox__contentWrapper__inner flex justify-between">
-          <div className="profileBox__content flex flex-col justify-between">
-            <div className="profileBox__content__inner">
-              <p className="profileBox__text">{member.username}</p>
+      <div className="MemberDetails__contentWrapper flex flex-col flex-1 justify-between">
+        <div className="MemberDetails__contentWrapper__inner flex justify-between">
+          <div className="MemberDetails__content flex flex-col justify-between">
+            <div className="MemberDetails__content__inner">
+              <p className="MemberDetails__text">{member.username}</p>
             </div>
           </div>
-          <div className="profileBox__content flex flex-col justify-between text-right">
+          <div className="MemberDetails__content flex flex-col justify-between text-right">
             <div className="flex items-center flex-wrap justify-end">
-              <p className="profileBox__text profileBox__text--small">
-                <span className="profileBox__coloredText">Treasures:</span>{' '}
+              <p className="MemberDetails__text MemberDetails__text--small">
+                <span className="MemberDetails__coloredText">Treasures:</span>{' '}
               </p>
-              <div className="profileBox__logoWrapper profileBox__text flex items-start">
+              <div className="MemberDetails__logoWrapper MemberDetails__text flex items-start">
                 <img
-                  className="profileBox__logo"
-                  src={treasureLogo}
+                  className="MemberDetails__logo"
+                  src=""
                   aria-hidden
                   alt=""
                 />{' '}
                 <span>{treasureCount}</span>
               </div>
             </div>
-            <p className="profileBox__text profileBox__coloredText">
+            <p className="MemberDetails__text MemberDetails__coloredText">
               $
               {memberBalance.toLocaleString(undefined, {
                 minimumFractionDigits: 2,
@@ -48,7 +47,7 @@ const ProfileBox = ({ member }) => {
           </div>
         </div>
         {member.address && (
-          <div className="profileBox__addressWrapper">
+          <div className="MemberDetails__addressWrapper">
             <a
               href={url}
               target="_blank"
@@ -64,4 +63,4 @@ const ProfileBox = ({ member }) => {
   )
 }
 
-export default ProfileBox
+export default MemberDetails

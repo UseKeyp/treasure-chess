@@ -5,14 +5,11 @@ import { P, H3 } from 'src/components/Typography'
 import { getOutcomeText } from 'src/utils/helpers'
 
 import { GamesContext } from 'src/providers/context/GamesContext'
+import LoadingDots from 'src/components/LoadingDots'
 
 import ListItem from './components/ListItem/ListItem'
 
-import {
-  CHECKOUT,
-  MINTING,
-  _SUCCESS,
-} from 'src/components/Game/Games/constants'
+import { CHECKOUT, MINTING, _SUCCESS } from 'src/components/Game/constants'
 
 const MINT_CHECKOUT_URL = gql`
   query mintCheckoutUrl(
@@ -27,7 +24,9 @@ const MINT_CHECKOUT_URL = gql`
 const Games = ({ games }) => {
   const [context, setContext] = React.useContext(GamesContext)
   const { activeGame, mintingStatus } = context
-  const [mintCheckoutUrl, { _loading, _error }] = useLazyQuery(
+  const { currentUser } = useAuth()
+
+  const [mintCheckoutUrl, { error: mintCheckoutError }] = useLazyQuery(
     MINT_CHECKOUT_URL,
     {
       onCompleted: ({ mintCheckoutUrl }) => {
@@ -45,16 +44,10 @@ const Games = ({ games }) => {
     }
   )
 
-  const { currentUser } = useAuth()
   const onSubmitMint = async (title) => {
     await mintCheckoutUrl({
       variables: { gameId: activeGame.id, endTime: activeGame.endTime, title },
     })
-    // TODO: Start polling for mintPurchase by gameId,gameEndTime,username
-    // TODO: Once mintPurchase exists, change UI to show that its actually being minted
-    // Show link to transaction on block explorer
-    // setContext({ ...context, mintingStatus: SUCCESS })
-    // TODO: on success update card to show full details?
   }
 
   const onChangeTitle = (title) => {
@@ -79,10 +72,44 @@ const Games = ({ games }) => {
     })
   }
 
+  const getItems = () => {
+    if (!activeGame && mintingStatus === MINTING)
+      return (
+        <div className="games-history-list__status">
+          Your Treasure is being minted.
+          <div className="games-history-list__loading-status">
+            This can take up to 3 minutes.
+            <LoadingDots className="ml-2" />
+          </div>
+        </div>
+      )
+    return games.map((game) => {
+      const outcome = getOutcomeText({
+        username: currentUser?.username,
+        game,
+      })
+      return (
+        <ListItem
+          key={game.id}
+          game={game}
+          onReset={onReset}
+          outcome={outcome}
+          onClick={onClickRow}
+          onChangeTitle={onChangeTitle}
+          onSubmit={onSubmitMint}
+          isExpanded={game.id === activeGame?.id}
+          mintingStatus={mintingStatus}
+          errorText={mintCheckoutError?.message}
+        />
+      )
+    })
+  }
+
   React.useEffect(() => {
-    setContext({ ...context, activeGame: games[0], gameTitle: '' })
+    setContext({ ...context, gameTitle: '' })
     /* eslint-disable react-hooks/exhaustive-deps */
   }, [])
+
   return (
     <div className="games-history-list">
       <div className="games-history-list__heading">
@@ -91,27 +118,7 @@ const Games = ({ games }) => {
           {games.length} Games
         </P>
       </div>
-      <div className="games-history-list__items">
-        {games.map((game) => {
-          const outcome = getOutcomeText({
-            username: currentUser?.username,
-            game,
-          })
-          return (
-            <ListItem
-              key={game.id}
-              game={game}
-              onReset={onReset}
-              outcome={outcome}
-              onClick={onClickRow}
-              onChangeTitle={onChangeTitle}
-              onSubmit={onSubmitMint}
-              isExpanded={game.id === activeGame?.id}
-              mintingStatus={mintingStatus}
-            />
-          )
-        })}
-      </div>
+      <div className="games-history-list__items">{getItems()}</div>
     </div>
   )
 }

@@ -7,18 +7,22 @@ const noAvatarBase64 = require('./assets/noAvatar')
 export const fetchImageAndEncodeBase64 = async (url) => {
   // If no profile image, show the basic pawn
   if (!url || !url.length) return `data:image/png;base64,${noAvatarBase64}`
-  // If browser, just load the image directly
-  if (typeof window !== 'undefined') return url
-  const result = await fetch(url, {
-    headers: {
-      // Required to prevent rate-limiting
-      Authorization: `Bearer ${process.env.CHESS_API_ACCESS_TOKEN}`,
-    },
-  })
-  if (result.status !== 200) throw "Couldn't get avatar"
-  const buffer = await result.buffer()
-  const base64Image = buffer.toString('base64')
-  return `data:image/jpeg;base64,${base64Image}`
+  if (typeof process !== 'undefined' && process?.release?.name === 'node') {
+    // If node, we need the raw image data
+    const result = await fetch(url, {
+      headers: {
+        // Required to prevent rate-limiting
+        Authorization: `Bearer ${process.env.CHESS_API_ACCESS_TOKEN}`,
+      },
+    })
+    if (result.status !== 200) throw "Couldn't get avatar"
+    const buffer = await result.buffer()
+    const base64Image = buffer.toString('base64')
+    return `data:image/jpeg;base64,${base64Image}`
+  } else {
+    // If browser, just load the image directly
+    return url
+  }
 }
 
 export const getFlagBase64 = (code) => {

@@ -7,7 +7,7 @@ import LoadingDots from 'src/components/LoadingDots'
 
 import { formatDate } from 'src/utils/helpers'
 
-import { CHECKOUT, MINTING, SUCCESS } from 'src/components/Game/Games/constants'
+import { CHECKOUT, MINTING, SUCCESS } from 'src/components/Game/constants'
 
 const mainColor = '#C4C4C4'
 
@@ -20,15 +20,9 @@ const ListItem = ({
   onSubmit,
   isExpanded,
   mintingStatus,
+  errorText,
 }) => {
-  const {
-    whiteUsername: player1,
-    blackUsername: player2,
-    endTime,
-    id,
-    tokenId,
-    title,
-  } = game
+  const { white: player1, black: player2, endTime, id, tokenId, title } = game
   const date = formatDate(endTime)
 
   const isMinting = mintingStatus === CHECKOUT || mintingStatus === MINTING
@@ -76,6 +70,7 @@ const ListItem = ({
     if (!tokenId && !isMinting)
       return (
         <MintForm
+          errorText={errorText}
           onSubmit={handleSubmit}
           onChangeTitle={onChangeTitle}
           isMinting={isMinting}
@@ -101,14 +96,14 @@ const ListItem = ({
           <div className="flex items-center pb-1">
             <div className="games-history-list__color-box" />
             <P pl={7} pr={7} fontWeight={600} color={mainColor}>
-              {player1}
+              {player1.username}
             </P>
             <Icon name="crown" color={mainColor} />
           </div>
           <div className="flex items-center">
             <div className="games-history-list__color-box games-history-list__color-box--black" />
             <P pl={7} fontWeight={600} color={mainColor}>
-              {player2}
+              {player2.username}
             </P>
           </div>
         </div>

@@ -19,13 +19,12 @@
   }
   &__input-wrap {
     margin: 0 1rem;
+    margin-bottom: 0.75rem;
     input {
-      border-radius: 4px;
       background-color: theme('colors.greyDark');
       width: 100%;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.25rem;
       font-size: 14px;
-      padding: 12px 8px;
     }
   }
 }

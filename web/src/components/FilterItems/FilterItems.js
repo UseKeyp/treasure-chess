@@ -75,7 +75,10 @@ const FilterItems = ({ headline, onChange }) => {
             queryFilter={day}
           />
         </div> */}
-        <div style={{ flex: 1, flexBasis: 105, margin: 4 }} className="flex">
+        <div
+          style={{ flex: 1, flexBasis: 105, margin: 4, zIndex: 1 }}
+          className="flex"
+        >
           <Dropdown
             category={<CategoryWrap>Month</CategoryWrap>}
             options={monthsList}
@@ -83,7 +86,10 @@ const FilterItems = ({ headline, onChange }) => {
             queryFilter={month}
           />
         </div>
-        <div style={{ flex: 1, flexBasis: 75, margin: 4 }} className="flex">
+        <div
+          style={{ flex: 1, flexBasis: 75, margin: 4, zIndex: 1 }}
+          className="flex"
+        >
           <Dropdown
             category={<CategoryWrap>Year</CategoryWrap>}
             options={yearsList}
@@ -100,9 +106,10 @@ const FilterItems = ({ headline, onChange }) => {
       </div>
       <div className="filter-items__outcome-wrap">
         <P fontSize={11} fontWeight="bold" color={transparentWhite} ml="1rem">
-          Your outcome
+          Your Outcome
         </P>
         <FilterCheckbox
+          className="mt 0"
           options={['Any', 'Won', 'Draw', 'Lost']}
           queryFilterFunction={setOutcome}
           queryFilter={outcome}

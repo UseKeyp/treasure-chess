@@ -67,10 +67,16 @@ const games = [
 ]
 
 export const white = () => {
-  return <GameCard game={games[0]} />
-}
-export const black = () => {
-  return <GameCard game={games[1]} />
+  return (
+    <>
+      <p className="pt-4 pb-4">white</p>
+      <GameCard game={games[0]} />
+      <p className="pt-4 pb-4">black</p>
+      <GameCard game={games[1]} />
+      <p className="pt-4 pb-4">isMinting = true</p>
+      <GameCard isMinting={true} />
+    </>
+  )
 }
 
 export default { title: 'Components/GameCard' }

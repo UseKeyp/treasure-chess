@@ -1,5 +1,4 @@
 const fetch = require('cross-fetch')
-const treasureImage = require('packages/treasure-image/index.js')
 
 function sleep(ms) {
   return new Promise((resolve) => {
@@ -19,14 +18,11 @@ const poll = async (url) => {
   return await poll(url)
 }
 
-//playerColor should be "white" or "black"
-//tcn via player archive api
-const getGif = async ({ tcn, playerColor }) => {
+const getGifUrl = ({ tcn, playerColor }) => {
   var colorBit = 0
   if (playerColor === 'black') {
     colorBit = 1
   }
-
   //base64 the tcn
   const tcnBuffer = Buffer.from(tcn, 'utf-8')
   let tcn64 = tcnBuffer.toString('base64')
@@ -39,20 +35,24 @@ const getGif = async ({ tcn, playerColor }) => {
     'https://images.chesscomfiles.com/uploads/game-gifs/90px/brown/neo/0/cc/0/' +
     colorBit +
     '/'
-  var gifUrl = baseGifUrl + tcn64 + `.gif`
-
-  const response = await poll(gifUrl)
-  let gifBase64 = await response.buffer()
-  gifBase64 = gifBase64.toString('base64')
-
-  return { gifBase64, url: gifUrl }
+  return baseGifUrl + tcn64 + `.gif`
 }
 
-const getFinalPositionImage = async ({ tcn, playerColor }) => {
-  return treasureImage.loadFEN(tcn)
+//playerColor should be "white" or "black"
+//tcn via player archive api
+const getGifBase64 = async ({ tcn, playerColor }) => {
+  try {
+    const gifUrl = getGifUrl({ tcn, playerColor })
+    const response = await poll(gifUrl)
+    let gifBase64 = await response.buffer()
+    gifBase64 = gifBase64.toString('base64')
+    return { gifBase64, url: gifUrl }
+  } catch (e) {
+    throw ('getGifBase64() ', e)
+  }
 }
 
-module.exports = { getGif, getFinalPositionImage }
+module.exports = { getGifUrl, getGifBase64 }
 
 // To test, uncomment and run `node gifGetter`
 // getGif({

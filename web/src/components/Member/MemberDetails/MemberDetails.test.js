@@ -1,11 +1,11 @@
 import { render } from '@redwoodjs/testing'
 
-import MobileNav from './MobileNav'
+import MemberDetails from './MemberDetails'
 
-describe('MobileNav', () => {
+describe('MemberDetails', () => {
   it('renders successfully', () => {
     expect(() => {
-      render(<MobileNav />)
+      render(<MemberDetails />)
     }).not.toThrow()
   })
 })

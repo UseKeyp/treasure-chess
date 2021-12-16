@@ -1,10 +1,11 @@
-import MobileNav from 'src/components/MobileNav'
+import Header from 'src/components/Header'
 
 import { Toaster } from '@redwoodjs/web/toast'
 
 import SiteFooter from './SiteFooter'
 
 const DefaultLayout = ({ children }) => {
+
   return (
     <div className="flex flex-col min-h-screen">
       <Toaster
@@ -12,7 +13,7 @@ const DefaultLayout = ({ children }) => {
         toastOptions={{ success: { duration: 3000 } }}
       />
       <header className="relative mb-8">
-        <MobileNav />
+        <Header />
       </header>
       <div className="flex-grow">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 sm:max-w-screen">

@@ -10,7 +10,7 @@ export const Loading = () => <MemberBalance />
 
 export const Empty = () => <MemberBalance userBalance={0} />
 
-export const Failure = ({ error }) => <MemberBalance isError />
+export const Failure = () => <MemberBalance isError />
 
 export const Success = ({ userBalance }) => {
   return <MemberBalance userBalance={userBalance} />

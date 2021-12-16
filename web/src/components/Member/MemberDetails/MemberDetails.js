@@ -1,5 +1,4 @@
 import Avatar from 'src/components/Avatar'
-import { isMobile } from 'src/utils/helpers'
 import globalConfig from 'src/global.config'
 import Section from 'src/components/Section'
 import Button from 'src/components/Button'
@@ -37,6 +36,7 @@ const MemberDetails = ({ member, isProfile }) => {
           <div className="MemberDetails__flagsRow">
             {member.masterTitle && <p>{member.masterTitle}</p>}
             <img
+              alt={`Flag of ${member.country}`}
               className="MemberDetails__flagsRow__countryFlag"
               src={getFlagBase64(member.country)}
             />

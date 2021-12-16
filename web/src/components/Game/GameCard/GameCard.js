@@ -2,8 +2,7 @@ import { GamesContext } from 'src/providers/context/GamesContext'
 import { P } from 'src/components/Typography'
 import Loader from 'src/components/Loader'
 
-const getCard = require('@treasure-chess/treasure-html')
-
+import getCard from '@treasure-chess/treasure-html'
 import placeholderGame from './placeholderGameData'
 
 const GameCard = ({ game, isMinting }) => {

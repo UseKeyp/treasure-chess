@@ -1,5 +1,5 @@
-import ProfileBox from 'src/components/ProfileBox/ProfileBox'
-import MemberActivity from 'src/components/MemberActivity/MemberActivity'
+import MemberDetails from 'src/components/Member/MemberDetails'
+import MemberActivityCell from 'src/components/Member/MemberActivityCell'
 import GamesCell from 'src/components/Game/GamesCell'
 import GameCard from 'src/components/Game/GameCard'
 
@@ -22,10 +22,10 @@ const Member = ({ member }) => {
       <div className="grid grid-rows-1">
         <div className="grid md:grid-cols-2 grid-cols-1 gap-10">
           <div>
-            <ProfileBox member={member} />
+            <MemberDetails member={member} />
           </div>
           <div>
-            <MemberActivity member={member} />
+            <MemberActivityCell address={member.address} />
           </div>
         </div>
       </div>

@@ -18,7 +18,11 @@ yarn add @treasure-chess/treasure-html
 Here's a React example that displays the card using `dangerouslySetInnerHTML`:
 
 ```js
+// CommonJS, eg. for node
+
 const getCard = require('@treasure-chess/treasure-html')
+// ES6, eg. for React app
+import getCard from '@treasure-chess/treasure-html'
 
 const GameCard = ({ game }) => {
   const [cardHtml, setCardHtml] = React.useState()

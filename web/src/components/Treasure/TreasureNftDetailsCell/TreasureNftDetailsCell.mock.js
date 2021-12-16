@@ -17,5 +17,5 @@ export const standard = () => {
         'Created - May 2021',
       ],
     },
-  };
-};
+  }
+}

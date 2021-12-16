@@ -2,5 +2,5 @@
 export const standard = () => {
   return {
     games: [{ id: 42 }, { id: 43 }, { id: 44 }],
-  };
-};
+  }
+}

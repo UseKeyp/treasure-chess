@@ -61,7 +61,7 @@ export const pinTreasure = async ({ treasure, tcn }) => {
     // const htmlString = 'await getCard({ treasure, gifData })'
 
     // Upload the HTML
-    /* eslint-disable-next-line camelcase */
+    /* eslint-disable camelcase */
     const animation_url = await pinFile(htmlString, `${treasure.id}.html`)
 
     // Generate snapshot of card  @ final position

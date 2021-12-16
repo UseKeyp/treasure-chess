@@ -8,7 +8,7 @@ const Profile = ({ profile: member }) => {
       <div className="grid grid-rows-1">
         <div className="grid md:grid-cols-2 grid-cols-1 gap-10">
           <div>
-            <MemberDetails member={member} />
+            <MemberDetails member={member} isProfile />
           </div>
           <div>
             <MemberActivityCell address={member.address} />

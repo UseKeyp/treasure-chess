@@ -12,6 +12,7 @@ const TreasuresPage = () => {
   const {
     username: initialUsername = '',
     sort: initialSort = '',
+    page,
     ...initialFilter
   } = params
 
@@ -47,6 +48,7 @@ const TreasuresPage = () => {
           username={username}
           filter={new URLSearchParams(filter).toString()}
           sort={sort}
+          page={page}
         />
       </div>
     </>

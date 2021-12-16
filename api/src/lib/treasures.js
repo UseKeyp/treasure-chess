@@ -82,7 +82,7 @@ export const generateTreasureData = async ({
 const getValueByName = (list, name) =>
   list.find((item) => item.name === name).value
 
-export const getTreasuresWithArguments = ({ username, filter, _sort }) => {
+export const getTreasuresWithFilter = ({ username, filter, _sort }) => {
   const searchParams = new URLSearchParams(filter)
   let filterObj = {}
   // Convert text names to values

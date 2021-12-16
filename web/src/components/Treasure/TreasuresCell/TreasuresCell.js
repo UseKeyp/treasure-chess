@@ -5,8 +5,14 @@ export const QUERY = gql`
     $username: String
     $filter: String
     $sort: String
+    $page: Int
   ) {
-    treasures: treasures(username: $username, filter: $filter, sort: $sort) {
+    treasures: treasuresWithFilter(
+      username: $username
+      filter: $filter
+      sort: $sort
+      page: $page
+    ) {
       id
       createdAt
       black {

@@ -1,17 +1,16 @@
 import { Link } from '@redwoodjs/router'
 
-const Pagination = ({ count, page, perPage }) => {
+const Pagination = ({ count, page, perPage, onChangePage }) => {
   const items = []
   const addButton = ({ text, page }) =>
     items.push(
-      <Link
+      <Button
         key={page}
-        // commented out since it was breaking storybook
-        // to={routes.games({ page })}
+        onClick={onChangePage}
         className="text-center inline-block m-2 w-14 py-1 px-1 border-4 border-purple rounded-full"
       >
         {text}
-      </Link>
+      </Button>
     )
 
   const totalPages = Math.ceil(count / perPage)

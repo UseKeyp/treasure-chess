@@ -1,4 +1,6 @@
 const achievementList = require('@treasure-chess/chess-achievements/src/achievementsList')
+
+const TREASURES_PER_PAGE = 9
 ////////////////////////////////
 // Items with name/value pair
 
@@ -92,3 +94,4 @@ const filters = {
 }
 
 module.exports = filters
+module.exports.TREASURES_PER_PAGE = TREASURES_PER_PAGE

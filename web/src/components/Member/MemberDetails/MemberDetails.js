@@ -2,6 +2,8 @@ import Avatar from 'src/components/Avatar'
 import { isMobile } from 'src/utils/helpers'
 import globalConfig from 'src/global.config'
 import Section from 'src/components/Section'
+import Button from 'src/components/Button'
+import MemberBalanceCell from 'src/components/Member/MemberBalanceCell'
 import { trimAddress } from 'src/utils/helpers'
 
 import { getFlagBase64 } from '@treasure-chess/treasure-html'
@@ -16,7 +18,7 @@ const MemberDetails = ({ member, isProfile }) => {
         <div className="MemberDetails__avatarWrapper">
           <Avatar size="96px" src={member.imageSrc} />
         </div>
-        <div className="MemberDetails__columnWrapper">
+        <div className="MemberDetails__middleColumnWrapper">
           <h3 className="MemberDetails__username">
             <a
               href={`${globalConfig.chessComBaseUrl}members/${member.username}`}
@@ -41,7 +43,22 @@ const MemberDetails = ({ member, isProfile }) => {
           </div>
         </div>
         {isProfile && (
-          <div className="MemberDetails__columnWrapper">Another column</div>
+          <div className="MemberDetails__rightColumnWrapper">
+            <h4 className="MemberDetails__rightColumnWrapper__balance">
+              <MemberBalanceCell />
+            </h4>
+            <Button>Deposit Funds</Button>
+            <Button>Withdraw Funds</Button>
+            <p>
+              <a
+                href={globalConfig.howToBuyUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                How to buy and FAQ
+              </a>
+            </p>
+          </div>
         )}
       </div>
     </Section>

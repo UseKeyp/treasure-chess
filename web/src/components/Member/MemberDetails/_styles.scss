@@ -1,14 +1,16 @@
 .MemberDetails {
   display: flex;
   justify-content: space-between;
-  width: 100%;
   max-width: 816px;
+  min-width: 400px;
+  height: 99px;
+  // overflow: hidden;
   &__avatarWrapper {
     display: flex;
     align-self: center;
     margin-right: 8px;
   }
-  &__columnWrapper {
+  &__middleColumnWrapper {
     display: flex;
     align-content: flex-start;
     width: 100%;
@@ -47,6 +49,23 @@
       background-color: #b23330;
       font-weight: bold;
       border-radius: 2px;
+    }
+  }
+  &__rightColumnWrapper {
+    display: flex;
+    flex-direction: column;
+    align-content: flex-start;
+    align-items: flex-end;
+    width: 100%;
+    &__balance {
+      &--first {
+        margin-right: 2px;
+      }
+      display: flex;
+      font-size: 12px;
+    }
+    a {
+      color: theme('colors.blueLink');
     }
   }
 }

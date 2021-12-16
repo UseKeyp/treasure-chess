@@ -9,7 +9,9 @@ h2 {
 h3 {
   @include font(16px, normal, 20px);
 }
-
+h4 {
+  @include font(14px, normal, 20px);
+}
 p {
   @include font(12px, normal, 16px);
 }

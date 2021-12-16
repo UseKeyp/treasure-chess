@@ -5,6 +5,7 @@ const config = {
     process.env.ETHEREUM_NETWORK_NAME
   ),
   chessComBaseUrl: 'https://chess.com/',
+  howToBuyUrl: '', // Link to docs on buying USDC
 }
 
 export default config

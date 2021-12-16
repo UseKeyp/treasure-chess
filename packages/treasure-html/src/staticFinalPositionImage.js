@@ -7,12 +7,10 @@ var imageGenerator = new ChessImageGenerator({
   style: 'neo',
 })
 
-const getFinalPositionImage = async ({ pgn }) => {
+export const getFinalPositionImage = async ({ pgn }) => {
   imageGenerator.loadPGN(pgn)
   const imgBuf = imageGenerator.generateBuffer()
 
   // decode buffer as Base64
   return buff.toString('base64')
 }
-
-module.exports = { getFinalPositionImage }

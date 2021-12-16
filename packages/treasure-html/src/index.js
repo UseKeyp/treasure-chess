@@ -1,3 +1,5 @@
+import { getFinalPositionImage } from './staticFinalPositionImage'
+
 const { DOMParser, XMLSerializer } = require('xmldom')
 const {
   formatDate,
@@ -244,3 +246,4 @@ const getCard = async ({ treasure, gifData, gifUrl }) => {
 }
 
 export default getCard
+export { getFinalPositionImage }

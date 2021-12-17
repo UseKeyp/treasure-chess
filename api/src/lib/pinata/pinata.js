@@ -1,7 +1,7 @@
 import FormData from 'form-data'
 import fetch from 'node-fetch'
 
-import getCard from '@treasure-chess/treasure-html'
+import { getCardHtml } from '@treasure-chess/treasure-html'
 
 import { getDescription, getAttributes } from 'src/lib/pinata/helpers'
 import { getGifBase64 } from 'src/lib/chessCom/gifGetter'
@@ -57,8 +57,8 @@ export const pinTreasure = async ({ treasure, tcn }) => {
       playerColor: treasure.cardColor,
     })
     // Generate the HTML
-    const htmlString = await getCard({ treasure, gifBase64 })
-    // const htmlString = 'await getCard({ treasure, gifData })'
+    const htmlString = await getCardHtml({ treasure, gifBase64 })
+    // const htmlString = 'await getCardHtml({ treasure, gifData })'
 
     // Upload the HTML
     /* eslint-disable camelcase */

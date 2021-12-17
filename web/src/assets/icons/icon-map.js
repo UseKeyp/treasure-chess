@@ -1,4 +1,6 @@
 import { ReactComponent as TreasureChess } from './treasure_chess.svg'
+import { ReactComponent as ChessCom } from './chessCom.svg'
+import { ReactComponent as Discord } from './discord.svg'
 
 const MobileWallet = () => {
   return (
@@ -285,4 +287,6 @@ export default {
   discord: Discord,
   crown: Crown,
   copy: Copy,
+  chess_com: ChessCom,
+  discord: Discord,
 }

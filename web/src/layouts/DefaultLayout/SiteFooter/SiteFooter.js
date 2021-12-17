@@ -1,5 +1,4 @@
-import { ReactComponent as Discord } from 'src/assets/icons/discord.svg'
-import { ReactComponent as ChessCom } from 'src/assets/icons/chess.com.svg'
+import Icon from 'src/components/Icon'
 
 const SiteFooter = () => {
   const currentYear = new Date().getFullYear()
@@ -9,7 +8,7 @@ const SiteFooter = () => {
       <div className="max-w-6xl flex-1 flex flex-col-reverse items-center justify-between py-12 px-4 text-sm md:flex-row">
         <div className="flex items-center mt-4 md:mt-0">
           <a href="/" className="inline-block mr-4">
-            <Discord />
+            <Icon name="discord" />
             <span className="sr-only">discord</span>
           </a>
           <a href="/" className="inline-block mr-4">
@@ -29,7 +28,7 @@ const SiteFooter = () => {
         </div>
         <div className="flex flex-col items-center md:flex-row">
           <div className="mr-4">
-            <ChessCom />
+            <Icon name="chess_com" />
           </div>
           <div className="mt-4 md:mt-0">{currentYear} Nifty Chess, Inc.</div>
         </div>

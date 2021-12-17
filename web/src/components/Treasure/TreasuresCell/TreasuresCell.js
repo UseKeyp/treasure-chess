@@ -7,46 +7,49 @@ export const QUERY = gql`
     $sort: String
     $page: Int
   ) {
-    treasures: treasuresWithFilter(
+    treasurePage: treasuresWithFilter(
       username: $username
       filter: $filter
       sort: $sort
       page: $page
     ) {
-      id
-      createdAt
-      black {
-        username
+      count
+      treasures {
         id
-        imageSrc
+        createdAt
+        black {
+          username
+          id
+          imageSrc
+        }
+        white {
+          username
+          id
+          imageSrc
+        }
+        winner {
+          username
+          id
+        }
+        title
+        cardColor
+        blackRating
+        blackRatingDelta
+        whiteRatingDelta
+        blackMasterTitle
+        whiteMasterTitle
+        timeControl
+        termination
+        endTime
+        outcome
+        event
+        ruleVariant
+        externalUrl
+        opening
+        achievements
+        achievementScore
+        rarity
       }
-      white {
-        username
-        id
-        imageSrc
-      }
-      winner {
-        username
-        id
-      }
-      title
-      cardColor
-      blackRating
-      blackRatingDelta
-      whiteRatingDelta
-      blackMasterTitle
-      whiteMasterTitle
-      timeControl
-      termination
-      endTime
-      outcome
-      event
-      ruleVariant
-      externalUrl
-      opening
-      achievements
-      achievementScore
-      rarity
     }
   }
 `
@@ -57,6 +60,8 @@ export const Empty = () => {
   return <div className="rw-text-center">{'No treasures found'}</div>
 }
 
-export const Success = ({ treasures }) => {
-  return <Treasures treasures={treasures} />
+export const Success = ({ treasurePage }) => {
+  return (
+    <Treasures treasures={treasurePage.treasures} count={treasurePage.count} />
+  )
 }

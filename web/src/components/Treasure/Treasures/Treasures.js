@@ -17,13 +17,15 @@ const TreasuresList = ({ treasures, count }) => {
   }
 
   return (
-    <div>
-      <CardsListWrapper>
-        {treasures.map((treasure) => (
-          <GameCard key={treasure.id} game={treasure} />
-        ))}
-      </CardsListWrapper>
-      HAAIIII
+    <div className="w-full ml-4">
+      <p>{count} Treasures</p>
+      <div className="mt-4">
+        <CardsListWrapper>
+          {treasures.map((treasure) => (
+            <GameCard key={treasure.id} game={treasure} />
+          ))}
+        </CardsListWrapper>
+      </div>
       <Pagination
         onChangePage={onChangePage}
         count={count}

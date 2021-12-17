@@ -1,6 +1,5 @@
 .cardsListWrapper {
-  display: flex;
-  // display: grid;
-  // gap: 2em;
-  // grid-template-columns: repeat(auto-fit, minmax(300px, 350px));
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-gap: 16px 50px;
 }

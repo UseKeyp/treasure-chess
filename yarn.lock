@@ -17226,6 +17226,11 @@ printj@~1.1.0:
   resolved "https://registry.npmjs.org/printj/-/printj-1.1.2.tgz#d90deb2975a8b9f600fb3a1c94e3f4c53c78a222"
   integrity sha512-zA2SmoLaxZyArQTOPj5LXecR+RagfPSU5Kw1qP+jkWeNlrq+eJZyY2oS68SU1Z/7/myXM4lo9716laOFAVStCQ==
 
+prisma-offset-pagination@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.npmjs.org/prisma-offset-pagination/-/prisma-offset-pagination-0.0.4.tgz#7d634de1be4b96101f488a9665e271c4220d9598"
+  integrity sha512-I/ITNhDa6gc4qqcVIwfr/CV/3+UsXSoAvYbMdl5UmGF9rUv6MNYaai+dirGhpHIOstzEZqWa4yHgAMlDxlSa7w==
+
 prisma@3.6.0:
   version "3.6.0"
   resolved "https://registry.npmjs.org/prisma/-/prisma-3.6.0.tgz#99532abc02e045e58c6133a19771bdeb28cecdbe"

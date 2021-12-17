@@ -2,6 +2,7 @@ const { id: sha3 } = require('@ethersproject/hash')
 import { db } from 'src/lib/db'
 
 const filters = require('@treasure-chess/treasure-filters')
+const { TREASURES_PER_PAGE } = require('@treasure-chess/treasure-filters')
 
 import { fetchMember } from 'src/lib/members'
 
@@ -82,7 +83,12 @@ export const generateTreasureData = async ({
 const getValueByName = (list, name) =>
   list.find((item) => item.name === name).value
 
-export const getTreasuresWithFilter = ({ username, filter, _sort }) => {
+export const getTreasuresWithFilter = async ({
+  username,
+  filter,
+  _sort,
+  page = 0,
+}) => {
   const searchParams = new URLSearchParams(filter)
   let filterObj = {}
   // Convert text names to values
@@ -121,28 +127,34 @@ export const getTreasuresWithFilter = ({ username, filter, _sort }) => {
       }
     : null
 
-  return db.treasure.findMany({
-    where: {
-      ...(usernameQuery && usernameQuery),
+  const whereQuery = {
+    ...(usernameQuery && usernameQuery),
 
-      ...(achievementQuery && achievementQuery),
-      ...(filterObj.opening && { opening: filterObj.opening }),
-      ...(filterObj.color && { cardColor: filterObj.color }),
-      ...(filterObj.title && { title: { contains: filterObj.title } }),
-      ...(filterObj.termination && { termination: filterObj.termination }),
-      ...(filterObj.timeControl && { timeControl: filterObj.timeControl }),
-      ...(filterObj.outcome && { outcome: filterObj.outcome }),
-      ...(moveCountQuery && moveCountQuery),
-      ...(filterObj.rarity && { rarity: filterObj.rarity }),
-      // TODO:  implement sale, and price
-      // sale,
-      // lowPrice,
-      // highPrice,
-    },
+    ...(achievementQuery && achievementQuery),
+    ...(filterObj.opening && { opening: filterObj.opening }),
+    ...(filterObj.color && { cardColor: filterObj.color }),
+    ...(filterObj.title && { title: { contains: filterObj.title } }),
+    ...(filterObj.termination && { termination: filterObj.termination }),
+    ...(filterObj.timeControl && { timeControl: filterObj.timeControl }),
+    ...(filterObj.outcome && { outcome: filterObj.outcome }),
+    ...(moveCountQuery && moveCountQuery),
+    ...(filterObj.rarity && { rarity: filterObj.rarity }),
+    // TODO:  implement sale, and price
+    // sale,
+    // lowPrice,
+    // highPrice,
+  }
+  const count = await db.treasure.count({ where: whereQuery })
+  // Cannot use cursor pagination, since custom sorting is needed
+  const treasures = await db.treasure.findMany({
+    // skip: page * TREASURES_PER_PAGE,
+    take: TREASURES_PER_PAGE,
+    where: whereQuery,
     // TODO: add sorting, see https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#orderby
     // orderBy:
     // TODO: Add pagination
     // skip: pageNumber * 100,
     // take: 100
   })
+  return { treasures, count }
 }

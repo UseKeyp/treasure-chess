@@ -3,6 +3,7 @@ const { PrismaClient } = require('@prisma/client')
 const dotenv = require('dotenv')
 const memberData = require('./member')
 const treasureData = require('./treasure')
+const { generateMember, generateTreasure } = require('./helpers')
 
 dotenv.config()
 const db = new PrismaClient()
@@ -18,9 +19,24 @@ const db = new PrismaClient()
 async function main() {
   // Note: if using PostgreSQL, using `createMany` to insert multiple records is much faster
   // @see: https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#createmany
+
+  let membersToCreate = memberData
+  let treasuresToCreate = treasureData
+
+  // Set to false to only generate a few members & treasures
+  if (true) {
+    const count = Array(100).fill(null)
+    membersToCreate = count.map((_, index) => {
+      membersToCreate[index] = generateMember()
+    })
+    treasuresToCreate = count.map((_, index) => {
+      treasuresToCreate[index] = generateTreasure(membersToCreate)
+    })
+  }
+  console.log(membersToCreate)
   // Create members
   await Promise.all(
-    memberData.map(async (member) => {
+    membersToCreate.map(async (member) => {
       try {
         const record = await db.member.create({
           data: member,
@@ -34,7 +50,7 @@ async function main() {
   )
   // Create treasures
   await Promise.all(
-    treasureData.map(async (treasure) => {
+    treasuresToCreate.map(async (treasure) => {
       try {
         const record = await db.treasure.create({
           data: treasure,

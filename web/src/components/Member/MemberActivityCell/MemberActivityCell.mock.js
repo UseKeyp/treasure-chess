@@ -4,5 +4,5 @@ export const standard = () => {
     memberActivity: {
       id: 42,
     },
-  };
-};
+  }
+}

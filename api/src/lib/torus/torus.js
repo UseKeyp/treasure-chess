@@ -34,7 +34,7 @@ export const getTorusPublicAddress = async (userId) => {
 export const getTorusWallet = async (userId) => {
   try {
     const idToken = await getNewIdToken(userId)
-    /* eslint-disable-next-line camelcase */
+    /* eslint-disable camelcase */
     const { user_id } = decodeJwt(idToken)
 
     const { torusNodeEndpoints, torusIndexes } =

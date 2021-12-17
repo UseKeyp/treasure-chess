@@ -4,5 +4,5 @@ export const standard = () => {
     treasureOpening: {
       id: 42,
     },
-  };
-};
+  }
+}

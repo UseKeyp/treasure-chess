@@ -38,10 +38,9 @@ const TreasuresPage = () => {
   }, [sort, filter, username])
 
   return (
-    <>
+    <div>
       <MetaTags title="Treasures" />
-      <h1 className="font-bold">Treasure Chess Marketplace</h1>
-      <UsernameSearchBar initialQuery={username} setQuery={setUsername} />
+
       <div className="flex">
         <FilterBar filter={filter} setFilter={setFilter} />
         <TreasuresCell
@@ -51,7 +50,7 @@ const TreasuresPage = () => {
           page={page}
         />
       </div>
-    </>
+    </div>
   )
 }
 

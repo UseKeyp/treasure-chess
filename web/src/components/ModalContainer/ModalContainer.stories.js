@@ -39,7 +39,7 @@ export const wyreDeposit = () => {
         headerText="Deposit Funds"
         content={bodyWyreDeposit}
         submitText="Deposit with Wyre"
-        icon={<Icon name="wyre" />}
+        icon={<Icon name="wyre" size="29" />}
         isVisible={true}
         hideModal={() => {
           /* eslint-disable-next-line no-console */

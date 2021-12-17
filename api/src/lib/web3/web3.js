@@ -1,7 +1,7 @@
 import { db } from 'src/lib/db'
 import { fetchMember } from 'src/lib/members'
 import { generateTreasureData } from 'src/lib/treasures'
-import { mint } from 'src/lib/web3/treasure/treasue'
+import { mint } from 'src/lib/web3/treasure/treasure'
 import { pinTreasure } from 'src/lib/pinata/pinata'
 
 export const mintTreasure = async ({ game, mintPurchase, member, title }) => {

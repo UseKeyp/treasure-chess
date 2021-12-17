@@ -8,11 +8,8 @@ const ModalContainer = ({
   headerText,
   submitText,
   onSubmit,
-  Logo,
+  icon,
 }) => {
-  const logo = Logo ? <Logo /> : null
-
-  // eslint-disable-next-line no-unused-expressions
   isVisible
     ? (document.body.style.position = 'fixed')
     : (document.body.style.position = 'relative')
@@ -24,7 +21,7 @@ const ModalContainer = ({
           <div className="modal-wrapper">
             <div className="modal-header-wrapper">
               <h2 className="header-text">{headerText}</h2>
-              {logo}
+              {icon}
             </div>
             <p className="body-text">{content}</p>
             <div className="modal-button-wrapper">

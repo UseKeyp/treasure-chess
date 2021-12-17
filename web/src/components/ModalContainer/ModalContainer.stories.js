@@ -1,6 +1,6 @@
 import ModalContainer from './ModalContainer'
 
-import { ReactComponent as Logo } from 'src/assets/icons/wyre.svg'
+import Icon from 'src/components/Icon'
 
 const bodyWyreDeposit =
   'Fund your wallet using Wyre. Funds are typically added in less than 3 minutes, and can be withdrawn anytime according to the limits set by Wyre.'
@@ -39,7 +39,7 @@ export const wyreDeposit = () => {
         headerText="Deposit Funds"
         content={bodyWyreDeposit}
         submitText="Deposit with Wyre"
-        Logo={Logo}
+        icon={<Icon name="wyre" />}
         isVisible={true}
         hideModal={() => {
           /* eslint-disable-next-line no-console */

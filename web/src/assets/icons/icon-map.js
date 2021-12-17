@@ -1,4 +1,5 @@
 import { ReactComponent as TreasureChess } from './treasure_chess.svg'
+import { ReactComponent as Wyre } from './wyre.svg'
 
 const MobileWallet = () => {
   return (
@@ -285,4 +286,5 @@ export default {
   discord: Discord,
   crown: Crown,
   copy: Copy,
+  wyre: Wyre,
 }

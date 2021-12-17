@@ -13,13 +13,12 @@ export const getFinalPositionImage = async (pgn, playerColor) => {
     size: 640,
     dark: 'rgb(181, 137, 98)',
     light: 'rgb(241, 216, 180)',
-    style: 'neo',
+    // style: 'neo', // default is neo
     flipped,
   })
 
   await imageGenerator.loadPGN(pgn)
-  const imgBuf = await imageGenerator.generateBuffer()
+  const base64str = await imageGenerator.generateDataURL()
 
-  // decode buffer as Base64
-  return `data:image/jpeg;base64,${imgBuf.toString('base64')}`
+  return base64str
 }

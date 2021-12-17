@@ -4,20 +4,13 @@ import { InputError } from '@redwoodjs/graphql-server'
 
 export const handler = async (event) => {
   try {
-    let body = event.body
-    if (typeof body === 'string') body = JSON.parse(body)
+    const { moves, playerColor, options } = event.queryStringParameters
 
-    const boardBase64 = await getBoardBase64(
-      body.moves,
-      body.playerColor,
-      body.options
-    )
+    const boardBase64 = await getBoardBase64(moves, playerColor, options)
 
     return {
       statusCode: 200,
-      body: {
-        boardBase64,
-      },
+      body: boardBase64,
     }
   } catch (e) {
     /* eslint-disable-next-line no-console */

@@ -1,6 +1,5 @@
 const getBoardBase64 = require('@treasure-chess/chess-image-generator')
 import Sentry from 'src/lib/sentry'
-import { InputError } from '@redwoodjs/graphql-server'
 
 export const handler = async (event) => {
   try {

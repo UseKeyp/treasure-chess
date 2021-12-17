@@ -12,7 +12,6 @@ describe('image serverless function', () => {
 
     const result = await handler(httpEvent)
     const body = result.body
-    console.log(body)
 
     // expect(result.statusCode).toBe(200)
     // expect(body.boardBase64).toContain('=')

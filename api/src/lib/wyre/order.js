@@ -1,6 +1,6 @@
 import Sentry from 'src/lib/sentry'
 import { fetchGame } from 'src/lib/games'
-import { mintTreasure } from 'src/lib/web3'
+import { mintTreasure } from 'src/lib/web3/web3'
 import { fetchOrder } from 'src/lib/wyre/wyre'
 import { db } from 'src/lib/db'
 import { sendDiscordAlert } from 'src/lib/discord/discord'

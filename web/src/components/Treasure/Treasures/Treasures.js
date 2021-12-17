@@ -7,15 +7,14 @@ import GameCard from 'src/components/Game/GameCard'
 import Pagination from 'src/components/Pagination'
 
 const TreasuresList = ({ treasures, count }) => {
-  const { page, ...initialParams } = useParams()
+  const { page = 0, ...initialParams } = useParams()
 
   const onChangePage = (newPage) => {
     const searchParams = new URLSearchParams(initialParams)
     searchParams.append('page', newPage)
-    const newPath = searchParams.toString()
+    const newPath = window.location.pathname + '?' + searchParams.toString()
     window.history.replaceState({}, '', newPath)
   }
-
   return (
     <div className="w-full ml-4">
       <p>{count} Treasures</p>
@@ -29,8 +28,8 @@ const TreasuresList = ({ treasures, count }) => {
       <Pagination
         onChangePage={onChangePage}
         count={count}
-        perPage={1}
-        page={page}
+        perPage={TREASURES_PER_PAGE}
+        page={Number(page)}
       />
     </div>
   )

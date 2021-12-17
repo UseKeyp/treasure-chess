@@ -47,7 +47,7 @@ const TreasuresPage = () => {
           username={username}
           filter={new URLSearchParams(filter).toString()}
           sort={sort}
-          page={page}
+          page={Number(page)}
         />
       </div>
     </div>

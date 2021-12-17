@@ -5178,7 +5178,7 @@
   dependencies:
     chess.js "^0.12.0"
 
-"@treasure-chess/chess-image-generator@^1.1.1":
+"@treasure-chess/chess-image-generator@^1.2.0":
   version "1.2.0"
   resolved "https://registry.npmjs.org/@treasure-chess/chess-image-generator/-/chess-image-generator-1.2.0.tgz#61d71be4d93ee0d7847a80d486e9854e867efcda"
   integrity sha512-So0N8Rd7nEdYgbc3V5nE1ts73csE/wNYjWoQ0+EpdUjRw2z+gIafOJITA2c/g00zQeGOBpcYIzBuWG5Z1welTg==

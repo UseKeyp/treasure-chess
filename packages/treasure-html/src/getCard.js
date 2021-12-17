@@ -61,7 +61,7 @@ const getOrderedUsers = (treasure) => {
 // Pass gifBase64 to get the final HTML to pin to IPFS
 // OR pass gifUrl to fetch a smaller HTML file for the Frontend
 // gifUrl version should load faster, b/c it delays fetching the gif
-const getCard = async ({ treasure, gifBase64, gifUrl }) => {
+const getCardHtml = async ({ treasure, gifBase64, gifUrl }) => {
   try {
     const doc = parser.parseFromString(card, 'text/html')
 
@@ -249,4 +249,4 @@ const getCard = async ({ treasure, gifBase64, gifUrl }) => {
   }
 }
 
-export default getCard
+export default getCardHtml

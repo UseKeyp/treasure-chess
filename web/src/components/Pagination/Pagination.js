@@ -1,4 +1,5 @@
 import Button from 'src/components/Button'
+
 const Pagination = ({ count, page, perPage, onChangePage }) => {
   const items = []
   const addButton = ({ text, page }) =>

@@ -6,15 +6,17 @@ import CardsListWrapper from 'src/components/CardsListWrapper'
 import GameCard from 'src/components/Game/GameCard'
 import Pagination from 'src/components/Pagination'
 
+import { TreasuresContext } from 'src/providers/context'
+
 const TreasuresList = ({ treasures, count }) => {
-  const { page = 0, ...initialParams } = useParams()
+  const [treasuresContext, setTreasuresContext] =
+    React.useContext(TreasuresContext)
+  const { page } = treasuresContext
 
   const onChangePage = (newPage) => {
-    const searchParams = new URLSearchParams(initialParams)
-    searchParams.append('page', newPage)
-    const newPath = window.location.pathname + '?' + searchParams.toString()
-    window.history.replaceState({}, '', newPath)
+    setTreasuresContext({ ...treasuresContext, page: newPage })
   }
+
   return (
     <div className="w-full ml-4">
       <p>{count} Treasures</p>
@@ -29,7 +31,7 @@ const TreasuresList = ({ treasures, count }) => {
         onChangePage={onChangePage}
         count={count}
         perPage={TREASURES_PER_PAGE}
-        page={Number(page)}
+        page={page}
       />
     </div>
   )

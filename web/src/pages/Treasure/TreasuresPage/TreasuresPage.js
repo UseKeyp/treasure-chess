@@ -4,14 +4,16 @@ import { MetaTags } from '@redwoodjs/web'
 
 import TreasuresCell from 'src/components/Treasure/TreasuresCell'
 import FilterBar from 'src/components/FilterBar/FilterBar'
+import { TreasuresContext } from 'src/providers/context'
 
 const TreasuresPage = () => {
   const params = useParams()
+  const [treasuresContext] = React.useContext(TreasuresContext)
+  const { page } = treasuresContext
 
   const {
     username: initialUsername = '',
     sort: initialSort = '',
-    page,
     ...initialFilter
   } = params
 
@@ -46,7 +48,7 @@ const TreasuresPage = () => {
           username={username}
           filter={new URLSearchParams(filter).toString()}
           sort={sort}
-          page={Number(page)}
+          page={page}
         />
       </div>
     </div>

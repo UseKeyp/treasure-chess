@@ -4,6 +4,14 @@ export const QUERY = gql`
   query TreasureMovesQuery($tokenId: Int!) {
     treasure: treasure(tokenId: $tokenId) {
       moves
+      white {
+        username
+        imageSrc
+      }
+      black {
+        username
+        imageSrc
+      }
     }
   }
 `

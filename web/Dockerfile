@@ -17,7 +17,6 @@ WORKDIR /app
 #COPY api .
 COPY web web
 COPY .nvmrc .
-COPY babel.config.js .
 COPY graphql.config.js .
 COPY package.json .
 COPY redwood.toml .
@@ -25,6 +24,9 @@ COPY yarn.lock .
 
 # Install dependencies
 RUN yarn install --frozen-lockfile
+
+# Build packages
+RUN yarn build-packages
 
 # Build
 RUN yarn rw build web

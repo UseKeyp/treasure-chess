@@ -54,7 +54,8 @@ model Treasure {
   mintPurchase     MintPurchase? @relation(name: "mintPurchase", fields: [mintPurchaseId], references: [id])
   mintPurchaseId   Int?          @unique
   uriData          String
-  tokenId          Int?          @unique
+  tokenUri         String
+  tokenId          Int?
   mintedAt         DateTime?
   // --------------- STATE --------------
   title            String

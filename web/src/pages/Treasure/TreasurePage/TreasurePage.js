@@ -2,19 +2,17 @@ import { MetaTags } from '@redwoodjs/web'
 
 import Button from 'src/components/Button'
 
-import TreasureCardCell from 'src/components/Treasure/TreasureCardCell'
 import TreasureOpeningCell from 'src/components/Treasure/TreasureOpeningCell'
 import TreasureMovesCell from 'src/components/Treasure/TreasureMovesCell'
 import TreasureNftDetailsCell from 'src/components/Treasure/TreasureNftDetailsCell'
-import TreasureSocialCell from 'src/components/Treasure/TreasureSocialCell/TreasureSocialCell'
 
-const TreasurePage = ({ tokenId }) => {
+const TreasurePage = ({ id }) => {
   const ACCEPT_HIGHEST_BID = 'accept highest bid'
   const PUT_ON_SALE = 'put on sale'
   const TRANSFER_NFT = 'transfer nft'
-  const onClick = (tokenId) => {
+  const onClick = (id) => {
     /* eslint-disable-next-line no-console */
-    console.log(tokenId)
+    console.log(id)
   }
   return (
     <div className="item-page max-width-container">
@@ -31,13 +29,12 @@ const TreasurePage = ({ tokenId }) => {
             <div className="details-wrapper">
               <h2 className="text-center text-5xl">Game Details</h2>
               <br />
-              <TreasureOpeningCell tokenId={tokenId} />
+              <TreasureOpeningCell id={id} />
               <br />
-              <TreasureMovesCell tokenId={tokenId} />
+              <TreasureMovesCell id={id} />
             </div>
           </div>
           <div className="flex flex-col justify-start items-center order-1 md:order-2">
-            <TreasureCardCell tokenId={tokenId} />
             <div className="buttons-wrapper w-full flex flex-wrap justify-center">
               <Button
                 onClick={() => onClick(ACCEPT_HIGHEST_BID)}
@@ -53,9 +50,8 @@ const TreasurePage = ({ tokenId }) => {
               </Button>
             </div>
           </div>
-          <div className="flex flex-col items-start order-3">
-            <TreasureNftDetailsCell tokenId={tokenId} />
-            <TreasureSocialCell tokenId={tokenId} />
+          <div className="flex justify-center items-start order-3">
+            <TreasureNftDetailsCell id={id} />
           </div>
         </div>
       </div>

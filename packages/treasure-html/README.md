@@ -18,6 +18,10 @@ yarn add @treasure-chess/treasure-html
 Here's a React example that displays the card using `dangerouslySetInnerHTML`:
 
 ```js
+// CommonJS, eg. for node
+
+const getCard = require('@treasure-chess/treasure-html')
+// ES6, eg. for React app
 import getCard from '@treasure-chess/treasure-html'
 
 const GameCard = ({ game }) => {
@@ -43,9 +47,19 @@ const GameCard = ({ game }) => {
 }
 ```
 
-If `treasure.achievements` is undefined, a prompt to mint the Treasure is shown instead.
+If `treasure.achievements` is undefined, a prompt to mint the Treasure is shown instead, which looks like this:
 
 <img src="./bottom-card-no-achievements.png" width="300"/>
+
+## Development
+
+Note that redwood won't automatically adopt new changes to the built package. You must trigger redwood to rebuild, eg. by saving any file in `web/src`.
+
+```bash
+yarn build
+
+yarn build:watch
+```
 
 ## Show your support
 

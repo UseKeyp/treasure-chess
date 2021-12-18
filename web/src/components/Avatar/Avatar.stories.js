@@ -10,7 +10,7 @@ const Wrapper = ({ children }) => (
 export const generated = () => {
   return (
     <Wrapper>
-      <Avatar image={avatar} />
+      <Avatar src={avatar} />
     </Wrapper>
   )
 }

@@ -1,14 +1,26 @@
+@use "sass:color";
+
 .button {
   min-height: 40px;
-  width: 200px;
   max-width: 100%;
   font-size: 20px;
   font-weight: bold;
   border-radius: 5px;
   padding: 0.5rem;
-  color: black;
+  color: white;
   @media (max-width: 896px) {
     font-size: 12px;
+  }
+  &--blue {
+    background: #125BF5;
+    box-shadow: 0px 2px 0px 0px #1A32AF;
+    &:hover {
+      background-color: color.scale(#125BF5, $lightness: 8%);
+    }
+  }
+  &--transparent {
+    background: none;
+    font-weight: normal;
   }
   &--gold {
     background: linear-gradient(180deg, #f2c94c 0%, #f2994a 100%);

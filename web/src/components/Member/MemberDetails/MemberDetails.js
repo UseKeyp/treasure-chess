@@ -20,7 +20,7 @@ const MemberDetails = ({ member, isProfile }) => {
         <div className="MemberDetails__middleColumnWrapper">
           <h3 className="MemberDetails__username">
             <a
-              href={`${globalConfig.chessComBaseUrl}members/${member.username}`}
+              href={`${globalConfig.CHESS_COM_BASE_URL}members/${member.username}`}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -51,7 +51,7 @@ const MemberDetails = ({ member, isProfile }) => {
             <Button>Withdraw Funds</Button>
             <p>
               <a
-                href={globalConfig.howToBuyUrl}
+                href={globalConfig.HOW_TO_BUY_URL}
                 target="_blank"
                 rel="noopener noreferrer"
               >

@@ -1,4 +1,5 @@
 import Icon from 'src/components/Icon'
+import globalConfig from 'src/global.config.js'
 
 const SiteFooter = () => {
   const currentYear = new Date().getFullYear()
@@ -7,30 +8,37 @@ const SiteFooter = () => {
     <div className="w-full flex items-center justify-center">
       <div className="max-w-6xl flex-1 flex flex-col-reverse items-center justify-between py-12 px-4 text-sm md:flex-row">
         <div className="flex items-center mt-4 md:mt-0">
-          <a href="/" className="inline-block mr-4">
-            <Icon name="discord" />
+          <a href={globalConfig.DISCORD_URL} className="inline-block mr-4">
+            <Icon name="discord" size="24" />
             <span className="sr-only">discord</span>
           </a>
-          <a href="/" className="inline-block mr-4">
+          <a href={globalConfig.BLOG_URL} className="inline-block mr-4">
             Blog
           </a>
         </div>
         <div className="text-center mt-4 md:mt-0">
-          <a href="/" className="inline-block mr-4">
+          <a href={globalConfig.TOC_URL} className="inline-block mr-4">
             Terms of Service
           </a>
-          <a href="/" className="inline-block mr-4">
+          <a
+            href={globalConfig.PRIVACY_POLICY_URL}
+            className="inline-block mr-4"
+          >
             Privacy Policy
           </a>
-          <a href="/" className="inline-block mr-4">
+          <a href={globalConfig.SUPPORT_URL} className="inline-block mr-4">
             Support
           </a>
         </div>
         <div className="flex flex-col items-center md:flex-row">
-          <div className="mr-4">
-            <Icon name="chess_com" />
-          </div>
-          <div className="mt-4 md:mt-0">{currentYear} Nifty Chess, Inc.</div>
+          <a
+            href={globalConfig.CHESS_COM_BASE_URL}
+            className="inline-block mr-4"
+          >
+            <Icon name="chess_com" size="24" />
+            <span className="sr-only">Chess.com</span>
+          </a>
+          <div className="mt-4 md:mt-0">© Nifty Chess, Inc. {currentYear}</div>
         </div>
       </div>
     </div>

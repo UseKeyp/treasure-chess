@@ -3,7 +3,6 @@ import { useParams } from '@redwoodjs/router'
 import { MetaTags } from '@redwoodjs/web'
 
 import TreasuresCell from 'src/components/Treasure/TreasuresCell'
-import UsernameSearchBar from 'src/components/UsernameSearchBar'
 import FilterBar from 'src/components/FilterBar/FilterBar'
 
 const TreasuresPage = () => {
@@ -17,7 +16,7 @@ const TreasuresPage = () => {
   } = params
 
   // These are the source of truth
-  const [username, setUsername] = useState(initialUsername)
+  const username = initialUsername
   const [filter, setFilter] = useState(initialFilter)
   const [sort, _setSort] = useState(initialSort) // TODO: Add sorting
 

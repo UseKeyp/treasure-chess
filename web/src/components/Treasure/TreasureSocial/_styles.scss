@@ -1,18 +1,18 @@
 .treasure-social {
   padding: 16px;
   background-color: #272522;
-    border-radius: 12px;
+  border-radius: 12px;
   display: flex;
   justify-content: space-between;
   width: 100%;
-
+  max-height: 80px;
   & * {
-    color: #ABB6B9;
+    color: #abb6b9;
   }
 
   &__person {
     & a {
-      color: #47A7FF;
+      color: #47a7ff;
     }
   }
 

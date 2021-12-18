@@ -1,9 +1,6 @@
 import { MetaTags } from '@redwoodjs/web'
 
-import Button from 'src/components/Button'
-import TreasureOpeningCell from 'src/components/Treasure/TreasureOpeningCell'
 import TreasureMovesCell from 'src/components/Treasure/TreasureMovesCell'
-import TreasureNftDetailsCell from 'src/components/Treasure/TreasureNftDetailsCell'
 import TreasureSocialCell from 'src/components/Treasure/TreasureSocialCell'
 import TreasureCardCell from 'src/components/Treasure/TreasureCardCell'
 

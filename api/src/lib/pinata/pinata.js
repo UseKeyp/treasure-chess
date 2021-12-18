@@ -9,7 +9,7 @@ import { getGifBase64 } from 'src/lib/chessCom/gifGetter'
 const PINATA_API_URL = 'https://api.pinata.cloud'
 const PINATA_API_KEY = process.env.PINATA_API_KEY
 const PINATA_API_SECRET_KEY = process.env.PINATA_API_SECRET_KEY
-const TOKEN_URI_DOMAIN = process.env.TOKEN_URI_DOMAIN
+const TOKEN_URI_DOMAIN = process.env.APP_DOMAIN
 
 const pinFile = async (blob, filename) => {
   if (!filename) throw 'No filename provided'

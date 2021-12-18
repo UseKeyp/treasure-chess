@@ -68,8 +68,8 @@ export const schema = gql`
       sort: String
       page: Int
     ): TreasurePage! @skipAuth
-    treasure(id: String!): Treasure @skipAuth
-    treasureNftDetails(id: String!): TreasureNftDetails @skipAuth
+    treasure(tokenId: Int!): Treasure @skipAuth
+    treasureNftDetails(tokenId: Int!): TreasureNftDetails @skipAuth
     mintCheckoutUrl(
       gameId: String!
       endTime: DateTime!

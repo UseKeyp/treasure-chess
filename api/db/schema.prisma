@@ -55,7 +55,7 @@ model Treasure {
   mintPurchaseId   Int?          @unique
   uriData          String
   tokenUri         String
-  tokenId          Int?
+  tokenId          Int?          @unique
   mintedAt         DateTime?
   // --------------- STATE --------------
   title            String

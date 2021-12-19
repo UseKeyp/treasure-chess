@@ -64,6 +64,7 @@ const generateRandomTreasures = (count, highestTokenId, members) => {
         white,
         black,
         owner: minter,
+        index,
       })
       return {
         ...treasure,
@@ -81,6 +82,7 @@ export const generateTreasureData = ({
   owner,
   white,
   black,
+  index,
 }) => {
   const getTreasureId = ({ moves, endTime, cardColor }) => {
     const endTimeUnix = Date.parse(endTime) / 1000
@@ -88,7 +90,7 @@ export const generateTreasureData = ({
     // is added here to allow seeding thousands of games without id collision.
     // These ids are not correct!
     return sha3(
-      `${moves} ${endTimeUnix} ${cardColor} ${randomInt(0, 10000000)}`
+      `${moves} ${endTimeUnix} ${cardColor} ${randomInt(0, 10000000)} ${index}`
     )
   }
 

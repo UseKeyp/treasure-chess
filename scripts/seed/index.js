@@ -12,14 +12,14 @@ const db = new PrismaClient()
 
 async function main() {
   // NOTE: change these as desired
-  const newTreasuresToCreate = 100
-  const newMembersToCreate = Math.floor(newTreasuresToCreate / 3)
-  // const newMembersToCreate = 30
+  const newTreasuresToCreate = 1000
+  // const newMembersToCreate = Math.floor(newTreasuresToCreate / 3)
+  const newMembersToCreate = 300
 
+  var startMemberGenTime = performance.now()
   // MEMBERS
   if (newMembersToCreate > 0) {
     console.log(`${newMembersToCreate} new Members `)
-    var startMemberGenTime = performance.now()
     const highestMemberId = await db.member.count()
     const randomMembers = generateRandomMembers(
       newMembersToCreate,

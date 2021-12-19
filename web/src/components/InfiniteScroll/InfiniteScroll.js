@@ -18,7 +18,7 @@ const InfiniteScroll = ({
       loader={loader || <h4>Loading...</h4>}
       endMessage={
         <div className="mt-8 rw-text-center">
-          <h3>You&apos;ve reached the end</h3>
+          <h3>That&apos;s everything</h3>
         </div>
       }
     >

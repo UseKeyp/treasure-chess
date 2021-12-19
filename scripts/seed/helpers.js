@@ -31,7 +31,7 @@ const generateRandomMembers = (count) => {
           ].toUpperCase()
       }
       return {
-        id: randomInt(10000, 50000).toString(),
+        id: randomInt(1, 50000).toString(),
         username: randomUsername,
         address: randomAddress,
         imageSrc: `data:image/jpeg;base64,${

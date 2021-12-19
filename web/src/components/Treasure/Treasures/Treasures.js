@@ -27,8 +27,8 @@ const TreasuresList = ({ treasures, count }) => {
           page={page}
         >
           <CardsListWrapper>
-            {treasures.map((treasure) => (
-              <GameCard key={treasure.id} game={treasure} />
+            {treasures.map((treasure, index) => (
+              <GameCard key={treasure.id + index} game={treasure} />
             ))}
           </CardsListWrapper>
         </InfiniteScroll>

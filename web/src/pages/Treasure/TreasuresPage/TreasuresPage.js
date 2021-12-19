@@ -2,13 +2,11 @@ import { useState, useEffect } from 'react'
 import { useParams } from '@redwoodjs/router'
 import { MetaTags } from '@redwoodjs/web'
 
-import TreasuresCell from 'src/components/Treasure/TreasuresCell'
+import TreasuresFetcher from 'src/components/Treasure/TreasuresFetcher'
 import FilterBar from 'src/components/FilterBar/FilterBar'
-import { TreasuresContext } from 'src/providers/context'
 
 const TreasuresPage = () => {
   const params = useParams()
-  const [{ page }] = React.useContext(TreasuresContext)
 
   const {
     username: initialUsername = '',
@@ -43,11 +41,10 @@ const TreasuresPage = () => {
 
       <div className="flex">
         <FilterBar filter={filter} setFilter={setFilter} />
-        <TreasuresCell
+        <TreasuresFetcher
           username={username}
           filter={new URLSearchParams(filter).toString()}
           sort={sort}
-          page={page}
         />
       </div>
     </div>

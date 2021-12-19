@@ -1,68 +1,34 @@
 /* eslint-disable no-console */
 const { PrismaClient } = require('@prisma/client')
 const dotenv = require('dotenv')
-const memberData = require('./member')
-const treasureData = require('./treasure')
-const { generateMember, generateTreasure } = require('./helpers')
+
+const exampleMembers = require('./member')
+const exampleTreasures = require('./treasure')
+const { generateRandomMembers, generateRandomTreasures } = require('./helpers')
 
 dotenv.config()
 const db = new PrismaClient()
 
-/*
- * Seed data is database data that needs to exist for your app to run.
- *
- * @see https://www.prisma.io/docs/reference/api-reference/command-reference#migrate-reset
- * @see https://www.prisma.io/docs/guides/prisma-guides/seed-database
- * @see https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#upsert
- * @see https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#createmany
- */
 async function main() {
-  // Note: if using PostgreSQL, using `createMany` to insert multiple records is much faster
-  // @see: https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#createmany
+  let members = exampleMembers
+  let treasures = exampleTreasures
 
-  let membersToCreate = memberData
-  let treasuresToCreate = treasureData
-
-  // Set to false to only generate a few members & treasures
   if (true) {
-    const count = Array(100).fill(null)
-    membersToCreate = count.map((_, index) => {
-      membersToCreate[index] = generateMember()
-    })
-    treasuresToCreate = count.map((_, index) => {
-      treasuresToCreate[index] = generateTreasure(membersToCreate)
-    })
+    const totalTreasures = 100
+    members = generateRandomMembers(Math.floor(totalTreasures / 3))
+    const highestTreasureTokenId = await db.treasure.count()
+    treasures = generateRandomTreasures(
+      totalTreasures,
+      highestTreasureTokenId,
+      members
+    )
   }
-  console.log(membersToCreate)
-  // Create members
-  await Promise.all(
-    membersToCreate.map(async (member) => {
-      try {
-        const record = await db.member.create({
-          data: member,
-        })
-        console.log(record)
-      } catch (e) {
-        console.log("Couldn't create members")
-        console.log(e)
-      }
-    })
-  )
-  // Create treasures
-  await Promise.all(
-    treasuresToCreate.map(async (treasure) => {
-      try {
-        const record = await db.treasure.create({
-          data: treasure,
-        })
-        console.log(record)
-      } catch (e) {
-        console.log("Couldn't create treasures")
-        console.log(treasure)
-        console.log(e)
-      }
-    })
-  )
+  await db.member.createMany({
+    data: members,
+  })
+  await db.treasure.createMany({
+    data: treasures,
+  })
 }
 
 const seed = main()

@@ -1,6 +1,5 @@
 const achievementList = require('@treasure-chess/chess-achievements/src/achievementsList')
 
-const TREASURES_PER_PAGE = 9
 ////////////////////////////////
 // Items with name/value pair
 
@@ -79,8 +78,11 @@ const terminationList = [
 const rarityList = ['Common', 'Uncommon', 'Rare', 'Mythic']
 const saleList = ['All', 'For Sale', 'Unlisted']
 const outcomeList = ['black', 'white', 'draw']
-
+// const achievementListSorted = achievementList.sort(
+//   (a, b) => b.points - a.points
+// )
 const filters = {
+  // achievementList: achievementListSorted,
   achievementList,
   openingList,
   colorList,
@@ -92,6 +94,7 @@ const filters = {
   saleList,
   outcomeList,
 }
+const TREASURES_PER_PAGE = 9
 
 module.exports = filters
 module.exports.TREASURES_PER_PAGE = TREASURES_PER_PAGE

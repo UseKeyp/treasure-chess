@@ -20,12 +20,13 @@ export const getTreasureId = ({
 }
 
 const getRarity = (score) => {
-  if (score < 6) return 'Common'
-  if (score < 11) return 'Uncommon'
-  if (score < 14) return 'Rare'
-  return 'Mythic'
+  if (score < 6) return filters.rarityList[0]
+  if (score < 11) return filters.rarityList[1]
+  if (score < 14) return filters.rarityList[2]
+  return filters.rarityList[3]
 }
 
+// NOTE: any updates to this function should also be made in /scripts/seed
 export const generateTreasureData = async ({
   game,
   title,
@@ -33,7 +34,7 @@ export const generateTreasureData = async ({
   owner,
   mintPurchase,
 }) => {
-  const cardColor = getTreasureCardColor({ game, memberId: minter.id })
+  const cardColor = getTreasureCardColor({ game, username: minter.username })
   const treasureId = getTreasureId({
     moves: game.moves,
     endTime: game.endTime,

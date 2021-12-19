@@ -8,8 +8,7 @@ import { TreasuresContext } from 'src/providers/context'
 
 const TreasuresPage = () => {
   const params = useParams()
-  const [treasuresContext] = React.useContext(TreasuresContext)
-  const { page } = treasuresContext
+  const [{ page }] = React.useContext(TreasuresContext)
 
   const {
     username: initialUsername = '',

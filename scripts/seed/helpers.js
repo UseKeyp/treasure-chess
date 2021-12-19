@@ -8,7 +8,7 @@ const {
 } = require('../../api/src/lib/chessCom/gameParsing')
 const { getGifUrl } = require('../../api/src/lib/chessCom/gifGetter')
 
-const realGames = require('./data/jschiar-21-07.json')
+const realGames = require('./data/realGames.json')
 const randomTitles = require('./data/randomTitles.json')
 const randomAvatarsBase64 = require('./data/randomAvatarsBase64.js')
 const countries = require('./data/countries')
@@ -44,7 +44,6 @@ const generateRandomMembers = (count, highestMemberId) => {
 }
 
 const generateRandomTreasures = (count, highestTokenId, members) => {
-  // TODO: Used real game data
   return Array(count)
     .fill(null)
     .map((_, index) => {
@@ -55,18 +54,17 @@ const generateRandomTreasures = (count, highestTokenId, members) => {
       const winner = randomInt(1, 2) > 1 ? black : white
       const minter = randomInt(1, 2) > 1 ? black : white
 
-      const realGame = realGames[index]
-      // Note: these functions have been modified from
+      const realGame = realGames[randomInt(0, realGames.length - 1)]
+
       const game = parseGameFromChessDotCom(realGame)
       const treasure = generateTreasureData({
         game,
-        title: randomTitles[randomInt(0, 135)],
+        title: randomTitles[randomInt(0, randomTitles.length - 1)],
         minter,
         white,
         black,
         owner: minter,
       })
-      console.log(treasure)
       return {
         ...treasure,
         tokenId: highestTokenId + index + 1,
@@ -84,17 +82,14 @@ export const generateTreasureData = ({
   white,
   black,
 }) => {
-  const getTreasureCardColor = ({ game, username }) =>
-    game.whiteUsername === username ? 'white' : 'black'
-
-  const getTreasureId = ({
-    moves, // String of moves from the PGN (without timestamps)
-    endTime, // Timecode from chess.com API
-    cardColor, // String of version of treasure: "white" or "black"
-  }) => {
+  const getTreasureId = ({ moves, endTime, cardColor }) => {
     const endTimeUnix = Date.parse(endTime) / 1000
-    return sha3(`${moves} ${endTimeUnix} ${cardColor}`)
-    // eg. sha3("1. d4 d5 2. c4 e6 3. Nc3 c6 4. e3 Nf6 1612749143 white")
+    // WARNING: Do not use this code elsewhere. Additional randomness
+    // is added here to allow seeding thousands of games without id collision.
+    // These ids are not correct!
+    return sha3(
+      `${moves} ${endTimeUnix} ${cardColor} ${randomInt(0, 10000000)}`
+    )
   }
 
   const getRarity = (score) => {
@@ -103,7 +98,7 @@ export const generateTreasureData = ({
     if (score < 14) return filters.rarityList[2]
     return filters.rarityList[3]
   }
-  const cardColor = getTreasureCardColor({ game, username: minter.username })
+  const cardColor = minter.username === white.username ? 'white' : 'black'
   const treasureId = getTreasureId({
     moves: game.moves,
     endTime: game.endTime,

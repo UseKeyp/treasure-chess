@@ -1,5 +1,4 @@
-import getCard from './getCard'
+import getCardHtml from './getCard'
 import { getFlagBase64 } from './helpers'
 
-export default getCard
-export { getFlagBase64 }
+export { getCardHtml, getFlagBase64 }

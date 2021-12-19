@@ -16,7 +16,7 @@ const MemberDetails = ({ member, isProfile }) => {
         <div className="member-details--member-info">
           <h3>
             <a
-              href={`${globalConfig.chessComBaseUrl}members/${member.username}`}
+              href={`${globalConfig.CHESS_COM_BASE_URL}members/${member.username}`}
               target="_blank"
               rel="noopener noreferrer"
               className="font-bold"
@@ -55,7 +55,7 @@ const MemberDetails = ({ member, isProfile }) => {
             </button>
             <p className="mt-2">
               <a
-                href={globalConfig.howToBuyUrl}
+                href={globalConfig.HOW_TO_BUY_URL}
                 target="_blank"
                 rel="noopener noreferrer"
               >

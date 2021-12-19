@@ -82,8 +82,8 @@ const TreasuresFetcher = ({ username, filter, sort }) => {
       },
     } = await getTreasures({ variables: { username, filter, sort, page: 0 } })
     console.log(newTreasures)
-    // setTreasures([newTreasures])
-    // setCount(newCount)
+    setTreasures(newTreasures)
+    setCount(newCount)
   }
 
   React.useEffect(() => {

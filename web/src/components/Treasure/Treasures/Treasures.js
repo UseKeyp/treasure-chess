@@ -1,10 +1,10 @@
-import { useParams } from '@redwoodjs/router'
-
 import { TREASURES_PER_PAGE } from '@treasure-chess/treasure-filters'
 
 import CardsListWrapper from 'src/components/CardsListWrapper'
 import GameCard from 'src/components/Game/GameCard'
 import InfiniteScroll from 'src/components/InfiniteScroll'
+
+import { CardSkeleton } from 'src/components/LoadingSkeleton'
 
 import { TreasuresContext } from 'src/providers/context'
 
@@ -16,6 +16,13 @@ const TreasuresList = ({ treasures, count }) => {
   const onChangePage = (newPage) => {
     setTreasuresContext({ ...treasuresContext, page: newPage })
   }
+  const loader = Array(3)
+    .fill(null)
+    .map(() => (
+      <CardsListWrapper>
+        <CardSkeleton />
+      </CardsListWrapper>
+    ))
   return (
     <div className="w-full ml-4">
       <p>{count} Treasures</p>
@@ -25,6 +32,7 @@ const TreasuresList = ({ treasures, count }) => {
           count={count}
           perPage={TREASURES_PER_PAGE}
           page={page}
+          loader={loader}
         >
           <CardsListWrapper>
             {treasures.map((treasure, index) => (

@@ -4,7 +4,7 @@ import { TREASURES_PER_PAGE } from '@treasure-chess/treasure-filters'
 
 import CardsListWrapper from 'src/components/CardsListWrapper'
 import GameCard from 'src/components/Game/GameCard'
-import Pagination from 'src/components/Pagination'
+import InfiniteScroll from 'src/components/InfiniteScroll'
 
 import { TreasuresContext } from 'src/providers/context'
 
@@ -20,18 +20,19 @@ const TreasuresList = ({ treasures, count }) => {
     <div className="w-full ml-4">
       <p>{count} Treasures</p>
       <div className="mt-4">
-        <CardsListWrapper>
-          {treasures.map((treasure) => (
-            <GameCard key={treasure.id} game={treasure} />
-          ))}
-        </CardsListWrapper>
+        <InfiniteScroll
+          onChangePage={onChangePage}
+          count={count}
+          perPage={TREASURES_PER_PAGE}
+          page={page}
+        >
+          <CardsListWrapper>
+            {treasures.map((treasure) => (
+              <GameCard key={treasure.id} game={treasure} />
+            ))}
+          </CardsListWrapper>
+        </InfiniteScroll>
       </div>
-      <Pagination
-        onChangePage={onChangePage}
-        count={count}
-        perPage={TREASURES_PER_PAGE}
-        page={page}
-      />
     </div>
   )
 }

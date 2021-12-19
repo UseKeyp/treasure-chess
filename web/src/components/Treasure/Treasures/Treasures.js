@@ -6,7 +6,7 @@ import InfiniteScroll from 'src/components/InfiniteScroll'
 
 import { CardSkeleton } from 'src/components/LoadingSkeleton'
 
-const TreasuresList = ({ treasures, count, onLoadMore, page }) => {
+const TreasuresList = ({ treasures, count, onLoadMore, page, loading }) => {
   const loader = (
     <div className="mt-4">
       <CardsListWrapper>
@@ -18,24 +18,29 @@ const TreasuresList = ({ treasures, count, onLoadMore, page }) => {
       </CardsListWrapper>
     </div>
   )
+
   return (
     <div className="w-full ml-4">
       <p>{count} Treasures</p>
       <div className="mt-4">
-        <InfiniteScroll
-          onLoadMore={onLoadMore}
-          count={count}
-          perPage={TREASURES_PER_PAGE}
-          page={page}
-          loader={loader}
-          dataLength={treasures?.length}
-        >
-          <CardsListWrapper>
-            {treasures.map((treasure, index) => (
-              <GameCard key={treasure.id + index} game={treasure} />
-            ))}
-          </CardsListWrapper>
-        </InfiniteScroll>
+        {!treasures.length && loading ? (
+          loader
+        ) : (
+          <InfiniteScroll
+            onLoadMore={onLoadMore}
+            count={count}
+            perPage={TREASURES_PER_PAGE}
+            page={page}
+            loader={loader}
+            dataLength={treasures?.length}
+          >
+            <CardsListWrapper>
+              {treasures.map((treasure, index) => (
+                <GameCard key={treasure.id + index} game={treasure} />
+              ))}
+            </CardsListWrapper>
+          </InfiniteScroll>
+        )}
       </div>
     </div>
   )

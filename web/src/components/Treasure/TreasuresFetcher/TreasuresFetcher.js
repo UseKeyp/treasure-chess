@@ -78,7 +78,6 @@ const TreasuresFetcher = ({ username, filter, sort }) => {
   )
 
   const onLoadMore = () => {
-    const newPage = page + 1
     setPage(page + 1)
     getTreasures()
   }
@@ -87,22 +86,21 @@ const TreasuresFetcher = ({ username, filter, sort }) => {
     setPage(0)
     setTreasures([])
     getTreasures()
+    /* eslint-disable-next-line react-hooks/exhaustive-deps*/
   }, [username, filter, sort])
 
   // TODO: add button to scroll to top
   // https://www.w3schools.com/howto/howto_js_scroll_to_top.asp
 
   if (error) return <h2 className="rw-text-center">Something went wrong</h2>
-  if (!treasures && loading)
-    return <h2 className="rw-text-center">Loading...</h2>
-  if (!treasures && !loading)
-    return <h2 className="rw-text-center">No treasures found</h2>
+
   return (
     <Treasures
       treasures={treasures}
       count={count}
       onLoadMore={onLoadMore}
       page={page}
+      loading={loading}
     />
   )
 }

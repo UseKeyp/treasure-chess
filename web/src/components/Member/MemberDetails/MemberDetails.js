@@ -2,6 +2,8 @@ import Avatar from 'src/components/Avatar'
 import globalConfig from 'src/global.config'
 import MemberBalanceCell from 'src/components/Member/MemberBalanceCell'
 import MemberDetailsAddressModal from 'src/components/MemberDetailsAddressModal/MemberDetailsAddressModal'
+import MemberDetailsDepositModal from 'src/components/MemberDetailsDepositModal/MemberDetailsDepositModal'
+import MemberDetailsWithdrawModal from 'src/components/MemberDetailsWithdrawModal/MemberDetailsWithdrawModal'
 
 import { getFlagBase64 } from '@treasure-chess/treasure-html'
 
@@ -39,20 +41,8 @@ const MemberDetails = ({ member, isProfile }) => {
             <h4>
               <MemberBalanceCell />
             </h4>
-            <button
-              type="button"
-              onClick={() => {}}
-              className="text-sm rounded font-bold deposit-funds"
-            >
-              Deposit Funds
-            </button>
-            <button
-              type="button"
-              onClick={() => {}}
-              className="text-sm text-black rounded font-bold withdraw-funds"
-            >
-              Withdraw Funds
-            </button>
+            <MemberDetailsDepositModal />
+            <MemberDetailsWithdrawModal />
             <p className="mt-2">
               <a
                 href={globalConfig.HOW_TO_BUY_URL}

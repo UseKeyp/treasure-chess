@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react'
 import { createPortal } from 'react-dom'
 
 import { trimAddress } from 'src/utils/helpers'
+import Button from 'src/components/Button/Button'
 import Icon from 'src/components/Icon'
 import FundsModal from 'src/components/FundsModal/FundsModal'
 import styles from './MemberDetailsAddressModal.module.scss'
@@ -59,14 +60,19 @@ const MemberDetailsAddressModal = ({ address }) => {
           Cancel
         </button>
 
-        <button
-          type="button"
-          onClick={() => handleCopy()}
-          className={styles['copy-address']}
-          disabled={copied}
-        >
-          {copied ? 'Copied!' : 'Copy Wallet Address'}
-        </button>
+        {copied ? (
+          <div className="text-lg p-2" role="alert">
+            Copied!
+          </div>
+        ) : (
+          <Button
+            onClick={() => handleCopy()}
+            className={styles['copy-address']}
+            variant="blue"
+          >
+            Copy Wallet Address
+          </Button>
+        )}
       </div>
     </FundsModal>,
     document.querySelector('body')

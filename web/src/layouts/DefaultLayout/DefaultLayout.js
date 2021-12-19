@@ -15,9 +15,7 @@ const DefaultLayout = ({ children }) => {
         <Header />
       </header>
       <div className="flex-grow">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 sm:max-w-screen">
-          {children}
-        </div>
+        <div className="max-w-7xl mx-auto sm:max-w-screen">{children}</div>
       </div>
       <SiteFooter />
     </div>

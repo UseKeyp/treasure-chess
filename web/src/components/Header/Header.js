@@ -115,7 +115,7 @@ const Header = () => {
   const address = trimAddress(profile?.address) || 'No address set'
 
   return (
-    <div className="p-4">
+    <div className="p-4" style={{ paddingBottom: 0 }}>
       <div className={styles.header}>
         <div className={styles.iconSearch}>
           <Link to={routes.home()}>

@@ -11,12 +11,11 @@ import { TreasuresContext } from 'src/providers/context'
 const TreasuresList = ({ treasures, count }) => {
   const [treasuresContext, setTreasuresContext] =
     React.useContext(TreasuresContext)
-  const { page } = treasuresContext
+  const { page = 1 } = treasuresContext
 
   const onChangePage = (newPage) => {
     setTreasuresContext({ ...treasuresContext, page: newPage })
   }
-
   return (
     <div className="w-full ml-4">
       <p>{count} Treasures</p>

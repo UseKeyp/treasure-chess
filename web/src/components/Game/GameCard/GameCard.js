@@ -9,7 +9,6 @@ const GameCard = ({ game, isMinting }) => {
   const [context] = React.useContext(GamesContext)
   const { gameTitle } = context
   const [cardHtml, setCardHtml] = React.useState()
-  console.log(game)
   const update = async () => {
     let raw
     if (isMinting && !game) {

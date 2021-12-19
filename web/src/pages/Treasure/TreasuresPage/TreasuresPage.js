@@ -40,9 +40,11 @@ const TreasuresPage = () => {
     <>
       <MetaTags title="Treasures" />
       <h1 className="font-bold">Treasure Chess Marketplace</h1>
-      <UsernameSearchBar initialQuery={username} setQuery={setUsername} />
       <div className="flex">
-        <FilterBar filter={filter} setFilter={setFilter} />
+        <div className="filter-container">
+          <UsernameSearchBar initialQuery={username} setQuery={setUsername} />
+          <FilterBar filter={filter} setFilter={setFilter} />
+        </div>
         <TreasuresCell
           username={username}
           filter={new URLSearchParams(filter).toString()}

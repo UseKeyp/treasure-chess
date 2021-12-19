@@ -4,6 +4,7 @@ const AchievementScroll = (props) => {
   const achievements = props.achievements
   const currentAchievements = props.queryFilter
   const setCurrentAchievements = props.queryFilterFunction
+  //console.log(currentAchievements)
 
   return (
     <div className={styles.achievementScrollWrapper}>

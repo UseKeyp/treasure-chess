@@ -17,15 +17,19 @@ const FilterBar = ({ filter, setFilter }) => {
   const [achievements, setAchievements] = useState(filter.achievements || [])
   const [opening, setOpening] = useState(filter.opening)
   const [color, setColor] = useState(filter.color)
-  const [termination, setTermination] = useState(filter.termination)
+  const [termination, setTermination] = useState('Any')
   const [rarity, setRarity] = useState(filter.rarity)
-  const [sale, setSale] = useState(filter.sale)
-  const [outcome, setOutcome] = useState(filter.outcome)
+  const [sale, setSale] = useState('All')
+  const [outcome, setOutcome] = useState(['white', 'black', 'draw'])
   const [lowPrice, setLowPrice] = useState(filter.lowPrice) // must be initialized to a string to control the input from initial render
   const [highPrice, setHighPrice] = useState(filter.highPrice)
 
   const updateAchievements = (data) => {
     anyValues(data, achievements, setAchievements)
+  }
+
+  const updateOutcomes = (data) => {
+    anyValues(data, outcome, setOutcome)
   }
 
   const updateFilter = () => {
@@ -51,11 +55,11 @@ const FilterBar = ({ filter, setFilter }) => {
     setColor()
     setTitle()
     setTimeControl()
-    setTermination()
-    setOutcome()
+    setTermination('Any')
+    setOutcome(['white', 'black', 'draw'])
     setMoveCount()
     setRarity()
-    setSale()
+    setSale('All')
     setLowPrice() // must be initialized to a string to control the input from initial render
     setHighPrice()
 
@@ -123,7 +127,7 @@ const FilterBar = ({ filter, setFilter }) => {
         <FilterCheckbox
           category={'Outcome'}
           options={filters.outcomeList}
-          queryFilterFunction={setOutcome}
+          queryFilterFunction={updateOutcomes}
           queryFilter={outcome}
         />
       </div>
@@ -155,10 +159,13 @@ const FilterBar = ({ filter, setFilter }) => {
           options={filters.titleList.map((title) => title.toUpperCase())}
           queryFilterFunction={setTitle}
           queryFilter={title}
+          deselect={true}
         />
       </div>
       <div className={styles.dropdownRow}>
-        <h4 style={{ marginLeft: `1em` }}>Achievements</h4>
+        <h4 style={{ marginLeft: `1em`, marginBottom: `0.5em` }}>
+          Achievements
+        </h4>
         <AchievementScroll
           achievements={filters.achievementList}
           queryFilterFunction={updateAchievements}

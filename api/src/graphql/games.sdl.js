@@ -6,7 +6,7 @@ export const schema = gql`
     winner: Member
     outcome: String!
     termination: String!
-    tcn: String!
+    gifUrl: String!
     blackRating: Int!
     blackRatingDelta: String!
     whiteRating: Int!

@@ -9,9 +9,9 @@ const GameCard = ({ game, isMinting }) => {
   const [context] = React.useContext(GamesContext)
   const { gameTitle } = context
   const [cardHtml, setCardHtml] = React.useState()
+  console.log(game)
   const update = async () => {
     let raw
-    const gifUrl = 'https://a.com'
     if (isMinting && !game) {
       raw = await getCardHtml({
         treasure: { ...placeholderGame },
@@ -19,7 +19,7 @@ const GameCard = ({ game, isMinting }) => {
       })
     } else {
       raw = await getCardHtml({
-        treasure: { ...game, title: gameTitle || game.title },
+        treasure: { ...game, title: gameTitle || game.title || 'Add a title' },
         gifUrl: game.gifUrl,
       })
     }

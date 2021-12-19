@@ -112,7 +112,6 @@ const getCardHtml = async ({ treasure, gifBase64, gifUrl }) => {
     }
 
     // Header
-    console.log(treasure.title)
     updateContent('title', treasure.title)
     updateContent('page-title', treasure.title)
     updateContent('termination', treasure.termination)

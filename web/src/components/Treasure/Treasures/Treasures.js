@@ -8,15 +8,13 @@ import { CardSkeleton } from 'src/components/LoadingSkeleton'
 
 const TreasuresList = ({ treasures, count, onLoadMore, page, loading }) => {
   const loader = (
-    <div className="mt-4">
-      <CardsListWrapper>
-        {Array(6)
-          .fill(null)
-          .map((_, index) => (
-            <CardSkeleton key={index} />
-          ))}
-      </CardsListWrapper>
-    </div>
+    <CardsListWrapper>
+      {Array(6)
+        .fill(null)
+        .map((_, index) => (
+          <CardSkeleton key={index} />
+        ))}
+    </CardsListWrapper>
   )
 
   return (
@@ -34,11 +32,13 @@ const TreasuresList = ({ treasures, count, onLoadMore, page, loading }) => {
             loader={loader}
             dataLength={treasures?.length}
           >
-            <CardsListWrapper>
-              {treasures.map((treasure, index) => (
-                <GameCard key={treasure.id + index} game={treasure} />
-              ))}
-            </CardsListWrapper>
+            <div className="mb-4">
+              <CardsListWrapper>
+                {treasures.map((treasure, index) => (
+                  <GameCard key={treasure.id + index} game={treasure} />
+                ))}
+              </CardsListWrapper>
+            </div>
           </InfiniteScroll>
         )}
       </div>

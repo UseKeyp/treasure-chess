@@ -157,6 +157,5 @@ export const getTreasuresWithFilter = async ({
     // TODO: add sorting, see https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#orderby
     // orderBy:
   })
-  console.log(treasures.length)
   return { treasures, count }
 }

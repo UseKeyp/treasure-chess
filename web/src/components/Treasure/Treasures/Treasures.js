@@ -6,16 +6,14 @@ import InfiniteScroll from 'src/components/InfiniteScroll'
 
 import { CardSkeleton } from 'src/components/LoadingSkeleton'
 
-import { TreasuresContext } from 'src/providers/context'
-
 const TreasuresList = ({ treasures, count, onLoadMore, page }) => {
   const loader = (
     <div className="mt-4">
       <CardsListWrapper>
         {Array(6)
           .fill(null)
-          .map(() => (
-            <CardSkeleton />
+          .map((_, index) => (
+            <CardSkeleton key={index} />
           ))}
       </CardsListWrapper>
     </div>

@@ -1,7 +1,6 @@
 import { useLazyQuery } from '@apollo/client'
 
 import Treasures from 'src/components/Treasure/Treasures'
-import { TreasuresContext } from 'src/providers/context'
 
 const TREASURES_WITH_FILTER = gql`
   query TreasuresSearchQuery(

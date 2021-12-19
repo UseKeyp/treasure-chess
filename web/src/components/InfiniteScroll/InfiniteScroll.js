@@ -9,15 +9,11 @@ const InfiniteScroll = ({
   loader,
   dataLength,
 }) => {
-  console.log(perPage * (page + 1), count)
   const hasMore = perPage * (page + 1) < count
   return (
     <ReactInfiniteScrollComponent
       dataLength={dataLength}
-      next={() => {
-        console.log('load more dummy')
-        onLoadMore()
-      }}
+      next={onLoadMore}
       hasMore={hasMore}
       loader={loader || <h4>Loading...</h4>}
       endMessage={

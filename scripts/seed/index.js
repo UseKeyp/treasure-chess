@@ -14,7 +14,7 @@ async function main() {
   let treasures = exampleTreasures
 
   if (true) {
-    const totalTreasures = 100
+    const totalTreasures = 3
     members = generateRandomMembers(Math.floor(totalTreasures / 3))
     const highestTreasureTokenId = await db.treasure.count()
     treasures = generateRandomTreasures(

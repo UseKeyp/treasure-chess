@@ -12,9 +12,9 @@ const db = new PrismaClient()
 
 async function main() {
   // NOTE: change these as desired
-  const newTreasuresToCreate = 10000
-  // const newMembersToCreate = Math.floor(newTreasuresToCreate / 3)
-  const newMembersToCreate = 0
+  const newTreasuresToCreate = 100
+  const newMembersToCreate = Math.floor(newTreasuresToCreate / 3)
+  // const newMembersToCreate = 30
 
   // MEMBERS
   if (newMembersToCreate > 0) {
@@ -79,7 +79,7 @@ async function main() {
 }
 
 const seed = async () => {
-  const rounds = 100
+  const rounds = 1
   for (var i = 0; i < rounds; i++) {
     console.log(`############ Round ${i + 1} of ${rounds} ################`)
     await main()

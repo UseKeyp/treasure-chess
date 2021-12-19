@@ -14,12 +14,12 @@ const GameCard = ({ game, isMinting }) => {
     if (isMinting && !game) {
       raw = await getCardHtml({
         treasure: { ...placeholderGame },
-        // gifUrl: game.gifUrl,
+        gifUrl: game.gifUrl,
       })
     } else {
       raw = await getCardHtml({
         treasure: { ...game, title: gameTitle || game.title || 'Add a title' },
-        // gifUrl: game.gifUrl,
+        gifUrl: game.gifUrl,
       })
     }
     setCardHtml(raw)

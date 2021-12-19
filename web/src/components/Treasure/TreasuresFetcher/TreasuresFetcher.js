@@ -66,6 +66,7 @@ const TreasuresFetcher = ({ username, filter, sort }) => {
   const [getTreasures, { error, loading }] = useLazyQuery(
     TREASURES_WITH_FILTER,
     {
+      variables: { username, filter, sort, page },
       onCompleted: ({ treasurePage }) => {
         if (page === 0) {
           setTreasures(treasurePage.treasures)
@@ -77,36 +78,31 @@ const TreasuresFetcher = ({ username, filter, sort }) => {
     }
   )
 
-  const loadMore = async () => {
-    console.log('loading more')
+  const onLoadMore = () => {
     const newPage = page + 1
-    setPage(newPage)
-    await getTreasures({
-      variables: { username, filter, sort, page: newPage },
-    })
-  }
-  const load = async () => {
-    console.log('loading new query')
-    await getTreasures({ variables: { username, filter, sort, page: 0 } })
+    setPage(page + 1)
+    getTreasures()
   }
 
   React.useEffect(() => {
-    load()
+    setPage(0)
+    setTreasures([])
+    getTreasures()
   }, [username, filter, sort])
 
-  // TODO: add scroll to top button
+  // TODO: add button to scroll to top
   // https://www.w3schools.com/howto/howto_js_scroll_to_top.asp
 
-  if (error) return <div className="rw-text-center">Something went wrong</div>
+  if (error) return <h2 className="rw-text-center">Something went wrong</h2>
   if (!treasures && loading)
-    return <div className="rw-text-center">Loading...</div>
+    return <h2 className="rw-text-center">Loading...</h2>
   if (!treasures && !loading)
-    return <div className="rw-text-center">No treasures found</div>
+    return <h2 className="rw-text-center">No treasures found</h2>
   return (
     <Treasures
       treasures={treasures}
       count={count}
-      onLoadMore={loadMore}
+      onLoadMore={onLoadMore}
       page={page}
     />
   )

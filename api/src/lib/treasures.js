@@ -149,12 +149,14 @@ export const getTreasuresWithFilter = async ({
   }
   const count = await db.treasure.count({ where: whereQuery })
   // Cannot use cursor pagination, since custom sorting is needed
+  const skip = page * TREASURES_PER_PAGE
   const treasures = await db.treasure.findMany({
-    skip: page * TREASURES_PER_PAGE,
-    take: TREASURES_PER_PAGE,
+    skip,
+    take: Math.min(count - skip, TREASURES_PER_PAGE),
     where: whereQuery,
     // TODO: add sorting, see https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#orderby
     // orderBy:
   })
+  console.log(treasures.length)
   return { treasures, count }
 }

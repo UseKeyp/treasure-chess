@@ -12,9 +12,11 @@ const TreasuresList = ({ treasures, count, onLoadMore, page }) => {
   const loader = (
     <div className="mt-4">
       <CardsListWrapper>
-        <CardSkeleton />
-        <CardSkeleton />
-        <CardSkeleton />
+        {Array(6)
+          .fill(null)
+          .map(() => (
+            <CardSkeleton />
+          ))}
       </CardsListWrapper>
     </div>
   )
@@ -28,6 +30,7 @@ const TreasuresList = ({ treasures, count, onLoadMore, page }) => {
           perPage={TREASURES_PER_PAGE}
           page={page}
           loader={loader}
+          dataLength={treasures?.length}
         >
           <CardsListWrapper>
             {treasures.map((treasure, index) => (

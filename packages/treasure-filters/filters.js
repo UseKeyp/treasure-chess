@@ -78,11 +78,8 @@ const terminationList = [
 const rarityList = ['Common', 'Uncommon', 'Rare', 'Mythic']
 const saleList = ['All', 'For Sale', 'Unlisted']
 const outcomeList = ['black', 'white', 'draw']
-// const achievementListSorted = achievementList.sort(
-//   (a, b) => b.points - a.points
-// )
+
 const filters = {
-  // achievementList: achievementListSorted,
   achievementList,
   openingList,
   colorList,

@@ -160,7 +160,9 @@ const FilterBar = ({ filter, setFilter }) => {
       <div className={styles.dropdownRow}>
         <h4 style={{ marginLeft: `1em` }}>Achievements</h4>
         <AchievementScroll
-          achievements={filters.achievementList}
+          achievements={filters.achievementList.sort(
+            (a, b) => b.points - a.points
+          )}
           queryFilterFunction={updateAchievements}
           queryFilter={achievements}
         />

@@ -17,10 +17,10 @@ function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
-const generateRandomMembers = (count) => {
+const generateRandomMembers = (count, highestMemberId) => {
   return Array(count)
     .fill(null)
-    .map(() => {
+    .map((_, index) => {
       const randomUsername = rug.generate()
       const randomAddress = EthersWallet.createRandom().address
       let masterTitle
@@ -31,7 +31,7 @@ const generateRandomMembers = (count) => {
           ].toUpperCase()
       }
       return {
-        id: randomInt(1, 50000).toString(),
+        id: (highestMemberId + index).toString(),
         username: randomUsername,
         address: randomAddress,
         imageSrc: `data:image/jpeg;base64,${

@@ -113,7 +113,7 @@ export const getTreasuresWithFilter = async ({
 
   const achievementQuery = filterObj.achievements
     ? {
-        AND: filterObj.achievements.split(',').map((chiev) => ({
+        OR: filterObj.achievements.split(',').map((chiev) => ({
           achievements: {
             contains: chiev,
           },

@@ -55,7 +55,7 @@ const getGifBase64 = async ({ tcn, playerColor }) => {
 module.exports = { getGifUrl, getGifBase64 }
 
 // To test, uncomment and run `node gifGetter`
-// getGif({
+// getGifUrl({
 //   tcn: 'mC0KfA7Mdv9Iv187bsInen',
 //   playerColor: 'white',
 // }).then(({ gifBase64, url }) => {

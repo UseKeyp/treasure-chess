@@ -6,6 +6,7 @@ const achievementsCalculator = require('@treasure-chess/chess-achievements')
 const {
   parseGameFromChessDotCom,
 } = require('../../api/src/lib/chessCom/gameParsing')
+const { getGifUrl } = require('../../api/src/lib/chessCom/gifGetter')
 
 const realGames = require('./data/jschiar-21-07.json')
 const randomTitles = require('./data/randomTitles.json')
@@ -127,6 +128,7 @@ export const generateTreasureData = ({
     winner,
     title,
     cardColor,
+    gifUrl: getGifUrl({ tcn: game.tcn, playerColor: cardColor }),
     blackRating: game.blackRating,
     whiteRating: game.whiteRating,
     blackRatingDelta: game.blackRatingDelta,

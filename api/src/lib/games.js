@@ -46,6 +46,7 @@ const getFullGameDetails = async ({
     winnerId,
     cardColor,
     opening,
+    tcn: game.tcn,
     ...(includeAchievements && { achievements: achievementsString }),
     ...(includeAchievements && { achievementScore: score }),
   }

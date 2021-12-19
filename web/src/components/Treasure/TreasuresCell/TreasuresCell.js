@@ -16,6 +16,7 @@ export const QUERY = gql`
       count
       treasures {
         id
+        gifUrl
         createdAt
         black {
           username

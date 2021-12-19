@@ -1,6 +1,7 @@
 const { id: sha3 } = require('@ethersproject/hash')
 import { db } from 'src/lib/db'
 
+import { getGifUrl } from 'src/lib/chessCom/gifGetter'
 const filters = require('@treasure-chess/treasure-filters')
 const { TREASURES_PER_PAGE } = require('@treasure-chess/treasure-filters')
 
@@ -53,6 +54,7 @@ export const generateTreasureData = async ({
     owner: { connect: { id: owner.id } },
     title,
     cardColor,
+    gifUrl: getGifUrl({ tn: game.tcn, playerColor: cardColor }),
     blackRating: game.blackRating,
     whiteRating: game.whiteRating,
     blackRatingDelta: game.blackRatingDelta,

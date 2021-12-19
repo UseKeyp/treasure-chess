@@ -22,6 +22,7 @@ export const schema = gql`
     mintedAt: DateTime
 
     title: String!
+    gifUrl: String!
     cardColor: String!
     blackRating: Int!
     whiteRating: Int!

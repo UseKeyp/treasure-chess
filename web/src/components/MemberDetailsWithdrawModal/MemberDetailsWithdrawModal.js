@@ -15,7 +15,7 @@ const MemberDetailsWithdrawModal = () => {
           <Icon name="wyre" size="5rem" />
         </div>
 
-        <h2 className="font-bold text-2xl">Deposit Funds</h2>
+        <h2 className="font-bold text-2xl">Withdraw Funds</h2>
 
         <p className="mt-4 text-base">
           Withdraw your funds using Wyre. Funds can be withdrawn anytime according to the limits set by Wyre.

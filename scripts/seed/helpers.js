@@ -9,6 +9,7 @@ const {
 
 const realGames = require('./data/jschiar-21-07.json')
 const randomTitles = require('./data/randomTitles.json')
+const randomAvatarsBase64 = require('./data/randomAvatarsBase64.js')
 const countries = require('./data/countries')
 
 function randomInt(min, max) {
@@ -32,7 +33,9 @@ const generateRandomMembers = (count) => {
         id: randomInt(10000, 50000).toString(),
         username: randomUsername,
         address: randomAddress,
-        imageSrc: `https://ui-avatars.com/api/?name=${randomUsername}`,
+        imageSrc: `data:image/jpeg;base64,${
+          randomAvatarsBase64[randomInt(0, 199)]
+        }`,
         country: countries[Math.floor(Math.random() * countries.length)],
         masterTitle,
       }
@@ -48,26 +51,31 @@ const generateRandomTreasures = (count, highestTokenId, members) => {
       const ran2 = ran1 === members.length - 1 ? ran1 - 1 : ran1 + 1
       const black = members[ran1]
       const white = members[ran2]
-
       const winner = randomInt(1, 2) > 1 ? black : white
       const minter = randomInt(1, 2) > 1 ? black : white
 
-      const realGame = realGames[randomInt(0, 139)]
+      const realGame = realGames[index]
+      // Note: these functions have been modified from
       const game = parseGameFromChessDotCom(realGame)
       const treasure = generateTreasureData({
         game,
-        title: randomTitles[randomInt(0, 320)].text,
+        title: randomTitles[randomInt(0, 135)],
         minter,
         white,
         black,
         owner: minter,
       })
       console.log(treasure)
-      return { ...treasure, tokenId: highestTokenId + index + 1 }
+      return {
+        ...treasure,
+        tokenId: highestTokenId + index + 1,
+        tokenUri: 'fakeUri',
+        uriData: 'fakeUridata',
+      }
     })
 }
 
-export const generateTreasureData = async ({
+export const generateTreasureData = ({
   game,
   title,
   minter,
@@ -134,7 +142,7 @@ export const generateTreasureData = async ({
     moveCount: game.moveCount,
     ruleVariant: game.ruleVariant,
     externalUrl: game.externalUrl,
-    opening: game.opening,
+    opening: opening,
     rarity: getRarity(score),
     achievements: achievementsString,
     achievementScore: score,

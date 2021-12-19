@@ -22,7 +22,8 @@
     "babel-loader": "^8.2.3",
     "chromatic": "^5.9.2",
     "core-js": "^3.19.1",
-    "random-username-generator": "^1.0.4"
+    "random-username-generator": "^1.0.4",
+    "sharp": "^0.29.3"
   },
   "eslintConfig": {
     "extends": "@redwoodjs/eslint-config",

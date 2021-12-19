@@ -9,5 +9,5 @@ const titles = randomTitles.map((title) => {
     rest.join(' ')
   )
 })
-
+console.log('Total titles: ', titles.length)
 fs.writeFileSync('./randomTitles.json', JSON.stringify(titles))

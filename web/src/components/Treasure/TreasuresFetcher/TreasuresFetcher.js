@@ -59,46 +59,57 @@ const TREASURES_WITH_FILTER = gql`
 `
 
 const TreasuresFetcher = ({ username, filter, sort }) => {
-  const [{ page }] = React.useContext(TreasuresContext)
-
   const [treasures, setTreasures] = React.useState([])
   const [count, setCount] = React.useState([])
+  const [page, setPage] = React.useState(0)
 
-  const [getTreasures, { error, loading }] = useLazyQuery(TREASURES_WITH_FILTER)
+  const [getTreasures, { error, loading }] = useLazyQuery(
+    TREASURES_WITH_FILTER,
+    {
+      onCompleted: ({ treasurePage }) => {
+        if (page === 0) {
+          setTreasures(treasurePage.treasures)
+          setCount(treasurePage.count)
+          return
+        }
+        setTreasures([...treasures, ...treasurePage.treasures])
+      },
+    }
+  )
 
   const loadMore = async () => {
-    const {
-      data: {
-        treasurePage: { treasures: newTreasures, count: newCount },
-      },
-    } = await getTreasures({ variables: { username, filter, sort, page } })
-    setTreasures([...treasures, ...newTreasures])
-    setCount(newCount)
+    console.log('loading more')
+    const newPage = page + 1
+    setPage(newPage)
+    await getTreasures({
+      variables: { username, filter, sort, page: newPage },
+    })
   }
   const load = async () => {
-    const {
-      data: {
-        treasurePage: { treasures: newTreasures, count: newCount },
-      },
-    } = await getTreasures({ variables: { username, filter, sort, page: 0 } })
-    console.log(newTreasures)
-    setTreasures(newTreasures)
-    setCount(newCount)
+    console.log('loading new query')
+    await getTreasures({ variables: { username, filter, sort, page: 0 } })
   }
 
-  React.useEffect(() => {
-    if (page > 1) loadMore()
-  }, [page])
   React.useEffect(() => {
     load()
   }, [username, filter, sort])
+
+  // TODO: add scroll to top button
+  // https://www.w3schools.com/howto/howto_js_scroll_to_top.asp
 
   if (error) return <div className="rw-text-center">Something went wrong</div>
   if (!treasures && loading)
     return <div className="rw-text-center">Loading...</div>
   if (!treasures && !loading)
     return <div className="rw-text-center">No treasures found</div>
-  return <Treasures treasures={treasures} count={count} />
+  return (
+    <Treasures
+      treasures={treasures}
+      count={count}
+      onLoadMore={loadMore}
+      page={page}
+    />
+  )
 }
 
 export default TreasuresFetcher

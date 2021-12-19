@@ -2,24 +2,25 @@ import ReactInfiniteScrollComponent from 'react-infinite-scroll-component'
 
 const InfiniteScroll = ({
   children,
-  onChangePage,
+  onLoadMore,
   count,
   page,
   perPage,
   loader,
 }) => {
-  const hasMore = perPage * page < count
+  console.log(perPage * (page + 1), count)
 
+  const hasMore = perPage * (page + 1) < count
   return (
     <ReactInfiniteScrollComponent
       dataLength={count}
-      next={() => onChangePage(page + 1)}
+      next={onLoadMore}
       hasMore={hasMore}
       loader={loader || <h4>Loading...</h4>}
       endMessage={
-        <p style={{ textAlign: 'center' }}>
-          <b>You&apos;ve reached the end</b>
-        </p>
+        <div className="mt-8 rw-text-center">
+          <h3>You&apos;ve reached the end</h3>
+        </div>
       }
     >
       {children}

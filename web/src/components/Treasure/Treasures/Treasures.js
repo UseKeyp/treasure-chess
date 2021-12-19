@@ -8,27 +8,22 @@ import { CardSkeleton } from 'src/components/LoadingSkeleton'
 
 import { TreasuresContext } from 'src/providers/context'
 
-const TreasuresList = ({ treasures, count }) => {
-  const [treasuresContext, setTreasuresContext] =
-    React.useContext(TreasuresContext)
-  const { page = 1 } = treasuresContext
-
-  const onChangePage = (newPage) => {
-    setTreasuresContext({ ...treasuresContext, page: newPage })
-  }
-  const loader = Array(3)
-    .fill(null)
-    .map(() => (
+const TreasuresList = ({ treasures, count, onLoadMore, page }) => {
+  const loader = (
+    <div className="mt-4">
       <CardsListWrapper>
         <CardSkeleton />
+        <CardSkeleton />
+        <CardSkeleton />
       </CardsListWrapper>
-    ))
+    </div>
+  )
   return (
     <div className="w-full ml-4">
       <p>{count} Treasures</p>
       <div className="mt-4">
         <InfiniteScroll
-          onChangePage={onChangePage}
+          onLoadMore={onLoadMore}
           count={count}
           perPage={TREASURES_PER_PAGE}
           page={page}

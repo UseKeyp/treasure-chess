@@ -2,8 +2,16 @@ import { GamesContext } from 'src/providers/context/GamesContext'
 import { P } from 'src/components/Typography'
 import Loader from 'src/components/Loader'
 
+const getBoardBase64 = require('@treasure-chess/chess-image-generator')
 import { getCardHtml } from '@treasure-chess/treasure-html'
 import placeholderGame from './placeholderGameData'
+
+const options = {
+  size: 400,
+  dark: 'rgb(181, 137, 98)',
+  light: 'rgb(241, 216, 180)',
+  style: 'neo',
+}
 
 const GameCard = ({ game, isMinting }) => {
   const [context] = React.useContext(GamesContext)
@@ -19,7 +27,13 @@ const GameCard = ({ game, isMinting }) => {
     } else {
       raw = await getCardHtml({
         treasure: { ...game, title: gameTitle || game.title || 'Add a title' },
-        gifUrl: game.gifUrl,
+        // gifUrl: game.gifUrl,
+        // If mobile, load static images?
+        gifUrl: await getBoardBase64(
+          game.moves, // List of moves or PGN
+          game.cardColor, // Which player to show on bottom
+          options
+        ),
       })
     }
     setCardHtml(raw)

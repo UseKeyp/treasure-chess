@@ -46,6 +46,7 @@ const TREASURES_WITH_FILTER = gql`
         endTime
         outcome
         event
+        moves
         ruleVariant
         externalUrl
         opening

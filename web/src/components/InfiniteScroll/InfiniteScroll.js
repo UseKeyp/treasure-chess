@@ -16,8 +16,8 @@ const InfiniteScroll = ({
     <>
       <ScrollToTop
         smooth
-        top={60}
-        component={<Icon name="chess_com" size="60" />}
+        top={400}
+        component={<Icon name="arrow_up" size="40" />}
       />
       <ReactInfiniteScrollComponent
         dataLength={dataLength}

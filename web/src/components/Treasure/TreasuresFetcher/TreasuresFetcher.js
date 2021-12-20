@@ -22,9 +22,11 @@ const TREASURES_WITH_FILTER = gql`
         createdAt
         black {
           username
+          imageSrc
           id
         }
         white {
+          imageSrc
           username
           id
         }

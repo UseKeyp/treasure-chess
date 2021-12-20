@@ -149,7 +149,7 @@ export const getTreasuresWithFilter = async ({
   }
   // Note: count adds up to 2+ seconds to the query for large databases.
   // const count = await db.treasure.count({ where: whereQuery })
-  const count = 1000
+  const count = 1053432
   // Cannot use cursor pagination, since custom sorting is needed
   const skip = page * TREASURES_PER_PAGE
   const treasures = await db.treasure.findMany({

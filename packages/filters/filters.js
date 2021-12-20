@@ -13,6 +13,7 @@ const achievementList = require('@treasure-chess/chess-achievements/src/achievem
 //   { name: '2200 - 2399', value: [2200, 2399] },
 //   { name: '2400+', value: [2400, 9999] },
 // ]
+
 const timeControlList = [
   {
     name: '1 minute',

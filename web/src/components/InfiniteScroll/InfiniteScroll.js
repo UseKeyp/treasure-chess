@@ -19,13 +19,14 @@ const InfiniteScroll = ({
         top={400}
         component={
           <div className="flex justify-center">
-            <Icon name="arrow_up" size="70" />
+            <Icon name="arrow_up" size={16} />
           </div>
         }
       />
       <ReactInfiniteScrollComponent
         dataLength={dataLength}
         next={onLoadMore}
+        scrollThreshold={70}
         hasMore={hasMore}
         loader={loader || <h4>Loading...</h4>}
         endMessage={

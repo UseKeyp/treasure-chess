@@ -273,33 +273,18 @@ const Copy = ({ color = '#147DDD', width = 12, height = 13 }) => (
   </svg>
 )
 
-const ChevronUp = () => (
+const ArrowUp = ({ size = 5 }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    class="h-6 w-6"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="#312E2B"
-  >
-    <path
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      stroke-width="2"
-      d="M5 11l7-7 7 7M5 19l7-7 7 7"
-    />
-  </svg>
-)
-const ArrowUp = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    class="h-5 w-5"
+    height="30"
+    width="30"
     viewBox="0 0 20 20"
     fill="#312E2B"
   >
     <path
-      fill-rule="evenodd"
+      fillRule="evenodd"
       d="M3.293 9.707a1 1 0 010-1.414l6-6a1 1 0 011.414 0l6 6a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L4.707 9.707a1 1 0 01-1.414 0z"
-      clip-rule="evenodd"
+      clipRule="evenodd"
     />
   </svg>
 )
@@ -319,6 +304,5 @@ export default {
   discord: Discord,
   twitter: Twitter,
   facebook: Facebook,
-  chevron_up: ChevronUp,
   arrow_up: ArrowUp,
 }

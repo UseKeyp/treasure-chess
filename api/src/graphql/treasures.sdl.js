@@ -22,6 +22,7 @@ export const schema = gql`
     mintedAt: DateTime
 
     title: String!
+    gifUrl: String!
     cardColor: String!
     blackRating: Int!
     whiteRating: Int!
@@ -56,9 +57,18 @@ export const schema = gql`
     history: JSON
   }
 
+  type TreasurePage {
+    treasures: [Treasure!]!
+    count: Int!
+  }
+
   type Query {
-    treasures(username: String, filter: String, sort: String): [Treasure!]!
-      @skipAuth
+    treasuresWithFilter(
+      username: String
+      filter: String
+      sort: String
+      page: Int
+    ): TreasurePage! @skipAuth
     treasure(tokenId: Int!): Treasure @skipAuth
     treasureNftDetails(tokenId: Int!): TreasureNftDetails @skipAuth
     mintCheckoutUrl(

@@ -5,6 +5,7 @@ import { getTreasureId, getTreasureCardColor } from 'src/lib/treasures'
 import { fetchMember } from 'src/lib/members'
 import { fetchChessGames, fetchChessGame } from 'src/lib/chessCom/chessCom'
 import { parseGameFromChessDotCom } from 'src/lib/chessCom/gameParsing'
+import { getGifUrl } from 'src/lib/chessCom/gifGetter'
 
 const getFullGameDetails = async ({
   game: rawGame,
@@ -46,6 +47,7 @@ const getFullGameDetails = async ({
     winnerId,
     cardColor,
     opening,
+    gifUrl: getGifUrl({ tcn: game.tcn, playerColor: cardColor }),
     ...(includeAchievements && { achievements: achievementsString }),
     ...(includeAchievements && { achievementScore: score }),
   }

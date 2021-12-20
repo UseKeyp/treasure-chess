@@ -1,7 +1,9 @@
 const { id: sha3 } = require('@ethersproject/hash')
 import { db } from 'src/lib/db'
 
+import { getGifUrl } from 'src/lib/chessCom/gifGetter'
 const filters = require('@treasure-chess/treasure-filters')
+const { TREASURES_PER_PAGE } = require('@treasure-chess/treasure-filters')
 
 import { fetchMember } from 'src/lib/members'
 
@@ -19,12 +21,13 @@ export const getTreasureId = ({
 }
 
 const getRarity = (score) => {
-  if (score < 6) return 'Common'
-  if (score < 11) return 'Uncommon'
-  if (score < 14) return 'Rare'
-  return 'Mythic'
+  if (score < 6) return filters.rarityList[0]
+  if (score < 11) return filters.rarityList[1]
+  if (score < 14) return filters.rarityList[2]
+  return filters.rarityList[3]
 }
 
+// NOTE: any updates to this function should also be made in /scripts/seed
 export const generateTreasureData = async ({
   game,
   title,
@@ -32,7 +35,7 @@ export const generateTreasureData = async ({
   owner,
   mintPurchase,
 }) => {
-  const cardColor = getTreasureCardColor({ game, memberId: minter.id })
+  const cardColor = getTreasureCardColor({ game, username: minter.username })
   const treasureId = getTreasureId({
     moves: game.moves,
     endTime: game.endTime,
@@ -51,6 +54,7 @@ export const generateTreasureData = async ({
     owner: { connect: { id: owner.id } },
     title,
     cardColor,
+    gifUrl: getGifUrl({ tn: game.tcn, playerColor: cardColor }),
     blackRating: game.blackRating,
     whiteRating: game.whiteRating,
     blackRatingDelta: game.blackRatingDelta,
@@ -82,7 +86,12 @@ export const generateTreasureData = async ({
 const getValueByName = (list, name) =>
   list.find((item) => item.name === name).value
 
-export const getTreasuresWithArguments = ({ username, filter, _sort }) => {
+export const getTreasuresWithFilter = async ({
+  username,
+  filter,
+  _sort,
+  page = 0,
+}) => {
   const searchParams = new URLSearchParams(filter)
   let filterObj = {}
   // Convert text names to values
@@ -104,7 +113,7 @@ export const getTreasuresWithArguments = ({ username, filter, _sort }) => {
 
   const achievementQuery = filterObj.achievements
     ? {
-        AND: filterObj.achievements.split(',').map((chiev) => ({
+        OR: filterObj.achievements.split(',').map((chiev) => ({
           achievements: {
             contains: chiev,
           },
@@ -121,28 +130,32 @@ export const getTreasuresWithArguments = ({ username, filter, _sort }) => {
       }
     : null
 
-  return db.treasure.findMany({
-    where: {
-      ...(usernameQuery && usernameQuery),
+  const whereQuery = {
+    ...(usernameQuery && usernameQuery),
 
-      ...(achievementQuery && achievementQuery),
-      ...(filterObj.opening && { opening: filterObj.opening }),
-      ...(filterObj.color && { cardColor: filterObj.color }),
-      ...(filterObj.title && { title: { contains: filterObj.title } }),
-      ...(filterObj.termination && { termination: filterObj.termination }),
-      ...(filterObj.timeControl && { timeControl: filterObj.timeControl }),
-      ...(filterObj.outcome && { outcome: filterObj.outcome }),
-      ...(moveCountQuery && moveCountQuery),
-      ...(filterObj.rarity && { rarity: filterObj.rarity }),
-      // TODO:  implement sale, and price
-      // sale,
-      // lowPrice,
-      // highPrice,
-    },
+    ...(achievementQuery && achievementQuery),
+    ...(filterObj.opening && { opening: filterObj.opening }),
+    ...(filterObj.color && { cardColor: filterObj.color }),
+    ...(filterObj.title && { title: { contains: filterObj.title } }),
+    ...(filterObj.termination && { termination: filterObj.termination }),
+    ...(filterObj.timeControl && { timeControl: filterObj.timeControl }),
+    ...(filterObj.outcome && { outcome: filterObj.outcome }),
+    ...(moveCountQuery && moveCountQuery),
+    ...(filterObj.rarity && { rarity: filterObj.rarity }),
+    // TODO:  implement sale, and price
+    // sale,
+    // lowPrice,
+    // highPrice,
+  }
+  const count = await db.treasure.count({ where: whereQuery })
+  // Cannot use cursor pagination, since custom sorting is needed
+  const skip = page * TREASURES_PER_PAGE
+  const treasures = await db.treasure.findMany({
+    skip,
+    take: Math.min(count - skip, TREASURES_PER_PAGE),
+    where: whereQuery,
     // TODO: add sorting, see https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#orderby
     // orderBy:
-    // TODO: Add pagination
-    // skip: pageNumber * 100,
-    // take: 100
   })
+  return { treasures, count }
 }

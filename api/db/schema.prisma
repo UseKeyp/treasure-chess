@@ -60,6 +60,7 @@ model Treasure {
   // --------------- STATE --------------
   title            String
   cardColor        String // white or black
+  gifUrl           String // white or black
   blackRating      Int // Rating at the time of the game
   whiteRating      Int // Rating at the time of the game
   blackRatingDelta Int // Rating at the time of the game
@@ -95,7 +96,7 @@ model MintPurchase {
   title       String    @default("Cool game") // User's desired title
   // Order
   paymentType String    @default("WYRE") // WYRE, MINTCREDIT
-  orderStatus String?   // RESERVATION, COMPLETE
+  orderStatus String? // RESERVATION, COMPLETE
   // Wyre
   orderId     String?   @unique // Wyre orderId
   reservation String?   @unique // Wyre reservation

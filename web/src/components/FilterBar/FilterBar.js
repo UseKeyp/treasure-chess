@@ -167,7 +167,9 @@ const FilterBar = ({ filter, setFilter }) => {
           Achievements
         </h4>
         <AchievementScroll
-          achievements={filters.achievementList}
+          achievements={filters.achievementList.sort(
+            (a, b) => b.points - a.points
+          )}
           queryFilterFunction={updateAchievements}
           queryFilter={achievements}
         />

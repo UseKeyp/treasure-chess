@@ -17,6 +17,7 @@ export const QUERY = gql`
         country
         masterTitle
       }
+      gifUrl
       moveCount
       outcome
       termination

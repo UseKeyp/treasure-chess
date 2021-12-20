@@ -19,7 +19,7 @@ const TreasuresList = ({ treasures, count, onLoadMore, page, loading }) => {
 
   return (
     <div className="w-full ml-4">
-      <p>{count} Treasures</p>
+      <p>{count.toLocaleString()} Treasures</p>
       <div className="mt-4">
         {!treasures.length && loading ? (
           loader

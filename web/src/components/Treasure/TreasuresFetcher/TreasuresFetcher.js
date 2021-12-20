@@ -23,12 +23,10 @@ const TREASURES_WITH_FILTER = gql`
         black {
           username
           id
-          imageSrc
         }
         white {
           username
           id
-          imageSrc
         }
         winner {
           username

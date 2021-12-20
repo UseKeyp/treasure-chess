@@ -57,18 +57,14 @@ export const schema = gql`
     history: JSON
   }
 
-  type TreasurePage {
-    treasures: [Treasure!]!
-    count: Int!
-  }
-
   type Query {
     treasuresWithFilter(
       username: String
       filter: String
       sort: String
       page: Int
-    ): TreasurePage! @skipAuth
+    ): [Treasure!]! @skipAuth
+    treasuresWithFilterCount(username: String, filter: String): Int! @skipAuth
     treasure(tokenId: Int!): Treasure @skipAuth
     treasureNftDetails(tokenId: Int!): TreasureNftDetails @skipAuth
     mintCheckoutUrl(

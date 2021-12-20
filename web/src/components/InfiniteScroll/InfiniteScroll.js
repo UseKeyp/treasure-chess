@@ -17,7 +17,11 @@ const InfiniteScroll = ({
       <ScrollToTop
         smooth
         top={400}
-        component={<Icon name="arrow_up" size="40" />}
+        component={
+          <div className="flex justify-center">
+            <Icon name="arrow_up" size="70" />
+          </div>
+        }
       />
       <ReactInfiniteScrollComponent
         dataLength={dataLength}

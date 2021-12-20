@@ -9,84 +9,94 @@ const TREASURES_WITH_FILTER = gql`
     $sort: String
     $page: Int
   ) {
-    treasurePage: treasuresWithFilter(
+    treasures: treasuresWithFilter(
       username: $username
       filter: $filter
       sort: $sort
       page: $page
     ) {
-      count
-      treasures {
+      id
+      gifUrl
+      createdAt
+      black {
+        username
+        imageSrc
         id
-        gifUrl
-        createdAt
-        black {
-          username
-          imageSrc
-          id
-        }
-        white {
-          imageSrc
-          username
-          id
-        }
-        winner {
-          username
-          id
-        }
-        title
-        cardColor
-        blackRating
-        blackRatingDelta
-        whiteRatingDelta
-        blackMasterTitle
-        whiteMasterTitle
-        timeControl
-        termination
-        endTime
-        outcome
-        event
-        moves
-        ruleVariant
-        externalUrl
-        opening
-        achievements
-        achievementScore
-        rarity
       }
+      white {
+        imageSrc
+        username
+        id
+      }
+      winner {
+        username
+        id
+      }
+      title
+      cardColor
+      blackRating
+      blackRatingDelta
+      whiteRatingDelta
+      blackMasterTitle
+      whiteMasterTitle
+      timeControl
+      termination
+      endTime
+      outcome
+      event
+      moves
+      ruleVariant
+      externalUrl
+      opening
+      achievements
+      achievementScore
+      rarity
     }
+  }
+`
+const TREASURES_WITH_FILTER_COUNT = gql`
+  query TreasuresCountQuery($username: String, $filter: String) {
+    count: treasuresWithFilterCount(username: $username, filter: $filter)
   }
 `
 
 const TreasuresFetcher = ({ username, filter, sort }) => {
   const [treasures, setTreasures] = React.useState([])
-  const [count, setCount] = React.useState([])
+  const [count, setCount] = React.useState()
   const [page, setPage] = React.useState(0)
 
   const [getTreasures, { error, loading }] = useLazyQuery(
     TREASURES_WITH_FILTER,
     {
       variables: { username, filter, sort, page },
-      onCompleted: ({ treasurePage }) => {
-        if (page === 0) {
-          setTreasures(treasurePage.treasures)
-          setCount(treasurePage.count)
-          return
-        }
-        setTreasures([...treasures, ...treasurePage.treasures])
+      onCompleted: ({ treasures: newTreasures }) => {
+        if (page === 0) return setTreasures(newTreasures)
+        setTreasures([...treasures, ...newTreasures])
       },
     }
   )
+  const [getTreasuresCount] = useLazyQuery(TREASURES_WITH_FILTER_COUNT, {
+    variables: { username, filter },
+    onCompleted: ({ count: newCount }) => {
+      setCount(newCount)
+    },
+  })
 
   const onLoadMore = () => {
     setPage(page + 1)
     getTreasures()
   }
 
-  React.useEffect(() => {
+  const onNewSearch = () => {
     setPage(0)
+    setCount()
     setTreasures([])
     getTreasures()
+    getTreasuresCount()
+  }
+
+  React.useEffect(() => {
+    onNewSearch()
     /* eslint-disable-next-line react-hooks/exhaustive-deps*/
   }, [username, filter, sort])
 

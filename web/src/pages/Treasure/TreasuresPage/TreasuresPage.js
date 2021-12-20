@@ -7,6 +7,13 @@ import UsernameSearchBar from 'src/components/UsernameSearchBar'
 import FilterBar from 'src/components/FilterBar/FilterBar'
 
 const TreasuresPage = () => {
+  // Params to be excluded from query
+  const defaultParams = {
+    outcome: 'black,white,draw',
+    sale: 'All',
+    termination: 'Any',
+  }
+
   const params = useParams()
 
   const {
@@ -25,6 +32,16 @@ const TreasuresPage = () => {
     username && searchParams.append('username', username)
     sort && searchParams.append('sort', sort)
     searchParams.sort()
+
+    for (let value in defaultParams) {
+      if (
+        searchParams.get(value) === defaultParams[value] ||
+        searchParams.get(value) === ''
+      ) {
+        searchParams.delete(value)
+      }
+    }
+
     const newPath = searchParams.toString()
       ? window.location.pathname + '?' + searchParams.toString()
       : window.location.pathname

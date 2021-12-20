@@ -17,10 +17,10 @@ const FilterBar = ({ filter, setFilter }) => {
   const [achievements, setAchievements] = useState(filter.achievements || [])
   const [opening, setOpening] = useState(filter.opening)
   const [color, setColor] = useState(filter.color)
-  const [termination, setTermination] = useState('Any')
+  const [termination, setTermination] = useState(filters.terminationList[0])
   const [rarity, setRarity] = useState(filter.rarity)
-  const [sale, setSale] = useState('All')
-  const [outcome, setOutcome] = useState(['white', 'black', 'draw'])
+  const [sale, setSale] = useState(filters.saleList[0])
+  const [outcome, setOutcome] = useState(filters.outcomeList)
   const [lowPrice, setLowPrice] = useState(filter.lowPrice) // must be initialized to a string to control the input from initial render
   const [highPrice, setHighPrice] = useState(filter.highPrice)
 
@@ -55,11 +55,11 @@ const FilterBar = ({ filter, setFilter }) => {
     setColor()
     setTitle()
     setTimeControl()
-    setTermination('Any')
-    setOutcome(['white', 'black', 'draw'])
+    setTermination(filters.terminationList[0])
+    setOutcome(filters.outcomeList)
     setMoveCount()
     setRarity()
-    setSale('All')
+    setSale(filters.saleList[0])
     setLowPrice() // must be initialized to a string to control the input from initial render
     setHighPrice()
 

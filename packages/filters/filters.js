@@ -69,6 +69,7 @@ const openingList = [
 ]
 const colorList = ['white', 'black']
 const terminationList = [
+  'Any',
   'Checkmate',
   'Resignation',
   'Stalemate',

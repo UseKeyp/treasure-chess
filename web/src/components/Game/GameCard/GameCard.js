@@ -1,4 +1,3 @@
-import { GamesContext } from 'src/providers/context/GamesContext'
 import { P } from 'src/components/Typography'
 import Loader from 'src/components/Loader'
 
@@ -13,10 +12,9 @@ const options = {
   style: 'neo',
 }
 
-const GameCard = ({ game, isMinting }) => {
-  const [context] = React.useContext(GamesContext)
-  const { gameTitle } = context
+const GameCard = ({ game, isMinting, title, showGif }) => {
   const [cardHtml, setCardHtml] = React.useState()
+  const [imageSrc, setImageSrc] = React.useState('/loading-board.png') // Use loading image
   const update = async () => {
     let raw
     if (isMinting && !game) {
@@ -26,24 +24,28 @@ const GameCard = ({ game, isMinting }) => {
       })
     } else {
       raw = await getCardHtml({
-        treasure: { ...game, title: gameTitle || game.title || 'Add a title' },
-        gifUrl: game.gifUrl,
-        // If mobile, load static images?
-        // gifUrl: await getBoardBase64(
-        //   game.moves, // List of moves or PGN
-        //   game.cardColor, // Which player to show on bottom
-        //   options
-        // ),
+        treasure: { ...game, title: title || game.title || 'Add a title' },
+        gifUrl: showGif ? game.gifUrl : imageSrc,
       })
     }
     setCardHtml(raw)
   }
 
+  const fetchImageAndUpdate = async () => {
+    const boardBase64 = await getBoardBase64(
+      game.moves, // List of moves or PGN
+      game.cardColor, // Which player to show on bottom
+      options
+    )
+    setImageSrc(boardBase64)
+  }
+
   React.useEffect(() => {
     if (!isMinting && !game) return
     update()
+    if (!showGif) fetchImageAndUpdate()
     /* eslint-disable react-hooks/exhaustive-deps */
-  }, [game, gameTitle, isMinting])
+  }, [game, title, isMinting, imageSrc])
 
   if (!isMinting && !game) return null
   return (

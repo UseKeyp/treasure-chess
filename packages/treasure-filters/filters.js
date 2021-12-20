@@ -91,7 +91,7 @@ const filters = {
   saleList,
   outcomeList,
 }
-const TREASURES_PER_PAGE = 9
+const TREASURES_PER_PAGE = 18
 
 module.exports = filters
 module.exports.TREASURES_PER_PAGE = TREASURES_PER_PAGE

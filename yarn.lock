@@ -17849,6 +17849,11 @@ react-router@6.1.1, react-router@^6.0.0:
   dependencies:
     history "^5.1.0"
 
+react-scroll-to-top@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.npmjs.org/react-scroll-to-top/-/react-scroll-to-top-1.0.8.tgz#b78731e77fb4463aa39907a3da9b153e2f0079a4"
+  integrity sha512-GXaRZnET2YUy+teAQTcd6qy3Dn8Xme4Qk+7AFhK/2DCwTuo0gu8+p6aARHyoG1TVcvzRE7QCCZYNiFZmy8HW7Q==
+
 react-sizeme@^3.0.1:
   version "3.0.2"
   resolved "https://registry.npmjs.org/react-sizeme/-/react-sizeme-3.0.2.tgz#4a2f167905ba8f8b8d932a9e35164e459f9020e4"

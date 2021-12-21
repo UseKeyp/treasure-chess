@@ -18,26 +18,27 @@ rl.on('close', function () {
 })
 
 async function main() {
-  const whereQuery = { mintCredits: { gte: 0 } }
+  const whereQuery = {}
   const membersAffected = await db.member.count({
     where: whereQuery,
   })
   await rl.question(
-    `This will update ${membersAffected} members. Type "yes" to continue.`,
+    `###### WARNING ###### \nYou are about to update ${membersAffected} members. Type "yes" to continue.\n`,
     async (yesOrNo) => {
       if (yesOrNo === 'yes') {
         var startTime = performance.now()
         const updateResults = await db.member.updateMany({
           where: whereQuery,
-          data: { mintCredits: 6 },
+          data: { imageSrc: '' },
         })
         var endTime = performance.now()
-        console.log(`Modified ${updateResults.count} members`)
+        console.log(`Successfully modified ${updateResults.count} members!`)
         console.log(
-          `Total: ${((endTime - startTime) / 1000).toFixed(3)} seconds`
+          `Duration: ${((endTime - startTime) / 1000).toFixed(3)} seconds`
         )
         rl.close()
       } else {
+        console.log('No changes made.')
         rl.close()
       }
     }

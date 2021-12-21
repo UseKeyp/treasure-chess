@@ -1,10 +1,8 @@
 import { useState, useCallback } from 'react'
-import { createPortal } from 'react-dom'
 
 import { trimAddress } from 'src/utils/helpers'
-import Button from 'src/components/Button/Button'
 import Icon from 'src/components/Icon'
-import FundsModal from 'src/components/FundsModal/FundsModal'
+import ModalContainer from 'src/components/ModalContainer/ModalContainer'
 import styles from './MemberDetailsAddressModal.module.scss'
 
 const MemberDetailsAddressModal = ({ address }) => {
@@ -30,54 +28,6 @@ const MemberDetailsAddressModal = ({ address }) => {
     setTimeout(() => setCopied(false), 4000)
   }, [address])
 
-  const modalContent = createPortal(
-    <FundsModal>
-      <h2 className="font-bold text-2xl">Deposit USDC</h2>
-
-      <p className="mt-4 text-base">
-        <span>WARNING: At this time you can </span>
-        <span className={styles['matic-warning']}>
-          only deposit USDC on the Polygon Network (Matic).
-        </span>
-      </p>
-
-      <p className="mt-4 text-base">
-        Do not send anything else to this address, or use other networks. You
-        will not be able to recover other assets, and they may be lost forever.
-        We cannot guarantee support will be added for other networks or assets.
-      </p>
-
-      <p className="mt-4 text-base">
-        By continuing you agree you’ve read this and understand these risks.
-      </p>
-
-      <div className="flex w-full mt-4 items-center justify-between">
-        <button
-          type="button"
-          onClick={() => setOpen(false)}
-          className="text-lg"
-        >
-          Cancel
-        </button>
-
-        {copied ? (
-          <div className="text-lg p-2" role="alert">
-            Copied!
-          </div>
-        ) : (
-          <Button
-            onClick={() => handleCopy()}
-            className={styles['copy-address']}
-            variant="blue"
-          >
-            Copy Wallet Address
-          </Button>
-        )}
-      </div>
-    </FundsModal>,
-    document.querySelector('body')
-  )
-
   return (
     <>
       <p className="mt-2">
@@ -86,7 +36,35 @@ const MemberDetailsAddressModal = ({ address }) => {
           <Icon name="copy" color="#147DDD" />
         </button>
       </p>
-      {isOpen ? modalContent : null}
+      <ModalContainer
+        isVisible={isOpen}
+        headerText="Deposit USDC"
+        submitText={copied ? 'Copied!' : 'Copy Wallet Address'}
+        onSubmit={() => handleCopy()}
+        hideModal={() => setOpen(false)}
+        content={
+          <>
+            <p className="text-base">
+              <span>WARNING: At this time you can </span>
+              <span className={styles['matic-warning']}>
+                only deposit USDC on the Polygon Network (Matic).
+              </span>
+            </p>
+
+            <p className="mt-4 text-base">
+              Do not send anything else to this address, or use other networks.
+              You will not be able to recover other assets, and they may be lost
+              forever. We cannot guarantee support will be added for other
+              networks or assets.
+            </p>
+
+            <p className="mt-4 text-base">
+              By continuing you agree you’ve read this and understand these
+              risks.
+            </p>
+          </>
+        }
+      />
     </>
   )
 }

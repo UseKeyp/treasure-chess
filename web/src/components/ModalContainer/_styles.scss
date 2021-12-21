@@ -1,4 +1,4 @@
-@use "sass:color";
+@use 'sass:color';
 
 body {
   /* Works on Chrome, Edge, and Safari */
@@ -24,7 +24,7 @@ body.modal-open {
 }
 
 .overlay {
-  background: rgba(49, 46, 43, .5); //chess-b1 to RGB
+  background: rgba(49, 46, 43, 0.5); //chess-b1 to RGB
   height: 100vh;
   left: 0;
   opacity: 0.5;
@@ -45,7 +45,7 @@ body.modal-open {
   width: 90%;
   max-width: 432px;
   max-height: 40vh;
-  background: #4F4F4F;
+  background: #4f4f4f;
   box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.4);
   border-radius: 12px;
   z-index: 1000;
@@ -58,7 +58,7 @@ body.modal-open {
   font-size: 20px;
   justify-content: space-between;
   width: 100%;
-  bottom: 10px
+  bottom: 10px;
 }
 
 .body-text {
@@ -81,7 +81,8 @@ body.modal-open {
 .modal-close-button {
   padding-right: 10px;
   &:focus {
-    outline: none;}
+    outline: none;
+  }
 }
 
 .modal-submit-button {
@@ -93,18 +94,18 @@ body.modal-open {
   position: relative;
   left: 0px;
   top: 0px;
-  background: #125BF5;
+  background: #125bf5;
   border-radius: 4px;
   font-family: Montserrat;
   font-style: normal;
   font-weight: bold;
   line-height: 24px;
-  box-shadow: 0px 2px 0px 0px #1A32AF;
+  box-shadow: 0px 2px 0px 0px #1a32af;
   &:focus {
     outline: none;
   }
   &:hover {
-    background-color: color.scale(#125BF5, $lightness: -5%);
+    background-color: color.scale(#125bf5, $lightness: -5%);
     box-shadow: none;
     transform: translateY(2px);
   }

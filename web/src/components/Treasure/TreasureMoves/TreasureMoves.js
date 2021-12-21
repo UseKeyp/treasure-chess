@@ -1,6 +1,7 @@
-import DetailsBox from 'src/components/DetailsBox'
+import Avatar from 'src/components/Avatar'
 
 const parsePgn = (str) => {
+  if (!str) return []
   const list = str
     .split('.')
     .map((line, i) => {
@@ -16,15 +17,35 @@ const parsePgn = (str) => {
 const TABLE_TITLE = 'Moves'
 
 const TreasureMoves = ({ treasure }) => {
-  if (!treasure) return <DetailsBox heading={TABLE_TITLE} />
-  const list = parsePgn(treasure.moves)
+  const list = parsePgn(treasure?.moves)
 
   return (
-    <div
-      className="moves-details"
-      style={{ minHeight: treasure.moves.length > 0 ? 0 : 120 }}
-    >
+    <div className="moves-details">
       <h3 className="moves-details__heading">{TABLE_TITLE}</h3>
+      <header className="moves-details__players">
+        <div className="moves-details__player">
+          <span className="moves-details__player-no">White</span>
+          <div className="moves-details__player-avatar">
+            <div className="mr-2">
+              <Avatar src={treasure?.white.imageSrc} size="16px" />
+            </div>
+            <p className="moves-details__player-nick">
+              {treasure?.white.username}
+            </p>
+          </div>
+        </div>
+        <div className="moves-details__player">
+          <span className="moves-details__player-no">Black</span>
+          <div className="moves-details__player-avatar">
+            <div className="mr-2">
+              <Avatar src={treasure?.black.imageSrc} size="16px" />
+            </div>
+            <p className="moves-details__player-nick">
+              {treasure?.black.username}
+            </p>
+          </div>
+        </div>
+      </header>
       <ul className="moves-details__list">
         {list.map((round) => {
           const [turn, white, black] = round
@@ -32,8 +53,12 @@ const TreasureMoves = ({ treasure }) => {
           return (
             <li key={turn} className="moves-details__item">
               <div className="moves-details__item__inner">
-                <span className="moves-details__item__detail">{turn}.</span>
-                <span className="moves-details__item__detail">{white}</span>
+                <span className="moves-details__item__detail--first">
+                  {turn}.
+                </span>
+                <span className="moves-details__item__detail--second">
+                  {white}
+                </span>
                 <span className="moves-details__item__detail">{black}</span>
               </div>
             </li>

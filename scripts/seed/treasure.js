@@ -7,21 +7,19 @@ const treasureData = [
     black: {
       connect: { id: alice.id },
     },
-    blackUsername: alice.username,
     white: {
       connect: { id: bob.id },
     },
-    whiteUsername: bob.username,
     winner: { connect: { id: bob.id } },
-    winnerUsername: bob.username,
     // NFT
     minter: {
-      connect: { address: bob.address },
+      connect: { id: bob.id },
     },
     owner: {
-      connect: { address: bob.address },
+      connect: { id: bob.id },
     },
     uriData: 'TODO!',
+    tokenUri: 'TODO!',
     tokenId: 1,
     mintedAt: new Date('2021-08-24T21:17:16+0000'),
     // --------------- STATE --------------
@@ -54,25 +52,23 @@ const treasureData = [
     black: {
       connect: { id: alice.id },
     },
-    blackUsername: alice.username,
     white: {
       connect: { id: bob.id },
     },
-    whiteUsername: bob.username,
     winner: { connect: { id: bob.id } },
-    winnerUsername: bob.username,
     // NFT
     minter: {
-      connect: { address: bob.address },
+      connect: { id: bob.id },
     },
     owner: {
-      connect: { address: bob.address },
+      connect: { id: bob.id },
     },
     uriData: 'TODO!',
+    tokenUri: 'TODO!',
     tokenId: 2,
     mintedAt: new Date('2021-08-24T21:17:16+0000'),
     // --------------- STATE --------------
-    title: 'Erik crushes',
+    title: 'Amazing comeback',
     cardColor: 'black', // white or black
     blackRating: 1500,
     blackRatingDelta: -4,
@@ -91,8 +87,7 @@ const treasureData = [
     ruleVariant: 'Standard', // eg. "Standard" or "Chess960"
     externalUrl: 'https://www.chess.com/game/daily/28103371', // Link to game on chess.com
     opening: 'Scandinavian', // eg. "Queen's Gambit"
-    achievements:
-      'Win a game,Win a game against opponent rated 750+,Mate with a bishop', // List eg. "win/play above 2200,queen side castle,mate with a bishop"
+    achievements: "Played 2000+,Don't Blink,Horse Farmer", // List eg. "win/play above 2200,queen side castle,mate with a bishop"
     achievementScore: 2,
     rarity: 'Common',
   },

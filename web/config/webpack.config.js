@@ -2,14 +2,12 @@
 const webpack = require('webpack')
 const globImporter = require('node-sass-glob-importer')
 
-const scssRegEx = /\.scss$/
-
 module.exports = (config, { mode }) => {
   const rules = config.module.rules[0].oneOf
-  const scssRuleIndex = rules.findIndex(
-    (rule) => rule.test.toString() === scssRegEx.toString()
-  )
 
+  const scssRuleIndex = rules.findIndex(
+    (rule) => rule.test.toString() === /\.scss$/.toString()
+  )
   // Override exising scss rule
   const scssRule = rules[scssRuleIndex]
   const customScssRule = {
@@ -38,6 +36,7 @@ module.exports = (config, { mode }) => {
     url: require.resolve(`url/`),
     assert: require.resolve(`assert/`),
     crypto: require.resolve(`crypto-browserify`),
+    path: require.resolve('path-browserify'),
   }
   config.plugins.push(
     new webpack.ProvidePlugin({

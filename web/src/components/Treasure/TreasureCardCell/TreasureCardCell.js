@@ -1,32 +1,40 @@
-import TreasureCard from 'src/components/Treasure/TreasureCard'
+import GameCard from 'src/components/Game/GameCard'
 
 export const QUERY = gql`
-  query FindTreasureQuery($id: String!) {
-    treasure: treasure(id: $id) {
+  query FindTreasureQuery($tokenId: Int!) {
+    treasure: treasure(tokenId: $tokenId) {
       id
-      endTime
-      moveCount
-      outcome
-      cardColor
+      createdAt
+      black {
+        username
+        id
+        imageSrc
+      }
+      white {
+        username
+        id
+        imageSrc
+      }
+      winner {
+        username
+        id
+      }
       title
-      gameRuleVariant
-      termination
-      achievements
-      whiteRating
+      cardColor
       blackRating
       blackMasterTitle
       whiteMasterTitle
-      externalUrl
       timeControl
-      winner {
-        id
-      }
-      black {
-        id
-      }
-      white {
-        id
-      }
+      termination
+      endTime
+      outcome
+      event
+      ruleVariant
+      externalUrl
+      opening
+      achievements
+      achievementScore
+      rarity
     }
   }
 `
@@ -42,5 +50,5 @@ export const Failure = () => (
 )
 
 export const Success = ({ treasure }) => {
-  return <TreasureCard treasure={treasure} />
+  return <GameCard game={treasure} />
 }

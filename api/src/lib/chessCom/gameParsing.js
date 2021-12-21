@@ -52,7 +52,7 @@ const getGameRuleVariant = (game) => {
   return game.rules.replace(/^\w/, (c) => c.toUpperCase())
 }
 
-export const parseGameFromChessDotCom = (game) => {
+const parseGameFromChessDotCom = (game) => {
   const {
     termination,
     blackRatingBefore,
@@ -71,6 +71,7 @@ export const parseGameFromChessDotCom = (game) => {
   return {
     id,
     pgn: game.pgn,
+    tcn: game.tcn,
     blackRating: game.black.rating,
     blackRatingDelta: game.black.rating - blackRatingBefore,
     whiteRating: game.white.rating,
@@ -89,3 +90,4 @@ export const parseGameFromChessDotCom = (game) => {
     externalUrl: game.url,
   }
 }
+module.exports = { parseGameFromChessDotCom }

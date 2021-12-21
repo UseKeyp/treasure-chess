@@ -1,8 +1,8 @@
 import TreasureOpening from 'src/components/Treasure/TreasureOpening'
 
 export const QUERY = gql`
-  query FindTreasureOpeningQuery($id: String!) {
-    treasure(id: $id) {
+  query FindTreasureOpeningQuery($tokenId: Int!) {
+    treasure(tokenId: $tokenId) {
       id
       opening
     }

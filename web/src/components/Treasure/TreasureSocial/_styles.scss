@@ -1,0 +1,30 @@
+.treasure-social {
+  padding: 16px;
+  background-color: #272522;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-height: 80px;
+  & * {
+    color: #abb6b9;
+  }
+
+  &__person {
+    & a {
+      color: #47a7ff;
+    }
+  }
+
+  &__persons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  &__buttons {
+    margin-top: 8px;
+    display: flex;
+    justify-content: space-around;
+  }
+}

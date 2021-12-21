@@ -5,8 +5,13 @@ import { getTreasureId, getTreasureCardColor } from 'src/lib/treasures'
 import { fetchMember } from 'src/lib/members'
 import { fetchChessGames, fetchChessGame } from 'src/lib/chessCom/chessCom'
 import { parseGameFromChessDotCom } from 'src/lib/chessCom/gameParsing'
+import { getGifUrl } from 'src/lib/chessCom/gifGetter'
 
-const getFullGameDetails = async ({ game: rawGame, username }) => {
+const getFullGameDetails = async ({
+  game: rawGame,
+  username,
+  includeAchievements,
+}) => {
   const game = parseGameFromChessDotCom(rawGame)
   const cardColor = getTreasureCardColor({ game, username })
   const treasureId = getTreasureId({
@@ -16,6 +21,10 @@ const getFullGameDetails = async ({ game: rawGame, username }) => {
   })
   const treasure = await db.treasure.findUnique({
     where: { id: treasureId },
+    include: {
+      black: true,
+      white: true,
+    },
   })
   if (treasure) return treasure
   const { opening, score, achievements } = achievementsCalculator(
@@ -23,12 +32,7 @@ const getFullGameDetails = async ({ game: rawGame, username }) => {
     cardColor
   )
 
-  const achievementsString = achievements
-    .slice(0, 3)
-    // TODO: Remove the placeholder number here once the achievments library has been updated
-    // .map((item) => item.name)
-    .map((item) => `#23. ${item.name}`)
-    .join(',')
+  const achievementsString = achievements.map((item) => item.name).join(',')
   const white = await fetchMember(game.whiteUsername)
   const black = await fetchMember(game.blackUsername)
   let winnerId
@@ -36,13 +40,16 @@ const getFullGameDetails = async ({ game: rawGame, username }) => {
   else if (game.winnerUsername === game.blackUsername) winnerId = black.id
   return {
     ...game,
+    white,
+    black,
     blackId: black.id,
     whiteId: white.id,
     winnerId,
     cardColor,
     opening,
-    achievements: achievementsString,
-    achievementScore: score,
+    gifUrl: getGifUrl({ tcn: game.tcn, playerColor: cardColor }),
+    ...(includeAchievements && { achievements: achievementsString }),
+    ...(includeAchievements && { achievementScore: score }),
   }
 }
 
@@ -54,7 +61,8 @@ export const fetchGame = async ({
 }) => {
   const game = await fetchChessGame({ username, gameId, endTime })
   if (!game) return null
-  if (includeTreasureData) return getFullGameDetails({ game, username })
+  if (includeTreasureData)
+    return getFullGameDetails({ game, username, includeAchievements: true })
   return parseGameFromChessDotCom(game)
 }
 

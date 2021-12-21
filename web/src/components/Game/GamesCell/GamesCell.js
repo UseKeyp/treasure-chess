@@ -5,6 +5,19 @@ export const QUERY = gql`
     games: games(filter: $filter) {
       id
       endTime
+      white {
+        username
+        imageSrc
+        country
+        masterTitle
+      }
+      black {
+        username
+        imageSrc
+        country
+        masterTitle
+      }
+      gifUrl
       moveCount
       outcome
       termination
@@ -14,17 +27,13 @@ export const QUERY = gql`
       ruleVariant
       termination
       whiteRating
+      whiteRatingDelta
       blackRating
+      blackRatingDelta
       externalUrl
       timeControl
-      winnerUsername
-      winnerId
-      blackUsername
-      blackId
-      blackMasterTitle
-      whiteUsername
-      whiteId
-      whiteMasterTitle
+      tokenId
+      title
     }
   }
 `
@@ -39,6 +48,6 @@ export const Failure = () => (
   </div>
 )
 
-export const Success = ({ games, onMintClick }) => {
-  return <Games games={games} onMintClick={onMintClick} />
+export const Success = ({ games }) => {
+  return <Games games={games} />
 }

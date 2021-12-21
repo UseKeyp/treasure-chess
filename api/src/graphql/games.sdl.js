@@ -1,16 +1,16 @@
 export const schema = gql`
   type Game {
     id: String!
-    blackId: String!
-    blackUsername: String!
-    whiteId: String!
-    whiteUsername: String!
-    winnerId: String
-    winnerUsername: String
+    black: Member
+    white: Member
+    winner: Member
     outcome: String!
     termination: String!
+    gifUrl: String!
     blackRating: Int!
+    blackRatingDelta: String!
     whiteRating: Int!
+    whiteRatingDelta: String!
     timeControl: String!
     endTime: DateTime!
     event: String!
@@ -20,13 +20,12 @@ export const schema = gql`
     externalUrl: String
     opening: String!
     cardColor: String!
-    achievements: String!
-    blackMasterTitle: String
-    whiteMasterTitle: String
+    achievements: String
+    tokenId: Int
+    title: String
   }
 
   type Query {
     games(filter: String): [Game!]! @requireAuth
-    game(id: String!, username: String!, endTime: DateTime!): Game @skipAuth
   }
 `

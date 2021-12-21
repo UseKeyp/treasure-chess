@@ -1,15 +1,18 @@
 import TreasureNftDetails from 'src/components/Treasure/TreasureNftDetails'
 
 export const QUERY = gql`
-  query TreasureNftDetailsQuery($id: String!) {
-    treasureNftDetails: treasureNftDetails(id: $id) {
+  query TreasureNftDetailsQuery($tokenId: Int!) {
+    treasureNftDetails: treasureNftDetails(tokenId: $tokenId) {
+      id
       owner {
         id
         address
+        username
       }
       minter {
         id
         address
+        username
       }
       bids
       history

@@ -1,55 +1,42 @@
-import { X } from 'react-feather'
-import PropTypes from 'prop-types'
+import { createPortal } from 'react-dom'
+import Button from 'src/components/Button/Button'
 
 const ModalContainer = ({
-  title,
-  onClose,
-  children,
-  stepNum = undefined,
-  totalNumSteps = undefined,
-  statusText = undefined,
+  isVisible,
+  hideModal,
+  content,
+  headerText,
+  submitText,
+  onSubmit,
+  icon,
 }) => {
-  const showProgressIndicator =
-    Number.isInteger(stepNum) && Number.isInteger(totalNumSteps)
+  isVisible
+    ? (document.body.style.position = 'fixed')
+    : (document.body.style.position = 'relative')
 
-  return (
-    <div className="modal-outer-container bg-white flex-col flex items-center border-black border-solid border fixed sm:w-64 md:w-96">
-      <button className="absolute modal-close-button" onClick={onClose}>
-        <X size={32} color="#fff" />
-      </button>
-      <h2 className="flex justify-center font-black text-2xl mx-auto mb-0 mt-0">
-        {title}
-      </h2>
-      {showProgressIndicator && (
-        <div
-          className="rounded-lg mt-8 h-4"
-          style={{
-            width: '60%',
-            backgroundColor: '#EEEDED',
-          }}
-        >
-          <div
-            className="h-full rounded-lg"
-            style={{
-              width: `${((stepNum / totalNumSteps) * 100).toFixed(0)}%`,
-              backgroundColor: '#B9CC36',
-            }}
-          />
-        </div>
-      )}
-      {statusText && <div className="text-sm mt-4 font-bold">{statusText}</div>}
-      <div className="text-lg p-6 text-center">{children}</div>
-    </div>
-  )
-}
-
-ModalContainer.propTypes = {
-  title: PropTypes.string.isRequired,
-  onClose: PropTypes.func,
-  children: PropTypes.element,
-  stepNum: PropTypes.number,
-  totalNumSteps: PropTypes.number,
-  statusText: PropTypes.string,
+  return isVisible
+    ? createPortal(
+        <div>
+          <div className="overlay" aria-hidden="true" onClick={hideModal} />
+          <div className="modal-wrapper">
+            <div className="modal-header-wrapper">
+              <h2 className="header-text">{headerText}</h2>
+              {icon}
+            </div>
+            <p className="body-text">{content}</p>
+            <div className="modal-button-wrapper">
+              <Button variant="transparent" onClick={hideModal}>
+                Cancel
+              </Button>
+              <Button variant="blue" onClick={onSubmit}>
+                {submitText}
+              </Button>
+            </div>
+          </div>
+        </div>,
+        document.body
+      )
+    : null
 }
 
 export default ModalContainer

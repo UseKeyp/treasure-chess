@@ -1,5 +1,5 @@
+import filters from '@treasure-chess/treasure-filters'
 import { useState } from 'react'
-import filters from '@common/filters'
 
 import styles from './FilterBar.module.scss'
 
@@ -152,7 +152,7 @@ const FilterBar = ({ filter, setFilter }) => {
       <div className={styles.dropdownRow}>
         <FilterCheckbox
           category={'Master Title'}
-          options={filters.titleList.map((title) => title.name)}
+          options={filters.titleList.map((title) => title.toUpperCase())}
           queryFilterFunction={setTitle}
           queryFilter={title}
         />
@@ -160,7 +160,9 @@ const FilterBar = ({ filter, setFilter }) => {
       <div className={styles.dropdownRow}>
         <h4 style={{ marginLeft: `1em` }}>Achievements</h4>
         <AchievementScroll
-          achievements={filters.achievementList}
+          achievements={filters.achievementList.sort(
+            (a, b) => b.points - a.points
+          )}
           queryFilterFunction={updateAchievements}
           queryFilter={achievements}
         />

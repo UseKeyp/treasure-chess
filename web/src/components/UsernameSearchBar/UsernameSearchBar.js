@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import styles from './UsernameSearchBar.module.scss'
 import { useLazyQuery } from '@apollo/client'
 import { debounce } from 'src/utils/helpers'
 
@@ -58,24 +57,22 @@ const UsernameSearchBar = ({ initialQuery = '', setQuery }) => {
   }
 
   return (
-    <div className={`searchBarContainer ${styles.searchBarContainer}`}>
-      <div className={styles.searchOuterWrap}>
+    <div className={'searchBarContainer'}>
+      <div>
         <input
           placeholder="Search Treasures"
           onChange={onChange}
           value={value}
         />
-        <div className={styles.iconWrap}>
-          <SearchIcon />
-        </div>
+        <SearchIcon />
       </div>
       {dropdownOptions?.length > 0 && (
-        <div className="dropdownContainer">
+        <div className="searchBarContainer__dropdownContainer">
           {dropdownOptions?.map((option) => (
             <button
               onClick={() => onSelectUsername(option)}
               key={option}
-              className="dropdownOption"
+              className="searchBarContainer__dropdownContainer__dropdownOption"
             >
               {option}
             </button>

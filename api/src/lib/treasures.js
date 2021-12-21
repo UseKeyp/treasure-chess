@@ -102,7 +102,7 @@ const getWhereQueryFromArgs = ({ username, filter }) => {
   // Create each TreasureWhereInput
   const usernameQuery = username
     ? {
-        OR: [{ blackUsername: username }, { whiteUsername: username }],
+        OR: [{ black: { username } }, { white: { username } }],
       }
     : null
 

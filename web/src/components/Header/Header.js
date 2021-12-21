@@ -2,9 +2,10 @@ import { useState } from 'react'
 import { createPortal } from 'react-dom'
 import { Link, routes, useLocation } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
+import { useParams } from '@redwoodjs/router'
 
 import Avatar from 'src/components/Avatar/Avatar'
-import SearchBar from 'src/components/Marketplace/SearchBar'
+import UsernameSearchBar from 'src/components/UsernameSearchBar'
 import { ReactComponent as TreasureChest } from 'src/assets/icons/TreasureChessChest.svg'
 
 import { trimAddress } from 'src/utils/helpers'
@@ -105,12 +106,23 @@ const MobileNav = () => {
 const Header = () => {
   const { isAuthenticated: isLoggedIn, currentUser: profile, logIn } = useAuth()
   const { pathname } = useLocation()
+  const params = useParams()
+  const { username: initialUsername = '', ...currentFilter } = params
 
   const handleLogIn = () => logIn({ redirectTo: pathname })
 
   const imageSrc = profile?.imageSrc || null
 
   const address = trimAddress(profile?.address) || 'No address set'
+
+  const onUpdateUsername = (newUsername) => {
+    const searchParams = new URLSearchParams(currentFilter)
+    searchParams.append('username', newUsername)
+    const newPath = searchParams.toString()
+      ? window.location.pathname + '?' + searchParams.toString()
+      : window.location.pathname
+    window.history.replaceState({}, '', newPath)
+  }
 
   return (
     <div className={'header'}>
@@ -119,7 +131,10 @@ const Header = () => {
           <img src="/TreasureChessLogo.png" alt="TreasureChess.com" />
         </Link>
         <div className="hidden lg:block">
-          <SearchBar />
+          <UsernameSearchBar
+            initialQuery={initialUsername}
+            setQuery={onUpdateUsername}
+          />
         </div>
       </div>
       <div className="flex flex-1 items-center justify-end lg:hidden">

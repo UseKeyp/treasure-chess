@@ -2,88 +2,50 @@
 const { PrismaClient } = require('@prisma/client')
 const dotenv = require('dotenv')
 const { performance } = require('perf_hooks')
-
-const exampleMembers = require('./member')
-const exampleTreasures = require('./treasure')
-const { generateRandomMembers, generateRandomTreasures } = require('./helpers')
+const readline = require('readline')
 
 dotenv.config()
 const db = new PrismaClient()
 
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+})
+
+rl.on('close', function () {
+  console.log('\nExiting!')
+  process.exit(0)
+})
+
 async function main() {
-  // NOTE: change these as desired
-  const newTreasuresToCreate = 1000
-  // const newMembersToCreate = Math.floor(newTreasuresToCreate / 3)
-  const newMembersToCreate = 300
-
-  var startMemberGenTime = performance.now()
-  // MEMBERS
-  if (newMembersToCreate > 0) {
-    console.log(`${newMembersToCreate} new Members `)
-    const highestMemberId = await db.member.count()
-    const randomMembers = generateRandomMembers(
-      newMembersToCreate,
-      highestMemberId
-    )
-    var endMemberGenTime = performance.now()
-    console.log(
-      `Gen: ${((endMemberGenTime - startMemberGenTime) / 1000).toFixed(
-        3
-      )} seconds`
-    )
-    var startMemberWriteTime = performance.now()
-    await db.member.createMany({
-      data: randomMembers,
-    })
-    var endMemberWriteTime = performance.now()
-    console.log(
-      `Write: ${((endMemberWriteTime - startMemberWriteTime) / 1000).toFixed(
-        3
-      )} seconds`
-    )
-    console.log('')
-  }
-
-  const members = await db.member.findMany()
-  // TREASURES
-  console.log(`${newTreasuresToCreate} new Treasures`)
-  const highestTreasureTokenId = await db.treasure.count()
-  var startTreasureGenTime = performance.now()
-  const randomTreasures = generateRandomTreasures(
-    newTreasuresToCreate,
-    highestTreasureTokenId,
-    members
-  )
-  var endTreasureGenTime = performance.now()
-  console.log(
-    `Gen: ${((endTreasureGenTime - startTreasureGenTime) / 1000).toFixed(
-      3
-    )} seconds`
-  )
-  var startTreasureWriteTime = performance.now()
-  await db.treasure.createMany({
-    data: randomTreasures,
+  const whereQuery = { mintCredits: { gte: 0 } }
+  const membersAffected = await db.member.count({
+    where: whereQuery,
   })
-  var endTreasureWriteTime = performance.now()
-  console.log(
-    `Write: ${((endTreasureWriteTime - startTreasureWriteTime) / 1000).toFixed(
-      3
-    )} seconds`
-  )
-  console.log('')
-  console.log(
-    `Total: ${((endTreasureWriteTime - startMemberGenTime) / 1000).toFixed(
-      3
-    )} seconds`
+  await rl.question(
+    `This will update ${membersAffected} members. Type "yes" to continue.`,
+    async (yesOrNo) => {
+      if (yesOrNo === 'yes') {
+        var startTime = performance.now()
+        const updateResults = await db.member.updateMany({
+          where: whereQuery,
+          data: { mintCredits: 6 },
+        })
+        var endTime = performance.now()
+        console.log(`Modified ${updateResults.count} members`)
+        console.log(
+          `Total: ${((endTime - startTime) / 1000).toFixed(3)} seconds`
+        )
+        rl.close()
+      } else {
+        rl.close()
+      }
+    }
   )
 }
 
-const seed = async () => {
-  const rounds = 1
-  for (var i = 0; i < rounds; i++) {
-    console.log(`############ Round ${i + 1} of ${rounds} ################`)
-    await main()
-  }
+const modify = async () => {
+  await main()
   await db.$disconnect()
 }
-export default seed
+export default modify

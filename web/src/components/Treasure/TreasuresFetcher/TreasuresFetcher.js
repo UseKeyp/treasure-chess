@@ -88,11 +88,11 @@ const TreasuresFetcher = ({ username, filter, sort }) => {
   }
 
   const onNewSearch = () => {
+    getTreasures()
+    getTreasuresCount()
     setPage(0)
     setCount()
     setTreasures([])
-    getTreasures()
-    getTreasuresCount()
   }
 
   React.useEffect(() => {

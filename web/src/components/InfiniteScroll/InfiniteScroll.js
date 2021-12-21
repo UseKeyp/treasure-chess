@@ -26,7 +26,6 @@ const InfiniteScroll = ({
       <ReactInfiniteScrollComponent
         dataLength={dataLength}
         next={onLoadMore}
-        scrollThreshold={70}
         hasMore={hasMore}
         loader={loader || <h4>Loading...</h4>}
         endMessage={

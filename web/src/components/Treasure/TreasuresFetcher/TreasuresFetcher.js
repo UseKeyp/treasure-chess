@@ -45,6 +45,7 @@ const TREASURES_WITH_FILTER = gql`
       outcome
       event
       moves
+      boardLayout
       ruleVariant
       externalUrl
       opening

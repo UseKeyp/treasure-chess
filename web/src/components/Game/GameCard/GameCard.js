@@ -1,7 +1,9 @@
 import { P } from 'src/components/Typography'
 import Loader from 'src/components/Loader'
-
-const getBoardBase64 = require('@treasure-chess/chess-image-generator')
+const {
+  getBoardLayout,
+  getBoardBase64,
+} = require('@treasure-chess/chess-image-generator')
 import { getCardHtml } from '@treasure-chess/treasure-html'
 import placeholderGame from './placeholderGameData'
 
@@ -32,8 +34,16 @@ const GameCard = ({ game, isMinting, title, showGif }) => {
   }
 
   const fetchImageAndUpdate = async () => {
+    let boardLayout
+    try {
+      // TODO: properly load the board layout from BE
+      boardLayout = JSON.parse(game.boardLayout)
+    } catch (e) {
+      console.log(e)
+    }
+    // if (!boardLayout) boardLayout = getBoardLayout(game.moves)
     const boardBase64 = await getBoardBase64(
-      game.moves, // List of moves or PGN
+      boardLayout,
       game.cardColor, // Which player to show on bottom
       options
     )
@@ -43,9 +53,13 @@ const GameCard = ({ game, isMinting, title, showGif }) => {
   React.useEffect(() => {
     if (!isMinting && !game) return
     update()
-    if (!showGif) fetchImageAndUpdate()
     /* eslint-disable react-hooks/exhaustive-deps */
   }, [game, title, isMinting, imageSrc])
+
+  React.useEffect(() => {
+    if (!showGif) fetchImageAndUpdate()
+    /* eslint-disable react-hooks/exhaustive-deps */
+  }, [game])
 
   if (!isMinting && !game) return null
   return (

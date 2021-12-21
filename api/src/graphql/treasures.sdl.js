@@ -36,6 +36,7 @@ export const schema = gql`
     outcome: String!
     event: String!
     moves: String!
+    boardLayout: String!
     moveCount: Int!
     ruleVariant: String!
     externalUrl: String

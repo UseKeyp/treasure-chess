@@ -1,14 +1,13 @@
 .filterBar {
-display: flex;
-flex-flow: column nowrap;
-background-color: hsla(36, 7%, 14%, 1);
-font-size: 1rem;
-padding: 1ex 1em;
-border-radius: 0.5rem;
-align-items: center;
-justify-content: flex-start;
-max-width: clamp(264px, 100%, 364px);
-margin-top: 29px;
+  display: flex;
+  flex-flow: column nowrap;
+  background-color: hsla(36, 7%, 14%, 1);
+  font-size: 1rem;
+  padding: 1ex 1em;
+  border-radius: 0.5rem;
+  align-items: center;
+  justify-content: flex-start;
+  max-width: clamp(264px, 100%, 364px);
 }
 
 .resetRow {
@@ -17,7 +16,7 @@ margin-top: 29px;
   width: 100%;
   button {
     padding-top: 1ex;
-    color: #259FC6;
+    color: #259fc6;
   }
 }
 

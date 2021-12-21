@@ -2,11 +2,13 @@ import { db } from 'src/lib/db'
 import { fetchGame } from 'src/lib/games'
 import { createMintReservation } from 'src/lib/wyre/wyre'
 import { validateTreasureTitle } from 'src/lib/helpers'
-import { getTreasuresWithArguments } from 'src/lib/treasures'
+import { getTreasuresWithFilter } from 'src/lib/treasures'
 import { EnvelopError } from '@envelop/core'
 
-export const treasures = ({ username, sort, filter }) =>
-  getTreasuresWithArguments({ username, sort, filter })
+export const treasures = () => db.treasure.findMany()
+
+export const treasuresWithFilter = ({ username, sort, filter, page }) =>
+  getTreasuresWithFilter({ username, sort, filter, page })
 
 export const treasure = ({ tokenId }) =>
   db.treasure.findUnique({

@@ -2,8 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams } from '@redwoodjs/router'
 import { MetaTags } from '@redwoodjs/web'
 
-import TreasuresCell from 'src/components/Treasure/TreasuresCell'
-import UsernameSearchBar from 'src/components/UsernameSearchBar'
+import TreasuresFetcher from 'src/components/Treasure/TreasuresFetcher'
 import FilterBar from 'src/components/FilterBar/FilterBar'
 
 const TreasuresPage = () => {
@@ -16,7 +15,7 @@ const TreasuresPage = () => {
   } = params
 
   // These are the source of truth
-  const [username, setUsername] = useState(initialUsername)
+  const username = initialUsername
   const [filter, setFilter] = useState(initialFilter)
   const [sort, _setSort] = useState(initialSort) // TODO: Add sorting
 
@@ -37,19 +36,18 @@ const TreasuresPage = () => {
   }, [sort, filter, username])
 
   return (
-    <>
+    <div>
       <MetaTags title="Treasures" />
-      <h1 className="font-bold">Treasure Chess Marketplace</h1>
-      <UsernameSearchBar initialQuery={username} setQuery={setUsername} />
+
       <div className="flex">
         <FilterBar filter={filter} setFilter={setFilter} />
-        <TreasuresCell
+        <TreasuresFetcher
           username={username}
           filter={new URLSearchParams(filter).toString()}
           sort={sort}
         />
       </div>
-    </>
+    </div>
   )
 }
 

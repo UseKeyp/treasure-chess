@@ -1,58 +1,89 @@
 /* eslint-disable no-console */
 const { PrismaClient } = require('@prisma/client')
 const dotenv = require('dotenv')
-const memberData = require('./member')
-const treasureData = require('./treasure')
+const { performance } = require('perf_hooks')
+
+const exampleMembers = require('./member')
+const exampleTreasures = require('./treasure')
+const { generateRandomMembers, generateRandomTreasures } = require('./helpers')
 
 dotenv.config()
 const db = new PrismaClient()
 
-/*
- * Seed data is database data that needs to exist for your app to run.
- *
- * @see https://www.prisma.io/docs/reference/api-reference/command-reference#migrate-reset
- * @see https://www.prisma.io/docs/guides/prisma-guides/seed-database
- * @see https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#upsert
- * @see https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#createmany
- */
 async function main() {
-  // Note: if using PostgreSQL, using `createMany` to insert multiple records is much faster
-  // @see: https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#createmany
-  // Create members
-  await Promise.all(
-    memberData.map(async (member) => {
-      try {
-        const record = await db.member.create({
-          data: member,
-        })
-        console.log(record)
-      } catch (e) {
-        console.log("Couldn't create members")
-        console.log(e)
-      }
+  // NOTE: change these as desired
+  const newTreasuresToCreate = 1000
+  // const newMembersToCreate = Math.floor(newTreasuresToCreate / 3)
+  const newMembersToCreate = 300
+
+  var startMemberGenTime = performance.now()
+  // MEMBERS
+  if (newMembersToCreate > 0) {
+    console.log(`${newMembersToCreate} new Members `)
+    const highestMemberId = await db.member.count()
+    const randomMembers = generateRandomMembers(
+      newMembersToCreate,
+      highestMemberId
+    )
+    var endMemberGenTime = performance.now()
+    console.log(
+      `Gen: ${((endMemberGenTime - startMemberGenTime) / 1000).toFixed(
+        3
+      )} seconds`
+    )
+    var startMemberWriteTime = performance.now()
+    await db.member.createMany({
+      data: randomMembers,
     })
+    var endMemberWriteTime = performance.now()
+    console.log(
+      `Write: ${((endMemberWriteTime - startMemberWriteTime) / 1000).toFixed(
+        3
+      )} seconds`
+    )
+    console.log('')
+  }
+
+  const members = await db.member.findMany()
+  // TREASURES
+  console.log(`${newTreasuresToCreate} new Treasures`)
+  const highestTreasureTokenId = await db.treasure.count()
+  var startTreasureGenTime = performance.now()
+  const randomTreasures = generateRandomTreasures(
+    newTreasuresToCreate,
+    highestTreasureTokenId,
+    members
   )
-  // Create treasures
-  await Promise.all(
-    treasureData.map(async (treasure) => {
-      try {
-        const record = await db.treasure.create({
-          data: treasure,
-        })
-        console.log(record)
-      } catch (e) {
-        console.log("Couldn't create treasures")
-        console.log(treasure)
-        console.log(e)
-      }
-    })
+  var endTreasureGenTime = performance.now()
+  console.log(
+    `Gen: ${((endTreasureGenTime - startTreasureGenTime) / 1000).toFixed(
+      3
+    )} seconds`
+  )
+  var startTreasureWriteTime = performance.now()
+  await db.treasure.createMany({
+    data: randomTreasures,
+  })
+  var endTreasureWriteTime = performance.now()
+  console.log(
+    `Write: ${((endTreasureWriteTime - startTreasureWriteTime) / 1000).toFixed(
+      3
+    )} seconds`
+  )
+  console.log('')
+  console.log(
+    `Total: ${((endTreasureWriteTime - startMemberGenTime) / 1000).toFixed(
+      3
+    )} seconds`
   )
 }
 
-const seed = main()
-  .catch((e) => console.error(e))
-  .finally(async () => {
-    await db.$disconnect()
-  })
-
-exports.default = seed
+const seed = async () => {
+  const rounds = 1
+  for (var i = 0; i < rounds; i++) {
+    console.log(`############ Round ${i + 1} of ${rounds} ################`)
+    await main()
+  }
+  await db.$disconnect()
+}
+export default seed

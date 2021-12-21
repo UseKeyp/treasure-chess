@@ -17,10 +17,13 @@
     "seed": "yarn rw exec seed"
   },
   "devDependencies": {
+    "@ethersproject/wallet": "^5.5.0",
     "@redwoodjs/core": "^0.40.0",
     "babel-loader": "^8.2.3",
     "chromatic": "^5.9.2",
-    "core-js": "^3.19.1"
+    "core-js": "^3.19.1",
+    "random-username-generator": "^1.0.4",
+    "sharp": "^0.29.3"
   },
   "eslintConfig": {
     "extends": "@redwoodjs/eslint-config",

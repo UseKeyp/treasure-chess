@@ -64,7 +64,6 @@ const UsernameSearchBar = ({ initialQuery = '', setQuery }) => {
           onChange={onChange}
           value={value}
         />
-        <SearchIcon />
       </div>
       {dropdownOptions?.length > 0 && (
         <div className="searchBarContainer__dropdownContainer">

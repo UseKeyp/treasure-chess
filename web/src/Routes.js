@@ -17,7 +17,7 @@ const Routes = () => {
             <Route path="/profile" page={ProfilePage} name="profile" />
           </Private>
         </Set>
-        <Set prerender wrap={TreasuresLayout}>
+        <Set wrap={TreasuresLayout}>
           <Route path="/treasures/{tokenId:Int}" page={TreasureTreasurePage} name="treasure" />
           <Route path="/treasures" page={TreasureTreasuresPage} name="treasures" />
         </Set>

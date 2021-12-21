@@ -21,11 +21,11 @@ const TreasuresList = ({ treasures, count, onLoadMore, page, loading }) => {
   return (
     <div className="w-full ml-4">
       <div className="w-full flex justify-start">
-        <div className="mr-2 flex justify-center h-6">
+        <div className="mr-2 flex align-center h-4">
           {count ? (
             <p>{count.toLocaleString()}</p>
           ) : (
-            <div className="flex h-6 align-center w-22">
+            <div className="flex h-4 align-center w-20">
               <LoadingDots />
             </div>
           )}

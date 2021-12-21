@@ -21,11 +21,11 @@
       transform: translateY(-3px);
     }
   }
-  > .iconSearch {
+  &__iconSearch {
     display: flex;
     align-items: center;
 
-    > a {
+    a {
       padding-right: 1em;
       user-select: none;
       > img {
@@ -33,7 +33,7 @@
       }
     }
   }
-  .nav {
+  &__nav {
     width: clamp(260px, 33vw, 400px);
     align-items: center;
     flex: 1;
@@ -59,21 +59,21 @@
         transform: translateY(-2px);
       }
     }
-    &--username,
-    &--login {
+    &__username,
+    &__login {
       color: theme('colors.blueLink');
       font-weight: bold;
       padding: 0 !important;
     }
-    &--address {
+    &__address {
       font-weight: light;
       color: theme('colors.grey');
     }
-    &--balance {
+    &__balance {
       font-weight: bold;
       color: theme('colors.grey');
     }
-    &--fund-wallet {
+    &__fund-wallet {
       color: theme('colors.blueLink');
       font-weight: light;
       padding: 0 !important;

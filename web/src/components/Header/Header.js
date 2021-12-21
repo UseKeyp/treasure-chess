@@ -9,14 +9,12 @@ import { ReactComponent as TreasureChest } from 'src/assets/icons/TreasureChessC
 
 import { trimAddress } from 'src/utils/helpers'
 
-import styles from './Header.module.scss'
-
 const WalletBalance = () => {
   return (
     <div className="flex flex-col flex-1 text-sm">
-      <div className={styles['nav--balance']}>Balance $62</div>
+      <div className={'header__nav__balance'}>Balance $62</div>
       <div>
-        <a href="/fund-wallet" className={styles['nav--fund-wallet']}>
+        <a href="/fund-wallet" className={'header__nav__fund-wallet'}>
           Fund Wallet
         </a>
       </div>
@@ -115,8 +113,8 @@ const Header = () => {
   const address = trimAddress(profile?.address) || 'No address set'
 
   return (
-    <div className={styles.header}>
-      <div className={styles.iconSearch}>
+    <div className={'header'}>
+      <div className={'header__iconSearch'}>
         <Link to={routes.home()}>
           <img src="/TreasureChessLogo.png" alt="TreasureChess.com" />
         </Link>
@@ -127,7 +125,7 @@ const Header = () => {
       <div className="flex flex-1 items-center justify-end lg:hidden">
         <MobileNav />
       </div>
-      <div className={`${styles.nav} hidden lg:flex`}>
+      <div className={'header__nav hidden lg:flex'}>
         <div className="flex-1 flex items-center">
           <div>
             <Link to={routes.treasures()} className="font-bold">
@@ -149,10 +147,10 @@ const Header = () => {
             </div>
             <div className="mr-4">
               <div className="flex flex-col text-sm text-left">
-                <Link className={styles['nav--username']} to={routes.profile()}>
+                <Link className={'header__nav__username'} to={routes.profile()}>
                   {profile.username}
                 </Link>
-                <div className={styles['nav--address']}>{address}</div>
+                <div className={'header__nav__address'}>{address}</div>
               </div>
             </div>
             <WalletBalance />
@@ -160,7 +158,7 @@ const Header = () => {
         ) : (
           <button
             type="button"
-            className={styles['nav--login']}
+            className={'header__nav__login'}
             onClick={() => handleLogIn()}
           >
             Log In

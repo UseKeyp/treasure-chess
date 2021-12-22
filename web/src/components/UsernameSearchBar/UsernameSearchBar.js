@@ -2,8 +2,6 @@ import { useState } from 'react'
 import { useLazyQuery } from '@apollo/client'
 import { debounce } from 'src/utils/helpers'
 
-import { ReactComponent as SearchIcon } from '../../assets/icons/Search.svg'
-
 const USERNAME_QUERY = gql`
   query usernames($query: String!) {
     usernames(query: $query)
@@ -61,17 +59,18 @@ const UsernameSearchBar = ({ initialQuery = '', setQuery }) => {
       <div>
         <input
           placeholder="Search Treasures"
+          className="searchInput"
           onChange={onChange}
           value={value}
         />
       </div>
       {dropdownOptions?.length > 0 && (
-        <div className="searchBarContainer__dropdownContainer">
+        <div className="dropdownContainer">
           {dropdownOptions?.map((option) => (
             <button
               onClick={() => onSelectUsername(option)}
               key={option}
-              className="searchBarContainer__dropdownContainer__dropdownOption"
+              className="dropdownContainer__dropdownOption"
             >
               {option}
             </button>

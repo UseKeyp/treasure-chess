@@ -39,9 +39,9 @@ const GameCard = ({ game, isMinting, title, showGif }) => {
       // TODO: properly load the board layout from BE
       boardLayout = JSON.parse(game.boardLayout)
     } catch (e) {
-      console.log(e)
+      // console.log(e)
     }
-    // if (!boardLayout) boardLayout = getBoardLayout(game.moves)
+    if (!boardLayout) boardLayout = getBoardLayout(game.moves)
     const boardBase64 = await getBoardBase64(
       boardLayout,
       game.cardColor, // Which player to show on bottom

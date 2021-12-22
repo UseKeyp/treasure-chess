@@ -147,7 +147,7 @@ const getWhereQueryFromArgs = ({ username, filter }) => {
 export const getTreasuresWithFilter = async ({
   username,
   filter,
-  sort,
+  _sort,
   page = 0,
 }) => {
   const whereQuery = getWhereQueryFromArgs({ username, filter })

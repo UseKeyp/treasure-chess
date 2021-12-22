@@ -273,7 +273,7 @@ const Copy = ({ color = '#147DDD', width = 12, height = 13 }) => (
   </svg>
 )
 
-const ArrowUp = ({ size = 5 }) => (
+const ArrowUp = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     height="30"

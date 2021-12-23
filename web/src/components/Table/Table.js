@@ -1,23 +1,15 @@
 import { Link } from '@redwoodjs/router'
 import { RowsSkeleton } from 'src/components/LoadingSkeleton/LoadingSkeleton'
 
-const Cell = ({ children, style }) => {
-  return (
-    <div
-      className="flex items-center justify-start p-2 m-2"
-      style={style}
-      role="cell"
-    >
-      {children}
-    </div>
-  )
+const Cell = ({ children }) => {
+  return <div className="p-3">{children}</div>
 }
 
 const Table = ({ height, width, rowHeight, rowWidth, title, data }) => {
   const rows = data?.map((row, i) => {
     const cells = row.map((item) => {
       return typeof item === 'string' ? (
-        <Cell style={{ marginRight: '-2rem' }}>{item}</Cell>
+        <Cell>{item}</Cell>
       ) : item.to ? (
         <Link className="row-button" to={item.to}>
           {item.text}

@@ -3,9 +3,10 @@ import { AuthProvider } from '@redwoodjs/auth'
 import { RedwoodApolloProvider } from '@redwoodjs/web/apollo'
 
 import AllContextProviders from 'src/providers/context'
+import { MintingProvider } from 'src/providers/minting'
 import { ThemeProvider } from 'src/providers/theme'
 import TokenSessionProvider from 'src/providers/tokenSession'
-import { logIn } from 'src/auth/client'
+import { logIn } from 'src/utils/auth/client'
 import { isProduction } from 'src/utils/helpers'
 import FatalErrorPage from 'src/pages/FatalErrorPage'
 import Routes from 'src/Routes'
@@ -40,7 +41,9 @@ const App = () => (
           <TokenSessionProvider />
           <ThemeProvider>
             <AllContextProviders>
-              <Routes />
+              <MintingProvider>
+                <Routes />
+              </MintingProvider>
             </AllContextProviders>
           </ThemeProvider>
         </RedwoodApolloProvider>

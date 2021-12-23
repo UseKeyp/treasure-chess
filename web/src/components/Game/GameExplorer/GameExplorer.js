@@ -42,7 +42,7 @@ const GameExplorer = () => {
   const [isPolling, setIsPolling] = React.useState()
 
   const { data: mintPurchasesData } = useQuery(MINT_PURCHASES, {
-    pollInterval: 1000,
+    pollInterval: 2000,
     skip: !isPolling,
     fetchPolicy: 'network-only',
   })

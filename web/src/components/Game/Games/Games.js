@@ -1,74 +1,53 @@
 import { useAuth } from '@redwoodjs/auth'
-import { useLazyQuery } from '@apollo/client'
 import { P, H3 } from 'src/components/Typography'
 
 import { getOutcomeText } from 'src/utils/helpers'
+import { useMinting } from 'src/providers/minting'
 
-import { GamesContext } from 'src/providers/context/GamesContext'
+import {
+  GamesContext,
+  MintingContext,
+} from 'src/providers/context/GamesContext'
 import LoadingDots from 'src/components/LoadingDots'
 
 import ListItem from './components/ListItem/ListItem'
 
 import { CHECKOUT, MINTING, _SUCCESS } from 'src/components/Game/constants'
 
-const MINT_CHECKOUT_URL = gql`
-  query mintCheckoutUrl(
-    $gameId: String!
-    $endTime: DateTime!
-    $title: String!
-  ) {
-    mintCheckoutUrl(gameId: $gameId, endTime: $endTime, title: $title)
-  }
-`
-
 const Games = ({ games }) => {
-  const [context, setContext] = React.useContext(GamesContext)
-  const { activeGame, mintingStatus } = context
   const { currentUser } = useAuth()
+  const { mint, mintingStatus } = useMinting()
 
-  const [mintCheckoutUrl, { error: mintCheckoutError }] = useLazyQuery(
-    MINT_CHECKOUT_URL,
-    {
-      onCompleted: ({ mintCheckoutUrl }) => {
-        if (mintCheckoutUrl.includes('https')) {
-          setContext({ ...context, mintingStatus: CHECKOUT })
-          window.open(
-            mintCheckoutUrl,
-            'Treasure Chess Checkout',
-            'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
-          )
-        } else {
-          setContext({ ...context, mintingStatus: MINTING })
-        }
-      },
-    }
-  )
+  const [gamesContext, setGamesContext] = React.useContext(GamesContext)
+  const { activeGame } = gamesContext
 
   const onSubmitMint = async (title) => {
-    await mintCheckoutUrl({
-      variables: { gameId: activeGame.id, endTime: activeGame.endTime, title },
+    mint({
+      gameTitle: title,
+      gameId: activeGame.id,
+      endTime: activeGame.endTime,
     })
   }
 
   const onChangeTitle = (title) => {
-    setContext({ ...context, gameTitle: title })
+    setGamesContext({ ...gamesContext, gameTitle: title })
   }
 
   const onClickRow = (gameId) => {
     const game = games.find((game) => game.id === gameId)
-    setContext({
-      ...context,
+    setGamesContext({
+      ...gamesContext,
       activeGame: game,
       gameTitle: '',
-      mintingStatus: null, // Reset after successful minting
+      // mintingStatus: null, // Reset after successful minting
     })
   }
 
   const onReset = () => {
-    setContext({
-      ...context,
+    setGamesContext({
+      ...gamesContext,
       gameTitle: '',
-      mintingStatus: null,
+      // mintingStatus: null,
     })
   }
 
@@ -106,7 +85,7 @@ const Games = ({ games }) => {
   }
 
   React.useEffect(() => {
-    setContext({ ...context, gameTitle: '' })
+    setGamesContext({ ...gamesContext, gameTitle: '' })
     /* eslint-disable react-hooks/exhaustive-deps */
   }, [])
 

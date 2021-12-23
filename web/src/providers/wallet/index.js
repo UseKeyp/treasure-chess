@@ -1,4 +1,3 @@
-const WalletContext = React.createContext()
 import { useQuery } from '@apollo/client'
 import { useAuth } from '@redwoodjs/auth'
 
@@ -10,6 +9,12 @@ const MEMBER_BALANCE = gql`
     }
   }
 `
+
+const WalletContext = React.createContext({
+  loading: true,
+  usdcBalance: null,
+  mintCreditBalance: null,
+})
 
 const WalletProvider = ({ children }) => {
   const { isAuthenticated } = useAuth()
@@ -27,9 +32,11 @@ const WalletProvider = ({ children }) => {
     skip: !isAuthenticated,
     fetchPolicy: 'network-only',
   })
-
   React.useEffect(() => {
-    setState({ ...state, ...memberBalance })
+    setState({
+      ...state,
+      ...memberBalance,
+    })
   }, [memberBalance])
 
   const addFunds = async () => {
@@ -44,7 +51,7 @@ const WalletProvider = ({ children }) => {
       value={{
         addFunds,
         withdrawFunds,
-        usdcBalance: state.getUsdcBal,
+        usdcBalance: state.usdcBalance,
         mintCreditBalance: state.mintCreditBalance,
         balanceError,
       }}

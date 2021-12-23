@@ -1,5 +1,5 @@
 import GameCard from 'src/components/Game/GameCard'
-
+import { CardSkeleton } from 'src/components/LoadingSkeleton'
 export const QUERY = gql`
   query FindTreasureQuery($tokenId: Int!) {
     treasure: treasure(tokenId: $tokenId) {
@@ -20,6 +20,7 @@ export const QUERY = gql`
         id
       }
       title
+      gifUrl
       cardColor
       blackRating
       blackMasterTitle
@@ -39,7 +40,7 @@ export const QUERY = gql`
   }
 `
 
-export const Loading = () => <div>Loading...</div>
+export const Loading = () => <CardSkeleton />
 
 export const Empty = () => <div></div>
 

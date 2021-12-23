@@ -8,14 +8,9 @@ import FilterBar from 'src/components/FilterBar/FilterBar'
 const TreasuresPage = () => {
   const params = useParams()
 
-  const {
-    username: initialUsername = '',
-    sort: initialSort = '',
-    ...initialFilter
-  } = params
+  const { username = '', sort: initialSort = '', ...initialFilter } = params
 
   // These are the source of truth
-  const username = initialUsername
   const [filter, setFilter] = useState(initialFilter)
   const [sort, _setSort] = useState(initialSort) // TODO: Add sorting
 
@@ -33,7 +28,7 @@ const TreasuresPage = () => {
   useEffect(() => {
     updateUrl()
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
-  }, [sort, filter, username])
+  }, [sort, filter])
 
   return (
     <div>

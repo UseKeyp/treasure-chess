@@ -27,6 +27,7 @@ const InfiniteScroll = ({
         dataLength={dataLength}
         next={onLoadMore}
         hasMore={hasMore}
+        scrollThreshold={0.8}
         loader={loader || <h4>Loading...</h4>}
         endMessage={
           <div className="mt-8 rw-text-center">

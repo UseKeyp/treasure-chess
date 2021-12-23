@@ -34,3 +34,13 @@
 .withdraw-funds {
   @apply bg-orange py-1 w-40;
 }
+
+.modals {
+  &__matic-warning {
+    @apply text-orange;
+  }
+
+  &__copy-address {
+    @apply text-lg py-1 bg-blueDark font-bold rounded shadow w-60;
+  }
+}

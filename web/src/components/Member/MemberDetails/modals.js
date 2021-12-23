@@ -1,10 +1,8 @@
 import ModalContainer from 'src/components/ModalContainer/ModalContainer'
 import Icon from 'src/components/Icon'
-import { trimAddress } from 'src/utils/helpers'
 
 export const AddressModal = ({ address, isVisible, toggleModal }) => {
   const [copied, setCopied] = React.useState(false)
-  const memberAddress = trimAddress(address)
 
   const handleCopy = React.useCallback(() => {
     if (typeof document === 'undefined') {

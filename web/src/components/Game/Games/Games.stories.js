@@ -1,7 +1,7 @@
 import Games from './Games'
 
-import { GamesContext } from 'src/providers/context/GamesContext'
-import { CHECKOUT, MINTING, SUCCESS } from 'src/components/Game/constants'
+import { GamesContext } from 'src/providers/games'
+import { ADDING_FUNDS, MINTING, SUCCESS } from 'src/providers/minting/constants'
 
 const games = [
   {
@@ -82,14 +82,14 @@ export const unminted = () => {
   )
 }
 
-export const checkout = () => {
+export const ADDING_FUNDS = () => {
   mockCurrentUser({
     username: 'treasure_patrick',
   })
 
   return (
     <GamesContext.Provider
-      value={[{ mintingStatus: CHECKOUT, activeGame: games[0] }, () => {}]}
+      value={[{ mintingStatus: ADDING_FUNDS, activeGame: games[0] }, () => {}]}
     >
       <div style={{ height: 550, width: 530 }}>
         <Games games={games} />

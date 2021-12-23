@@ -1,5 +1,4 @@
-export const UNMINTED = 'unminted'
-export const CHECKOUT = 'checkout'
+export const ADDING_FUNDS = 'addingFunds'
 export const MINTING = 'minting'
 export const SUCCESS = 'success'
 

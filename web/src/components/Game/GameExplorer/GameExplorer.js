@@ -4,15 +4,16 @@ import GamesCell from 'src/components/Game/GamesCell'
 import GameCard from 'src/components/Game/GameCard'
 import FilterItems from 'src/components/FilterItems'
 
-import { GamesContext } from 'src/providers/context/GamesContext'
+import { useMinting } from 'src/providers/minting'
+import { GamesContext } from 'src/providers/games'
 
 import {
-  CHECKOUT,
+  ADDING_FUNDS,
   MINTING,
   COMPLETE,
   FAILED,
   SUCCESS,
-} from 'src/components/Game/constants'
+} from 'src/providers/minting/constants'
 
 const MINT_PURCHASES = gql`
   query mintPurchases {
@@ -37,41 +38,11 @@ const MINT_PURCHASES = gql`
 
 const GameExplorer = () => {
   const [context, setContext] = React.useContext(GamesContext)
-  const { activeGame, mintingStatus, gameTitle } = context
+  const { mintingStatus } = useMinting()
+  const { activeGame, gameTitle } = context
   const [filter, setFilter] = React.useState()
-  const [isPolling, setIsPolling] = React.useState()
 
-  const { data: mintPurchasesData } = useQuery(MINT_PURCHASES, {
-    pollInterval: 2000,
-    skip: !isPolling,
-    fetchPolicy: 'network-only',
-  })
-
-  const isMinting = [CHECKOUT, MINTING].includes(mintingStatus)
-
-  const consumeMintPurchasesData = async () => {
-    const { mintPurchases } = mintPurchasesData
-    if (!mintPurchases) return
-    const mintPurchase = mintPurchases.find(
-      (purchase) =>
-        purchase.gameEndTime === activeGame?.endTime &&
-        purchase.gameId === activeGame?.id
-    )
-    if (!mintPurchase) return
-    if (mintPurchase.orderStatus !== COMPLETE) return
-    if (mintingStatus === CHECKOUT)
-      // For Wyre orders, update mintStatus if order is complete
-      setContext({ ...context, mintStatus: MINTING })
-
-    if ([COMPLETE, FAILED].includes(mintPurchase.txStatus)) {
-      setIsPolling(false)
-      setContext({
-        ...context,
-        mintingStatus: SUCCESS,
-        activeGame: mintPurchase.treasure,
-      })
-    }
-  }
+  const isMinting = [ADDING_FUNDS, MINTING].includes(mintingStatus)
 
   const onChangeFilter = (newFilter) => {
     // Prevent change during mint
@@ -80,18 +51,6 @@ const GameExplorer = () => {
     filterParams.sort()
     setFilter(filterParams.toString())
   }
-
-  React.useEffect(() => {
-    if (!isMinting || !mintPurchasesData) return
-    consumeMintPurchasesData()
-    /* eslint-disable react-hooks/exhaustive-deps*/
-  }, [mintPurchasesData])
-
-  React.useEffect(() => {
-    if (!isMinting) return
-    setIsPolling(true)
-    /* eslint-disable react-hooks/exhaustive-deps*/
-  }, [mintingStatus])
 
   return (
     <div className="grid grid-rows-1">

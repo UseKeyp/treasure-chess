@@ -7,7 +7,7 @@ import LoadingDots from 'src/components/LoadingDots'
 
 import { formatDate } from 'src/utils/helpers'
 
-import { CHECKOUT, MINTING, SUCCESS } from 'src/components/Game/constants'
+import { ADDING_FUNDS, MINTING, SUCCESS } from 'src/providers/minting/constants'
 
 const mainColor = '#C4C4C4'
 
@@ -25,7 +25,7 @@ const ListItem = ({
   const { white: player1, black: player2, endTime, id, tokenId, title } = game
   const date = formatDate(endTime)
 
-  const isMinting = mintingStatus === CHECKOUT || mintingStatus === MINTING
+  const isMinting = mintingStatus === ADDING_FUNDS || mintingStatus === MINTING
 
   const handleSubmit = (title) => {
     if (isMinting) return
@@ -39,10 +39,10 @@ const ListItem = ({
 
   const bottomHalf = () => {
     if (!isExpanded) return <></>
-    if (mintingStatus === CHECKOUT)
+    if (mintingStatus === ADDING_FUNDS)
       return (
         <div className="games-history-list__status">
-          Complete checkout in the Wyre popup.
+          Complete ADDING_FUNDS in the Wyre popup.
           <button
             className="games-history-list__reset-button"
             onClick={onReset}

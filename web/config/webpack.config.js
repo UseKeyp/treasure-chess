@@ -23,8 +23,9 @@ module.exports = (config, { mode }) => {
 
   config.module.rules[0].oneOf[scssRuleIndex] = customScssRule
 
+  config.devtool = null
   if (mode === 'development') {
-    // Add dev plugin
+    config.devtool = 'cheap-module-source-map'
   }
   // Webpack V5 missing polyfills
   config.resolve.fallback = {

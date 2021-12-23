@@ -22,10 +22,10 @@ const Games = ({ games }) => {
   const [gamesContext, setGamesContext] = React.useContext(GamesContext)
   const { activeGame } = gamesContext
 
-  const onSubmitMint = async (title) => {
+  const onSubmitMint = (title) => {
     mint({
-      gameTitle: title,
-      gameId: activeGame.id,
+      title,
+      id: activeGame.id,
       endTime: activeGame.endTime,
     })
   }

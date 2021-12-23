@@ -1,10 +1,12 @@
 const MintingContext = React.createContext()
-import { useLazyQuery } from '@apollo/client'
+import { useLazyQuery, useQuery } from '@apollo/client'
 
 import {
   ADDING_FUNDS,
   MINTING,
   _SUCCESS,
+  COMPLETE,
+  FAILED,
 } from 'src/providers/minting/constants'
 
 const MINT_CHECKOUT_URL = gql`
@@ -14,6 +16,27 @@ const MINT_CHECKOUT_URL = gql`
     $title: String!
   ) {
     mintADDING_FUNDSUrl(gameId: $gameId, endTime: $endTime, title: $title)
+  }
+`
+
+const MINT_PURCHASES = gql`
+  query mintPurchases {
+    mintPurchases {
+      id
+      createdAt
+      updatedAt
+      treasure {
+        id
+      }
+      orderId
+      reservation
+      orderStatus
+      gameId
+      gameEndTime
+      title
+      txHash
+      txStatus
+    }
   }
 `
 
@@ -86,7 +109,7 @@ const MintingProvider = ({ children }) => {
   //   }
   // )
 
-  const mint = async () => {
+  const mint = async ({ title, id, endTime }) => {
     // Check balance and mintCredits
     // If necessary trigger Wyre deposit prompt
     // Execute mint
@@ -105,6 +128,6 @@ const MintingProvider = ({ children }) => {
   )
 }
 
-const useMinting = React.useContext(MintingContext)
+const useMinting = () => React.useContext(MintingContext)
 
 export { MintingProvider, useMinting }

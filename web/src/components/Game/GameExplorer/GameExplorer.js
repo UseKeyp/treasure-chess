@@ -15,27 +15,6 @@ import {
   SUCCESS,
 } from 'src/providers/minting/constants'
 
-const MINT_PURCHASES = gql`
-  query mintPurchases {
-    mintPurchases {
-      id
-      createdAt
-      updatedAt
-      treasure {
-        id
-      }
-      orderId
-      reservation
-      orderStatus
-      gameId
-      gameEndTime
-      title
-      txHash
-      txStatus
-    }
-  }
-`
-
 const GameExplorer = () => {
   const [context, setContext] = React.useContext(GamesContext)
   const { mintingStatus } = useMinting()

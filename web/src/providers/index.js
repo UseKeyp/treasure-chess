@@ -1,5 +1,6 @@
 import { GamesContextProvider } from 'src/providers/games'
 import { MintingProvider } from 'src/providers/minting'
+import { WalletProvider } from 'src/providers/wallet'
 import { ThemeContextProvider } from 'src/providers/theme'
 import { TokenSessionProvider } from 'src/providers/tokenSession'
 
@@ -11,7 +12,9 @@ const AllContextProviders = ({ children }) => {
     <ThemeContextProvider>
       <GamesContextProvider>
         <TokenSessionProvider />
-        <MintingProvider>{children}</MintingProvider>
+        <WalletProvider>
+          <MintingProvider>{children}</MintingProvider>
+        </WalletProvider>
       </GamesContextProvider>
     </ThemeContextProvider>
   )

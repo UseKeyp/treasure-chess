@@ -15,21 +15,19 @@ const Cell = ({ children, style }) => {
 
 const Table = ({ height, width, rowHeight, rowWidth, title, data }) => {
   const rows = data?.map((row, i) => {
-    const cells = row
-      .filter((item) => typeof item === 'string' && row.indexOf(item) % 2 === 0)
-      .map((item, i) => (
-        <Cell style={{ marginRight: '-2rem' }} key={i}>
-          {item}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{row[1]}
-        </Cell>
-      ))
-
-    const buttons = row
-      .filter((item) => typeof item === 'object')
-      .map((item) => (
-        <Link className="row-button" onClick={() => alert(item.url)} key={i}>
+    const cells = row.map((item) => {
+      return typeof item === 'string' ? (
+        <Cell style={{ marginRight: '-2rem' }}>{item}</Cell>
+      ) : item.to ? (
+        <Link className="row-button" to={item.to}>
           {item.text}
         </Link>
-      ))
+      ) : (
+        <a href={item.href} className="row-button">
+          {item.text}
+        </a>
+      )
+    })
 
     return (
       <div
@@ -38,7 +36,6 @@ const Table = ({ height, width, rowHeight, rowWidth, title, data }) => {
         key={i}
       >
         {cells}
-        {buttons}
       </div>
     )
   })
@@ -62,9 +59,8 @@ const Table = ({ height, width, rowHeight, rowWidth, title, data }) => {
 }
 
 Table.defaultProps = {
-  maxHeight: 600,
-  showId: false,
-  onRowClick: () => {},
+  rowHeight: 31,
+  rowWidth: 484,
 }
 
 export default Table

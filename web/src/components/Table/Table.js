@@ -1,83 +1,61 @@
-import PropTypes from 'prop-types'
-import { Row, Cell } from './components'
+import { Link } from '@redwoodjs/router'
+import { RowsSkeleton } from 'src/components/LoadingSkeleton/LoadingSkeleton'
 
-const Table = ({
-  maxHeight,
-  onRowClick,
-  data,
-  showId,
-  colProportions,
-  selectedRowId,
-}) => {
-  if (!data[0]) return <></>
-  const headRow = Object.keys(data[0])
-    .filter((item) => item !== 'id' && !showId)
-    .map((item) => item.charAt(0).toUpperCase() + item.slice(1))
+const Cell = ({ children, style }) => {
+  return (
+    <div
+      className="flex items-center justify-start p-2 m-2"
+      style={style}
+      role="cell"
+    >
+      {children}
+    </div>
+  )
+}
 
-  let colSizesMap
-  if (colProportions) {
-    const total = colProportions.reduce((prev, curr) => {
-      return prev + curr
-    }, 0)
-    colSizesMap = colProportions.map((num) => (100 / total) * num)
-  }
+const Table = ({ height, width, rowHeight, rowWidth, title, data }) => {
+  const rows = data?.map((row, i) => {
+    const cells = row
+      .filter((item) => typeof item === 'string' && row.indexOf(item) % 2 === 0)
+      .map((item, i) => (
+        <Cell style={{ marginRight: '-2rem' }} key={i}>
+          {item}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{row[1]}
+        </Cell>
+      ))
 
-  const colSize = 100 / headRow.length
-  const colStyles = { width: `${colSize}%` }
+    const buttons = row
+      .filter((item) => typeof item === 'object')
+      .map((item) => (
+        <Link className="row-button" onClick={() => alert(item.url)} key={i}>
+          {item.text}
+        </Link>
+      ))
 
-  const getColStyle = (i) => {
-    if (colSizesMap) {
-      return { width: `${colSizesMap[i]}%` }
-    } else {
-      return colStyles
-    }
-  }
-
-  const rows = data.map((row, i) => {
-    const id = row.id
-    const isSelected = row.id === selectedRowId
-    const dataArray = Object.entries(row)
-      .map(([key, value]) => {
-        if (key === 'id' && !showId) return
-        return value
-      })
-      .filter((item) => typeof item !== 'undefined')
-
-    const cells = dataArray.map((item, i) => (
-      <Cell key={i} style={getColStyle(i)}>
-        {item}
-      </Cell>
-    ))
     return (
-      <Row
+      <div
+        className="table-row"
+        style={{ maxWidth: rowWidth, maxHeight: rowHeight }}
         key={i}
-        index={i + 1}
-        onClick={() => onRowClick(id)}
-        isSelected={isSelected}
-        length={data.length}
       >
         {cells}
-      </Row>
+        {buttons}
+      </div>
     )
   })
 
   return (
-    <div className="table-wrapper">
-      <div className="table-component-wrapper" role="table">
-        <div className="table-component flex-col">
-          <Row className="table-component-head">
-            {headRow.map((item, i) => (
-              <Cell style={getColStyle(i)} key={item}>
-                {item}
-              </Cell>
-            ))}
-          </Row>
-          <div className="table-rows-wrapper">
-            <div className="table-rows-inner-wrapper" style={{ maxHeight }}>
-              {rows}
-            </div>
-          </div>
-        </div>
+    <div className="table-wrapper" style={{ height, width }}>
+      <h1 className="table-header">{title}</h1>
+      <div className="table-component flex-col">
+        {rows ? (
+          rows
+        ) : (
+          <RowsSkeleton
+            rowCount={6}
+            maxWidth={rowWidth}
+            maxHeight={rowHeight}
+          />
+        )}
       </div>
     </div>
   )
@@ -87,14 +65,6 @@ Table.defaultProps = {
   maxHeight: 600,
   showId: false,
   onRowClick: () => {},
-}
-Table.propTypes = {
-  maxHeight: PropTypes.number,
-  onRowClick: PropTypes.func,
-  data: PropTypes.array.isRequired,
-  showId: PropTypes.bool,
-  colProportions: PropTypes.arrayOf(PropTypes.number),
-  selectedRowId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 }
 
 export default Table

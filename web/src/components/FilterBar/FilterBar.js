@@ -9,7 +9,7 @@ import FilterPriceInput from 'src/components/FilterPriceInput/FilterPriceInput'
 import Dropdown from 'src/components/Dropdown/Dropdown'
 import AchievementScroll from 'src/components/AchievementScroll/AchievementScroll'
 
-const FilterBar = ({ filter, setFilter }) => {
+const FilterBar = ({ filter, setFilter, defaultParams }) => {
   const [title, setTitle] = useState(filter.title)
   const [timeControl, setTimeControl] = useState(filter.timeControl)
   const [moveCount, setMoveCount] = useState(filter.moveCount)
@@ -17,10 +17,14 @@ const FilterBar = ({ filter, setFilter }) => {
   const [achievements, setAchievements] = useState(filter.achievements || [])
   const [opening, setOpening] = useState(filter.opening)
   const [color, setColor] = useState(filter.color)
-  const [termination, setTermination] = useState(filters.terminationList[0])
+  const [termination, setTermination] = useState(
+    defaultParams?.termination || filter.termination
+  )
   const [rarity, setRarity] = useState(filter.rarity)
-  const [sale, setSale] = useState(filters.saleList[0])
-  const [outcome, setOutcome] = useState(filters.outcomeList)
+  const [sale, setSale] = useState(defaultParams?.sale || filter.sale)
+  const [outcome, setOutcome] = useState(
+    defaultParams?.outcome || filter.outcome
+  )
   const [lowPrice, setLowPrice] = useState(filter.lowPrice) // must be initialized to a string to control the input from initial render
   const [highPrice, setHighPrice] = useState(filter.highPrice)
 
@@ -32,6 +36,10 @@ const FilterBar = ({ filter, setFilter }) => {
     anyValues(data, outcome, setOutcome)
   }
 
+  const updateSale = (data) => {
+    anyValues(data, sale, setSale)
+  }
+
   const updateFilter = () => {
     setFilter({
       ...(achievements?.length && { achievements }),
@@ -39,11 +47,12 @@ const FilterBar = ({ filter, setFilter }) => {
       ...(color && { color }),
       ...(title && { title }),
       ...(timeControl && { timeControl }),
-      ...(termination && { termination }),
-      ...(outcome && { outcome }),
+      ...(termination &&
+        termination !== defaultParams?.termination && { termination }),
+      ...(outcome?.length && outcome !== defaultParams?.outcome && { outcome }),
       ...(moveCount && { moveCount }),
       ...(rarity && { rarity }),
-      ...(sale && { sale }),
+      ...(sale?.length && sale !== defaultParams?.sale && { sale }),
       ...(lowPrice && { lowPrice }),
       ...(highPrice && { highPrice }),
     })
@@ -55,11 +64,11 @@ const FilterBar = ({ filter, setFilter }) => {
     setColor()
     setTitle()
     setTimeControl()
-    setTermination(filters.terminationList[0])
-    setOutcome(filters.outcomeList)
+    setTermination(defaultParams?.termination)
+    setOutcome(defaultParams?.outcome)
     setMoveCount()
     setRarity()
-    setSale(filters.saleList[0])
+    setSale(defaultParams?.sale)
     setLowPrice() // must be initialized to a string to control the input from initial render
     setHighPrice()
 
@@ -111,7 +120,7 @@ const FilterBar = ({ filter, setFilter }) => {
         <FilterCheckbox
           category={'Sale'}
           options={filters.saleList}
-          queryFilterFunction={setSale}
+          queryFilterFunction={updateSale}
           queryFilter={sale}
         />
       </div>

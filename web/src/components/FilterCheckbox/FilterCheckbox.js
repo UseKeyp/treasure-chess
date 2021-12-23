@@ -54,7 +54,7 @@ const FilterCheckbox = (props) => {
           }
           return (
             <FilterListItem
-              isSelected={currentSelection == option ? true : false}
+              isSelected={currentSelection?.includes(option)}
               label={option}
               clickFunction={handleSelectionUpdate}
               keyVal={`${option}-${index}`}

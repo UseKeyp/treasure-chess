@@ -1,19 +1,19 @@
 import { useState, useEffect } from 'react'
 import { useParams } from '@redwoodjs/router'
 import { MetaTags } from '@redwoodjs/web'
+import filters from '@treasure-chess/treasure-filters'
 
 import TreasuresFetcher from 'src/components/Treasure/TreasuresFetcher'
 import FilterBar from 'src/components/FilterBar/FilterBar'
 
+const defaultParams = {
+  outcome: filters.outcomeList,
+  sale: filters.saleList,
+  termination: filters.terminationList[0],
+}
+
 const TreasuresPage = () => {
   const params = useParams()
-
-  // Filters to be excluded from query
-  const defaultParams = {
-    outcome: 'black,white,draw',
-    sale: 'All',
-    termination: 'Any',
-  }
 
   const {
     username: initialUsername = '',
@@ -31,16 +31,6 @@ const TreasuresPage = () => {
     username && searchParams.append('username', username)
     sort && searchParams.append('sort', sort)
     searchParams.sort()
-
-    for (let value in defaultParams) {
-      if (
-        searchParams.get(value) === defaultParams[value] ||
-        searchParams.get(value) === ''
-      ) {
-        searchParams.delete(value)
-      }
-    }
-
     const newPath = searchParams.toString()
       ? window.location.pathname + '?' + searchParams.toString()
       : window.location.pathname
@@ -57,7 +47,11 @@ const TreasuresPage = () => {
       <MetaTags title="Treasures" />
 
       <div className="flex">
-        <FilterBar filter={filter} setFilter={setFilter} />
+        <FilterBar
+          filter={filter}
+          setFilter={setFilter}
+          defaultParams={defaultParams}
+        />
         <TreasuresFetcher
           username={username}
           filter={new URLSearchParams(filter).toString()}

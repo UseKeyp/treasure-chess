@@ -1,0 +1,7 @@
+.members-layout {
+  padding: 1rem;
+
+  @media (min-width: 80rem) {
+    padding: 0;
+  }
+}

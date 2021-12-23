@@ -1,71 +1,46 @@
-.MemberDetails {
-  display: flex;
-  justify-content: space-between;
-  max-width: 816px;
-  min-width: 400px;
-  height: 99px;
-  // overflow: hidden;
-  &__avatarWrapper {
-    display: flex;
-    align-self: center;
-    margin-right: 8px;
+.member-details {
+  background-color: theme('colors.chessBlack.200');
+  border-radius: 12px;
+
+  &--inner {
+    @apply flex flex-col lg:flex-row lg:justify-between;
   }
-  &__middleColumnWrapper {
-    display: flex;
-    align-content: flex-start;
-    width: 100%;
-    justify-content: flex-start;
-    flex-direction: column;
-    margin-right: theme('margin.2');
+
+  &--avatar {
+    @apply m-auto lg:mr-2;
   }
-  &__username {
-    font-weight: bold;
-  }
-  &__address {
-    color: theme('colors.grey');
-    word-wrap: anywhere;
-    display: flex;
-    margin-top: 8px;
-    max-width: max-content;
-    svg {
-      margin-left: 4px;
+
+  &--member-info {
+    @apply flex flex-col mt-4 text-center w-full lg:mt-0 lg:text-left;
+
+    img {
+      @apply m-auto lg:m-0;
     }
   }
-  &__flagsRow {
-    padding: 2.5px 0;
-    margin-top: 8px;
-    width: 100%;
-    display: flex;
-    align-content: center;
-    &__countryFlag {
-      height: 19px;
-    }
-    p {
-      margin-right: 8px;
-      display: flex;
-      justify-content: center;
-      width: 29px;
-      align-items: center;
-      background-color: #b23330;
-      font-weight: bold;
-      border-radius: 2px;
+
+  &--funds-actions {
+    @apply mt-4 flex flex-col items-center justify-center text-center lg:mt-0 lg:text-right lg:block;
+
+    button {
+      @apply mt-4 lg:mt-0;
     }
   }
-  &__rightColumnWrapper {
-    display: flex;
-    flex-direction: column;
-    align-content: flex-start;
-    align-items: flex-end;
-    width: 100%;
-    &__balance {
-      &--first {
-        margin-right: 2px;
-      }
-      display: flex;
-      font-size: 12px;
-    }
-    a {
-      color: theme('colors.blueLink');
-    }
+}
+
+.deposit-funds {
+  @apply bg-greenDark py-1 w-40;
+}
+
+.withdraw-funds {
+  @apply bg-orange py-1 w-40;
+}
+
+.modals {
+  &__matic-warning {
+    @apply text-orange;
+  }
+
+  &__copy-address {
+    @apply text-lg py-1 bg-blueDark font-bold rounded shadow w-60;
   }
 }

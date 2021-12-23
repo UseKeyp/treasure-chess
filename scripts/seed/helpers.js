@@ -12,6 +12,7 @@ const realGames = require('./data/realGames.json')
 const randomTitles = require('./data/randomTitles.json')
 const randomAvatarsBase64 = require('./data/randomAvatarsBase64.js')
 const countries = require('./data/countries')
+import testBoard from './data/testBoard'
 
 function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min)
@@ -138,6 +139,7 @@ export const generateTreasureData = ({
     outcome: game.outcome,
     event: game.event,
     moves: game.moves,
+    boardLayout: JSON.stringify(testBoard),
     moveCount: game.moveCount,
     ruleVariant: game.ruleVariant,
     externalUrl: game.externalUrl,

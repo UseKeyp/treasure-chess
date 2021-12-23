@@ -86,12 +86,7 @@ export const generateTreasureData = async ({
 const getValueByName = (list, name) =>
   list.find((item) => item.name === name).value
 
-export const getTreasuresWithFilter = async ({
-  username,
-  filter,
-  _sort,
-  page = 0,
-}) => {
+const getWhereQueryFromArgs = ({ username, filter }) => {
   const searchParams = new URLSearchParams(filter)
   let filterObj = {}
   // Convert text names to values
@@ -107,7 +102,7 @@ export const getTreasuresWithFilter = async ({
   // Create each TreasureWhereInput
   const usernameQuery = username
     ? {
-        OR: [{ blackUsername: username }, { whiteUsername: username }],
+        OR: [{ black: { username } }, { white: { username } }],
       }
     : null
 
@@ -130,7 +125,7 @@ export const getTreasuresWithFilter = async ({
       }
     : null
 
-  const whereQuery = {
+  return {
     ...(usernameQuery && usernameQuery),
 
     ...(achievementQuery && achievementQuery),
@@ -147,15 +142,31 @@ export const getTreasuresWithFilter = async ({
     // lowPrice,
     // highPrice,
   }
-  const count = await db.treasure.count({ where: whereQuery })
+}
+
+export const getTreasuresWithFilter = async ({
+  username,
+  filter,
+  _sort,
+  page = 0,
+}) => {
+  const whereQuery = getWhereQueryFromArgs({ username, filter })
   // Cannot use cursor pagination, since custom sorting is needed
   const skip = page * TREASURES_PER_PAGE
   const treasures = await db.treasure.findMany({
     skip,
-    take: Math.min(count - skip, TREASURES_PER_PAGE),
+    // Taking 9 elements may cause issues if there's only <9 to take?
+    take: TREASURES_PER_PAGE,
+    // take: Math.min(count - skip, TREASURES_PER_PAGE),
     where: whereQuery,
     // TODO: add sorting, see https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#orderby
     // orderBy:
   })
-  return { treasures, count }
+  return treasures
+}
+
+export const getTreasuresWithFilterCount = async ({ username, filter }) => {
+  const whereQuery = getWhereQueryFromArgs({ username, filter })
+  // Note: count takes up to 2+ seconds to the query for large databases.
+  return db.treasure.count({ where: whereQuery })
 }

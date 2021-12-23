@@ -2,7 +2,7 @@ import { FatalErrorBoundary, RedwoodProvider } from '@redwoodjs/web'
 import { AuthProvider } from '@redwoodjs/auth'
 import { RedwoodApolloProvider } from '@redwoodjs/web/apollo'
 
-import AllContextProviders from 'src/providers/context'
+import AllContextProviders from 'src/providers'
 import { logIn } from 'src/utils/auth/client'
 import { isProduction } from 'src/utils/helpers'
 import FatalErrorPage from 'src/pages/FatalErrorPage'

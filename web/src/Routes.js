@@ -6,13 +6,13 @@ import DefaultLayout from 'src/layouts/DefaultLayout'
 const Routes = () => {
   return (
     <Router>
-      <Route prerender path="/redirect/{type}" page={RedirectPage} name="redirect" />
+      <Route path="/redirect/{type}" page={RedirectPage} name="redirect" />
       <Set wrap={DefaultLayout}>
-        <Route prerender path="/" page={HomePage} name="home" />
-        <Route prerender path="/about" page={FaqPage} name="faq" />
-        <Route prerender path="/login" page={LoginPage} name="login" />
+        <Route path="/" page={HomePage} name="home" />
+        <Route path="/about" page={FaqPage} name="faq" />
+        <Route path="/login" page={LoginPage} name="login" />
         <Set wrap={MembersLayout}>
-          <Route prerender path="/members/{usernameOrAddress}" page={MemberMemberPage} name="member" />
+          <Route path="/members/{usernameOrAddress}" page={MemberMemberPage} name="member" />
           <Private unauthenticated="login">
             <Route path="/profile" page={ProfilePage} name="profile" />
           </Private>

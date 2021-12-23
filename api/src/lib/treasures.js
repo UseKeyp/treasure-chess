@@ -110,7 +110,11 @@ export const getTreasuresWithFilter = async ({
         OR: [{ blackUsername: username }, { whiteUsername: username }],
       }
     : null
-
+  const outcomeQuery = filterObj.outcome
+    ? {
+        OR: filterObj.outcome.split(',').map((outcome) => ({ outcome })),
+      }
+    : null
   const achievementQuery = filterObj.achievements
     ? {
         OR: filterObj.achievements.split(',').map((chiev) => ({
@@ -132,15 +136,14 @@ export const getTreasuresWithFilter = async ({
 
   const whereQuery = {
     ...(usernameQuery && usernameQuery),
-
     ...(achievementQuery && achievementQuery),
+    ...(outcomeQuery && outcomeQuery),
+    ...(moveCountQuery && moveCountQuery),
     ...(filterObj.opening && { opening: filterObj.opening }),
     ...(filterObj.color && { cardColor: filterObj.color }),
     ...(filterObj.title && { title: { contains: filterObj.title } }),
     ...(filterObj.termination && { termination: filterObj.termination }),
     ...(filterObj.timeControl && { timeControl: filterObj.timeControl }),
-    ...(filterObj.outcome && { outcome: filterObj.outcome }),
-    ...(moveCountQuery && moveCountQuery),
     ...(filterObj.rarity && { rarity: filterObj.rarity }),
     // TODO:  implement sale, and price
     // sale,

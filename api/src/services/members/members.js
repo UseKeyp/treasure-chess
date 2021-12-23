@@ -29,7 +29,6 @@ export const usernames = async ({ query }) => {
 
 export const memberBalance = async () => {
   const usdcBalance = await getUsdcBal(context.currentUser.address)
-  console.log(usdcBalance)
   return {
     usdcBalance,
     mintCreditBalance: context.currentUser.mintCredits,

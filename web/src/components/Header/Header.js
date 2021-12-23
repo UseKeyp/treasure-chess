@@ -5,7 +5,9 @@ import { useAuth } from '@redwoodjs/auth'
 import { useParams } from '@redwoodjs/router'
 
 import Avatar from 'src/components/Avatar/Avatar'
+
 import UsernameSearchBar from 'src/components/UsernameSearchBar'
+import MemberBalance from 'src/components/Member/MemberBalance'
 import { ReactComponent as TreasureChest } from 'src/assets/icons/TreasureChessChest.svg'
 
 import { trimAddress } from 'src/utils/helpers'
@@ -13,7 +15,9 @@ import { trimAddress } from 'src/utils/helpers'
 const WalletBalance = () => {
   return (
     <div className="flex flex-col flex-1 text-sm">
-      <div className={'header__nav__balance'}>Balance $62</div>
+      <div className={'header__nav__balance'}>
+        <MemberBalance />
+      </div>
       <div>
         <a href="/fund-wallet" className={'header__nav__fund-wallet'}>
           Fund Wallet

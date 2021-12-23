@@ -3,7 +3,6 @@ import { useWallet } from 'src/providers/wallet'
 
 const MemberBalance = () => {
   const { usdcBalance, balanceError } = useWallet()
-  console.log(useWallet())
   if (balanceError)
     return (
       <div className="memberBalance">

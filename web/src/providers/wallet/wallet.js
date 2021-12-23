@@ -1,5 +1,8 @@
 import { useQuery } from '@apollo/client'
 import { useAuth } from '@redwoodjs/auth'
+import useModal from 'src/hooks/useModal'
+
+import { WithdrawModal, DepositModal, AddressModal } from './modals'
 
 const MEMBER_BALANCE = gql`
   query FindMemberBalanceQuery {
@@ -17,11 +20,24 @@ const WalletContext = React.createContext({
 })
 
 const WalletProvider = ({ children }) => {
-  const { isAuthenticated } = useAuth()
+  const { isAuthenticated, currentUser } = useAuth()
   const [state, setState] = React.useState({
     usdcBalance: null,
     mintCreditBalance: null,
   })
+
+  const { isVisible: isVisibleDep, toggleModal: toggleModalDep } = useModal()
+  const { isVisible: isVisibleWit, toggleModal: toggleModalWit } = useModal()
+  const { isVisible: isVisibleAdd, toggleModal: toggleModalAdd } = useModal()
+
+  const onDeposit = () => {
+    toggleModalDep()
+    // trigger wyre
+  }
+  const onWithdraw = () => {
+    toggleModalWit()
+    // trigger wyre
+  }
 
   const {
     data: { memberBalance } = {},
@@ -39,23 +55,32 @@ const WalletProvider = ({ children }) => {
     })
   }, [memberBalance])
 
-  const addFunds = async () => {
-    // Open deposit modal
-  }
-  const withdrawFunds = async () => {
-    // Open withdraw modal
-  }
-
   return (
     <WalletContext.Provider
       value={{
-        addFunds,
-        withdrawFunds,
+        deposit: toggleModalDep,
+        withdraw: toggleModalWit,
+        getAddress: toggleModalAdd,
         usdcBalance: state.usdcBalance,
         mintCreditBalance: state.mintCreditBalance,
         balanceError,
       }}
     >
+      <DepositModal
+        onSubmit={onDeposit}
+        isVisible={isVisibleDep}
+        toggleModal={toggleModalDep}
+      />
+      <WithdrawModal
+        onSubmit={onWithdraw}
+        isVisible={isVisibleWit}
+        toggleModal={toggleModalWit}
+      />
+      <AddressModal
+        address={currentUser?.address}
+        isVisible={isVisibleAdd}
+        toggleModal={toggleModalAdd}
+      />
       {children}
     </WalletContext.Provider>
   )

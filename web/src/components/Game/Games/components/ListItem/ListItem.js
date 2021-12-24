@@ -19,13 +19,13 @@ const ListItem = ({
   onChangeTitle,
   onSubmit,
   isExpanded,
-  mintingStatus,
+  mintStatus,
   errorText,
 }) => {
   const { white: player1, black: player2, endTime, id, tokenId, title } = game
   const date = formatDate(endTime)
 
-  const isMinting = mintingStatus === ADDING_FUNDS || mintingStatus === MINTING
+  const isMinting = mintStatus === ADDING_FUNDS || mintStatus === MINTING
 
   const handleSubmit = (title) => {
     if (isMinting) return
@@ -39,7 +39,7 @@ const ListItem = ({
 
   const bottomHalf = () => {
     if (!isExpanded) return <></>
-    if (mintingStatus === ADDING_FUNDS)
+    if (mintStatus === ADDING_FUNDS)
       return (
         <div className="games-history-list__status">
           Complete ADDING_FUNDS in the Wyre popup.
@@ -51,7 +51,7 @@ const ListItem = ({
           </button>
         </div>
       )
-    if (mintingStatus === MINTING)
+    if (mintStatus === MINTING)
       return (
         <div className="games-history-list__status">
           Your Treasure is being minted.
@@ -61,7 +61,7 @@ const ListItem = ({
           </div>
         </div>
       )
-    if (mintingStatus === SUCCESS)
+    if (mintStatus === SUCCESS)
       return (
         <div className="games-history-list__status">
           Your Treasure was minted.

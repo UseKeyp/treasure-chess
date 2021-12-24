@@ -17,7 +17,7 @@ import {
 
 const Games = ({ games }) => {
   const { currentUser } = useAuth()
-  const { mint, mintingStatus } = useMinting()
+  const { mint, mintStatus, mintError } = useMinting()
 
   const [gamesContext, setGamesContext] = React.useContext(GamesContext)
   const { activeGame } = gamesContext
@@ -40,7 +40,7 @@ const Games = ({ games }) => {
       ...gamesContext,
       activeGame: game,
       gameTitle: '',
-      // mintingStatus: null, // Reset after successful minting
+      // mintStatus: null, // Reset after successful minting
     })
   }
 
@@ -48,12 +48,12 @@ const Games = ({ games }) => {
     setGamesContext({
       ...gamesContext,
       gameTitle: '',
-      // mintingStatus: null,
+      // mintStatus: null,
     })
   }
 
   const getItems = () => {
-    if (!activeGame && mintingStatus === MINTING)
+    if (!activeGame && mintStatus === MINTING)
       return (
         <div className="games-history-list__status">
           Your Treasure is being minted.
@@ -78,8 +78,8 @@ const Games = ({ games }) => {
           onChangeTitle={onChangeTitle}
           onSubmit={onSubmitMint}
           isExpanded={game.id === activeGame?.id}
-          mintingStatus={mintingStatus}
-          errorText={mintADDING_FUNDSError?.message}
+          mintStatus={mintStatus}
+          errorText={mintError?.message}
         />
       )
     })

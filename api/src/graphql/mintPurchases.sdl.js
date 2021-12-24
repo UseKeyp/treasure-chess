@@ -18,5 +18,18 @@ export const schema = gql`
 
   type Query {
     mintPurchases: [MintPurchase!]! @requireAuth
+    pendingMintPurchases: [MintPurchase!]! @requireAuth
+    mintCheckoutUrl(
+      gameId: String!
+      endTime: DateTime!
+      title: String!
+    ): String! @requireAuth
+  }
+  type Mutation {
+    mintWithCredit(
+      gameId: String!
+      endTime: DateTime!
+      title: String!
+    ): String! @requireAuth
   }
 `

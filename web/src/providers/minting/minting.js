@@ -1,8 +1,8 @@
 import { useLazyQuery, useQuery, useMutation } from '@apollo/client'
-import { toast } from '@redwoodjs/web/toast'
 import { useAuth } from '@redwoodjs/auth'
 
 import { useWallet } from 'src/providers/wallet'
+import { useToast } from 'src/providers/toast'
 
 import {
   PENDING_MINT_PURCHASES_QUERY,
@@ -28,19 +28,19 @@ const MintingProvider = ({ children }) => {
     mintStatus: null,
     shouldPoll: true,
   })
-  const { mintStatus, shouldPoll } = state
 
   const { mintCreditBalance } = useWallet()
   const { isAuthenticated } = useAuth()
+  const { toast } = useToast()
 
-  const { data: { mintPurchases } = {} } = useQuery(
-    PENDING_MINT_PURCHASES_QUERY,
-    {
-      pollInterval: 10000,
-      skip: !shouldPoll || !isAuthenticated,
-      fetchPolicy: 'network-only',
-    }
-  )
+  const {
+    data: { pendingMintPurchases } = {},
+    previousData: { previousMintPurchases } = {},
+  } = useQuery(PENDING_MINT_PURCHASES_QUERY, {
+    pollInterval: 10000,
+    skip: !state.shouldPoll || !isAuthenticated,
+    fetchPolicy: 'network-only',
+  })
 
   const [mintCheckoutUrlLazyQuery, { error: mintCheckoutUrlError }] =
     useLazyQuery(MINT_CHECKOUT_URL_QUERY, {
@@ -56,21 +56,31 @@ const MintingProvider = ({ children }) => {
   const [
     mintWithCreditMutation,
     { data: mintWithCreditMutationData, error: mintWithCreditMutationError },
-  ] = useMutation({
-    mutation: MINT_WITH_CREDIT_MUTATION,
-  })
+  ] = useMutation(MINT_WITH_CREDIT_MUTATION)
 
-  const consumeMintPurchasesData = () => {
-    // Loading the page fresh should do an initial check
+  const consumePendingMintPurchases = () => {
+    // TODO:  Turn off polling after initial load, but may cause problems
+    // if (pendingMintPurchases === [])
+    //   return setState({ ...state, shouldPoll: false })
 
-    // Stop polling if there are no mintpurchases
-    console.log(mintPurchases)
-    if (!mintPurchases) return setState({ ...state, shouldPoll: false })
+    console.log(pendingMintPurchases)
+
+    // We can simplify this by limiting the user to only create one purchase at a time?
+
+    // Only show UI prompts when data changes
+    if (previousMintPurchases === undefined) return
+    previousMintPurchases.map((previousPurchase) => {
+      // Compare orderStatus change. if orderStatus changed from RESERVATION to COMPLETE
+      // Remove wyre checkout toast, show Wyre checkout success
+      // If txStatus changed from UNSUBMITTED to SUBMITTED
+      // Show transaction submitted toast with link to polygonscan
+      // If txStatus changed from SUBMITTED to COMPLETE
+      // TODO: txStatus COMPLETE currently isn't returned by the query
+      // How should we show this?
+    })
 
     // Wyre orders - waiting on user to send funds
-
     // Otherwise, minting is underway
-
     // If mintPurchase is outstanding, then start polling
     // const mintPurchase = mintPurchases.find(
     //   (purchase) =>
@@ -92,26 +102,29 @@ const MintingProvider = ({ children }) => {
     // }
   }
 
-  const isMinting = [ADDING_FUNDS, MINTING].includes(mintStatus)
+  const isMinting = [ADDING_FUNDS, MINTING].includes(state.mintStatus)
 
   React.useEffect(() => {
-    consumeMintPurchasesData()
+    consumePendingMintPurchases()
     /* eslint-disable react-hooks/exhaustive-deps*/
-  }, [mintPurchases])
+  }, [pendingMintPurchases])
 
-  const mint = async ({ title, id, endTime }) => {
+  const mint = async ({ title, gameId, endTime }) => {
     // Check balance and mintCredits
     if (mintCreditBalance < 1) {
-      mintCheckoutUrlLazyQuery()
+      mintCheckoutUrlLazyQuery({ variables: { title, gameId, endTime } })
       setState({ ...state, mintStatus: ADDING_FUNDS, shouldPoll: true })
     } else {
-      await mintWithCreditMutation({ title, id, endTime })
+      await mintWithCreditMutation({ variables: { title, gameId, endTime } })
       console.log(mintWithCreditMutationData)
       console.log(mintWithCreditMutationError)
       setState({ ...state, mintStatus: MINTING, shouldPoll: true })
     }
   }
-
+  React.useEffect(() => {
+    toast.loading('loading')
+    toast.success('succes')
+  }, [])
   return (
     <MintingContext.Provider
       value={{

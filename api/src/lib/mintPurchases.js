@@ -1,6 +1,8 @@
+import { EnvelopError } from '@envelop/core'
+
 import { db } from 'src/lib/db'
 import { validateTreasureTitle } from 'src/lib/helpers'
-import { EnvelopError } from '@envelop/core'
+import { fetchGame } from 'src/lib/games'
 
 export const fetchPendingMintPurchases = () => {
   return db.mintPurchase.findMany({
@@ -13,12 +15,12 @@ export const fetchPendingMintPurchases = () => {
   })
 }
 
-export const fetchMintPurchase = async () => {
+export const fetchMintPurchase = async ({ gameId, endTime, memberId }) => {
   const mintPurchases = await db.mintPurchase.findMany({
     where: {
       gameId,
       gameEndTime: endTime,
-      memberId: context.currentUser.id,
+      memberId,
     },
   })
   // TODO: Need a better way for identifying unique purchases.

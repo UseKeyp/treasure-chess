@@ -43,6 +43,7 @@ export const mintWithCredit = async ({ gameId, endTime, title }) => {
       where: { id: context.currentUser.id },
       data: { mintCredits: context.currentUser.mintCredits - 1 },
     })
+    // TODO: Process order
     return mintPurchase.id
   } else {
     throw new EnvelopError(`Insufficient mint credits`)

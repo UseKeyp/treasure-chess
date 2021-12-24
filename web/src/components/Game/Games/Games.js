@@ -25,7 +25,7 @@ const Games = ({ games }) => {
   const onSubmitMint = (title) => {
     mint({
       title,
-      id: activeGame.id,
+      gameId: activeGame.id,
       endTime: activeGame.endTime,
     })
   }

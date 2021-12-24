@@ -1,6 +1,8 @@
 const MintingContext = React.createContext()
 import { useLazyQuery, useQuery } from '@apollo/client'
 
+import { queryWyreCheckoutUrl } from './queries'
+
 import {
   ADDING_FUNDS,
   MINTING,
@@ -8,16 +10,6 @@ import {
   COMPLETE,
   FAILED,
 } from 'src/providers/minting/constants'
-
-const MINT_CHECKOUT_URL = gql`
-  query mintADDING_FUNDSUrl(
-    $gameId: String!
-    $endTime: DateTime!
-    $title: String!
-  ) {
-    mintADDING_FUNDSUrl(gameId: $gameId, endTime: $endTime, title: $title)
-  }
-`
 
 const MINT_PURCHASES = gql`
   query mintPurchases {
@@ -89,25 +81,6 @@ const MintingProvider = ({ children }) => {
     consumeMintPurchasesData()
     /* eslint-disable react-hooks/exhaustive-deps*/
   }, [mintPurchasesData])
-
-  // Maybe move this to a withdraw/deposit provider?
-  // const [addFunds, { error: _addFundsError }] = useLazyQuery(
-  //   MINT_CHECKOUT_URL,
-  //   {
-  //     onCompleted: ({ addFundUrl }) => {
-  //       if (addFundUrl.includes('https')) {
-  //         setState({ ...state, mintingStatus: ADDING_FUNDS })
-  //         window.open(
-  //           addFundUrl,
-  //           'Treasure Chess ADDING_FUNDS',
-  //           'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
-  //         )
-  //       } else {
-  //         setState({ ...state, mintingStatus: MINTING })
-  //       }
-  //     },
-  //   }
-  // )
 
   const mint = async ({ title, id, endTime }) => {
     // Check balance and mintCredits

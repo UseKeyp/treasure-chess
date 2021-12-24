@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client'
+import { useQuery, useLazyQuery } from '@apollo/client'
 import { useAuth } from '@redwoodjs/auth'
 import useModal from 'src/hooks/useModal'
 
@@ -30,7 +30,7 @@ const WalletProvider = ({ children }) => {
   const { isVisible: isVisibleWit, toggleModal: toggleModalWit } = useModal()
   const { isVisible: isVisibleAdd, toggleModal: toggleModalAdd } = useModal()
 
-  const onDeposit = () => {
+  const onDeposit = async () => {
     toggleModalDep()
     // trigger wyre
   }
@@ -48,6 +48,7 @@ const WalletProvider = ({ children }) => {
     skip: !isAuthenticated,
     fetchPolicy: 'network-only',
   })
+
   React.useEffect(() => {
     setState({
       ...state,

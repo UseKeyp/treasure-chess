@@ -6,7 +6,7 @@ export const generated = () => {
   return (
     <div style={{ maxWidth: 530 }}>
       <TreasureMoves
-        tokenId={{
+        treasure={{
           ...exampleTreasures[0],
           black: exampleMembers[0],
           white: exampleMembers[1],

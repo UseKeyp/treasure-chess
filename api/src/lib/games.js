@@ -7,6 +7,7 @@ import { fetchChessGames, fetchChessGame } from 'src/lib/chessCom/chessCom'
 import { parseGameFromChessDotCom } from 'src/lib/chessCom/gameParsing'
 import { getGifUrl } from 'src/lib/chessCom/gifGetter'
 const filters = require('@treasure-chess/treasure-filters')
+const { getBoardLayout } = require('@treasure-chess/chess-image-generator')
 
 const getRarity = (score) => {
   if (score < 6) return filters.rarityList[0]
@@ -52,7 +53,6 @@ const getFullGameDetails = async ({
     game.pgn,
     cardColor
   )
-
   const achievementsString = achievements.map((item) => item.name).join(',')
   const white = await fetchMember(game.whiteUsername)
   const black = await fetchMember(game.blackUsername)
@@ -61,6 +61,7 @@ const getFullGameDetails = async ({
   else if (game.winnerUsername === game.blackUsername) winnerId = black.id
   return {
     ...game,
+    treasureId,
     white,
     black,
     blackId: black.id,
@@ -68,6 +69,7 @@ const getFullGameDetails = async ({
     winnerId,
     cardColor,
     opening,
+    boardLayout: JSON.stringify(getBoardLayout(game.moves)),
     gifUrl: getGifUrl({ tcn: game.tcn, playerColor: cardColor }),
     ...(includeAchievements && { achievements: achievementsString }),
     ...(includeAchievements && { rarity: getRarity(score) }),

@@ -5,11 +5,13 @@ import { validateTreasureTitle } from 'src/lib/helpers'
 import { mintTreasure } from 'src/lib/web3'
 import { fetchGame } from 'src/lib/games'
 
+const COMPLETE = 'COMPLETE'
+
 const fetchPendingMintPurchases = () => {
   return db.mintPurchase.findMany({
     where: {
       member: { id: context.currentUser.id },
-      txStatus: { not: 'COMPLETE' },
+      txStatus: { not: COMPLETE },
     },
     orderBy: [{ updatedAt: 'desc' }],
     include: { treasure: true, member: true },
@@ -59,8 +61,8 @@ export const processPendingPurchases = async () => {
   let changes = false
   await Promise.all(
     pendingPurchases.map((mintPurchase) => {
-      if (mintPurchase.orderStatus !== 'COMPLETE') return
-      if (mintPurchase.txStatus !== 'COMPLETE') {
+      if (mintPurchase.orderStatus !== COMPLETE) return
+      if (mintPurchase.txStatus !== COMPLETE) {
         // Treasure not successfully minted. Proceed to mint!
         changes = true
         return mintTreasure({ mintPurchase })

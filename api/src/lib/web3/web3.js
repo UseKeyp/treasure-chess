@@ -1,9 +1,17 @@
 import { db } from 'src/lib/db'
+
 import { fetchMember } from 'src/lib/members'
 import { fetchGame } from 'src/lib/games'
-import { generateTreasureData } from 'src/lib/treasures'
-import { mint } from 'src/lib/web3/treasure/treasure'
 import { pinTreasure } from 'src/lib/pinata/pinata'
+
+import { mint } from 'src/lib/web3/treasure/treasure'
+import { web3Provider } from 'src/lib/web3/helpers'
+import { generateTreasureData } from 'src/lib/treasures'
+
+const UNSUBMITTED = 'UNSUBMITTED'
+const SUBMITTED = 'SUBMITTED'
+const COMPLETE = 'COMPLETE'
+const FAILED = 'FAILED'
 
 export const mintTreasure = async ({ mintPurchase }) => {
   try {
@@ -17,57 +25,83 @@ export const mintTreasure = async ({ mintPurchase }) => {
       includeTreasureData: true,
     })
 
-    console.log(game)
+    if (game.tokenId)
+      throw `Treasure tokenId:${tokenId} already minted and in the database`
+
     const treasureData = generateTreasureData({
       game,
       title,
       minter: member,
       mintPurchase,
     })
-    console.log(treasureData)
+
+    const { tokenUri, uriData } = await pinTreasure({
+      treasure: {
+        ...treasureData,
+        black: { ...game.black }, // Inject the players manually
+        white: { ...game.white },
+      },
+      tcn: game.tcn,
+    })
 
     if (mintPurchase.txHash) {
-      // TODO: Check the status of the transaction
-      // TODO: If failed, attempt to mint again
-      // Remove throw once completed
-      throw `Treasure has already been minted. Id: ${treasureData.id} txHash: ${mintPurchase.txHash}`
+      const { status, tokenId } = await getMintTxStatus({ mintPurchase })
+      console.log(status, tokenId)
+      if (status === SUBMITTED) return // transaction still pending
+      if (status === COMPLETE) {
+        // YAY! Create the treasure in the database
+        // TODO: optimize by combining these two db calls
+        const treasure = await db.treasure.create({
+          data: { ...treasureData, tokenId, uriData, tokenUri },
+        })
+        await db.mintPurchase.update({
+          where: { id: mintPurchase.id },
+          data: {
+            txStatus: COMPLETE,
+          },
+        })
+      }
+      // If status is FAILED, let's continue and mint again
     }
-    // const { tokenUri, uriData } = await pinTreasure({
-    //   treasure: {
-    //     ...treasureData,
-    //     black: { ...game.black }, // Inject the players manually
-    //     white: { ...game.white },
-    //   },
-    //   tcn: game.tcn,
-    // })
-    // TODO: Check whether a treasure with the same id already exists in the database
-    // TODO: Before minting, check on-chain whether there exists a treasure
-    // with the same ID hash
-    // const tx = await mint({
-    //   treasure: treasureData,
-    //   tokenUri,
-    //   minterAddress: member.address,
-    // })
-    // if (!tx?.hash) throw 'Transaction was not submitted'
-    //
-    // await db.mintPurchase.update({
-    //   where: { id: mintPurchase.id },
-    //   data: {
-    //     txHash: tx.hash,
-    //     txStatus: 'SUBMITTED',
-    //   },
-    // })
-    //
-    // const treasure = await db.treasure.create({
-    //   data: { ...treasureData, uriData, tokenUri },
-    // })
-    // // TODO:  remove consoles
-    // /* eslint-disable-next-line no-console */
-    // console.log(treasure)
-    //
-    // return treasure
+
+    const tx = await mint({
+      treasure: treasureData,
+      tokenUri,
+      minterAddress: member.address,
+    })
+    if (!tx || !tx.hash) throw 'Transaction was not submitted'
+
+    await db.mintPurchase.update({
+      where: { id: mintPurchase.id },
+      data: {
+        txHash: tx.hash,
+        txStatus: SUBMITTED,
+      },
+    })
+    /* eslint-disable-next-line no-console */
   } catch (e) {
     throw `mintTreasure() ${e}`
+  }
+}
+
+export const getMintTxStatus = async ({ mintPurchase }) => {
+  try {
+    if (mintPurchase.txStatus === SUBMITTED) {
+      const receipt = await web3Provider.getTransactionReceipt(
+        mintPurchase.txHash
+      )
+      if (!receipt) throw `Couldn't get transaction receipt`
+      if (receipt.status === 0) {
+        return { status: FAILED }
+      } else if (receipt.status == 1 && receipt.confirmations >= 1) {
+        // TODO: get tokenId from receipt logs
+        const highestTokenId = await db.treasure.count()
+        return { status: COMPLETE, tokenId: highestTokenId + 1 }
+      }
+    }
+    return { status: mintPurchase.txStatus }
+  } catch (e) {
+    throw `getMintTxStatus() ${e}`
   }
 }
 

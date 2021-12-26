@@ -19,10 +19,11 @@ export const generateTreasureData = ({ game, title, minter, mintPurchase }) => {
     whiteRating: game.whiteRating,
     blackRatingDelta: game.blackRatingDelta,
     whiteRatingDelta: game.whiteRatingDelta,
-    blackMasterTitle: black.title,
-    whiteMasterTitle: white.title,
+    blackMasterTitle: game.black.title,
+    whiteMasterTitle: game.white.title,
     timeControl: game.timeControl,
     termination: game.termination,
+    boardLayout: game.boardLayout,
     endTime: game.endTime,
     outcome: game.outcome,
     event: game.event,
@@ -127,6 +128,6 @@ export const getTreasuresWithFilter = async ({
 
 export const getTreasuresWithFilterCount = async ({ username, filter }) => {
   const whereQuery = getWhereQueryFromArgs({ username, filter })
-  // Note: count takes up to 2+ seconds to the query for large databases.
+  // Note: count takes up to 2+ seconds to the query for large db (1M+ elements)
   return db.treasure.count({ where: whereQuery })
 }

@@ -1,7 +1,9 @@
 import Avatar from 'src/components/Avatar'
+import { RowsSkeleton } from 'src/components/LoadingSkeleton'
 
 const parsePgn = (str) => {
   if (!str) return []
+  str = str.replace(/\d+\.\.\. /g, '')
   const list = str
     .split('.')
     .map((line, i) => {
@@ -14,14 +16,13 @@ const parsePgn = (str) => {
     .filter((item) => item !== null)
   return list
 }
-const TABLE_TITLE = 'Moves'
 
-const TreasureMoves = ({ treasure }) => {
+const TreasureMoves = ({ treasure, isLoading }) => {
   const list = parsePgn(treasure?.moves)
 
   return (
     <div className="moves-details">
-      <h3 className="moves-details__heading">{TABLE_TITLE}</h3>
+      <h3 className="moves-details__heading font-bold">Moves</h3>
       <header className="moves-details__players">
         <div className="moves-details__player">
           <span className="moves-details__player-no">White</span>
@@ -46,25 +47,36 @@ const TreasureMoves = ({ treasure }) => {
           </div>
         </div>
       </header>
-      <ul className="moves-details__list">
-        {list.map((round) => {
-          const [turn, white, black] = round
+      {isLoading ? (
+        <div className="moves-details__list">
+          <RowsSkeleton
+            rowCount={50}
+            maxHeight={20}
+            borderRadius={4}
+            marginBottom={4}
+          />
+        </div>
+      ) : (
+        <ul className="moves-details__list">
+          {list.map((round) => {
+            const [turn, white, black] = round
 
-          return (
-            <li key={turn} className="moves-details__item">
-              <div className="moves-details__item__inner">
-                <span className="moves-details__item__detail--first">
-                  {turn}.
-                </span>
-                <span className="moves-details__item__detail--second">
-                  {white}
-                </span>
-                <span className="moves-details__item__detail">{black}</span>
-              </div>
-            </li>
-          )
-        })}
-      </ul>
+            return (
+              <li key={turn} className="moves-details__item">
+                <div className="moves-details__item__inner">
+                  <span className="moves-details__item__detail--first">
+                    {turn}.
+                  </span>
+                  <span className="moves-details__item__detail--second">
+                    {white}
+                  </span>
+                  <span className="moves-details__item__detail">{black}</span>
+                </div>
+              </li>
+            )
+          })}
+        </ul>
+      )}
     </div>
   )
 }

@@ -23,6 +23,7 @@ export const checkProfanity = (string) => {
 }
 
 export const validateTreasureTitle = (string) => {
+  if (!string) throw new EnvelopError('Title must not be empty')
   checkProfanity(string)
   if (
     !string.match(

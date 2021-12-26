@@ -1,6 +1,4 @@
 import Sentry from 'src/lib/sentry'
-import { fetchGame } from 'src/lib/games'
-import { mintTreasure } from 'src/lib/web3/web3'
 import { fetchOrder } from 'src/lib/wyre/wyre'
 import { db } from 'src/lib/db'
 import { sendDiscordAlert } from 'src/lib/discord/discord'
@@ -53,14 +51,7 @@ export const processOrder = async ({ reservation, orderId }) => {
       throw new Error(
         `MintPurchase not found for reservation: ${reservation} orderId: ${orderId}`
       )
-    const { gameId, gameEndTime, title, member } = mintPurchase
     Sentry.setUser({ username: member.username })
-    const game = await fetchGame({
-      id: gameId,
-      username: member.username,
-      endTime: gameEndTime,
-      includeTreasureData: true,
-    })
     await db.mintPurchase.update({
       where: { id: mintPurchase.id },
       data: {
@@ -68,7 +59,6 @@ export const processOrder = async ({ reservation, orderId }) => {
         orderStatus: 'COMPLETE',
       },
     })
-    await mintTreasure({ game, mintPurchase, member, title })
   } catch (e) {
     /* eslint-disable-next-line no-console */
     console.log(e)
@@ -90,44 +80,3 @@ ${e}
     Sentry.captureException(e)
   }
 }
-
-// TODO: Delete if still not used after Wyre adds referenceId to webhook
-// const validateReferenceId = async (referenceId) => {
-//   const { username, gameId, endTime, address, title } =
-//     parseReferenceId(referenceId)
-//   Sentry.setUser({ username })
-//
-//   const member = await fetchMember(username)
-//   if (!member)
-//     throw Error(`Member "${username}" could not be found in the Chess API`)
-//   if (!member.address)
-//     throw Error(`Member ${username} does not have an address.`)
-//   const memberAddress = member.address.toLowerCase()
-//   const refereceIdAddress = address.toLowerCase()
-//   if (memberAddress !== refereceIdAddress)
-//     throw Error(
-//       `Member address for ${username} "${memberAddress}" does not match referenceId address "${refereceIdAddress}"`
-//     )
-//
-//   const game = await fetchGame({
-//     id: gameId,
-//     username,
-//     endTime,
-//     includeTreasureData: true,
-//   })
-//   const endTimeString = new Date(endTime * 1000)
-//   if (!game)
-//     throw Error(
-//       `Game "${gameId}" played by ${username} at ${endTimeString} could not be found in the Chess API`
-//     )
-//   // TODO: trigger another mint transaction if the last one failed?
-//   if (game.mintPurchaseId)
-//     throw Error(
-//       `Game "${gameId}" played by ${username} at ${endTimeString} minting process has already started/completed. Token ID: ${game.tokenId}`
-//     )
-//   if (game.blackUsername !== username && game.whiteUsername !== username)
-//     throw Error(
-//       `Game "${gameId}" at ${endTimeString} was not played by ${username}. Black: ${game.blackUsername}, White: ${game.whiteUsername}.`
-//     )
-//   return { member, game, title }
-// }

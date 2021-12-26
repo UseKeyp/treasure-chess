@@ -1,27 +1,34 @@
 import { db } from 'src/lib/db'
 import { fetchMember } from 'src/lib/members'
+import { fetchGame } from 'src/lib/games'
 import { generateTreasureData } from 'src/lib/treasures'
 import { mint } from 'src/lib/web3/treasure/treasure'
 import { pinTreasure } from 'src/lib/pinata/pinata'
 
-export const mintTreasure = async ({ game, mintPurchase, member, title }) => {
+export const mintTreasure = async ({ mintPurchase }) => {
   try {
-    if (!member.address) throw 'Minting member does not have a wallet address.'
-    if (!title) throw 'Title must not be empty'
+    const { gameId, gameEndTime, title, member } = mintPurchase
 
-    const treasureData = await generateTreasureData({
+    const game = await fetchGame({
+      id: gameId,
+      username: member.username,
+      endTime: gameEndTime,
+      // Create new members if needed, treasureId, etc.
+      includeTreasureData: true,
+    })
+
+    console.log(game)
+    const treasureData = generateTreasureData({
       game,
       title,
       minter: member,
-      owner: member,
       mintPurchase,
     })
+    console.log(treasureData)
 
     if (mintPurchase.txHash) {
       // TODO: Check the status of the transaction
-
       // TODO: If failed, attempt to mint again
-
       // Remove throw once completed
       throw `Treasure has already been minted. Id: ${treasureData.id} txHash: ${mintPurchase.txHash}`
     }

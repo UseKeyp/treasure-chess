@@ -68,6 +68,8 @@ const MintingProvider = ({ children }) => {
   }
 
   const consumePendingMintPurchasesPoll = async () => {
+    console.log(state.pendingMintPurchases)
+    console.log(pendingMintPurchasesPoll)
     setState({ ...state, pendingMintPurchases: pendingMintPurchasesPoll })
     // TODO:  Turn off polling after initial load, but may cause problems
     // if (pendingMintPurchases === [])

@@ -31,16 +31,15 @@ export const AddressModal = ({ address, isVisible, toggleModal }) => {
       content={
         <>
           <p className="text-base">
-            <span>WARNING: At this time you can </span>
             <span className={'modals__matic-warning'}>
-              only deposit USDC on the Polygon Network (Matic).
+              WARNING: Only deposit USDC on the Polygon (Matic) network.
             </span>
           </p>
 
           <p className="mt-4 text-base">
-            Do not send anything else to this address, or use other networks.
-            You will not be able to recover other assets, and they may be lost
-            forever. We cannot guarantee support will be added for other
+            Do not send anything else to this address. Do not use other
+            networks. You will not be able to recover assets, and they may be
+            lost forever. We cannot guarantee support will be added for other
             networks or assets.
           </p>
 

@@ -1,9 +1,10 @@
 import { db } from 'src/lib/db'
 import {
-  fetchPendingMintPurchases,
   fetchMintPurchase,
   validateMintRequest,
+  processPendingPurchases,
 } from 'src/lib/mintPurchases'
+import { mintTreasure } from 'src/lib/web3/web3'
 import { createMintReservation } from 'src/lib/wyre'
 
 export const mintPurchases = () => {
@@ -14,18 +15,7 @@ export const mintPurchases = () => {
   })
 }
 
-export const pendingMintPurchases = async () => {
-  const pendingPurchases = await fetchPendingMintPurchases()
-  await Promise.all(
-    pendingPurchases.map((mintPurchase) => {
-      if (mintPurchase.txStatus === 'SUBMITTED')
-        return async () => {
-          // Check transaction status and mint
-        }
-    })
-  )
-  return pendingPurchases
-}
+export const pendingMintPurchases = () => processPendingPurchases()
 
 export const mintWithCredit = async ({ gameId, endTime, title }) => {
   await validateMintRequest({ gameId, endTime, title })

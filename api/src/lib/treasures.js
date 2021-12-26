@@ -1,60 +1,20 @@
 const { id: sha3 } = require('@ethersproject/hash')
 import { db } from 'src/lib/db'
 
-import { getGifUrl } from 'src/lib/chessCom/gifGetter'
-const filters = require('@treasure-chess/treasure-filters')
 const { TREASURES_PER_PAGE } = require('@treasure-chess/treasure-filters')
 
-import { fetchMember } from 'src/lib/members'
-
-export const getTreasureCardColor = ({ game, username }) =>
-  game.whiteUsername === username ? 'white' : 'black'
-
-export const getTreasureId = ({
-  moves, // String of moves from the PGN (without timestamps)
-  endTime, // Timecode from chess.com API
-  cardColor, // String of version of treasure: "white" or "black"
-}) => {
-  const endTimeUnix = Date.parse(endTime) / 1000
-  return sha3(`${moves} ${endTimeUnix} ${cardColor}`)
-  // eg. sha3("1. d4 d5 2. c4 e6 3. Nc3 c6 4. e3 Nf6 1612749143 white")
-}
-
-const getRarity = (score) => {
-  if (score < 6) return filters.rarityList[0]
-  if (score < 11) return filters.rarityList[1]
-  if (score < 14) return filters.rarityList[2]
-  return filters.rarityList[3]
-}
-
 // NOTE: any updates to this function should also be made in /scripts/seed
-export const generateTreasureData = async ({
-  game,
-  title,
-  minter,
-  owner,
-  mintPurchase,
-}) => {
-  const cardColor = getTreasureCardColor({ game, username: minter.username })
-  const treasureId = getTreasureId({
-    moves: game.moves,
-    endTime: game.endTime,
-    cardColor,
-  })
-  // Create members if they don't exist
-  const white = await fetchMember(game.whiteUsername)
-  const black = await fetchMember(game.blackUsername)
-
+export const generateTreasureData = ({ game, title, minter, mintPurchase }) => {
   return {
-    id: treasureId,
-    black: { connect: { id: black.id } },
-    white: { connect: { id: white.id } },
+    id: game.treasureId,
+    black: { connect: { id: game.black.id } },
+    white: { connect: { id: game.white.id } },
     ...(game.winnerId && { winner: { connect: { id: game.winnerId } } }), // Optional
     minter: { connect: { id: minter.id } },
-    owner: { connect: { id: owner.id } },
+    owner: { connect: { id: minter.id } },
     title,
-    cardColor,
-    gifUrl: getGifUrl({ tn: game.tcn, playerColor: cardColor }),
+    cardColor: game.cardColor,
+    gifUrl: game.gifUrl,
     blackRating: game.blackRating,
     whiteRating: game.whiteRating,
     blackRatingDelta: game.blackRatingDelta,
@@ -71,7 +31,7 @@ export const generateTreasureData = async ({
     ruleVariant: game.ruleVariant,
     externalUrl: game.externalUrl,
     opening: game.opening,
-    rarity: getRarity(game.achievementScore),
+    rarity: game.rarity,
     achievements: game.achievements,
     achievementScore: game.achievementScore,
     // Purchase details

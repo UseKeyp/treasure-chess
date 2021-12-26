@@ -58,7 +58,7 @@ const generateRandomTreasures = (count, highestTokenId, members) => {
       const realGame = realGames[randomInt(0, realGames.length - 1)]
 
       const game = parseGameFromChessDotCom(realGame)
-      const treasure = generateTreasureData({
+      const treasure = generateTreasureDataOffline({
         game,
         title: randomTitles[randomInt(0, randomTitles.length - 1)],
         minter,
@@ -76,7 +76,7 @@ const generateRandomTreasures = (count, highestTokenId, members) => {
     })
 }
 
-export const generateTreasureData = ({
+export const generateTreasureDataOffline = ({
   game,
   title,
   minter,

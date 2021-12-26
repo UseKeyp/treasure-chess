@@ -2,16 +2,17 @@ import { EnvelopError } from '@envelop/core'
 
 import { db } from 'src/lib/db'
 import { validateTreasureTitle } from 'src/lib/helpers'
+import { mintTreasure } from 'src/lib/web3'
 import { fetchGame } from 'src/lib/games'
 
-export const fetchPendingMintPurchases = () => {
+const fetchPendingMintPurchases = () => {
   return db.mintPurchase.findMany({
     where: {
       member: { id: context.currentUser.id },
       txStatus: { not: 'COMPLETE' },
     },
     orderBy: [{ updatedAt: 'desc' }],
-    include: { treasure: true },
+    include: { treasure: true, member: true },
   })
 }
 
@@ -49,4 +50,24 @@ export const validateMintRequest = async ({ gameId, endTime, title }) => {
     throw new EnvelopError(
       `Member ${username} did not participate in this game.`
     )
+}
+
+// Part of the polling system. Mints any new purchases
+// TODO: (maybe) add admin ability to trigger this, rather than only by the user
+export const processPendingPurchases = async () => {
+  let pendingPurchases = await fetchPendingMintPurchases()
+  let changes = false
+  await Promise.all(
+    pendingPurchases.map((mintPurchase) => {
+      if (mintPurchase.orderStatus !== 'COMPLETE') return
+      if (mintPurchase.txStatus !== 'COMPLETE') {
+        // Treasure not successfully minted. Proceed to mint!
+        changes = true
+        return mintTreasure({ mintPurchase })
+      }
+    })
+  )
+  // Refetch if there were changes
+  if (changes) pendingPurchases = await fetchPendingMintPurchases()
+  return pendingPurchases
 }

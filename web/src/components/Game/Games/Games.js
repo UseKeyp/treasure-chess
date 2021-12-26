@@ -17,7 +17,7 @@ import {
 
 const Games = ({ games }) => {
   const { currentUser } = useAuth()
-  const { mint, mintStatus, mintError } = useMinting()
+  const { mint, cancelMint, mintStatus, mintError } = useMinting()
 
   const [gamesContext, setGamesContext] = React.useContext(GamesContext)
   const { activeGame } = gamesContext
@@ -40,15 +40,14 @@ const Games = ({ games }) => {
       ...gamesContext,
       activeGame: game,
       gameTitle: '',
-      // mintStatus: null, // Reset after successful minting
     })
   }
 
   const onReset = () => {
+    cancelMint({ gameId: activeGame.id, endTime: activeGame.endTime })
     setGamesContext({
       ...gamesContext,
       gameTitle: '',
-      // mintStatus: null,
     })
   }
 

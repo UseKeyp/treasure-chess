@@ -3,6 +3,9 @@ import { useAuth } from '@redwoodjs/auth'
 
 import { useWallet } from 'src/providers/wallet'
 import { useToast } from 'src/providers/toast'
+import { useModal } from 'src/hooks/useModal'
+
+import { CancelModal } from './modals'
 
 import {
   PENDING_MINT_PURCHASES_QUERY,
@@ -28,6 +31,8 @@ const MintingProvider = ({ children }) => {
   const { mintCreditBalance } = useWallet()
   const { isAuthenticated } = useAuth()
   const { toast } = useToast()
+  const { isVisible: isVisibleModalCancel, toggleModal: toggleModalCancel } =
+    useModal()
 
   const [state, setState] = React.useState({
     mintStatus: null,
@@ -132,8 +137,10 @@ const MintingProvider = ({ children }) => {
     }
   }
 
-  const cancelOrder = async ({}) => {
-    // Allow canceling a pending order`
+  const cancelMint = ({ gameId, endTime }) => toggleModalCancel()
+  const onConfirmCancel = () => {
+    toggleModalCancel()
+    setState({ ...state, mintStatus: null, mintError: null })
   }
 
   React.useEffect(() => {
@@ -150,10 +157,16 @@ const MintingProvider = ({ children }) => {
     <MintingContext.Provider
       value={{
         mint,
+        cancelMint,
         mintStatus: state.mintStatus,
         mintError: state.mintError,
       }}
     >
+      <CancelModal
+        onSubmit={onConfirmCancel}
+        isVisible={isVisibleModalCancel}
+        toggleModal={toggleModalCancel}
+      />
       {children}
     </MintingContext.Provider>
   )

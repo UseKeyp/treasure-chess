@@ -7,6 +7,7 @@ const ModalContainer = ({
   content,
   headerText,
   submitText,
+  cancelText,
   onSubmit,
   icon,
 }) => {
@@ -26,7 +27,7 @@ const ModalContainer = ({
             <p className="body-text">{content}</p>
             <div className="modal-button-wrapper">
               <Button variant="transparent" onClick={hideModal}>
-                Cancel
+                {cancelText || 'Cancel'}
               </Button>
               <Button variant="blue" onClick={onSubmit}>
                 {submitText}

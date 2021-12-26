@@ -5,7 +5,15 @@ const Cell = ({ children }) => {
   return <div className="p-3">{children}</div>
 }
 
-const Table = ({ height, width, rowHeight, rowWidth, title, data }) => {
+const Table = ({
+  isLoading,
+  height,
+  width,
+  rowHeight,
+  rowWidth,
+  title,
+  data,
+}) => {
   const rows = data?.map((row, i) => {
     const cells = row.map((item) => {
       return typeof item === 'string' ? (
@@ -36,7 +44,7 @@ const Table = ({ height, width, rowHeight, rowWidth, title, data }) => {
     <div className="table-wrapper" style={{ height, width }}>
       <h1 className="table-header">{title}</h1>
       <div className="table-component flex-col">
-        {rows ? (
+        {!isLoading ? (
           rows
         ) : (
           <RowsSkeleton

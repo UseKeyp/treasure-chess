@@ -26,7 +26,7 @@ export const mintTreasure = async ({ mintPurchase }) => {
     })
 
     if (game.tokenId)
-      throw `Treasure tokenId:${tokenId} already minted and in the database`
+      throw `Treasure tokenId:${game.tokenId} already minted and in the database`
 
     const treasureData = generateTreasureData({
       game,
@@ -46,7 +46,6 @@ export const mintTreasure = async ({ mintPurchase }) => {
 
     if (mintPurchase.txHash) {
       const { status, tokenId } = await getMintTxStatus({ mintPurchase })
-      console.log(status, tokenId)
       if (status === SUBMITTED) return // transaction still pending
       if (status === COMPLETE) {
         // YAY! Create the treasure in the database
@@ -60,8 +59,9 @@ export const mintTreasure = async ({ mintPurchase }) => {
             txStatus: COMPLETE,
           },
         })
+        return // Stop, don't mint again
       }
-      // If status is FAILED, let's continue and mint again
+      // If status is FAILED, let's continue and try to mint again
     }
 
     const tx = await mint({
@@ -96,6 +96,7 @@ export const getMintTxStatus = async ({ mintPurchase }) => {
       } else if (receipt.status == 1 && receipt.confirmations >= 1) {
         // TODO: get tokenId from receipt logs
         const highestTokenId = await db.treasure.count()
+        console.log(highestTokenId)
         return { status: COMPLETE, tokenId: highestTokenId + 1 }
       }
     }

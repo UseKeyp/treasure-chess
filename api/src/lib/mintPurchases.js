@@ -62,6 +62,7 @@ export const processPendingPurchases = async () => {
   await Promise.all(
     pendingPurchases.map((mintPurchase) => {
       if (mintPurchase.orderStatus !== COMPLETE) return
+      console.log(mintPurchase)
       if (mintPurchase.txStatus !== COMPLETE) {
         // Treasure not successfully minted. Proceed to mint!
         changes = true

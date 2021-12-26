@@ -52,7 +52,12 @@ export const transactionHistory = () => {
         top: '200px',
       }}
     >
-      <Table title="Transaction History" height={193} width={532} />
+      <Table
+        title="Transaction History"
+        isLoading={true}
+        height={193}
+        width={532}
+      />
       <p>.................</p>
       <Table title="Transaction History" data={data} height={193} width={532} />
     </div>
@@ -69,7 +74,13 @@ export const saleHistory = () => {
         top: '200px',
       }}
     >
-      <Table title="Sale History" height={156} width={396} rowWidth={346} />
+      <Table
+        title="Sale History"
+        isLoading={true}
+        height={156}
+        width={396}
+        rowWidth={346}
+      />
       <p>.................</p>
       <Table
         title="Sale History"

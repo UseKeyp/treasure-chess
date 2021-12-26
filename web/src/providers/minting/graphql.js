@@ -20,8 +20,12 @@ export const PENDING_MINT_PURCHASES_QUERY = gql`
 `
 
 export const MINT_CHECKOUT_URL_QUERY = gql`
-  query mintCheckouUrl($gameId: String!, $endTime: DateTime!, $title: String!) {
-    mintCheckouUrl(gameId: $gameId, endTime: $endTime, title: $title)
+  query mintCheckoutUrl(
+    $gameId: String!
+    $endTime: DateTime!
+    $title: String!
+  ) {
+    mintCheckoutUrl(gameId: $gameId, endTime: $endTime, title: $title)
   }
 `
 

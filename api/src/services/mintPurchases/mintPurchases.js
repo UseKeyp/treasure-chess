@@ -4,6 +4,7 @@ import {
   fetchMintPurchase,
   validateMintRequest,
 } from 'src/lib/mintPurchases'
+import { createMintReservation } from 'src/lib/wyre'
 
 export const mintPurchases = () => {
   return db.mintPurchase.findMany({
@@ -52,6 +53,7 @@ export const mintWithCredit = async ({ gameId, endTime, title }) => {
 
 export const mintCheckoutUrl = async ({ gameId, endTime, title }) => {
   await validateMintRequest({ gameId, endTime, title })
+  const { username, address, id: userId } = context.currentUser
   const { url, reservation } = await createMintReservation({
     username,
     gameId,
@@ -61,7 +63,7 @@ export const mintCheckoutUrl = async ({ gameId, endTime, title }) => {
   })
   await db.mintPurchase.create({
     data: {
-      member: { connect: { id: context.currentUser.id } },
+      member: { connect: { id: userId } },
       reservation,
       gameId,
       gameEndTime: endTime,

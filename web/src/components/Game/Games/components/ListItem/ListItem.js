@@ -42,12 +42,12 @@ const ListItem = ({
     if (mintStatus === ADDING_FUNDS)
       return (
         <div className="games-history-list__status">
-          Complete ADDING_FUNDS in the Wyre popup.
+          Continue via Wyre popup.
           <button
             className="games-history-list__reset-button"
             onClick={onReset}
           >
-            Reset
+            Cancel
           </button>
         </div>
       )

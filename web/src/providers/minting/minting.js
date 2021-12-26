@@ -21,63 +21,66 @@ import {
 const MintingContext = React.createContext({
   mintStatus: null,
   mintError: null,
+  pendingMintPurchases: [],
 })
 
 const MintingProvider = ({ children }) => {
-  const [state, setState] = React.useState({
-    mintStatus: null,
-    shouldPoll: true,
-  })
-
   const { mintCreditBalance } = useWallet()
   const { isAuthenticated } = useAuth()
   const { toast } = useToast()
 
+  const [state, setState] = React.useState({
+    mintStatus: null,
+    shouldPoll: true,
+    pendingMintPurchases: [],
+  })
+
+  const isMinting = [ADDING_FUNDS, MINTING].includes(state.mintStatus)
+
   const {
-    data: { pendingMintPurchases } = {},
-    previousData: { previousMintPurchases } = {},
+    data: { pendingMintPurchasesPoll } = {},
+    // previousData: { previousMintPurchasesPoll } = {},
   } = useQuery(PENDING_MINT_PURCHASES_QUERY, {
     pollInterval: 10000,
     skip: !state.shouldPoll || !isAuthenticated,
     fetchPolicy: 'network-only',
   })
 
-  const [mintCheckoutUrlLazyQuery, { error: mintCheckoutUrlError }] =
-    useLazyQuery(MINT_CHECKOUT_URL_QUERY, {
-      onCompleted: ({ mintCheckoutUrl }) => {
-        window.open(
-          mintCheckoutUrl,
-          'Treasure Chess Checkout',
-          'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
-        )
-      },
-    })
+  const [pendingMintPurchasesLazyQuery] = useLazyQuery(
+    PENDING_MINT_PURCHASES_QUERY
+  )
+
+  const [mintCheckoutUrlLazyQuery] = useLazyQuery(MINT_CHECKOUT_URL_QUERY)
 
   const [
     mintWithCreditMutation,
     { data: mintWithCreditMutationData, error: mintWithCreditMutationError },
   ] = useMutation(MINT_WITH_CREDIT_MUTATION)
 
-  const consumePendingMintPurchases = () => {
+  const onPageLoad = async () => {
+    const { data: pendingMintPurchases } = await pendingMintPurchasesLazyQuery()
+    setState({ ...state, pendingMintPurchases })
+  }
+
+  const consumePendingMintPurchasesPoll = async () => {
+    setState({ ...state, pendingMintPurchases: pendingMintPurchasesPoll })
     // TODO:  Turn off polling after initial load, but may cause problems
     // if (pendingMintPurchases === [])
     //   return setState({ ...state, shouldPoll: false })
 
-    console.log(pendingMintPurchases)
-
     // We can simplify this by limiting the user to only create one purchase at a time?
 
     // Only show UI prompts when data changes
-    if (previousMintPurchases === undefined) return
-    previousMintPurchases.map((previousPurchase) => {
-      // Compare orderStatus change. if orderStatus changed from RESERVATION to COMPLETE
-      // Remove wyre checkout toast, show Wyre checkout success
-      // If txStatus changed from UNSUBMITTED to SUBMITTED
-      // Show transaction submitted toast with link to polygonscan
-      // If txStatus changed from SUBMITTED to COMPLETE
-      // TODO: txStatus COMPLETE currently isn't returned by the query
-      // How should we show this?
-    })
+    if (state.pendingMintPurchases === pendingMintPurchasesPoll) return
+    // state.pendingMintPurchases?.map((previousPurchase) => {
+    //   // Compare orderStatus change. if orderStatus changed from RESERVATION to COMPLETE
+    //   // Remove wyre checkout toast, show Wyre checkout success
+    //   // If txStatus changed from UNSUBMITTED to SUBMITTED
+    //   // Show transaction submitted toast with link to polygonscan
+    //   // If txStatus changed from SUBMITTED to COMPLETE
+    //   // TODO: txStatus COMPLETE currently isn't returned by the query
+    //   // How should we show this?
+    // })
 
     // Wyre orders - waiting on user to send funds
     // Otherwise, minting is underway
@@ -102,35 +105,53 @@ const MintingProvider = ({ children }) => {
     // }
   }
 
-  const isMinting = [ADDING_FUNDS, MINTING].includes(state.mintStatus)
-
-  React.useEffect(() => {
-    consumePendingMintPurchases()
-    /* eslint-disable react-hooks/exhaustive-deps*/
-  }, [pendingMintPurchases])
-
   const mint = async ({ title, gameId, endTime }) => {
     // Check balance and mintCredits
+
+    // log mint the
     if (mintCreditBalance < 1) {
-      mintCheckoutUrlLazyQuery({ variables: { title, gameId, endTime } })
+      const { data: { mintCheckoutUrl } = {}, error } =
+        await mintCheckoutUrlLazyQuery({
+          variables: { title, gameId, endTime },
+        })
+      if (error)
+        return setState({
+          ...state,
+          mintStatus: FAILED,
+          mintError: error,
+        })
       setState({ ...state, mintStatus: ADDING_FUNDS, shouldPoll: true })
+      window.open(
+        mintCheckoutUrl,
+        'Treasure Chess Checkout',
+        'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
+      )
     } else {
       await mintWithCreditMutation({ variables: { title, gameId, endTime } })
-      console.log(mintWithCreditMutationData)
-      console.log(mintWithCreditMutationError)
       setState({ ...state, mintStatus: MINTING, shouldPoll: true })
     }
   }
+
+  const cancelOrder = async ({}) => {
+    // Allow canceling a pending order`
+  }
+
   React.useEffect(() => {
-    toast.loading('loading')
-    toast.success('succes')
-  }, [])
+    consumePendingMintPurchasesPoll()
+    /* eslint-disable react-hooks/exhaustive-deps*/
+  }, [pendingMintPurchasesPoll])
+
+  React.useEffect(() => {
+    if (!isAuthenticated) return
+    onPageLoad()
+  }, [isAuthenticated])
+
   return (
     <MintingContext.Provider
       value={{
         mint,
         mintStatus: state.mintStatus,
-        mintError: mintCheckoutUrlError || mintWithCreditMutationError, // Add other errors here
+        mintError: state.mintError,
       }}
     >
       {children}

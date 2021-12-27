@@ -4,7 +4,7 @@ import { useAuth } from '@redwoodjs/auth'
 import { useWallet } from 'src/providers/wallet'
 import { useToast } from 'src/providers/toast'
 import { useModal } from 'src/hooks/useModal'
-
+import { MintingToast } from './toasts'
 import { CancelModal, SuccessModal } from './modals'
 
 import {
@@ -48,7 +48,9 @@ const MintingProvider = ({ children }) => {
     if (purchase.orderStatus === RESERVATION)
       toast.loading('Waiting for Wyre...', { id: purchase.id })
     if (purchase.txStatus === SUBMITTED)
-      toast.loading('Minting...', { id: purchase.id })
+      toast.loading(<MintingToast mintingPurchase={purchase} />, {
+        id: purchase.id,
+      })
     if (purchase.txStatus === COMPLETE)
       toast.success('Success!', { id: purchase.id })
     if (purchase.txStatus === FAILED)
@@ -81,19 +83,27 @@ const MintingProvider = ({ children }) => {
     if (!pendingMintPurchases) return
     pendingMintPurchases.map((purchase) => toastPurchase(purchase))
     setState({ ...state, pendingMintPurchases, shouldPoll: true })
+    toast.loading(
+      <MintingToast
+        mintPurchase={{
+          txHash:
+            '0xc530723d9144d9c53dbeb7ec39c343ed1d6673e08bf9fbc5db0f014b2b5b5932',
+        }}
+      />
+    )
   }
   const consumePendingMintPurchasesPoll = async () => {
     const last = state.pendingMintPurchases
     const current = pendingMintPurchasesPoll
     if (current === last) return
-    if (!current)
+    if (current && !current.length)
       return setState({ ...state, pendingMintPurchases: [], shouldPoll: false })
 
     setState({ ...state, pendingMintPurchases: current })
-    current.map((purchase) => {
+    current?.map((purchase) => {
       // Newly added mintPurchase
-      console.log({ last: last[0] })
-      console.log({ current: current[0] })
+      console.log(last[0])
+      console.log(current[0])
       if (!last.map((item) => item.id).includes(purchase.id))
         return toastPurchase(purchase)
       const lastPurchase = last.find((item) => item.id === purchase.id)
@@ -103,6 +113,8 @@ const MintingProvider = ({ children }) => {
           setState({
             ...state,
             successfulMintPurchase: purchase,
+            shouldPoll: false,
+            mintStatus: SUCCESS,
           })
         }
       }

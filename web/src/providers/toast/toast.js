@@ -38,7 +38,7 @@ const ToastProvider = ({ children }) => {
             color: theme.colors.black,
             fontSize: '14px',
           },
-          success: { duration: 3000 },
+          success: { duration: 5000 },
         }}
       >
         {(t) => (
@@ -47,7 +47,7 @@ const ToastProvider = ({ children }) => {
               <>
                 {t.type === 'loading' ? <LoadingDots /> : icon}
                 {message}
-                {t.type !== 'loading' && (
+                {t.type === 'loading' && (
                   <button onClick={() => toast.dismiss(t.id)}>X</button>
                 )}
               </>

@@ -93,10 +93,9 @@ export const getMintTxStatus = async ({ mintPurchase }) => {
       const receipt = await web3Provider.getTransactionReceipt(
         mintPurchase.txHash
       )
-      if (!receipt) throw `Couldn't get transaction receipt`
-      if (receipt.status === 0) {
+      if (receipt?.status === 0) {
         return { status: FAILED }
-      } else if (receipt.status == 1 && receipt.confirmations >= 1) {
+      } else if (receipt?.status == 1 && receipt?.confirmations >= 1) {
         // TODO: get tokenId from receipt logs
         const highestTokenId = await db.treasure.count()
         console.log(highestTokenId)

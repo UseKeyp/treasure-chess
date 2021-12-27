@@ -5,7 +5,7 @@ import { useWallet } from 'src/providers/wallet'
 import { useToast } from 'src/providers/toast'
 import { useModal } from 'src/hooks/useModal'
 
-import { CancelModal } from './modals'
+import { CancelModal, SuccessModal } from './modals'
 
 import {
   PENDING_MINT_PURCHASES_QUERY,
@@ -40,6 +40,7 @@ const MintingProvider = ({ children }) => {
     mintStatus: null,
     shouldPoll: false,
     pendingMintPurchases: [],
+    successfulMintPurchases: [],
   })
 
   const toastPurchase = (purchase) => {
@@ -47,9 +48,8 @@ const MintingProvider = ({ children }) => {
     if (purchase.orderStatus === RESERVATION)
       toast.loading('Waiting for Wyre...', { id: purchase.id })
     if (purchase.txStatus === SUBMITTED)
-      toast.loading('Blockchain transaction pending...', { id: purchase.id })
-    if (purchase.txStatus === COMPLETE)
-      toast.success('Minting successful', { id: purchase.id })
+      toast.loading('Minting...', { id: purchase.id })
+    if (purchase.txStatus === COMPLETE) toast.dismiss(purchase.id)
     if (purchase.txStatus === FAILED)
       toast.error('Minting Failed!', { id: purchase.id })
   }
@@ -82,51 +82,35 @@ const MintingProvider = ({ children }) => {
     setState({ ...state, pendingMintPurchases, shouldPoll: true })
   }
   const consumePendingMintPurchasesPoll = async () => {
-    console.log(state.pendingMintPurchases)
-    console.log(pendingMintPurchasesPoll)
-    // setState({ ...state, pendingMintPurchases: pendingMintPurchasesPoll })
-    // Only show UI prompts when data changes
-    if (state.pendingMintPurchases === pendingMintPurchasesPoll) return
-    pendingMintPurchasesPoll?.map((purchase) => {
-      // Find the purchase that has changed
-      // Toast, if needed
-      // Stop polling if needed
-      // Compare orderStatus change. if orderStatus changed from RESERVATION to COMPLETE
-      // Remove wyre checkout toast, show Wyre checkout success
-      // If txStatus changed from UNSUBMITTED to SUBMITTED
-      // Show transaction submitted toast with link to polygonscan
-      // If txStatus changed from SUBMITTED to COMPLETE
-      // TODO: txStatus COMPLETE currently isn't returned by the query
-      // How should we show this?
-    })
+    const last = state.pendingMintPurchases
+    const current = pendingMintPurchasesPoll
+    if (current === last) return
+    if (!current)
+      return setState({ ...state, pendingMintPurchases: [], shouldPoll: false })
 
-    // Wyre orders - waiting on user to send funds
-    // Otherwise, minting is underway
-    // If mintPurchase is outstanding, then start polling
-    // const mintPurchase = mintPurchases.find(
-    //   (purchase) =>
-    //     purchase.gameEndTime === activeGame?.endTime &&
-    //     purchase.gameId === activeGame?.id
-    // )
-    // if (!mintPurchase) return
-    // if (mintPurchase.orderStatus !== COMPLETE) return
-    // if (mintStatus === ADDING_FUNDS)
-    //   // For Wyre orders, update mintStatus if order is complete
-    //   setContext({ ...context, mintStatus: MINTING })
-    //
-    // if ([COMPLETE, FAILED].includes(mintPurchase.txStatus)) {
-    //   setState({
-    //     ...state,
-    //     mintStatus: SUCCESS,
-    //     isPolling: false,
-    //   })
-    // }
+    setState({ ...state, pendingMintPurchases: current })
+    current.map((purchase) => {
+      // Newly added mintPurchase
+      if (!last.map((item) => item.id).includes(purchase.id))
+        return toastPurchase(purchase)
+      const lastPurchase = last.find((item) => item.id === purchase.id)
+      if (lastPurchase.txStatus !== purchase.txStatus) {
+        toastPurchase(purchase)
+        if (purchase.txStatus === COMPLETE) {
+          setState({
+            ...state,
+            successfulMintPurchases: [
+              ...state.successfulMintPurchases,
+              purchase,
+            ],
+          })
+          // show success modal
+        }
+      }
+    })
   }
 
   const mint = async ({ title, gameId, endTime }) => {
-    // Check balance and mintCredits
-
-    // log mint the
     if (mintCreditBalance < 1) {
       const { data: { mintCheckoutUrl } = {}, error } =
         await mintCheckoutUrlLazyQuery({
@@ -180,6 +164,14 @@ const MintingProvider = ({ children }) => {
         isVisible={isVisibleModalCancel}
         toggleModal={toggleModalCancel}
       />
+      {state.successfulMintPurchases?.map((purchase) => (
+        <SuccessModal
+          mintPurchase={purchase}
+          onSubmit={onConfirmCancel}
+          isVisible={isVisibleModalCancel}
+          toggleModal={toggleModalCancel}
+        />
+      ))}
       {children}
     </MintingContext.Provider>
   )

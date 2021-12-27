@@ -10,18 +10,16 @@ const AllContextProviders = ({ children }) => {
   // This will be automatically injected in to the App and Storybook
 
   return (
-    <>
+    <ThemeContextProvider>
       <ToastProvider>
-        <ThemeContextProvider>
-          <GamesContextProvider>
-            <TokenSessionProvider />
-            <WalletProvider>
-              <MintingProvider>{children}</MintingProvider>
-            </WalletProvider>
-          </GamesContextProvider>
-        </ThemeContextProvider>
+        <GamesContextProvider>
+          <TokenSessionProvider />
+          <WalletProvider>
+            <MintingProvider>{children}</MintingProvider>
+          </WalletProvider>
+        </GamesContextProvider>
       </ToastProvider>
-    </>
+    </ThemeContextProvider>
   )
 }
 

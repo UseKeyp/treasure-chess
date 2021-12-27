@@ -1,5 +1,9 @@
 import { Toaster, ToastBar, toast, useToasterStore } from '@redwoodjs/web/toast'
 
+import { useTheme } from 'src/providers/theme'
+
+import LoadingDots from 'src/components/LoadingDots'
+
 const ToastContext = React.createContext({
   mintStatus: null,
   mintError: null,
@@ -9,6 +13,7 @@ const ToastContext = React.createContext({
 
 const ToastProvider = ({ children }) => {
   const { toasts } = useToasterStore()
+  const { theme } = useTheme()
   // const { toasts } = useToaster();
   // toast() - Text only, no icon shown
   // toast.success() - Checkmark icon with text
@@ -28,28 +33,28 @@ const ToastProvider = ({ children }) => {
         toastOptions={{
           className: '',
           style: {
-            border: '1px solid #713200',
-            padding: '16px',
-            color: '#713200',
-            fontSize: '12px',
+            // border: '1px solid #713200',
+            // padding: '16px',
+            color: theme.colors.black,
+            fontSize: '14px',
           },
           success: { duration: 3000 },
-          loading: { duration: 3000 },
         }}
-      />
-      {(t) => (
-        <ToastBar toast={t}>
-          {({ icon, message }) => (
-            <>
-              {icon}
-              {message}
-              {t.type !== 'loading' && (
-                <button onClick={() => toast.dismiss(t.id)}>X</button>
-              )}
-            </>
-          )}
-        </ToastBar>
-      )}
+      >
+        {(t) => (
+          <ToastBar toast={t}>
+            {({ icon, message }) => (
+              <>
+                {t.type === 'loading' ? <LoadingDots /> : icon}
+                {message}
+                {t.type !== 'loading' && (
+                  <button onClick={() => toast.dismiss(t.id)}>X</button>
+                )}
+              </>
+            )}
+          </ToastBar>
+        )}
+      </Toaster>
       {children}
     </ToastContext.Provider>
   )

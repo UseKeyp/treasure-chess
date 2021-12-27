@@ -16,8 +16,11 @@ import {
 import {
   ADDING_FUNDS,
   MINTING,
-  _SUCCESS,
+  SUCCESS,
   FAILED,
+  SUBMITTED,
+  COMPLETE,
+  RESERVATION,
 } from 'src/providers/minting/constants'
 
 const MintingContext = React.createContext({
@@ -35,16 +38,28 @@ const MintingProvider = ({ children }) => {
 
   const [state, setState] = React.useState({
     mintStatus: null,
-    shouldPoll: true,
+    shouldPoll: false,
     pendingMintPurchases: [],
   })
 
+  const toastPurchase = (purchase) => {
+    // TODO: Add more data to toasts (links, etc.)
+    if (purchase.orderStatus === RESERVATION)
+      toast.loading('Waiting for Wyre...', { id: purchase.id })
+    if (purchase.txStatus === SUBMITTED)
+      toast.loading('Blockchain transaction pending...', { id: purchase.id })
+    if (purchase.txStatus === COMPLETE)
+      toast.success('Minting successful', { id: purchase.id })
+    if (purchase.txStatus === FAILED)
+      toast.error('Minting Failed!', { id: purchase.id })
+  }
+
   const {
-    data: { pendingMintPurchasesPoll } = {},
+    data: { pendingMintPurchases: pendingMintPurchasesPoll } = {},
     // previousData: { previousMintPurchasesPoll } = {},
   } = useQuery(PENDING_MINT_PURCHASES_QUERY, {
     pollInterval: 10000,
-    skip: !state.shouldPoll || !isAuthenticated,
+    skip: !state.shouldPoll,
     fetchPolicy: 'network-only',
   })
 
@@ -60,31 +75,30 @@ const MintingProvider = ({ children }) => {
   ] = useMutation(MINT_WITH_CREDIT_MUTATION)
 
   const onPageLoad = async () => {
-    const { data: pendingMintPurchases } = await pendingMintPurchasesLazyQuery()
-    setState({ ...state, pendingMintPurchases })
+    const { data: { pendingMintPurchases } = {} } =
+      await pendingMintPurchasesLazyQuery()
+    if (!pendingMintPurchases) return
+    pendingMintPurchases.map((purchase) => toastPurchase(purchase))
+    setState({ ...state, pendingMintPurchases, shouldPoll: true })
   }
-
   const consumePendingMintPurchasesPoll = async () => {
     console.log(state.pendingMintPurchases)
     console.log(pendingMintPurchasesPoll)
-    setState({ ...state, pendingMintPurchases: pendingMintPurchasesPoll })
-    // TODO:  Turn off polling after initial load, but may cause problems
-    // if (pendingMintPurchases === [])
-    //   return setState({ ...state, shouldPoll: false })
-
-    // We can simplify this by limiting the user to only create one purchase at a time?
-
+    // setState({ ...state, pendingMintPurchases: pendingMintPurchasesPoll })
     // Only show UI prompts when data changes
     if (state.pendingMintPurchases === pendingMintPurchasesPoll) return
-    // state.pendingMintPurchases?.map((previousPurchase) => {
-    //   // Compare orderStatus change. if orderStatus changed from RESERVATION to COMPLETE
-    //   // Remove wyre checkout toast, show Wyre checkout success
-    //   // If txStatus changed from UNSUBMITTED to SUBMITTED
-    //   // Show transaction submitted toast with link to polygonscan
-    //   // If txStatus changed from SUBMITTED to COMPLETE
-    //   // TODO: txStatus COMPLETE currently isn't returned by the query
-    //   // How should we show this?
-    // })
+    pendingMintPurchasesPoll?.map((purchase) => {
+      // Find the purchase that has changed
+      // Toast, if needed
+      // Stop polling if needed
+      // Compare orderStatus change. if orderStatus changed from RESERVATION to COMPLETE
+      // Remove wyre checkout toast, show Wyre checkout success
+      // If txStatus changed from UNSUBMITTED to SUBMITTED
+      // Show transaction submitted toast with link to polygonscan
+      // If txStatus changed from SUBMITTED to COMPLETE
+      // TODO: txStatus COMPLETE currently isn't returned by the query
+      // How should we show this?
+    })
 
     // Wyre orders - waiting on user to send funds
     // Otherwise, minting is underway
@@ -139,6 +153,7 @@ const MintingProvider = ({ children }) => {
   const cancelMint = ({ gameId, endTime }) => toggleModalCancel()
   const onConfirmCancel = () => {
     toggleModalCancel()
+    // TODO:  Delete mintPurchaseMutation
     setState({ ...state, mintStatus: null, mintError: null })
   }
 
@@ -148,8 +163,7 @@ const MintingProvider = ({ children }) => {
   }, [pendingMintPurchasesPoll])
 
   React.useEffect(() => {
-    if (!isAuthenticated) return
-    onPageLoad()
+    isAuthenticated && onPageLoad()
   }, [isAuthenticated])
 
   return (

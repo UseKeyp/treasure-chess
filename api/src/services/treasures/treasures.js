@@ -1,12 +1,8 @@
 import { db } from 'src/lib/db'
-import { fetchGame } from 'src/lib/games'
-import { createMintReservation } from 'src/lib/wyre/wyre'
-import { validateTreasureTitle } from 'src/lib/helpers'
 import {
   getTreasuresWithFilter,
   getTreasuresWithFilterCount,
 } from 'src/lib/treasures'
-import { EnvelopError } from '@envelop/core'
 
 export const treasures = () => db.treasure.findMany()
 

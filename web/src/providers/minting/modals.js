@@ -1,5 +1,4 @@
 import ModalContainer from 'src/components/ModalContainer/ModalContainer'
-import Icon from 'src/components/Icon'
 
 export const CancelModal = ({ isVisible, toggleModal, onSubmit }) => (
   <ModalContainer

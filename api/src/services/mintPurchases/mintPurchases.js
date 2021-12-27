@@ -1,10 +1,10 @@
+import { EnvelopError } from '@envelop/core'
+
 import { db } from 'src/lib/db'
 import {
-  fetchMintPurchase,
   validateMintRequest,
   processPendingPurchases,
 } from 'src/lib/mintPurchases'
-import { mintTreasure } from 'src/lib/web3/web3'
 import { createMintReservation } from 'src/lib/wyre'
 
 export const mintPurchases = () => {

@@ -17,7 +17,6 @@ import {
   ADDING_FUNDS,
   MINTING,
   _SUCCESS,
-  COMPLETE,
   FAILED,
 } from 'src/providers/minting/constants'
 
@@ -39,8 +38,6 @@ const MintingProvider = ({ children }) => {
     shouldPoll: true,
     pendingMintPurchases: [],
   })
-
-  const isMinting = [ADDING_FUNDS, MINTING].includes(state.mintStatus)
 
   const {
     data: { pendingMintPurchasesPoll } = {},

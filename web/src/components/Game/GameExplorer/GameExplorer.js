@@ -1,5 +1,3 @@
-import { useQuery } from '@apollo/client'
-
 import GamesCell from 'src/components/Game/GamesCell'
 import GameCard from 'src/components/Game/GameCard'
 import FilterItems from 'src/components/FilterItems'
@@ -7,16 +5,10 @@ import FilterItems from 'src/components/FilterItems'
 import { useMinting } from 'src/providers/minting'
 import { GamesContext } from 'src/providers/games'
 
-import {
-  ADDING_FUNDS,
-  MINTING,
-  COMPLETE,
-  FAILED,
-  SUCCESS,
-} from 'src/providers/minting/constants'
+import { ADDING_FUNDS, MINTING } from 'src/providers/minting/constants'
 
 const GameExplorer = () => {
-  const [context, setContext] = React.useContext(GamesContext)
+  const [context] = React.useContext(GamesContext)
   const { mintingStatus } = useMinting()
   const { activeGame, gameTitle } = context
   const [filter, setFilter] = React.useState()

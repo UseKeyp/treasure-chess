@@ -4,16 +4,12 @@ import { P, H3 } from 'src/components/Typography'
 import { getOutcomeText } from 'src/utils/helpers'
 import { useMinting } from 'src/providers/minting'
 
-import { GamesContext, MintingContext } from 'src/providers/games'
+import { GamesContext } from 'src/providers/games'
 import LoadingDots from 'src/components/LoadingDots'
 
 import ListItem from './components/ListItem/ListItem'
 
-import {
-  ADDING_FUNDS,
-  MINTING,
-  _SUCCESS,
-} from 'src/providers/minting/constants'
+import { MINTING } from 'src/providers/minting/constants'
 
 const Games = ({ games }) => {
   const { currentUser } = useAuth()

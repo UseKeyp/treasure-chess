@@ -2,7 +2,7 @@ import { EnvelopError } from '@envelop/core'
 
 import { db } from 'src/lib/db'
 import { validateTreasureTitle } from 'src/lib/helpers'
-import { mintTreasure } from 'src/lib/web3'
+import { mintTreasureAndUpdatePurchase } from 'src/lib/web3'
 import { fetchGame } from 'src/lib/games'
 
 const COMPLETE = 'COMPLETE'
@@ -29,6 +29,7 @@ export const fetchMintPurchase = async ({ gameId, endTime, memberId }) => {
   // TODO: Need a better way for identifying unique purchases.
   // Maybe some string gameId-endTime-memberId ?
   if (mintPurchases?.length > 1)
+    /* eslint-disable-next-line no-console */
     console.log('WARNING: Multiple mintPurchases for the same game')
   return mintPurchases[0] || null
 }
@@ -48,29 +49,26 @@ export const validateMintRequest = async ({ gameId, endTime, title }) => {
     username: context.currentUser.username,
     endTime,
   })
-  if (!game)
-    throw new EnvelopError(
-      `Member ${username} did not participate in this game.`
-    )
+  if (!game) throw new EnvelopError(`Member did not participate in this game.`)
 }
 
-// Part of the polling system. Mints any new purchases
+// Part of the polling system. Triggers minting.
 // TODO: (maybe) add admin ability to trigger this, rather than only by the user
 export const processPendingPurchases = async () => {
   let pendingPurchases = await fetchPendingMintPurchases()
-  let changes = false
-  await Promise.all(
+  pendingPurchases = await Promise.all(
     pendingPurchases.map((mintPurchase) => {
-      if (mintPurchase.orderStatus !== COMPLETE) return
-      console.log(mintPurchase)
+      if (mintPurchase.orderStatus !== COMPLETE) return mintPurchase
       if (mintPurchase.txStatus !== COMPLETE) {
         // Treasure not successfully minted. Proceed to mint!
-        changes = true
-        return mintTreasure({ mintPurchase })
+        const newMintPurchase = await mintTreasureAndUpdatePurchase({
+          mintPurchase,
+        })
+        return newMintPurchase
       }
+      return mintPurchase
     })
   )
-  // Refetch if there were changes
-  if (changes) pendingPurchases = await fetchPendingMintPurchases()
+  console.log(pendingPurchases)
   return pendingPurchases
 }

@@ -1,10 +1,4 @@
-import {
-  Toaster,
-  ToastBar,
-  toast,
-  useToaster,
-  useToasterStore,
-} from '@redwoodjs/web/toast'
+import { Toaster, ToastBar, toast, useToasterStore } from '@redwoodjs/web/toast'
 
 const ToastContext = React.createContext({
   mintStatus: null,
@@ -14,7 +8,7 @@ const ToastContext = React.createContext({
 // https://react-hot-toast.com/docs/toaster
 
 const ToastProvider = ({ children }) => {
-  const { toasts, pausedAt } = useToasterStore()
+  const { toasts } = useToasterStore()
   // const { toasts } = useToaster();
   // toast() - Text only, no icon shown
   // toast.success() - Checkmark icon with text
@@ -43,6 +37,19 @@ const ToastProvider = ({ children }) => {
           loading: { duration: 3000 },
         }}
       />
+      {(t) => (
+        <ToastBar toast={t}>
+          {({ icon, message }) => (
+            <>
+              {icon}
+              {message}
+              {t.type !== 'loading' && (
+                <button onClick={() => toast.dismiss(t.id)}>X</button>
+              )}
+            </>
+          )}
+        </ToastBar>
+      )}
       {children}
     </ToastContext.Provider>
   )

@@ -8,12 +8,11 @@ import { mint } from 'src/lib/web3/treasure/treasure'
 import { web3Provider } from 'src/lib/web3/helpers'
 import { generateTreasureData } from 'src/lib/treasures'
 
-const UNSUBMITTED = 'UNSUBMITTED'
 const SUBMITTED = 'SUBMITTED'
 const COMPLETE = 'COMPLETE'
 const FAILED = 'FAILED'
 
-export const mintTreasure = async ({ mintPurchase }) => {
+export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
   try {
     const { gameId, gameEndTime, title, member } = mintPurchase
 
@@ -46,20 +45,24 @@ export const mintTreasure = async ({ mintPurchase }) => {
 
     if (mintPurchase.txHash) {
       const { status, tokenId } = await getMintTxStatus({ mintPurchase })
-      if (status === SUBMITTED) return // transaction still pending
+      if (status === SUBMITTED)
+        // transaction still pending
+        return await db.mintPurchase.update({
+          where: { id: mintPurchase.id },
+          data: { txStatus: SUBMITTED },
+        })
+
       if (status === COMPLETE) {
         // YAY! Create the treasure in the database
         // TODO: optimize by combining these two db calls
-        const treasure = await db.treasure.create({
+        await db.treasure.create({
           data: { ...treasureData, tokenId, uriData, tokenUri },
         })
-        await db.mintPurchase.update({
+        // Stop, don't mint again
+        return await db.mintPurchase.update({
           where: { id: mintPurchase.id },
-          data: {
-            txStatus: COMPLETE,
-          },
+          data: { txStatus: COMPLETE },
         })
-        return // Stop, don't mint again
       }
       // If status is FAILED, let's continue and try to mint again
     }
@@ -71,7 +74,7 @@ export const mintTreasure = async ({ mintPurchase }) => {
     })
     if (!tx || !tx.hash) throw 'Transaction was not submitted'
 
-    await db.mintPurchase.update({
+    return await db.mintPurchase.update({
       where: { id: mintPurchase.id },
       data: {
         txHash: tx.hash,

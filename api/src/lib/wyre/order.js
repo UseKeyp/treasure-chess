@@ -51,7 +51,7 @@ export const processOrder = async ({ reservation, orderId }) => {
       throw new Error(
         `MintPurchase not found for reservation: ${reservation} orderId: ${orderId}`
       )
-    Sentry.setUser({ username: member.username })
+    Sentry.setUser({ username: mintPurchase.member.username })
     await db.mintPurchase.update({
       where: { id: mintPurchase.id },
       data: {

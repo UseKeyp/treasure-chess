@@ -1,4 +1,4 @@
-import { useQuery, useLazyQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 import { useAuth } from '@redwoodjs/auth'
 
 import { useModal } from 'src/hooks/useModal'
@@ -15,7 +15,7 @@ const MEMBER_BALANCE = gql`
 `
 
 const WalletContext = React.createContext({
-  loading: true,
+  balanceLoading: true,
   usdcBalance: null,
   mintCreditBalance: null,
 })
@@ -55,6 +55,7 @@ const WalletProvider = ({ children }) => {
       ...state,
       ...memberBalance,
     })
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [memberBalance])
 
   return (
@@ -66,6 +67,7 @@ const WalletProvider = ({ children }) => {
         usdcBalance: state.usdcBalance,
         mintCreditBalance: state.mintCreditBalance,
         balanceError,
+        balanceLoading,
       }}
     >
       <DepositModal

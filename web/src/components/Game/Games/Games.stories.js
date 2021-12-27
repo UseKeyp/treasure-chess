@@ -82,7 +82,7 @@ export const unminted = () => {
   )
 }
 
-export const ADDING_FUNDS = () => {
+export const checkout = () => {
   mockCurrentUser({
     username: 'treasure_patrick',
   })

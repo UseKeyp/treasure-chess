@@ -36,11 +36,13 @@ const TreasuresPage = () => {
 
       <div className="flex">
         <FilterBar filter={filter} setFilter={setFilter} />
-        <TreasuresFetcher
-          username={username}
-          filter={new URLSearchParams(filter).toString()}
-          sort={sort}
-        />
+        <div className="ml-4 w-full">
+          <TreasuresFetcher
+            username={username}
+            filter={new URLSearchParams(filter).toString()}
+            sort={sort}
+          />
+        </div>
       </div>
     </div>
   )

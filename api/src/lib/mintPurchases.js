@@ -57,14 +57,11 @@ export const validateMintRequest = async ({ gameId, endTime, title }) => {
 export const processPendingPurchases = async () => {
   let pendingPurchases = await fetchPendingMintPurchases()
   pendingPurchases = await Promise.all(
-    pendingPurchases.map((mintPurchase) => {
+    pendingPurchases.map(async (mintPurchase) => {
       if (mintPurchase.orderStatus !== COMPLETE) return mintPurchase
       if (mintPurchase.txStatus !== COMPLETE) {
         // Treasure not successfully minted. Proceed to mint!
-        const newMintPurchase = await mintTreasureAndUpdatePurchase({
-          mintPurchase,
-        })
-        return newMintPurchase
+        return mintTreasureAndUpdatePurchase({ mintPurchase })
       }
       return mintPurchase
     })

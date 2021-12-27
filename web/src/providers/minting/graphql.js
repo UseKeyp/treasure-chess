@@ -5,7 +5,7 @@ export const PENDING_MINT_PURCHASES_QUERY = gql`
       createdAt
       updatedAt
       treasure {
-        id
+        tokenId
       }
       orderId
       reservation

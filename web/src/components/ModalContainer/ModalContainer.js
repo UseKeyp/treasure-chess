@@ -10,6 +10,7 @@ const ModalContainer = ({
   cancelText,
   onSubmit,
   icon,
+  hideCancelButton,
 }) => {
   isVisible
     ? (document.body.style.position = 'fixed')
@@ -24,11 +25,19 @@ const ModalContainer = ({
               <h2 className="header-text">{headerText}</h2>
               {icon}
             </div>
-            <p className="body-text">{content}</p>
+            {typeof content === 'string' ? (
+              <p className="body-text">{content}</p>
+            ) : (
+              <div className="body-text">{content}</div>
+            )}
             <div className="modal-button-wrapper">
-              <Button variant="transparent" onClick={hideModal}>
-                {cancelText || 'Cancel'}
-              </Button>
+              {!hideCancelButton ? (
+                <Button variant="transparent" onClick={hideModal}>
+                  {cancelText || 'Cancel'}
+                </Button>
+              ) : (
+                <div></div>
+              )}
               <Button variant="blue" onClick={onSubmit}>
                 {submitText}
               </Button>

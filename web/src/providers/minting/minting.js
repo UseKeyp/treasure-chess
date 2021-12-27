@@ -40,7 +40,7 @@ const MintingProvider = ({ children }) => {
     mintStatus: null,
     shouldPoll: false,
     pendingMintPurchases: [],
-    successfulMintPurchases: [],
+    successfulMintPurchase: null,
   })
 
   const toastPurchase = (purchase) => {
@@ -49,7 +49,8 @@ const MintingProvider = ({ children }) => {
       toast.loading('Waiting for Wyre...', { id: purchase.id })
     if (purchase.txStatus === SUBMITTED)
       toast.loading('Minting...', { id: purchase.id })
-    if (purchase.txStatus === COMPLETE) toast.dismiss(purchase.id)
+    if (purchase.txStatus === COMPLETE)
+      toast.success('Success!', { id: purchase.id })
     if (purchase.txStatus === FAILED)
       toast.error('Minting Failed!', { id: purchase.id })
   }
@@ -58,7 +59,7 @@ const MintingProvider = ({ children }) => {
     data: { pendingMintPurchases: pendingMintPurchasesPoll } = {},
     // previousData: { previousMintPurchasesPoll } = {},
   } = useQuery(PENDING_MINT_PURCHASES_QUERY, {
-    pollInterval: 10000,
+    pollInterval: 5000,
     skip: !state.shouldPoll,
     fetchPolicy: 'network-only',
   })
@@ -91,6 +92,8 @@ const MintingProvider = ({ children }) => {
     setState({ ...state, pendingMintPurchases: current })
     current.map((purchase) => {
       // Newly added mintPurchase
+      console.log({ last: last[0] })
+      console.log({ current: current[0] })
       if (!last.map((item) => item.id).includes(purchase.id))
         return toastPurchase(purchase)
       const lastPurchase = last.find((item) => item.id === purchase.id)
@@ -99,12 +102,8 @@ const MintingProvider = ({ children }) => {
         if (purchase.txStatus === COMPLETE) {
           setState({
             ...state,
-            successfulMintPurchases: [
-              ...state.successfulMintPurchases,
-              purchase,
-            ],
+            successfulMintPurchase: purchase,
           })
-          // show success modal
         }
       }
     })
@@ -164,14 +163,14 @@ const MintingProvider = ({ children }) => {
         isVisible={isVisibleModalCancel}
         toggleModal={toggleModalCancel}
       />
-      {state.successfulMintPurchases?.map((purchase) => (
+      {state.successfulMintPurchase ? (
         <SuccessModal
-          mintPurchase={purchase}
-          onSubmit={onConfirmCancel}
-          isVisible={isVisibleModalCancel}
-          toggleModal={toggleModalCancel}
+          onSubmit={() => setState({ ...state, successfulMintPurchase: null })}
+          mintPurchase={state.successfulMintPurchase}
+          isVisible={true}
+          toggleModal={() => {}}
         />
-      ))}
+      ) : null}
       {children}
     </MintingContext.Provider>
   )

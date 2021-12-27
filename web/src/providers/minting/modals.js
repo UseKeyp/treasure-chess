@@ -14,20 +14,29 @@ export const CancelModal = ({ isVisible, toggleModal, onSubmit }) => (
     content={<p className="text-base">Your current order will be canceled.</p>}
   />
 )
-export const SuccessModal = ({ isVisible, toggleModal, mintPurchase }) => {
+export const SuccessModal = ({
+  isVisible,
+  toggleModal,
+  onSubmit,
+  mintPurchase,
+}) => {
   const { tokenId } = mintPurchase.treasure
+  const handleSubmit = () => {
+    navigate(routes.treasure({ tokenId }))
+    onSubmit()
+  }
   return (
     <ModalContainer
-      headerText="Minting Success!"
+      headerText="New Treasure Minted!"
       isVisible={isVisible}
-      onSubmit={() => navigate(routes.treasure({ tokenId }))}
+      onSubmit={handleSubmit}
       hideModal={toggleModal}
       submitText="View"
-      cancelText="Back"
+      hideCancelButton
       content={
-        <>
+        <div className="flex justify-center align-center h-full w-full">
           <TreasureCardCell tokenId={tokenId} />
-        </>
+        </div>
       }
     />
   )

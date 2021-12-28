@@ -97,6 +97,14 @@ const MintingProvider = ({ children }) => {
               mintStatus: MINT_STATUS_SUCCESS,
             })
             toggleModalSuccess()
+          } else if (
+            purchase.paymentType === 'WYRE' &&
+            purchase.orderStatus === COMPLETE
+          ) {
+            setState({
+              ...state,
+              mintStatus: MINT_STATUS_MINTING,
+            })
           }
         }
       })

@@ -37,7 +37,7 @@ const MINT_PURCHASES = gql`
 
 const GameExplorer = () => {
   const [context, setContext] = React.useContext(GamesContext)
-  const { activeGame, mintingStatus } = context
+  const { activeGame, mintingStatus, gameTitle } = context
   const [filter, setFilter] = React.useState()
   const [isPolling, setIsPolling] = React.useState()
 
@@ -100,7 +100,12 @@ const GameExplorer = () => {
           <FilterItems headline="Filter Games" onChange={onChangeFilter} />
         </div>
         <GamesCell filter={filter} />
-        <GameCard game={activeGame} isMinting={mintingStatus === MINTING} />
+        <GameCard
+          game={activeGame}
+          isMinting={mintingStatus === MINTING}
+          title={gameTitle}
+          showGif
+        />
       </div>
     </div>
   )

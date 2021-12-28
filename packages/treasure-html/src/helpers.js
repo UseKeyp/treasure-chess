@@ -72,6 +72,7 @@ export const getRarityColor = (points) => {
   return '#FFBB0D'
 }
 
+// Note: Unused, since it reduces performance enough to matter
 export const formatXml = (xml, tab) => {
   // tab = optional indent value, default is tab (\t)
   var formatted = '',

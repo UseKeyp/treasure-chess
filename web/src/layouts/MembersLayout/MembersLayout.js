@@ -1,9 +1,7 @@
+import styles from './MembersLayout.module.scss'
+
 const MembersLayout = (props) => {
-  return (
-    <div className="">
-      <main className="rw-main">{props.children}</main>
-    </div>
-  )
+  return <main className={styles['members-layout']}>{props.children}</main>
 }
 
 export default MembersLayout

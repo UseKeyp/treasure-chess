@@ -12,6 +12,7 @@ module.exports = {
       black: '#000000',
       blue: '#47A7FF',
       blueLink: '#147DDD',
+      blueDark: '#125BF5',
       chessBlack: {
         100: '#312E2B',
         200: '#272522',

@@ -6,7 +6,6 @@ const {
   iconByPoints,
   getRarityColor,
   fetchImageAndEncodeBase64,
-  formatXml,
   getRatingText,
 } = require('./helpers')
 
@@ -242,7 +241,7 @@ const getCardHtml = async ({ treasure, gifBase64, gifUrl }) => {
     updateTag('match-anchor', 'href', treasure.externalUrl)
     updateContent('date', formatDate(treasure.endTime))
 
-    return formatXml(serializer.serializeToString(doc))
+    return serializer.serializeToString(doc)
   } catch (e) {
     console.log(e)
     throw e

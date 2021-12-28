@@ -12,6 +12,7 @@ const InfiniteScroll = ({
   const hasMore = perPage * (page + 1) < count
   return (
     <ReactInfiniteScrollComponent
+      style={{ overflow: 'visible' }}
       dataLength={dataLength}
       next={onLoadMore}
       hasMore={hasMore}

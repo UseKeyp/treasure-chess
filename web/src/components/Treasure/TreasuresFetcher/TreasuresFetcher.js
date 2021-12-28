@@ -52,6 +52,7 @@ const TREASURES_WITH_FILTER = gql`
         achievements
         achievementScore
         rarity
+        tokenId
       }
     }
   }

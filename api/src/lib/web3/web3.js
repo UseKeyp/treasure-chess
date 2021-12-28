@@ -24,9 +24,6 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
       includeTreasureData: true,
     })
 
-    if (game.tokenId)
-      throw `Treasure tokenId:${game.tokenId} already minted and in the database`
-
     const treasureData = generateTreasureData({
       game,
       title,
@@ -55,8 +52,15 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
       if (status === COMPLETE) {
         // YAY! Create the treasure in the database
         // TODO: optimize by combining these two db calls
-        await db.treasure.create({
-          data: { ...treasureData, tokenId, uriData, tokenUri },
+        await db.treasure.upsert({
+          where: { tokenId },
+          create: {
+            ...treasureData,
+            tokenId,
+            uriData,
+            tokenUri,
+          },
+          update: {},
         })
         // Stop, don't mint again
         return await db.mintPurchase.update({
@@ -66,6 +70,9 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
       }
       // If status is FAILED, let's continue and try to mint again
     }
+
+    if (game.tokenId)
+      throw `Treasure tokenId:${game.tokenId} already minted and in the database`
 
     const tx = await mint({
       treasure: treasureData,
@@ -98,7 +105,6 @@ export const getMintTxStatus = async ({ mintPurchase }) => {
       } else if (receipt?.status == 1 && receipt?.confirmations >= 1) {
         // TODO: get tokenId from receipt logs
         const highestTokenId = await db.treasure.count()
-        console.log(highestTokenId)
         return { status: COMPLETE, tokenId: highestTokenId + 1 }
       }
     }

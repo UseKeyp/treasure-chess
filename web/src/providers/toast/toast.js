@@ -45,10 +45,14 @@ const ToastProvider = ({ children }) => {
           <ToastBar toast={t}>
             {({ icon, message }) => (
               <>
-                {t.type === 'loading' ? <LoadingDots /> : icon}
+                <div className="mr-2">
+                  {t.type === 'loading' ? <LoadingDots /> : icon}
+                </div>
                 {message}
                 {t.type === 'loading' && (
-                  <button onClick={() => toast.dismiss(t.id)}>X</button>
+                  <button className="ml-2" onClick={() => toast.dismiss(t.id)}>
+                    X
+                  </button>
                 )}
               </>
             )}

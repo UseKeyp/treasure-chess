@@ -30,6 +30,6 @@ export const schema = gql`
       gameId: String!
       endTime: DateTime!
       title: String!
-    ): String! @requireAuth
+    ): MintPurchase! @requireAuth
   }
 `

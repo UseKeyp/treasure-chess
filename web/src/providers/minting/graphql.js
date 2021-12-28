@@ -35,6 +35,18 @@ export const MINT_WITH_CREDIT_MUTATION = gql`
     $endTime: DateTime!
     $title: String!
   ) {
-    mintWithCredit(gameId: $gameId, endTime: $endTime, title: $title)
+    mintWithCredit(gameId: $gameId, endTime: $endTime, title: $title) {
+      id
+      createdAt
+      updatedAt
+      orderId
+      reservation
+      orderStatus
+      gameId
+      gameEndTime
+      title
+      txHash
+      txStatus
+    }
   }
 `

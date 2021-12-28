@@ -5,7 +5,10 @@ import FilterItems from 'src/components/FilterItems'
 import { useMinting } from 'src/providers/minting'
 import { GamesContext } from 'src/providers/games'
 
-import { ADDING_FUNDS, MINTING } from 'src/providers/minting/constants'
+import {
+  MINT_STATUS_ADDING_FUNDS,
+  MINT_STATUS_MINTING,
+} from 'src/providers/minting/constants'
 
 const GameExplorer = () => {
   const [context] = React.useContext(GamesContext)
@@ -13,7 +16,9 @@ const GameExplorer = () => {
   const { activeGame, gameTitle } = context
   const [filter, setFilter] = React.useState()
 
-  const isMinting = [ADDING_FUNDS, MINTING].includes(mintingStatus)
+  const isMinting = [MINT_STATUS_ADDING_FUNDS, MINT_STATUS_MINTING].includes(
+    mintingStatus
+  )
 
   const onChangeFilter = (newFilter) => {
     // Prevent change during mint
@@ -32,7 +37,7 @@ const GameExplorer = () => {
         <GamesCell filter={filter} />
         <GameCard
           game={activeGame}
-          isMinting={mintingStatus === MINTING}
+          isMinting={mintingStatus === MINT_STATUS_MINTING}
           title={gameTitle}
           showGif
         />

@@ -14,13 +14,15 @@ import {
 } from './graphql'
 
 import {
-  ADDING_FUNDS,
-  MINTING,
+  MINT_STATUS_ADDING_FUNDS,
+  MINT_STATUS_MINTING,
+  MINT_STATUS_SUCCESS,
   SUCCESS,
   FAILED,
   SUBMITTED,
   COMPLETE,
   RESERVATION,
+  UNSUBMITTED,
 } from 'src/providers/minting/constants'
 
 const MintingContext = React.createContext({
@@ -35,6 +37,8 @@ const MintingProvider = ({ children }) => {
   const { toast } = useToast()
   const { isVisible: isVisibleModalCancel, toggleModal: toggleModalCancel } =
     useModal()
+  const { isVisible: isVisibleModalSuccess, toggleModal: toggleModalSuccess } =
+    useModal()
 
   const [state, setState] = React.useState({
     mintStatus: null,
@@ -46,24 +50,57 @@ const MintingProvider = ({ children }) => {
   const toastPurchase = (purchase) => {
     // TODO: Add more data to toasts (links, etc.)
     if (purchase.orderStatus === RESERVATION)
-      toast.loading('Waiting for Wyre...', { id: purchase.id })
+      return toast.loading('Waiting for Wyre', { id: purchase.id })
     if (purchase.txStatus === SUBMITTED)
-      toast.loading(<MintingToast mintingPurchase={purchase} />, {
+      return toast.loading(<MintingToast mintPurchase={purchase} />, {
         id: purchase.id,
       })
     if (purchase.txStatus === COMPLETE)
-      toast.success('Success!', { id: purchase.id })
+      return toast.success('Success!', { id: purchase.id })
     if (purchase.txStatus === FAILED)
-      toast.error('Minting Failed!', { id: purchase.id })
+      return toast.error('Minting Failed!', { id: purchase.id })
+    if (purchase.txStatus === UNSUBMITTED)
+      toast.loading('Preparing to Mint', { id: purchase.id })
   }
 
-  const {
-    data: { pendingMintPurchases: pendingMintPurchasesPoll } = {},
-    // previousData: { previousMintPurchasesPoll } = {},
-  } = useQuery(PENDING_MINT_PURCHASES_QUERY, {
+  useQuery(PENDING_MINT_PURCHASES_QUERY, {
     pollInterval: 5000,
     skip: !state.shouldPoll,
     fetchPolicy: 'network-only',
+    onCompleted: async (
+      { pendingMintPurchases: pendingMintPurchasesPoll } = {}
+      // previousData: { previousMintPurchasesPoll } = {},
+    ) => {
+      const last = state.pendingMintPurchases
+      const current = pendingMintPurchasesPoll
+      if (current === last) return
+      if (current && !current.length)
+        return setState({
+          ...state,
+          pendingMintPurchases: [],
+          shouldPoll: false,
+        })
+
+      setState({ ...state, pendingMintPurchases: current })
+      current?.map((purchase) => {
+        if (!last.map((item) => item.id).includes(purchase.id))
+          return toastPurchase(purchase)
+        const lastPurchase = last.find((item) => item.id === purchase.id)
+        if (lastPurchase.txStatus !== purchase.txStatus) {
+          toastPurchase(purchase)
+          if (purchase.txStatus === COMPLETE) {
+            setState({
+              ...state,
+              successfulMintPurchase: purchase,
+              shouldPoll: false,
+              pendingMintPurchases: [],
+              mintStatus: MINT_STATUS_SUCCESS,
+            })
+            toggleModalSuccess()
+          }
+        }
+      })
+    },
   })
 
   const [pendingMintPurchasesLazyQuery] = useLazyQuery(
@@ -72,10 +109,7 @@ const MintingProvider = ({ children }) => {
 
   const [mintCheckoutUrlLazyQuery] = useLazyQuery(MINT_CHECKOUT_URL_QUERY)
 
-  const [
-    mintWithCreditMutation,
-    { data: mintWithCreditMutationData, error: mintWithCreditMutationError },
-  ] = useMutation(MINT_WITH_CREDIT_MUTATION)
+  const [mintWithCreditMutation] = useMutation(MINT_WITH_CREDIT_MUTATION)
 
   const onPageLoad = async () => {
     const { data: { pendingMintPurchases } = {} } =
@@ -83,42 +117,6 @@ const MintingProvider = ({ children }) => {
     if (!pendingMintPurchases) return
     pendingMintPurchases.map((purchase) => toastPurchase(purchase))
     setState({ ...state, pendingMintPurchases, shouldPoll: true })
-    toast.loading(
-      <MintingToast
-        mintPurchase={{
-          txHash:
-            '0xc530723d9144d9c53dbeb7ec39c343ed1d6673e08bf9fbc5db0f014b2b5b5932',
-        }}
-      />
-    )
-  }
-  const consumePendingMintPurchasesPoll = async () => {
-    const last = state.pendingMintPurchases
-    const current = pendingMintPurchasesPoll
-    if (current === last) return
-    if (current && !current.length)
-      return setState({ ...state, pendingMintPurchases: [], shouldPoll: false })
-
-    setState({ ...state, pendingMintPurchases: current })
-    current?.map((purchase) => {
-      // Newly added mintPurchase
-      console.log(last[0])
-      console.log(current[0])
-      if (!last.map((item) => item.id).includes(purchase.id))
-        return toastPurchase(purchase)
-      const lastPurchase = last.find((item) => item.id === purchase.id)
-      if (lastPurchase.txStatus !== purchase.txStatus) {
-        toastPurchase(purchase)
-        if (purchase.txStatus === COMPLETE) {
-          setState({
-            ...state,
-            successfulMintPurchase: purchase,
-            shouldPoll: false,
-            mintStatus: SUCCESS,
-          })
-        }
-      }
-    })
   }
 
   const mint = async ({ title, gameId, endTime }) => {
@@ -130,18 +128,35 @@ const MintingProvider = ({ children }) => {
       if (error)
         return setState({
           ...state,
-          mintStatus: FAILED,
+          mintStatus: null,
           mintError: error,
         })
-      setState({ ...state, mintStatus: ADDING_FUNDS, shouldPoll: true })
+      setState({
+        ...state,
+        mintStatus: MINT_STATUS_ADDING_FUNDS,
+        shouldPoll: true,
+      })
       window.open(
         mintCheckoutUrl,
         'Treasure Chess Checkout',
         'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
       )
     } else {
-      await mintWithCreditMutation({ variables: { title, gameId, endTime } })
-      setState({ ...state, mintStatus: MINTING, shouldPoll: true })
+      try {
+        const { data: { mintWithCredit: mintPurchase } = {} } =
+          await mintWithCreditMutation({
+            variables: { title, gameId, endTime },
+          })
+        setState({
+          ...state,
+          pendingMintPurchases: [mintPurchase],
+          mintStatus: MINT_STATUS_MINTING,
+          shouldPoll: true,
+        })
+        toastPurchase(mintPurchase)
+      } catch (error) {
+        setState({ ...state, mintStatus: null, mintError: error })
+      }
     }
   }
 
@@ -152,10 +167,14 @@ const MintingProvider = ({ children }) => {
     setState({ ...state, mintStatus: null, mintError: null })
   }
 
-  React.useEffect(() => {
-    consumePendingMintPurchasesPoll()
-    /* eslint-disable react-hooks/exhaustive-deps*/
-  }, [pendingMintPurchasesPoll])
+  const cleanupMintSuccess = () =>
+    setState({
+      ...state,
+      mintStatus: null,
+      mintError: null,
+      successfulMintPurchase: null,
+    })
+  const clearMintError = () => setState({ ...state, mintError: null })
 
   React.useEffect(() => {
     isAuthenticated && onPageLoad()
@@ -166,6 +185,7 @@ const MintingProvider = ({ children }) => {
       value={{
         mint,
         cancelMint,
+        clearMintError,
         mintStatus: state.mintStatus,
         mintError: state.mintError,
       }}
@@ -175,14 +195,12 @@ const MintingProvider = ({ children }) => {
         isVisible={isVisibleModalCancel}
         toggleModal={toggleModalCancel}
       />
-      {state.successfulMintPurchase ? (
-        <SuccessModal
-          onSubmit={() => setState({ ...state, successfulMintPurchase: null })}
-          mintPurchase={state.successfulMintPurchase}
-          isVisible={true}
-          toggleModal={() => {}}
-        />
-      ) : null}
+      <SuccessModal
+        onSubmit={cleanupMintSuccess}
+        mintPurchase={state.successfulMintPurchase}
+        isVisible={isVisibleModalSuccess}
+        toggleModal={toggleModalSuccess}
+      />
       {children}
     </MintingContext.Provider>
   )

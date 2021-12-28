@@ -9,7 +9,7 @@ import LoadingDots from 'src/components/LoadingDots'
 
 import ListItem from './components/ListItem/ListItem'
 
-import { MINTING } from 'src/providers/minting/constants'
+import { MINT_STATUS_MINTING } from 'src/providers/minting/constants'
 
 const Games = ({ games }) => {
   const { currentUser } = useAuth()
@@ -48,7 +48,7 @@ const Games = ({ games }) => {
   }
 
   const getItems = () => {
-    if (!activeGame && mintStatus === MINTING)
+    if (!activeGame && mintStatus === MINT_STATUS_MINTING)
       return (
         <div className="games-history-list__status">
           Your Treasure is being minted.

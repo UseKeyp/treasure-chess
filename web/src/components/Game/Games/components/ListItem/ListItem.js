@@ -4,10 +4,15 @@ import { P } from 'src/components/Typography'
 import Icon from 'src/components/Icon/Icon'
 import MintForm from 'src/components/Game/Games/components/MintForm'
 import LoadingDots from 'src/components/LoadingDots'
+import { useMinting } from 'src/providers/minting'
 
 import { formatDate } from 'src/utils/helpers'
 
-import { ADDING_FUNDS, MINTING, SUCCESS } from 'src/providers/minting/constants'
+import {
+  MINT_STATUS_ADDING_FUNDS,
+  MINT_STATUS_MINTING,
+  MINT_STATUS_SUCCESS,
+} from 'src/providers/minting/constants'
 
 const mainColor = '#C4C4C4'
 
@@ -24,8 +29,11 @@ const ListItem = ({
 }) => {
   const { white: player1, black: player2, endTime, id, tokenId, title } = game
   const date = formatDate(endTime)
+  const { clearMintError } = useMinting()
 
-  const isMinting = mintStatus === ADDING_FUNDS || mintStatus === MINTING
+  const isMinting =
+    mintStatus === MINT_STATUS_ADDING_FUNDS ||
+    mintStatus === MINT_STATUS_MINTING
 
   const handleSubmit = (title) => {
     if (isMinting) return
@@ -34,12 +42,13 @@ const ListItem = ({
 
   const handleSelectRow = () => {
     if (isMinting) return
+    clearMintError()
     onClick(id)
   }
 
   const bottomHalf = () => {
     if (!isExpanded) return <></>
-    if (mintStatus === ADDING_FUNDS)
+    if (mintStatus === MINT_STATUS_ADDING_FUNDS)
       return (
         <div className="games-history-list__status">
           Continue via Wyre popup.
@@ -51,7 +60,7 @@ const ListItem = ({
           </button>
         </div>
       )
-    if (mintStatus === MINTING)
+    if (mintStatus === MINT_STATUS_MINTING)
       return (
         <div className="games-history-list__status">
           Your Treasure is being minted.
@@ -61,7 +70,7 @@ const ListItem = ({
           </div>
         </div>
       )
-    if (mintStatus === SUCCESS)
+    if (mintStatus === MINT_STATUS_SUCCESS)
       return (
         <div className="games-history-list__status">
           Your Treasure was minted.

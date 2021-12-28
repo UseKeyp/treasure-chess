@@ -17,6 +17,7 @@ const InfiniteScroll = ({
       <ScrollToTop
         smooth
         top={400}
+        style={{ left: 40 }}
         component={
           <div className="flex justify-center">
             <Icon name="arrow_up" size={16} />

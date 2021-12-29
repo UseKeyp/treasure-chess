@@ -77,7 +77,7 @@ const Dropdown = (props) => {
             </>
           ) : (
             <>
-              <span>{props.defaultSelection ? {defaultSelection} : 'Select'}</span> <Carat />
+              <span>Select</span> <Carat />
             </>
           )}
         </div>

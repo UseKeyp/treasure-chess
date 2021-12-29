@@ -39,6 +39,20 @@ const LoginPage = () => {
           </div>
           Login with Chess.com
         </button>
+        <div>
+          <p>
+            By continuing you acknowledge that you have read, understand, and
+            agree to the
+            <a href>
+              <span className="text-blue"> Terms of Service </span>
+            </a>
+            and
+            <a href>
+              <span className="text-blue"> Privacy Policy</span>
+            </a>
+            .
+          </p>
+        </div>
       </div>
     </div>
   )

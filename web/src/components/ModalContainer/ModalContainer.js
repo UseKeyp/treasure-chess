@@ -4,14 +4,21 @@ import Button from 'src/components/Button/Button'
 const ModalContainer = ({
   isVisible,
   hideModal,
+  hideCancelButton,
   content,
   headerText,
   submitText,
+  cancelText,
   onSubmit,
   icon,
+  requireScroll,
 }) => {
+  const [bottom, setBottom] = React.useState(!requireScroll)
+
+  // eslint-disable-next-line no-unused-expressions
   isVisible
-    ? (document.body.style.position = 'fixed')
+    ? ((document.body.style.position = 'fixed'),
+      (document.body.style.width = '100%'))
     : (document.body.style.position = 'relative')
 
   return isVisible
@@ -23,12 +30,28 @@ const ModalContainer = ({
               <h2 className="header-text">{headerText}</h2>
               {icon}
             </div>
-            <p className="body-text">{content}</p>
+            <p
+              id="text"
+              onScroll={() => {
+                const text = document.getElementById('text')
+                requireScroll &&
+                  setBottom(
+                    text?.scrollTop === text?.scrollHeight - text?.offsetHeight
+                  )
+              }}
+              className="body-text"
+            >
+              {content}
+            </p>
             <div className="modal-button-wrapper">
-              <Button variant="transparent" onClick={hideModal}>
-                Cancel
-              </Button>
-              <Button variant="blue" onClick={onSubmit}>
+              {!hideCancelButton ? (
+                <Button variant="transparent" onClick={hideModal}>
+                  {cancelText || 'Cancel'}
+                </Button>
+              ) : (
+                <div></div>
+              )}
+              <Button variant="blue" onClick={onSubmit} isDisabled={!bottom}>
                 {submitText}
               </Button>
             </div>

@@ -1,9 +1,12 @@
 import PropTypes from 'prop-types'
 import styles from './Button.module.scss'
 
-const Button = ({ children, variant, onClick }) => {
+const Button = ({ children, variant, onClick, isDisabled }) => {
   return (
-    <button className={`button button--${variant}`} onClick={onClick}>
+    <button
+      className={`button button--${variant} ${isDisabled && 'disabled'}`}
+      onClick={onClick}
+    >
       {children}
     </button>
   )
@@ -11,10 +14,12 @@ const Button = ({ children, variant, onClick }) => {
 
 Button.defaultProps = {
   variant: 'grey',
+  isDisabled: false,
 }
 Button.propTypes = {
   onClick: PropTypes.func.isRequired,
   variant: PropTypes.string,
+  isDisabled: PropTypes.bool,
 }
 
 export default Button

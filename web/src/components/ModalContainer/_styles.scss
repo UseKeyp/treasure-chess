@@ -18,7 +18,7 @@ body {
   }
 }
 
-body.modal-open {
+.modal-open {
   height: 100vh;
   overflow-y: hidden;
 }
@@ -109,4 +109,8 @@ body.modal-open {
     box-shadow: none;
     transform: translateY(2px);
   }
+}
+
+.isDisabled {
+  pointer-events: none;
 }

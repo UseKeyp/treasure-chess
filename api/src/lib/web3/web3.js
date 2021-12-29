@@ -94,18 +94,33 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
   }
 }
 
+const getLogByTopic = ({ logs, topic }) => {
+  let logByTopic = null
+  logs.map((log) => {
+    if (log.topics.indexOf(topic) >= 0) logByTopic = log
+  })
+  return logByTopic
+}
+
 export const getMintTxStatus = async ({ mintPurchase }) => {
   try {
     if (mintPurchase.txStatus === SUBMITTED) {
       const receipt = await web3Provider.getTransactionReceipt(
         mintPurchase.txHash
       )
+
       if (receipt?.status === 0) {
         return { status: FAILED }
       } else if (receipt?.status == 1 && receipt?.confirmations >= 1) {
-        // TODO: get tokenId from receipt logs
-        const highestTokenId = await db.treasure.count()
-        return { status: COMPLETE, tokenId: highestTokenId + 1 }
+        const log = getLogByTopic({
+          logs: receipt.logs,
+          topic:
+            '0x106687a5763ca3a7dc8103c314927515b5a78bb3523d14a54b213bb47b39c6bf',
+        })
+        return {
+          status: COMPLETE,
+          tokenId: Number(`0x${log.data.substring(66, 130)}`),
+        }
       }
     }
     return { status: mintPurchase.txStatus }

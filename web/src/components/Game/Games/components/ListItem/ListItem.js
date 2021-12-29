@@ -63,7 +63,7 @@ const ListItem = ({
     if (mintStatus === MINT_STATUS_MINTING)
       return (
         <div className="games-history-list__status">
-          Your Treasure is being minted.
+          Minting Treasure
           <div className="games-history-list__loading-status">
             This can take up to 3 minutes.
             <LoadingDots className="ml-2" />

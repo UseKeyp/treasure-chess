@@ -2,13 +2,9 @@ export const PENDING_MINT_PURCHASES_QUERY = gql`
   query pendingMintPurchases {
     pendingMintPurchases {
       id
-      createdAt
-      updatedAt
       treasure {
         tokenId
       }
-      orderId
-      reservation
       orderStatus
       gameId
       gameEndTime

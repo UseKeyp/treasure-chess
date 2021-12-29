@@ -52,20 +52,27 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
       if (status === COMPLETE) {
         // YAY! Create the treasure in the database
         // TODO: optimize by combining these two db calls
-        await db.treasure.upsert({
-          where: { tokenId },
-          create: {
-            ...treasureData,
-            tokenId,
-            uriData,
-            tokenUri,
-          },
-          update: {},
-        })
         // Stop, don't mint again
         return await db.mintPurchase.update({
           where: { id: mintPurchase.id },
-          data: { txStatus: COMPLETE },
+          data: {
+            txStatus: COMPLETE,
+            connect: {
+              treasure: {
+                upsert: {
+                  where: { tokenId },
+                  update: {},
+                  create: {
+                    ...treasureData,
+                    tokenId,
+                    uriData,
+                    tokenUri,
+                  },
+                },
+              },
+            },
+          },
+          include: { treasure: true },
         })
       }
       // If status is FAILED, let's continue and try to mint again
@@ -74,12 +81,19 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
     if (game.tokenId)
       throw `Treasure tokenId:${game.tokenId} already minted and in the database`
 
-    const tx = await mint({
-      treasure: treasureData,
-      tokenUri,
-      minterAddress: member.address,
-    })
-    if (!tx || !tx.hash) throw 'Transaction was not submitted'
+    try {
+      const tx = await mint({
+        treasure: treasureData,
+        tokenUri,
+        minterAddress: member.address,
+      })
+      if (!tx || !tx.hash) throw 'Transaction was not submitted'
+    } catch (e) {
+      return await db.mintPurchase.update({
+        where: { id: mintPurchase.id },
+        data: { txStatus: FAILED },
+      })
+    }
 
     return await db.mintPurchase.update({
       where: { id: mintPurchase.id },

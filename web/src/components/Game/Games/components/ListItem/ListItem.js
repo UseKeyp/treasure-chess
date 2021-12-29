@@ -65,7 +65,7 @@ const ListItem = ({
         <div className="games-history-list__status">
           Minting Treasure
           <div className="games-history-list__loading-status">
-            This can take up to 3 minutes.
+            ~1 minute
             <LoadingDots className="ml-2" />
           </div>
         </div>

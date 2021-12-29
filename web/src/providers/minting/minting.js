@@ -87,6 +87,7 @@ const MintingProvider = ({ children }) => {
           return toastPurchase(purchase)
         const lastPurchase = last.find((item) => item.id === purchase.id)
         if (lastPurchase.txStatus !== purchase.txStatus) {
+          console.log(purchase)
           toastPurchase(purchase)
           if (purchase.txStatus === COMPLETE) {
             setState({
@@ -97,10 +98,12 @@ const MintingProvider = ({ children }) => {
               mintStatus: MINT_STATUS_SUCCESS,
             })
             toggleModalSuccess()
-          } else if (
-            purchase.paymentType === 'WYRE' &&
-            purchase.orderStatus === COMPLETE
-          ) {
+          } else if (purchase.txStatus === FAILED) {
+            setState({
+              ...state,
+              mintStatus: null,
+            })
+          } else if (purchase.orderStatus === COMPLETE) {
             setState({
               ...state,
               mintStatus: MINT_STATUS_MINTING,

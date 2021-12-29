@@ -16,47 +16,11 @@ const TREASURES_WITH_FILTER = gql`
       page: $page
     ) {
       id
-      gifUrl
       createdAt
       black {
         username
         imageSrc
         id
-        gifUrl
-        createdAt
-        black {
-          username
-          id
-          imageSrc
-        }
-        white {
-          username
-          id
-          imageSrc
-        }
-        winner {
-          username
-          id
-        }
-        title
-        cardColor
-        blackRating
-        blackRatingDelta
-        whiteRatingDelta
-        blackMasterTitle
-        whiteMasterTitle
-        timeControl
-        termination
-        endTime
-        outcome
-        event
-        ruleVariant
-        externalUrl
-        opening
-        achievements
-        achievementScore
-        rarity
-        tokenId
       }
       white {
         imageSrc
@@ -80,6 +44,7 @@ const TREASURES_WITH_FILTER = gql`
       outcome
       event
       moves
+      gifUrl
       boardLayout
       ruleVariant
       externalUrl
@@ -87,6 +52,7 @@ const TREASURES_WITH_FILTER = gql`
       achievements
       achievementScore
       rarity
+      tokenId
     }
   }
 `

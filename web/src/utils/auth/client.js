@@ -1,4 +1,4 @@
-import { getErrorResponse, saveRedirectTo } from 'src/auth/helpers'
+import { getErrorResponse, saveRedirectTo } from './helpers'
 
 import { toast } from '@redwoodjs/web/toast'
 

@@ -1,13 +1,14 @@
 import themeConfig from '../../config/tailwind.config'
+import config from 'src/global.config'
 
 export const isBrowser = typeof window !== 'undefined'
 export const isProduction = process.env.NODE_ENV === 'production'
 export const isMobile =
   isBrowser && window.matchMedia('(max-width: 767px)').matches
 
-export const getBlockExplorerUrl = (address) => {
-  const POLYGONSCAN_URL = 'https://polygonscan.com/address/'
-  return POLYGONSCAN_URL + address
+export const getBlockExplorerUrl = ({ address, txHash }) => {
+  if (address) return config.BLOCK_EXPLORER_BASE_URL + 'address/' + address
+  if (txHash) return config.BLOCK_EXPLORER_BASE_URL + 'tx/' + txHash
 }
 
 export const trimAddress = (address) => {

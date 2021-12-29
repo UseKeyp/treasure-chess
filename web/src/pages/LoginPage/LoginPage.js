@@ -2,8 +2,8 @@ import { routes, navigate } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
 import { useParams } from '@redwoodjs/router'
 import Icon from 'src/components/Icon'
+import Button from 'src/components/Button'
 import globalConfig from 'src/global.config.js'
-
 
 const LoginPage = () => {
   const { logIn, isAuthenticated } = useAuth()
@@ -30,32 +30,22 @@ const LoginPage = () => {
           <span className="block xl:inline">Login</span>
         </h1>
         {errorText && <div className=" mt-8 rw-cell-error">{errorText}</div>}
-        <button
-          className={
-            'mt-4 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border rounded-md shadow-sm text-base font-medium hover:bg-gray-300'
-          }
-          onClick={() => logIn({ redirectTo })}
-        >
-          <div className="mr-4">
-            <Icon name="chess" />
-          </div>
-          Login with Chess.com
-        </button>
-        <div>
-          <p>
-            By continuing you acknowledge that you have read, understand, and
-            agree to the
-            <a href={globalConfig.TOC_URL}>
-              <span className="text-blue"> Terms of Service </span>
-            </a>
-            and
-            <a href={globalConfig.PRIVACY_POLICY_URL}>
-              <span className="text-blue"> Privacy Policy</span>
-            </a>
-            .
-          </p>
-        </div>
+        <Button onClick={() => logIn({ redirectTo })}>
+          <Icon size="30" name="chess_com" className="mr-4" />
+        </Button>
       </div>
+      <p>
+        By continuing you acknowledge that you have read, understand, and agree
+        to the
+        <a href={globalConfig.TOC_URL}>
+          <span className="text-blue"> Terms of Service </span>
+        </a>
+        and
+        <a href={globalConfig.PRIVACY_POLICY_URL}>
+          <span className="text-blue"> Privacy Policy</span>
+        </a>
+        .
+      </p>
     </div>
   )
 }

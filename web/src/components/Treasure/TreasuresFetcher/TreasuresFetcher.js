@@ -16,7 +16,6 @@ const TREASURES_WITH_FILTER = gql`
       page: $page
     ) {
       id
-      gifUrl
       createdAt
       black {
         username
@@ -45,6 +44,7 @@ const TREASURES_WITH_FILTER = gql`
       outcome
       event
       moves
+      gifUrl
       boardLayout
       ruleVariant
       externalUrl
@@ -52,6 +52,7 @@ const TREASURES_WITH_FILTER = gql`
       achievements
       achievementScore
       rarity
+      tokenId
     }
   }
 `

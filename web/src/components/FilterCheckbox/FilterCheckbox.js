@@ -4,9 +4,14 @@ const FilterCheckbox = (props) => {
   const setCurrentSelection = props.queryFilterFunction
   const currentSelection = props.queryFilter
   const options = props.options
+  const deselect = props.deselect
 
   const handleSelectionUpdate = (data) => {
-    setCurrentSelection(data)
+    deselect
+      ? currentSelection === data
+        ? setCurrentSelection()
+        : setCurrentSelection(data)
+      : setCurrentSelection(data)
   }
 
   return (
@@ -17,9 +22,9 @@ const FilterCheckbox = (props) => {
           if (option === 'black') {
             return (
               <BlackKingFilterListItem
-                isSelected={currentSelection == option ? true : false}
+                isSelected={currentSelection?.includes(option)}
+                clickFunction={setCurrentSelection}
                 label={option}
-                clickFunction={handleSelectionUpdate}
                 keyVal={`${option}-${index}`}
                 key={`${option}-filterButton`}
               />
@@ -28,9 +33,9 @@ const FilterCheckbox = (props) => {
           if (option === 'white') {
             return (
               <WhiteKingFilterListItem
-                isSelected={currentSelection == option ? true : false}
+                isSelected={currentSelection?.includes(option)}
+                clickFunction={setCurrentSelection}
                 label={option}
-                clickFunction={handleSelectionUpdate}
                 keyVal={`${option}-${index}`}
                 key={`${option}-filterButton`}
               />
@@ -39,9 +44,9 @@ const FilterCheckbox = (props) => {
           if (option === 'draw') {
             return (
               <TwoKingFilterListItem
-                isSelected={currentSelection == option ? true : false}
+                isSelected={currentSelection?.includes(option)}
+                clickFunction={setCurrentSelection}
                 label={option}
-                clickFunction={handleSelectionUpdate}
                 keyVal={`${option}-${index}`}
                 key={`${option}-filterButton`}
               />
@@ -49,7 +54,7 @@ const FilterCheckbox = (props) => {
           }
           return (
             <FilterListItem
-              isSelected={currentSelection == option ? true : false}
+              isSelected={currentSelection?.includes(option)}
               label={option}
               clickFunction={handleSelectionUpdate}
               keyVal={`${option}-${index}`}

@@ -11,7 +11,9 @@ const Dropdown = (props) => {
   }
 
   const handleSelection = (option) => {
-    props.queryFilterFunction(option)
+    props.queryFilter === option
+      ? props.queryFilterFunction()
+      : props.queryFilterFunction(option)
     setIsOpen(false)
   }
 
@@ -50,7 +52,7 @@ const Dropdown = (props) => {
   return (
     <div className={styles.dropdownWrapper}>
       <h4>{props.category}</h4>
-      <div className={styles.dropdown}>
+      <div onMouseLeave={() => setIsOpen(false)} className={styles.dropdown}>
         <div
           className={styles.dropdownLabel}
           onClick={() => toggleOpen()}

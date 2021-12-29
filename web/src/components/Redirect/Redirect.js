@@ -1,6 +1,6 @@
 import { Link, navigate, routes, useParams } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
-import { getRedirectTo } from 'src/auth/helpers'
+import { getRedirectTo } from 'src/utils/auth/helpers'
 
 import DefaultLayout from 'src/layouts/DefaultLayout'
 import Loader from 'src/components/Loader'

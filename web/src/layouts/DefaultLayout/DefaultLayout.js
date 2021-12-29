@@ -1,7 +1,5 @@
 import Header from 'src/components/Header'
 
-import { Toaster } from '@redwoodjs/web/toast'
-
 import SiteFooter from './SiteFooter'
 
 import ModalContainer from 'src/components/ModalContainer/ModalContainer'
@@ -31,10 +29,6 @@ const DefaultLayout = ({ children }) => {
         }}
       />
       <div className="flex flex-col min-h-screen">
-        <Toaster
-          position="bottom-right"
-          toastOptions={{ success: { duration: 3000 } }}
-        />
         <header className="relative mb-8">
           <Header />
         </header>
@@ -42,8 +36,8 @@ const DefaultLayout = ({ children }) => {
           <div className="max-w-7xl mx-auto px-0 sm:px-0 sm:max-w-screen">
             {children}
           </div>
+          <SiteFooter />
         </div>
-        <SiteFooter />
       </div>
     </div>
   )

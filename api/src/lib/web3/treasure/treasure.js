@@ -17,9 +17,9 @@ export const mint = async ({ treasure, tokenUri, minterAddress }) => {
 
     const treasureContract = getTreasureContract()
 
+    // Lookup the number of each achievement
     let chievScore = [0, 0, 0]
     treasure.achievements.split(',').map((chiev, index) => {
-      // Lookup the number for the achievement
       const match = achievementsList.find((item) => item.name == chiev)
       if (match) chievScore[index] = match.number
     })
@@ -38,6 +38,19 @@ export const mint = async ({ treasure, tokenUri, minterAddress }) => {
     return tx
   } catch (e) {
     throw new Error(`mint() ${e}`)
+  }
+}
+
+export const getTokenIdFromHashId = async (hashId) => {
+  try {
+    if (!hashId) throw 'No hashId provided'
+    const treasureContract = getTreasureContract()
+    const tokenId = await treasureContract.movesHashToId(hashId)
+    return tokenId
+  } catch (e) {
+    /* eslint-disable-next-line no-console */
+    console.log(e)
+    throw new Error(`getTokenIdFromHashId() ${e}`)
   }
 }
 

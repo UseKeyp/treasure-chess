@@ -22,20 +22,22 @@
 
 .dropdownRow {
   width: 100%;
-  margin-bottom: 1ex;
+  margin-bottom: 2ex;
 }
+
 .dropdownRowSpacing {
   width: 100%;
   padding: 0 1rem;
+  margin-bottom: 2ex;
 }
 .dropdownTwoElementRow {
   width: 100%;
-  margin-bottom: 1ex;
   display: flex;
   justify-content: space-between;
   padding: 0 0.75rem;
+  margin-bottom: 2ex;
   > div {
-    margin: 4px;
+    margin: 5px;
   }
 }
 
@@ -51,4 +53,5 @@
   align-items: center;
   justify-content: space-between;
   margin-top: 1ex;
+  margin-bottom: 2ex;
 }

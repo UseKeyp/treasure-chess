@@ -19,7 +19,7 @@
   top: 0;
   left: 0;
   background-color: #272522;
-  padding: 1ex 1em;
+  padding: 0ex 1em;
   border-radius: .25rem;
   &::-webkit-scrollbar {
     display: none;
@@ -61,7 +61,7 @@
   grid-template-columns: 9fr 1fr;
   background-color: #4f4f4f;
   padding: 1ex 1em;
-  margin: 1ex 0;
+  margin-bottom: 1ex;
   border-radius: .25rem;
 }
 

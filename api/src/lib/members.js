@@ -46,6 +46,7 @@ export const fetchMember = async (usernameOrAddress, includeChessData) => {
       }
       return {
         ...member,
+        refreshToken: 'REDACTED',
         ...chessData,
         // Overwrite with current values from chess.com
         imageSrc: chessData.avatar,
@@ -53,7 +54,10 @@ export const fetchMember = async (usernameOrAddress, includeChessData) => {
         country,
       }
     }
-    return member
+    return {
+      ...member,
+      refreshToken: 'REDACTED',
+    }
   } catch (e) {
     Sentry.captureException(e)
     throw new Error(`fetchMember() ${e}`)

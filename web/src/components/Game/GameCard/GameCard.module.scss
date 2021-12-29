@@ -1,0 +1,43 @@
+.gameCardWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.gameCardHtml {
+  max-width: 266px;
+  max-height: 492px;
+  box-shadow: 0px 10px 30px -5px rgba(0, 0, 0, 0.3);
+  will-change: transform;
+  pointer-events: none;
+}
+
+.mintedCardHtml {
+  pointer-events: visible;
+  &:hover {
+    box-shadow: 0px 30px 100px -10px rgba(0, 0, 0, 0.4);
+  }
+}
+
+.gameCardMintingContainer {
+  position: absolute;
+  width: 266px;
+  height: 492px;
+  color: theme('colors.chessBlack.100');
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  display: flex;
+  z-index: 2;
+}
+
+.gameCardMintingOverlay {
+  position: absolute;
+  width: 266px;
+  height: 495px;
+  background-color: white;
+  opacity: 80%;
+  border-radius: 12px;
+  z-index: -1;
+}
+

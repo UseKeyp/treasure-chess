@@ -1,11 +1,33 @@
 import achievementsCalculator from '@treasure-chess/chess-achievements'
+const { id: sha3 } = require('@ethersproject/hash')
 
 import { db } from 'src/lib/db'
-import { getTreasureId, getTreasureCardColor } from 'src/lib/treasures'
 import { fetchMember } from 'src/lib/members'
 import { fetchChessGames, fetchChessGame } from 'src/lib/chessCom/chessCom'
 import { parseGameFromChessDotCom } from 'src/lib/chessCom/gameParsing'
 import { getGifUrl } from 'src/lib/chessCom/gifGetter'
+const filters = require('@treasure-chess/treasure-filters')
+const { getBoardLayout } = require('@treasure-chess/chess-image-generator')
+
+const getRarity = (score) => {
+  if (score < 6) return filters.rarityList[0]
+  if (score < 11) return filters.rarityList[1]
+  if (score < 14) return filters.rarityList[2]
+  return filters.rarityList[3]
+}
+
+export const getTreasureCardColor = ({ game, username }) =>
+  game.whiteUsername === username ? 'white' : 'black'
+
+export const getTreasureId = ({
+  moves, // String of moves from the PGN (without timestamps)
+  endTime, // Timecode from chess.com API
+  cardColor, // String of version of treasure: "white" or "black"
+}) => {
+  const endTimeUnix = Date.parse(endTime) / 1000
+  return sha3(`${moves} ${endTimeUnix} ${cardColor}`)
+  // eg. sha3("1. d4 d5 2. c4 e6 3. Nc3 c6 4. e3 Nf6 1612749143 white")
+}
 
 const getFullGameDetails = async ({
   game: rawGame,
@@ -31,7 +53,6 @@ const getFullGameDetails = async ({
     game.pgn,
     cardColor
   )
-
   const achievementsString = achievements.map((item) => item.name).join(',')
   const white = await fetchMember(game.whiteUsername)
   const black = await fetchMember(game.blackUsername)
@@ -40,6 +61,7 @@ const getFullGameDetails = async ({
   else if (game.winnerUsername === game.blackUsername) winnerId = black.id
   return {
     ...game,
+    treasureId,
     white,
     black,
     blackId: black.id,
@@ -47,8 +69,10 @@ const getFullGameDetails = async ({
     winnerId,
     cardColor,
     opening,
+    boardLayout: JSON.stringify(getBoardLayout(game.moves)),
     gifUrl: getGifUrl({ tcn: game.tcn, playerColor: cardColor }),
     ...(includeAchievements && { achievements: achievementsString }),
+    ...(includeAchievements && { rarity: getRarity(score) }),
     ...(includeAchievements && { achievementScore: score }),
   }
 }

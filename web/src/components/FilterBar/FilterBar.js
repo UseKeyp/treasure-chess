@@ -9,7 +9,7 @@ import FilterPriceInput from 'src/components/FilterPriceInput/FilterPriceInput'
 import Dropdown from 'src/components/Dropdown/Dropdown'
 import AchievementScroll from 'src/components/AchievementScroll/AchievementScroll'
 
-const FilterBar = ({ filter, setFilter }) => {
+const FilterBar = ({ filter, setFilter, defaultParams }) => {
   const [title, setTitle] = useState(filter.title)
   const [timeControl, setTimeControl] = useState(filter.timeControl)
   const [moveCount, setMoveCount] = useState(filter.moveCount)
@@ -17,15 +17,27 @@ const FilterBar = ({ filter, setFilter }) => {
   const [achievements, setAchievements] = useState(filter.achievements || [])
   const [opening, setOpening] = useState(filter.opening)
   const [color, setColor] = useState(filter.color)
-  const [termination, setTermination] = useState(filter.termination)
+  const [termination, setTermination] = useState(
+    defaultParams?.termination || filter.termination
+  )
   const [rarity, setRarity] = useState(filter.rarity)
-  const [sale, setSale] = useState(filter.sale)
-  const [outcome, setOutcome] = useState(filter.outcome)
+  const [sale, setSale] = useState(defaultParams?.sale || filter.sale)
+  const [outcome, setOutcome] = useState(
+    defaultParams?.outcome || filter.outcome
+  )
   const [lowPrice, setLowPrice] = useState(filter.lowPrice) // must be initialized to a string to control the input from initial render
   const [highPrice, setHighPrice] = useState(filter.highPrice)
 
   const updateAchievements = (data) => {
     anyValues(data, achievements, setAchievements)
+  }
+
+  const updateOutcomes = (data) => {
+    anyValues(data, outcome, setOutcome)
+  }
+
+  const updateSale = (data) => {
+    anyValues(data, sale, setSale)
   }
 
   const updateFilter = () => {
@@ -35,11 +47,12 @@ const FilterBar = ({ filter, setFilter }) => {
       ...(color && { color }),
       ...(title && { title }),
       ...(timeControl && { timeControl }),
-      ...(termination && { termination }),
-      ...(outcome && { outcome }),
+      ...(termination &&
+        termination !== defaultParams?.termination && { termination }),
+      ...(outcome?.length && outcome !== defaultParams?.outcome && { outcome }),
       ...(moveCount && { moveCount }),
       ...(rarity && { rarity }),
-      ...(sale && { sale }),
+      ...(sale?.length && sale !== defaultParams?.sale && { sale }),
       ...(lowPrice && { lowPrice }),
       ...(highPrice && { highPrice }),
     })
@@ -51,11 +64,11 @@ const FilterBar = ({ filter, setFilter }) => {
     setColor()
     setTitle()
     setTimeControl()
-    setTermination()
-    setOutcome()
+    setTermination(defaultParams?.termination)
+    setOutcome(defaultParams?.outcome)
     setMoveCount()
     setRarity()
-    setSale()
+    setSale(defaultParams?.sale)
     setLowPrice() // must be initialized to a string to control the input from initial render
     setHighPrice()
 
@@ -107,7 +120,7 @@ const FilterBar = ({ filter, setFilter }) => {
         <FilterCheckbox
           category={'Sale'}
           options={filters.saleList}
-          queryFilterFunction={setSale}
+          queryFilterFunction={updateSale}
           queryFilter={sale}
         />
       </div>
@@ -123,7 +136,7 @@ const FilterBar = ({ filter, setFilter }) => {
         <FilterCheckbox
           category={'Outcome'}
           options={filters.outcomeList}
-          queryFilterFunction={setOutcome}
+          queryFilterFunction={updateOutcomes}
           queryFilter={outcome}
         />
       </div>
@@ -155,10 +168,13 @@ const FilterBar = ({ filter, setFilter }) => {
           options={filters.titleList.map((title) => title.toUpperCase())}
           queryFilterFunction={setTitle}
           queryFilter={title}
+          deselect={true}
         />
       </div>
       <div className={styles.dropdownRow}>
-        <h4 style={{ marginLeft: `1em` }}>Achievements</h4>
+        <h4 style={{ marginLeft: `1em`, marginBottom: `0.5em` }}>
+          Achievements
+        </h4>
         <AchievementScroll
           achievements={filters.achievementList.sort(
             (a, b) => b.points - a.points

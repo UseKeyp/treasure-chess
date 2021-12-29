@@ -19,4 +19,4 @@ const TokenSessionProvider = () => {
   return <></>
 }
 
-export default TokenSessionProvider
+export { TokenSessionProvider }

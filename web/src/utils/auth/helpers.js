@@ -1,4 +1,4 @@
-import { LOCAL_REDIRECT_TO_KEY } from 'src/auth/constants'
+import { LOCAL_REDIRECT_TO_KEY } from './constants'
 
 export const saveRedirectTo = (redirect) =>
   redirect &&

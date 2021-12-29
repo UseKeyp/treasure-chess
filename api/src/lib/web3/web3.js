@@ -59,7 +59,7 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
         // YAY! Create the treasure in the database
         // TODO: optimize by combining these two db calls
         // Stop, don't mint again
-        const treasure = await db.treasure.upsert({
+        await db.treasure.upsert({
           where: { tokenId },
           create: {
             ...treasureData,

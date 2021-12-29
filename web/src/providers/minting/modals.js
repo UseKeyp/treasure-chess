@@ -106,6 +106,7 @@ const ConfettiExplosion = () => {
 
   React.useEffect(() => {
     fire()
+    /* eslint-disable-next-line react-hooks/exhaustive-deps*/
   }, [])
 
   return <ReactCanvasConfetti refConfetti={getInstance} style={canvasStyles} />

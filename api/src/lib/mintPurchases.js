@@ -55,7 +55,6 @@ export const validateMintRequest = async ({ gameId, endTime, title }) => {
   if (!game) throw new Error(`Member did not participate in this game.`)
 
   const tokenId = await getTokenIdFromHashId(game.treasureId)
-  console.log(tokenId)
   if (tokenId)
     throw new EnvelopError(
       `This Treasure has already been minted with tokenId ${tokenId}.`
@@ -76,6 +75,5 @@ export const processPendingPurchases = async () => {
       return mintPurchase
     })
   )
-  console.log(pendingPurchases)
   return pendingPurchases
 }

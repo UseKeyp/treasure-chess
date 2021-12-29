@@ -18,7 +18,6 @@ import {
   MINT_STATUS_MINTING,
   MINT_STATUS_SUCCESS,
   WYRE,
-  SUCCESS,
   FAILED,
   SUBMITTED,
   COMPLETE,
@@ -187,7 +186,7 @@ const MintingProvider = ({ children }) => {
     }
   }
 
-  const cancelMint = ({ gameId, endTime }) => toggleModalCancel()
+  const cancelMint = ({ _gameId, _endTime }) => toggleModalCancel()
   const onConfirmCancel = () => {
     toggleModalCancel()
     // TODO:  Delete mintPurchaseMutation
@@ -205,6 +204,7 @@ const MintingProvider = ({ children }) => {
 
   React.useEffect(() => {
     isAuthenticated && onPageLoad()
+    /* eslint-disable-next-line react-hooks/exhaustive-deps*/
   }, [isAuthenticated])
 
   return (

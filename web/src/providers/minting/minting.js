@@ -9,7 +9,7 @@ import { CancelModal, SuccessModal } from './modals'
 
 import {
   PENDING_MINT_PURCHASES_QUERY,
-  MINT_CHECKOUT_URL_QUERY,
+  MINT_CHECKOUT_URL_MUTATION,
   MINT_WITH_CREDIT_MUTATION,
 } from './graphql'
 
@@ -101,6 +101,7 @@ const MintingProvider = ({ children }) => {
           } else if (purchase.txStatus === FAILED) {
             setState({
               ...state,
+              shouldPoll: false,
               mintStatus: null,
             })
           } else if (purchase.orderStatus === COMPLETE) {
@@ -118,7 +119,7 @@ const MintingProvider = ({ children }) => {
     PENDING_MINT_PURCHASES_QUERY
   )
 
-  const [mintCheckoutUrlLazyQuery] = useLazyQuery(MINT_CHECKOUT_URL_QUERY)
+  const [mintCheckoutUrlMutation] = useMutation(MINT_CHECKOUT_URL_MUTATION)
 
   const [mintWithCreditMutation] = useMutation(MINT_WITH_CREDIT_MUTATION)
 
@@ -132,10 +133,12 @@ const MintingProvider = ({ children }) => {
 
   const mint = async ({ title, gameId, endTime }) => {
     if (mintCreditBalance < 1) {
+      console.log(title)
       const { data: { mintCheckoutUrl } = {}, error } =
         await mintCheckoutUrlLazyQuery({
           variables: { title, gameId, endTime },
         })
+      console.log('fetched url')
       if (error)
         return setState({
           ...state,

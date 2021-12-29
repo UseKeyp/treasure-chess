@@ -7,7 +7,7 @@ import { isProduction } from 'src/lib/helpers'
 const DISCORD_WYRE_DASHBOARD_URL = isProduction
   ? 'https://www.wyre.com/#/dashboard'
   : 'https://www.testwyre.com/#/dashboard'
-const DISCORD_PRODUCTION_TITLE = isProduction ? '[prod]' : '[dev]'
+const DISCORD_MESSAGE_TITLE = isProduction ? '[prod]' : '[dev]'
 
 const validateMintOrder = (order) => {
   try {
@@ -65,7 +65,7 @@ export const processOrder = async ({ reservation, orderId }) => {
     await sendDiscordAlert({
       embed: {
         color: 16740982,
-        title: `${DISCORD_PRODUCTION_TITLE}  ⛈️  Mint Order Failed!`,
+        title: `${DISCORD_MESSAGE_TITLE}  ⛈️  Mint Order Failed!`,
         description: `Order ID: ${orderId}
 
 ${e}

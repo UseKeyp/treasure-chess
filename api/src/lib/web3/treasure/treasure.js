@@ -41,6 +41,19 @@ export const mint = async ({ treasure, tokenUri, minterAddress }) => {
   }
 }
 
+export const getTokenIdFromHashId = async (hashId) => {
+  try {
+    if (!hashId) throw 'No hashId provided'
+    const treasureContract = getTreasureContract()
+    const tokenId = await treasureContract.movesHashToId(hashId)
+    return tokenId
+  } catch (e) {
+    /* eslint-disable-next-line no-console */
+    console.log(e)
+    throw new Error(`checkIfAlreadyMinted() ${e}`)
+  }
+}
+
 export const getTreasureContract = () => {
   try {
     return new Contract(

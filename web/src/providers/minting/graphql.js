@@ -15,8 +15,8 @@ export const PENDING_MINT_PURCHASES_QUERY = gql`
   }
 `
 
-export const MINT_CHECKOUT_URL_QUERY = gql`
-  query mintCheckoutUrl(
+export const MINT_CHECKOUT_URL_MUTATION = gql`
+  mutation mintCheckoutUrl(
     $gameId: String!
     $endTime: DateTime!
     $title: String!

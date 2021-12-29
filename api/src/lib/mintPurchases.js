@@ -3,15 +3,17 @@ import { EnvelopError } from '@envelop/core'
 import { db } from 'src/lib/db'
 import { validateTreasureTitle } from 'src/lib/helpers'
 import { mintTreasureAndUpdatePurchase } from 'src/lib/web3'
+import { getTokenIdFromHashId } from 'src/lib/web3/treasure'
 import { fetchGame } from 'src/lib/games'
 
 const COMPLETE = 'COMPLETE'
+const FAILED = 'FAILED'
 
 const fetchPendingMintPurchases = () => {
   return db.mintPurchase.findMany({
     where: {
       member: { id: context.currentUser.id },
-      txStatus: { not: COMPLETE },
+      AND: [{ txStatus: { not: COMPLETE } }, { txStatus: { not: FAILED } }],
     },
     orderBy: [{ updatedAt: 'desc' }],
     include: { treasure: true, member: true },
@@ -48,8 +50,16 @@ export const validateMintRequest = async ({ gameId, endTime, title }) => {
     id: gameId,
     username: context.currentUser.username,
     endTime,
+    includeTreasureData: true,
   })
-  if (!game) throw new EnvelopError(`Member did not participate in this game.`)
+  if (!game) throw new Error(`Member did not participate in this game.`)
+
+  const tokenId = await getTokenIdFromHashId(game.treasureId)
+  console.log(tokenId)
+  if (tokenId)
+    throw new EnvelopError(
+      `This Treasure has already been minted with tokenId ${tokenId}.`
+    )
 }
 
 // Part of the polling system. Triggers minting.
@@ -59,7 +69,7 @@ export const processPendingPurchases = async () => {
   pendingPurchases = await Promise.all(
     pendingPurchases.map(async (mintPurchase) => {
       if (mintPurchase.orderStatus !== COMPLETE) return mintPurchase
-      if (mintPurchase.txStatus !== COMPLETE) {
+      if (![COMPLETE, FAILED].includes(mintPurchase.txStatus)) {
         // Treasure not successfully minted. Proceed to mint!
         return mintTreasureAndUpdatePurchase({ mintPurchase })
       }

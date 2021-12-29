@@ -1,4 +1,5 @@
 import { db } from 'src/lib/db'
+import Sentry from 'src/lib/sentry'
 
 import { fetchMember } from 'src/lib/members'
 import { fetchGame } from 'src/lib/games'
@@ -7,10 +8,15 @@ import { pinTreasure } from 'src/lib/pinata/pinata'
 import { mint } from 'src/lib/web3/treasure/treasure'
 import { web3Provider } from 'src/lib/web3/helpers'
 import { generateTreasureData } from 'src/lib/treasures'
+import { isProduction } from 'src/lib/helpers'
+
+import { sendDiscordAlert } from 'src/lib/discord/discord'
 
 const SUBMITTED = 'SUBMITTED'
 const COMPLETE = 'COMPLETE'
 const FAILED = 'FAILED'
+
+const DISCORD_MESSAGE_TITLE = isProduction ? '[prod]' : '[dev]'
 
 export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
   try {
@@ -87,8 +93,24 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
         tokenUri,
         minterAddress: member.address,
       })
-      if (!tx || !tx.hash) throw 'Transaction was not submitted'
+      if (!tx || !tx.hash) throw 'Transaction could not be submitted.'
     } catch (e) {
+      await sendDiscordAlert({
+        embed: {
+          color: 16740982,
+          title: `${DISCORD_MESSAGE_TITLE}  ⛈️  Mint Order Failed!`,
+          description: `Mint Purchase ID: ${mintPurchase.id}
+Order Type: ${mintPurchase.orderType}
+Member: ${member.username}
+Game: ${gameId} ${gameEndTime}
+
+  ${e}`,
+          footer: { text: new Date().toString() },
+          type: 'link',
+        },
+      })
+      Sentry.setUser({ username: mintPurchase.member.username })
+      Sentry.captureException(e)
       return await db.mintPurchase.update({
         where: { id: mintPurchase.id },
         data: { txStatus: FAILED },

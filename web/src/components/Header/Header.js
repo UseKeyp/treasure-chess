@@ -5,6 +5,7 @@ import { useAuth } from '@redwoodjs/auth'
 import { useParams } from '@redwoodjs/router'
 
 import Avatar from 'src/components/Avatar/Avatar'
+import Button from 'src/components/Button/Button'
 import UsernameSearchBar from 'src/components/UsernameSearchBar'
 import { ReactComponent as TreasureChest } from 'src/assets/icons/TreasureChessChest.svg'
 
@@ -38,21 +39,13 @@ const MobileNav = () => {
   }, [pathname])
 
   if (!isOpen) {
-    return (
-      <button
-        type="button"
-        className="font-bold hover:underline"
-        onClick={() => setOpen(true)}
-      >
-        Menu
-      </button>
-    )
+    return <Button onClick={() => setOpen(true)}>Menu</Button>
   }
 
   return createPortal(
     <div
       className="fixed flex inset-0"
-      style={{ backgroundColor: 'hsla(36, 7%, 14%, 1)' }}
+      style={{ backgroundColor: 'hsla(36, 7%, 14%, 1)', zIndex: 100 }}
       role="dialog"
       aria-label="Mobile navigation"
     >
@@ -87,19 +80,15 @@ const MobileNav = () => {
               </li>
             ) : null}
             <li className="absolute" style={{ bottom: '10%' }}>
-              <button
-                type="button"
-                className={navAnchorClasses}
-                onClick={() => setOpen(false)}
-              >
+              <Button onClick={() => setOpen(false)} size="large">
                 Close Menu
-              </button>
+              </Button>
             </li>
           </ul>
         </nav>
       </div>
     </div>,
-    document.querySelector('body')
+    document.querySelector('body'),
   )
 }
 
@@ -171,13 +160,9 @@ const Header = () => {
             <WalletBalance />
           </div>
         ) : (
-          <button
-            type="button"
-            className={'header__nav__login'}
-            onClick={() => handleLogIn()}
-          >
+          <Button textColor="blue" onClick={() => handleLogIn()}>
             Log In
-          </button>
+          </Button>
         )}
       </div>
     </div>

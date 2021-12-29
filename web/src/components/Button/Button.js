@@ -1,34 +1,51 @@
 import PropTypes from 'prop-types'
-import styles from './Button.module.scss'
 
-const Button = ({ children, variant, onClick }) => {
+const Button = ({
+  children,
+  label,
+  variant,
+  onClick,
+  size,
+  textColor,
+  isSelected,
+  className,
+  fluid,
+  ...rest
+}) => {
   return (
-    <button className={`button button--${variant}`} onClick={onClick}>
-      {children}
+    <button
+      className={`button ${className}`}
+      onClick={() => onClick()}
+      data-variant={variant}
+      data-size={size}
+      data-textcolor={textColor}
+      data-selected={String(isSelected)}
+      data-fluid={String(fluid)}
+      {...rest}
+    >
+      {label || children}
     </button>
   )
 }
 
 Button.defaultProps = {
-  variant: 'grey',
+  variant: 'transparent',
+  size: 'regualr',
+  textColor: 'white',
+  isSelected: false,
+  className: '',
+  fluid: false,
 }
+
 Button.propTypes = {
   onClick: PropTypes.func.isRequired,
   variant: PropTypes.string,
+  label: PropTypes.string,
+  size: PropTypes.string,
+  textColor: PropTypes.string,
+  isSelected: PropTypes.boolean,
+  fluid: PropTypes.boolean,
+  className: PropTypes.string,
 }
 
 export default Button
-
-/**
- * A button following the new style
- * @param {String} label Provide the label you want the button to say
- * @param {Function} clickFunction Provide the function you want to attach to the 'click' event listener
- * @returns A nice button for you :)
- */
-export const NewButton = (props) => {
-  return (
-    <button className={styles.button} onClick={() => props.clickFunction()}>
-      {props.label || props.children}
-    </button>
-  )
-}

@@ -1,4 +1,5 @@
 import Avatar from 'src/components/Avatar'
+import Button from 'src/components/Button/Button'
 import Icon from 'src/components/Icon'
 
 import MemberBalanceCell from 'src/components/Member/MemberBalanceCell'
@@ -72,20 +73,23 @@ const MemberDetails = ({ member, isProfile }) => {
             <h4>
               <MemberBalanceCell />
             </h4>
-            <button
-              type="button"
+            <Button
               onClick={toggleModalDep}
-              className="text-sm rounded font-bold deposit-funds"
+              variant="green"
+              size="small"
+              className="w-40"
             >
               Deposit Funds
-            </button>
-            <button
-              type="button"
-              className="text-sm text-black rounded font-bold withdraw-funds"
+            </Button>
+            <Button
               onClick={toggleModalWit}
+              variant="orange"
+              textColor="black"
+              size="small"
+              className="w-40"
             >
               Withdraw Funds
-            </button>
+            </Button>
             <p className="mt-2">
               <a
                 href={globalConfig.HOW_TO_BUY_URL}

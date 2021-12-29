@@ -1,11 +1,32 @@
 .button {
-  background-color: hsla(78, 41%, 54%, 1);
-  box-shadow: 0px 2px 0px
-  hsla(86, 31%, 34%, 1);
-  color: white;
-  border-radius: .25rem;
-  font-size: 0.8125rem;
-  font-weight: 700;
-  padding: 1ex 1em;
-}
+  @apply font-bold py-2 px-4 rounded-md text-white;
 
+  display: block;
+  transition: all 0.25s;
+
+  &:focus,
+  &:hover {
+    background-color: rgb(200 200 200 / 0.5);
+    transform: translateY(-3px);
+  }
+
+  &:not([data-variant='plain']) {
+    @apply shadow;
+  }
+
+  &[data-size='small'] {
+    @apply text-sm;
+  }
+
+  &[data-variant='blue'] {
+    @apply bg-blueDark;
+  }
+
+  &[data-variant='orange'] {
+    @apply bg-orange;
+  }
+
+  &[data-textcolor='blue'] {
+    @apply text-blueDark;
+  }
+}

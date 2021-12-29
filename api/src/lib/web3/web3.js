@@ -89,24 +89,19 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
       })
       if (!tx || !tx.hash) throw 'Transaction could not be submitted.'
     } catch (e) {
-      console.log("Couldn't submit transaction")
-      try {
-        await sendDiscordAlert({
-          embed: {
-            color: 16740982,
-            title: `${DISCORD_MESSAGE_TITLE}  ⛈️  Mint Order Failed!`,
-            description: `Mint Purchase ID: ${mintPurchase.id}
-Order Type: ${mintPurchase.orderType}
-Member: ${member.username}
-Game: ${gameId} ${gameEndTime}
+      await sendDiscordAlert({
+        embed: {
+          color: 16740982,
+          title: `${DISCORD_MESSAGE_TITLE}  ⛈️⛓️  Failed to submit mint transaction!`,
+          description: `Mint Purchase ID: ${mintPurchase?.id || '?'}
+Order Type: ${mintPurchase?.paymentType || '?'}
+Member: ${member?.username || '?'}
+Game: ${gameId || '?'}  ${gameEndTime || '?'}
 
-  ${e}`,
-            footer: { text: new Date().toString() },
-          },
-        })
-      } catch (e) {
-        console.log(e)
-      }
+${e.message.substring(0, 2000)}`,
+          footer: { text: new Date().toString() },
+        },
+      })
       Sentry.setUser({ username: mintPurchase.member.username })
       Sentry.captureException(e)
       return await db.mintPurchase.update({

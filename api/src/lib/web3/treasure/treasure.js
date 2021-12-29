@@ -46,12 +46,11 @@ export const getTokenIdFromHashId = async (hashId) => {
     if (!hashId) throw 'No hashId provided'
     const treasureContract = getTreasureContract()
     const tokenId = await treasureContract.movesHashToId(hashId)
-    return null
     return tokenId
   } catch (e) {
     /* eslint-disable-next-line no-console */
     console.log(e)
-    throw new Error(`checkIfAlreadyMinted() ${e}`)
+    throw new Error(`getTokenIdFromHashId() ${e}`)
   }
 }
 

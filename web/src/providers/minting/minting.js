@@ -29,6 +29,7 @@ const MintingContext = React.createContext({
   mintStatus: null,
   mintError: null,
   pendingMintPurchases: [],
+  mintLoading: false,
 })
 
 const MintingProvider = ({ children }) => {
@@ -45,6 +46,7 @@ const MintingProvider = ({ children }) => {
     shouldPoll: false,
     pendingMintPurchases: [],
     successfulMintPurchase: null,
+    mintLoading: false,
   })
 
   const toastPurchase = (purchase) => {
@@ -67,10 +69,9 @@ const MintingProvider = ({ children }) => {
     pollInterval: 5000,
     skip: !state.shouldPoll,
     fetchPolicy: 'network-only',
-    onCompleted: async (
-      { pendingMintPurchases: pendingMintPurchasesPoll } = {}
-      // previousData: { previousMintPurchasesPoll } = {},
-    ) => {
+    onCompleted: async ({
+      pendingMintPurchases: pendingMintPurchasesPoll,
+    } = {}) => {
       const last = state.pendingMintPurchases
       const current = pendingMintPurchasesPoll
       if (current === last) return
@@ -87,7 +88,6 @@ const MintingProvider = ({ children }) => {
           return toastPurchase(purchase)
         const lastPurchase = last.find((item) => item.id === purchase.id)
         if (lastPurchase.txStatus !== purchase.txStatus) {
-          console.log(purchase)
           toastPurchase(purchase)
           if (purchase.txStatus === COMPLETE) {
             setState({
@@ -132,6 +132,7 @@ const MintingProvider = ({ children }) => {
   }
 
   const mint = async ({ title, gameId, endTime }) => {
+    setState({ ...state, mintLoading: true, mintError: false })
     if (mintCreditBalance < 1) {
       const { data: { mintCheckoutUrl } = {}, error } =
         await mintWithCreditMutation({
@@ -141,12 +142,14 @@ const MintingProvider = ({ children }) => {
         return setState({
           ...state,
           mintStatus: null,
-          mintError: error,
+          mintError: error.message,
+          mintLoading: false,
         })
       setState({
         ...state,
         mintStatus: MINT_STATUS_ADDING_FUNDS,
         shouldPoll: true,
+        mintLoading: false,
       })
       window.open(
         mintCheckoutUrl,
@@ -164,10 +167,16 @@ const MintingProvider = ({ children }) => {
           pendingMintPurchases: [mintPurchase],
           mintStatus: MINT_STATUS_MINTING,
           shouldPoll: true,
+          mintLoading: false,
         })
         toastPurchase(mintPurchase)
       } catch (error) {
-        setState({ ...state, mintStatus: null, mintError: error })
+        setState({
+          ...state,
+          mintStatus: null,
+          mintError: error.message,
+          mintLoading: false,
+        })
       }
     }
   }
@@ -200,6 +209,7 @@ const MintingProvider = ({ children }) => {
         clearMintError,
         mintStatus: state.mintStatus,
         mintError: state.mintError,
+        mintLoading: state.mintLoading,
       }}
     >
       <CancelModal

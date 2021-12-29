@@ -1,6 +1,7 @@
 import { P } from 'src/components/Typography'
 
 import Button from 'src/components/Button/Button'
+import LoadingDots from 'src/components/LoadingDots'
 
 import ProfanityFilter from 'bad-words'
 const profanityFilter = new ProfanityFilter()
@@ -9,6 +10,7 @@ const MintForm = ({
   onSubmit,
   onChangeTitle,
   isMinting,
+  mintLoading,
   errorText: queryErrorText,
 }) => {
   const [inputValue, setInputValue] = React.useState('')
@@ -65,8 +67,12 @@ const MintForm = ({
           onChange={handleChange}
           onKeyDown={handleKeyDown}
         />
-        <Button variant="green" onClick={handleSubmit}>
-          Mint
+        <Button
+          disabled={mintLoading}
+          variant={mintLoading ? 'grey' : 'green'}
+          onClick={handleSubmit}
+        >
+          {mintLoading ? <LoadingDots /> : 'Mint'}
         </Button>
       </div>
       {errorText && (

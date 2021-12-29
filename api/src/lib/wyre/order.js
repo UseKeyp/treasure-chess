@@ -65,8 +65,9 @@ export const processOrder = async ({ reservation, orderId }) => {
     await sendDiscordAlert({
       embed: {
         color: 16740982,
-        title: `${DISCORD_MESSAGE_TITLE}  ⛈️  Mint Order Failed!`,
-        description: `Order ID: ${orderId}
+        title: `${DISCORD_MESSAGE_TITLE}  ⛈️💳  Failed to process Wyre Order!`,
+        description: `Wyre order ID: ${orderId}
+Member: ${mintPurchase.member.username || "Couldn't get member"}
 
 ${e}
 

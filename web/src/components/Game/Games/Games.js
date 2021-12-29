@@ -13,7 +13,7 @@ import { MINT_STATUS_MINTING } from 'src/providers/minting/constants'
 
 const Games = ({ games }) => {
   const { currentUser } = useAuth()
-  const { mint, cancelMint, mintStatus, mintError } = useMinting()
+  const { mint, cancelMint, mintStatus } = useMinting()
 
   const [gamesContext, setGamesContext] = React.useContext(GamesContext)
   const { activeGame } = gamesContext
@@ -73,7 +73,6 @@ const Games = ({ games }) => {
           onChangeTitle={onChangeTitle}
           onSubmit={onSubmitMint}
           isExpanded={game.id === activeGame?.id}
-          errorText={mintError?.message}
         />
       )
     })

@@ -24,11 +24,10 @@ const ListItem = ({
   onChangeTitle,
   onSubmit,
   isExpanded,
-  errorText,
 }) => {
   const { white: player1, black: player2, endTime, id, tokenId, title } = game
   const date = formatDate(endTime)
-  const { clearMintError, mintStatus } = useMinting()
+  const { clearMintError, mintStatus, mintError, mintLoading } = useMinting()
 
   const isMinting =
     mintStatus === MINT_STATUS_ADDING_FUNDS ||
@@ -61,9 +60,9 @@ const ListItem = ({
       )
     if (mintStatus === MINT_STATUS_MINTING)
       return (
-        <div className="games-history-list__status">
-          <LoadingDots className="mr-2" />
-          Minting Treasure (about 1 minute)
+        <div className="games-history-list__status flex">
+          <LoadingDots />
+          <div className="ml-4">Minting Treasure (~1 minute)</div>
         </div>
       )
     if (mintStatus === MINT_STATUS_SUCCESS)
@@ -75,10 +74,11 @@ const ListItem = ({
     if (!tokenId && !isMinting)
       return (
         <MintForm
-          errorText={errorText}
+          errorText={mintError}
           onSubmit={handleSubmit}
           onChangeTitle={onChangeTitle}
           isMinting={isMinting}
+          mintLoading={mintLoading}
         />
       )
   }

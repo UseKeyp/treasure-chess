@@ -18,7 +18,7 @@ const DefaultLayout = ({ children }) => {
   return (
     <div>
       <ModalContainer
-        headerText="But first, cookies"
+        headerText="Please allow us to store cookies"
         submitText="Accept"
         content="We need your consent to set cookies on your device. To agree, click 'Accept' below."
         hideCancelButton={true}

@@ -17,6 +17,7 @@ import {
   MINT_STATUS_ADDING_FUNDS,
   MINT_STATUS_MINTING,
   MINT_STATUS_SUCCESS,
+  WYRE,
   SUCCESS,
   FAILED,
   SUBMITTED,
@@ -61,8 +62,11 @@ const MintingProvider = ({ children }) => {
       return toast.success('Success!', { id: purchase.id })
     if (purchase.txStatus === FAILED)
       return toast.error('Minting Failed!', { id: purchase.id })
-    if (purchase.txStatus === UNSUBMITTED)
+    if (purchase.txStatus === UNSUBMITTED) {
+      if (purchase.paymentType === WYRE)
+        toast.success('Wyre checkout successful!')
       toast.loading('Preparing to Mint', { id: purchase.id })
+    }
   }
 
   useQuery(PENDING_MINT_PURCHASES_QUERY, {
@@ -134,28 +138,30 @@ const MintingProvider = ({ children }) => {
   const mint = async ({ title, gameId, endTime }) => {
     setState({ ...state, mintLoading: true, mintError: false })
     if (mintCreditBalance < 1) {
-      const { data: { mintCheckoutUrl } = {}, error } =
-        await mintWithCreditMutation({
-          variables: { title, gameId, endTime },
+      try {
+        const { data: { mintCheckoutUrl } = {} } =
+          await mintCheckoutUrlMutation({
+            variables: { title, gameId, endTime },
+          })
+        setState({
+          ...state,
+          mintStatus: MINT_STATUS_ADDING_FUNDS,
+          shouldPoll: true,
+          mintLoading: false,
         })
-      if (error)
-        return setState({
+        window.open(
+          mintCheckoutUrl,
+          'Treasure Chess Checkout',
+          'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
+        )
+      } catch (error) {
+        setState({
           ...state,
           mintStatus: null,
           mintError: error.message,
           mintLoading: false,
         })
-      setState({
-        ...state,
-        mintStatus: MINT_STATUS_ADDING_FUNDS,
-        shouldPoll: true,
-        mintLoading: false,
-      })
-      window.open(
-        mintCheckoutUrl,
-        'Treasure Chess Checkout',
-        'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
-      )
+      }
     } else {
       try {
         const { data: { mintWithCredit: mintPurchase } = {} } =

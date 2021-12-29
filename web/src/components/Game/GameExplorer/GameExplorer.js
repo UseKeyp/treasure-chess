@@ -12,12 +12,12 @@ import {
 
 const GameExplorer = () => {
   const [context] = React.useContext(GamesContext)
-  const { mintingStatus } = useMinting()
+  const { mintStatus } = useMinting()
   const { activeGame, gameTitle } = context
   const [filter, setFilter] = React.useState()
 
   const isMinting = [MINT_STATUS_ADDING_FUNDS, MINT_STATUS_MINTING].includes(
-    mintingStatus
+    mintStatus
   )
 
   const onChangeFilter = (newFilter) => {
@@ -37,7 +37,7 @@ const GameExplorer = () => {
         <GamesCell filter={filter} />
         <GameCard
           game={activeGame}
-          isMinting={mintingStatus === MINT_STATUS_MINTING}
+          isMinting={mintStatus === MINT_STATUS_MINTING}
           title={gameTitle}
           showGif
         />

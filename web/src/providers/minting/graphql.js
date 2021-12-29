@@ -6,6 +6,7 @@ export const PENDING_MINT_PURCHASES_QUERY = gql`
         tokenId
       }
       orderStatus
+      paymentType
       gameId
       gameEndTime
       title

@@ -1,13 +1,10 @@
 import React from 'react'
-import { ThemeProvider } from '../src/providers/theme'
-import AllContextProviders from '../src/providers/context'
+import AllContextProviders from '../src/providers'
 
 export const decorators = [
   (Story) => (
-    <ThemeProvider>
-      <AllContextProviders>
-        <Story />
-      </AllContextProviders>
-    </ThemeProvider>
+    <AllContextProviders>
+      <Story />
+    </AllContextProviders>
   ),
 ]

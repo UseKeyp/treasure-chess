@@ -8,10 +8,14 @@ export const CardSkeleton = () => {
   )
 }
 
-export const RowsSkeleton = ({ rowCount }) => {
+export const RowsSkeleton = ({ rowCount, maxHeight, maxWidth }) => {
   return (
     <SkeletonTheme baseColor="#312E2B" highlightColor="#272522">
-      <Skeleton className="skeleton-rows" count={rowCount} />
+      <Skeleton
+        className="skeleton-rows"
+        style={{ maxHeight, maxWidth }}
+        count={rowCount}
+      />
     </SkeletonTheme>
   )
 }

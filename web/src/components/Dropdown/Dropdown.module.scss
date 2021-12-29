@@ -8,7 +8,6 @@
 
 .dropdown {
   background-color: #4F4F4F;
-  max-width: clamp(221px, 90%, 300px);
   font-size: 1rem;
   margin: 1ex 0;
   border-radius: 4px;
@@ -22,10 +21,11 @@
   box-sizing: border-box;
   padding: 1ex 1em;
   transition: all 0.25s;
+  border-radius: 4px;
   > span {
     padding-top: 0.5ex;
   }
-  &:hover, &:focus {
+  &:hover{
     background-color: color.scale(#4F4F4F, $lightness: 20%);
     cursor: pointer;
   }
@@ -52,11 +52,12 @@
 }
 
 .optionContainer {
-  position: absolute;
+  position: relative;
   left: 0;
   top: 0;
   background-color: #4F4F4F;
   width: 100%;
-  max-height: 250px;
   overflow: auto;
+  max-height: 180px;
+  z-index: 1;
 }

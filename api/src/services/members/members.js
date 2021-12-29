@@ -1,5 +1,6 @@
 import { db } from 'src/lib/db'
 import { fetchMember } from 'src/lib/members'
+import { getUsdcBalance as getUsdcBal } from 'src/lib/web3/tokens.js'
 
 export const members = () => {
   return db.member.findMany()
@@ -24,6 +25,14 @@ export const usernames = async ({ query }) => {
     },
   })
   return members.map((member) => member.username)
+}
+
+export const memberBalance = async () => {
+  const usdcBalance = await getUsdcBal(context.currentUser.address)
+  return {
+    usdcBalance,
+    mintCreditBalance: context.currentUser.mintCredits,
+  }
 }
 
 export const Member = {

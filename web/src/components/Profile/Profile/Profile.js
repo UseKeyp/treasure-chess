@@ -1,6 +1,7 @@
 import MemberDetails from 'src/components/Member/MemberDetails'
 import MemberActivityCell from 'src/components/Member/MemberActivityCell'
 import GameExplorer from 'src/components/Game/GameExplorer'
+import TreasuresFetcher from 'src/components/Treasure/TreasuresFetcher'
 
 const Profile = ({ profile: member }) => {
   return (
@@ -17,7 +18,13 @@ const Profile = ({ profile: member }) => {
       </div>
       <br />
       <h1>Game History</h1>
-      <GameExplorer />
+      <div className="flex mt-4">
+        <GameExplorer />
+      </div>
+      <h1 className="mt-4">Treasures</h1>
+      <div className="flex mt-4">
+        <TreasuresFetcher username={member.username} />
+      </div>
     </div>
   )
 }

@@ -2,10 +2,14 @@ import themeConfig from '../../config/tailwind.config'
 
 const ThemeContext = React.createContext()
 
-const ThemeProvider = ({ children }) => {
+const ThemeContextProvider = ({ children }) => {
   const { theme } = themeConfig
 
-  return <ThemeContext.Provider value={theme}>{children}</ThemeContext.Provider>
+  return (
+    <ThemeContext.Provider value={{ theme }}>{children}</ThemeContext.Provider>
+  )
 }
 
-export { ThemeContext, ThemeProvider }
+const useTheme = () => React.useContext(ThemeContext)
+
+export { ThemeContextProvider, useTheme }

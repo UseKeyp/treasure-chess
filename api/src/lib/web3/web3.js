@@ -1,30 +1,42 @@
 import { db } from 'src/lib/db'
+import Sentry from 'src/lib/sentry'
+
 import { fetchMember } from 'src/lib/members'
-import { generateTreasureData } from 'src/lib/treasures'
-import { mint } from 'src/lib/web3/treasure/treasure'
+import { fetchGame } from 'src/lib/games'
 import { pinTreasure } from 'src/lib/pinata/pinata'
 
-export const mintTreasure = async ({ game, mintPurchase, member, title }) => {
-  try {
-    if (!member.address) throw 'Minting member does not have a wallet address.'
-    if (!title) throw 'Title must not be empty'
+import { mint } from 'src/lib/web3/treasure/treasure'
+import { web3Provider } from 'src/lib/web3/helpers'
+import { generateTreasureData } from 'src/lib/treasures'
+import { isProduction } from 'src/lib/helpers'
 
-    const treasureData = await generateTreasureData({
+import { sendDiscordAlert } from 'src/lib/discord/discord'
+
+const SUBMITTED = 'SUBMITTED'
+const COMPLETE = 'COMPLETE'
+const FAILED = 'FAILED'
+
+const DISCORD_MESSAGE_TITLE = isProduction ? '[prod]' : '[dev]'
+
+export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
+  try {
+    const { gameId, gameEndTime, title, member } = mintPurchase
+
+    const game = await fetchGame({
+      id: gameId,
+      username: member.username,
+      endTime: gameEndTime,
+      // Create new members if needed, treasureId, etc.
+      includeTreasureData: true,
+    })
+
+    const treasureData = generateTreasureData({
       game,
       title,
       minter: member,
-      owner: member,
       mintPurchase,
     })
 
-    if (mintPurchase.txHash) {
-      // TODO: Check the status of the transaction
-
-      // TODO: If failed, attempt to mint again
-
-      // Remove throw once completed
-      throw `Treasure has already been minted. Id: ${treasureData.id} txHash: ${mintPurchase.txHash}`
-    }
     const { tokenUri, uriData } = await pinTreasure({
       treasure: {
         ...treasureData,
@@ -33,34 +45,116 @@ export const mintTreasure = async ({ game, mintPurchase, member, title }) => {
       },
       tcn: game.tcn,
     })
-    // TODO: Check whether a treasure with the same id already exists in the database
-    // TODO: Before minting, check on-chain whether there exists a treasure
-    // with the same ID hash
-    const tx = await mint({
-      treasure: treasureData,
-      tokenUri,
-      minterAddress: member.address,
-    })
-    if (!tx?.hash) throw 'Transaction was not submitted'
 
-    await db.mintPurchase.update({
+    if (mintPurchase.txHash) {
+      const { status, tokenId } = await getMintTxStatus({ mintPurchase })
+      if (status === SUBMITTED)
+        // transaction still pending
+        return await db.mintPurchase.update({
+          where: { id: mintPurchase.id },
+          data: { txStatus: SUBMITTED },
+        })
+
+      if (status === COMPLETE) {
+        // YAY! Create the treasure in the database
+        // TODO: optimize by combining these two db calls
+        // Stop, don't mint again
+        await db.treasure.upsert({
+          where: { tokenId },
+          create: {
+            ...treasureData,
+            tokenId,
+            uriData,
+            tokenUri,
+          },
+          update: {},
+        })
+        return await db.mintPurchase.update({
+          where: { id: mintPurchase.id },
+          data: { txStatus: COMPLETE },
+          include: { treasure: true },
+        })
+      }
+      // If status is FAILED, let's continue and try to mint again
+    }
+
+    if (game.tokenId)
+      throw `Treasure tokenId:${game.tokenId} already minted and in the database`
+    let tx
+    try {
+      tx = await mint({
+        treasure: treasureData,
+        tokenUri,
+        minterAddress: member.address,
+      })
+      if (!tx || !tx.hash) throw 'Transaction could not be submitted.'
+    } catch (e) {
+      await sendDiscordAlert({
+        embed: {
+          color: 16740982,
+          title: `${DISCORD_MESSAGE_TITLE}  ⛈️⛓️  Failed to submit mint transaction!`,
+          description: `Mint Purchase ID: ${mintPurchase?.id || '?'}
+Order Type: ${mintPurchase?.paymentType || '?'}
+Member: ${member?.username || '?'}
+Game: ${gameId || '?'}  ${gameEndTime || '?'}
+
+${e.message.substring(0, 2000)}`,
+          footer: { text: new Date().toString() },
+        },
+      })
+      Sentry.setUser({ username: mintPurchase.member.username })
+      Sentry.captureException(e)
+      return await db.mintPurchase.update({
+        where: { id: mintPurchase.id },
+        data: { txStatus: FAILED },
+      })
+    }
+
+    return await db.mintPurchase.update({
       where: { id: mintPurchase.id },
       data: {
         txHash: tx.hash,
-        txStatus: 'SUBMITTED',
+        txStatus: SUBMITTED,
       },
     })
-
-    const treasure = await db.treasure.create({
-      data: { ...treasureData, uriData, tokenUri },
-    })
-    // TODO:  remove consoles
     /* eslint-disable-next-line no-console */
-    console.log(treasure)
-
-    return treasure
   } catch (e) {
     throw `mintTreasure() ${e}`
+  }
+}
+
+const getLogByTopic = ({ logs, topic }) => {
+  let logByTopic = null
+  logs.map((log) => {
+    if (log.topics.indexOf(topic) >= 0) logByTopic = log
+  })
+  return logByTopic
+}
+
+export const getMintTxStatus = async ({ mintPurchase }) => {
+  try {
+    if (mintPurchase.txStatus === SUBMITTED) {
+      const receipt = await web3Provider.getTransactionReceipt(
+        mintPurchase.txHash
+      )
+
+      if (receipt?.status === 0) {
+        return { status: FAILED }
+      } else if (receipt?.status == 1 && receipt?.confirmations >= 1) {
+        const log = getLogByTopic({
+          logs: receipt.logs,
+          topic:
+            '0x106687a5763ca3a7dc8103c314927515b5a78bb3523d14a54b213bb47b39c6bf',
+        })
+        return {
+          status: COMPLETE,
+          tokenId: Number(`0x${log.data.substring(66, 130)}`),
+        }
+      }
+    }
+    return { status: mintPurchase.txStatus }
+  } catch (e) {
+    throw `getMintTxStatus() ${e}`
   }
 }
 

@@ -13,6 +13,7 @@ const achievementList = require('@treasure-chess/chess-achievements/src/achievem
 //   { name: '2200 - 2399', value: [2200, 2399] },
 //   { name: '2400+', value: [2400, 9999] },
 // ]
+
 const timeControlList = [
   {
     name: '1 minute',
@@ -70,13 +71,14 @@ const openingList = [
 ]
 const colorList = ['white', 'black']
 const terminationList = [
+  'Any',
   'Checkmate',
   'Resignation',
   'Stalemate',
   'Insufficient Material',
 ]
 const rarityList = ['Common', 'Uncommon', 'Rare', 'Mythic']
-const saleList = ['All', 'For Sale', 'Unlisted']
+const saleList = ['For Sale', 'Unlisted']
 const outcomeList = ['black', 'white', 'draw']
 
 const filters = {

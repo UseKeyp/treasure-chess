@@ -19,7 +19,7 @@ const TreasuresList = ({ treasures, count, onLoadMore, page, loading }) => {
   )
 
   return (
-    <div className="w-full ml-4">
+    <div className="w-full">
       <div className="w-full flex justify-start">
         <div className="mr-2 flex align-center h-4">
           {count ? (

@@ -4,10 +4,15 @@ import { P } from 'src/components/Typography'
 import Icon from 'src/components/Icon/Icon'
 import MintForm from 'src/components/Game/Games/components/MintForm'
 import LoadingDots from 'src/components/LoadingDots'
+import { useMinting } from 'src/providers/minting'
 
 import { formatDate } from 'src/utils/helpers'
 
-import { CHECKOUT, MINTING, SUCCESS } from 'src/components/Game/constants'
+import {
+  MINT_STATUS_ADDING_FUNDS,
+  MINT_STATUS_MINTING,
+  MINT_STATUS_SUCCESS,
+} from 'src/providers/minting/constants'
 
 const mainColor = '#C4C4C4'
 
@@ -19,13 +24,14 @@ const ListItem = ({
   onChangeTitle,
   onSubmit,
   isExpanded,
-  mintingStatus,
-  errorText,
 }) => {
   const { white: player1, black: player2, endTime, id, tokenId, title } = game
   const date = formatDate(endTime)
+  const { clearMintError, mintStatus, mintError, mintLoading } = useMinting()
 
-  const isMinting = mintingStatus === CHECKOUT || mintingStatus === MINTING
+  const isMinting =
+    mintStatus === MINT_STATUS_ADDING_FUNDS ||
+    mintStatus === MINT_STATUS_MINTING
 
   const handleSubmit = (title) => {
     if (isMinting) return
@@ -34,34 +40,32 @@ const ListItem = ({
 
   const handleSelectRow = () => {
     if (isMinting) return
+    clearMintError()
     onClick(id)
   }
 
   const bottomHalf = () => {
     if (!isExpanded) return <></>
-    if (mintingStatus === CHECKOUT)
+    if (mintStatus === MINT_STATUS_ADDING_FUNDS)
       return (
         <div className="games-history-list__status">
-          Complete checkout in the Wyre popup.
+          Continue via Wyre popup.
           <button
             className="games-history-list__reset-button"
             onClick={onReset}
           >
-            Reset
+            Cancel
           </button>
         </div>
       )
-    if (mintingStatus === MINTING)
+    if (mintStatus === MINT_STATUS_MINTING)
       return (
-        <div className="games-history-list__status">
-          Your Treasure is being minted.
-          <div className="games-history-list__loading-status">
-            This can take up to 3 minutes.
-            <LoadingDots className="ml-2" />
-          </div>
+        <div className="games-history-list__status flex">
+          <LoadingDots />
+          <div className="ml-4">Minting Treasure (~1 minute)</div>
         </div>
       )
-    if (mintingStatus === SUCCESS)
+    if (mintStatus === MINT_STATUS_SUCCESS)
       return (
         <div className="games-history-list__status">
           Your Treasure was minted.
@@ -70,10 +74,11 @@ const ListItem = ({
     if (!tokenId && !isMinting)
       return (
         <MintForm
-          errorText={errorText}
+          errorText={mintError}
           onSubmit={handleSubmit}
           onChangeTitle={onChangeTitle}
           isMinting={isMinting}
+          mintLoading={mintLoading}
         />
       )
   }

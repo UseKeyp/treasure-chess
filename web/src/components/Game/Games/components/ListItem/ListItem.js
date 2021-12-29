@@ -24,12 +24,11 @@ const ListItem = ({
   onChangeTitle,
   onSubmit,
   isExpanded,
-  mintStatus,
   errorText,
 }) => {
   const { white: player1, black: player2, endTime, id, tokenId, title } = game
   const date = formatDate(endTime)
-  const { clearMintError } = useMinting()
+  const { clearMintError, mintStatus } = useMinting()
 
   const isMinting =
     mintStatus === MINT_STATUS_ADDING_FUNDS ||
@@ -63,11 +62,8 @@ const ListItem = ({
     if (mintStatus === MINT_STATUS_MINTING)
       return (
         <div className="games-history-list__status">
-          Minting Treasure
-          <div className="games-history-list__loading-status">
-            ~1 minute
-            <LoadingDots className="ml-2" />
-          </div>
+          <LoadingDots className="mr-2" />
+          Minting Treasure (about 1 minute)
         </div>
       )
     if (mintStatus === MINT_STATUS_SUCCESS)

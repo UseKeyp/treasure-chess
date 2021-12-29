@@ -73,7 +73,6 @@ const Games = ({ games }) => {
           onChangeTitle={onChangeTitle}
           onSubmit={onSubmitMint}
           isExpanded={game.id === activeGame?.id}
-          mintStatus={mintStatus}
           errorText={mintError?.message}
         />
       )

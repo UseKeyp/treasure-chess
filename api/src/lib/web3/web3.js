@@ -59,25 +59,19 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
         // YAY! Create the treasure in the database
         // TODO: optimize by combining these two db calls
         // Stop, don't mint again
+        const treasure = await db.treasure.upsert({
+          where: { tokenId },
+          create: {
+            ...treasureData,
+            tokenId,
+            uriData,
+            tokenUri,
+          },
+          update: {},
+        })
         return await db.mintPurchase.update({
           where: { id: mintPurchase.id },
-          data: {
-            txStatus: COMPLETE,
-            connect: {
-              treasure: {
-                upsert: {
-                  where: { tokenId },
-                  update: {},
-                  create: {
-                    ...treasureData,
-                    tokenId,
-                    uriData,
-                    tokenUri,
-                  },
-                },
-              },
-            },
-          },
+          data: { txStatus: COMPLETE },
           include: { treasure: true },
         })
       }
@@ -86,29 +80,33 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
 
     if (game.tokenId)
       throw `Treasure tokenId:${game.tokenId} already minted and in the database`
-
+    let tx
     try {
-      const tx = await mint({
+      tx = await mint({
         treasure: treasureData,
         tokenUri,
         minterAddress: member.address,
       })
       if (!tx || !tx.hash) throw 'Transaction could not be submitted.'
     } catch (e) {
-      await sendDiscordAlert({
-        embed: {
-          color: 16740982,
-          title: `${DISCORD_MESSAGE_TITLE}  ⛈️  Mint Order Failed!`,
-          description: `Mint Purchase ID: ${mintPurchase.id}
+      console.log("Couldn't submit transaction")
+      try {
+        await sendDiscordAlert({
+          embed: {
+            color: 16740982,
+            title: `${DISCORD_MESSAGE_TITLE}  ⛈️  Mint Order Failed!`,
+            description: `Mint Purchase ID: ${mintPurchase.id}
 Order Type: ${mintPurchase.orderType}
 Member: ${member.username}
 Game: ${gameId} ${gameEndTime}
 
   ${e}`,
-          footer: { text: new Date().toString() },
-          type: 'link',
-        },
-      })
+            footer: { text: new Date().toString() },
+          },
+        })
+      } catch (e) {
+        console.log(e)
+      }
       Sentry.setUser({ username: mintPurchase.member.username })
       Sentry.captureException(e)
       return await db.mintPurchase.update({

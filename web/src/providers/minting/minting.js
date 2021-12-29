@@ -133,12 +133,10 @@ const MintingProvider = ({ children }) => {
 
   const mint = async ({ title, gameId, endTime }) => {
     if (mintCreditBalance < 1) {
-      console.log(title)
       const { data: { mintCheckoutUrl } = {}, error } =
-        await mintCheckoutUrlLazyQuery({
+        await mintWithCreditMutation({
           variables: { title, gameId, endTime },
         })
-      console.log('fetched url')
       if (error)
         return setState({
           ...state,

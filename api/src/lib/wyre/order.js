@@ -42,6 +42,7 @@ export const processOrder = async ({ reservation, orderId }) => {
         `Wyre mint order invalid. orderId ${orderId} / reservation ${reservation} has already been used with reservation ${mintPurchase.reservation} and purchase #${mintPurchase.id}`
       )
     const order = await fetchOrder(orderId)
+    if (order.status === 'PROCESSING') return // Don't throw errors and do nothing
     validateMintOrder(order)
     mintPurchase = await db.mintPurchase.findUnique({
       where: { reservation },

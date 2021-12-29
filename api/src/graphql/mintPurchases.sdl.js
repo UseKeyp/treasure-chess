@@ -8,6 +8,7 @@ export const schema = gql`
     title: String!
     txHash: String
     txStatus: String!
+    paymentType: String!
   }
 
   type Query {

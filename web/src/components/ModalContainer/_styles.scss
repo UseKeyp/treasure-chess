@@ -18,8 +18,8 @@ body {
   }
 }
 
-.modal-open {
-  height: 100vh;
+body.modal-open {
+  height: 120vh;
   overflow-y: hidden;
 }
 
@@ -44,7 +44,7 @@ body {
   position: fixed;
   width: 90%;
   max-width: 432px;
-  max-height: 40vh;
+  max-height: 120vh;
   background: #4f4f4f;
   box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.4);
   border-radius: 12px;
@@ -109,8 +109,4 @@ body {
     box-shadow: none;
     transform: translateY(2px);
   }
-}
-
-.isDisabled {
-  pointer-events: none;
 }

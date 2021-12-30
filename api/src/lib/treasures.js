@@ -130,7 +130,6 @@ export const getTreasuresWithFilter = async ({
   page = 0,
 }) => {
   const whereQuery = getWhereQueryFromArgs({ username, filter, owner })
-  console.log(whereQuery)
   // Cannot use cursor pagination, since custom sorting is needed
   const skip = page * TREASURES_PER_PAGE
   const treasures = await db.treasure.findMany({

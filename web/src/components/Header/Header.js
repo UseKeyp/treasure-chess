@@ -16,9 +16,13 @@ const WalletBalance = () => {
     <div className="flex flex-col flex-1 text-sm">
       <div className={'header__nav__balance'}>Balance $62</div>
       <div>
-        <a href="/fund-wallet" className={'header__nav__fund-wallet'}>
+        <Button
+          href="/fund-wallet"
+          textColor="blue"
+          className={'header__nav__fund-wallet'}
+        >
           Fund Wallet
-        </a>
+        </Button>
       </div>
     </div>
   )
@@ -53,15 +57,13 @@ const MobileNav = () => {
         <nav>
           <ul className="h-full relative">
             <li className={navItemClasses}>
-              <Link to={routes.home()}>
+              <Button to={routes.home()}>
                 <img src="/TreasureChessLogo.png" alt="TreasureChess.com" />
                 <span className="sr-only">home</span>
-              </Link>
+              </Button>
             </li>
             <li className={navItemClasses}>
-              <Link to={routes.treasures()} className={navAnchorClasses}>
-                Treasures
-              </Link>
+              <Button to={routes.treasures()}>Treasures</Button>
             </li>
             <li className={navItemClasses}>
               <Link to={routes.faq()} className={navAnchorClasses}>
@@ -116,10 +118,10 @@ const Header = () => {
   return (
     <div className={'header'}>
       <div className={'header__iconSearch'}>
-        <Link to={routes.home()}>
+        <Button to={routes.home()} className="mr-4">
           <img src="/TreasureChessLogo.png" alt="TreasureChess.com" />
-        </Link>
-        <div className="hidden lg:block">
+        </Button>
+        <div className="hidden mr-4 lg:block">
           <UsernameSearchBar
             initialQuery={initialUsername}
             setQuery={onUpdateUsername}
@@ -131,17 +133,25 @@ const Header = () => {
       </div>
       <div className={'header__nav hidden lg:flex'}>
         <div className="flex-1 flex items-center">
-          <div>
-            <Link to={routes.treasures()} className="font-bold">
-              <TreasureChest />
-              Treasures
-            </Link>
+          <div className="mr-4">
+            <Button to={routes.treasures()} size="large">
+              <div className="flex items-center">
+                <TreasureChest className="mr-2" />
+                Treasures
+              </div>
+            </Button>
           </div>
           <div>
-            <Link to={routes.faq()} className="font-bold">
-              <img src="/icons/TreasureChessHelpIcon.png" alt="" />
-              About
-            </Link>
+            <Button to={routes.faq()} size="large">
+              <div className="flex items-center">
+                <img
+                  src="/icons/TreasureChessHelpIcon.png"
+                  alt=""
+                  className="mr-2"
+                />
+                About
+              </div>
+            </Button>
           </div>
         </div>
         {isLoggedIn ? (
@@ -151,10 +161,14 @@ const Header = () => {
             </div>
             <div className="mr-4">
               <div className="flex flex-col text-sm text-left">
-                <Link className={'header__nav__username'} to={routes.profile()}>
+                <Button
+                  to={routes.profile()}
+                  textColor="blue"
+                  className="header__nav__username"
+                >
                   {profile.username}
-                </Link>
-                <div className={'header__nav__address'}>{address}</div>
+                </Button>
+                <div className="header__nav__address">{address}</div>
               </div>
             </div>
             <WalletBalance />

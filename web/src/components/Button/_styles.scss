@@ -1,13 +1,19 @@
 .button {
-  @apply font-bold py-1 px-4 rounded text-white;
+  @apply font-bold py-1 px-2 rounded text-white;
 
   display: block;
   transition: all 0.25s;
 
-  &:focus,
+  &[data-selected='true'],
+  &:focus {
+    background-color: rgb(200 200 200 / 0.25);
+    text-decoration: none;
+  }
+
   &:hover {
-    background-color: rgb(200 200 200 / 0.5);
+    background-color: rgb(200 200 200 / 0.25);
     transform: translateY(-3px);
+    text-decoration: none;
   }
 
   &[data-fluid='true'] {
@@ -47,6 +53,6 @@
   }
 
   &[data-textcolor='blue'] {
-    @apply text-blueDark;
+    @apply text-blueLink;
   }
 }

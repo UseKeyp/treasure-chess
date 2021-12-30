@@ -23,7 +23,7 @@ const Profile = ({ profile: member }) => {
       </div>
       <h1 className="mt-4">Treasures</h1>
       <div className="flex mt-4">
-        <TreasuresFetcher username={member.username} />
+        <TreasuresFetcher owner={member.username} />
       </div>
     </div>
   )

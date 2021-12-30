@@ -49,7 +49,7 @@ export const generateTreasureData = ({ game, title, minter, mintPurchase }) => {
 const getValueByName = (list, name) =>
   list.find((item) => item.name === name).value
 
-const getWhereQueryFromArgs = ({ username, filter }) => {
+const getWhereQueryFromArgs = ({ username, filter, owner }) => {
   const searchParams = new URLSearchParams(filter)
   let filterObj = {}
   // Convert text names to values
@@ -61,8 +61,14 @@ const getWhereQueryFromArgs = ({ username, filter }) => {
       value = getValueByName(filters.moveCountList, pair[1])
     filterObj[pair[0]] = value
   }
+  console.log(filterObj)
 
   // Create each TreasureWhereInput
+  const ownerQuery = owner
+    ? {
+        OR: [{ owner: { username: owner } }, { owner: { address: owner } }],
+      }
+    : null
   const usernameQuery = username
     ? {
         OR: [{ black: { username } }, { white: { username } }],
@@ -94,6 +100,7 @@ const getWhereQueryFromArgs = ({ username, filter }) => {
 
   return {
     ...(usernameQuery && usernameQuery),
+    ...(ownerQuery && ownerQuery),
     ...(achievementQuery && achievementQuery),
     ...(outcomeQuery && outcomeQuery),
     ...(moveCountQuery && moveCountQuery),
@@ -113,10 +120,11 @@ const getWhereQueryFromArgs = ({ username, filter }) => {
 export const getTreasuresWithFilter = async ({
   username,
   filter,
+  owner,
   _sort,
   page = 0,
 }) => {
-  const whereQuery = getWhereQueryFromArgs({ username, filter })
+  const whereQuery = getWhereQueryFromArgs({ username, filter, owner })
   // Cannot use cursor pagination, since custom sorting is needed
   const skip = page * TREASURES_PER_PAGE
   const treasures = await db.treasure.findMany({
@@ -131,8 +139,12 @@ export const getTreasuresWithFilter = async ({
   return treasures
 }
 
-export const getTreasuresWithFilterCount = async ({ username, filter }) => {
-  const whereQuery = getWhereQueryFromArgs({ username, filter })
+export const getTreasuresWithFilterCount = async ({
+  username,
+  filter,
+  owner,
+}) => {
+  const whereQuery = getWhereQueryFromArgs({ username, filter, owner })
   // Note: count takes up to 2+ seconds to the query for large db (1M+ elements)
   return db.treasure.count({ where: whereQuery })
 }

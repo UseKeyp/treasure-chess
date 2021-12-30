@@ -56,18 +56,18 @@ const moveCountList = [
 // Items without name/value pair
 const titleList = ['gm', 'im', 'nm']
 const openingList = [
-  "King's pawn game",
+  "King's Pawn Game",
   "Queen's Gambit",
   'Ruy Lopez',
   'French Defense',
   'Caro-Kann',
   'Reti Opening',
   'English',
-  'Norwegian',
-  'Italian',
+  'Norwegian', // Not in chess-achiemvements?
+  'Italian', // Not in chess-achievements?
   "Bird's Opening",
   'Scandinavian',
-  'Scotch',
+  'Scotch Game',
 ]
 const colorList = ['white', 'black']
 const terminationList = [

@@ -1,9 +1,7 @@
 import { db } from 'src/lib/db'
 
-const {
-  TREASURES_PER_PAGE,
-  filters,
-} = require('@treasure-chess/treasure-filters')
+const { TREASURES_PER_PAGE } = require('@treasure-chess/treasure-filters')
+const filters = require('@treasure-chess/treasure-filters')
 
 // NOTE: any updates to this function should also be made in /scripts/seed
 export const generateTreasureData = ({ game, title, minter, mintPurchase }) => {
@@ -57,8 +55,9 @@ const getWhereQueryFromArgs = ({ username, filter, owner }) => {
     let value = pair[1]
     if (pair[0] === 'timeControl')
       value = getValueByName(filters.timeControlList, pair[1])
-    else if (pair[0] === 'moveCount')
+    else if (pair[0] === 'moveCount') {
       value = getValueByName(filters.moveCountList, pair[1])
+    }
     filterObj[pair[0]] = value
   }
   console.log(filterObj)

@@ -60,7 +60,6 @@ const getWhereQueryFromArgs = ({ username, filter, owner }) => {
     }
     filterObj[pair[0]] = value
   }
-  console.log(filterObj)
 
   // Create each TreasureWhereInput
   const ownerQuery = owner
@@ -87,12 +86,19 @@ const getWhereQueryFromArgs = ({ username, filter, owner }) => {
         })),
       }
     : null
-
   const moveCountQuery = filterObj.moveCount
     ? {
         AND: [
           { moveCount: { gte: filterObj.moveCount[0] } },
           { moveCount: { lte: filterObj.moveCount[1] } },
+        ],
+      }
+    : null
+  const titleQuery = filterObj.title
+    ? {
+        OR: [
+          { blackMasterTitle: filterObj.title },
+          { whiteMasterTitle: filterObj.title },
         ],
       }
     : null
@@ -103,9 +109,9 @@ const getWhereQueryFromArgs = ({ username, filter, owner }) => {
     ...(achievementQuery && achievementQuery),
     ...(outcomeQuery && outcomeQuery),
     ...(moveCountQuery && moveCountQuery),
+    ...(titleQuery && titleQuery),
     ...(filterObj.opening && { opening: filterObj.opening }),
     ...(filterObj.color && { cardColor: filterObj.color }),
-    ...(filterObj.title && { title: { contains: filterObj.title } }),
     ...(filterObj.termination && { termination: filterObj.termination }),
     ...(filterObj.timeControl && { timeControl: filterObj.timeControl }),
     ...(filterObj.rarity && { rarity: filterObj.rarity }),
@@ -124,6 +130,7 @@ export const getTreasuresWithFilter = async ({
   page = 0,
 }) => {
   const whereQuery = getWhereQueryFromArgs({ username, filter, owner })
+  console.log(whereQuery)
   // Cannot use cursor pagination, since custom sorting is needed
   const skip = page * TREASURES_PER_PAGE
   const treasures = await db.treasure.findMany({

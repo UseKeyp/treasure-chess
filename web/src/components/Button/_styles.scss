@@ -1,35 +1,59 @@
-@use "sass:color";
-
 .button {
-  min-height: 40px;
-  max-width: 100%;
-  font-size: 20px;
-  font-weight: bold;
-  border-radius: 5px;
-  padding: 0.5rem;
-  color: white;
-  @media (max-width: 896px) {
-    font-size: 12px;
+  @apply font-bold py-1 px-2 rounded text-white;
+
+  display: block;
+  transition: all 0.25s;
+
+  &[data-selected='true'],
+  &:focus {
+    background-color: rgb(200 200 200 / 0.25);
+    text-decoration: none;
   }
-  &--blue {
-    background: #125BF5;
-    box-shadow: 0px 2px 0px 0px #1A32AF;
-    &:hover {
-      background-color: color.scale(#125BF5, $lightness: 8%);
-    }
+
+  &:hover {
+    background-color: rgb(200 200 200 / 0.25);
+    transform: translateY(-3px);
+    text-decoration: none;
   }
-  &--transparent {
-    background: none;
-    font-weight: normal;
+
+  &[data-fluid='true'] {
+    @apply w-full;
   }
-  &--gold {
-    background: linear-gradient(180deg, #f2c94c 0%, #f2994a 100%);
+
+  &:not([data-variant='transparent']) {
+    @apply shadow;
   }
-  &--grey {
-    background: linear-gradient(180deg, #eeeded 0%, #c4c4c4 100%);
+
+  &[data-size='small'] {
+    @apply text-sm;
   }
-  &--green {
-    background: linear-gradient(180deg, #b9cc36 0%, #7fa650 100%);
+
+  &[data-size='large'] {
+    @apply text-lg;
+  }
+
+  &[data-variant='grey'] {
+    @apply bg-greyDark;
+  }
+
+  &[data-variant='green'] {
+    @apply bg-greenDark;
+  }
+
+  &[data-variant='blue'] {
+    @apply bg-blueDark;
+  }
+
+  &[data-variant='orange'] {
+    @apply bg-orange;
+  }
+
+  &[data-textcolor='black'] {
+    @apply text-black;
+  }
+
+  &[data-textcolor='blue'] {
+    @apply text-blueLink;
   }
 }
 

@@ -1,36 +1,84 @@
+import { Link, routes, useMatch, useLocation } from '@redwoodjs/router'
 import PropTypes from 'prop-types'
-import styles from './Button.module.scss'
 
-const Button = ({ children, variant, onClick, ...rest }) => {
+const Button = ({
+  children,
+  label,
+  variant,
+  onClick,
+  size,
+  textColor,
+  isSelected,
+  className,
+  fluid,
+  to,
+  href,
+  alt,
+  ...rest
+}) => {
+  const Element = href ? 'a' : 'button'
+  const { match: isMatch } = useMatch(to || routes.home())
+  const { pathname } = useLocation()
+  const isPage = ['/treasures', '/about'].includes(pathname)
+
+  if (to) {
+    return (
+      <Link
+        className={`button ${className}`}
+        onClick={() => onClick()}
+        data-variant={variant}
+        data-size={size}
+        data-textcolor={textColor}
+        data-selected={isPage ? String(isMatch) : isSelected}
+        data-fluid={String(fluid)}
+        to={to}
+        {...rest}
+      >
+        {label || children}
+      </Link>
+    )
+  }
+
   return (
-    <button className={`button button--${variant}`} onClick={onClick} {...rest}>
-      {children}
-    </button>
+    <Element
+      className={`button ${className}`}
+      onClick={() => onClick()}
+      data-variant={variant}
+      data-size={size}
+      data-textcolor={textColor}
+      data-selected={String(isSelected)}
+      data-fluid={String(fluid)}
+      href={href || false}
+      alt={alt || false}
+      {...rest}
+    >
+      {label || children}
+    </Element>
   )
 }
 
 Button.defaultProps = {
-  variant: 'grey',
-  isDisabled: false,
+  variant: 'transparent',
+  size: 'regualr',
+  textColor: 'white',
+  isSelected: false,
+  className: '',
+  fluid: false,
+  onClick: () => {},
 }
+
 Button.propTypes = {
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   variant: PropTypes.string,
-  isDisabled: PropTypes.bool,
+  label: PropTypes.string,
+  size: PropTypes.string,
+  textColor: PropTypes.string,
+  isSelected: PropTypes.bool,
+  fluid: PropTypes.bool,
+  className: PropTypes.string,
+  to: PropTypes.any,
+  href: PropTypes.string,
+  alt: PropTypes.string,
 }
 
 export default Button
-
-/**
- * A button following the new style
- * @param {String} label Provide the label you want the button to say
- * @param {Function} clickFunction Provide the function you want to attach to the 'click' event listener
- * @returns A nice button for you :)
- */
-export const NewButton = (props) => {
-  return (
-    <button className={styles.button} onClick={() => props.clickFunction()}>
-      {props.label || props.children}
-    </button>
-  )
-}

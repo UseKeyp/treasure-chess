@@ -6,6 +6,7 @@
 // avoid the possibility that it will cause its own error. If it does, Redwood will
 // still render a generic error page, but your users will prefer something a bit more
 // thoughtful. =)
+import globalConfig from 'src/global.config'
 
 export default () => (
   <main>
@@ -13,6 +14,7 @@ export default () => (
       dangerouslySetInnerHTML={{
         __html: `
               html, body {
+                position: fixed;
                 margin: 0;
                 height: 100%;
                 width: 100%;
@@ -33,23 +35,6 @@ export default () => (
                   background: #272522;
                   border-radius: 12px;
                 }
-                .header-search-bar-container {
-                  margin-left: 1rem;
-                }
-                .header-search-bar {
-                  font-size: 1rem;
-                  padding: 12px 24px;
-                  background-color: #4f4f4f;
-                  border-radius: 20px;
-                  border: 1px solid #4f4f4f;
-                  outline: none;
-                }
-                .header-search-bar:focus {
-                  border: 1px solid #aaa;
-                }
-                .header-search-bar::placeholder {
-                  color: white;
-                }
                 .header-buttons-container {
                   margin-left: auto;
                   font-size: 16px;
@@ -65,7 +50,7 @@ export default () => (
                   margin-left: 8rem;
 
                 }
-                
+
                 .header-mobile {
                   display: none;
                 }
@@ -112,7 +97,9 @@ export default () => (
                 }
 
                 .footer-container {
-                  margin: 75vh auto;
+                  position: fixed;
+                  left: 0;
+                  bottom: 0;
                   max-width: 80rem;
                   display: flex;
                   flex-wrap: wrap;
@@ -120,6 +107,7 @@ export default () => (
                   font-size: 13px;
                   justify-content: space-around;
                   text-align: center;
+                  margin-bottom: 2rem;
                 }
                 .footer-container img {
                   margin-right: 1rem
@@ -135,50 +123,59 @@ export default () => (
             `,
       }}
     />
-    <div className="fatal-error-container">
-      <div className="header-container">
-        <img src="TreasureChessLogo.png" alt="TreasureChess.com" />
-        <h3 className="header-mobile">Menu</h3>
-        <div className="header-search-bar-container">
-          <input className="header-search-bar" placeholder="Search Treasures" />
-        </div>
-        <div className="header-buttons-container">
-          <button className="header-buttons">
-            <img src="/icons/TreasureChessChest.svg" alt="" />
-            Treasures
-          </button>
-          <button className="header-buttons">
-            <img src="/icons/TreasureChessHelpIcon.png" alt="" />
-            About
-          </button>
-        </div>
-      </div>
-      <div className="error-container">
-        <h1 className="error-title">Oops!</h1>
-        <div className="error-content">
-          <h4>Something went wrong</h4>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
-            ultricies, nulla et tempus egestas, lacus nisi congue nisl, ac
-            euismod dolor mi nec dui. Aliquam.
-          </p>
-        </div>
-      </div>
-      <div className="footer-container">
-        <div className="footer-socials">
-          <img src="/icons/discord.svg" alt="" />
-          <a href>Blog</a>
-        </div>
-        <div className="footer-info">
-          <a href>Terms of Service</a>
-          <a href>Privacy Policy</a>
-          <a href>Support</a>
-        </div>
-        <div className="footer-branding">
-          <img src="/icons/chess_com.svg" alt="" />
-          <a href>@ Nifty Chess, Inc.2021</a>
-        </div>
-      </div>
-    </div>
+    <div
+      dangerouslySetInnerHTML={{
+        __html: `
+              <div class="fatal-error-container">
+                <div class="header-container">
+                  <a href="/">
+                    <img src="TreasureChessLogo.png" alt="TreasureChess.com" />
+                  </a>
+                  <h3 class="header-mobile">Menu</h3>
+                  <div class="header-buttons-container">
+                    <a class="header-buttons" href="/treasures">
+                      <img src="/icons/TreasureChessChest.svg" alt="" />
+                      Treasures
+                    </a>
+                    <a class="header-buttons" href="/about">
+                      <img src="/icons/TreasureChessHelpIcon.png" alt="" />
+                      About
+                    </a>
+                  </div>
+                </div>
+                <div class="error-container">
+                  <h1 class="error-title">Oops!</h1>
+                  <div class="error-content">
+                    <h4>Something went wrong</h4>
+                    <p>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
+                      ultricies, nulla et tempus egestas, lacus nisi congue nisl, ac
+                      euismod dolor mi nec dui. Aliquam.
+                    </p>
+                  </div>
+                </div>
+                <div class="footer-container">
+                  <div class="footer-socials">
+                    <a href=${globalConfig.DISCORD_URL}>
+                      <img src="/icons/discord.svg" alt="" />
+                    </a>
+                    <a href={globalConfig.BLOG_URL}>Blog</a>
+                  </div>
+                  <div class="footer-info">
+                    <a href=${globalConfig.TOC_URL}>Terms of Service</a>
+                    <a href=${globalConfig.PRIVACY_POLICY_URL}>Privacy Policy</a>
+                    <a href=${globalConfig.SUPPORT_URL}>Support</a>
+                  </div>
+                  <div class="footer-branding">
+                    <a href=${globalConfig.CHESS_COM_BASE_URL}>
+                      <img src="/icons/chess_com.svg" alt="" />
+                    </a>
+                    <p>@ Nifty Chess, Inc.2021</p>
+                  </div>
+                </div>
+              </div>
+        `,
+      }}
+    />
   </main>
 )

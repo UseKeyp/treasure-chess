@@ -59,6 +59,13 @@ export default () => (
                   font-weight: bold;
                   margin-right: 2rem;
                 }
+
+                .footer-info {
+                  position: relative;
+                  margin-left: 8rem;
+
+                }
+                
                 .header-mobile {
                   display: none;
                 }
@@ -120,11 +127,6 @@ export default () => (
                 .footer-container div {
                   display: inline-flex;
                   align-items: center;
-                }
-                .footer-info {
-                  position: relative;
-                  margin-left: 8rem;
-
                 }
                 .footer-info a {
                   margin-right: 1rem;

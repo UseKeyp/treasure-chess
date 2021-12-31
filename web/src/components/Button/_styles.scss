@@ -56,3 +56,8 @@
     @apply text-blueLink;
   }
 }
+
+.disabled {
+  pointer-events: none;
+  opacity: 25%;
+}

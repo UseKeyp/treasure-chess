@@ -68,10 +68,5 @@ export const schema = gql`
     treasuresWithFilterCount(username: String, filter: String): Int! @skipAuth
     treasure(tokenId: Int!): Treasure @skipAuth
     treasureNftDetails(tokenId: Int!): TreasureNftDetails @skipAuth
-    mintCheckoutUrl(
-      gameId: String!
-      endTime: DateTime!
-      title: String!
-    ): String! @requireAuth
   }
 `

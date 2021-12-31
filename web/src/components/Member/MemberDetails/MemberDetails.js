@@ -2,41 +2,20 @@ import Avatar from 'src/components/Avatar'
 import Button from 'src/components/Button/Button'
 import Icon from 'src/components/Icon'
 
-import MemberBalanceCell from 'src/components/Member/MemberBalanceCell'
-import { AddressModal, WithdrawModal, DepositModal } from './modals'
+import MemberBalance from 'src/components/Member/MemberBalance'
 
 import globalConfig from 'src/global.config'
 
 import { getFlagBase64 } from '@treasure-chess/treasure-html'
+import { useWallet } from 'src/providers/wallet'
 
 import { trimAddress } from 'src/utils/helpers'
-import useModal from 'src/hooks/useModal'
 
 const MemberDetails = ({ member, isProfile }) => {
-  const { isVisible: isVisibleDep, toggleModal: toggleModalDep } = useModal()
-  const { isVisible: isVisibleWit, toggleModal: toggleModalWit } = useModal()
-  const { isVisible: isVisibleAdd, toggleModal: toggleModalAdd } = useModal()
-
-  const onSubmitDeposit = () => {}
-  const onSubmitWithdraw = () => {}
+  const { deposit, withdraw, getAddress } = useWallet()
 
   return (
     <section className="member-details p-4">
-      <DepositModal
-        onSubmit={onSubmitDeposit}
-        isVisible={isVisibleDep}
-        toggleModal={toggleModalDep}
-      />
-      <WithdrawModal
-        onSubmit={onSubmitWithdraw}
-        isVisible={isVisibleWit}
-        toggleModal={toggleModalWit}
-      />
-      <AddressModal
-        address={member.address}
-        isVisible={isVisibleAdd}
-        toggleModal={toggleModalAdd}
-      />
       <div className="member-details--inner">
         <div className="member-details--avatar">
           <Avatar size="8rem" src={member.imageSrc} />
@@ -55,7 +34,7 @@ const MemberDetails = ({ member, isProfile }) => {
           </h3>
           <div className="flex mt-2">
             <p className="mr-2">{trimAddress(member.address)}</p>
-            <button onClick={toggleModalAdd}>
+            <button onClick={getAddress}>
               <Icon name="copy" color="#147DDD" />
             </button>
           </div>
@@ -71,10 +50,10 @@ const MemberDetails = ({ member, isProfile }) => {
         {isProfile && (
           <div className="member-details--funds-actions">
             <h4>
-              <MemberBalanceCell />
+              <MemberBalance />
             </h4>
             <Button
-              onClick={toggleModalDep}
+              onClick={deposit}
               variant="green"
               size="small"
               className="w-40"
@@ -82,7 +61,7 @@ const MemberDetails = ({ member, isProfile }) => {
               Deposit Funds
             </Button>
             <Button
-              onClick={toggleModalWit}
+              onClick={withdraw}
               variant="orange"
               textColor="black"
               size="small"

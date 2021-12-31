@@ -29,6 +29,8 @@ export const QUERY = gql`
       termination
       endTime
       outcome
+      tokenId
+      moves
       event
       ruleVariant
       externalUrl
@@ -45,8 +47,8 @@ export const Loading = () => <CardSkeleton />
 export const Empty = () => <div></div>
 
 export const Failure = () => (
-  <div className="rw-segment p-4">
-    <p className="text-black">{`Couldn't load Treasure`}</p>
+  <div>
+    <p className="">{`Error loading Treasure`}</p>
   </div>
 )
 

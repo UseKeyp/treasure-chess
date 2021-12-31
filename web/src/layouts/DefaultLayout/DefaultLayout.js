@@ -3,7 +3,7 @@ import Header from 'src/components/Header'
 import SiteFooter from './SiteFooter'
 
 import ModalContainer from 'src/components/ModalContainer/ModalContainer'
-import useModal from 'src/hooks/useModal'
+import { useModal } from 'src/hooks/useModal'
 import { useEffect } from 'react'
 
 const DefaultLayout = ({ children }) => {

@@ -64,7 +64,6 @@ const openingList = [
   'Reti Opening',
   'English',
   'Norwegian', // Not in chess-achiemvements?
-  'Italian', // Not in chess-achievements?
   "Bird's Opening",
   'Scandinavian',
   'Scotch Game',

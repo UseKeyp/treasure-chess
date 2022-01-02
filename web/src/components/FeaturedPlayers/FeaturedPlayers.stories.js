@@ -38,7 +38,7 @@ const items = [
     country: 'US',
   },
   {
-    name: 'Maurice Ashley V2',
+    name: 'Maurice Ashley',
     masterTitle: 'GM',
     imageSrc:
       'https://external-preview.redd.it/PBRzWyhmbC9m_N4P4po00yTtoebm709FWxdQvzsDqb0.jpg?auto=webp&s=0e7975b8befe0d64682258445fa4e9669fcf2987',
@@ -47,26 +47,28 @@ const items = [
     country: 'US',
   },
   {
-    name: 'mobamba604',
+    name: 'Alexandra Botez',
+    masterTitle: 'IM',
     imageSrc:
-      'https://images.chesscomfiles.com/uploads/v1/user/23151876.e583359a.160x160o.89d90ec9f4d8.jpeg',
-    href: '/treasures?username=mobamba604',
-    rating: 2087,
+      'https://images.chesscomfiles.com/uploads/v1/user/28583276.26b0cd3b.160x160o.fcbeec9a680e.jpeg',
+    href: '/treasures?username=alexandrabotez',
+    rating: 2244,
+    country: 'US',
+  },
+  {
+    name: 'Eric Hansen',
+    masterTitle: 'GM',
+    imageSrc:
+      'https://images.chesscomfiles.com/uploads/v1/user/1647368.72a2daa7.160x160o.05329203c4c9.gif',
+    href: '/treasures?username=erichansen',
+    rating: 2986,
     country: 'US',
   },
 ]
 
 export const desktop = () => {
   return (
-    <div className='w-[1080px]'>
-      <FeaturedPlayers seeAllUrl="/treasures" players={items} />
-    </div>
-  )
-}
-
-export const mobile = () => {
-  return (
-    <div className='w-[360px]'>
+    <div className="max-w-[1280px]">
       <FeaturedPlayers seeAllUrl="/treasures" players={items} />
     </div>
   )

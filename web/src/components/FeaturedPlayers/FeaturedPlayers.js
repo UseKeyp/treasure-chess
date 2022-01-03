@@ -2,8 +2,8 @@ import { Link } from '@redwoodjs/router'
 import HeaderBar from '../HeaderBar/HeaderBar'
 import { getFlagBase64 } from '@treasure-chess/treasure-html'
 
-const FeaturedPlayers = (props) => {
-  const players = props.players?.map((player, i) => {
+const FeaturedPlayers = ({ seeAllUrl, players }) => {
+  const playerIcons = players?.map((player, i) => {
     const flagImageSrc = getFlagBase64(player.country)
 
     return (
@@ -11,7 +11,7 @@ const FeaturedPlayers = (props) => {
         className=" max-w-[136px] max-h-[170px] p-2 block rounded-xl bg-chessBlack-300 shadow-sm"
         key={i}
       >
-        <Link to={player.href}>
+        <Link to={player.url}>
           <img className="w-[120px] rounded-lg" src={player.imageSrc} alt="" />
         </Link>
         <h3 className="text-[12px] font-bold lg:whitespace-nowrap">
@@ -32,8 +32,8 @@ const FeaturedPlayers = (props) => {
     <div>
       <HeaderBar text="Featured Players" />
       <div className="grid grid-cols-4 gap-4 md:grid-cols-8">
-        {players}
-        <Link to={props.seeAllUrl}>
+        {playerIcons}
+        <Link to={seeAllUrl}>
           <div className="max-w-[136px] max-h-[170px] h-[100%] p-2 block rounded-xl bg-chessBlack-300 text-center text-xs font-bold text-grey shadow-sm">
             <img src="TreasureChess.png" alt="" />
             All Treasures

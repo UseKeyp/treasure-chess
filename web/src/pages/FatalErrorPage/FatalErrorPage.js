@@ -6,6 +6,7 @@
 // avoid the possibility that it will cause its own error. If it does, Redwood will
 // still render a generic error page, but your users will prefer something a bit more
 // thoughtful. =)
+import globalConfig from 'src/global.config'
 
 export default () => (
   <main>
@@ -13,42 +14,169 @@ export default () => (
       dangerouslySetInnerHTML={{
         __html: `
               html, body {
+                position: fixed;
                 margin: 0;
+                height: 100%;
+                width: 100%;
               }
               html * {
                 box-sizing: border-box;
               }
-              main {
-                display: flex;
-                align-items: center;
-                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
-                text-align: center;
-                background-color: #E2E8F0;
-                height: 100vh;
+              @media all and (min-width:800px) {
+                .header-container {
+                  max-width: 80rem;
+                  margin: 0 auto;
+                  height: 66px;
+                  display: flex;
+                  flex-direction: row;
+                  justify-content: space-between;
+                  align-items: center;
+                  padding: 2.5ex 2ex;
+                  background: #272522;
+                  border-radius: 12px;
+                }
+                .header-buttons-container {
+                  margin-left: auto;
+                  font-size: 16px;
+                }
+                .header-buttons {
+                  display: inline-flex;
+                  font-weight: bold;
+                  margin-right: 2rem;
+                }
+
+                .footer-info {
+                  position: relative;
+                  margin-left: 8rem;
+
+                }
+
+                .header-mobile {
+                  display: none;
+                }
               }
-              section {
-                background-color: white;
-                border-radius: 0.25rem;
-                width: 32rem;
-                padding: 1rem;
-                margin: 0 auto;
-                box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+
+              @media all and (max-width:800px) {
+                .header-container {
+                  max-width: 80rem;
+                  margin: 0 auto;
+                  height: 66px;
+                  display: flex;
+                  flex-direction: row;
+                  justify-content: space-between;
+                  align-items: center;
+                  padding: 2.5ex 2ex;
+                  background: #272522;
+                  border-radius: 12px;
+                }
+                .header-mobile {
+                  font-weight: bold;
+                }
+                .header-container div {
+                  display: none;
+                }
               }
-              h1 {
-                font-size: 2rem;
-                margin: 0;
-                font-weight: 500;
-                line-height: 1;
-                color: #2D3748;
-              }
+
+              .error-container {
+                  position: relative;
+                  top: 25vh;
+                  max-width: 50rem;
+                  margin: 0 auto;
+                }
+                .error-title {
+                  margin-bottom: 1rem;
+                }
+                .error-content {
+                  height: auto;
+                  background: #272522;
+                  border-radius: 12px;
+                  padding: 16px;
+                }
+                .error-content h4 {
+                  font-weight: bold;
+                }
+
+                .footer-container {
+                  position: fixed;
+                  left: 50%;
+                  transform: translateX(-50%);
+                  bottom: 0;
+                  max-width: 80rem;
+                  display: flex;
+                  flex-wrap: wrap;
+                  flex-direction: row;
+                  font-size: 13px;
+                  justify-content: space-around;
+                  text-align: center;
+                  margin-bottom: 2rem;
+                }
+                .footer-container img {
+                  margin-right: 1rem
+                }
+                .footer-container div {
+                  display: inline-flex;
+                  align-items: center;
+                }
+                .footer-info a {
+                  margin-right: 1rem;
+                }
+
             `,
       }}
     />
-
-    <section>
-      <h1>
-        <span>Oops, we had an issue</span>
-      </h1>
-    </section>
+    <div
+      dangerouslySetInnerHTML={{
+        __html: `
+              <div class="fatal-error-container">
+                <div class="header-container">
+                  <a href="/">
+                    <img src="TreasureChessLogo.png" alt="TreasureChess.com" />
+                  </a>
+                  <h3 class="header-mobile">Menu</h3>
+                  <div class="header-buttons-container">
+                    <a class="header-buttons" href="/treasures">
+                      <img src="/icons/TreasureChessChest.svg" alt="" />
+                      Treasures
+                    </a>
+                    <a class="header-buttons" href="/about">
+                      <img src="/icons/TreasureChessHelpIcon.png" alt="" />
+                      About
+                    </a>
+                  </div>
+                </div>
+                <div class="error-container">
+                  <h1 class="error-title">Oops!</h1>
+                  <div class="error-content">
+                    <h4>Something went wrong</h4>
+                    <p>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
+                      ultricies, nulla et tempus egestas, lacus nisi congue nisl, ac
+                      euismod dolor mi nec dui. Aliquam.
+                    </p>
+                  </div>
+                </div>
+                <div class="footer-container">
+                  <div class="footer-socials">
+                    <a href=${globalConfig.DISCORD_URL}>
+                      <img src="/icons/discord.svg" alt="" />
+                    </a>
+                    <a href={globalConfig.BLOG_URL}>Blog</a>
+                  </div>
+                  <div class="footer-info">
+                    <a href=${globalConfig.TOC_URL}>Terms of Service</a>
+                    <a href=${globalConfig.PRIVACY_POLICY_URL}>Privacy Policy</a>
+                    <a href=${globalConfig.SUPPORT_URL}>Support</a>
+                  </div>
+                  <div class="footer-branding">
+                    <a href=${globalConfig.CHESS_COM_BASE_URL}>
+                      <img src="/icons/chess_com.svg" alt="" />
+                    </a>
+                    <p>@ Nifty Chess, Inc.2021</p>
+                  </div>
+                </div>
+              </div>
+        `,
+      }}
+    />
   </main>
 )

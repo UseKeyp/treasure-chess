@@ -5178,10 +5178,10 @@
   dependencies:
     chess.js "^0.12.0"
 
-"@treasure-chess/chess-image-generator@^1.4.4":
-  version "1.4.5"
-  resolved "https://registry.npmjs.org/@treasure-chess/chess-image-generator/-/chess-image-generator-1.4.5.tgz#caeffda4ab502687fb8a9fbbbc6d7ee700849f64"
-  integrity sha512-ZpsxKbqSHaG/b3hCm1S1n/GB1jUkFtd/zuBZoQms7NItPWiGIxcpRut0Qn2gLte0qm/jpPjpubSb4b+uWrt1vw==
+"@treasure-chess/chess-image-generator@^1.4.6":
+  version "1.4.6"
+  resolved "https://registry.yarnpkg.com/@treasure-chess/chess-image-generator/-/chess-image-generator-1.4.6.tgz#9fad7a3ad4cba1cee68231ea565f299811078259"
+  integrity sha512-gGcELy3y34ZBXbAkaVvtdFxCIoSm0GNYZCClPfWMPfHHK5JHhlOLSgexZJleGL9pR/dy8QYV6MhMyN8vyeENwQ==
   dependencies:
     canvas "^2.8.0"
     chess.js "^0.10.2"

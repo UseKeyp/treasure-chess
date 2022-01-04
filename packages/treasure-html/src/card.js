@@ -1,7 +1,21 @@
 const card = `<html>
 	<head>
+  <!--
+   /$$$$$$$$                                                                           /$$$$$$  /$$
+  |__  $$__/                                                                          /$$__  $$| $$
+     | $$  /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$$ /$$   /$$  /$$$$$$   /$$$$$$       | $$  \\__/| $$$$$$$   /$$$$$$   /$$$$$$$ /$$$$$$$
+     | $$ /$$__  $$ /$$__  $$ |____  $$ /$$_____/| $$  | $$ /$$__  $$ /$$__  $$      | $$      | $$__  $$ /$$__  $$ /$$_____//$$_____/
+     | $$| $$  \\__/| $$$$$$$$  /$$$$$$$|  $$$$$$ | $$  | $$| $$  \\__/| $$$$$$$$      | $$      | $$  \\ $$| $$$$$$$$|  $$$$$$|  $$$$$$
+     | $$| $$      | $$_____/ /$$__  $$ \\____  $$| $$  | $$| $$      | $$_____/      | $$    $$| $$  | $$| $$_____/ \\____  $$\\____  $$
+     | $$| $$      |  $$$$$$$|  $$$$$$$ /$$$$$$$/|  $$$$$$/| $$      |  $$$$$$$      |  $$$$$$/| $$  | $$|  $$$$$$$ /$$$$$$$//$$$$$$$/
+     |__/|__/       \\_______/ \\_______/|_______/  \\______/ |__/       \\_______/       \\______/ |__/  |__/ \\_______/|_______/|_______/
+
+  Hey, you! Looking for a job?
+  https://github.com/treasure-chess/jobs/blob/main/fe-dev.md
+  -->
     <title id="page-title">Treasure</title>
-    <meta content="Treasure Chess" property="og:title" />
+    <meta property="og:title" content="Treasure Chess" />
+    <meta property="og:description" content="Treasure Chess" />
     <meta name="description" content="A collectible game of chess">
     <meta name="keywords" content="treasure, chess, NFT, collectibe, chess.com">
     <meta name="author" content="Treasure Chess">

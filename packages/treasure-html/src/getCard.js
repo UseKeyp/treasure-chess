@@ -85,6 +85,19 @@ const getCardHtml = async ({ treasure, gifBase64, gifUrl }) => {
       if (!element) return // console.log(`No element with id ${id}`)
       element.setAttribute(tag, content)
     }
+    const updateMetaTag = (id, tag, content) => {
+      const metas = doc.getElementsByTagName('meta')
+      let element
+      for (let i = 0; i < Object.entries(metas).length; i++) {
+        if (
+          metas[i].getAttribute('property') === id ||
+          metas[i].getAttribute('name') === id
+        ) {
+          element = metas[i]
+        }
+      }
+      element.setAttribute(tag, content)
+    }
     const updateStyle = (id, property, content) => {
       const element = doc.getElementById(id)
       if (!element) return // console.log(`No element with id ${id}`)
@@ -95,6 +108,9 @@ const getCardHtml = async ({ treasure, gifBase64, gifUrl }) => {
         .replace(re, `${property}: ${content};`)
       element.setAttribute('style', style)
     }
+
+    // Meta tags
+    // updateMetaTag('og:title', 'content', treasure.title)
 
     // Card color
     if (treasure.cardColor === 'black') {

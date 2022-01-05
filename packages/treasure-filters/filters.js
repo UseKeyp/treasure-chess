@@ -79,7 +79,7 @@ const terminationList = [
   'Agreement',
   'Insufficient Material',
 ]
-const rarityList = ['Common', 'Uncommon', 'Rare', 'Mythic']
+const rarityList = ['Normal', 'Great', 'Ultra', 'Mythic']
 const saleList = ['For Sale', 'Unlisted']
 const outcomeList = ['black', 'white', 'draw']
 

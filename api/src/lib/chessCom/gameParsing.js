@@ -77,7 +77,9 @@ const parseGameFromChessDotCom = (game) => {
     whiteRating: game.white.rating,
     whiteRatingDelta: game.white.rating - whiteRatingBefore,
     timeControl,
-    termination,
+    termination: termination
+      .split(/( on | by )/)[2]
+      .replace(/^\w/, (c) => c.toUpperCase()),
     endTime: new Date(game.end_time * 1000),
     outcome: winner,
     moves,

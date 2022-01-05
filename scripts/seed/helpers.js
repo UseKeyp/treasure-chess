@@ -134,7 +134,9 @@ export const generateTreasureDataOffline = ({
     blackMasterTitle: black.title,
     whiteMasterTitle: white.title,
     timeControl: game.timeControl,
-    termination: game.termination,
+    termination: game.termination
+      .split(/( on | by )/)[2]
+      .replace(/^\w/, (c) => c.toUpperCase()),
     endTime: game.endTime,
     outcome: game.outcome,
     event: game.event,

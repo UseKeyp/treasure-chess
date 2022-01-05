@@ -75,7 +75,7 @@ const terminationList = [
   'Resignation',
   'Time',
   'Repetition',
-  'Stalemate',
+  'Agreement',
   'Insufficient Material',
 ]
 const rarityList = ['Common', 'Uncommon', 'Rare', 'Mythic']

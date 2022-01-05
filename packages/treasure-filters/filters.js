@@ -73,6 +73,7 @@ const terminationList = [
   'Any',
   'Checkmate',
   'Resignation',
+  'Time',
   'Stalemate',
   'Insufficient Material',
 ]

@@ -11,8 +11,10 @@ const ItemSaleInteraction = ({ isOwner, onClick, price, listStatus }) => {
         : 'Buy'
     return (
       <Button
-        className={`w-[272px] h-[40px] text-xl shadow-md ${
-          isOwner ? 'hover:bg-[#ffc82f]' : 'hover:bg-green'
+        className={`w-[272px] h-[40px] text-xl shadow-m hover:sm ${
+          isOwner
+            ? 'hover:bg-[#ffc82f] hover:shadow-orange'
+            : 'hover:bg-green hover:shadow-greenDark'
         } ${listStatus === 'LOADING' && 'pointer-events-none'}`}
         label={isOwner ? 'Unlist' : buttonText}
         variant={

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import ItemSaleInteraction from './ItemSaleInteraction'
 
 export const generated = () => {

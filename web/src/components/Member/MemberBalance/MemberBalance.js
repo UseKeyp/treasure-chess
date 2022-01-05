@@ -1,7 +1,9 @@
 import LoadingDots from 'src/components/LoadingDots'
+import { useWallet } from 'src/providers/wallet'
 
-const MemberBalance = ({ userBalance, isError }) => {
-  if (isError)
+const MemberBalance = () => {
+  const { usdcBalance, balanceError } = useWallet()
+  if (balanceError)
     return (
       <div className="memberBalance">
         <h4 className="memberBalance__title">Couldn&apos;t get balance</h4>
@@ -11,7 +13,7 @@ const MemberBalance = ({ userBalance, isError }) => {
     <div className="memberBalance">
       <h4 className="memberBalance__title">Balance</h4>
       <h4 className="memberBalance__balance">
-        {userBalance ? `$${userBalance}` : <LoadingDots />}
+        {usdcBalance ? `$${usdcBalance}` : <LoadingDots />}
       </h4>
     </div>
   )

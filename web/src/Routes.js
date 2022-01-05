@@ -11,6 +11,7 @@ const Routes = () => {
         <Route path="/" page={HomePage} name="home" />
         <Route path="/about" page={FaqPage} name="faq" />
         <Route path="/login" page={LoginPage} name="login" />
+        <Route notfound page={NotFoundPage} />
         <Set wrap={MembersLayout}>
           <Route path="/members/{usernameOrAddress}" page={MemberMemberPage} name="member" />
           <Private unauthenticated="login">
@@ -22,7 +23,6 @@ const Routes = () => {
           <Route path="/treasures" page={TreasureTreasuresPage} name="treasures" />
         </Set>
       </Set>
-      <Route notfound page={NotFoundPage} />
     </Router>
   )
 }

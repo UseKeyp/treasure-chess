@@ -49,3 +49,7 @@ jobs:
       - name: Build
         run: yarn rw build
         shell: bash
+      # - name: Check serverless size
+      #   run: yarn zip-it-and-ship-it api/dist/functions/ zipped
+      #   shell: bash
+      # TODO: throw error if size exceeds limit

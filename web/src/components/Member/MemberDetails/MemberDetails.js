@@ -1,55 +1,75 @@
 import Avatar from 'src/components/Avatar'
+import Button from 'src/components/Button/Button'
+import Icon from 'src/components/Icon'
+
+import MemberBalance from 'src/components/Member/MemberBalance'
+
 import globalConfig from 'src/global.config'
-import Section from 'src/components/Section'
-import Button from 'src/components/Button'
-import MemberBalanceCell from 'src/components/Member/MemberBalanceCell'
-import { trimAddress } from 'src/utils/helpers'
 
 import { getFlagBase64 } from '@treasure-chess/treasure-html'
-import Icon from 'src/components/Icon' //TODO Replace it when <Icon> component is done
+import { useWallet } from 'src/providers/wallet'
+
+import { trimAddress } from 'src/utils/helpers'
 
 const MemberDetails = ({ member, isProfile }) => {
-  const onClickAddress = () => {}
+  const { deposit, withdraw, getAddress } = useWallet()
 
   return (
-    <Section>
-      <div className="MemberDetails">
-        <div className="MemberDetails__avatarWrapper">
-          <Avatar size="96px" src={member.imageSrc} />
+    <section className="member-details p-4">
+      <div className="member-details--inner">
+        <div className="member-details--avatar">
+          <Avatar size="8rem" src={member.imageSrc} />
         </div>
-        <div className="MemberDetails__middleColumnWrapper">
-          <h3 className="MemberDetails__username">
+
+        <div className="member-details--member-info">
+          <h3>
             <a
               href={`${globalConfig.CHESS_COM_BASE_URL}members/${member.username}`}
               target="_blank"
               rel="noopener noreferrer"
+              className="font-bold"
             >
               {member.username}
             </a>
           </h3>
-          <p className="MemberDetails__address">
-            {trimAddress(member.address)}
-            <button onClick={onClickAddress}>
+          <div className="flex mt-2">
+            <p className="mr-2">{trimAddress(member.address)}</p>
+            <button onClick={getAddress}>
               <Icon name="copy" color="#147DDD" />
             </button>
-          </p>
-          <div className="MemberDetails__flagsRow">
+          </div>
+          <div className="mt-2">
             {member.masterTitle && <p>{member.masterTitle}</p>}
             <img
               alt={`Flag of ${member.country}`}
-              className="MemberDetails__flagsRow__countryFlag"
               src={getFlagBase64(member.country)}
             />
           </div>
         </div>
+
         {isProfile && (
-          <div className="MemberDetails__rightColumnWrapper">
-            <h4 className="MemberDetails__rightColumnWrapper__balance">
-              <MemberBalanceCell />
+          <div className="member-details--funds-actions">
+            <h4>
+              <MemberBalance />
             </h4>
-            <Button>Deposit Funds</Button>
-            <Button>Withdraw Funds</Button>
-            <p>
+            <Button
+              onClick={deposit}
+              variant="green"
+              size="small"
+              className="w-40"
+            >
+              Deposit Funds
+            </Button>
+            <Button
+              onClick={withdraw}
+              variant="orange"
+              textColor="black"
+              size="small"
+              className="w-40"
+            >
+              Withdraw Funds
+            </Button>
+            <p className="mt-2">
               <a
                 href={globalConfig.HOW_TO_BUY_URL}
                 target="_blank"
@@ -61,7 +81,7 @@ const MemberDetails = ({ member, isProfile }) => {
           </div>
         )}
       </div>
-    </Section>
+    </section>
   )
 }
 

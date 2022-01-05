@@ -40,7 +40,7 @@
     display: flex;
   }
   &__player-nick {
-    font-size: calc(13 / 16 * 1rem);
+    font-size: min(2.8vw, 12px);
     font-weight: bold;
   }
   &__item {

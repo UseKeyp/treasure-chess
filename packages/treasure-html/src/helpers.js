@@ -65,13 +65,14 @@ export const iconByName = (name, color) => {
 }
 
 export const getRarityColor = (points) => {
-  if (!points) return '#ABB6B9'
-  if (points < 6) return '#ABB6B9'
-  if (points < 11) return '#88C54B'
-  if (points < 14) return '#47A7FF'
-  return '#FFBB0D'
+  if (!points) return '#8a8886'
+  if (points < 6) return '#8a8886'
+  if (points < 11) return '#7ea650'
+  if (points < 14) return '#c1a35a'
+  return '#0096C6'
 }
 
+// Note: Unused, since it reduces performance enough to matter
 export const formatXml = (xml, tab) => {
   // tab = optional indent value, default is tab (\t)
   var formatted = '',

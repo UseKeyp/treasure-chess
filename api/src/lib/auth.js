@@ -7,7 +7,13 @@ export const getCurrentUser = async (session) => {
   const member = await db.member.findUnique({
     where: { id: session.id },
     // Warning: don't send any confidential data here
-    select: { id: true, username: true, address: true, imageSrc: true },
+    select: {
+      id: true,
+      username: true,
+      address: true,
+      imageSrc: true,
+      mintCredits: true,
+    },
   })
   if (!member) return null
   // WARNING: Returned values here are exposed to the FE

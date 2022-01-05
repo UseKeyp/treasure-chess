@@ -2,23 +2,31 @@ import { useState } from 'react'
 import { createPortal } from 'react-dom'
 import { Link, routes, useLocation } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
+import { useParams } from '@redwoodjs/router'
 
 import Avatar from 'src/components/Avatar/Avatar'
-import SearchBar from 'src/components/Marketplace/SearchBar'
+import Button from 'src/components/Button/Button'
+
+import UsernameSearchBar from 'src/components/UsernameSearchBar'
+import MemberBalance from 'src/components/Member/MemberBalance'
 import { ReactComponent as TreasureChest } from 'src/assets/icons/TreasureChessChest.svg'
 
 import { trimAddress } from 'src/utils/helpers'
 
-import styles from './Header.module.scss'
-
 const WalletBalance = () => {
   return (
     <div className="flex flex-col flex-1 text-sm">
-      <div className={styles['nav--balance']}>Balance $62</div>
+      <div className={'header__nav__balance'}>
+        <MemberBalance />
+      </div>
       <div>
-        <a href="/fund-wallet" className={styles['nav--fund-wallet']}>
+        <Button
+          href="/fund-wallet"
+          textColor="blue"
+          className={'header__nav__fund-wallet'}
+        >
           Fund Wallet
-        </a>
+        </Button>
       </div>
     </div>
   )
@@ -39,21 +47,13 @@ const MobileNav = () => {
   }, [pathname])
 
   if (!isOpen) {
-    return (
-      <button
-        type="button"
-        className="font-bold hover:underline"
-        onClick={() => setOpen(true)}
-      >
-        Menu
-      </button>
-    )
+    return <Button onClick={() => setOpen(true)}>Menu</Button>
   }
 
   return createPortal(
     <div
       className="fixed flex inset-0"
-      style={{ backgroundColor: 'hsla(36, 7%, 14%, 1)' }}
+      style={{ backgroundColor: 'hsla(36, 7%, 14%, 1)', zIndex: 100 }}
       role="dialog"
       aria-label="Mobile navigation"
     >
@@ -61,15 +61,13 @@ const MobileNav = () => {
         <nav>
           <ul className="h-full relative">
             <li className={navItemClasses}>
-              <Link to={routes.home()}>
+              <Button to={routes.home()}>
                 <img src="/TreasureChessLogo.png" alt="TreasureChess.com" />
                 <span className="sr-only">home</span>
-              </Link>
+              </Button>
             </li>
             <li className={navItemClasses}>
-              <Link to={routes.treasures()} className={navAnchorClasses}>
-                Treasures
-              </Link>
+              <Button to={routes.treasures()}>Treasures</Button>
             </li>
             <li className={navItemClasses}>
               <Link to={routes.faq()} className={navAnchorClasses}>
@@ -88,25 +86,23 @@ const MobileNav = () => {
               </li>
             ) : null}
             <li className="absolute" style={{ bottom: '10%' }}>
-              <button
-                type="button"
-                className={navAnchorClasses}
-                onClick={() => setOpen(false)}
-              >
+              <Button onClick={() => setOpen(false)} size="large">
                 Close Menu
-              </button>
+              </Button>
             </li>
           </ul>
         </nav>
       </div>
     </div>,
-    document.querySelector('body')
+    document.querySelector('body'),
   )
 }
 
 const Header = () => {
   const { isAuthenticated: isLoggedIn, currentUser: profile, logIn } = useAuth()
   const { pathname } = useLocation()
+  const params = useParams()
+  const { username: initialUsername = '', ...currentFilter } = params
 
   const handleLogIn = () => logIn({ redirectTo: pathname })
 
@@ -114,32 +110,52 @@ const Header = () => {
 
   const address = trimAddress(profile?.address) || 'No address set'
 
+  const onUpdateUsername = (newUsername) => {
+    const searchParams = new URLSearchParams(currentFilter)
+    searchParams.append('username', newUsername)
+    const newPath = searchParams.toString()
+      ? window.location.pathname + '?' + searchParams.toString()
+      : window.location.pathname
+    window.history.replaceState({}, '', newPath)
+  }
+
   return (
-    <div className={styles.header}>
-      <div className={styles.iconSearch}>
-        <Link to={routes.home()}>
+    <div className={'header'}>
+      <div className={'header__iconSearch'}>
+        <Button to={routes.home()} className="mr-4">
           <img src="/TreasureChessLogo.png" alt="TreasureChess.com" />
-        </Link>
-        <div className="hidden lg:block">
-          <SearchBar />
+        </Button>
+        <div className="hidden mr-4 lg:block">
+          <UsernameSearchBar
+            initialQuery={initialUsername}
+            setQuery={onUpdateUsername}
+          />
         </div>
       </div>
       <div className="flex flex-1 items-center justify-end lg:hidden">
         <MobileNav />
       </div>
-      <div className={`${styles.nav} hidden lg:flex`}>
+      <div className={'header__nav hidden lg:flex'}>
         <div className="flex-1 flex items-center">
-          <div>
-            <Link to={routes.treasures()} className="font-bold">
-              <TreasureChest />
-              Treasures
-            </Link>
+          <div className="mr-4">
+            <Button to={routes.treasures()} size="large">
+              <div className="flex items-center">
+                <TreasureChest className="mr-2" />
+                Treasures
+              </div>
+            </Button>
           </div>
           <div>
-            <Link to={routes.faq()} className="font-bold">
-              <img src="/icons/TreasureChessHelpIcon.png" alt="" />
-              About
-            </Link>
+            <Button to={routes.faq()} size="large">
+              <div className="flex items-center">
+                <img
+                  src="/icons/TreasureChessHelpIcon.png"
+                  alt=""
+                  className="mr-2"
+                />
+                About
+              </div>
+            </Button>
           </div>
         </div>
         {isLoggedIn ? (
@@ -149,22 +165,22 @@ const Header = () => {
             </div>
             <div className="mr-4">
               <div className="flex flex-col text-sm text-left">
-                <Link className={styles['nav--username']} to={routes.profile()}>
+                <Button
+                  to={routes.profile()}
+                  textColor="blue"
+                  className="header__nav__username"
+                >
                   {profile.username}
-                </Link>
-                <div className={styles['nav--address']}>{address}</div>
+                </Button>
+                <div className="header__nav__address">{address}</div>
               </div>
             </div>
             <WalletBalance />
           </div>
         ) : (
-          <button
-            type="button"
-            className={styles['nav--login']}
-            onClick={() => handleLogIn()}
-          >
+          <Button textColor="blue" onClick={() => handleLogIn()}>
             Log In
-          </button>
+          </Button>
         )}
       </div>
     </div>

@@ -1,13 +1,13 @@
 import React from 'react'
-import { ThemeProvider } from '../src/providers/theme'
-import AllContextProviders from '../src/providers/context'
+import AllContextProviders from '../src/providers'
+import { RedwoodApolloProvider } from '@redwoodjs/web/apollo'
 
 export const decorators = [
   (Story) => (
-    <ThemeProvider>
+    <RedwoodApolloProvider>
       <AllContextProviders>
         <Story />
       </AllContextProviders>
-    </ThemeProvider>
+    </RedwoodApolloProvider>
   ),
 ]

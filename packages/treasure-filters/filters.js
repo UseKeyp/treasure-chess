@@ -13,6 +13,7 @@ const achievementList = require('@treasure-chess/chess-achievements/src/achievem
 //   { name: '2200 - 2399', value: [2200, 2399] },
 //   { name: '2400+', value: [2400, 9999] },
 // ]
+
 const timeControlList = [
   {
     name: '1 minute',
@@ -55,28 +56,31 @@ const moveCountList = [
 // Items without name/value pair
 const titleList = ['gm', 'im', 'nm']
 const openingList = [
-  "King's pawn game",
+  "King's Pawn Game",
   "Queen's Gambit",
   'Ruy Lopez',
   'French Defense',
   'Caro-Kann',
   'Reti Opening',
   'English',
-  'Norwegian',
-  'Italian',
+  'Norwegian', // Not in chess-achiemvements?
   "Bird's Opening",
   'Scandinavian',
-  'Scotch',
+  'Scotch Game',
 ]
 const colorList = ['white', 'black']
 const terminationList = [
+  'Any',
   'Checkmate',
   'Resignation',
   'Stalemate',
+  'Time',
+  'Repetition',
+  'Agreement',
   'Insufficient Material',
 ]
-const rarityList = ['Common', 'Uncommon', 'Rare', 'Mythic']
-const saleList = ['All', 'For Sale', 'Unlisted']
+const rarityList = ['Good', 'Great', 'Ultra', 'Mythic']
+const saleList = ['For Sale', 'Unlisted']
 const outcomeList = ['black', 'white', 'draw']
 
 const filters = {

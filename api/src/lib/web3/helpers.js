@@ -1,4 +1,7 @@
 import { JsonRpcProvider, InfuraProvider } from '@ethersproject/providers'
+const { getIdFromNetworkName } = require('@treasure-chess/web3-helpers')
+
+const CHAIN_ID = getIdFromNetworkName(process.env.ETHEREUM_NETWORK_NAME)
 
 export const getProviderByChainId = (chainId) => {
   try {
@@ -12,3 +15,5 @@ export const getProviderByChainId = (chainId) => {
     throw new Error(error)
   }
 }
+
+export const web3Provider = getProviderByChainId(CHAIN_ID)

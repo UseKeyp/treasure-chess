@@ -1,14 +1,32 @@
-import { GamesContext } from 'src/providers/context/GamesContext'
 import { P } from 'src/components/Typography'
 import Loader from 'src/components/Loader'
-
+import styles from './GameCard.module.scss'
+const {
+  getBoardLayout,
+  getBoardBase64,
+} = require('@treasure-chess/chess-image-generator')
 import { getCardHtml } from '@treasure-chess/treasure-html'
 import placeholderGame from './placeholderGameData'
+import { useSpring, animated } from '@react-spring/web'
 
-const GameCard = ({ game, isMinting }) => {
-  const [context] = React.useContext(GamesContext)
-  const { gameTitle } = context
+const calc = (x, y) => [-y / 140, x / 45, 1.05]
+const trans = (x, y, s) =>
+  `perspective(600px) rotateX(${x}deg) rotateY(${y}deg) scale(${s})`
+
+const options = {
+  size: 400,
+  dark: 'rgb(181, 137, 98)',
+  light: 'rgb(241, 216, 180)',
+  style: 'neo',
+}
+
+const GameCard = ({ game, isMinting, title, showGif }) => {
   const [cardHtml, setCardHtml] = React.useState()
+  const [props, set] = useSpring(() => ({
+    xys: [0, 0, 1],
+    config: { mass: 4, tension: 450, friction: 40 },
+  }))
+  const [imageSrc, setImageSrc] = React.useState('/loading-board.png') // Use loading image
   const update = async () => {
     let raw
     if (isMinting && !game) {
@@ -18,26 +36,48 @@ const GameCard = ({ game, isMinting }) => {
       })
     } else {
       raw = await getCardHtml({
-        treasure: { ...game, title: gameTitle || game.title || 'Add a title' },
-        gifUrl: game.gifUrl,
+        treasure: { ...game, title: title || game.title || 'Add a title' },
+        gifUrl: showGif ? game.gifUrl : imageSrc,
       })
     }
     setCardHtml(raw)
+  }
+
+  const fetchImageAndUpdate = async () => {
+    let boardLayout
+    try {
+      // TODO: properly load the board layout from BE
+      boardLayout = JSON.parse(game.boardLayout)
+    } catch (e) {
+      // console.log(e)
+    }
+    if (!boardLayout) boardLayout = getBoardLayout(game.moves)
+    const boardBase64 = await getBoardBase64(
+      boardLayout,
+      game.cardColor, // Which player to show on bottom
+      options
+    )
+    setImageSrc(boardBase64)
   }
 
   React.useEffect(() => {
     if (!isMinting && !game) return
     update()
     /* eslint-disable react-hooks/exhaustive-deps */
-  }, [game, gameTitle, isMinting])
+  }, [game, title, isMinting, imageSrc])
+
+  React.useEffect(() => {
+    if (!showGif) fetchImageAndUpdate()
+    /* eslint-disable react-hooks/exhaustive-deps */
+  }, [game])
 
   if (!isMinting && !game) return null
   return (
-    <div className="game-card-wrapper">
+    <div className={styles.gameCardWrapper}>
       {isMinting && (
         <>
-          <div className="game-card-minting-overlay" />
-          <div className="game-card-minting-container">
+          <div className={styles.gameCardMintingContainer}>
+            <div className={styles.gameCardMintingOverlay} />
             <div className="items-center">
               <Loader />
               <P fontWeight={700} fontSize={16} color={'chessBlack.100'}>
@@ -49,8 +89,28 @@ const GameCard = ({ game, isMinting }) => {
           </div>
         </>
       )}
-      <div
-        className="game-card-html"
+      <animated.div
+        id={`card_${game.id}`}
+        className={
+          game.tokenId
+            ? `${styles.gameCardHtml} ${styles.mintedCardHtml}`
+            : `${styles.gameCardHtml} ${styles.isDisabled}`
+        }
+        onMouseMove={(e) => {
+          var div = document
+            .getElementById(`card_${game.id}`)
+            .getBoundingClientRect()
+          set({
+            xys: calc(
+              e.clientX - div.left - div.width / 2,
+              e.clientY - div.top - div.height / 2
+            ),
+          })
+        }}
+        onMouseLeave={() => set({ xys: [0, 0, 1] })}
+        style={{
+          transform: game.id && !isMinting && props.xys.to(trans),
+        }}
         dangerouslySetInnerHTML={{ __html: cardHtml }}
       />
     </div>

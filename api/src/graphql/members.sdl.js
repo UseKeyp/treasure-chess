@@ -29,11 +29,9 @@ export const schema = gql`
     activity: JSON
   }
 
-  type Query {
-    members: [Member!]! @skipAuth
-    member(usernameOrAddress: String!): Member @skipAuth
-    usernames(query: String!): [String]! @skipAuth
-    profile: Profile! @requireAuth
+  type MemberBalance {
+    usdcBalance: String!
+    mintCreditBalance: Int!
   }
 
   input CreateMemberInput {
@@ -50,5 +48,13 @@ export const schema = gql`
     imageSrc: String
     country: String
     masterTitle: String
+  }
+
+  type Query {
+    members: [Member!]! @skipAuth
+    member(usernameOrAddress: String!): Member @skipAuth
+    usernames(query: String!): [String]! @skipAuth
+    profile: Profile! @requireAuth
+    memberBalance: MemberBalance! @requireAuth
   }
 `

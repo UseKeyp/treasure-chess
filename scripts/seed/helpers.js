@@ -7,6 +7,7 @@ const {
   parseGameFromChessDotCom,
 } = require('../../api/src/lib/chessCom/gameParsing')
 const { getGifUrl } = require('../../api/src/lib/chessCom/gifGetter')
+const { getBoardLayout } = require('../../api/src/lib/helpers')
 
 const realGames = require('./data/realGames.json')
 const randomTitles = require('./data/randomTitles.json')
@@ -57,7 +58,7 @@ const generateRandomTreasures = (count, highestTokenId, members) => {
       const realGame = realGames[randomInt(0, realGames.length - 1)]
 
       const game = parseGameFromChessDotCom(realGame)
-      const treasure = generateTreasureData({
+      const treasure = generateTreasureDataOffline({
         game,
         title: randomTitles[randomInt(0, randomTitles.length - 1)],
         minter,
@@ -75,7 +76,7 @@ const generateRandomTreasures = (count, highestTokenId, members) => {
     })
 }
 
-export const generateTreasureData = ({
+export const generateTreasureDataOffline = ({
   game,
   title,
   minter,
@@ -138,6 +139,7 @@ export const generateTreasureData = ({
     outcome: game.outcome,
     event: game.event,
     moves: game.moves,
+    boardLayout: JSON.stringify(getBoardLayout(game.moves)),
     moveCount: game.moveCount,
     ruleVariant: game.ruleVariant,
     externalUrl: game.externalUrl,

@@ -45,7 +45,7 @@ export const loadingTableExample = () => {
           left: '16px',
         }}
       >
-        <RowsSkeleton rowCount={50} />
+        <RowsSkeleton height={56} rowCount={50} />
       </div>
     </div>
   )

@@ -74,6 +74,7 @@ const terminationList = [
   'Checkmate',
   'Resignation',
   'Time',
+  'Repetition',
   'Stalemate',
   'Insufficient Material',
 ]

@@ -10,29 +10,9 @@
   margin: auto;
   width: 100%;
 
-  ::selection {
-    background-color: hsla(92, 41%, 44%, 1);
-  }
-  a {
-    transition: all 0.25s;
-    &:hover {
-      background-color: rgb(200 200 200 / 0.5);
-      border: 1px solid transparent;
-      border-radius: 4px;
-      transform: translateY(-3px);
-    }
-  }
   &__iconSearch {
     display: flex;
     align-items: center;
-
-    a {
-      padding-right: 1em;
-      user-select: none;
-      > img {
-        max-width: none;
-      }
-    }
   }
   &__nav {
     width: clamp(260px, 33vw, 400px);
@@ -40,29 +20,8 @@
     flex: 1;
     margin-right: 0.75em;
     user-select: none;
-    button {
-      margin-left: 1em;
-      transform: translateY(-2px);
-    }
-    a {
-      display: flex;
-      align-items: center;
-      padding: 1ex 1em;
-      &:hover {
-        text-decoration: none;
-      }
-      &:focus {
-        outline: 1px solid white;
-      }
-      > img,
-      svg {
-        margin-right: 1ex;
-        transform: translateY(-2px);
-      }
-    }
     &__username,
     &__login {
-      color: theme('colors.blueLink');
       font-weight: bold;
       padding: 0 !important;
     }
@@ -75,8 +34,6 @@
       color: theme('colors.grey');
     }
     &__fund-wallet {
-      color: theme('colors.blueLink');
-      font-weight: light;
       padding: 0 !important;
     }
   }

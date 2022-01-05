@@ -22,17 +22,9 @@
     @apply mt-4 flex flex-col items-center justify-center text-center lg:mt-0 lg:text-right lg:block;
 
     button {
-      @apply mt-4 lg:mt-0;
+      @apply mt-4 lg:mt-2;
     }
   }
-}
-
-.deposit-funds {
-  @apply bg-greenDark py-1 w-40;
-}
-
-.withdraw-funds {
-  @apply bg-orange py-1 w-40;
 }
 
 .modals {

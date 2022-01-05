@@ -25,6 +25,7 @@ const InfiniteScroll = ({
         }
       />
       <ReactInfiniteScrollComponent
+        style={{ overflow: 'visible' }}
         dataLength={dataLength}
         next={onLoadMore}
         hasMore={hasMore}

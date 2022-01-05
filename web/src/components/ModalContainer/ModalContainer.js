@@ -12,8 +12,10 @@ const ModalContainer = ({
   icon,
   hideCancelButton,
 }) => {
+  // eslint-disable-next-line no-unused-expressions
   isVisible
-    ? (document.body.style.position = 'fixed')
+    ? ((document.body.style.position = 'fixed'),
+      (document.body.style.width = '100%'))
     : (document.body.style.position = 'relative')
 
   return isVisible

@@ -3,6 +3,7 @@ import { useAuth } from '@redwoodjs/auth'
 import { useParams } from '@redwoodjs/router'
 import Icon from 'src/components/Icon'
 import Button from 'src/components/Button'
+import globalConfig from 'src/global.config.js'
 
 const LoginPage = () => {
   const { logIn, isAuthenticated } = useAuth()
@@ -33,6 +34,18 @@ const LoginPage = () => {
           <Icon size="30" name="chess_com" className="mr-4" />
         </Button>
       </div>
+      <p>
+        By continuing you acknowledge that you have read, understand, and agree
+        to the
+        <a href={globalConfig.TOC_URL}>
+          <span className="text-blue"> Terms of Service </span>
+        </a>
+        and
+        <a href={globalConfig.PRIVACY_POLICY_URL}>
+          <span className="text-blue"> Privacy Policy</span>
+        </a>
+        .
+      </p>
     </div>
   )
 }

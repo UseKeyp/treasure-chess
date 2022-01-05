@@ -1,45 +1,29 @@
-export default () => (
-  <main>
-    <style
-      dangerouslySetInnerHTML={{
-        __html: `
-              html, body {
-                margin: 0;
-              }
-              html * {
-                box-sizing: border-box;
-              }
-              main {
-                display: flex;
-                align-items: center;
-                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
-                text-align: center;
-                background-color: #E2E8F0;
-                height: 100vh;
-              }
-              section {
-                background-color: white;
-                border-radius: 0.25rem;
-                width: 32rem;
-                padding: 1rem;
-                margin: 0 auto;
-                box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-              }
-              h1 {
-                font-size: 2rem;
-                margin: 0;
-                font-weight: 500;
-                line-height: 1;
-                color: #2D3748;
-              }
-            `,
-      }}
-    />
+import { Head } from '@redwoodjs/web'
+import { routes } from '@redwoodjs/router'
 
-    <section>
-      <h1>
-        <span>404 Page Not Found</span>
-      </h1>
-    </section>
-  </main>
+import Button from 'src/components/Button/Button'
+
+export default () => (
+  <>
+    <Head>
+      <title>Treasure Chess | Page Not Found!</title>
+    </Head>
+    <main className="not-found">
+      <section className="not-found--container">
+        <div className="not-found--img">
+          <img src="/no-go.png" className="h-auto w-full block" alt="" />
+        </div>
+        <div className="not-found--content">
+          <h1>Oops! Something is clearly wrong here...</h1>
+          {/* eslint-disable-next-line */}
+          <p>The page you are looking for doesn't exist. (404)</p>
+          <div className="not-found--content--go-home">
+            <Button to={routes.home()}>
+              <img src="/TreasureChessLogo.png" alt="TreasureChess.com" />
+            </Button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </>
 )

@@ -16,7 +16,7 @@ export const QUERY = gql`
   }
 `
 
-export const Loading = () => <div>Loading...</div>
+export const Loading = () => <TreasureMoves isLoading={true} />
 
 export const Empty = () => <TreasureMoves />
 

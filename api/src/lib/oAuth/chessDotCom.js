@@ -3,7 +3,6 @@ import fetch from 'cross-fetch'
 import { isDevelopment } from 'src/lib/helpers'
 import { decode as decodeJwt } from 'jsonwebtoken'
 
-const API_URL = process.env.CHESS_OAUTH_URL
 export const CHESS_SCOPE = 'openid profile'
 
 const getExpiration = (expiresIn) =>
@@ -14,11 +13,12 @@ const encodeBody = (body) =>
     .map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(body[key]))
     .join('&')
 
-export const CHESS_BASIC_AUTH = Buffer.from(
-  process.env.CHESS_BASIC_AUTH_USERNAME +
-    ':' +
-    process.env.CHESS_BASIC_AUTH_PASSWORD
-).toString('base64')
+export const getChessBasicAuth = () =>
+  Buffer.from(
+    process.env.CHESS_BASIC_AUTH_USERNAME +
+      ':' +
+      process.env.CHESS_BASIC_AUTH_PASSWORD
+  ).toString('base64')
 
 export const getChessAccessTokenFromCode = async (code, codeVerifier) => {
   try {
@@ -32,14 +32,14 @@ export const getChessAccessTokenFromCode = async (code, codeVerifier) => {
     }
     const encodedBody = encodeBody(body)
     // console.log(encodedBody.split('&'))
-    const response = await fetch(API_URL + '/token', {
+    const response = await fetch(process.env.CHESS_OAUTH_URL + '/token', {
       method: 'post',
       body: encodedBody,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         // Basic auth required for oauth.chess-x.com development server
         ...(isDevelopment && {
-          Authorization: `Basic ${CHESS_BASIC_AUTH}`,
+          Authorization: `Basic ${getChessBasicAuth()}`,
         }),
       },
     }).then((res) => {
@@ -83,14 +83,14 @@ export const refreshChessTokens = async (refreshToken) => {
       scope: CHESS_SCOPE,
     }
     const encodedBody = encodeBody(body)
-    const response = await fetch(API_URL + '/token', {
+    const response = await fetch(process.env.CHESS_OAUTH_URL + '/token', {
       method: 'post',
       body: encodedBody,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         // Basic auth required for oauth.chess-x.com development server
         ...(isDevelopment && {
-          Authorization: `Basic ${CHESS_BASIC_AUTH}`,
+          Authorization: `Basic ${getChessBasicAuth()}`,
         }),
       },
     }).then((res) => {

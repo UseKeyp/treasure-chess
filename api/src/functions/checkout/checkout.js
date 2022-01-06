@@ -1,7 +1,9 @@
 import Sentry from 'src/lib/sentry'
 import { processOrder } from 'src/lib/wyre/order'
+import { setupEnvironment } from 'src/lib/helpers'
 
 export const handler = async (event) => {
+  setupEnvironment()
   // Default response
   let statusCode = 200
 

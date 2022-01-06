@@ -4,6 +4,7 @@ import { useSentry } from '@envelop/sentry'
 import Sentry from 'src/lib/sentry'
 
 import { getCurrentUser } from 'src/lib/auth'
+import { setupEnvironment } from 'src/lib/helpers'
 import { logger } from 'src/lib/logger'
 import directives from 'src/directives/**/*.{js,ts}'
 import sdls from 'src/graphql/**/*.sdl.{js,ts}'
@@ -12,7 +13,9 @@ import { db } from 'src/lib/db'
 
 // import { useRateLimiter } from '@envelop/rate-limiter'
 
-const _identifyFn = async (context) => context.request.ip
+// const _identifyFn = async (context) => context.request.ip
+
+// setupEnvironment()
 
 export const handler = createGraphQLHandler({
   getCurrentUser,

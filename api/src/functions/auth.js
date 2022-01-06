@@ -6,8 +6,10 @@ import { InputError } from '@redwoodjs/graphql-server'
 
 import { db } from 'src/lib/db'
 import { handleOauthCodeGrant } from 'src/lib/oAuth/oAuth'
+import { setupEnvironment } from 'src/lib/helpers'
 
 export const handler = async (event, context) => {
+  setupEnvironment()
   const authHandler = new DbAuthHandler(event, context, {
     db: db,
     authModelAccessor: 'member',

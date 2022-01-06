@@ -1,11 +1,8 @@
-const { createDecipheriv, createCipheriv, randomBytes } = require('crypto')
-const { Buffer } = require('buffer')
+const { randomBytes } = require('crypto')
 const fs = require('fs')
 const path = require('path')
 const readline = require('readline')
 const dotenv = require('dotenv')
-
-const { ALGORITHM } = require('./constants')
 
 dotenv.config()
 

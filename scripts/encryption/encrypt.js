@@ -4,7 +4,7 @@ const fs = require('fs')
 const path = require('path')
 const dotenv = require('dotenv')
 
-const { ALGORITHM } = require('./constants')
+const ALGORITHM = 'aes-256-cbc'
 
 dotenv.config()
 
@@ -19,7 +19,7 @@ const encrypt = () => {
 
   let plainText = require(path.join(directoryPath, '.env.js'))
   plainText = JSON.stringify(plainText)
-
+  console.log(plainText)
   const key = process.env.ENCRYPTION_KEY
   const iv = process.env.ENCRYPTION_IV
   if (!key || key.length < 24 || !iv) throw new Error('Missing key or iv')
@@ -33,10 +33,11 @@ const encrypt = () => {
 const secret = "${encrypted}";
 module.exports = secret`
 
-  // fs.writeFileSync(path.join(directoryPath, 'web/src/env.enc.js'), encContents)
-  // fs.writeFileSync(path.join(directoryPath, 'web/src/env.enc.js'), encContents)
-  fs.writeFileSync(path.join(directoryPath, 'env.enc.js'), encContents)
-  console.log('✅ Updated env.enc.js')
+  fs.writeFileSync(
+    path.join(directoryPath, 'api/src/dev.env.enc.js'),
+    encContents
+  )
+  console.log('✅ Updated (prod|dev).env.enc.js')
 }
 
 encrypt()

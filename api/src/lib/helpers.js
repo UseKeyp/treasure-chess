@@ -1,6 +1,10 @@
+import { decrypt } from 'src/lib/encryption'
 import ProfanityFilter from 'bad-words'
 import { EnvelopError } from '@envelop/core'
 import { Chess } from 'chess.js'
+
+const encrypedEnvDev = require('../dev.env.enc')
+const encrypedEnvProd = require('../prod.env.enc')
 
 const profanityFilter = new ProfanityFilter()
 
@@ -51,4 +55,19 @@ export const getBoardLayout = (pgn) => {
     })
   })
   return boardLayout
+}
+
+export const setupEnvironment = () => {
+  // const { performance } = require('perf_hooks')
+  // var startTime = performance.now()
+
+  const ciphertext = isProduction ? encrypedEnvProd : encrypedEnvDev
+  const decrypted = decrypt(ciphertext)
+  const env = JSON.parse(decrypted)
+  Object.keys(env).map((key) => {
+    process.env[key] = env[key]
+  })
+
+  // var endTime = performance.now()
+  // console.log(`Duration: ${(endTime - startTime).toFixed(2)} ms`)
 }

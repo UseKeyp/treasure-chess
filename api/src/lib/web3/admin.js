@@ -1,8 +1,6 @@
 import { Wallet } from '@ethersproject/wallet'
 import { getProviderByChainId } from 'src/lib/web3/helpers'
 
-const wallet = Wallet.fromMnemonic(process.env.APP_ADMIN_WALLET_MNEMONIC)
-
 const validateConfig = (wallet) => {
   if (
     wallet.address.toLowerCase() !==
@@ -14,6 +12,7 @@ const validateConfig = (wallet) => {
 export const adminSign = async (unsigned) => wallet.signTransaction(unsigned)
 
 export const adminSendTransaction = async (unsigned, chainId) => {
+  const wallet = Wallet.fromMnemonic(process.env.APP_ADMIN_WALLET_MNEMONIC)
   validateConfig(wallet)
   try {
     const provider = getProviderByChainId(chainId)

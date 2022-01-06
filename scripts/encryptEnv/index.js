@@ -1,4 +1,10 @@
-const { randomFill, createCipheriv } = require('crypto')
+const {
+  randomFillSync,
+  randomFill,
+  createCipheriv,
+  randomBytes,
+} = require('crypto')
+const { Buffer } = require('buffer')
 const fs = require('fs')
 const path = require('path')
 const readline = require('readline')
@@ -15,18 +21,19 @@ rl.on('close', function () {
   process.exit(0)
 })
 
-const main = async () => {
-  await rl.question(
-    `Please enter your encryption key.\nYou can create one with: 'openssl rand -base64 128'\n`,
-    async (key) => {
-      if (!key || key.length > 100) {
+const main = () => {
+  rl.question(
+    `Please enter your encryption key.\nYou can create one with: 'openssl rand -base64 24'\n`,
+    (key) => {
+      if (!key || key.length > 24) {
+        console.log('Key length: ', key.length)
         const gitRevision = require('child_process')
           .execSync('git rev-parse HEAD')
           .toString()
           .trim()
         const dateString = new Date().toString()
 
-        await fs.writeFile(
+        fs.writeFileSync(
           path.join(directoryPath, '.env'),
           `# Generated ${dateString}
 # Git revision ${gitRevision}
@@ -35,32 +42,28 @@ SECRET_KEY=${key}`,
             if (err) throw err
           }
         )
-
         console.log('Updated .env with new key')
+
         let plainText = require('../../.env.js')
         plainText = JSON.stringify(plainText)
 
-        randomFill(new Uint8Array(16), async (err, iv) => {
-          const algorithm = 'aes256'
-          const cipher = createCipheriv(algorithm, key, iv)
-          let encrypted = cipher.update(plaintext, 'utf8', 'hex')
-          console.log(encrypted)
-          encrypted += cipher.final('hex')
-          console.log(encrypted)
+        let iv = randomBytes(16)
+        const algorithm = 'aes-256-cbc'
+        const cipher = createCipheriv(algorithm, Buffer.from(key), iv)
+        let encrypted = cipher.update(plainText, 'utf8', 'hex')
+        encrypted += cipher.final('hex')
 
-          await fs.writeFile(
-            path.join(directoryPath, 'secrets.enc.js'),
-            `// Generated ${dateString}
+        fs.writeFileSync(
+          path.join(directoryPath, 'env.enc.js'),
+          `// Generated ${dateString}
 // Git revision ${gitRevision}
-module.exports = { secret: "${encrypted}"}`,
-            (err) => {
-              if (err) throw err
-            }
-          )
-        })
-
-        console.log('Updated .env.enc.js with')
-        console.log('Done!')
+const secret = "${encrypted}";
+module.exports = secret`,
+          (err) => {
+            console.log('Updated .env.enc.js with')
+            if (err) throw err
+          }
+        )
         rl.close()
       } else {
         console.log('Key not long enough')

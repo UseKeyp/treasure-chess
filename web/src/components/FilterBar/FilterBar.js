@@ -28,6 +28,8 @@ const FilterBar = ({ filter, setFilter, defaultParams }) => {
   const [lowPrice, setLowPrice] = useState(filter.lowPrice) // must be initialized to a string to control the input from initial render
   const [highPrice, setHighPrice] = useState(filter.highPrice)
 
+  const [filterBarFixed, setFilterBarFixed] = useState(false)
+
   const updateAchievements = (data) => {
     anyValues(data, achievements, setAchievements)
   }
@@ -75,6 +77,12 @@ const FilterBar = ({ filter, setFilter, defaultParams }) => {
     updateFilter()
   }
 
+  const filterBarPosition = () => {
+    window.scrollY > 100 ? setFilterBarFixed(true) : setFilterBarFixed(false)
+  }
+
+  window.addEventListener('scroll', filterBarPosition)
+
   React.useEffect(() => {
     updateFilter()
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
@@ -94,94 +102,102 @@ const FilterBar = ({ filter, setFilter, defaultParams }) => {
   ])
 
   return (
-    <div className={styles.filterBar}>
-      <div className={styles.resetRow}>
-        <button className={styles.reset} onClick={onReset}>
-          Reset
-        </button>
-      </div>
-      <div className={styles.dropdownRowSpacing}>
-        <Dropdown
-          category={'Opening'}
-          options={filters.openingList}
-          queryFilterFunction={setOpening}
-          queryFilter={opening}
-        />
-      </div>
-      <div className={styles.dropdownRowSpacing}>
-        <Dropdown
-          category={'Rarity'}
-          options={filters.rarityList}
-          queryFilterFunction={setRarity}
-          queryFilter={rarity}
-        />
-      </div>
-      <div className={styles.dropdownRow}>
-        <FilterCheckbox
-          category={'Sale'}
-          options={filters.saleList}
-          queryFilterFunction={updateSale}
-          queryFilter={sale}
-        />
-      </div>
-      <div className={styles.priceRowWrapper}>
-        <h4>Price Range</h4>
-        <div className={styles.priceRow}>
-          <FilterPriceInput value={lowPrice} setValue={setLowPrice} />
-          <span>to</span>
-          <FilterPriceInput value={highPrice} setValue={setHighPrice} />
+    <div className={styles.filterBarWrapper}>
+      <div
+        className={
+          filterBarFixed
+            ? `${styles.filterBar} ${styles.filterBarFixed}`
+            : `${styles.filterBar}`
+        }
+      >
+        <div className={styles.resetRow}>
+          <button className={styles.reset} onClick={onReset}>
+            Reset
+          </button>
         </div>
-      </div>
-      <div className={styles.dropdownRow}>
-        <FilterCheckbox
-          category={'Outcome'}
-          options={filters.outcomeList}
-          queryFilterFunction={updateOutcomes}
-          queryFilter={outcome}
-        />
-      </div>
-      <div className={styles.dropdownRowSpacing}>
-        <Dropdown
-          category={'Termination'}
-          options={filters.terminationList}
-          queryFilterFunction={setTermination}
-          queryFilter={termination}
-        />
-      </div>
-      <div className={styles.dropdownTwoElementRow}>
-        <Dropdown
-          category={'Time'}
-          options={filters.timeControlList}
-          queryFilterFunction={setTimeControl}
-          queryFilter={timeControl}
-        />
-        <Dropdown
-          category={'Move Count'}
-          options={filters.moveCountList.map((moves) => moves.name)}
-          queryFilterFunction={setMoveCount}
-          queryFilter={moveCount}
-        />
-      </div>
-      <div className={styles.dropdownRow}>
-        <FilterCheckbox
-          category={'Master Title'}
-          options={filters.titleList.map((title) => title.toUpperCase())}
-          queryFilterFunction={setTitle}
-          queryFilter={title}
-          deselect={true}
-        />
-      </div>
-      <div className={styles.dropdownRow}>
-        <h4 style={{ marginLeft: `1em`, marginBottom: `0.5em` }}>
-          Achievements
-        </h4>
-        <AchievementScroll
-          achievements={filters.achievementList.sort(
-            (a, b) => b.points - a.points
-          )}
-          queryFilterFunction={updateAchievements}
-          queryFilter={achievements}
-        />
+        <div className={styles.dropdownRowSpacing}>
+          <Dropdown
+            category={'Opening'}
+            options={filters.openingList}
+            queryFilterFunction={setOpening}
+            queryFilter={opening}
+          />
+        </div>
+        <div className={styles.dropdownRowSpacing}>
+          <Dropdown
+            category={'Rarity'}
+            options={filters.rarityList}
+            queryFilterFunction={setRarity}
+            queryFilter={rarity}
+          />
+        </div>
+        <div className={styles.dropdownRow}>
+          <FilterCheckbox
+            category={'Sale'}
+            options={filters.saleList}
+            queryFilterFunction={updateSale}
+            queryFilter={sale}
+          />
+        </div>
+        <div className={styles.priceRowWrapper}>
+          <h4>Price Range</h4>
+          <div className={styles.priceRow}>
+            <FilterPriceInput value={lowPrice} setValue={setLowPrice} />
+            <span>to</span>
+            <FilterPriceInput value={highPrice} setValue={setHighPrice} />
+          </div>
+        </div>
+        <div className={styles.dropdownRow}>
+          <FilterCheckbox
+            category={'Outcome'}
+            options={filters.outcomeList}
+            queryFilterFunction={updateOutcomes}
+            queryFilter={outcome}
+          />
+        </div>
+        <div className={styles.dropdownRowSpacing}>
+          <Dropdown
+            category={'Termination'}
+            options={filters.terminationList}
+            queryFilterFunction={setTermination}
+            queryFilter={termination}
+          />
+        </div>
+        <div className={styles.dropdownTwoElementRow}>
+          <Dropdown
+            category={'Time'}
+            options={filters.timeControlList}
+            queryFilterFunction={setTimeControl}
+            queryFilter={timeControl}
+          />
+          <Dropdown
+            category={'Move Count'}
+            options={filters.moveCountList.map((moves) => moves.name)}
+            queryFilterFunction={setMoveCount}
+            queryFilter={moveCount}
+          />
+        </div>
+        <div className={styles.dropdownRow}>
+          <FilterCheckbox
+            category={'Master Title'}
+            options={filters.titleList.map((title) => title.toUpperCase())}
+            queryFilterFunction={setTitle}
+            queryFilter={title}
+            deselect={true}
+          />
+        </div>
+        <div className={styles.dropdownRow}>
+          <h4 style={{ marginLeft: `1em`, marginBottom: `0.5em` }}>
+            Achievements
+          </h4>
+          <AchievementScroll
+            achievements={filters.achievementList.sort(
+              (a, b) => b.points - a.points
+            )}
+            queryFilterFunction={updateAchievements}
+            queryFilter={achievements}
+          />
+        </div>
       </div>
     </div>
   )

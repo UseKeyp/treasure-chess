@@ -1,3 +1,8 @@
+.filterBarWrapper {
+  position: relative;
+  width: 20vw;
+  height: 100vh;
+}
 .filterBar {
   display: flex;
   flex-flow: column nowrap;
@@ -7,7 +12,12 @@
   border-radius: 0.5rem;
   align-items: center;
   justify-content: flex-start;
-  max-width: clamp(264px, 100%, 364px);
+  max-width: clamp(264px, 100%, 344px);
+}
+
+.filterBarFixed {
+  position: fixed;
+  transform: translateY(-100px);
 }
 
 .resetRow {

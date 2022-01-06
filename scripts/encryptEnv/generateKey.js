@@ -1,4 +1,3 @@
-const { webcrypto, KeyObject } = require('crypto')
 const { createDecipheriv, createCipheriv, randomBytes } = require('crypto')
 const { Buffer } = require('buffer')
 const fs = require('fs')
@@ -38,44 +37,23 @@ const gen = (key) => {
 
   const iv = randomBytes(16)
 
-  // console.log(iv)
-  // const ivString = iv.toString('hex')
-  // let cipher = createCipheriv(ALGORITHM, process.env.ENCRYPTION_KEY, iv)
-  // console.log(ivString)
-  // const ivBuffer = Buffer.from(ivString, 'hex')
-  // console.log(ivBuffer)
-  // cipher = createCipheriv(ALGORITHM, process.env.ENCRYPTION_KEY, ivBuffer)
-  // const decipher = createDecipheriv(
-  //   ALGORITHM,
-  //   process.env.ENCRYPTION_KEY,
-  //   ivBuffer
-  // )
-  // console.log(decipher)
-
   fs.writeFileSync(
     path.join(directoryPath, '.env'),
     `# Generated ${dateString}
 # Git revision ${gitRevision}
+
+# NOTE: Any additions here must also be added to /scripts/encryptEnv/generateKey.js
+
 ENCRYPTION_KEY=${key}
-ENCRYPTION_IV=${iv.toString('hex')}`,
+ENCRYPTION_IV=${iv.toString('hex')}
+APP_DOMAIN=${process.env.APP_DOMAIN}
+ETHEREUM_NETWORK_NAME=${process.env.ETHEREUM_NETWORK_NAME}`,
     (err) => {
       if (err) throw err
     }
   )
   console.log('\n✅ Updated .env')
   rl.close()
-  // const key = await subtle.generateKey(
-  //   {
-  //     name: 'HMAC',
-  //     hash: 'SHA-256',
-  //     length: 256,
-  //   },
-  //   true,
-  //   ['sign', 'verify']
-  // )
-  //
-  // const keyObject = KeyObject.from(key)
-  // console.log(keyObject.symmetricKeySize)
 }
 
 prompt(gen)

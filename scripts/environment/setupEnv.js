@@ -19,6 +19,7 @@ const setupEnvironment = () => {
   const decrypted = decrypt(ciphertext)
   const env = JSON.parse(decrypted)
   Object.keys(env).map((key) => {
+    if (process.env[key]) return
     process.env[key] = env[key]
   })
 

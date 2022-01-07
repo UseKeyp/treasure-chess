@@ -1,11 +1,9 @@
 const path = require('path')
 const { performance } = require('perf_hooks')
+
 const dotenv = require('dotenv')
 
-const { decrypt } = require(path.join(
-  __dirname,
-  '../../api/src/lib/encryption'
-))
+const { decrypt } = require('./cryptography')
 
 dotenv.config()
 
@@ -15,7 +13,7 @@ const main = () => {
   console.log('\nTesting decryption...')
   var startTime = performance.now()
 
-  let ciphertext = require(path.join(directoryPath, 'api/src/dev.env.enc.js'))
+  let ciphertext = require(path.join(directoryPath, 'dev.env.enc.js'))
 
   const decrypted = decrypt(ciphertext)
 

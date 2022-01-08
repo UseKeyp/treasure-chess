@@ -32,7 +32,7 @@ const TreasuresList = ({ treasures, count, onLoadMore, page, loading }) => {
         </div>
         <p>Treasures</p>
       </div>
-      <div className="mt-4 ">
+      <div className="mt-8 ">
         {!treasures?.length && loading ? (
           loader
         ) : (

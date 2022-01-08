@@ -23,7 +23,6 @@
     "ENCRYPTION_IV",
     "APP_DOMAIN",
     "ETHEREUM_NETWORK_NAME",
-    "DATABASE_URL"
   ]
 [browser]
   open = true

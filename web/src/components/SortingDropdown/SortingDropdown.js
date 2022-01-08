@@ -3,7 +3,7 @@ import Dropdown from 'src/components/Dropdown/Dropdown'
 
 const SortingDropdown = ({ sort, setSort }) => {
   return (
-    <div className="max-w-[256px] w-full absolute">
+    <div className="absolute w-full" style={{ maxWidth: '235px' }}>
       <Dropdown
         default="Sort by"
         options={filters.sortList}

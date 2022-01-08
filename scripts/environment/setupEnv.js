@@ -2,8 +2,6 @@ const path = require('path')
 const directoryPath = path.join(__dirname, '../../')
 const dotenv = require('dotenv')
 
-const encrypedEnvDev = require(path.join(directoryPath, './dev.env.enc'))
-const encrypedEnvProd = require(path.join(directoryPath, './prod.env.enc'))
 const { decrypt } = require('./cryptography')
 
 dotenv.config()
@@ -14,7 +12,9 @@ const setupEnvironment = () => {
   const { performance } = require('perf_hooks')
   var startTime = performance.now()
 
-  const ciphertext = isProduction ? encrypedEnvProd : encrypedEnvDev
+  const ciphertext = isProduction
+    ? require(path.join(directoryPath, './prod.env.enc'))
+    : require(path.join(directoryPath, './dev.env.enc'))
 
   const decrypted = decrypt(ciphertext)
   const env = JSON.parse(decrypted)

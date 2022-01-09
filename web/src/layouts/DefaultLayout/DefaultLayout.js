@@ -36,8 +36,8 @@ const DefaultLayout = ({ children }) => {
           <div className="max-w-7xl mx-auto px-0 sm:px-0 sm:max-w-screen">
             {children}
           </div>
-          <SiteFooter />
         </div>
+        <SiteFooter className="self-end" />
       </div>
     </div>
   )

@@ -28,8 +28,6 @@ const FilterBar = ({ filter, setFilter, defaultParams }) => {
   const [lowPrice, setLowPrice] = useState(filter.lowPrice) // must be initialized to a string to control the input from initial render
   const [highPrice, setHighPrice] = useState(filter.highPrice)
 
-  const [filterBarFixed, setFilterBarFixed] = useState(false)
-
   const updateAchievements = (data) => {
     anyValues(data, achievements, setAchievements)
   }
@@ -77,12 +75,6 @@ const FilterBar = ({ filter, setFilter, defaultParams }) => {
     updateFilter()
   }
 
-  const filterBarPosition = () => {
-    window.scrollY > 100 ? setFilterBarFixed(true) : setFilterBarFixed(false)
-  }
-
-  window.addEventListener('scroll', filterBarPosition)
-
   React.useEffect(() => {
     updateFilter()
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
@@ -103,13 +95,7 @@ const FilterBar = ({ filter, setFilter, defaultParams }) => {
 
   return (
     <div className={styles.filterBarWrapper}>
-      <div
-        className={
-          filterBarFixed
-            ? `${styles.filterBar} ${styles.filterBarFixed}`
-            : `${styles.filterBar}`
-        }
-      >
+      <div className={styles.filterBar}>
         <div className={styles.resetRow}>
           <button className={styles.reset} onClick={onReset}>
             Reset

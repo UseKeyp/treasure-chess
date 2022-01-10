@@ -29,7 +29,7 @@ const DefaultLayout = ({ children }) => {
         }}
       />
       <div className="flex flex-col min-h-screen">
-        <header className="relative mb-8">
+        <header className="relative mb-8 mt-4">
           <Header />
         </header>
         <div className="flex-grow">

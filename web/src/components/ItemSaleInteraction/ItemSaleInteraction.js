@@ -2,10 +2,14 @@ import Button from '../Button/Button'
 import LoadingDots from '../LoadingDots/LoadingDots'
 
 const ItemSaleInteraction = ({ isOwner, onClick, price, listStatus }) => {
+  const SUCCESS = 'SUCCESS'
+  const LOADING = 'LOADING'
+  const ERROR = 'ERROR'
+
   const PurchaseButton = () => {
     const buttonText =
-      listStatus && listStatus !== 'ERROR'
-        ? listStatus === 'SUCCESS'
+      listStatus && listStatus !== ERROR
+        ? listStatus === SUCCESS
           ? 'View Treasure'
           : 'Purchase in Progress'
         : 'Buy'
@@ -15,20 +19,18 @@ const ItemSaleInteraction = ({ isOwner, onClick, price, listStatus }) => {
           isOwner
             ? 'hover:bg-[#ffc82f] hover:shadow-orange'
             : 'hover:bg-green hover:shadow-greenDark'
-        } ${listStatus === 'LOADING' && 'pointer-events-none'}`}
+        } ${listStatus === LOADING && 'pointer-events-none'}`}
         label={isOwner ? 'Unlist' : buttonText}
-        variant={
-          isOwner ? 'orange' : listStatus === 'LOADING' ? 'grey' : 'green'
-        }
+        variant={isOwner ? 'orange' : listStatus === LOADING ? 'grey' : 'green'}
         onClick={onClick}
       />
     )
   }
 
   const Status = () => {
-    return listStatus === 'SUCCESS' ? (
+    return listStatus === SUCCESS ? (
       <p className="text-black">Congrats! This is now your Treasure.</p>
-    ) : listStatus === 'LOADING' ? (
+    ) : listStatus === LOADING ? (
       <p className="text-white flex">
         Purchase in Progress
         <LoadingDots />
@@ -38,9 +40,9 @@ const ItemSaleInteraction = ({ isOwner, onClick, price, listStatus }) => {
     )
   }
 
-  const textColor = listStatus === 'SUCCESS' ? 'text-black' : 'text-white'
+  const textColor = listStatus === SUCCESS ? 'text-black' : 'text-white'
   const backgroundColor =
-    listStatus === 'SUCCESS' ? 'bg-orange' : 'bg-chessBlack-200'
+    listStatus === SUCCESS ? 'bg-orange' : 'bg-chessBlack-200'
 
   return (
     <div

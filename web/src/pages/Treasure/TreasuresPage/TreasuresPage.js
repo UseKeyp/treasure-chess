@@ -48,7 +48,7 @@ const TreasuresPage = () => {
           setFilter={setFilter}
           defaultParams={defaultParams}
         />
-        <div className="ml-4 w-full inline-flex">
+        <div className="ml-4 w-full">
           <div className="flex w-full justify-end relative mb-4">
             <SortingDropdown sort={sort} setSort={_setSort} />
           </div>

@@ -74,7 +74,7 @@ docker-compose up
 # Alternatively, run a single image
 docker run -it --rm \
        -p 8910:8910 \
-       ghcr.io/pi0neerpat/treasure-chess-redwood-api-main:latest
+        pi0neerpat/treasure-chess-redwood-api-main:latest
 ```
 
 Killing Docker

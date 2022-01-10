@@ -14,12 +14,5 @@ web/public/storybook
 web/types/graphql.d.ts
 api/types/graphql.d.ts
 notes.md
-contracts/.openzeppelin
-contracts/cache
-contracts/artifacts
-contracts/node_modules
-contracts/typechain
-contracts/coverage
 zipped
-contracts/.openzeppelin
 package-lock.json

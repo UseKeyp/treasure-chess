@@ -1,31 +1,13 @@
 const { randomBytes } = require('crypto')
 const fs = require('fs')
 const path = require('path')
-const readline = require('readline')
 const dotenv = require('dotenv')
 
 dotenv.config()
 
 const directoryPath = path.join(__dirname, '../../')
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-})
-
-rl.on('close', function () {
-  console.log('\nExiting!')
-  process.exit(0)
-})
-
-const prompt = (cb) => {
-  rl.question(
-    `Please enter your encryption key.\nYou can create one with: 'openssl rand -base64 24'\n`,
-    (answer) => cb(answer)
-  )
-}
-
-const gen = (key) => {
+const gen = () => {
   const gitRevision = require('child_process')
     .execSync('git rev-parse HEAD')
     .toString()
@@ -41,7 +23,7 @@ const gen = (key) => {
 
 # NOTE: Any additions here must also be added to /scripts/encryptEnv/generateKey.js
 
-ENCRYPTION_KEY=${key}
+ENCRYPTION_KEY=${process.env.ENCRYPTION_KEY}
 ENCRYPTION_IV=${iv.toString('hex')}
 APP_DOMAIN=${process.env.APP_DOMAIN}
 ETHEREUM_NETWORK_NAME=${process.env.ETHEREUM_NETWORK_NAME}`,
@@ -53,4 +35,4 @@ ETHEREUM_NETWORK_NAME=${process.env.ETHEREUM_NETWORK_NAME}`,
   rl.close()
 }
 
-prompt(gen)
+gen()

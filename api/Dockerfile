@@ -21,7 +21,7 @@ COPY web web
 COPY packages packages
 COPY dev.env.enc.js dev.env.enc.js
 COPY prod.env.enc.js prod.env.enc.js
-COPY scripts/environment .
+COPY scripts/environment/setupEnv.js scripts/environment
 COPY .nvmrc .
 COPY graphql.config.js .
 COPY package.json .
@@ -37,9 +37,6 @@ RUN yarn build-packages
 # Build api
 RUN yarn rw build api
 
-# Cleanup web TODO: May be unnecessary eventually
-RUN rm -rf /web
-
 # Set database baseline
 # We only need to do this once per database
 # RUN yarn rw prisma migrate resolve --applied 20210311161829_baseline0
@@ -53,16 +50,17 @@ RUN rm -rf /web
 # RUN yarn rw prisma db seed
 
 # Clean up
+RUN rm -rf web
 RUN rm -rf ./api/src
 
 # Debugging
 RUN ls -lA ./api/dist
 
 # Set api as workdirectory
-WORKDIR /app/api
+# WORKDIR /app/api
 
 # Expose RedwoodJS api port
 EXPOSE 8911
 
 # Entrypoint to @redwoodjs/api-server binary
-ENTRYPOINT [ "node","/app/scripts/environment/setupEnv.js","&&","yarn", "rw", "serve", "api", "--port", "8911", "--rootPath", "/api" ]
+ENTRYPOINT [ "node","scripts/environment/setupEnv.js","&&","yarn", "rw", "serve", "api", "--port", "8911", "--rootPath", "/api" ]

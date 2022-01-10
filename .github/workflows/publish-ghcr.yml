@@ -2,7 +2,7 @@
 
 # Force redeploy
 
-name: "treasure-chess-app-ghcr-build"
+name: 'treasure-chess-app-ghcr-build'
 
 on:
   push:
@@ -12,8 +12,8 @@ on:
 env:
   # Build
   # TODO: change to "production"?
-  NODE_ENV: "development"
-  RUNTIME_ENV: "main"
+  NODE_ENV: 'development'
+  RUNTIME_ENV: 'main'
 
   # Container Registry
   CONTAINER_REGISTRY_HOSTNAME: ghcr.io
@@ -45,11 +45,9 @@ jobs:
           - platform: api
           # TODO: Change this to the production database
           # Name of Github secret
-            DATABASE_URL: __DEVELOPMENT_DATABASE_URL
           - platform: web
 
     steps:
-
       # Checkout source code
       - name: Checkout source code
         uses: actions/checkout@v2
@@ -76,7 +74,6 @@ jobs:
           build-args: |
             NODE_ENV=${{ env.NODE_ENV }}
             RUNTIME_ENV=${{ env.RUNTIME_ENV }}
-            DATABASE_URL=${{ secrets[matrix.DATABASE_URL] }}
           tags: |
             ${{ env.CONTAINER_REGISTRY_HOSTNAME }}/${{ env.CONTAINER_REGISTRY_REPOSITORY }}/${{ env.CONTAINER_REGISTRY_IMAGE_PREFIX }}-${{ matrix.platform }}-${{ env.RUNTIME_ENV }}:latest
             ${{ env.CONTAINER_REGISTRY_HOSTNAME }}/${{ env.CONTAINER_REGISTRY_REPOSITORY }}/${{ env.CONTAINER_REGISTRY_IMAGE_PREFIX }}-${{ matrix.platform }}-${{ env.RUNTIME_ENV }}:${{ github.sha }}

@@ -50,6 +50,12 @@ docker build . -t pi0neerpat/treasure-chess-redwood-api-main -f api/Dockerfile \
 --build-arg RUNTIME_ENV=local
 ```
 
+Explore image contents:
+
+```bash
+docker run --rm -it --entrypoint=/bin/bash <image>
+```
+
 Run an image locally:
 
 Create a `GITHUB_PAT` in your Github "Developer Settings" with permissions `read:packages`

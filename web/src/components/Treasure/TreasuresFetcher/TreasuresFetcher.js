@@ -21,11 +21,13 @@ const TREASURES_WITH_FILTER = gql`
       createdAt
       black {
         username
+        country
         imageSrc
         id
       }
       white {
         imageSrc
+        country
         username
         id
       }
@@ -36,6 +38,7 @@ const TREASURES_WITH_FILTER = gql`
       title
       cardColor
       blackRating
+      whiteRating
       blackRatingDelta
       whiteRatingDelta
       blackMasterTitle

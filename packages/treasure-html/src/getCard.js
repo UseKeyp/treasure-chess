@@ -17,6 +17,8 @@ const bannerLogoBase64 = require('./assets/bannerLogo')
 const serializer = new XMLSerializer()
 const parser = new DOMParser()
 
+const APP_DOMAIN = process.env.APP_DOMAIN
+
 const getOrderedUsers = (treasure) => {
   const { text: blackRatingDelta, color: blackRatingDeltaColor } =
     getRatingText(treasure, 'black')
@@ -131,12 +133,12 @@ const getCardHtml = async ({ treasure, gifBase64, gifUrl }) => {
     updateTag(
       'top-username-anchor',
       'href',
-      `https://treasure.chess.com/members/${topUser.username}`
+      `${APP_DOMAIN}/members/${topUser.username}`
     )
     updateTag(
       'bottom-username-anchor',
       'href',
-      `https://treasure.chess.com/members/${bottomUser.username}`
+      `${APP_DOMAIN}/members/${bottomUser.username}`
     )
     if (!bottomUser.masterTitle)
       updateStyle('bottom-masterTitle', 'background-color', null)
@@ -180,7 +182,7 @@ const getCardHtml = async ({ treasure, gifBase64, gifUrl }) => {
       updateTag(
         'game-anchor',
         'href',
-        `https://treasure.chess.com/treasures/${treasure.tokenId}`
+        `${APP_DOMAIN}/treasures/${treasure.tokenId}`
       )
 
     if (treasure.achievements) {

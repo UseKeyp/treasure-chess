@@ -23,7 +23,10 @@ export const handler = createGraphQLHandler({
   directives,
   sdls,
   services,
-
+  cors: {
+    origin: '*',
+    credentials: true,
+  },
   extraPlugins: [
     // useRateLimiter({
     //   // https://www.envelop.dev/plugins/use-rate-limiter

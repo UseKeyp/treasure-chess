@@ -16,11 +16,10 @@ WORKDIR /app
 
 # Copy files
 COPY api api
-# TODO: Figure our better solution than copy web, and remove react dep
-COPY web web
+COPY web/package.json web/package.json
 COPY packages packages
 COPY scripts/environment/ scripts/environment/
-COPY serve-api.sh .
+COPY serve.sh .
 COPY dev.env.enc.js .
 COPY prod.env.enc.js .
 COPY .nvmrc .
@@ -32,36 +31,23 @@ COPY yarn.lock .
 # Install dependencies
 RUN yarn install --frozen-lockfile
 
+# Install additional dependencies
+# RUN yarn add react react-dom --ignore-workspace-root-check
+
 # Build packages
 RUN yarn build-packages
 
 # Build api
 RUN yarn rw build api
 
-# Set database baseline
-# We only need to do this once per database
-# RUN yarn rw prisma migrate resolve --applied 20210311161829_baseline0
-
-# Migrate database
-# This has been commented out in this example post
-# RUN yarn rw prisma migrate deploy
-
-# Seed database
-# This has been commented out in this example post
-# RUN yarn rw prisma db seed
-
 # Clean up
-RUN rm -rf web
 RUN rm -rf ./api/src
 
 # Debugging
 RUN ls -lA ./api/dist
 
-# Set api as workdirectory
-# WORKDIR /app/api
-
 # Expose RedwoodJS api port
 EXPOSE 8911
 
 # Entrypoint to @redwoodjs/api-server binary
-ENTRYPOINT "./serve-api.sh"
+ENTRYPOINT ["./serve.sh"]

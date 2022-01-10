@@ -48,6 +48,11 @@ docker build . -t pi0neerpat/treasure-chess-redwood-web-main -f web/Dockerfile \
 docker build . -t pi0neerpat/treasure-chess-redwood-api-main -f api/Dockerfile \
 --build-arg NODE_ENV=development \
 --build-arg RUNTIME_ENV=local
+
+# both
+docker build . -t pi0neerpat/treasure-chess-redwood-both-main \
+--build-arg NODE_ENV=development \
+--build-arg RUNTIME_ENV=local
 ```
 
 Explore image contents:

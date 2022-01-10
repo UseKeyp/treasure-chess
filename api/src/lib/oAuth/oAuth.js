@@ -96,7 +96,10 @@ export const handleOauthCodeGrant = async ({ state, code }) => {
     // Save the Discord auth credentials and update state
     return member
   } catch (e) {
+    /* eslint-disable no-console */
+    console.log(e)
+    /* eslint-enable no-console */
     Sentry.captureException(e)
-    throw new AuthenticationError(`handleOauthCodeGrant() ${e}`)
+    throw new AuthenticationError()
   }
 }

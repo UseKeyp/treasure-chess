@@ -12,7 +12,7 @@ import { db } from 'src/lib/db'
 
 // import { useRateLimiter } from '@envelop/rate-limiter'
 
-const _identifyFn = async (context) => context.request.ip
+// const _identifyFn = async (context) => context.request.ip
 
 export const handler = createGraphQLHandler({
   getCurrentUser,

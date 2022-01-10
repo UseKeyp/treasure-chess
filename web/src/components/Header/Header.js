@@ -94,7 +94,7 @@ const MobileNav = () => {
         </nav>
       </div>
     </div>,
-    document.querySelector('body'),
+    document.querySelector('body')
   )
 }
 

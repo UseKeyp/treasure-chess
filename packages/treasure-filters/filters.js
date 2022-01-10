@@ -56,18 +56,17 @@ const moveCountList = [
 // Items without name/value pair
 const titleList = ['gm', 'im', 'nm']
 const openingList = [
-  "King's pawn game",
+  "King's Pawn Game",
   "Queen's Gambit",
   'Ruy Lopez',
   'French Defense',
   'Caro-Kann',
   'Reti Opening',
   'English',
-  'Norwegian',
-  'Italian',
+  'Norwegian', // Not in chess-achiemvements?
   "Bird's Opening",
   'Scandinavian',
-  'Scotch',
+  'Scotch Game',
 ]
 const colorList = ['white', 'black']
 const terminationList = [
@@ -75,11 +74,25 @@ const terminationList = [
   'Checkmate',
   'Resignation',
   'Stalemate',
+  'Time',
+  'Repetition',
+  'Agreement',
   'Insufficient Material',
 ]
-const rarityList = ['Common', 'Uncommon', 'Rare', 'Mythic']
+const rarityList = ['Good', 'Great', 'Ultra', 'Mythic']
 const saleList = ['For Sale', 'Unlisted']
 const outcomeList = ['black', 'white', 'draw']
+
+const sortList = [
+  'Most Rare',
+  'Least Rare',
+  'Price: High to Low',
+  'Price: Low to High',
+  'Newest First',
+  'Oldest First',
+  'Played: Oldest',
+  'Played: Newest',
+]
 
 const filters = {
   achievementList,
@@ -92,7 +105,9 @@ const filters = {
   rarityList,
   saleList,
   outcomeList,
+  sortList,
 }
+
 const TREASURES_PER_PAGE = 9
 
 module.exports = filters

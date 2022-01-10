@@ -5,7 +5,10 @@ import { AuthenticationError } from '@redwoodjs/graphql-server'
 
 import { db } from 'src/lib/db'
 import productionJwks from 'src/lib/oAuth/jwks'
-import { CHESS_BASIC_AUTH, refreshChessTokens } from 'src/lib/oAuth/chessDotCom'
+import {
+  getChessBasicAuth,
+  refreshChessTokens,
+} from 'src/lib/oAuth/chessDotCom'
 
 const API_URL = process.env.CHESS_OAUTH_URL
 
@@ -13,7 +16,7 @@ const getKey = async (header) => {
   const client = jwksClient({
     jwksUri: `${API_URL}/certs`,
     requestHeaders: {
-      Authorization: `Basic ${CHESS_BASIC_AUTH}`,
+      Authorization: `Basic ${getChessBasicAuth()}`,
     },
     timeout: 30000, // Defaults to 30s
     getKeysInterceptor: () => productionJwks, // Checks production keys vefore jwksUri

@@ -7,12 +7,12 @@ const {
   parseGameFromChessDotCom,
 } = require('../../api/src/lib/chessCom/gameParsing')
 const { getGifUrl } = require('../../api/src/lib/chessCom/gifGetter')
+const { getBoardLayout } = require('../../api/src/lib/helpers')
 
 const realGames = require('./data/realGames.json')
 const randomTitles = require('./data/randomTitles.json')
 const randomAvatarsBase64 = require('./data/randomAvatarsBase64.js')
 const countries = require('./data/countries')
-import testBoard from './data/testBoard'
 
 function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min)
@@ -139,7 +139,7 @@ export const generateTreasureDataOffline = ({
     outcome: game.outcome,
     event: game.event,
     moves: game.moves,
-    boardLayout: JSON.stringify(testBoard),
+    boardLayout: JSON.stringify(getBoardLayout(game.moves)),
     moveCount: game.moveCount,
     ruleVariant: game.ruleVariant,
     externalUrl: game.externalUrl,

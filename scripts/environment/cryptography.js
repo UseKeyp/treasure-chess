@@ -10,6 +10,7 @@ const ALGORITHM = 'aes-256-cbc'
 const decrypt = (ciphertext) => {
   const key = process.env.ENCRYPTION_KEY
   const iv = process.env.ENCRYPTION_IV
+  if (!key || !iv) throw 'No ENCRYPTION_KEY or ENCRYPTION_IV found in .env'
   const decipher = createDecipheriv(ALGORITHM, key, Buffer.from(iv, 'hex'))
 
   let decrypted = decipher.update(ciphertext, 'hex')

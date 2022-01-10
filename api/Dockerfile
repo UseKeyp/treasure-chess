@@ -18,6 +18,10 @@ WORKDIR /app
 COPY api api
 # TODO: Figure our better solution than copy web, and remove react dep
 COPY web web
+COPY packages packages
+COPY dev.env.enc.js dev.env.enc.js
+COPY prod.env.enc.js prod.env.enc.js
+COPY scripts/environment .
 COPY .nvmrc .
 COPY graphql.config.js .
 COPY package.json .
@@ -61,4 +65,4 @@ WORKDIR /app/api
 EXPOSE 8911
 
 # Entrypoint to @redwoodjs/api-server binary
-ENTRYPOINT [ "yarn", "rw", "serve", "api", "--port", "8911", "--rootPath", "/api" ]
+ENTRYPOINT [ "node","/app/scripts/environment/setupEnv.js","&&","yarn", "rw", "serve", "api", "--port", "8911", "--rootPath", "/api" ]

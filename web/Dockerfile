@@ -14,8 +14,8 @@ ENV RUNTIME_ENV=$RUNTIME_ENV
 # Set workdir
 WORKDIR /app
 
-#COPY api .
 COPY web web
+COPY packages packages
 COPY .nvmrc .
 COPY graphql.config.js .
 COPY package.json .

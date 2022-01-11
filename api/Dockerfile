@@ -57,7 +57,7 @@ COPY serve-api.sh serve-api.sh
 
 COPY --from=build /app/packages /app/packages
 
-COPY --from=build /app/node_modules/.prisma /app/api/node_modules/.prisma
+COPY --from=build /app/node_modules/.prisma /app/node_modules/.prisma
 COPY --from=build /app/api/dist /app/api/dist
 COPY --from=build /app/package.json /app/package.json
 COPY --from=build /app/api/package.json /app/api/package.json

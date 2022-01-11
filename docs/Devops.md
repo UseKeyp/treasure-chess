@@ -83,6 +83,7 @@ docker build . -t pi0neerpat/treasure-chess-redwood-api-main -f api/Dockerfile \
 
 # both
 docker build . -t pi0neerpat/treasure-chess-redwood-both-main \
+-f docker/Dockerfile \
 --build-arg NODE_ENV=development \
 --build-arg RUNTIME_ENV=local
 ```

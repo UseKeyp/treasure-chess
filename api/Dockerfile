@@ -28,15 +28,17 @@ FROM base as build
 
 COPY api api
 COPY packages packages
-COPY scripts/environment/ scripts/environment/
-COPY dev.env.enc.js dev.env.enc.js
-COPY prod.env.enc.js prod.env.enc.js
-COPY serve-api.sh serve-api.sh
+
+# TODO: delete
+# COPY scripts/environment/ scripts/environment/
+# COPY dev.env.enc.js dev.env.enc.js
+# COPY prod.env.enc.js prod.env.enc.js
+# COPY serve-api.sh serve-api.sh
 
 RUN yarn build-packages && yarn rw build api
 
+# TODO: delete
 # EXPOSE 8911
-#
 # ENTRYPOINT ["./serve-api.sh"]
 
 # TODO delete below if unused
@@ -63,7 +65,7 @@ COPY --from=build /app/yarn.lock /app/api/yarn.lock
 
 COPY --from=build /app/redwood.toml /app/redwood.toml
 
-RUN yarn --cwd "api" --production --frozen-lockfile install
+RUN yarn --cwd "api" --frozen-lockfile install
 
 # Expose RedwoodJS api port
 EXPOSE 8911

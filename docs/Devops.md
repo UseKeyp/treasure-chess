@@ -57,12 +57,12 @@ Operations for Treasure Chess
 3. Serve
 
 - Inherits build files, scripts, packages, and `.prisma` from build step.
-- Installs production dependencies in `/api/package.json`
-- Includes needed `dotenv` package to run `setupEnv.js`
-- Includes `react` and `react-dom` which are also needed.
+- Installs prod+dev dependencies in `/api/package.json`
+- Includes `dotenv` for running `setupEnv.js`
+- Includes `react` which is needed for some reason?
 - Includes `@redwoodjs/cli` for running `rw serve`?
-- Includes @redwoodjs/core and core-js. Both needed?
-- Runs `./serve-api.sh`
+- Includes `core-js` and potentially `@redwoodjs/core`
+- Entrypoint `./serve-api.sh`
 
 ### Guid
 

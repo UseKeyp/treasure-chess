@@ -1,64 +1,61 @@
-###########################################################################################
-# Runner: node
-###########################################################################################
+# ==
+# Base
+FROM node:14 as base
 
-FROM node:14 as runner
+WORKDIR /app
 
-# Node
 ARG NODE_ENV
 ARG RUNTIME_ENV
 
 ENV NODE_ENV=$NODE_ENV
 ENV RUNTIME_ENV=$RUNTIME_ENV
 
-# Set workdir
-WORKDIR /app
+COPY package.json package.json
+COPY yarn.lock yarn.lock
 
-# Copy files
-COPY api api
-# TODO: Figure our better solution than copy web, and remove react dep
-COPY web web
-COPY .nvmrc .
-COPY graphql.config.js .
-COPY package.json .
-COPY redwood.toml .
-COPY yarn.lock .
+COPY redwood.toml redwood.toml
+COPY graphql.config.js graphql.config.js
 
-# Install dependencies
+COPY packages packages
+COPY api/package.json api/package.json
+COPY web/package.json web/package.json
+
 RUN yarn install --frozen-lockfile
 
-# Build packages
-RUN yarn build-packages
+# ==
+# Build
+FROM base as build
 
-# Build api
-RUN yarn rw build api
+COPY api api
+COPY packages packages
 
-# Cleanup web TODO: May be unnecessary eventually
-RUN rm -rf /web
+RUN yarn build-packages && yarn rw build api
 
-# Set database baseline
-# We only need to do this once per database
-# RUN yarn rw prisma migrate resolve --applied 20210311161829_baseline0
+# ==
+# Serve
+FROM node:14 as serve
 
-# Migrate database
-# This has been commented out in this example post
-# RUN yarn rw prisma migrate deploy
+WORKDIR /app
 
-# Seed database
-# This has been commented out in this example post
-# RUN yarn rw prisma db seed
+COPY scripts/environment/ scripts/environment/
+COPY dev.env.enc.js dev.env.enc.js
+COPY prod.env.enc.js prod.env.enc.js
+COPY serve-api.sh serve-api.sh
 
-# Clean up
-RUN rm -rf ./api/src
+COPY --from=build /app/packages /app/packages
 
-# Debugging
-RUN ls -lA ./api/dist
+COPY --from=build /app/node_modules/.prisma /app/node_modules/.prisma
+COPY --from=build /app/api/dist /app/api/dist
+COPY --from=build /app/package.json /app/package.json
+COPY --from=build /app/api/package.json /app/api/package.json
+COPY --from=build /app/yarn.lock /app/api/yarn.lock
 
-# Set api as workdirectory
-WORKDIR /app/api
+COPY --from=build /app/redwood.toml /app/redwood.toml
+
+RUN yarn --cwd "api" --frozen-lockfile install
 
 # Expose RedwoodJS api port
 EXPOSE 8911
 
 # Entrypoint to @redwoodjs/api-server binary
-ENTRYPOINT [ "yarn", "rw", "serve", "api", "--port", "8911", "--rootPath", "/api" ]
+ENTRYPOINT ["./serve-api.sh"]

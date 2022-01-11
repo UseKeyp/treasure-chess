@@ -10,8 +10,6 @@ import { isProduction } from 'src/lib/helpers'
 import { getNewIdToken } from 'src/lib/oAuth/jwt'
 import { decode as decodeJwt } from 'jsonwebtoken'
 
-const TORUS_VERIFIER = process.env.TORUS_VERIFIER
-
 const fetchNodeDetails = new FetchNodeDetails(
   !isProduction && {
     network: 'ropsten',
@@ -26,7 +24,7 @@ export const getTorusPublicAddress = async (userId) => {
   const publicAddress = await torusUtils.getPublicAddress(
     torusNodeEndpoints,
     torusNodePub,
-    { verifier: TORUS_VERIFIER, verifierId: userId }
+    { verifier: process.env.TORUS_VERIFIER, verifierId: userId }
   )
   return publicAddress
 }
@@ -43,7 +41,7 @@ export const getTorusWallet = async (userId) => {
       await torusUtils.retrieveShares(
         torusNodeEndpoints,
         torusIndexes,
-        TORUS_VERIFIER,
+        process.env.TORUS_VERIFIER,
         { verifier_id: user_id },
         idToken
       )

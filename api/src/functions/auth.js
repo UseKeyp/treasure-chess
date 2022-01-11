@@ -10,6 +10,10 @@ import { handleOauthCodeGrant } from 'src/lib/oAuth/oAuth'
 export const handler = async (event, context) => {
   const authHandler = new DbAuthHandler(event, context, {
     db: db,
+    cors: {
+      origin: '*',
+      credentials: true,
+    },
     authModelAccessor: 'member',
     authFields: {
       id: 'id',

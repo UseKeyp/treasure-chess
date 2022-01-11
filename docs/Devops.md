@@ -61,7 +61,7 @@ Operations for Treasure Chess
 - Includes `dotenv` for running `setupEnv.js`
 - Includes `react` which is needed for some reason?
 - Includes `@redwoodjs/cli` for running `rw serve`?
-- Includes `core-js` and potentially `@redwoodjs/core`
+- Includes `core-js`
 - Entrypoint `./serve-api.sh`
 
 ### Guid

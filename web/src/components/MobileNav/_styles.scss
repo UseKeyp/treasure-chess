@@ -1,0 +1,42 @@
+// COMPONENT-SPECIFIC STYLES
+.mobile-nav-outer-container {
+  transition: max-height 200ms ease;
+  background-color: #312e2b;
+
+  .expandable-header-section {
+    transition: opacity 200ms ease;
+  }
+
+  .header-title {
+    text-transform: uppercase;
+    font-size: 28px;
+  }
+
+  .mobile-nav-link {
+    font-size: 32px;
+    line-height: 1.5;
+    display: block;
+  }
+}
+
+.rect-button {
+  background: linear-gradient(180deg, #eeeded 0%, #c4c4c4 100%);
+  border-radius: 5px;
+  font-weight: 700;
+  font-size: 24px;
+  color: black;
+  padding: 12px;
+
+  &:hover {
+    background: linear-gradient(180deg, #dedddd 0%, #c4c4c4 60%);
+  }
+
+  &.green {
+    background: linear-gradient(180deg, #b9cc36 0%, #7fa650 100%);
+    color: white;
+
+    &:hover {
+      background: linear-gradient(180deg, #a9bc26 0%, #7fa650 60%);
+    }
+  }
+}

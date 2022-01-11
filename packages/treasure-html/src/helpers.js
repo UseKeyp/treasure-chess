@@ -26,7 +26,6 @@ export const fetchImageAndEncodeBase64 = async (url) => {
 }
 
 export const getFlagBase64 = (code) => {
-  console.log(code)
   let base64Image = flags['XX']
   if (code) {
     const regionNames = new Intl.DisplayNames(['en'], { type: 'region' })

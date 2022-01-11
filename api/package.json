@@ -10,6 +10,7 @@
     "@ethersproject/providers": "^5.4.5",
     "@ethersproject/units": "^5.5.0",
     "@ethersproject/wallet": "^5.4.0",
+    "@prisma/client": "^3.6.0",
     "@redwoodjs/api": "^0.40.0",
     "@redwoodjs/cli": "^0.41.0",
     "@redwoodjs/graphql-server": "^0.40.0",

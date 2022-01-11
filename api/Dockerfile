@@ -1,47 +1,61 @@
-###########################################################################################
-# Runner: node
-###########################################################################################
+# ==
+# Base
+FROM node:14 as base
 
-FROM node:14 as runner
+WORKDIR /app
 
-# Node
 ARG NODE_ENV
 ARG RUNTIME_ENV
 
 ENV NODE_ENV=$NODE_ENV
 ENV RUNTIME_ENV=$RUNTIME_ENV
 
-# Set workdir
-WORKDIR /app
+COPY package.json package.json
+COPY yarn.lock yarn.lock
 
-# Copy files
-COPY api api
-COPY web/package.json web/package.json
+COPY redwood.toml redwood.toml
+COPY graphql.config.js graphql.config.js
+
 COPY packages packages
-COPY scripts/environment/ scripts/environment/
-COPY serve.sh .
-COPY dev.env.enc.js .
-COPY prod.env.enc.js .
-COPY .nvmrc .
-COPY graphql.config.js .
-COPY package.json .
-COPY redwood.toml .
-COPY yarn.lock .
+COPY api/package.json api/package.json
+COPY web/package.json web/package.json
 
-# Install dependencies
 RUN yarn install --frozen-lockfile
 
-# Install additional dependencies
-# RUN yarn add react react-dom --ignore-workspace-root-check
+# ==
+# Build
+FROM base as build
 
-# Build packages
+COPY api api
+COPY packages packages
+
 RUN yarn build-packages && yarn rw build api
 
-# Clean up
-# RUN rm -rf ./api/src
+# ==
+# Serve
+FROM node:14 as serve
+
+WORKDIR /app
+
+COPY scripts/environment/ scripts/environment/
+COPY dev.env.enc.js dev.env.enc.js
+COPY prod.env.enc.js prod.env.enc.js
+COPY serve-api.sh serve-api.sh
+
+COPY --from=build /app/packages /app/packages
+
+COPY --from=build /app/node_modules/.prisma /app/api/node_modules/.prisma
+COPY --from=build /app/api/dist /app/api/dist
+COPY --from=build /app/package.json /app/package.json
+COPY --from=build /app/api/package.json /app/api/package.json
+COPY --from=build /app/yarn.lock /app/api/yarn.lock
+
+COPY --from=build /app/redwood.toml /app/redwood.toml
+
+RUN yarn --cwd "api" --production --frozen-lockfile install
 
 # Expose RedwoodJS api port
 EXPOSE 8911
 
 # Entrypoint to @redwoodjs/api-server binary
-ENTRYPOINT ["./serve.sh"]
+ENTRYPOINT ["./serve-api.sh"]

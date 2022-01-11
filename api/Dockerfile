@@ -35,16 +35,10 @@ RUN yarn install --frozen-lockfile
 # RUN yarn add react react-dom --ignore-workspace-root-check
 
 # Build packages
-RUN yarn build-packages
-
-# Build api
-RUN yarn rw build api
+RUN yarn build-packages && yarn rw build api
 
 # Clean up
-RUN rm -rf ./api/src
-
-# Debugging
-RUN ls -lA ./api/dist
+# RUN rm -rf ./api/src
 
 # Expose RedwoodJS api port
 EXPOSE 8911

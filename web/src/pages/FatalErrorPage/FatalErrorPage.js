@@ -8,6 +8,8 @@
 // thoughtful. =)
 import globalConfig from 'src/global.config'
 
+const currentYear = new Date().getFullYear()
+
 export default () => (
   <main>
     <style
@@ -171,7 +173,7 @@ export default () => (
                     <a href=${globalConfig.CHESS_COM_BASE_URL}>
                       <img src="/icons/chess_com.svg" alt="" />
                     </a>
-                    <p>@ Nifty Chess, Inc.2022</p>
+                    <p>© Nifty Chess, Inc. ${currentYear}</p>
                   </div>
                 </div>
               </div>

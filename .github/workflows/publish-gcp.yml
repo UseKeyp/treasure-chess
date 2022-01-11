@@ -7,6 +7,10 @@ on:
         required: true
         default: 'prod'
 env:
+  NODE_ENV: 'production'
+  RUNTIME_ENV: 'main'
+  REDWOOD_API_URL: 'http://0.0.0.0:8911'
+
   GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
   GITHUB_SHA: ${{ github.sha }}
   GITHUB_BRANCH: ${{ github.ref }}
@@ -40,7 +44,11 @@ jobs:
 
               echo "branch: $GITHUB_BRANCH, building image... $PROJECT_NAME/$IMAGE_NAME-$COMPONENT:$IMAGE_TAG"
               echo "$GCP_SA_KEY" | base64 -d > ./credentials.json
-              docker build -t $PROJECT_NAME/$IMAGE_NAME-$COMPONENT:$IMAGE_TAG --build-arg DATABASE_URL=$DATABASE_URL -f ./$COMPONENT/Dockerfile .
+              docker build -t $PROJECT_NAME/$IMAGE_NAME-$COMPONENT:$IMAGE_TAG \
+                --build-arg NODE_ENV=$NODE_ENV \
+                --build-arg RUNTIME_ENV=$RUNTIME_ENV \
+                --build-arg REDWOOD_API_URL=$REDWOOD_API_URL \
+                 -f ./$COMPONENT/Dockerfile .
 
               echo "pushing image... $PROJECT_NAME/$IMAGE_NAME:$IMAGE_TAG"
               docker push $PROJECT_NAME/$IMAGE_NAME-$COMPONENT:$IMAGE_TAG

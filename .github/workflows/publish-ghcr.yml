@@ -10,10 +10,9 @@ on:
       - main
 
 env:
-  # Build
-  # TODO: change to "production"?
-  NODE_ENV: 'development'
+  NODE_ENV: 'production'
   RUNTIME_ENV: 'main'
+  REDWOOD_API_URL: 'http://0.0.0.0:8911'
 
   # Container Registry
   CONTAINER_REGISTRY_HOSTNAME: ghcr.io
@@ -41,11 +40,10 @@ jobs:
       fail-fast: true
       matrix:
         platform: [api, web]
-        include:
-          - platform: api
-          # TODO: Change this to the production database
-          # Name of Github secret
-          - platform: web
+        # Todo: delete if unused
+        # include:
+        #   - platform: api
+        #   - platform: web
 
     steps:
       # Checkout source code
@@ -74,6 +72,7 @@ jobs:
           build-args: |
             NODE_ENV=${{ env.NODE_ENV }}
             RUNTIME_ENV=${{ env.RUNTIME_ENV }}
+            REDWOOD_API_URL=${{ env.REDWOOD_API_URL }}
           tags: |
             ${{ env.CONTAINER_REGISTRY_HOSTNAME }}/${{ env.CONTAINER_REGISTRY_REPOSITORY }}/${{ env.CONTAINER_REGISTRY_IMAGE_PREFIX }}-${{ matrix.platform }}-${{ env.RUNTIME_ENV }}:latest
             ${{ env.CONTAINER_REGISTRY_HOSTNAME }}/${{ env.CONTAINER_REGISTRY_REPOSITORY }}/${{ env.CONTAINER_REGISTRY_IMAGE_PREFIX }}-${{ matrix.platform }}-${{ env.RUNTIME_ENV }}:${{ github.sha }}

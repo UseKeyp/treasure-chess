@@ -28,8 +28,19 @@ FROM base as build
 
 COPY api api
 COPY packages packages
+COPY scripts/environment/ scripts/environment/
+COPY dev.env.enc.js dev.env.enc.js
+COPY prod.env.enc.js prod.env.enc.js
+COPY serve-api.sh serve-api.sh
 
 RUN yarn build-packages && yarn rw build api
+
+# EXPOSE 8911
+#
+# ENTRYPOINT ["./serve-api.sh"]
+
+# TODO delete below if unused
+# may need to add `@redwoodjs/cli` if using this approach
 
 # ==
 # Serve

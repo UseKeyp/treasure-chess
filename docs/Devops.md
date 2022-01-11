@@ -35,6 +35,37 @@ Operations for Treasure Chess
 
 ## Docker
 
+### Overview
+
+**Web Docker image:**
+
+- Docker nginx runner
+- nginx config from `/web/config/nginx/default.conf`
+- Built files end up in `/etc/nginx/conf.d/default.conf`
+- Must pass `REDWOOD_API_URL`
+
+**Api Docker image** has 3 distinct steps:
+
+1. Install
+
+- Installs everything.
+
+2. Build
+
+- Inherits everything from previous step and builds the packages and api.
+
+3. Serve
+
+- Inherits build files, scripts, packages, and `.prisma` from build step.
+- Installs production dependencies in `/api/package.json`
+- Includes needed `dotenv` package to run `setupEnv.js`
+- Includes `react` and `react-dom` which are also needed.
+- Includes `@redwoodjs/cli` for running `rw serve`?
+- Includes @redwoodjs/core and core-js. Both needed?
+- Runs `./serve-api.sh`
+
+### Guid
+
 Images are built via Github Action. To build the images locally:
 
 ```bash

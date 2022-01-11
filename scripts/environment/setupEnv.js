@@ -17,8 +17,9 @@ const setupEnvironment = () => {
 
   Object.keys(env).map((key) => {
     if (process.env[key]) return // Allows overriding
-    console.log(`${key}='${env[key]}'`)
-    // console.log(`export ${key}='${env[key]}'`)
+    if (key === 'APP_ADMIN_WALLET_MNEMONIC')
+      return console.log(`export ${key}="${env[key]}"`)
+    console.log(`export ${key}=${env[key]}`)
   })
 }
 

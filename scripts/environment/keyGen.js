@@ -26,6 +26,7 @@ const gen = () => {
 ENCRYPTION_KEY=${process.env.ENCRYPTION_KEY}
 ENCRYPTION_IV=${iv.toString('hex')}
 APP_DOMAIN=${process.env.APP_DOMAIN}
+REDWOOD_API_URL=${process.env.REDWOOD_API_URL}
 ETHEREUM_NETWORK_NAME=${process.env.ETHEREUM_NETWORK_NAME}`,
     (err) => {
       if (err) throw err

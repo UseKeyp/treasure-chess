@@ -1,22 +1,20 @@
 version: '3'
 services:
-  both:
-    image: pi0neerpat/treasure-chess-redwood-both-main
-    # image: ghcr.io/pi0neerpat/treasure-chess-redwood-api-main
-    restart: always
-    ports:
-      - '8911:8911' # http
-    logging:
-      driver: 'json-file'
-      options:
-        max-size: '200k'
-        max-file: '10'
-    env_file:
-      - .env
-    # entrypoint:
-    # - './serve.sh'
-    #   - 'rw'
-    #   - 'serve'
+  # both:
+  #   image: pi0neerpat/treasure-chess-redwood-both-main
+  #   # image: ghcr.io/pi0neerpat/treasure-chess-redwood-api-main
+  #   restart: always
+  #   ports:
+  #     - '8910:8910' # http
+  #   logging:
+  #     driver: 'json-file'
+  #     options:
+  #       max-size: '200k'
+  #       max-file: '10'
+  #   env_file:
+  #     - .env
+  #   - 'rw'
+  #   - 'serve'
   # api:
   #   image: pi0neerpat/treasure-chess-redwood-api-main
   #   # image: ghcr.io/pi0neerpat/treasure-chess-redwood-api-main
@@ -31,18 +29,18 @@ services:
   #   env_file:
   #     - .env
   #
-  # web:
-  #   image: pi0neerpat/treasure-chess-redwood-web-main
-  #   # image: ghcr.io/pi0neerpat/treasure-chess-redwood-web-main
-  #   restart: always
-  #   ports:
-  #     - '8910:8910' # http
-  #   depends_on:
-  #     - api
-  #   logging:
-  #     driver: 'json-file'
-  #     options:
-  #       max-size: '200k'
-  #       max-file: '10'
-  #   env_file:
-  #     - .env
+  web:
+    image: pi0neerpat/treasure-chess-redwood-web-main
+    # image: ghcr.io/pi0neerpat/treasure-chess-redwood-web-main
+    restart: always
+    ports:
+      - '8910:8910' # http
+    # depends_on:
+    #   - api
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '200k'
+        max-file: '10'
+    env_file:
+      - .env

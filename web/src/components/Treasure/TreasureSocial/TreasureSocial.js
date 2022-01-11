@@ -2,8 +2,7 @@ import Icon from 'src/components/Icon'
 import MemberLink from 'src/components/MemberLink'
 
 const TreasureSocial = ({ treasure }) => {
-  const rootUrl = process.env.APP_DOMAIN
-  const linkToShare = `${rootUrl}/treasures/${treasure?.tokenId}`
+  const linkToShare = `${process.env.APP_DOMAIN}/treasures/${treasure?.tokenId}`
   const facebookHandler = () => {
     const uriComponent = encodeURIComponent(linkToShare)
     window.open(

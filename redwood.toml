@@ -14,13 +14,12 @@
   includeEnvironmentVariables = [
     "APP_DOMAIN",
     "ETHEREUM_NETWORK_NAME",
+    "REDWOOD_API_URL"
   ]
 [api]
   port = 8911
   schemaPath = "./api/db/schema.prisma"
   includeEnvironmentVariables = [
-    "ENCRYPTION_KEY",
-    "ENCRYPTION_IV",
     "APP_DOMAIN",
     "ETHEREUM_NETWORK_NAME",
   ]

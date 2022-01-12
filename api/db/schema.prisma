@@ -158,9 +158,9 @@ enum MasterTitle {
 
 enum Achievement {
   Player
-  750Winner
+  Winner750
   Played750
-  1500Winner
+  Winner1500
   Played1500
   Played2000
   BigWinner

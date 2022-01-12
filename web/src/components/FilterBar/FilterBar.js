@@ -103,7 +103,7 @@ const FilterBar = ({ filter, setFilter, defaultParams }) => {
       <div className={styles.dropdownRowSpacing}>
         <Dropdown
           category={'Opening'}
-          options={filters.openingList}
+          options={filters.openingList.map((opening) => opening.name)}
           queryFilterFunction={setOpening}
           queryFilter={opening}
         />
@@ -143,7 +143,9 @@ const FilterBar = ({ filter, setFilter, defaultParams }) => {
       <div className={styles.dropdownRowSpacing}>
         <Dropdown
           category={'Termination'}
-          options={filters.terminationList}
+          options={filters.terminationList.map(
+            (termination) => termination.name
+          )}
           queryFilterFunction={setTermination}
           queryFilter={termination}
         />
@@ -151,7 +153,7 @@ const FilterBar = ({ filter, setFilter, defaultParams }) => {
       <div className={styles.dropdownTwoElementRow}>
         <Dropdown
           category={'Time'}
-          options={filters.timeControlList}
+          options={filters.timeControlList.map((time) => time.name)}
           queryFilterFunction={setTimeControl}
           queryFilter={timeControl}
         />

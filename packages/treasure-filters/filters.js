@@ -52,7 +52,6 @@ const moveCountList = [
   { name: '200+', value: [200, 999] },
 ]
 
-// Value for opening is the enum
 const openingList = [
   { name: "King's Pawn Game", value: 'KingsPawn' },
   { name: "Queen's Gambit", value: 'QueensGambit' },
@@ -68,7 +67,6 @@ const openingList = [
 ]
 
 const terminationList = [
-  { name: 'Any', value: 'Any' },
   { name: 'Checkmate', value: 'Checkmate' },
   { name: 'Resignation', value: 'Resignation' },
   { name: 'Stalemate', value: 'Stalemate' },

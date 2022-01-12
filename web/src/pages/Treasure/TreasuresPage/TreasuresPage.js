@@ -10,7 +10,6 @@ import SortingDropdown from 'src/components/SortingDropdown/SortingDropdown'
 const defaultParams = {
   outcome: filters.outcomeList,
   sale: filters.saleList,
-  termination: filters.terminationList[0],
 }
 
 const TreasuresPage = () => {

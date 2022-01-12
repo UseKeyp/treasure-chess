@@ -5,7 +5,7 @@ const SortingDropdown = ({ sort, setSort }) => {
   return (
     <div className="absolute w-full" style={{ maxWidth: '235px' }}>
       <Dropdown
-        default="Sort by"
+        defaultValue="Sort by"
         options={filters.sortList}
         queryFilterFunction={setSort}
         queryFilter={sort}

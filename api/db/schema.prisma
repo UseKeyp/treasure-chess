@@ -94,7 +94,7 @@ model MintPurchase {
   // --------------- STATE --------------
   gameId      String
   gameEndTime String
-  title       String    @default("Cool game") // User's desired title
+  title       String    // User's desired title
   // Order
   paymentType String    @default("WYRE") // WYRE, MINTCREDIT
   orderStatus String? // RESERVATION, COMPLETE

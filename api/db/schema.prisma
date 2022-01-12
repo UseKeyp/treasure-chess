@@ -27,7 +27,7 @@ model Member {
   createdAt            DateTime       @default(now())
   updatedAt            DateTime       @updatedAt
   imageSrc             String? // Avatar URL
-  masterTitle          String? // "Grand Master" or "International Master"
+  masterTitle          MasterTitle? // "Grand Master" or "International Master"
   country              String // Player's country  eg. US, DE
   mintCredits          Int            @default(3) // Mint for free!
   // Oauth
@@ -65,22 +65,22 @@ model Treasure {
   whiteRating      Int // Rating at the time of the game
   blackRatingDelta Int // Rating at the time of the game
   whiteRatingDelta Int
-  blackMasterTitle String? // eg. "GM" "NM", or "IM"
-  whiteMasterTitle String?
+  blackMasterTitle MasterTitle? // eg. "GM" "NM", or "IM"
+  whiteMasterTitle MasterTitle?
   timeControl      String // game time variant
-  termination      String // eg. "Checkmate",  "Resignation", "Stalemate", "Insufficient Material"
+  termination      Termination
   endTime          DateTime
-  outcome          String // "white" "black" "draw" etc.
+  outcome          Outcome // "white" "black" "draw" etc.
   event            String // eg. "Live Chess"
   moves            String // pgn moves
   boardLayout      String // Final positions used to generate the image
   moveCount        Int // eg. 43
   ruleVariant      String        @default("Standard") // eg. "Standard" or "Chess960"
   externalUrl      String? // Link to game on chess.com
-  opening          String // eg. "Queen's Gambit"
-  achievements     String // List eg. "win/play above 2200,queen side castle,mate with a bishop"
+  opening          Opening
+  achievements     Achievement[] // List eg. "win/play above 2200,queen side castle,mate with a bishop"
   achievementScore Int // eg. 10
-  rarity           String // eg. 10
+  rarity           Rarity
 }
 
 model MintPurchase {
@@ -125,4 +125,73 @@ enum Opening {
   Bird
   Scandinavian
   Scotch
+}
+
+enum Rarity {
+  Good
+  Great
+  Ultra
+  Mythic
+}
+
+enum Outcome {
+  black
+  white
+  draw
+}
+
+enum Termination {
+  Checkmate
+  Resignation
+  Stalemate
+  Time
+  Repetition
+  Agreement
+  Insufficient
+}
+
+enum MasterTitle {
+  gm
+  im
+  nm
+}
+
+enum Achievement {
+  Player
+  750Winner
+  Played750
+  1500Winner
+  Played1500
+  Played2000
+  BigWinner
+  StrongestOpponent
+  MythicWinner
+  DefeatIM
+  DefeatNM
+  DefeatGM
+  CrissCross
+  Jousting
+  UtterDisrespect
+  TripleDigitClub
+  Excessive
+  Ultramarathoners
+  OpeningExpert
+  DontBlink
+  FoolsMate
+  LeveledField
+  Hellomlady
+  HorseFarmer
+  HolyPromotion
+  TheSneakyPawn
+  GodModeGlitch
+  CuttingitClose
+  DejaVu
+  TheUnderdog
+  CheckinYouOut
+  PawnShy
+  PawnShopper
+  MinorProblem
+  MrMarathonMan
+  PawnHoarder
+  Winner
 }

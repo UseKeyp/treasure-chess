@@ -52,33 +52,35 @@ const moveCountList = [
   { name: '200+', value: [200, 999] },
 ]
 
+// Value for opening is the enum
+const openingList = [
+  { name: "King's Pawn Game", value: 'KingsPawn' },
+  { name: "Queen's Gambit", value: 'QueensGambit' },
+  { name: 'Ruy Lopez', value: 'RuyLopez' },
+  { name: 'French Defense', value: 'FrenchDefense' },
+  { name: 'Caro-Kann', value: 'CaroKann' },
+  { name: 'Reti Opening', value: 'RetiOpening' },
+  { name: 'English', value: 'English' },
+  { name: 'Modern', value: 'Modern' },
+  { name: "Bird's Opening", value: 'Bird' },
+  { name: 'Scandinavian', value: 'Scandinavian' },
+  { name: 'Scotch Game', value: 'Scotch' },
+]
+
+const terminationList = [
+  { name: 'Any', value: 'Any' },
+  { name: 'Checkmate', value: 'Checkmate' },
+  { name: 'Resignation', value: 'Resignation' },
+  { name: 'Stalemate', value: 'Stalemate' },
+  { name: 'Time', value: 'Time' },
+  { name: 'Repetition', value: 'Repetition' },
+  { name: 'Agreement', value: 'Agreement' },
+  { name: 'Insufficient Material', value: 'Insufficient' },
+]
 ////////////////////////////////
 // Items without name/value pair
 const titleList = ['gm', 'im', 'nm']
-const openingList = [
-  { value: "King's Pawn Game", enum: 'KingsPawn' },
-  { value: "Queen's Gambit", enum: 'QueensGambit' },
-  { value: 'Ruy Lopez', enum: 'RuyLopez' },
-  { value: 'French Defense', enum: 'FrenchDefense' },
-  { value: 'Caro-Kann', enum: 'CaroKann' },
-  { value: 'Reti Opening', enum: 'RetiOpening' },
-  { value: 'English', enum: 'English' },
-  { value: 'Modern', enum: 'Modern' },
-  { value: "Bird's Opening", enum: 'Bird' },
-  { value: 'Scandinavian', enum: 'Scandinavian' },
-  { value: 'Scotch Game', enum: 'Scotch' },
-]
 const colorList = ['white', 'black']
-const terminationList = [
-  'Any',
-  'Checkmate',
-  'Resignation',
-  'Stalemate',
-  'Time',
-  'Repetition',
-  'Agreement',
-  'Insufficient Material',
-]
 const rarityList = ['Good', 'Great', 'Ultra', 'Mythic']
 const saleList = ['For Sale', 'Unlisted']
 const outcomeList = ['black', 'white', 'draw']

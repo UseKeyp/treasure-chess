@@ -1,8 +1,4 @@
-const {
-  achievements,
-  ecoCodes,
-} = require('@treasure-chess/chess-achievements/src/achievementsList')
-
+const { achievements, ecoCodes } = require('@treasure-chess/chess-achievements')
 ////////////////////////////////
 // Items with name/value pair
 

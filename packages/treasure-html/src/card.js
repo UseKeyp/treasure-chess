@@ -13,15 +13,15 @@ const card = `<html>
   			<div style="display: flex;align-items: center; min-height: 39px;">
   				<div style="padding-right: 8px;">
             <svg height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M5.41798 17.3539C5.56512 17.7428 5.93751 18 6.35326 18H17.6475C18.0632 18 18.4356 17.7427 18.5828 17.3539L21.9878 8.35386C22.2353 7.69967 21.7519 7 21.0525 7H2.94761C2.24813 7 1.76478 7.69971 2.01233 8.35391L5.41798 17.3539Z" fill="#312E2B"/>
-              <path d="M3.5 21C3.5 20.4477 3.94772 20 4.5 20H19.5C20.0523 20 20.5 20.4477 20.5 21V23C20.5 23.5523 20.0523 24 19.5 24H4.5C3.94772 24 3.5 23.5523 3.5 23V21Z" fill="#312E2B"/>
-              <path d="M10.5 1C10.5 0.447715 10.9477 0 11.5 0H12.5C13.0523 0 13.5 0.447715 13.5 1V7C13.5 7.55228 13.0523 8 12.5 8H11.5C10.9477 8 10.5 7.55228 10.5 7V1Z" fill="#312E2B"/>
-              <path d="M8.5 3C8.5 2.44772 8.94772 2 9.5 2H14.5C15.0523 2 15.5 2.44772 15.5 3V4C15.5 4.55228 15.0523 5 14.5 5H9.5C8.94772 5 8.5 4.55228 8.5 4V3Z" fill="#312E2B"/>
+              <path fill="#fff" d="M5.41798 17.3539C5.56512 17.7428 5.93751 18 6.35326 18H17.6475C18.0632 18 18.4356 17.7427 18.5828 17.3539L21.9878 8.35386C22.2353 7.69967 21.7519 7 21.0525 7H2.94761C2.24813 7 1.76478 7.69971 2.01233 8.35391L5.41798 17.3539Z" />
+              <path fill="#fff" d="M3.5 21C3.5 20.4477 3.94772 20 4.5 20H19.5C20.0523 20 20.5 20.4477 20.5 21V23C20.5 23.5523 20.0523 24 19.5 24H4.5C3.94772 24 3.5 23.5523 3.5 23V21Z" />
+              <path fill="#fff" d="M10.5 1C10.5 0.447715 10.9477 0 11.5 0H12.5C13.0523 0 13.5 0.447715 13.5 1V7C13.5 7.55228 13.0523 8 12.5 8H11.5C10.9477 8 10.5 7.55228 10.5 7V1Z" />
+              <path fill="#fff" d="M8.5 3C8.5 2.44772 8.94772 2 9.5 2H14.5C15.0523 2 15.5 2.44772 15.5 3V4C15.5 4.55228 15.0523 5 14.5 5H9.5C8.94772 5 8.5 4.55228 8.5 4V3Z" />
             </svg>
   				</div>
   				<div style="max-width: 124px; overflow-x:hidden; white-space: nowrap;">
-  					<p id="title" style="color:black; margin: 0;font-weight: bold; font-size: 11px;">My fun game</p>
-  					<p id="termination" style="color:black; margin: 0; font-size: 10px;" >White won by checkmate</p>
+  					<p id="title" style="color:white; margin: 0;font-weight: bold; font-size: 11px;">My fun game</p>
+  					<p id="termination" style="color:white; margin: 0; font-size: 10px;" >White won by checkmate</p>
   				</div>
         </div>
         <a href="https://treasure.chess.com" target="_blank" rel="noopener">

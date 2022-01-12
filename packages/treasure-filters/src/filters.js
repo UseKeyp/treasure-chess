@@ -113,11 +113,10 @@ const filters = {
 }
 
 export const TREASURES_PER_PAGE = 9
+
 export const getAchievementNamesFromValues = (achievements) =>
   achievements.map((value) => {
-    const chiev = achievementList.find((item) => {
-      return item.value == value
-    })
+    let chiev = achievementList.find((item, index) => item.value === value)
     if (!chiev) return value
     return chiev.name
   })

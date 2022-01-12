@@ -5238,6 +5238,13 @@
   dependencies:
     chess.js "^0.12.0"
 
+"@treasure-chess/chess-achievements@^0.0.10-dev.0234ede.0":
+  version "0.0.10-dev.0234ede.0"
+  resolved "https://registry.npmjs.org/@treasure-chess/chess-achievements/-/chess-achievements-0.0.10-dev.0234ede.0.tgz#1475480bd6c35f33f7ffe40530f25c1719799c8e"
+  integrity sha512-uSgJLH8SHhHTL7atoGd9R0QtjoLu9OHfg123H1eftnn1IoRDrMFFmILqbgCOzW9p/idBiCdTszyxCNH7GIZWZQ==
+  dependencies:
+    chess.js "^0.12.0"
+
 "@treasure-chess/chess-image-generator@^1.4.7":
   version "1.4.7"
   resolved "https://registry.npmjs.org/@treasure-chess%2fchess-image-generator/-/chess-image-generator-1.4.7.tgz#99764962e3a118df4604ccc7a6529bf46ed63bfd"

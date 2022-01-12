@@ -56,17 +56,17 @@ const moveCountList = [
 // Items without name/value pair
 const titleList = ['gm', 'im', 'nm']
 const openingList = [
-  "King's Pawn Game",
-  "Queen's Gambit",
-  'Ruy Lopez',
-  'French Defense',
-  'Caro-Kann',
-  'Reti Opening',
-  'English',
-  'Norwegian', // Not in chess-achiemvements?
-  "Bird's Opening",
-  'Scandinavian',
-  'Scotch Game',
+  { value: "King's Pawn Game", enum: 'KingsPawn' },
+  { value: "Queen's Gambit", enum: 'QueensGambit' },
+  { value: 'Ruy Lopez', enum: 'RuyLopez' },
+  { value: 'French Defense', enum: 'FrenchDefense' },
+  { value: 'Caro-Kann', enum: 'CaroKann' },
+  { value: 'Reti Opening', enum: 'RetiOpening' },
+  { value: 'English', enum: 'English' },
+  { value: 'Modern', enum: 'Modern' },
+  { value: "Bird's Opening", enum: 'Bird' },
+  { value: 'Scandinavian', enum: 'Scandinavian' },
+  { value: 'Scotch Game', enum: 'Scotch' },
 ]
 const colorList = ['white', 'black']
 const terminationList = [

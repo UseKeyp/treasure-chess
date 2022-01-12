@@ -1,7 +1,7 @@
 datasource db {
   // provider = "sqlite"
-  provider          = "postgresql"
-  url               = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
   // shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
@@ -73,7 +73,7 @@ model Treasure {
   outcome          String // "white" "black" "draw" etc.
   event            String // eg. "Live Chess"
   moves            String // pgn moves
-  boardLayout      String  // Final positions used to generate the image
+  boardLayout      String // Final positions used to generate the image
   moveCount        Int // eg. 43
   ruleVariant      String        @default("Standard") // eg. "Standard" or "Chess960"
   externalUrl      String? // Link to game on chess.com
@@ -111,4 +111,18 @@ model OAuth {
   codeChallenge String
   codeVerifier  String
   createdAt     DateTime @default(now())
+}
+
+enum Opening {
+  KingsPawn
+  QueensGambit
+  RuyLopez
+  FrenchDefense
+  CaroKann
+  RetiOpening
+  English
+  Modern
+  Bird
+  Scandinavian
+  Scotch
 }

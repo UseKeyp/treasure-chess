@@ -1,4 +1,7 @@
-const { achievements, ecoCodes } = require('@treasure-chess/chess-achievements')
+const {
+  achievements: achievementList,
+  ecoCodes: ecoCodeList,
+} = require('@treasure-chess/chess-achievements')
 ////////////////////////////////
 // Items with name/value pair
 
@@ -95,8 +98,8 @@ const sortList = [
 ]
 
 const filters = {
-  achievementList: achievements,
-  ecoCodeList: ecoCodes,
+  achievementList,
+  ecoCodeList,
   openingList,
   colorList,
   titleList,
@@ -109,14 +112,14 @@ const filters = {
   sortList,
 }
 
-const TREASURES_PER_PAGE = 9
-
-const getAchievementNamesFromValues = (achievements) =>
+export const TREASURES_PER_PAGE = 9
+export const getAchievementNamesFromValues = (achievements) =>
   achievements.map((value) => {
-    let chiev = achievementList.find((item, index) => item.value === value)
+    const chiev = achievementList.find((item) => {
+      return item.value == value
+    })
     if (!chiev) return value
     return chiev.name
   })
 
-module.exports = filters
-module.exports = { getAchievementNamesFromValues, TREASURES_PER_PAGE }
+export default filters

@@ -1,7 +1,6 @@
 import { db } from 'src/lib/db'
 
-const { TREASURES_PER_PAGE } = require('@treasure-chess/treasure-filters')
-const filters = require('@treasure-chess/treasure-filters')
+import filters, { TREASURES_PER_PAGE } from '@treasure-chess/treasure-filters'
 
 // NOTE: any updates to this function should also be made in /scripts/seed
 export const generateTreasureData = ({ game, title, minter, mintPurchase }) => {

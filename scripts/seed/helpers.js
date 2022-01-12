@@ -139,7 +139,7 @@ export const generateTreasureDataOffline = ({
     outcome: game.outcome,
     event: game.event,
     moves: game.moves,
-    boardLayout: JSON.stringify(getBoardLayout(game.moves)),
+    boardLayout: JSON.stringify(getBoardLayout('1. f3 e6 2. g4 Qh4# 0-1')),
     moveCount: game.moveCount,
     ruleVariant: game.ruleVariant,
     externalUrl: game.externalUrl,

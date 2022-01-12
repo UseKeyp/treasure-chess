@@ -16,7 +16,7 @@ export default () => (
         </div>
         <div className="not-found--content">
           <h1>Oops! Something is clearly wrong here...</h1>
-          <p>The page you are looking for doesn't exist. (404)</p>
+          <p>The page you are looking for doesn&apos;t exist. (404)</p>
           <div className="not-found--content--go-home flex justify-center">
             <Button to={routes.home()}>
               <Icon name="treasure_chess_full" height="50px" color="#fff" />

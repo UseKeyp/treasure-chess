@@ -1,4 +1,4 @@
-import { filters } from '@treasure-chess/treasure-filters'
+import filters from '@treasure-chess/treasure-filters'
 import Dropdown from 'src/components/Dropdown/Dropdown'
 
 const SortingDropdown = ({ sort, setSort }) => {

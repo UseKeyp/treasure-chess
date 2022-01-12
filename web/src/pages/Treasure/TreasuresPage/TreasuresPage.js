@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams } from '@redwoodjs/router'
 import { MetaTags } from '@redwoodjs/web'
-import { filters } from '@treasure-chess/treasure-filters'
+import filters from '@treasure-chess/treasure-filters'
 
 import TreasuresFetcher from 'src/components/Treasure/TreasuresFetcher'
 import FilterBar from 'src/components/FilterBar/FilterBar'

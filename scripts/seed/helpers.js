@@ -113,7 +113,6 @@ export const generateTreasureDataOffline = ({
     game.pgn,
     cardColor
   )
-  console.log(openingValue)
   const achievementsList = achievements.map((item) => item.value)
   return {
     id: treasureId,

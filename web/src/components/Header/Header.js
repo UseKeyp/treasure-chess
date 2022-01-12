@@ -4,12 +4,12 @@ import { Link, routes, useLocation } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
 import { useParams } from '@redwoodjs/router'
 
+import Icon from 'src/components/Icon/Icon'
 import Avatar from 'src/components/Avatar/Avatar'
 import Button from 'src/components/Button/Button'
 
 import UsernameSearchBar from 'src/components/UsernameSearchBar'
 import MemberBalance from 'src/components/Member/MemberBalance'
-import { ReactComponent as TreasureChest } from 'src/assets/icons/TreasureChessChest.svg'
 
 import { trimAddress } from 'src/utils/helpers'
 
@@ -62,7 +62,7 @@ const MobileNav = () => {
           <ul className="h-full relative">
             <li className={navItemClasses}>
               <Button to={routes.home()}>
-                <img src="/TreasureChessLogo.png" alt="TreasureChess.com" />
+                <Icon name="treasure_chess_full_white" />
                 <span className="sr-only">home</span>
               </Button>
             </li>
@@ -103,7 +103,6 @@ const Header = () => {
   const { pathname } = useLocation()
   const params = useParams()
   const { username: initialUsername = '', ...currentFilter } = params
-
   const handleLogIn = () => logIn({ redirectTo: pathname })
 
   const imageSrc = profile?.imageSrc || null
@@ -118,12 +117,12 @@ const Header = () => {
       : window.location.pathname
     window.history.replaceState({}, '', newPath)
   }
-
+  // throw 'oops!'
   return (
     <div className={'header'}>
       <div className={'header__iconSearch'}>
         <Button to={routes.home()} className="mr-4">
-          <img src="/TreasureChessLogo.png" alt="TreasureChess.com" />
+          <Icon name="treasure_chess_full" height="35px" color="#fff" />
         </Button>
         <div className="hidden mr-4 lg:block">
           <UsernameSearchBar
@@ -140,7 +139,9 @@ const Header = () => {
           <div className="mr-4">
             <Button to={routes.treasures()} size="large">
               <div className="flex items-center">
-                <TreasureChest className="mr-2" />
+                <div className="mr-2">
+                  <Icon name="treasure_chess" color="#ffffff" height="16px" />
+                </div>
                 Treasures
               </div>
             </Button>
@@ -148,11 +149,7 @@ const Header = () => {
           <div>
             <Button to={routes.faq()} size="large">
               <div className="flex items-center">
-                <img
-                  src="/icons/TreasureChessHelpIcon.png"
-                  alt=""
-                  className="mr-2"
-                />
+                <img src="/icons/HelpIcon.png" alt="" className="mr-2" />
                 About
               </div>
             </Button>

@@ -16,5 +16,5 @@ module.exports = base64Image`
   )
 }
 
-const filePath = path.join(__dirname, '../src/assets/noavatar.png')
+const filePath = path.join(__dirname, '.convertme.png')
 getBase64(filePath)

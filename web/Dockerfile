@@ -7,15 +7,17 @@ FROM node:14 as builder
 # Node
 ARG NODE_ENV
 ARG RUNTIME_ENV
+ARG REDWOOD_API_URL
 
 ENV NODE_ENV=$NODE_ENV
 ENV RUNTIME_ENV=$RUNTIME_ENV
+ENV REDWOOD_API_URL=$REDWOOD_API_URL
 
 # Set workdir
 WORKDIR /app
 
-#COPY api .
 COPY web web
+COPY packages packages
 COPY .nvmrc .
 COPY graphql.config.js .
 COPY package.json .
@@ -50,4 +52,4 @@ COPY web/config/nginx/default.conf /etc/nginx/conf.d/default.conf
 RUN ls -lA /usr/share/nginx/html
 
 # Expose RedwoodJS web port
-EXPOSE 8911
+EXPOSE 8910

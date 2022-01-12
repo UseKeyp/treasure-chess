@@ -12,7 +12,6 @@ const {
 const { card, maskedAchievements } = require('./card.js')
 
 const treasureBackgroundBase64 = require('./assets/treasureBackground')
-const bannerLogoBase64 = require('./assets/bannerLogo')
 
 const serializer = new XMLSerializer()
 const parser = new DOMParser()
@@ -114,11 +113,6 @@ const getCardHtml = async ({ treasure, gifBase64, gifUrl }) => {
     updateContent('title', treasure.title)
     updateContent('page-title', treasure.title)
     updateContent('termination', treasure.termination)
-    updateTag(
-      'banner-image',
-      'src',
-      `data:image/png;base64,${bannerLogoBase64}`
-    )
     const rarityColor = getRarityColor(treasure.achievementScore)
     updateStyle('banner', 'background-color', rarityColor)
 

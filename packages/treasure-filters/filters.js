@@ -1,4 +1,7 @@
-const achievementList = require('@treasure-chess/chess-achievements/src/achievementsList')
+const {
+  achievements,
+  ecoCodes,
+} = require('@treasure-chess/chess-achievements/src/achievementsList')
 
 ////////////////////////////////
 // Items with name/value pair
@@ -74,10 +77,11 @@ const terminationList = [
   { name: 'Repetition', value: 'Repetition' },
   { name: 'Agreement', value: 'Agreement' },
   { name: 'Insufficient Material', value: 'Insufficient' },
+  { name: 'Abandoned', value: 'Abandoned' },
 ]
 ////////////////////////////////
 // Items without name/value pair
-const titleList = ['gm', 'im', 'nm']
+const titleList = ['GM', 'IM', 'NM']
 const colorList = ['white', 'black']
 const rarityList = ['Good', 'Great', 'Ultra', 'Mythic']
 const saleList = ['For Sale', 'Unlisted']
@@ -95,7 +99,8 @@ const sortList = [
 ]
 
 const filters = {
-  achievementList,
+  achievementList: achievements,
+  ecoCodeList: ecoCodes,
   openingList,
   colorList,
   titleList,

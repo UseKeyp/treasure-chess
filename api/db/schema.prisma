@@ -94,7 +94,7 @@ model MintPurchase {
   // --------------- STATE --------------
   gameId      String
   gameEndTime String
-  title       String    // User's desired title
+  title       String // User's desired title
   // Order
   paymentType String    @default("WYRE") // WYRE, MINTCREDIT
   orderStatus String? // RESERVATION, COMPLETE
@@ -114,17 +114,52 @@ model OAuth {
 }
 
 enum Opening {
-  KingsPawn
   QueensGambit
   RuyLopez
+  ScotchGame
+  KingsPawnGame
   FrenchDefense
   CaroKann
-  RetiOpening
-  English
-  Modern
-  Bird
   Scandinavian
-  Scotch
+  Modern
+  English
+  RetiOpening
+  BirdsOpening
+  // Not filterable below this line
+  Uncommon
+  NimzoLarsen
+  KingsIndianAttack
+  Reti
+  QueensPawnGame
+  Benoni
+  QueensIndian
+  KingsIndian
+  BudapestGambit
+  OldIndian
+  BenkoGambit
+  Dutch
+  Alekhine
+  Pirc
+  Sicilian
+  French
+  CenterGame
+  BishopsOpening
+  Vienna
+  KingsGambit
+  KingsKnightOpening
+  Philidor
+  Petroff
+  ThreeKnights
+  FourKnights
+  Italian
+  EvansGambit
+  TwoKnights
+  Veresov
+  Torre
+  Grunfeld
+  Catalan
+  BogoIndian
+  NimzoIndian
 }
 
 enum Rarity {
@@ -148,12 +183,13 @@ enum Termination {
   Repetition
   Agreement
   Insufficient
+  Abandoned
 }
 
 enum MasterTitle {
-  gm
-  im
-  nm
+  GM
+  IM
+  NM
 }
 
 enum Achievement {

@@ -1,9 +1,16 @@
+import { achievements } from '@treasure-chess/chess-achievements'
+
 export const getDescription = ({ _opening }) => {
   return `A chess game collectible. One of the players of this game minted this NFT. Create your own at https://treasure.chess.com`
 }
 
 export const getAttributes = (treasure) => {
-  const [achieve1, achieve2, achieve3] = treasure.achievements.split(',')
+  const [achieve1, achieve2, achieve3] = treasure.achievements.map((chiev) => {
+    const item = achievements.find((item) => item.value === chiev)
+    // TODO: TEST THIS ACTUALLY WORKS
+    if (item) return item.name
+    return null
+  })
   const attributes = [{ trait_type: 'Rarity', value: treasure.rarity }]
   if (achieve1)
     attributes.push({

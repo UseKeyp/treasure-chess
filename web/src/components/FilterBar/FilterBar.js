@@ -167,7 +167,7 @@ const FilterBar = ({ filter, setFilter, defaultParams }) => {
       <div className={styles.dropdownRow}>
         <FilterCheckbox
           category={'Master Title'}
-          options={filters.titleList.map((title) => title.toUpperCase())}
+          options={filters.titleList}
           queryFilterFunction={setTitle}
           queryFilter={title}
           deselect={true}

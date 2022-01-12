@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@treasure-chess/chess-achievements": "0.1.2"
+    "@treasure-chess/chess-achievements": "^0.0.10-PR34.64fe891.0"
   },
   "devDependencies": {}
 }

@@ -26,10 +26,7 @@ const generateRandomMembers = (count, highestMemberId) => {
       const randomAddress = EthersWallet.createRandom().address
       let masterTitle
       if (Math.random() > 0.9) {
-        masterTitle =
-          filters.titleList[
-            Math.floor(Math.random() * filters.titleList.length)
-          ].toUpperCase()
+        masterTitle = filters.titleList[randomInt(0, 2)].toUpperCase()
       }
       return {
         id: (highestMemberId + index).toString(),
@@ -39,7 +36,7 @@ const generateRandomMembers = (count, highestMemberId) => {
           randomAvatarsBase64[randomInt(0, 199)]
         }`,
         country: countries[Math.floor(Math.random() * countries.length)],
-        masterTitle,
+        ...(masterTitle && { masterTitle }),
       }
     })
 }
@@ -112,11 +109,12 @@ export const generateTreasureDataOffline = ({
     winner = white
     if (game.outcome === 'black') winner = black
   }
-  const { opening, score, achievements } = achievementsCalculator(
+  const { openingValue, score, achievements } = achievementsCalculator(
     game.pgn,
     cardColor
   )
-  const achievementsString = achievements.map((item) => item.name).join(',')
+  console.log(openingValue)
+  const achievementsList = achievements.map((item) => item.value)
   return {
     id: treasureId,
     blackId: black.id,
@@ -139,13 +137,13 @@ export const generateTreasureDataOffline = ({
     outcome: game.outcome,
     event: game.event,
     moves: game.moves,
-    boardLayout: JSON.stringify(getBoardLayout('1. f3 e6 2. g4 Qh4# 0-1')),
+    boardLayout: JSON.stringify(getBoardLayout(game.moves)),
     moveCount: game.moveCount,
     ruleVariant: game.ruleVariant,
     externalUrl: game.externalUrl,
-    opening: opening,
+    opening: openingValue,
     rarity: getRarity(score),
-    achievements: achievementsString,
+    achievements: achievementsList,
     achievementScore: score,
   }
 }

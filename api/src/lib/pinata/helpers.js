@@ -6,14 +6,7 @@ export const getDescription = ({ _opening }) => {
 
 export const getAttributes = (treasure) => {
   try {
-    const [achieve1, achieve2, achieve3] = treasure.achievements.map(
-      (chiev) => {
-        const item = achievements.find((item) => item.value === chiev)
-        // TODO: TEST THIS ACTUALLY WORKS
-        if (item) return item.name
-        return null
-      }
-    )
+    const [achieve1, achieve2, achieve3] = treasure.achievementNames
     let openingText = ''
     ecoCodes.find((code) => {
       if (code.value === treasure.opening) openingText = code.name

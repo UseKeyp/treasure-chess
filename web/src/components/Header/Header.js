@@ -122,7 +122,7 @@ const Header = () => {
     <div className={'header'}>
       <div className={'header__iconSearch'}>
         <Button to={routes.home()} className="mr-4">
-          <Icon name="treasure_chess_full" height="50px" color="#fff" />
+          <Icon name="treasure_chess_full" height="35px" color="#fff" />
         </Button>
         <div className="hidden mr-4 lg:block">
           <UsernameSearchBar

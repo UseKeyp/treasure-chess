@@ -1,11 +1,12 @@
-import { useState, useEffect } from 'react'
-import { useParams } from '@redwoodjs/router'
+import { useEffect } from 'react'
 import { MetaTags } from '@redwoodjs/web'
 import filters from '@treasure-chess/treasure-filters'
 
 import TreasuresFetcher from 'src/components/Treasure/TreasuresFetcher'
 import FilterBar from 'src/components/FilterBar/FilterBar'
 import SortingDropdown from 'src/components/SortingDropdown/SortingDropdown'
+
+import { useFilter } from 'src/providers/filters'
 
 const defaultParams = {
   outcome: filters.outcomeList,
@@ -14,14 +15,9 @@ const defaultParams = {
 }
 
 const TreasuresPage = () => {
-  const params = useParams()
-
-  const { username = '', sort: initialSort = '', ...initialFilter } = params
+  const { filter, sort, username } = useFilter()
 
   // These are the source of truth
-  const [filter, setFilter] = useState(initialFilter)
-  const [sort, _setSort] = useState(initialSort || 'Sort by') // TODO: Add sorting
-
   const updateUrl = () => {
     const searchParams = new URLSearchParams(filter)
     username && searchParams.append('username', username)
@@ -36,21 +32,17 @@ const TreasuresPage = () => {
   useEffect(() => {
     updateUrl()
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
-  }, [sort, filter])
+  }, [sort, filter, username])
 
   return (
     <div>
       <MetaTags title="Treasures" />
 
       <div className="flex">
-        <FilterBar
-          filter={filter}
-          setFilter={setFilter}
-          defaultParams={defaultParams}
-        />
+        <FilterBar defaultParams={defaultParams} />
         <div className="ml-4 w-full">
           <div className="flex w-full justify-end relative mb-4">
-            <SortingDropdown sort={sort} setSort={_setSort} />
+            <SortingDropdown />
           </div>
           <TreasuresFetcher
             username={username}

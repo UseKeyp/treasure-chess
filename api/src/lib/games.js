@@ -7,7 +7,7 @@ import { fetchChessGames, fetchChessGame } from 'src/lib/chessCom/chessCom'
 import { parseGameFromChessDotCom } from 'src/lib/chessCom/gameParsing'
 import { getGifUrl } from 'src/lib/chessCom/gifGetter'
 import { getBoardLayout } from 'src/lib/helpers'
-const filters = require('@treasure-chess/treasure-filters')
+const { filters } = require('@treasure-chess/treasure-filters')
 
 const getRarity = (score) => {
   if (score < 6) return filters.rarityList[0]

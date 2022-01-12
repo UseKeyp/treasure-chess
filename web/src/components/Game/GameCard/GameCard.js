@@ -6,6 +6,7 @@ const {
   getBoardBase64,
 } = require('@treasure-chess/chess-image-generator')
 import { getCardHtml } from '@treasure-chess/treasure-html'
+import { getAchievementNamesFromValues } from '@treasure-chess/treasure-filters'
 import placeholderGame from './placeholderGameData'
 import { useSpring, animated } from '@react-spring/web'
 
@@ -35,8 +36,13 @@ const GameCard = ({ game, isMinting, title, showGif }) => {
         gifUrl: game.gifUrl,
       })
     } else {
+      const achievements = getAchievementNamesFromValues(game.achievements)
       raw = await getCardHtml({
-        treasure: { ...game, title: title || game.title || 'Add a title' },
+        treasure: {
+          ...game,
+          achievements,
+          title: title || game.title || 'Add a title',
+        },
         gifUrl: showGif ? game.gifUrl : imageSrc,
       })
     }

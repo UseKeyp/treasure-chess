@@ -103,7 +103,6 @@ const Header = () => {
   const { pathname } = useLocation()
   const params = useParams()
   const { username: initialUsername = '', ...currentFilter } = params
-
   const handleLogIn = () => logIn({ redirectTo: pathname })
 
   const imageSrc = profile?.imageSrc || null

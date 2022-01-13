@@ -12,7 +12,7 @@ import { db } from 'src/lib/db'
 
 // import { useRateLimiter } from '@envelop/rate-limiter'
 
-const _identifyFn = async (context) => context.request.ip
+// const _identifyFn = async (context) => context.request.ip
 
 export const handler = createGraphQLHandler({
   getCurrentUser,
@@ -23,7 +23,10 @@ export const handler = createGraphQLHandler({
   directives,
   sdls,
   services,
-
+  cors: {
+    origin: '*',
+    credentials: true,
+  },
   extraPlugins: [
     // useRateLimiter({
     //   // https://www.envelop.dev/plugins/use-rate-limiter

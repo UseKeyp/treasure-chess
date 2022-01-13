@@ -17,18 +17,22 @@
     "@toruslabs/fetch-node-details": "^3.0.2",
     "@toruslabs/torus.js": "^3.0.0",
     "@treasure-chess/chess-achievements": "0.1.2",
-    "@treasure-chess/chess-image-generator": "^1.4.7",
     "@treasure-chess/treasure-contracts": "^0.0.6-dev.872943.0",
     "@treasure-chess/treasure-html": "^1.0.0",
     "@treasure-chess/web3-helpers": "^1.0.0",
+    "atob": "^2.1.2",
+    "core-js": "^3.19.1",
     "bad-words": "^3.0.4",
     "chess.js": "^0.10.2",
     "form-data": "^4.0.0",
     "jwks-rsa": "^2.0.4",
     "pkce-challenge": "^2.2.0",
-    "react": "17.0.2"
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
   },
   "devDependencies": {
-    "@netlify/zip-it-and-ship-it": "^4.23.0"
+    "dotenv": "^10.0.0",
+    "@redwoodjs/cli": "^0.40.0",
+    "prisma": "^3.6.0"
   }
 }

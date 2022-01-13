@@ -130,16 +130,16 @@ export default () => (
               <div class="fatal-error-container">
                 <div class="header-container">
                   <a href="/">
-                    <img src="TreasureChessLogo.png" alt="TreasureChess.com" />
+                    <img src="/treasurechessfull-fatal-page.png" alt="TreasureChess.com" style="height: 50px"/>
                   </a>
                   <h3 class="header-mobile">Menu</h3>
                   <div class="header-buttons-container">
                     <a class="header-buttons" href="/treasures">
-                      <img src="/icons/TreasureChessChest.svg" alt="" />
+                      <img src="/icons/treasure_chess_small.png" alt="" style="height: 16px; padding: 0 6px"/>
                       Treasures
                     </a>
                     <a class="header-buttons" href="/about">
-                      <img src="/icons/TreasureChessHelpIcon.png" alt="" />
+                      <img src="/icons/HelpIcon.png" alt="question mark icon" style="height: 16px; padding: 0 6px"/>
                       About
                     </a>
                   </div>

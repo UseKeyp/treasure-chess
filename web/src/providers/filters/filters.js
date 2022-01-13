@@ -1,7 +1,7 @@
 const FilterContext = React.createContext({})
 
 const initialState = {
-  sort: '',
+  sort: 'Sort by',
   username: '',
   filter: {},
 }
@@ -22,7 +22,7 @@ const FilterProvider = ({ children }) => {
   React.useEffect(() => {
     const searchParams = new URLSearchParams(filter)
     username && searchParams.append('username', username)
-    sort && sort !== '' && searchParams.append('sort', sort)
+    sort && sort !== 'Sort by' && searchParams.append('sort', sort)
 
     searchParams.sort()
     const newPath = searchParams.toString()

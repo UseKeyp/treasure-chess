@@ -81,6 +81,7 @@ const TreasuresFetcher = ({ username, owner, filter, sort }) => {
     TREASURES_WITH_FILTER,
     {
       variables: { username, owner, filter, sort, page },
+      fetchPolicy: 'network-only',
       onCompleted: ({ treasures: newTreasures }) => {
         if (page === 0) return setTreasures(newTreasures)
         setTreasures([...treasures, ...newTreasures])
@@ -89,6 +90,7 @@ const TreasuresFetcher = ({ username, owner, filter, sort }) => {
   )
   const [getTreasuresCount] = useLazyQuery(TREASURES_WITH_FILTER_COUNT, {
     variables: { username, owner, filter },
+    fetchPolicy: 'network-only',
     onCompleted: ({ count: newCount }) => {
       setCount(newCount)
     },
@@ -116,7 +118,6 @@ const TreasuresFetcher = ({ username, owner, filter, sort }) => {
   // https://www.w3schools.com/howto/howto_js_scroll_to_top.asp
 
   if (error) return <h2 className="rw-text-center">Something went wrong</h2>
-
   return (
     <Treasures
       treasures={treasures}

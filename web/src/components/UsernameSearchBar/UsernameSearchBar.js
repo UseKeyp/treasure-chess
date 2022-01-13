@@ -2,14 +2,18 @@ import { useState } from 'react'
 import { useLazyQuery } from '@apollo/client'
 import { debounce } from 'src/utils/helpers'
 
+import { useFilter } from 'src/providers/filters'
+
 const USERNAME_QUERY = gql`
   query usernames($query: String!) {
     usernames(query: $query)
   }
 `
 
-const UsernameSearchBar = ({ initialQuery = '', setQuery }) => {
-  const [value, setValue] = useState(initialQuery)
+const UsernameSearchBar = () => {
+  const { username, setFilter } = useFilter()
+
+  const [value, setValue] = useState(username)
   const [_isValueFromSelector, setIsValueFromSelector] = useState(false)
   const [dropdownOptions, setDropdownOptions] = useState([])
 
@@ -25,7 +29,7 @@ const UsernameSearchBar = ({ initialQuery = '', setQuery }) => {
     if (value === '') return setDropdownOptions([])
     if (dropdownOptions.includes(value)) {
       // Handles typing full username, without using the dropdown
-      setQuery(value)
+      setFilter('username', value)
       // Prevents performing another query after selection
       return setDropdownOptions([])
     }
@@ -45,13 +49,13 @@ const UsernameSearchBar = ({ initialQuery = '', setQuery }) => {
   const onSelectUsername = (option) => {
     setIsValueFromSelector(true)
     setValue(option)
-    setQuery(option)
+    setFilter('usernameValue', option)
   }
 
   const onChange = (e) => {
     setIsValueFromSelector(false)
     setValue(e.target.value)
-    // setQuery(e.target.value)
+    // setFilter(e.target.value)
   }
 
   return (

@@ -20,6 +20,7 @@ const FilterProvider = ({ children }) => {
   const resetFilter = () => setState(initialState)
 
   React.useEffect(() => {
+    console.log(username)
     const searchParams = new URLSearchParams(filter)
     username && searchParams.append('username', username)
     sort && sort !== '' && searchParams.append('sort', sort)

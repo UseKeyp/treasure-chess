@@ -8,6 +8,7 @@ import FilterCheckbox from 'src/components/FilterCheckbox/FilterCheckbox'
 import FilterPriceInput from 'src/components/FilterPriceInput/FilterPriceInput'
 import Dropdown from 'src/components/Dropdown/Dropdown'
 import AchievementScroll from 'src/components/AchievementScroll/AchievementScroll'
+import UsernameSearchBar from 'src/components/UsernameSearchBar'
 
 import { useFilter } from 'src/providers/filters'
 
@@ -102,6 +103,10 @@ const FilterBar = ({ defaultParams }) => {
           <button className={styles.reset} onClick={onReset}>
             Reset
           </button>
+        </div>
+        <div className={styles.dropdownRow}>
+          <h4 style={{ marginLeft: `1em`, marginBottom: `0.5em` }}>Username</h4>
+          <UsernameSearchBar />
         </div>
         <div className={styles.dropdownRowSpacing}>
           <Dropdown

@@ -49,7 +49,7 @@ const UsernameSearchBar = () => {
   const onSelectUsername = (option) => {
     setIsValueFromSelector(true)
     setValue(option)
-    setFilter('usernameValue', option)
+    setFilter('username', option)
   }
 
   const onChange = (e) => {

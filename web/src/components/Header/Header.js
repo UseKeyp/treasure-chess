@@ -8,7 +8,6 @@ import Icon from 'src/components/Icon/Icon'
 import Avatar from 'src/components/Avatar/Avatar'
 import Button from 'src/components/Button/Button'
 
-import UsernameSearchBar from 'src/components/UsernameSearchBar'
 import MemberBalance from 'src/components/Member/MemberBalance'
 
 import { trimAddress } from 'src/utils/helpers'
@@ -124,12 +123,6 @@ const Header = () => {
         <Button to={routes.home()} className="mr-4">
           <Icon name="treasure_chess_full" height="35px" color="#fff" />
         </Button>
-        <div className="hidden mr-4 lg:block">
-          <UsernameSearchBar
-            initialQuery={initialUsername}
-            setQuery={onUpdateUsername}
-          />
-        </div>
       </div>
       <div className="flex flex-1 items-center justify-end lg:hidden">
         <MobileNav />

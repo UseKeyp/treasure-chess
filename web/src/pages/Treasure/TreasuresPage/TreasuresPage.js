@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { MetaTags } from '@redwoodjs/web'
 import filters from '@treasure-chess/treasure-filters'
 

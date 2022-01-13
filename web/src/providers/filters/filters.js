@@ -50,10 +50,12 @@ const FilterProvider = ({ children }) => {
   React.useEffect(() => {
     if (!initialized) return
     updateUrl()
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [sort, username, filter])
 
   React.useEffect(() => {
     onPageLoad()
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [])
 
   return (

@@ -29,7 +29,7 @@ const UsernameSearchBar = () => {
     if (value === '') return setDropdownOptions([])
     if (dropdownOptions.includes(value)) {
       // Handles typing full username, without using the dropdown
-      setFilter('usernameValue', value)
+      setFilter('username', value)
       // Prevents performing another query after selection
       return setDropdownOptions([])
     }

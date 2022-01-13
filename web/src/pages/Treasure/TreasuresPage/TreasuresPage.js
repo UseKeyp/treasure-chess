@@ -17,23 +17,6 @@ const defaultParams = {
 const TreasuresPage = () => {
   const { filter, sort, username } = useFilter()
 
-  // These are the source of truth
-  const updateUrl = () => {
-    const searchParams = new URLSearchParams(filter)
-    username && searchParams.append('username', username)
-    sort && sort !== 'Sort by' && searchParams.append('sort', sort)
-    searchParams.sort()
-    const newPath = searchParams.toString()
-      ? window.location.pathname + '?' + searchParams.toString()
-      : window.location.pathname
-    window.history.replaceState({}, '', newPath)
-  }
-
-  useEffect(() => {
-    updateUrl()
-    /* eslint-disable-next-line react-hooks/exhaustive-deps */
-  }, [sort, filter, username])
-
   return (
     <div>
       <MetaTags title="Treasures" />

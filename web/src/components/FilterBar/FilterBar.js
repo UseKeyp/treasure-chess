@@ -44,7 +44,7 @@ const FilterBar = ({ defaultParams }) => {
   }
 
   const updateFilter = () => {
-    setFilter('filterValue', {
+    setFilter('filter', {
       ...(achievements?.length && { achievements }),
       ...(opening && { opening }),
       ...(color && { color }),

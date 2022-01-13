@@ -7,7 +7,7 @@ const SortingDropdown = () => {
   const { sort, setFilter } = useFilter()
 
   const setSort = (value) => {
-    setFilter('sortValue', value)
+    setFilter('sort', value)
   }
 
   return (

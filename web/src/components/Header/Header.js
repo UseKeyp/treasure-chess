@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { createPortal } from 'react-dom'
 import { Link, routes, useLocation } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
-import { useParams } from '@redwoodjs/router'
 
 import Icon from 'src/components/Icon/Icon'
 import Avatar from 'src/components/Avatar/Avatar'
@@ -100,23 +99,12 @@ const MobileNav = () => {
 const Header = () => {
   const { isAuthenticated: isLoggedIn, currentUser: profile, logIn } = useAuth()
   const { pathname } = useLocation()
-  const params = useParams()
-  const { username: initialUsername = '', ...currentFilter } = params
   const handleLogIn = () => logIn({ redirectTo: pathname })
 
   const imageSrc = profile?.imageSrc || null
 
   const address = trimAddress(profile?.address) || 'No address set'
 
-  const onUpdateUsername = (newUsername) => {
-    const searchParams = new URLSearchParams(currentFilter)
-    searchParams.append('username', newUsername)
-    const newPath = searchParams.toString()
-      ? window.location.pathname + '?' + searchParams.toString()
-      : window.location.pathname
-    window.history.replaceState({}, '', newPath)
-  }
-  // throw 'oops!'
   return (
     <div className={'header'}>
       <div className={'header__iconSearch'}>

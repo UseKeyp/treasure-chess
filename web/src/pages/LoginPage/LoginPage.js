@@ -30,7 +30,7 @@ const LoginPage = () => {
           <span className="block xl:inline">Login</span>
         </h1>
         {errorText && <div className=" mt-8 rw-cell-error">{errorText}</div>}
-        <h3 className="pt-4">Login using your Chess.com account</h3>
+        <h3 className="pt-4">Login using your Chess.com account.</h3>
         <div className="pt-4 pb-4">
           <Button
             onClick={() => logIn({ redirectTo })}

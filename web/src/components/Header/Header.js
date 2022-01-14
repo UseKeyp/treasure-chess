@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom'
 import { routes, useLocation } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
 import { useParams } from '@redwoodjs/router'
+import { useWallet } from 'src/providers/wallet'
 
 import Icon from 'src/components/Icon/Icon'
 import Avatar from 'src/components/Avatar/Avatar'
@@ -14,6 +15,7 @@ import MemberBalance from 'src/components/Member/MemberBalance'
 import { trimAddress } from 'src/utils/helpers'
 
 const WalletBalance = () => {
+  const { deposit } = useWallet()
   return (
     <div className="flex flex-col flex-1 text-sm">
       <div className={'header__nav__balance'}>
@@ -21,7 +23,7 @@ const WalletBalance = () => {
       </div>
       <div>
         <Button
-          to="/fund-wallet"
+          onClick={deposit}
           textColor="blue"
           className={'header__nav__fund-wallet'}
         >

@@ -33,8 +33,6 @@ Operations for Treasure Chess
 
 ### Sandbox
 
-CONTRACT_ADDRESS_TREASURE_MARKET=0x3DDc4dEf6dc771cfBbf832613F7e309F3091a94F
-CONTRACT_ADDRESS_TREASURE=0x4363cA4cc0ab321777EcC450A5F356A8ebb88A0C
 DATABASE_URL=postgres://ecrkevnypsqcsy:9b6db5a98ec891d1ef9ce7b1b028846a3dc9158bf1b71453050988936ef4ff3e@ec2-34-239-196-254.compute-1.amazonaws.com:5432/deg6ltaujv3vei?connection_limit=1
 APP_DOMAIN=https://treasure-chess-sandbox-4.vercel.app
 

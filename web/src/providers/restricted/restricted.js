@@ -29,6 +29,7 @@ const RestrictedProvider = ({ children }) => {
 
   React.useEffect(() => {
     if (!passed) navigate('/restricted')
+    /* eslint-disable-next-line react-hooks/exhaustive-deps*/
   }, [])
 
   return (

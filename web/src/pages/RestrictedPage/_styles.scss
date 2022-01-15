@@ -1,0 +1,55 @@
+.restrictedInput {
+  border-radius: 20px;
+  color: white;
+  background-color: #4f4f4f;
+  font-size: 1rem;
+  padding-top: 1.5ex;
+  margin-right: 1.5ex;
+  // To prevent shift on focus
+  border: 1px solid #4f4f4f;
+  padding: 12px 24px;
+  outline: none;
+  width: 100%;
+  &:focus {
+    border: 1px solid #aaa;
+  }
+
+  &::placeholder {
+    color: white;
+  }
+}
+.not-found {
+  @apply max-w-7xl w-full m-auto;
+
+  &--container {
+    @apply flex flex-col p-4 pb-12 items-center justify-center;
+  }
+
+  &--img {
+    @apply max-w-md;
+
+    img {
+      @apply rounded-lg;
+    }
+  }
+
+  &--content {
+    @apply text-center mt-12 max-w-md;
+
+    h1 {
+      @apply max-w-xl m-auto text-3xl md:text-4xl;
+    }
+
+    p {
+      @apply mt-4 text-base;
+    }
+
+    &--go-home {
+      @apply mt-12;
+
+      img {
+        @apply m-auto;
+      }
+    }
+  }
+}

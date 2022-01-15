@@ -9,7 +9,7 @@ const SiteFooter = () => {
       <div className="max-w-6xl flex-1 flex flex-col items-center justify-between py-12 px-4 text-sm md:flex-row">
         <div className="flex items-center mt-4 md:mt-0">
           <a href={globalConfig.DISCORD_URL} className="inline-block mr-4">
-            <Icon name="discord" size="24" />
+            <Icon name="discord" size="24px" />
             <span className="sr-only">discord</span>
           </a>
           <a href={globalConfig.BLOG_URL} className="inline-block mr-4">
@@ -32,7 +32,7 @@ const SiteFooter = () => {
         </div>
         <div className="flex items-center mt-4 md:mt-0">
           <a href={globalConfig.CHESS_COM_BASE_URL} className="mr-4">
-            <Icon name="chess_com" size="24" />
+            <Icon name="chess_com" height="25" />
             <span className="sr-only">Chess.com</span>
           </a>
           <div>© Nifty Chess, Inc. {currentYear}</div>

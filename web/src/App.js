@@ -4,24 +4,27 @@ import { RedwoodApolloProvider } from '@redwoodjs/web/apollo'
 
 import AllContextProviders from 'src/providers'
 import { logIn } from 'src/utils/auth/client'
-import { isProduction } from 'src/utils/helpers'
 import FatalErrorPage from 'src/pages/FatalErrorPage'
 import Routes from 'src/Routes'
 
 import './scaffold.css'
 import './index.scss'
 
-if (isProduction) {
-  /* eslint-disable no-console */
-  /* eslint-disable no-irregular-whitespace */
-  console.log('++++++++++++++++++++++++++')
-  console.log()
-  console.log(`( ͡ᵔ ͜ʖ ͡ᵔ) Oh hello there! We're hiring - hit us up on Discord.`)
-  console.log()
-  console.log('++++++++++++++++++++++++++')
-  /* eslint-enable no-irregular-whitespace */
-  /* eslint-enable no-console */
-}
+/* eslint-disable no-console */
+/* eslint-disable no-irregular-whitespace */
+console.log(`    /$$$$$$$$                                                                           /$$$$$$  /$$
+   |__  $$__/                                                                          /$$__  $$| $$
+      | $$  /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$$ /$$   /$$  /$$$$$$   /$$$$$$       | $$  \\__/| $$$$$$$   /$$$$$$   /$$$$$$$ /$$$$$$$
+      | $$ /$$__  $$ /$$__  $$ |____  $$ /$$_____/| $$  | $$ /$$__  $$ /$$__  $$      | $$      | $$__  $$ /$$__  $$ /$$_____//$$_____/
+      | $$| $$  \\__/| $$$$$$$$  /$$$$$$$|  $$$$$$ | $$  | $$| $$  \\__/| $$$$$$$$      | $$      | $$  \\ $$| $$$$$$$$|  $$$$$$|  $$$$$$
+      | $$| $$      | $$_____/ /$$__  $$ \\____  $$| $$  | $$| $$      | $$_____/      | $$    $$| $$  | $$| $$_____/ \\____  $$\\____  $$
+      | $$| $$      |  $$$$$$$|  $$$$$$$ /$$$$$$$/|  $$$$$$/| $$      |  $$$$$$$      |  $$$$$$/| $$  | $$|  $$$$$$$ /$$$$$$$//$$$$$$$/
+      |__/|__/       \\_______/ \\_______/|_______/  \\______/ |__/       \\_______/       \\______/ |__/  |__/ \\_______/|_______/|_______/
+
+   Hey, you! Looking for a job?
+   https://github.com/treasure-chess/jobs`)
+/* eslint-enable no-irregular-whitespace */
+/* eslint-enable no-console */
 
 class AuthProviderExtended extends AuthProvider {
   constructor(props) {

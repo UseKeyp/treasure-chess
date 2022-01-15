@@ -4,22 +4,28 @@ import { WalletProvider } from 'src/providers/wallet'
 import { ThemeContextProvider } from 'src/providers/theme'
 import { TokenSessionProvider } from 'src/providers/tokenSession'
 import { ToastProvider } from 'src/providers/toast'
+import { FilterProvider } from './filters'
+import { RestrictedProvider } from './restricted'
 
 const AllContextProviders = ({ children }) => {
   // Add additional context providers here
   // This will be automatically injected in to the App and Storybook
 
   return (
-    <ThemeContextProvider>
-      <ToastProvider>
-        <GamesContextProvider>
-          <TokenSessionProvider />
-          <WalletProvider>
-            <MintingProvider>{children}</MintingProvider>
-          </WalletProvider>
-        </GamesContextProvider>
-      </ToastProvider>
-    </ThemeContextProvider>
+    <RestrictedProvider>
+      <ThemeContextProvider>
+        <FilterProvider>
+          <ToastProvider>
+            <GamesContextProvider>
+              <TokenSessionProvider />
+              <WalletProvider>
+                <MintingProvider>{children}</MintingProvider>
+              </WalletProvider>
+            </GamesContextProvider>
+          </ToastProvider>
+        </FilterProvider>
+      </ThemeContextProvider>
+    </RestrictedProvider>
   )
 }
 

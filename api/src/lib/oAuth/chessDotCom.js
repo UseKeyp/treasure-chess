@@ -26,7 +26,7 @@ export const getChessAccessTokenFromCode = async (code, codeVerifier) => {
       grant_type: 'authorization_code',
       client_id: process.env.CHESS_CLIENT_ID,
       client_secret: process.env.CHESS_CLIENT_SECRET,
-      redirect_uri: process.env.PUBLIC_REDIRECT_URL + '/chess',
+      redirect_uri: process.env.APP_DOMAIN + '/redirect/chess',
       code,
       code_verifier: codeVerifier,
     }

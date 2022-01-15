@@ -1,5 +1,4 @@
 import styles from './SearchBar.module.scss'
-import { ReactComponent as SearchIcon } from 'src/assets/icons/Search.svg'
 /**
  * This is a search bar
  * @param {*} value Pass a stateful variable as a value to control the state of the input
@@ -16,9 +15,7 @@ const SearchBar = ({ value, changeHandler }) => {
         value={value}
         onChange={(e) => changeHandler(e.target.value)}
       />
-      <div className={styles.iconWrap}>
-        <SearchIcon />
-      </div>
+      <div className={styles.iconWrap}></div>
     </div>
   )
 }

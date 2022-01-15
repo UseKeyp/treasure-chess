@@ -62,10 +62,15 @@ export const schema = gql`
     treasuresWithFilter(
       username: String
       filter: String
+      owner: String
       sort: String
       page: Int
     ): [Treasure!]! @skipAuth
-    treasuresWithFilterCount(username: String, filter: String): Int! @skipAuth
+    treasuresWithFilterCount(
+      username: String
+      filter: String
+      owner: String
+    ): Int! @skipAuth
     treasure(tokenId: Int!): Treasure @skipAuth
     treasureNftDetails(tokenId: Int!): TreasureNftDetails @skipAuth
   }

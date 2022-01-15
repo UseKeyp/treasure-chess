@@ -1,4 +1,4 @@
-name: publish
+name: 'GCP Publish Docker'
 on:
   workflow_dispatch:
     inputs:
@@ -7,6 +7,10 @@ on:
         required: true
         default: 'prod'
 env:
+  NODE_ENV: 'development'
+  RUNTIME_ENV: 'main'
+  REDWOOD_API_URL: 'http://0.0.0.0:8911'
+
   GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
   GITHUB_SHA: ${{ github.sha }}
   GITHUB_BRANCH: ${{ github.ref }}
@@ -14,7 +18,7 @@ env:
 jobs:
   publish:
     if: github.event_name == 'workflow_dispatch'
-    timeout-minutes: 15
+    timeout-minutes: 25
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -28,10 +32,8 @@ jobs:
       - name: Build and push image
         run: |
           PREFIX=${{ github.event.inputs.image_tag_prefix }}
-          DATABASE_URL=${{ secrets.__DEVELOPMENT_DATABASE_URL }}
           if [ $GITHUB_BRANCH == "refs/heads/main" ] ; then
              PREFIX=prod
-             DATABASE_URL=${{ secrets.__PRODUCTION_DATABASE_URL }}
           fi
           IMAGE_TAG=$PREFIX-$(echo $GITHUB_SHA | cut -c 1-7)
           IMAGE_NAME=$(echo $GITHUB_REPOSIOTORY | cut -c 12-)
@@ -42,7 +44,11 @@ jobs:
 
               echo "branch: $GITHUB_BRANCH, building image... $PROJECT_NAME/$IMAGE_NAME-$COMPONENT:$IMAGE_TAG"
               echo "$GCP_SA_KEY" | base64 -d > ./credentials.json
-              docker build -t $PROJECT_NAME/$IMAGE_NAME-$COMPONENT:$IMAGE_TAG --build-arg DATABASE_URL=$DATABASE_URL -f ./$COMPONENT/Dockerfile .
+              docker build -t $PROJECT_NAME/$IMAGE_NAME-$COMPONENT:$IMAGE_TAG \
+                --build-arg NODE_ENV=$NODE_ENV \
+                --build-arg RUNTIME_ENV=$RUNTIME_ENV \
+                --build-arg REDWOOD_API_URL=$REDWOOD_API_URL \
+                 -f ./$COMPONENT/Dockerfile .
 
               echo "pushing image... $PROJECT_NAME/$IMAGE_NAME:$IMAGE_TAG"
               docker push $PROJECT_NAME/$IMAGE_NAME-$COMPONENT:$IMAGE_TAG

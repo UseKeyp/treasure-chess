@@ -5,12 +5,14 @@ import Treasures from 'src/components/Treasure/Treasures'
 const TREASURES_WITH_FILTER = gql`
   query TreasuresSearchQuery(
     $username: String
+    $owner: String
     $filter: String
     $sort: String
     $page: Int
   ) {
     treasures: treasuresWithFilter(
       username: $username
+      owner: $owner
       filter: $filter
       sort: $sort
       page: $page
@@ -19,11 +21,13 @@ const TREASURES_WITH_FILTER = gql`
       createdAt
       black {
         username
+        country
         imageSrc
         id
       }
       white {
         imageSrc
+        country
         username
         id
       }
@@ -34,6 +38,7 @@ const TREASURES_WITH_FILTER = gql`
       title
       cardColor
       blackRating
+      whiteRating
       blackRatingDelta
       whiteRatingDelta
       blackMasterTitle
@@ -57,12 +62,20 @@ const TREASURES_WITH_FILTER = gql`
   }
 `
 const TREASURES_WITH_FILTER_COUNT = gql`
-  query TreasuresCountQuery($username: String, $filter: String) {
-    count: treasuresWithFilterCount(username: $username, filter: $filter)
+  query TreasuresCountQuery(
+    $username: String
+    $owner: String
+    $filter: String
+  ) {
+    count: treasuresWithFilterCount(
+      username: $username
+      owner: $owner
+      filter: $filter
+    )
   }
 `
 
-const TreasuresFetcher = ({ username, filter, sort }) => {
+const TreasuresFetcher = ({ username, owner, filter, sort }) => {
   const [treasures, setTreasures] = React.useState([])
   const [count, setCount] = React.useState()
   const [page, setPage] = React.useState(0)
@@ -70,7 +83,8 @@ const TreasuresFetcher = ({ username, filter, sort }) => {
   const [getTreasures, { error, loading }] = useLazyQuery(
     TREASURES_WITH_FILTER,
     {
-      variables: { username, filter, sort, page },
+      variables: { username, owner, filter, sort, page },
+      fetchPolicy: 'network-only',
       onCompleted: ({ treasures: newTreasures }) => {
         if (page === 0) return setTreasures(newTreasures)
         setTreasures([...treasures, ...newTreasures])
@@ -78,7 +92,8 @@ const TreasuresFetcher = ({ username, filter, sort }) => {
     }
   )
   const [getTreasuresCount] = useLazyQuery(TREASURES_WITH_FILTER_COUNT, {
-    variables: { username, filter },
+    variables: { username, owner, filter },
+    fetchPolicy: 'network-only',
     onCompleted: ({ count: newCount }) => {
       setCount(newCount)
     },
@@ -106,7 +121,6 @@ const TreasuresFetcher = ({ username, filter, sort }) => {
   // https://www.w3schools.com/howto/howto_js_scroll_to_top.asp
 
   if (error) return <h2 className="rw-text-center">Something went wrong</h2>
-
   return (
     <Treasures
       treasures={treasures}

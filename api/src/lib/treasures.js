@@ -1,9 +1,7 @@
 import { db } from 'src/lib/db'
 
-const {
-  TREASURES_PER_PAGE,
-  filters,
-} = require('@treasure-chess/treasure-filters')
+const { TREASURES_PER_PAGE } = require('@treasure-chess/treasure-filters')
+const filters = require('@treasure-chess/treasure-filters')
 
 // NOTE: any updates to this function should also be made in /scripts/seed
 export const generateTreasureData = ({ game, title, minter, mintPurchase }) => {
@@ -49,7 +47,7 @@ export const generateTreasureData = ({ game, title, minter, mintPurchase }) => {
 const getValueByName = (list, name) =>
   list.find((item) => item.name === name).value
 
-const getWhereQueryFromArgs = ({ username, filter }) => {
+const getWhereQueryFromArgs = ({ username, filter, owner }) => {
   const searchParams = new URLSearchParams(filter)
   let filterObj = {}
   // Convert text names to values
@@ -57,12 +55,18 @@ const getWhereQueryFromArgs = ({ username, filter }) => {
     let value = pair[1]
     if (pair[0] === 'timeControl')
       value = getValueByName(filters.timeControlList, pair[1])
-    else if (pair[0] === 'moveCount')
+    else if (pair[0] === 'moveCount') {
       value = getValueByName(filters.moveCountList, pair[1])
+    }
     filterObj[pair[0]] = value
   }
 
   // Create each TreasureWhereInput
+  const ownerQuery = owner
+    ? {
+        OR: [{ owner: { username: owner } }, { owner: { address: owner } }],
+      }
+    : null
   const usernameQuery = username
     ? {
         OR: [{ black: { username } }, { white: { username } }],
@@ -82,7 +86,6 @@ const getWhereQueryFromArgs = ({ username, filter }) => {
         })),
       }
     : null
-
   const moveCountQuery = filterObj.moveCount
     ? {
         AND: [
@@ -91,15 +94,24 @@ const getWhereQueryFromArgs = ({ username, filter }) => {
         ],
       }
     : null
+  const titleQuery = filterObj.title
+    ? {
+        OR: [
+          { blackMasterTitle: filterObj.title },
+          { whiteMasterTitle: filterObj.title },
+        ],
+      }
+    : null
 
   return {
     ...(usernameQuery && usernameQuery),
+    ...(ownerQuery && ownerQuery),
     ...(achievementQuery && achievementQuery),
     ...(outcomeQuery && outcomeQuery),
     ...(moveCountQuery && moveCountQuery),
+    ...(titleQuery && titleQuery),
     ...(filterObj.opening && { opening: filterObj.opening }),
     ...(filterObj.color && { cardColor: filterObj.color }),
-    ...(filterObj.title && { title: { contains: filterObj.title } }),
     ...(filterObj.termination && { termination: filterObj.termination }),
     ...(filterObj.timeControl && { timeControl: filterObj.timeControl }),
     ...(filterObj.rarity && { rarity: filterObj.rarity }),
@@ -113,10 +125,11 @@ const getWhereQueryFromArgs = ({ username, filter }) => {
 export const getTreasuresWithFilter = async ({
   username,
   filter,
+  owner,
   _sort,
   page = 0,
 }) => {
-  const whereQuery = getWhereQueryFromArgs({ username, filter })
+  const whereQuery = getWhereQueryFromArgs({ username, filter, owner })
   // Cannot use cursor pagination, since custom sorting is needed
   const skip = page * TREASURES_PER_PAGE
   const treasures = await db.treasure.findMany({
@@ -131,8 +144,12 @@ export const getTreasuresWithFilter = async ({
   return treasures
 }
 
-export const getTreasuresWithFilterCount = async ({ username, filter }) => {
-  const whereQuery = getWhereQueryFromArgs({ username, filter })
+export const getTreasuresWithFilterCount = async ({
+  username,
+  filter,
+  owner,
+}) => {
+  const whereQuery = getWhereQueryFromArgs({ username, filter, owner })
   // Note: count takes up to 2+ seconds to the query for large db (1M+ elements)
   return db.treasure.count({ where: whereQuery })
 }

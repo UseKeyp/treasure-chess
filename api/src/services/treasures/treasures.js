@@ -6,10 +6,10 @@ import {
 
 export const treasures = () => db.treasure.findMany()
 
-export const treasuresWithFilter = ({ username, sort, filter, page }) =>
-  getTreasuresWithFilter({ username, sort, filter, page })
-export const treasuresWithFilterCount = ({ username, filter }) =>
-  getTreasuresWithFilterCount({ username, filter })
+export const treasuresWithFilter = ({ username, owner, sort, filter, page }) =>
+  getTreasuresWithFilter({ username, owner, sort, filter, page })
+export const treasuresWithFilterCount = ({ username, owner, filter }) =>
+  getTreasuresWithFilterCount({ username, filter, owner })
 
 export const treasure = ({ tokenId }) =>
   db.treasure.findUnique({

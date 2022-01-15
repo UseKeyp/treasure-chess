@@ -7,37 +7,43 @@ export const QUERY = gql`
       createdAt
       black {
         username
-        id
+        country
         imageSrc
+        id
       }
       white {
+        imageSrc
+        country
         username
         id
-        imageSrc
       }
       winner {
         username
         id
       }
       title
-      gifUrl
       cardColor
       blackRating
+      whiteRating
+      blackRatingDelta
+      whiteRatingDelta
       blackMasterTitle
       whiteMasterTitle
       timeControl
       termination
       endTime
       outcome
-      tokenId
-      moves
       event
+      moves
+      gifUrl
+      boardLayout
       ruleVariant
       externalUrl
       opening
       achievements
       achievementScore
       rarity
+      tokenId
     }
   }
 `
@@ -53,5 +59,5 @@ export const Failure = () => (
 )
 
 export const Success = ({ treasure }) => {
-  return <GameCard game={treasure} />
+  return <GameCard game={treasure} showGif={true} />
 }

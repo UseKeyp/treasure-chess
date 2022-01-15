@@ -28,7 +28,7 @@ export const getLoginUrl = async () => {
   url.searchParams.set('code_challenge_method', 'S256')
   url.searchParams.set(
     'redirect_uri',
-    process.env.PUBLIC_REDIRECT_URL + '/chess'
+    process.env.APP_DOMAIN + '/redirect/chess'
   )
   url.searchParams.set('scope', CHESS_SCOPE)
   url.searchParams.set('response_type', 'code')
@@ -96,7 +96,10 @@ export const handleOauthCodeGrant = async ({ state, code }) => {
     // Save the Discord auth credentials and update state
     return member
   } catch (e) {
+    /* eslint-disable no-console */
+    console.log(e)
+    /* eslint-enable no-console */
     Sentry.captureException(e)
-    throw new AuthenticationError(`handleOauthCodeGrant() ${e}`)
+    throw new AuthenticationError()
   }
 }

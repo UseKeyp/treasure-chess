@@ -22,7 +22,7 @@ const TreasuresList = ({ treasures, count, onLoadMore, page, loading }) => {
     <div className="w-full">
       <div className="w-full flex justify-start">
         <div className="mr-2 flex align-center h-4">
-          {count ? (
+          {count !== undefined ? (
             <p>{count.toLocaleString()}</p>
           ) : (
             <div className="flex h-4 align-center justify-center w-8">
@@ -32,7 +32,7 @@ const TreasuresList = ({ treasures, count, onLoadMore, page, loading }) => {
         </div>
         <p>Treasures</p>
       </div>
-      <div className="mt-4 ">
+      <div className="mt-8 ">
         {!treasures?.length && loading ? (
           loader
         ) : (

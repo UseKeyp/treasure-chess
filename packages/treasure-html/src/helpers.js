@@ -99,3 +99,6 @@ export const getRatingText = (treasure, playerColor) => {
   }
   return { text, color }
 }
+
+export const getDescription = (treasure) =>
+  `A chess game collectible. ${treasure.white.username} and ${treasure.black.username} played this game.`

@@ -15,15 +15,15 @@ const randomAvatarsBase64 = require('./data/randomAvatarsBase64.js')
 const countries = require('./data/countries')
 
 const getBoardLayout = (pgn) => {
-  // const chess = new Chess()
-  // chess.load_pgn(pgn)
+  const chess = new Chess()
+  chess.load_pgn(pgn)
   const boardLayout = {}
-  // ;['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'].map((col) => {
-  //   new Array(8).fill(null).map((_, i) => {
-  //     const piece = chess.get(col + (i + 1))
-  //     if (piece) boardLayout[col + (i + 1)] = piece
-  //   })
-  // })
+  ;['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'].map((col) => {
+    new Array(8).fill(null).map((_, i) => {
+      const piece = chess.get(col + (i + 1))
+      if (piece) boardLayout[col + (i + 1)] = piece
+    })
+  })
   return boardLayout
 }
 

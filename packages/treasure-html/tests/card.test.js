@@ -10,7 +10,6 @@ const test = async () => {
   const treasure = generateRandomTreasures(1, 1, members)[0]
   treasure.white = members[0]
   treasure.black = members[1]
-  console.log(treasure)
   const html = await getCardHtml({
     treasure,
     // gifUrl: 'https://i.imgur.com/OQCBrle.gif',

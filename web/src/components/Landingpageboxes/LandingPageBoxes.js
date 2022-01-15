@@ -7,35 +7,35 @@ const LandingPageBoxes = () => {
         <Icon
           name="play"
           size={{ width: '100%', height: 'auto' }}
-          className="my-5 mx-auto"
+          className="my-3 mx-auto"
         />
         <h2 className="text-center capitalize">play</h2>
-        <h3 className="text-center">
+        <h4 className="text-center">
           Have fun playing games with your friends on Chess.com, or watching
           your favorite Chess.com streamers.
-        </h3>
+        </h4>
       </div>
       <div className="pageBox">
         <Icon
           name="create"
-          className="my-5 mx-auto"
+          className="my-3 mx-auto"
           size={{ width: '100%', height: 'auto' }}
         />
         <h2 className="text-center capitalize">create</h2>
-        <h3 className="text-center">
+        <h4 className="text-center">
           Turn your own games into a one-of-a-kind collectible Treasure.
-        </h3>
+        </h4>
       </div>
       <div className="pageBox">
         <Icon
           name="collect"
-          className="my-5 mx-auto"
+          className="my-3 mx-auto"
           size={{ width: '100%', height: 'auto' }}
         />
         <h2 className="text-center capitalize">collect</h2>
-        <h3 className="text-center">
+        <h4 className="text-center">
           Find interesting and unique Treasures to collect and share.
-        </h3>
+        </h4>
       </div>
     </div>
   )

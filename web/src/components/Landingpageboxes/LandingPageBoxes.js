@@ -1,28 +1,41 @@
-import styles from './LandingPageBoxes.module.css'
-import {ReactComponent as Play} from 'src/assets/images/play.svg'
-import { ReactComponent as Create } from 'src/assets/images/create.svg'
-import { ReactComponent as Collect }  from 'src/assets/images/collect.svg'
+import Icon from 'src/components/Icon/Icon'
 
 const LandingPageBoxes = () => {
   return (
-    <div className={styles.page_boxes_container}>
-      <div className={styles.page_box}>
-        <Play className={styles.page_box_img} />
-        <h3>play</h3>
-        <p>
+    <div className="pageBoxes">
+      <div className="pageBox">
+        <Icon
+          name="play"
+          size={{ width: '100%', height: 'auto' }}
+          className="my-5 mx-auto"
+        />
+        <h2 className="text-center capitalize">play</h2>
+        <h3 className="text-center">
           Have fun playing games with your friends on Chess.com, or watching
           your favorite Chess.com streamers.
-        </p>
+        </h3>
       </div>
-      <div className={styles.page_box}>
-        <Create className={styles.page_box_img} />
-        <h3>create</h3>
-        <p>Turn your own games into a one-of-a-kind collectible Treasure.</p>
+      <div className="pageBox">
+        <Icon
+          name="create"
+          className="my-5 mx-auto"
+          size={{ width: '100%', height: 'auto' }}
+        />
+        <h2 className="text-center capitalize">create</h2>
+        <h3 className="text-center">
+          Turn your own games into a one-of-a-kind collectible Treasure.
+        </h3>
       </div>
-      <div className={styles.page_box}>
-        <Collect className={styles.page_box_img} />
-        <h3>collect</h3>
-        <p>Find interesting and unique Treasures to collect and share.</p>
+      <div className="pageBox">
+        <Icon
+          name="collect"
+          className="my-5 mx-auto"
+          size={{ width: '100%', height: 'auto' }}
+        />
+        <h2 className="text-center capitalize">collect</h2>
+        <h3 className="text-center">
+          Find interesting and unique Treasures to collect and share.
+        </h3>
       </div>
     </div>
   )

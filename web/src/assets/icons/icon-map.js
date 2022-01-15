@@ -3,6 +3,9 @@ import { ReactComponent as ChessCom } from './chess_com.svg'
 import { ReactComponent as Facebook } from './facebook.svg'
 import { ReactComponent as Twitter } from './twitter.svg'
 import { ReactComponent as Search } from './search.svg'
+import { ReactComponent as Play } from './play.svg'
+import { ReactComponent as Create } from './create.svg'
+import { ReactComponent as Collect } from './collect.svg'
 
 const MobileWallet = () => {
   return (
@@ -427,4 +430,7 @@ export default {
   facebook: Facebook,
   arrow_up: ArrowUp,
   search: Search,
+  play: Play,
+  create: Create,
+  collect: Collect,
 }

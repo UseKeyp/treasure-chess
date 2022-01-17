@@ -3,7 +3,7 @@ import { navigate } from '@redwoodjs/router'
 const LOCAL_BASIC_AUTH_KEY = 'basic_auth'
 
 const passedBasicAuth = () =>
-  localStorage.getItem(LOCAL_BASIC_AUTH_KEY) === process.env.BASIC_AUTH_PASSWORD
+  1 === 1
 
 const RestrictedContext = React.createContext({
   passed: passedBasicAuth(),

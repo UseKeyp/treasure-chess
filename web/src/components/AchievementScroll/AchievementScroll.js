@@ -10,7 +10,7 @@ const AchievementScroll = (props) => {
     const elementHeight = Math.ceil(
       document.getElementById('achievements').getBoundingClientRect().height
     )
-
+    console.log(scrollHeight, scrollPosition, elementHeight)
     if (scrollHeight - scrollPosition === elementHeight) {
       setGradientBottom(false)
       setGradientTop(true)
@@ -30,7 +30,7 @@ const AchievementScroll = (props) => {
   return (
     <div className={styles.achievementScrollWrapper}>
       <div
-        id="achievements"
+        id='achievements'
         onScroll={filterBarPosition}
         className={styles.achievementScrollArea}
       >

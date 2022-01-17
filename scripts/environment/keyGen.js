@@ -16,7 +16,7 @@ const gen = () => {
 
   const iv = randomBytes(16)
 
-  fs.writeFileSync(
+  fs.appendFileSync(
     path.join(directoryPath, '.env'),
     `# Generated ${dateString}
 # Git revision ${gitRevision}
@@ -24,16 +24,12 @@ const gen = () => {
 # NOTE: Any additions here must also be added to /scripts/encryptEnv/generateKey.js
 
 ENCRYPTION_KEY=${process.env.ENCRYPTION_KEY}
-ENCRYPTION_IV=${iv.toString('hex')}
-APP_DOMAIN=${process.env.APP_DOMAIN}
-ETHEREUM_NETWORK_NAME=${process.env.ETHEREUM_NETWORK_NAME}
-#REDWOOD_API_URL=${process.env.REDWOOD_API_URL}`,
+ENCRYPTION_IV=${iv.toString('hex')}`,
     (err) => {
       if (err) throw err
     }
   )
   console.log('\n✅ Updated .env')
-  rl.close()
 }
 
 gen()

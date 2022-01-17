@@ -30,11 +30,19 @@ const LoginPage = () => {
           <span className="block xl:inline">Login</span>
         </h1>
         {errorText && <div className=" mt-8 rw-cell-error">{errorText}</div>}
-        <Button onClick={() => logIn({ redirectTo })}>
-          <Icon size="30" name="chess_com" className="mr-4" />
-        </Button>
+        <h3 className="pt-4">Login using your Chess.com account.</h3>
+        <div className="pt-4 pb-4">
+          <Button
+            onClick={() => logIn({ redirectTo })}
+            variant="green"
+            size="small"
+            className="w-100 pt-4 pb-4"
+          >
+            <Icon size="30" name="chess_com" className="mr-4" />
+          </Button>
+        </div>
       </div>
-      <p>
+      <h4>
         By continuing you acknowledge that you have read, understand, and agree
         to the
         <a href={globalConfig.TOC_URL}>
@@ -45,7 +53,7 @@ const LoginPage = () => {
           <span className="text-blue"> Privacy Policy</span>
         </a>
         .
-      </p>
+      </h4>
     </div>
   )
 }

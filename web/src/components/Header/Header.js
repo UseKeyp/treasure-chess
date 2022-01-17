@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { createPortal } from 'react-dom'
-import { Link, routes, useLocation } from '@redwoodjs/router'
+import { routes, useLocation } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
 
 import Icon from 'src/components/Icon/Icon'
@@ -12,6 +12,7 @@ import MemberBalance from 'src/components/Member/MemberBalance'
 import { trimAddress } from 'src/utils/helpers'
 
 const WalletBalance = () => {
+  const { deposit } = useWallet()
   return (
     <div className="flex flex-col flex-1 text-sm">
       <div className={'header__nav__balance'}>
@@ -19,7 +20,7 @@ const WalletBalance = () => {
       </div>
       <div>
         <Button
-          href="/fund-wallet"
+          onClick={deposit}
           textColor="blue"
           className={'header__nav__fund-wallet'}
         >
@@ -31,11 +32,12 @@ const WalletBalance = () => {
 }
 
 const MobileNav = () => {
-  const { isAuthenticated: isLoggedIn, logIn } = useAuth()
+  const { isAuthenticated: isLoggedIn } = useAuth()
   const { pathname } = useLocation()
   const [isOpen, setOpen] = useState(false)
 
-  const handleLogIn = () => logIn({ redirectTo: pathname })
+  const isOnTreasuresPage = pathname === '/treasures'
+  const isOnAboutPage = pathname === '/about'
 
   const navItemClasses = 'block text-center mt-4 flex'
   const navAnchorClasses = 'text-center w-full font-bold'
@@ -65,22 +67,22 @@ const MobileNav = () => {
               </Button>
             </li>
             <li className={navItemClasses}>
-              <Button to={routes.treasures()}>Treasures</Button>
+              <Button isSelected={isOnTreasuresPage} to={routes.treasures()}>
+                Treasures
+              </Button>
             </li>
             <li className={navItemClasses}>
-              <Link to={routes.faq()} className={navAnchorClasses}>
+              <Button
+                isSelected={isOnAboutPage}
+                to={routes.faq()}
+                className={navAnchorClasses}
+              >
                 About
-              </Link>
+              </Button>
             </li>
             {!isLoggedIn ? (
               <li className={navItemClasses}>
-                <button
-                  type="button"
-                  className={navAnchorClasses}
-                  onClick={() => handleLogIn()}
-                >
-                  Log In
-                </button>
+                <Button to={routes.login()}>Log In</Button>
               </li>
             ) : null}
             <li className="absolute" style={{ bottom: '10%' }}>
@@ -97,14 +99,15 @@ const MobileNav = () => {
 }
 
 const Header = () => {
-  const { isAuthenticated: isLoggedIn, currentUser: profile, logIn } = useAuth()
+  const { isAuthenticated: isLoggedIn, currentUser: profile } = useAuth()
   const { pathname } = useLocation()
+
   const handleLogIn = () => logIn({ redirectTo: pathname })
 
   const imageSrc = profile?.imageSrc || null
 
   const address = trimAddress(profile?.address) || 'No address set'
-
+  
   return (
     <div className={'header'}>
       <div className={'header__iconSearch'}>
@@ -118,7 +121,11 @@ const Header = () => {
       <div className={'header__nav hidden lg:flex'}>
         <div className="flex-1 flex items-center">
           <div className="mr-4">
-            <Button to={routes.treasures()} size="large">
+            <Button
+              to={routes.treasures()}
+              size="large"
+              isSelected={isOnTreasuresPage}
+            >
               <div className="flex items-center">
                 <div className="mr-2">
                   <Icon name="treasure_chess" color="#ffffff" height="16px" />
@@ -128,7 +135,7 @@ const Header = () => {
             </Button>
           </div>
           <div>
-            <Button to={routes.faq()} size="large">
+            <Button to={routes.faq()} size="large" isSelected={isOnAboutPage}>
               <div className="flex items-center">
                 <img src="/icons/HelpIcon.png" alt="" className="mr-2" />
                 About
@@ -156,9 +163,7 @@ const Header = () => {
             <WalletBalance />
           </div>
         ) : (
-          <Button textColor="blue" onClick={() => handleLogIn()}>
-            Log In
-          </Button>
+          <Button to={routes.login()}>Log In</Button>
         )}
       </div>
     </div>

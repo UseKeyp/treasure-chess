@@ -7,12 +7,25 @@ const {
   parseGameFromChessDotCom,
 } = require('../../api/src/lib/chessCom/gameParsing')
 const { getGifUrl } = require('../../api/src/lib/chessCom/gifGetter')
-const { getBoardLayout } = require('../../api/src/lib/helpers')
+const { Chess } = require('chess.js')
 
 const realGames = require('./data/realGames.json')
 const randomTitles = require('./data/randomTitles.json')
 const randomAvatarsBase64 = require('./data/randomAvatarsBase64.js')
 const countries = require('./data/countries')
+
+const getBoardLayout = (pgn) => {
+  const chess = new Chess()
+  chess.load_pgn(pgn)
+  const boardLayout = {}
+  ;['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'].map((col) => {
+    new Array(8).fill(null).map((_, i) => {
+      const piece = chess.get(col + (i + 1))
+      if (piece) boardLayout[col + (i + 1)] = piece
+    })
+  })
+  return boardLayout
+}
 
 function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min)
@@ -76,7 +89,7 @@ const generateRandomTreasures = (count, highestTokenId, members) => {
     })
 }
 
-export const generateTreasureDataOffline = ({
+const generateTreasureDataOffline = ({
   game,
   title,
   minter,

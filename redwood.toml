@@ -14,7 +14,8 @@
   includeEnvironmentVariables = [
     "APP_DOMAIN",
     "ETHEREUM_NETWORK_NAME",
-    "REDWOOD_API_URL"
+    "REDWOOD_API_URL",
+    "BASIC_AUTH_PASSWORD"
   ]
 [api]
   port = 8911

@@ -1,14 +1,15 @@
 const FilterContext = React.createContext({})
 
 const initialState = {
-  sort: '',
+  sort: 'Sort by',
   username: '',
   filter: {},
+  initialized: false,
 }
 
 const FilterProvider = ({ children }) => {
   const [state, setState] = React.useState(initialState)
-  const { sort, username, filter } = state
+  const { sort, username, filter, initialized } = state
 
   const updateFilter = (key, value) => {
     setState({
@@ -17,19 +18,45 @@ const FilterProvider = ({ children }) => {
     })
   }
 
-  const resetFilter = () => setState(initialState)
+  const resetFilter = () => setState({ ...initialState, initialized: true })
 
-  React.useEffect(() => {
+  const updateUrl = () => {
     const searchParams = new URLSearchParams(filter)
     username && searchParams.append('username', username)
-    sort && sort !== '' && searchParams.append('sort', sort)
+    sort && sort !== 'Sort by' && searchParams.append('sort', sort)
 
     searchParams.sort()
     const newPath = searchParams.toString()
       ? window.location.pathname + '?' + searchParams.toString()
       : window.location.pathname
     window.history.replaceState({}, '', newPath)
+  }
+
+  const onPageLoad = () => {
+    // Consume existing url
+    const searchParams = new URLSearchParams(window.location.search)
+    let newState = {}
+    for (var pair of searchParams.entries()) {
+      const key = pair[0]
+      const value = pair[1]
+      if (key === 'username' || key === 'sort') {
+        newState[key] = value
+      } else {
+        newState.filter = { ...newState.filter, [key]: value }
+      }
+    }
+    setState({ ...state, ...newState, initialized: true })
+  }
+  React.useEffect(() => {
+    if (!initialized) return
+    updateUrl()
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [sort, username, filter])
+
+  React.useEffect(() => {
+    onPageLoad()
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
+  }, [])
 
   return (
     <FilterContext.Provider

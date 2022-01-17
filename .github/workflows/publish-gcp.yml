@@ -18,7 +18,7 @@ env:
 jobs:
   publish:
     if: github.event_name == 'workflow_dispatch'
-    timeout-minutes: 15
+    timeout-minutes: 25
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

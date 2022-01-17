@@ -80,7 +80,12 @@ const GameCard = ({ game, isMinting, title, showGif }) => {
             <div className={styles.gameCardMintingOverlay} />
             <div className="items-center">
               <Loader />
-              <P fontWeight={700} fontSize={16} color={'chessBlack.100'}>
+              <P
+                fontWeight={700}
+                className="mt-4"
+                fontSize={16}
+                color={'chessBlack.100'}
+              >
                 Minting
                 <br />
                 in progress

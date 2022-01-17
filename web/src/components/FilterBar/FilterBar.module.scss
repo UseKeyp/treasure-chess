@@ -15,8 +15,13 @@
   align-items: center;
   justify-content: flex-start;
   max-width: clamp(264px, 100%, 344px);
-  height: 95vh;
+  height: 90vh;
   max-height: 1025px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .resetRow {

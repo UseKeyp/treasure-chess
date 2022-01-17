@@ -3,14 +3,14 @@ import styles from './AchievementScroll.module.scss'
 const AchievementScroll = (props) => {
   const [gradientTop, setGradientTop] = React.useState(false)
   const [gradientBottom, setGradientBottom] = React.useState(true)
+  const scroll = React.useRef(null)
 
   const filterBarPosition = () => {
-    const scrollPosition = document.getElementById('achievements').scrollTop
-    const scrollHeight = document.getElementById('achievements').scrollHeight
+    const scrollPosition = scroll.current.scrollTop
+    const scrollHeight = scroll.current.scrollHeight
     const elementHeight = Math.ceil(
-      document.getElementById('achievements').getBoundingClientRect().height
+      scroll.current.getBoundingClientRect().height
     )
-    console.log(scrollHeight, scrollPosition, elementHeight)
     if (scrollHeight - scrollPosition === elementHeight) {
       setGradientBottom(false)
       setGradientTop(true)
@@ -30,7 +30,8 @@ const AchievementScroll = (props) => {
   return (
     <div className={styles.achievementScrollWrapper}>
       <div
-        id='achievements'
+        ref={scroll}
+        id="achievements"
         onScroll={filterBarPosition}
         className={styles.achievementScrollArea}
       >
@@ -58,8 +59,8 @@ const AchievementScroll = (props) => {
           )
         })}
       </div>
-      <div className={gradientTop && styles.topGradient}></div>
-      <div className={gradientBottom && styles.bottomGradient}></div>
+      <div className={gradientTop && styles.topGradient} />
+      <div className={gradientBottom && styles.bottomGradient} />
     </div>
   )
 }

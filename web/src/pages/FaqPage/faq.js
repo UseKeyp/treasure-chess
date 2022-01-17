@@ -6,28 +6,23 @@ const faqs = [
   },
   {
     question: 'What are NFTs?',
-    answer:
-      'TO FILL IN! TO FILL IN! TO FILL IN! TO FILL IN! TO FILL IN! TO FILL IN!',
+    answer: 'TODO',
   },
   {
     question: 'What is a wallet?',
-    answer:
-      'TO FILL IN! TO FILL IN! TO FILL IN! TO FILL IN! TO FILL IN! TO FILL IN!',
+    answer: 'TODO',
   },
   {
     question: 'How do I see my tokens?',
-    answer:
-      'TO FILL IN! TO FILL IN! TO FILL IN! TO FILL IN! TO FILL IN! TO FILL IN!',
+    answer: 'TODO',
   },
   {
     question: 'How do I transfer my Treasure Chess token to someone else?',
-    answer:
-      'TO FILL IN! TO FILL IN! TO FILL IN! TO FILL IN! TO FILL IN! TO FILL IN!',
+    answer: 'TODO',
   },
   {
     question: 'How do I mint a new game on Treasure Chess?',
-    answer:
-      'TO FILL IN! TO FILL IN! TO FILL IN! TO FILL IN! TO FILL IN! TO FILL IN!',
+    answer: 'TODO',
   },
 ]
 

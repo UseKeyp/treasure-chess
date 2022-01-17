@@ -22,7 +22,8 @@ yarn install
 ### Fire it up
 
 ```terminal
-yarn redwood dev
+# This command injects necessary environment variables. See docs/environment for help
+./dev.sh
 ```
 
 Your browser should open automatically to `http://localhost:8910` to see the web app. Lambda functions run on `http://localhost:8911` and are also proxied to `http://localhost:8910/.redwood/functions/*`.

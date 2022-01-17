@@ -37,7 +37,7 @@ Depending on the value of `NODE_ENV` in your `.env` file, the correct ciphertext
 
 ### Generate Keys
 
-1. Generate a new secret with `openssl rand -base64 24`. WARNING: This method sucks. You should come up with your own way to generate keys.
+1. Generate a new secret with `openssl rand -base64 24`. WARNING: This method sucks. You should come up with your own way to generate keys. Add this to a `.env` file as `ENCRYPTION_KEY`.
 2. Run the `keyGen` script:
 
 ```bash
@@ -81,5 +81,5 @@ default.env.js
 2. Install the packages
 
 ```
-yarn add -D -W dotenv readline
+yarn add -D -W dotenv
 ```

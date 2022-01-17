@@ -8,12 +8,16 @@ import FilterCheckbox from 'src/components/FilterCheckbox/FilterCheckbox'
 import FilterPriceInput from 'src/components/FilterPriceInput/FilterPriceInput'
 import Dropdown from 'src/components/Dropdown/Dropdown'
 import AchievementScroll from 'src/components/AchievementScroll/AchievementScroll'
+import UsernameSearchBar from 'src/components/UsernameSearchBar'
 
-const FilterBar = ({ filter, setFilter, defaultParams }) => {
+import { useFilter } from 'src/providers/filters'
+
+const FilterBar = ({ defaultParams }) => {
+  const { filter, setFilter, resetFilter } = useFilter()
+
   const [title, setTitle] = useState(filter.title)
   const [timeControl, setTimeControl] = useState(filter.timeControl)
   const [moveCount, setMoveCount] = useState(filter.moveCount)
-
   const [achievements, setAchievements] = useState(filter.achievements || [])
   const [opening, setOpening] = useState(filter.opening)
   const [color, setColor] = useState(filter.color)
@@ -41,7 +45,7 @@ const FilterBar = ({ filter, setFilter, defaultParams }) => {
   }
 
   const updateFilter = () => {
-    setFilter({
+    setFilter('filter', {
       ...(achievements?.length && { achievements }),
       ...(opening && { opening }),
       ...(color && { color }),
@@ -57,7 +61,6 @@ const FilterBar = ({ filter, setFilter, defaultParams }) => {
       ...(highPrice && { highPrice }),
     })
   }
-
   const onReset = () => {
     setAchievements([])
     setOpening()
@@ -72,7 +75,7 @@ const FilterBar = ({ filter, setFilter, defaultParams }) => {
     setLowPrice() // must be initialized to a string to control the input from initial render
     setHighPrice()
 
-    updateFilter()
+    resetFilter()
   }
 
   React.useEffect(() => {
@@ -100,6 +103,10 @@ const FilterBar = ({ filter, setFilter, defaultParams }) => {
           <button className={styles.reset} onClick={onReset}>
             Reset
           </button>
+        </div>
+        <div className={styles.dropdownRow}>
+          <h4 style={{ marginLeft: `1em`, marginBottom: `0.5em` }}>Username</h4>
+          <UsernameSearchBar />
         </div>
         <div className={styles.dropdownRowSpacing}>
           <Dropdown

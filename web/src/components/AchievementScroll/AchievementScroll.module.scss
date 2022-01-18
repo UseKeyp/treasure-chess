@@ -1,5 +1,6 @@
 .achievementScrollWrapper {
-  height: 600px;
+  height: 100vh;
+  max-height: 126px;
   width: 100%;
   font-size: 1rem;
   user-select: none;
@@ -10,7 +11,8 @@
 }
 
 .achievementScrollArea {
-  height: 600px;
+  height: 100vh;
+  max-height: 126px;
   width: 100%;
   overflow-y: scroll;
   font-size: 1rem;
@@ -26,34 +28,28 @@
   }
 }
 
-.gradientContainer {
-  display: block;
-  height: 600px;
-  width: 252px;
-  z-index: -1;
-}
-
 .topGradient {
   display: block;
   position: absolute;
+  pointer-events: none;
   top: 0;
   left: 0;
-  width: 252px;
-  height: 72px;
+  width: 300px;
+  height: 25px;
   content: '';
   background: linear-gradient(0deg, rgba(39, 37, 34, 0) 0%, #272522 100%);
-  z-index: 99;
+  transition-duration: 5s;
 }
 .bottomGradient {
   display: block;
   position: absolute;
+  pointer-events: none;
   bottom: 0;
   left: 0;
-  width: 252px;
-  height: 72px;
+  width: 300px;
+  height: 25px;
   content: '';
   background: linear-gradient(180deg, rgba(39, 37, 34, 0) 0%, #272522 100%);
-  z-index: 99;
 }
 
 .achievementScrollItem {

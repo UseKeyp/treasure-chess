@@ -1,3 +1,10 @@
+.filterBarWrapper {
+  position: -webkit-sticky;
+	position: sticky;
+  top: 25px;
+  width: 480px;
+  height: 100vh;
+}
 .filterBar {
   display: flex;
   flex-flow: column nowrap;
@@ -7,7 +14,14 @@
   border-radius: 0.5rem;
   align-items: center;
   justify-content: flex-start;
-  max-width: clamp(264px, 100%, 364px);
+  max-width: clamp(264px, 100%, 344px);
+  height: 90vh;
+  max-height: 1025px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .resetRow {
@@ -22,20 +36,20 @@
 
 .dropdownRow {
   width: 100%;
-  margin-bottom: 2ex;
+  margin-bottom: 1.5ex;
 }
 
 .dropdownRowSpacing {
   width: 100%;
   padding: 0 1rem;
-  margin-bottom: 2ex;
+  margin-bottom: 1.5ex;
 }
 .dropdownTwoElementRow {
   width: 100%;
   display: flex;
   justify-content: space-between;
   padding: 0 0.75rem;
-  margin-bottom: 2ex;
+  margin-bottom: 1.5ex;
   > div {
     margin: 5px;
   }
@@ -53,5 +67,5 @@
   align-items: center;
   justify-content: space-between;
   margin-top: 1ex;
-  margin-bottom: 2ex;
+  margin-bottom: 1.5ex;
 }

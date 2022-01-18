@@ -7,8 +7,7 @@ on:
         required: true
         default: 'staging'
 env:
-  NODE_ENV: 'development'
-  RUNTIME_ENV: 'main'
+  NODE_ENV: 'production'
 
   GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
   GITHUB_SHA: ${{ github.sha }}
@@ -46,7 +45,6 @@ jobs:
               echo "$GCP_SA_KEY" | base64 -d > ./credentials.json
               docker build -t $PROJECT_NAME/$IMAGE_NAME-$COMPONENT:$IMAGE_TAG \
                 --build-arg NODE_ENV=$NODE_ENV \
-                --build-arg RUNTIME_ENV=$RUNTIME_ENV \
                 --build-arg REDWOOD_API_URL=$REDWOOD_API_URL \
                  -f ./$COMPONENT/Dockerfile .
 

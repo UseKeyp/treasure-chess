@@ -1,9 +1,11 @@
 import { navigate } from '@redwoodjs/router'
+import { isProduction } from 'src/utils/helpers'
 
 const LOCAL_BASIC_AUTH_KEY = 'basic_auth'
 
 const passedBasicAuth = () =>
-  localStorage.getItem(LOCAL_BASIC_AUTH_KEY) === process.env.BASIC_AUTH_PASSWORD
+  localStorage.getItem(LOCAL_BASIC_AUTH_KEY) ===
+    process.env.BASIC_AUTH_PASSWORD || isProduction
 
 const RestrictedContext = React.createContext({
   passed: passedBasicAuth(),

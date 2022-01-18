@@ -24,7 +24,7 @@ In addition, there are two encrypted environment files, `prod.env.enc` and `dev.
 2. Start the app by running the following command:
 
 ```bash
-node scripts/environment/setupEnv && yarn rw dev
+node tasks/environment/setupEnv && yarn rw dev
 ```
 
 Depending on the value of `NODE_ENV` in your `.env` file, the correct ciphertext will be decrypted: `dev.env.enc` or `prod.env.enc` and injected.
@@ -42,7 +42,7 @@ Depending on the value of `NODE_ENV` in your `.env` file, the correct ciphertext
 
 ```bash
 # WARNING this will overwrite `.env`
-node scripts/environment/keyGen
+node tasks/environment/keyGen
 ```
 
 The `.env` will be updated with the new secret and a fresh initialization vector (iv). Note that the iv can be re-used with new secrets.
@@ -55,13 +55,13 @@ The `.env` will be updated with the new secret and a fresh initialization vector
 
 ```bash
 # WARNING this will overwrite `dev.env.enc`
-node scripts/environment/encrypt
+node tasks/environment/encrypt
 ```
 
 2. Test it worked by running the decryption script:
 
 ```bash
-node scripts/environment/decrypt
+node tasks/environment/decrypt
 ```
 
 Done!

@@ -11,7 +11,7 @@ import { getNewIdToken } from 'src/lib/oAuth/jwt'
 import { decode as decodeJwt } from 'jsonwebtoken'
 
 const fetchNodeDetails = new FetchNodeDetails(
-  !isProduction && {
+  process.env.TORUS_VERIFIER === 'treasure-chess-sandbox' && {
     network: 'ropsten',
     proxyAddress: '0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183',
   }

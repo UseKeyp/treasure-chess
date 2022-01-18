@@ -89,9 +89,7 @@ const MobileNav = () => {
               </li>
             ) : (
               <li className={navItemClasses}>
-                <Button onClick={logOut}>
-                  <Icon name="logout" color="grey" />
-                </Button>
+                <Button onClick={logOut}>Log Out</Button>
               </li>
             )}
             <li className="absolute" style={{ bottom: '10%' }}>

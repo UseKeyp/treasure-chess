@@ -6,7 +6,6 @@ global.document = null
 import FetchNodeDetails from '@toruslabs/fetch-node-details/dist/fetchNodeDetails-node'
 import TorusUtils from '@toruslabs/torus.js/dist/torusUtils-node'
 
-import { isProduction } from 'src/lib/helpers'
 import { getNewIdToken } from 'src/lib/oAuth/jwt'
 import { decode as decodeJwt } from 'jsonwebtoken'
 

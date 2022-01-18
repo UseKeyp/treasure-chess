@@ -56,6 +56,10 @@ export const getChessAccessTokenFromCode = async (code, codeVerifier) => {
       expires_in: expiration,
       id_token: idToken, // JWT that contains identity information about user
     } = response
+
+    // Uncomment to get a new CHESS_API_ACCESS_TOKEN
+    // console.log(accessToken)
+
     if (!response.id_token) throw 'Failed to get id_token from Chess.com'
     const decoded = await decodeJwt(idToken)
     if (new Date() - new Date(decoded.iat * 1000) > 60 * 1000)

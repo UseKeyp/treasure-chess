@@ -52,6 +52,7 @@ Development
   "name": "Treasure Chess - Test",
   "logo": "https://treasure-chess-dev-4.vercel.app/logo-test.png",
   "redirectUri": [
+    "http://0.0.0.0:8910/redirect/chess",
     "https://treasure-chess-dev-4.vercel.app/redirect/chess",
     "https://treasure-chess-sandbox-4.vercel.app/redirect/chess",
   ],
@@ -88,6 +89,8 @@ Production
 - Image <img src="./icon-large-sandbox.png" width="100">
 
 ### 3. Staging
+
+NOTE: For `CHESS_API_ACCESS_TOKEN`, they don’t check TTL, only check that they are signed by chess.com keys. You can obtain one and use it forever in order to bypass rate limiting. Since this is just a user's api token, make sure if it's exposed, it can't access that user's Torus wallet. Create one by uncommenting the line in `api/src/lib/oAuth/chessDotCom.js` and then logging in.
 
 - Redirect URL https://treasure.gcp-staging.chess-platform.com/redirect/chess
 - CHESS_API_ACCESS_TOKEN (???)
@@ -146,14 +149,17 @@ Environment is the same as for Production, except for the following:
 
 ```js
 APP_DOMAIN=https://treasure.gcp-staging.chess-platform.com
-REDWOOD_API_URL=
+// For now these are different, but they should be the same
+DATABASE_URL= sandbox db
+ETHEREUM_NETWORK_NAME=ropsten
+CONTRACT_ADDRESS_TREASURE=
+CONTRACT_ADDRESS_TREASURE_MARKET=
 ```
 
 ## Production - container tag prefix `prod`
 
 ```js
 APP_DOMAIN=https://treasure.chess.com
-REDWOOD_API_URL=
 ENCRYPTION_KEY=
 ENCRYPTION_IV=
 DATABASE_URL=

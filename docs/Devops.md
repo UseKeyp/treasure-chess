@@ -148,24 +148,22 @@ ETHEREUM_NETWORK_NAME=ropsten
 Environment is the same as for Production, except for the following:
 
 ```js
+// Must be in vault
 APP_DOMAIN=https://treasure.gcp-staging.chess-platform.com
-// For now these are different, but they should be the same
-DATABASE_URL= sandbox db
-ETHEREUM_NETWORK_NAME=ropsten
-CONTRACT_ADDRESS_TREASURE=
-CONTRACT_ADDRESS_TREASURE_MARKET=
+REDWOOD_API_URL=https://treasure.gcp-staging.chess-platform.com
 ```
 
 ## Production - container tag prefix `prod`
 
 ```js
+// Must be in vault
 APP_DOMAIN=https://treasure.chess.com
-ENCRYPTION_KEY=
-ENCRYPTION_IV=
-DATABASE_URL=
-CONTRACT_ADDRESS_TREASURE=
-CONTRACT_ADDRESS_TREASURE_MARKET=
-ETHEREUM_NETWORK_NAME=polygon
+REDWOOD_API_URL=https://treasure.chess.com
+ENCRYPTION_KEY= (dev keys, needs change)
+ENCRYPTION_IV= (dev keys, needs change)
+DATABASE_URL= (sanbox keys, needs change)
+ETHEREUM_NETWORK_NAME=(ropsten, needs change)
+NODE_ENV=production
 ```
 
 # Ngrok

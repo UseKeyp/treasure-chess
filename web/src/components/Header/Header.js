@@ -35,7 +35,7 @@ const WalletBalance = () => {
 }
 
 const MobileNav = () => {
-  const { isAuthenticated: isLoggedIn } = useAuth()
+  const { isAuthenticated: isLoggedIn, logOut } = useAuth()
   const { pathname } = useLocation()
   const [isOpen, setOpen] = useState(false)
 
@@ -87,7 +87,13 @@ const MobileNav = () => {
               <li className={navItemClasses}>
                 <Button to={routes.login()}>Log In</Button>
               </li>
-            ) : null}
+            ) : (
+              <li className={navItemClasses}>
+                <Button onClick={logOut}>
+                  <Icon name="logout" color="grey" />
+                </Button>
+              </li>
+            )}
             <li className="absolute" style={{ bottom: '10%' }}>
               <Button onClick={() => setOpen(false)} size="large">
                 Close Menu
@@ -102,7 +108,11 @@ const MobileNav = () => {
 }
 
 const Header = () => {
-  const { isAuthenticated: isLoggedIn, currentUser: profile } = useAuth()
+  const {
+    isAuthenticated: isLoggedIn,
+    currentUser: profile,
+    logOut,
+  } = useAuth()
   const { pathname } = useLocation()
   const params = useParams()
   const { username: initialUsername = '', ...currentFilter } = params
@@ -182,6 +192,11 @@ const Header = () => {
               </div>
             </div>
             <WalletBalance />
+            <div className="ml-4">
+              <Button onClick={logOut}>
+                <Icon name="logout" color="grey" />
+              </Button>
+            </div>
           </div>
         ) : (
           <Button to={routes.login()}>Log In</Button>

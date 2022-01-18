@@ -8,6 +8,7 @@ on:
         default: 'staging'
 env:
   NODE_ENV: 'production'
+  BASIC_AUTH_PASSWORD: 'pauliemorphy'
 
   GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
   GITHUB_SHA: ${{ github.sha }}

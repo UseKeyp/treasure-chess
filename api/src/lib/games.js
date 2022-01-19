@@ -105,7 +105,6 @@ export const getGamesWithArguments = async ({ username, filter }) => {
   const month = filterObj.month || 0
   // const month = filterObj.month === 'Any' ? null : filterObj.month || 0
   // const day = filterObj.day === 'Any' ? null : filterObj.day
-
   const games = await fetchChessGames({ username, year, month })
   if (!games?.length) return []
   // TODO: Limit to 200 most recent games?

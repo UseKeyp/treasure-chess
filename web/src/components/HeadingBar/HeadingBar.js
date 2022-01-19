@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-const HeaderBar = ({ children, justifyChildren = 'left', text, type }) => {
+const HeadingBar = ({ children, justifyChildren = 'left', text, type }) => {
   const getJustifyClass = useCallback(() => {
     switch (justifyChildren) {
       case 'center':
@@ -34,4 +34,4 @@ const HeaderBar = ({ children, justifyChildren = 'left', text, type }) => {
   )
 }
 
-export default HeaderBar
+export default HeadingBar

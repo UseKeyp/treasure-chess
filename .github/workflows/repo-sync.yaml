@@ -15,11 +15,3 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
           tasks/clean-and-sync-repo.sh
-      # - name: git-sync-main
-      #   uses: wei/git-sync@v3
-      #   with:
-      #     source_repo: 'git@github.com:pi0neerpat/treasure-chess.git'
-      #     source_branch: 'main'
-      #     destination_repo: 'git@github.com:treasure-chess/treasure-chess.git'
-      #     destination_branch: 'main'
-      #     ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}

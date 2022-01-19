@@ -1,14 +1,17 @@
-#!/bin/bash -v
-echo $SSH_PRIVATE_KEY
-exit 1
+#!/bin/bash -e
+
+# To test this locally run:
+# export SSH_PRIVATE_KEY=$(cat ~/.ssh/id_ed25519-treasurechess) && ./tasks/clean-and-sync-repo.sh
+
+# Get current commit hash and comment
 LATEST_COMMIT_SHORT_REV=$(git rev-parse --short HEAD)
 LATEST_COMMIT_COMMENT=$(git log -1 --pretty=%B)
 
 # Cleanup
 rm -rf .git
-rm dev.env.enc.js
-rm prod.env.enc.js
-rm -rf docs
+rm -f dev.env.enc.js
+rm -f prod.env.enc.js
+rm -rf -f docs
 
 # New git history
 git init

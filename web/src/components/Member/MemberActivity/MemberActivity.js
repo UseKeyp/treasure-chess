@@ -1,7 +1,9 @@
 // import MiniButton from 'src/components/MiniButton'
 import Table from 'src/components/Table/Table'
 
-const MemberActivity = ({ _activity }) => {
+const TITLE = 'Transaction History'
+
+const MemberActivity = ({ _activity, isLoading }) => {
   // const handleClick = (e) => {
   //   // TODO: trigger action
   //   /* eslint-disable-next-line no-console */
@@ -22,10 +24,15 @@ const MemberActivity = ({ _activity }) => {
   //     ),
   //   }
   // })
-
+  if (isLoading) return <Table title={TITLE} isLoading height={250} />
   return (
     <div>
-      <Table data={activityRows} colProportions={[4, 1, 1]} maxHeight={250} />
+      <Table
+        title={TITLE}
+        data={activityRows}
+        colProportions={[4, 1, 1]}
+        height={250}
+      />
     </div>
   )
 }

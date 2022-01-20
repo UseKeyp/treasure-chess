@@ -7,6 +7,7 @@ const noAvatarBase64 = require('./assets/noAvatar')
 export const fetchImageAndEncodeBase64 = async (url) => {
   // If no profile image, show the basic pawn
   if (!url || !url.length) return `data:image/png;base64,${noAvatarBase64}`
+  if (url.startsWith('data:image')) return url
   if (typeof process !== 'undefined' && process?.release?.name === 'node') {
     // If node, we need the raw image data
     const result = await fetch(url, {
@@ -94,7 +95,10 @@ export const getRatingText = (treasure, playerColor) => {
     color = '#88C54B'
   } else if (treasure.outcome === 'draw') {
     color = treasure.cardColor === 'black' ? 'white' : 'black'
-    text = '+0'
+    text = '0'
   }
   return { text, color }
 }
+
+export const getDescription = (treasure) =>
+  `A chess game collectible. ${treasure.white.username} and ${treasure.black.username} played this game.`

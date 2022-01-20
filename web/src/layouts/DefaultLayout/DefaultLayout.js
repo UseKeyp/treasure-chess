@@ -29,15 +29,15 @@ const DefaultLayout = ({ children }) => {
         }}
       />
       <div className="flex flex-col min-h-screen">
-        <header className="relative mb-8">
+        <header className="relative mb-8 mt-4">
           <Header />
         </header>
         <div className="flex-grow">
           <div className="max-w-7xl mx-auto px-0 sm:px-0 sm:max-w-screen">
             {children}
           </div>
-          <SiteFooter />
         </div>
+        <SiteFooter className="self-end" />
       </div>
     </div>
   )

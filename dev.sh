@@ -1,3 +1,3 @@
 #!/bin/bash -ve
-$(node scripts/environment/setupEnv)
+$(node tasks/environment/setupEnv)
 yarn rw dev

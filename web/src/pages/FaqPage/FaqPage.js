@@ -4,10 +4,10 @@ import faq from './faq'
 
 const FaqPage = () => {
   return (
-    <>
+    <div style={{ maxWidth: '65%', margin: 'auto' }}>
       <FaqSection title="About" questionList={about} />
       <FaqSection title="FAQ's" questionList={faq} />
-    </>
+    </div>
   )
 }
 

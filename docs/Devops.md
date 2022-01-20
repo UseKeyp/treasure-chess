@@ -1,144 +1,170 @@
-# Devops
+# Devops 🌊 Flow
 
-Operations for Treasure Chess
+# Branches
 
-# 🌊 The Flow
+### `dev`
 
-### Merge to `dev`
+- Merge PRs to `dev`
+- Very unstable
+- Must pass action "CI"
 
-- Must pass "CI" action
+### `sandbox`
 
-### Merge `dev` to `main`
+- Merge from `dev` to `sandbox`
+- More stable, used for new feature testing
+- Must pass action "CI"
 
-- Must pass "CI" action
-- Triggers Docker GHCR deployment
+### `staging`
 
-### Deploy to production environment
+- Merge from `dev` to `staging`
+- Runs action "Github Publish Docker" with tag prefix `staging`
+- Must manually run action "GCP Publish Docker" with tag prefix `staging` (TODO: automate this?)
+- Must pass action "CI"
 
-- Triggered by GCP workflow dispatch
+### `main`
 
-### Test Production Deployment steps:
+- Merge from `staging` to `main`
+- Runs action "Github Publish Docker" with tag prefix `prod`
+- Must manually run action "GCP Publish Docker" with tag prefix `prod`
+- Must pass action "CI"
 
-1. https://github.com/pi0neerpat/treasure-chess/actions/workflows/publish-gcp.yml and click "Run workflow"
-2. Set "Branch:dev" and tag "dev", and run.
-3. (????) check GCP deployment was successful
-4. Ping Chess about new deployment?
+# Docker Containers
 
-### Final Production Deployment steps:
+### GCP Publish Docker - Staging
 
-1. https://github.com/pi0neerpat/treasure-chess/actions/workflows/publish-gcp.yml and click "Run workflow"
-2. Set "Branch:main" and tag "prod", and run.
-3. (????) check GCP deployment was successful
-4. Ping Chess about new deployment?
+1. Run "GCP Publish Docker" with Branch `staging` and tag `staging`
+2. Check deployment status using ArgoCD & logs in Kibana
 
-# Other Resources
+### GCP Publish Docker - Production
 
-## Docker
+1. Run "GCP Publish Docker" with branch `main` and tag `prod`
+2. Check deployment status using ArgoCD & logs in Kibana
 
-### Overview
+https://argo-cd.readthedocs.io/en/stable/
+https://kruschecompany.com/logstash-elasticsearch-kibana/#Install_Kibana
 
-**Web Docker image:**
+# Config - Chess.com OAuth / API
 
-- Docker nginx runner
-- nginx config from `/web/config/nginx/default.conf`
-- Built files end up in `/etc/nginx/conf.d/default.conf`
-- Must pass `REDWOOD_API_URL`
+Development
 
-**Api Docker image** has 3 distinct steps:
-
-1. Install
-
-- Installs everything.
-
-2. Build
-
-- Inherits everything from previous step and builds the packages and api.
-
-3. Serve
-
-- Inherits build files, scripts, packages, and `.prisma` from build step.
-- Installs prod+dev dependencies in `/api/package.json`
-- Includes `dotenv` for running `setupEnv.js`
-- Includes `react` which is needed for some reason?
-- Includes `@redwoodjs/cli` for running `rw serve`?
-- Includes `core-js`
-- Entrypoint `./serve-api.sh`
-
-### Guid
-
-Images are built via Github Action. To build the images locally:
-
-```bash
-# web
-docker build . -t pi0neerpat/treasure-chess-redwood-web-main -f web/Dockerfile \
---build-arg NODE_ENV=production \
---build-arg RUNTIME_ENV=local \
---build-arg REDWOOD_API_URL=http://0.0.0.0:8911
-
-# api
-docker build . -t pi0neerpat/treasure-chess-redwood-api-main -f api/Dockerfile \
---build-arg NODE_ENV=production \
---build-arg RUNTIME_ENV=local
-
-# both
-docker build . -t pi0neerpat/treasure-chess-redwood-both-main \
--f docker/Dockerfile \
---build-arg NODE_ENV=development \
---build-arg RUNTIME_ENV=local
+```
+{
+  "name": "Treasure Chess - Test",
+  "logo": "https://treasure-chess-dev-4.vercel.app/logo-test.png",
+  "redirectUri": [
+    "http://0.0.0.0:8910/redirect/chess",
+    "https://treasure-chess-dev-4.vercel.app/redirect/chess",
+    "https://treasure-chess-sandbox-4.vercel.app/redirect/chess",
+  ],
+  "privacyPolicyUrl": "https://treasure.chess.com/privacy",
+  "termsOfServiceUrl": "https://treasure.chess.com/terms"
+}
 ```
 
-Explore image contents:
+Production
 
-```bash
-docker run --rm -it --entrypoint=/bin/bash <image>
+```
+{
+  "name": "Treasure Chess",
+  "logo": "https://treasure.chess.com/logo.png",
+  "redirectUri": [
+    "https://treasure.chess.com/redirect/chess",
+    "https://treasure.gcp-staging.chess-platform.com/redirect/chess"
+  ],
+  "privacyPolicyUrl": "https://treasure.chess.com/privacy",
+  "termsOfServiceUrl": "https://treasure.chess.com/terms"
+}
 ```
 
-Run an image locally:
+### 1. Development
 
-Create a `GITHUB_PAT` in your Github "Developer Settings" with permissions `read:packages`
+- Redirect URL https://treasure-chess-dev-4.vercel.app/redirect/chess
+- CHESS_API_ACCESS_TOKEN eyJ0...
+- Image <img src="./icon-large-dev.png" width="100">
 
-```bash
-# Authenticate
-docker login https://ghcr.io -u USERNAME -p GITHUB_PAT
+### 2. Sandbox
 
-# Pull the images (web and api)
-docker pull ghcr.io/pi0neerpat/treasure-chess-redwood-web-main:latest
-docker pull ghcr.io/pi0neerpat/treasure-chess-redwood-api-main:latest
+- Redirect URL https://treasure-chess-sandbox-4.vercel.app/redirect/chess
+- CHESS_API_ACCESS_TOKEN eyJ0...
+- Image <img src="./icon-large-sandbox.png" width="100">
 
-# Run
-docker-compose up
+### 3. Staging
 
-# Alternatively, run a single image
-docker run -it --rm \
-       -p 8910:8910 \
-        pi0neerpat/treasure-chess-redwood-api-main:latest
+NOTE: For `CHESS_API_ACCESS_TOKEN`, they don’t check TTL, only check that they are signed by chess.com keys. You can obtain one and use it forever in order to bypass rate limiting. Since this is just a user's api token, make sure if it's exposed, it can't access that user's Torus wallet. Create one by uncommenting the line in `api/src/lib/oAuth/chessDotCom.js` and then logging in.
+
+- Redirect URL https://treasure.gcp-staging.chess-platform.com/redirect/chess
+- CHESS_API_ACCESS_TOKEN (???)
+- Image <img src="./icon-large-staging.png" width="100">
+
+### 4. Production
+
+- Redirect URL https://treasure.chess.com/redirect/chess
+- CHESS_API_ACCESS_TOKEN (???)
+- Image <img src="./icon-large.png" width="100">
+
+### For all environments
+
+- CHESS_API_URL https://api.chess.com
+
+### Setting up a new environment
+
+1. Determine the `APP_DOMAIN`
+2. Ask Nikola to create a new oauth client with the appropriate redirect URL. Don't forget to include the "/redirect/chess" at the end.
+
+# Config - Environment
+
+## Development
+
+```js
+APP_DOMAIN=https://treasure-chess-sandbox-4.vercel.app
+BASIC_AUTH_PASSWORD=pauliemorphy
+ENCRYPTION_KEY=g1WM...
+ENCRYPTION_IV=999...
+DATABASE_URL=postgres://...@ec2-44-194-112-166.compute-1.amazonaws.com:5432/d27fkbgjshtb7g?connection_limit=1
+CONTRACT_ADDRESS_TREASURE=0xCb9fC489C31309fD66F2F9b52593a699dAF49C86
+CONTRACT_ADDRESS_TREASURE_MARKET=0xc9234371D7943C0A333AB1eE4e9E6583323efD5d
+ETHEREUM_NETWORK_NAME=ropsten
 ```
 
-Killing Docker
+## Sandbox
 
-```bash
-# WARNING: may kill other containers on your machine
-sudo killall containerd-shim && docker-compose down
-#
-docker kill CONTAINER
-# kill stubborn container
-sudo service docker restart
-# kill running containers
-docker kill $(docker ps -q)
-# !!! Remove all containers~!!!
-docker rm --force $(docker ps -a -q)
+Exclude `REDWOOD_API_URL` for vercel
+
+```js
+APP_DOMAIN=https://treasure-chess-sandbox-4.vercel.app
+BASIC_AUTH_PASSWORD=pauliemorphy
+ENCRYPTION_KEY=g1WM...
+ENCRYPTION_IV=999...
+DATABASE_URL=postgres://...@ec2-34-239-196-254.compute-1.amazonaws.com:5432/deg6ltaujv3vei?connection_limit=1
+CONTRACT_ADDRESS_TREASURE=0x271DEb88eA5543c131A998327314dc02eAEc8a9C
+CONTRACT_ADDRESS_TREASURE_MARKET=0x55C0029BD0536Ac7EC2Ddd673436a0703E2081a9
+ETHEREUM_NETWORK_NAME=ropsten
 ```
 
-## Serverless considerations
+## Staging - container tag prefix `staging`
 
-The built api must be <50MB for Vercel. Use these commands to check the current size of `/zipped/graphql.zip`
+Environment is the same as for Production, except for the following:
 
-```bash
-yarn rw build api && \
-yarn zip-it-and-ship-it api/dist/functions/ zipped
+```js
+// Must be in vault
+APP_DOMAIN=https://treasure.gcp-staging.chess-platform.com
+REDWOOD_API_URL=https://treasure.gcp-staging.chess-platform.com
 ```
 
-## Ngrok
+## Production - container tag prefix `prod`
+
+```js
+// Must be in vault
+APP_DOMAIN=https://treasure.chess.com
+REDWOOD_API_URL=https://treasure.chess.com
+ENCRYPTION_KEY= (dev keys, needs change)
+ENCRYPTION_IV= (dev keys, needs change)
+DATABASE_URL= (sanbox keys, needs change)
+ETHEREUM_NETWORK_NAME=(ropsten, needs change)
+NODE_ENV=production
+```
+
+# Ngrok
 
 Useful for testing webhook from Wyre. Open a ngrok to your local dev environment
 

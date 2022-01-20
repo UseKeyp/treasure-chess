@@ -1,5 +1,5 @@
 import { Link } from '@redwoodjs/router'
-import HeaderBar from '../HeaderBar/HeaderBar'
+import HeadingBar from '../HeadingBar/HeadingBar'
 import { getFlagBase64 } from '@treasure-chess/treasure-html'
 
 const FeaturedPlayers = ({ seeAllUrl, players }) => {
@@ -30,7 +30,7 @@ const FeaturedPlayers = ({ seeAllUrl, players }) => {
 
   return (
     <div>
-      <HeaderBar text="Featured Players" />
+      <HeadingBar text="Featured Players" />
       <div className="grid grid-cols-4 gap-4 md:grid-cols-8">
         {playerIcons}
         <Link to={seeAllUrl}>

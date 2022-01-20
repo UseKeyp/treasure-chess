@@ -1,7 +1,15 @@
 import filters from '@treasure-chess/treasure-filters'
 import Dropdown from 'src/components/Dropdown/Dropdown'
 
-const SortingDropdown = ({ sort, setSort }) => {
+import { useFilter } from 'src/providers/filters'
+
+const SortingDropdown = () => {
+  const { sort, setFilter } = useFilter()
+
+  const setSort = (value) => {
+    setFilter('sort', value)
+  }
+
   return (
     <div className="absolute w-full" style={{ maxWidth: '235px' }}>
       <Dropdown

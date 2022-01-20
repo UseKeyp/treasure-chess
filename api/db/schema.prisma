@@ -22,6 +22,7 @@ model Member {
   treasuresPlayedWhite Treasure[]     @relation("treasuresPlayedWhite")
   treasuresPlayedBlack Treasure[]     @relation("treasuresPlayedBlack")
   treasuresWon         Treasure[]     @relation("treasuresWon")
+  treasuresListed      Treasure[]     @relation("treasuresListed")
   mintPurchases        MintPurchase[] @relation("mintPurchases")
   // --------------- STATE --------------
   createdAt            DateTime       @default(now())
@@ -81,7 +82,32 @@ model Treasure {
   achievements     String // List eg. "win/play above 2200,queen side castle,mate with a bishop"
   achievementScore Int // eg. 10
   rarity           String // eg. 10
+  // Marketplace
+  listingAmount    Int
+  listingStatus    ListingStatus
+  listedBy         Member
+  listedAt         DateTime
 }
+
+model MarketSale {
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+
+  isClosed Boolean
+  amount Int
+
+  seller Member
+  buyer Member
+  treasure Treasure
+
+  listingTxHash string
+  listingTxStatus enum type tx status
+  unlistingTxHash string
+  unlistingTxStatus enum type tx status
+  saleTxHash string
+  saleTxStatus enum type tx status
+}
+
 
 model MintPurchase {
   id          Int       @id @default(autoincrement())
@@ -111,4 +137,10 @@ model OAuth {
   codeChallenge String
   codeVerifier  String
   createdAt     DateTime @default(now())
+}
+
+enum ListingStatus {
+  UNLISTED
+  LISTED
+  PENDING
 }

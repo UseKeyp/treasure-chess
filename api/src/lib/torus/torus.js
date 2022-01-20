@@ -6,12 +6,11 @@ global.document = null
 import FetchNodeDetails from '@toruslabs/fetch-node-details/dist/fetchNodeDetails-node'
 import TorusUtils from '@toruslabs/torus.js/dist/torusUtils-node'
 
-import { isProduction } from 'src/lib/helpers'
 import { getNewIdToken } from 'src/lib/oAuth/jwt'
 import { decode as decodeJwt } from 'jsonwebtoken'
 
 const fetchNodeDetails = new FetchNodeDetails(
-  !isProduction && {
+  process.env.TORUS_VERIFIER === 'treasure-chess-sandbox' && {
     network: 'ropsten',
     proxyAddress: '0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183',
   }

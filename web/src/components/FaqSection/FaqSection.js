@@ -3,9 +3,9 @@ const FaqItem = ({ question, answer }) => {
   return (
     <div className="pb-20 question-wrapper">
       <div className="flex justify-between">
-        <h3 className="text-base font-bold question-heading">{question}</h3>
+        <h3 className="text-base font-bold">{question}</h3>
       </div>
-      <p className="answer-container text-sm font-normal mt-2">{answer}</p>
+      <p className="answer-container text-sm font-normal">{answer}</p>
     </div>
   )
 }

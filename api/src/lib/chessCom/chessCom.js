@@ -14,15 +14,21 @@ export const fetchChessMember = (username) => {
 }
 
 export const fetchChessGames = async ({ username, year, month }) => {
+  let monthString = month.toString()
+  if (month.toString().length < 2) monthString = '0' + month
   const response = await fetch(
-    `${process.env.CHESS_API_URL}/pub/player/${username}/games/${year}/${month}`,
+    `${process.env.CHESS_API_URL}/pub/player/${username}/games/${year}/${monthString}`,
     {
       headers: {
         // Required to prevent rate-limiting
         Authorization: `Bearer ${process.env.CHESS_API_ACCESS_TOKEN}`,
       },
     }
-  ).then((res) => res.json())
+  ).then((res) => {
+    // console.log(res)
+    return res.json()
+  })
+  // console.log(response)
   return response.games || []
 }
 

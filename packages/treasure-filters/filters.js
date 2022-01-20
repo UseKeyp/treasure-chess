@@ -90,8 +90,8 @@ const sortList = [
   'Price: Low to High',
   'Newest First',
   'Oldest First',
-  'Played: Oldest',
   'Played: Newest',
+  'Played: Oldest',
 ]
 
 const filters = {

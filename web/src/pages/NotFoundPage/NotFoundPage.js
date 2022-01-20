@@ -2,6 +2,7 @@ import { Head } from '@redwoodjs/web'
 import { routes } from '@redwoodjs/router'
 
 import Button from 'src/components/Button/Button'
+import Icon from 'src/components/Icon/Icon'
 
 export default () => (
   <>
@@ -15,11 +16,10 @@ export default () => (
         </div>
         <div className="not-found--content">
           <h1>Oops! Something is clearly wrong here...</h1>
-          {/* eslint-disable-next-line */}
-          <p>The page you are looking for doesn't exist. (404)</p>
-          <div className="not-found--content--go-home">
+          <p>The page you are looking for doesn&apos;t exist. (404)</p>
+          <div className="not-found--content--go-home flex justify-center">
             <Button to={routes.home()}>
-              <img src="/TreasureChessLogo.png" alt="TreasureChess.com" />
+              <Icon name="treasure_chess_full" height="50px" color="#fff" />
             </Button>
           </div>
         </div>

@@ -4,24 +4,24 @@ import { RedwoodApolloProvider } from '@redwoodjs/web/apollo'
 
 import AllContextProviders from 'src/providers'
 import { logIn } from 'src/utils/auth/client'
-import { isProduction } from 'src/utils/helpers'
 import FatalErrorPage from 'src/pages/FatalErrorPage'
 import Routes from 'src/Routes'
 
 import './scaffold.css'
 import './index.scss'
 
-if (isProduction) {
-  /* eslint-disable no-console */
-  /* eslint-disable no-irregular-whitespace */
-  console.log('++++++++++++++++++++++++++')
-  console.log()
-  console.log(`( ͡ᵔ ͜ʖ ͡ᵔ) Oh hello there! We're hiring - hit us up on Discord.`)
-  console.log()
-  console.log('++++++++++++++++++++++++++')
-  /* eslint-enable no-irregular-whitespace */
-  /* eslint-enable no-console */
-}
+/* eslint-disable no-console */
+/* eslint-disable no-irregular-whitespace */
+console.log(
+  '%cTreasure Chess',
+  'color:#88C54B;font-family:sans-serif;font-size:4rem;-webkit-text-stroke: 1px black;font-weight:bold'
+)
+console.log(
+  `%c👋 Howdy! We're hiring https://github.com/treasure-chess/jobs`,
+  'font-family:sans-serif;font-size:2rem;-webkit-text-stroke: 1px black;font-weight:bold'
+)
+/* eslint-enable no-irregular-whitespace */
+/* eslint-enable no-console */
 
 class AuthProviderExtended extends AuthProvider {
   constructor(props) {

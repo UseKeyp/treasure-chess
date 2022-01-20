@@ -9,18 +9,18 @@
   port = 8910
   host = "0.0.0.0"
   title = "Treasure Chess"
-  apiProxyPort = 8911
-  apiUrl = "/api"
+  # apiProxyPort = 8911
+  apiUrl = "${REDWOOD_API_URL:/api}"
   includeEnvironmentVariables = [
     "APP_DOMAIN",
     "ETHEREUM_NETWORK_NAME",
+    "REDWOOD_API_URL",
+    "BASIC_AUTH_PASSWORD"
   ]
 [api]
   port = 8911
   schemaPath = "./api/db/schema.prisma"
   includeEnvironmentVariables = [
-    "ENCRYPTION_KEY",
-    "ENCRYPTION_IV",
     "APP_DOMAIN",
     "ETHEREUM_NETWORK_NAME",
   ]

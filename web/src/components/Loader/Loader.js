@@ -11,7 +11,7 @@ const Loader = () => {
   })
   return (
     <div className="loader-wrapper">
-      <animated.img style={props} src="/logo.png" />
+      <animated.img style={props} src="/loading-icon.png" />
     </div>
   )
 }

@@ -7,7 +7,7 @@ const wallet = Wallet.fromMnemonic(
 )
 
 const validateConfig = (wallet) => {
-  if (wallet.address.toLowerCase() !== process.env.ADDRESS.toLowerCase())
+  if (wallet.address.toLowerCase() !== process.env.PAYER_WALLET_ADDRESS.toLowerCase())
     throw 'Airdropper wallet address and mnemonic do not match'
 }
 

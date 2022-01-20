@@ -3,13 +3,12 @@ on:
   workflow_dispatch:
     inputs:
       image_tag_prefix:
-        description: 'Image Tag Prefix'
+        description: 'Image Tag Prefix (prod or staging)'
         required: true
-        default: 'prod'
+        default: 'staging'
 env:
   NODE_ENV: 'development'
-  RUNTIME_ENV: 'main'
-  REDWOOD_API_URL: 'http://0.0.0.0:8911'
+  BASIC_AUTH_PASSWORD: 'pauliemorphy'
 
   GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
   GITHUB_SHA: ${{ github.sha }}
@@ -18,7 +17,7 @@ env:
 jobs:
   publish:
     if: github.event_name == 'workflow_dispatch'
-    timeout-minutes: 15
+    timeout-minutes: 35
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -32,8 +31,9 @@ jobs:
       - name: Build and push image
         run: |
           PREFIX=${{ github.event.inputs.image_tag_prefix }}
-          if [ $GITHUB_BRANCH == "refs/heads/main" ] ; then
-             PREFIX=prod
+          REDWOOD_API_URL=https://treasure.gcp-staging.chess-platform.com
+          if [ $PREFIX == "prod" ] ; then
+             REDWOOD_API_URL=https://treasure.chess.com
           fi
           IMAGE_TAG=$PREFIX-$(echo $GITHUB_SHA | cut -c 1-7)
           IMAGE_NAME=$(echo $GITHUB_REPOSIOTORY | cut -c 12-)
@@ -46,7 +46,6 @@ jobs:
               echo "$GCP_SA_KEY" | base64 -d > ./credentials.json
               docker build -t $PROJECT_NAME/$IMAGE_NAME-$COMPONENT:$IMAGE_TAG \
                 --build-arg NODE_ENV=$NODE_ENV \
-                --build-arg RUNTIME_ENV=$RUNTIME_ENV \
                 --build-arg REDWOOD_API_URL=$REDWOOD_API_URL \
                  -f ./$COMPONENT/Dockerfile .
 

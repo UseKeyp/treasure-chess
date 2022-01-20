@@ -7,6 +7,7 @@ const {
   getRarityColor,
   fetchImageAndEncodeBase64,
   getRatingText,
+  getDescription,
 } = require('./helpers')
 
 const { card, maskedAchievements } = require('./card.js')
@@ -86,6 +87,7 @@ const getCardHtml = async ({ treasure, gifBase64, gifUrl }) => {
       if (!element) return // console.log(`No element with id ${id}`)
       element.setAttribute(tag, content)
     }
+
     const updateStyle = (id, property, content) => {
       const element = doc.getElementById(id)
       if (!element) return // console.log(`No element with id ${id}`)
@@ -114,6 +116,18 @@ const getCardHtml = async ({ treasure, gifBase64, gifUrl }) => {
     // Header
     updateContent('title', treasure.title)
     updateContent('page-title', treasure.title)
+    updateTag('og:title', 'content', treasure.title)
+    updateTag('twitter:title', 'content', treasure.title)
+    updateTag('twitter:image', 'content', `${APP_DOMAIN}/seo.png`)
+    const description = getDescription(treasure)
+    updateTag('twitter:description', 'content', description)
+    updateTag('og:description', 'content', description)
+    updateTag('description', 'content', description)
+    updateTag(
+      'og:url',
+      'content',
+      `${APP_DOMAIN}/treasures/${treasure.tokenId}`
+    )
     updateContent('termination', treasure.termination)
     const rarityColor = getRarityColor(treasure.achievementScore)
     updateStyle('banner', 'background-color', rarityColor)

@@ -1,4 +1,4 @@
-import { Link, routes, useMatch, useLocation } from '@redwoodjs/router'
+import { Link } from '@redwoodjs/router'
 import PropTypes from 'prop-types'
 
 const Button = ({
@@ -17,9 +17,6 @@ const Button = ({
   ...rest
 }) => {
   const Element = href ? 'a' : 'button'
-  const { match: isMatch } = useMatch(to || routes.home())
-  const { pathname } = useLocation()
-  const isPage = ['/treasures', '/about'].includes(pathname)
 
   if (to) {
     return (
@@ -29,7 +26,7 @@ const Button = ({
         data-variant={variant}
         data-size={size}
         data-textcolor={textColor}
-        data-selected={isPage ? String(isMatch) : isSelected}
+        data-selected={isSelected}
         data-fluid={String(fluid)}
         to={to}
         {...rest}

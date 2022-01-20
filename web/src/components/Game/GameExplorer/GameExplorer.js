@@ -32,14 +32,13 @@ const GameExplorer = () => {
     <div className="grid grid-rows-1">
       <div className="grid md:grid-cols-3 grid-cols-1 gap-10">
         <div style={{ width: 330 }}>
-          <FilterItems headline="Filter Games" onChange={onChangeFilter} />
+          <FilterItems onChange={onChangeFilter} />
         </div>
         <GamesCell filter={filter} />
         <GameCard
           game={activeGame}
           isMinting={mintStatus === MINT_STATUS_MINTING}
           title={gameTitle}
-          showGif
         />
       </div>
     </div>

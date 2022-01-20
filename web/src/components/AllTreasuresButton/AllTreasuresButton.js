@@ -12,8 +12,8 @@ const AllTreasuresButton = () => {
       className="all-treasures-button"
     >
       <div className="flex items-center">
-        <div className="mr-4">
-          <Icon name="treasure_chest" />
+        <div className="mr-2">
+          <Icon name="treasure_chess" color="#ffffff" height="16px" />
         </div>
         All Treasures
       </div>

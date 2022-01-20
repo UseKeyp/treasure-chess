@@ -28,7 +28,7 @@ export const getLoginUrl = async () => {
   url.searchParams.set('code_challenge_method', 'S256')
   url.searchParams.set(
     'redirect_uri',
-    process.env.PUBLIC_REDIRECT_URL + '/chess'
+    process.env.APP_DOMAIN + '/redirect/chess'
   )
   url.searchParams.set('scope', CHESS_SCOPE)
   url.searchParams.set('response_type', 'code')

@@ -8,16 +8,11 @@ export const QUERY = gql`
   }
 `
 
-export const Loading = () => <div>Loading...</div>
+export const Loading = () => <MemberActivity isLoading />
 
 export const Empty = () => <div>Empty</div>
 
-export const Failure = () => (
-  <div className="">
-    <p className="">{`Couldn't load Member activity`}</p>
-  </div>
-)
-
+export const Failure = () => <MemberActivity activity={[]} />
 export const Success = ({ activity }) => {
   return <MemberActivity activity={activity} />
 }

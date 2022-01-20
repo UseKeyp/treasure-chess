@@ -37,7 +37,7 @@ FROM node:14 as serve
 
 WORKDIR /app
 
-COPY scripts/environment/ scripts/environment/
+COPY tasks/environment/ tasks/environment/
 COPY dev.env.enc.js dev.env.enc.js
 COPY prod.env.enc.js prod.env.enc.js
 COPY serve-api.sh serve-api.sh

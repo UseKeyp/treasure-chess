@@ -13,6 +13,10 @@ const USERNAME_QUERY = gql`
 const UsernameSearchBar = () => {
   const { username, setFilter } = useFilter()
 
+  React.useEffect(() => {
+    if (username == '') setValue('')
+  }, [username])
+
   const [value, setValue] = useState(username)
   const [_isValueFromSelector, setIsValueFromSelector] = useState(false)
   const [dropdownOptions, setDropdownOptions] = useState([])
@@ -28,7 +32,7 @@ const UsernameSearchBar = () => {
   const update = () => {
     if (value === '') return setDropdownOptions([])
     if (dropdownOptions.includes(value)) {
-      // Handles typing full username, without using the dropdown
+      // Handles when user types full username, without clicking from the dropdown
       setFilter('username', value)
       // Prevents performing another query after selection
       return setDropdownOptions([])
@@ -49,36 +53,39 @@ const UsernameSearchBar = () => {
   const onSelectUsername = (option) => {
     setIsValueFromSelector(true)
     setValue(option)
-    setFilter('usernameValue', option)
+    setFilter('username', option)
   }
 
   const onChange = (e) => {
     setIsValueFromSelector(false)
     setValue(e.target.value)
-    // setFilter(e.target.value)
   }
 
   return (
-    <div className={'searchBarContainer'}>
-      <div>
-        <input
-          placeholder="Search Treasures"
-          className="searchInput"
-          onChange={onChange}
-          value={value}
-        />
+    <div>
+      <div className={'searchBarContainer'}>
+        <div>
+          <input
+            placeholder="Search"
+            className="searchInput"
+            onChange={onChange}
+            value={value}
+          />
+        </div>
       </div>
       {dropdownOptions?.length > 0 && (
         <div className="dropdownContainer">
-          {dropdownOptions?.map((option) => (
-            <button
-              onClick={() => onSelectUsername(option)}
-              key={option}
-              className="dropdownContainer__dropdownOption"
-            >
-              {option}
-            </button>
-          ))}
+          <div className="dropdownContainer__options">
+            {dropdownOptions?.map((option) => (
+              <button
+                onClick={() => onSelectUsername(option)}
+                key={option}
+                className="dropdownContainer__dropdownOption"
+              >
+                {option}
+              </button>
+            ))}
+          </div>
         </div>
       )}
     </div>

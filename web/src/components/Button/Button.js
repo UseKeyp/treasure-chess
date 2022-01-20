@@ -59,7 +59,7 @@ const Button = ({
 
 Button.defaultProps = {
   variant: 'transparent',
-  size: 'regualr',
+  size: 'regular',
   textColor: 'white',
   isSelected: false,
   className: '',

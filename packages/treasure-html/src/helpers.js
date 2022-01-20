@@ -6,8 +6,8 @@ const noAvatarBase64 = require('./assets/noAvatar')
 
 export const fetchImageAndEncodeBase64 = async (url) => {
   // If no profile image, show the basic pawn
-  if (url.startsWith('data:image')) return url
   if (!url || !url.length) return `data:image/png;base64,${noAvatarBase64}`
+  if (url.startsWith('data:image')) return url
   if (typeof process !== 'undefined' && process?.release?.name === 'node') {
     // If node, we need the raw image data
     const result = await fetch(url, {

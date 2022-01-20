@@ -20,8 +20,7 @@ const TreasuresPage = () => {
       <MetaTags title="Treasures" />
 
       <div className="flex">
-        <FilterBar defaultParams={defaultParams} />
-        <div className="ml-4 w-full">
+        <div className="mr-4 w-full">
           <div className="flex w-full justify-end relative mb-4">
             <SortingDropdown />
           </div>
@@ -31,6 +30,7 @@ const TreasuresPage = () => {
             sort={new URLSearchParams(sort).toString()}
           />
         </div>
+        <FilterBar defaultParams={defaultParams} />
       </div>
     </div>
   )

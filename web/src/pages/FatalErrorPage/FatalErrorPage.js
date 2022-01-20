@@ -8,6 +8,8 @@
 // thoughtful. =)
 import globalConfig from 'src/global.config'
 
+const currentYear = new Date().getFullYear()
+
 export default () => (
   <main>
     <style
@@ -160,7 +162,7 @@ export default () => (
                     <a href=${globalConfig.DISCORD_URL}>
                       <img src="/icons/discord.svg" alt="" />
                     </a>
-                    <a href={globalConfig.BLOG_URL}>Blog</a>
+                    <a href=${globalConfig.BLOG_URL}>Blog</a>
                   </div>
                   <div class="footer-info">
                     <a href=${globalConfig.TOC_URL}>Terms of Service</a>
@@ -171,7 +173,7 @@ export default () => (
                     <a href=${globalConfig.CHESS_COM_BASE_URL}>
                       <img src="/icons/chess_com.svg" alt="" />
                     </a>
-                    <p>@ Nifty Chess, Inc.2021</p>
+                    <p>© Nifty Chess, Inc. ${currentYear}</p>
                   </div>
                 </div>
               </div>

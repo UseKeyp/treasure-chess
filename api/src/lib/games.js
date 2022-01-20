@@ -34,46 +34,50 @@ const getFullGameDetails = async ({
   username,
   includeAchievements,
 }) => {
-  const game = parseGameFromChessDotCom(rawGame)
-  const cardColor = getTreasureCardColor({ game, username })
-  const treasureId = getTreasureId({
-    moves: game.moves,
-    endTime: game.endTime,
-    cardColor,
-  })
-  const treasure = await db.treasure.findUnique({
-    where: { id: treasureId },
-    include: {
-      black: true,
-      white: true,
-    },
-  })
-  if (treasure) return treasure
-  const { opening, score, achievements } = achievementsCalculator(
-    game.pgn,
-    cardColor
-  )
-  const achievementsString = achievements.map((item) => item.name).join(',')
-  const white = await fetchMember(game.whiteUsername)
-  const black = await fetchMember(game.blackUsername)
-  let winnerId
-  if (game.winnerUsername === game.whiteUsername) winnerId = white.id
-  else if (game.winnerUsername === game.blackUsername) winnerId = black.id
-  return {
-    ...game,
-    treasureId,
-    white,
-    black,
-    blackId: black.id,
-    whiteId: white.id,
-    winnerId,
-    cardColor,
-    opening,
-    boardLayout: JSON.stringify(getBoardLayout(game.moves)),
-    gifUrl: getGifUrl({ tcn: game.tcn, playerColor: cardColor }),
-    ...(includeAchievements && { achievements: achievementsString }),
-    ...(includeAchievements && { rarity: getRarity(score) }),
-    ...(includeAchievements && { achievementScore: score }),
+  try {
+    const game = parseGameFromChessDotCom(rawGame)
+    const cardColor = getTreasureCardColor({ game, username })
+    const treasureId = getTreasureId({
+      moves: game.moves,
+      endTime: game.endTime,
+      cardColor,
+    })
+    const treasure = await db.treasure.findUnique({
+      where: { id: treasureId },
+      include: {
+        black: true,
+        white: true,
+      },
+    })
+    if (treasure) return treasure
+    const { opening, score, achievements } = achievementsCalculator(
+      game.pgn,
+      cardColor
+    )
+    const achievementsString = achievements.map((item) => item.name).join(',')
+    const white = await fetchMember(game.whiteUsername)
+    const black = await fetchMember(game.blackUsername)
+    let winnerId
+    if (game.winnerUsername === game.whiteUsername) winnerId = white.id
+    else if (game.winnerUsername === game.blackUsername) winnerId = black.id
+    return {
+      ...game,
+      treasureId,
+      white,
+      black,
+      blackId: black.id,
+      whiteId: white.id,
+      winnerId,
+      cardColor,
+      opening,
+      boardLayout: JSON.stringify(getBoardLayout(game.moves)),
+      gifUrl: getGifUrl({ tcn: game.tcn, playerColor: cardColor }),
+      ...(includeAchievements && { achievements: achievementsString }),
+      ...(includeAchievements && { rarity: getRarity(score) }),
+      ...(includeAchievements && { achievementScore: score }),
+    }
+  } catch (e) {
+    throw new Error(`getFullGameDetails() ${e}`)
   }
 }
 

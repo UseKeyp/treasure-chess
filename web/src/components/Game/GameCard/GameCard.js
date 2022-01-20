@@ -27,20 +27,21 @@ const GameCard = ({ game, isMinting, title, showGif }) => {
     config: { mass: 4, tension: 450, friction: 40 },
   }))
   const [imageSrc, setImageSrc] = React.useState('/loading-board.png') // Use loading image
+
   const update = async () => {
-    let raw
     if (isMinting && !game) {
-      raw = await getCardHtml({
+      const rawHtml = await getCardHtml({
         treasure: { ...placeholderGame },
         gifUrl: game.gifUrl,
       })
+      setCardHtml(rawHtml)
     } else {
-      raw = await getCardHtml({
+      const rawHtml = await getCardHtml({
         treasure: { ...game, title: title || game.title || 'Add a title' },
         gifUrl: showGif ? game.gifUrl : imageSrc,
       })
+      setCardHtml(rawHtml)
     }
-    setCardHtml(raw)
   }
 
   const fetchImageAndUpdate = async () => {
@@ -61,7 +62,7 @@ const GameCard = ({ game, isMinting, title, showGif }) => {
   }
 
   React.useEffect(() => {
-    if (!isMinting && !game) return
+    if (!game) return
     update()
     /* eslint-disable react-hooks/exhaustive-deps */
   }, [game, title, isMinting, imageSrc])
@@ -70,7 +71,6 @@ const GameCard = ({ game, isMinting, title, showGif }) => {
     if (!showGif) fetchImageAndUpdate()
     /* eslint-disable react-hooks/exhaustive-deps */
   }, [game])
-
   if (!isMinting && !game) return null
   return (
     <div className={styles.gameCardWrapper}>

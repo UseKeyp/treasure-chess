@@ -12,17 +12,14 @@ import './index.scss'
 
 /* eslint-disable no-console */
 /* eslint-disable no-irregular-whitespace */
-console.log(`    /$$$$$$$$                                                                           /$$$$$$  /$$
-   |__  $$__/                                                                          /$$__  $$| $$
-      | $$  /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$$ /$$   /$$  /$$$$$$   /$$$$$$       | $$  \\__/| $$$$$$$   /$$$$$$   /$$$$$$$ /$$$$$$$
-      | $$ /$$__  $$ /$$__  $$ |____  $$ /$$_____/| $$  | $$ /$$__  $$ /$$__  $$      | $$      | $$__  $$ /$$__  $$ /$$_____//$$_____/
-      | $$| $$  \\__/| $$$$$$$$  /$$$$$$$|  $$$$$$ | $$  | $$| $$  \\__/| $$$$$$$$      | $$      | $$  \\ $$| $$$$$$$$|  $$$$$$|  $$$$$$
-      | $$| $$      | $$_____/ /$$__  $$ \\____  $$| $$  | $$| $$      | $$_____/      | $$    $$| $$  | $$| $$_____/ \\____  $$\\____  $$
-      | $$| $$      |  $$$$$$$|  $$$$$$$ /$$$$$$$/|  $$$$$$/| $$      |  $$$$$$$      |  $$$$$$/| $$  | $$|  $$$$$$$ /$$$$$$$//$$$$$$$/
-      |__/|__/       \\_______/ \\_______/|_______/  \\______/ |__/       \\_______/       \\______/ |__/  |__/ \\_______/|_______/|_______/
-
-   Hey, you! Looking for a job?
-   https://github.com/treasure-chess/jobs`)
+console.log(
+  '%cTreasure Chess',
+  'color:#88C54B;font-family:sans-serif;font-size:4rem;-webkit-text-stroke: 1px black;font-weight:bold'
+)
+console.log(
+  `%c👋 Howdy! We're hiring https://github.com/treasure-chess/jobs`,
+  'font-family:sans-serif;font-size:2rem;-webkit-text-stroke: 1px black;font-weight:bold'
+)
 /* eslint-enable no-irregular-whitespace */
 /* eslint-enable no-console */
 

@@ -18,6 +18,7 @@ export const QUERY = gql`
         masterTitle
       }
       gifUrl
+      moves
       moveCount
       outcome
       termination
@@ -38,7 +39,7 @@ export const QUERY = gql`
   }
 `
 
-export const Loading = () => <div>Loading...</div>
+export const Loading = () => <Games isLoading />
 
 export const Empty = () => <Games games={[]} />
 

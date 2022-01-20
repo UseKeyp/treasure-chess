@@ -8,8 +8,8 @@ on:
 
 env:
   NODE_ENV: 'development'
-  RUNTIME_ENV: 'main'
   REDWOOD_API_URL: 'http://0.0.0.0:8911'
+  BASIC_AUTH_PASSWORD: 'pauliemorphy'
 
   # Container Registry
   CONTAINER_REGISTRY_HOSTNAME: ghcr.io
@@ -68,7 +68,6 @@ jobs:
           file: ./${{ matrix.platform }}/Dockerfile
           build-args: |
             NODE_ENV=${{ env.NODE_ENV }}
-            RUNTIME_ENV=${{ env.RUNTIME_ENV }}
             REDWOOD_API_URL=${{ env.REDWOOD_API_URL }}
           tags: |
             ${{ env.CONTAINER_REGISTRY_HOSTNAME }}/${{ env.CONTAINER_REGISTRY_REPOSITORY }}/${{ env.CONTAINER_REGISTRY_IMAGE_PREFIX }}-${{ matrix.platform }}-${{ env.RUNTIME_ENV }}:latest

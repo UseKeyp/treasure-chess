@@ -16,10 +16,9 @@ export const fetchMember = async (usernameOrAddress, includeChessData) => {
     member = await db.member.findUnique({
       where: {
         ...(address && { address }),
-        ...(username && { username }),
+        ...(username && { username: username.toLowerCase() }),
       },
     })
-
     // Not in our db, but we have username. Or, we want extra data from chess.com
     if ((!member && username) || includeChessData) {
       chessData = await fetchChessMember(username)

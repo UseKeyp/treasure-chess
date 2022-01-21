@@ -136,6 +136,7 @@ export const getTreasuresWithFilter = async ({
     skip,
     // Taking 9 elements may cause issues if there's only <9 to take?
     take: TREASURES_PER_PAGE,
+    // take: Math.min(count - skip, TREASURES_PER_PAGE),
     where: whereQuery,
     // TODO: add sorting, see https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#orderby
     // orderBy:

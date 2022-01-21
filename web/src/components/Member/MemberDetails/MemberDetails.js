@@ -12,10 +12,14 @@ import { useWallet } from 'src/providers/wallet'
 import { trimAddress } from 'src/utils/helpers'
 
 const MemberDetails = ({ member, isProfile }) => {
+  const [isShown, setIsShown] = React.useState(false)
   const { deposit, withdraw, getAddress } = useWallet()
+  React.useEffect(() => {
+    //setIsShown(true)
+  }, [isProfile])
 
   return (
-    <section className="member-details p-4">
+    <section className="member-details p-4 w-full lg:w-1/2">
       <div className="member-details--inner">
         <div className="member-details--avatar">
           <Avatar size="8rem" src={member.imageSrc} />
@@ -32,12 +36,14 @@ const MemberDetails = ({ member, isProfile }) => {
               {member.username}
             </a>
           </h3>
-          <div className="flex mt-2">
-            <p className="mr-2">{trimAddress(member.address)}</p>
-            <button onClick={getAddress}>
-              <Icon name="copy" color="#147DDD" />
-            </button>
-          </div>
+          {isShown && (
+            <div className="flex mt-2 mx-auto lg:mx-0">
+              <p className="mr-2">{trimAddress(member.address)}</p>
+              <button onClick={getAddress}>
+                <Icon name="copy" color="#147DDD" />
+              </button>
+            </div>
+          )}
           <div className="mt-2">
             {member.masterTitle && <p>{member.masterTitle}</p>}
             <img

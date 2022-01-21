@@ -142,3 +142,13 @@ export const getTreasuresWithFilter = async ({
   })
   return treasures
 }
+
+export const getTreasuresWithFilterCount = async ({
+  username,
+  filter,
+  owner,
+}) => {
+  const whereQuery = getWhereQueryFromArgs({ username, filter, owner })
+  // Note: count takes up to 2+ seconds to the query for large db (1M+ elements)
+  return db.treasure.count({ where: whereQuery })
+}

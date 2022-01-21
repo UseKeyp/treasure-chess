@@ -47,7 +47,7 @@ export const generateTreasureData = ({ game, title, minter, mintPurchase }) => {
 const getValueByName = (list, name) =>
   list.find((item) => item.name === name).value
 
-const getWhereQueryFromArgs = ({ username, filter, owner, _sort }) => {
+const getWhereQueryFromArgs = ({ username, filter, owner }) => {
   const searchParams = new URLSearchParams(filter)
   let filterObj = {}
   // Convert text names to values
@@ -122,52 +122,22 @@ const getWhereQueryFromArgs = ({ username, filter, owner, _sort }) => {
   }
 }
 
-const getOrderByQueryFromArgs = ({ sort }) => {
-  if (sort === undefined) return undefined
-  const idx = filters.sortList.indexOf(sort)
-
-  switch (idx) {
-    case 0:
-      return { achievementScore: 'desc' }
-    case 1:
-      return { achievementScore: 'asc' }
-    // TODO: sort price
-    // case 2:
-    //   return {price: 'desc'}
-    //   break
-    // case 3:
-    //   return {price: 'desc'}
-    //   break
-    case 4:
-      return { createdAt: 'desc' }
-    case 5:
-      return { createdAt: 'asc' }
-    case 6:
-      return { endTime: 'desc' }
-    case 7:
-      return { endTime: 'asc' }
-  }
-}
-
 export const getTreasuresWithFilter = async ({
   username,
-  owner,
   filter,
-  sort,
+  owner,
+  _sort,
   page = 0,
 }) => {
-  const whereQuery = getWhereQueryFromArgs({ username, filter, owner, sort })
-  const orderByQuery = getOrderByQueryFromArgs({ sort })
+  const whereQuery = getWhereQueryFromArgs({ username, filter, owner })
   // Cannot use cursor pagination, since custom sorting is needed
   const skip = page * TREASURES_PER_PAGE
   const treasures = await db.treasure.findMany({
-    skip,
-    // Taking 9 elements may cause issues if there's only <9 to take?
-    take: TREASURES_PER_PAGE,
+	@@ -139,7 +167,7 @@ export const getTreasuresWithFilter = async ({
     // take: Math.min(count - skip, TREASURES_PER_PAGE),
     where: whereQuery,
     // TODO: add sorting, see https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#orderby
-    orderBy: orderByQuery,
+    // orderBy:
   })
   return treasures
 }

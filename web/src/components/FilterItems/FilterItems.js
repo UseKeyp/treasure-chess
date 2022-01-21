@@ -36,7 +36,7 @@ const monthsList = [
 ]
 const yearsList = getYearsArray()
 
-const FilterItems = ({ headline, onChange }) => {
+const FilterItems = ({ onChange }) => {
   // const [day, setDay] = useState(daysList[0])
   const [month, setMonth] = useState(monthsList[new Date().getMonth()])
   const [year, setYear] = useState(yearsList[0])
@@ -64,7 +64,7 @@ const FilterItems = ({ headline, onChange }) => {
   return (
     <div className="filter-items">
       <H3 ml="1rem" mb="0.5rem">
-        {headline}
+        Filter
       </H3>
       <div className="filter-items__time-wrap">
         {/*    <div style={{ flex: 1, flexBasis: 75, margin: 4 }} className="flex">

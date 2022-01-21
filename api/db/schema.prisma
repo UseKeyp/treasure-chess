@@ -1,8 +1,8 @@
 datasource db {
   // provider = "sqlite"
-  provider          = "postgresql"
-  url               = env("DATABASE_URL")
-  // shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 generator client {
@@ -10,8 +10,6 @@ generator client {
   binaryTargets = "native"
 }
 
-// Define your own datamodels here and run `yarn redwood prisma migrate dev`
-// to create migrations for them and apply to your dev DB.
 model Member {
   id                   String         @id // Chess.com id
   username             String         @unique // Chess.com username
@@ -23,6 +21,8 @@ model Member {
   treasuresPlayedBlack Treasure[]     @relation("treasuresPlayedBlack")
   treasuresWon         Treasure[]     @relation("treasuresWon")
   mintPurchases        MintPurchase[] @relation("mintPurchases")
+  marketSalesSold      MarketSale[]   @relation("marketSalesSold")
+  marketSalesPurchased MarketSale[]   @relation("marketSalesPurchased")
   // --------------- STATE --------------
   createdAt            DateTime       @default(now())
   updatedAt            DateTime       @updatedAt
@@ -53,11 +53,11 @@ model Treasure {
   ownerId          String
   mintPurchase     MintPurchase? @relation(name: "mintPurchase", fields: [mintPurchaseId], references: [id])
   mintPurchaseId   Int?          @unique
+  // --------------- STATE --------------
   uriData          String
   tokenUri         String
   tokenId          Int?          @unique
   mintedAt         DateTime?
-  // --------------- STATE --------------
   title            String
   cardColor        String // white or black
   gifUrl           String // white or black
@@ -73,7 +73,7 @@ model Treasure {
   outcome          String // "white" "black" "draw" etc.
   event            String // eg. "Live Chess"
   moves            String // pgn moves
-  boardLayout      String  // Final positions used to generate the image
+  boardLayout      String // Final positions used to generate the image
   moveCount        Int // eg. 43
   ruleVariant      String        @default("Standard") // eg. "Standard" or "Chess960"
   externalUrl      String? // Link to game on chess.com
@@ -81,29 +81,54 @@ model Treasure {
   achievements     String // List eg. "win/play above 2200,queen side castle,mate with a bishop"
   achievementScore Int // eg. 10
   rarity           String // eg. 10
+  marketSales      MarketSale[]
+}
+
+model MarketSale {
+  id         Int              @id @default(autoincrement())
+  createdAt  DateTime         @default(now())
+  updatedAt  DateTime
+  listedAt   DateTime // Updated when listing tx is confirmed
+  // --------------- LINKS --------------
+  treasure   Treasure         @relation(fields: [treasureId], references: [id])
+  treasureId String
+  seller     Member           @relation(name: "marketSalesSold", fields: [sellerId], references: [id])
+  sellerId   String
+  buyer      Member?          @relation(name: "marketSalesPurchased", fields: [buyerId], references: [id])
+  buyerId    String?
+  listTx     Transaction      @relation(name: "listTx", fields: [listTxId], references: [id])
+  listTxId   String           @unique
+  unlistTx   Transaction?     @relation(name: "unlistTx", fields: [unlistTxId], references: [id])
+  unlistTxId String?          @unique
+  saleTx     Transaction?     @relation(name: "saleTx", fields: [saleTxId], references: [id])
+  saleTxId   String?          @unique
+  // --------------- STATE --------------
+  status     MarketSaleStatus @default(PENDING_LISTED)
+  isClosed   Boolean
+  amount     Int
 }
 
 model MintPurchase {
-  id          Int       @id @default(autoincrement())
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id          Int                      @id @default(autoincrement())
+  createdAt   DateTime                 @default(now())
+  updatedAt   DateTime                 @updatedAt
   // --------------- LINKS --------------
-  member      Member    @relation("mintPurchases", fields: [memberId], references: [id])
+  member      Member                   @relation("mintPurchases", fields: [memberId], references: [id])
   memberId    String
-  treasure    Treasure? @relation("mintPurchase")
+  treasure    Treasure?                @relation("mintPurchase")
   // --------------- STATE --------------
   gameId      String
   gameEndTime String
-  title       String    @default("Cool game") // User's desired title
+  title       String                   @default("Cool game") // User's desired title
   // Order
-  paymentType String    @default("WYRE") // WYRE, MINTCREDIT
-  orderStatus String? // RESERVATION, COMPLETE
+  paymentType String                   @default("WYRE") // WYRE, MINTCREDIT
+  orderStatus MintPurchaseOrderStatus?
   // Wyre
-  orderId     String?   @unique // Wyre orderId
-  reservation String?   @unique // Wyre reservation
+  orderId     String?                  @unique // Wyre orderId
+  reservation String?                  @unique // Wyre reservation
   // NFT
   txHash      String?
-  txStatus    String    @default("UNSUBMITTED") // UNSUBMITTED, SUBMITTED, COMPLETE, FAILED
+  txStatus    TxStatus                 @default(UNSUBMITTED)
 }
 
 model OAuth {
@@ -111,4 +136,36 @@ model OAuth {
   codeChallenge String
   codeVerifier  String
   createdAt     DateTime @default(now())
+}
+
+model Transaction {
+  id               String      @id
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime
+  // --------------- STATE --------------
+  txStatus         TxStatus    @default(SUBMITTED)
+  MarketSaleList   MarketSale? @relation("listTx")
+  MarketSaleUnlist MarketSale? @relation("unlistTx")
+  MarketSaleSale   MarketSale? @relation("saleTx")
+}
+
+enum MarketSaleStatus {
+  PENDING_LISTED
+  LISTED
+  PENDING_SOLD
+  SOLD
+  PENDING_DELISTED
+  DELISTED
+}
+
+enum TxStatus {
+  UNSUBMITTED
+  SUBMITTED
+  COMPLETE
+  FAILED
+}
+
+enum MintPurchaseOrderStatus {
+  RESERVATION
+  COMPLETE
 }

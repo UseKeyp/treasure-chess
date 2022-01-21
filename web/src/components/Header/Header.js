@@ -85,12 +85,23 @@ const MobileNav = () => {
             </li>
             {!isLoggedIn ? (
               <li className={navItemClasses}>
-                <Button to={routes.login()}>Log In</Button>
+                <Button className={navAnchorClasses} to={routes.login()}>
+                  Log In
+                </Button>
               </li>
             ) : (
-              <li className={navItemClasses}>
-                <Button onClick={logOut}>Log Out</Button>
-              </li>
+              <>
+                <li className={navItemClasses}>
+                  <Button className={navAnchorClasses} to={routes.profile()}>
+                    Profile
+                  </Button>
+                </li>
+                <li className={navItemClasses}>
+                  <Button className={navAnchorClasses} onClick={logOut}>
+                    Log Out
+                  </Button>
+                </li>
+              </>
             )}
             <li className="absolute" style={{ bottom: '10%' }}>
               <Button onClick={() => setOpen(false)} size="large">

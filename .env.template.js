@@ -89,7 +89,7 @@ const env = {
 
   // DEVELOPMENT
   DATABASE_URL:
-    'postgres://dev:password123@localhost:5432/treasurechessplayground?connection_limit=1',
+    'postgres://dev:letmein@localhost:5432/treasurechessplayground?connection_limit=1',
 
   // Example command:
   // > psql -U dev

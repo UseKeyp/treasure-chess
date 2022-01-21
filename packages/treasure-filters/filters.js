@@ -56,6 +56,7 @@ const moveCountList = [
 // Items without name/value pair
 const titleList = ['gm', 'im', 'nm']
 const openingList = [
+  'Any',
   "King's Pawn Game",
   "Queen's Gambit",
   'Ruy Lopez',

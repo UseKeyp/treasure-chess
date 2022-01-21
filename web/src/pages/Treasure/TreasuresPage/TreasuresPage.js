@@ -15,6 +15,7 @@ const defaultParams = {
 }
 
 const TreasuresPage = () => {
+  
   const { filter, sort, username } = useFilter()
   return (
     <div>
@@ -28,7 +29,7 @@ const TreasuresPage = () => {
           <TreasuresFetcher
             username={username}
             filter={new URLSearchParams(filter).toString()}
-            sort={sort}
+            sort={{new URLSearchParams(sort).toString()}}
           />
         </div>
         <FilterBar defaultParams={defaultParams} />

@@ -7,15 +7,15 @@ const AllTreasuresButton = () => {
   return (
     <Button
       variant="black"
-      size="small"
       to={routes.treasures()}
       className="all-treasures-button"
+      textColor="grey"
     >
       <div className="flex items-center">
-        <div className="mr-2">
+        <div className="icon">
           <Icon name="treasure_chess" color="#ffffff" height="16px" />
         </div>
-        All Treasures
+        <div>All Treasures</div>
       </div>
     </Button>
   )

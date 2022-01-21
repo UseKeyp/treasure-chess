@@ -59,6 +59,10 @@
   &[data-textcolor='blue'] {
     @apply text-blueLink;
   }
+
+  &[data-textcolor='grey'] {
+    @apply text-grey;
+  }
 }
 
 .disabled {

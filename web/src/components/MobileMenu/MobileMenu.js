@@ -1,11 +1,17 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
+import { useLocation } from '@redwoodjs/router'
 import PropTypes from 'prop-types'
 
 import Button from 'src/components/Button/Button'
 
 const MobileMenu = ({ children, direction, isOpen, trigger }) => {
   const [showMenu, setShowMenu] = useState(isOpen)
+  const { pathname } = useLocation()
+
+  useEffect(() => {
+    setShowMenu(false)
+  }, [pathname])
 
   if (!showMenu) {
     return <Button onClick={() => setShowMenu(true)}>{trigger}</Button>

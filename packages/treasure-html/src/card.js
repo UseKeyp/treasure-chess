@@ -41,7 +41,7 @@ const card = `<html>
               <path fill="#fff" d="M8.5 3C8.5 2.44772 8.94772 2 9.5 2H14.5C15.0523 2 15.5 2.44772 15.5 3V4C15.5 4.55228 15.0523 5 14.5 5H9.5C8.94772 5 8.5 4.55228 8.5 4V3Z" />
             </svg>
   				</div>
-  				<div style="max-width: 124px; overflow-x:hidden; white-space: nowrap;">
+  				<div style="max-width: 124px; overflow-x:hidden;">
   					<p id="title" style="color:white; margin: 0;font-weight: bold; font-size: 11px;">My fun game</p>
   					<p id="termination" style="color:white; margin: 0; font-size: 10px;" >White won by checkmate</p>
   				</div>

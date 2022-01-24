@@ -7,9 +7,7 @@ on:
         required: true
         default: 'staging'
 env:
-  NODE_ENV: 'development'
-  BASIC_AUTH_PASSWORD: 'pauliemorphy'
-
+  NODE_ENV: ${{ github.event.inputs.image_tag_prefix }}
   GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
   GITHUB_SHA: ${{ github.sha }}
   GITHUB_BRANCH: ${{ github.ref }}

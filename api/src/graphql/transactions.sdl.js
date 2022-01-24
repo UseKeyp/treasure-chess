@@ -17,6 +17,5 @@ export const schema = gql`
   }
 
   type Query {
-    transactions: [Transaction!]! @requireAuth
   }
 `

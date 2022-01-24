@@ -1,7 +1,7 @@
 import { Wallet } from '@ethersproject/wallet'
-import { getProviderByChainId } from 'src/lib/web3/helpers'
+import { web3Provider } from 'src/lib/web3/helpers'
 
-const wallet = Wallet.fromMnemonic(
+const adminWallet = Wallet.fromMnemonic(
   process.env.APP_ADMIN_WALLET_MNEMONIC.replace(/,/g, ' ')
 )
 
@@ -18,9 +18,8 @@ export const adminSign = async (unsigned) => wallet.signTransaction(unsigned)
 export const adminSendTransaction = async (unsigned, chainId) => {
   validateConfig(wallet)
   try {
-    const provider = getProviderByChainId(chainId)
-    const walletWithProvider = wallet.connect(provider)
-    return walletWithProvider.sendTransaction(unsigned)
+    const adminWalletWithProvider = adminWallet.connect(web3Provider)
+    return adminWalletWithProvider.sendTransaction(unsigned)
   } catch (e) {
     // TODO: Better logging for why tx submission failed
     // console.log(e)

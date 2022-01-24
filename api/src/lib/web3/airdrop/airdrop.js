@@ -1,9 +1,10 @@
 import { Wallet } from '@ethersproject/wallet'
-import parseEther from '@ethersproject/units'
+import { parseEther } from '@ethersproject/units'
 import { web3Provider } from 'src/lib/web3/helpers'
+import Sentry from 'src/lib/sentry'
 
-const MINIMUM_GAS_THRESHOLD = 0.0075 // Units of Ether
-const DEFAULT_DROP_AMOUNT = 0.025 // Units of Ether
+const MINIMUM_GAS_THRESHOLD = '0.0075' // Units of Ether
+const DEFAULT_DROP_AMOUNT = '0.025' // Units of Ether
 
 const payerWallet = Wallet.fromMnemonic(
   process.env.PAYER_WALLET_MNEMONIC.replace(/,/g, ' ')
@@ -27,20 +28,20 @@ const airdropGasTransaction = async ({ address, amount }) => {
     const payerWalletWithProvider = await payerWallet.connect(web3Provider)
     return await payerWalletWithProvider.sendTransaction(tx)
   } catch (e) {
-    throw new Error('airdropGasTransaction() ', e)
+    console.log(e?.message)
+    Sentry.captureException(e)
+    throw new Error('airdropGasTransaction() ', e?.message)
   }
 }
 
 const hasEnoughGas = async ({ address }) => {
   try {
     const balance = await getEtherBalance({ address })
-    console.log(balance)
-    console.log(parseEther(MINIMUM_GAS_THRESHOLD))
-    console.log(parseEther(MINIMUM_GAS_THRESHOLD).gt(balance))
-    if (parseEther(MINIMUM_GAS_THRESHOLD).gte(balance)) return false
+    if (balance.lte(parseEther(MINIMUM_GAS_THRESHOLD))) return false
     return true
   } catch (e) {
-    throw new Error('hasEnoughGas() ', e)
+    console.log(e)
+    throw new Error('hasEnoughGas() ', e?.message)
   }
 }
 
@@ -60,6 +61,7 @@ const checkGasAndAirdrop = async ({
     }
     return null
   } catch (e) {
+    console.log(e)
     throw new Error('checkGasAndAirdrop()', e)
   }
 }

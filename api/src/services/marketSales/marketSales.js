@@ -14,7 +14,7 @@ export const marketSale = ({ id }) => {
 export const listTreasure = async ({ treasureId, amount }) => {
   const treasure = await db.treasure.findUnique({
     where: { id: treasureId },
-    include: { marketSales: true, orderBy: { updatedAt: 'desc' } },
+    include: { marketSales: { orderBy: { updatedAt: 'desc' } } },
   })
   validateListRequest({ treasure })
 }

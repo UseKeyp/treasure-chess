@@ -1,4 +1,3 @@
-const { getIdFromNetworkName } = require('@treasure-chess/web3-helpers')
 const treasureArtifact = require('@treasure-chess/treasure-contracts/artifacts/contracts/Treasure.sol/Treasure.json')
 import { Contract } from '@ethersproject/contracts'
 import { adminSendTransaction } from 'src/lib/web3/admin'
@@ -7,7 +6,6 @@ import { web3Provider } from 'src/lib/web3/helpers'
 import achievementsList from '@treasure-chess/chess-achievements/src/achievementsList'
 
 const treasureAbi = treasureArtifact.abi
-const CHAIN_ID = getIdFromNetworkName(process.env.ETHEREUM_NETWORK_NAME)
 
 export const mint = async ({ treasure, tokenUri, minterAddress }) => {
   try {

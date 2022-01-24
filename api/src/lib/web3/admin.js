@@ -23,6 +23,7 @@ export const adminSendTransaction = async (unsigned) => {
     return adminWalletWithProvider.sendTransaction(unsigned)
   } catch (e) {
     // TODO: Better logging for why tx submission failed
+    /* eslint-disable-next-line no-console */
     console.log(e)
     throw new Error('adminSendTransaction() ', e)
   }

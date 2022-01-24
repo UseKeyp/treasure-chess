@@ -25,7 +25,11 @@ const testDecryption = (environment = DEFAULT_ENVIRONMENT) => {
   const decrypted = decrypt(ciphertext)
 
   console.log('If successful, the next line should be readable:')
-  console.log(decrypted)
+  try {
+    console.log(JSON.parse(decrypted))
+  } catch (e) {
+    console.log(e)
+  }
   var endTime = performance.now()
   console.log(`Duration: ${(endTime - startTime).toFixed(2)} ms`)
 }

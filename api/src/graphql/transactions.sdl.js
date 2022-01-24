@@ -15,7 +15,4 @@ export const schema = gql`
     COMPLETE
     FAILED
   }
-
-  type Query {
-  }
 `

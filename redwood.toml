@@ -26,6 +26,8 @@
     "ETHEREUM_NETWORK_NAME",
     "NODE_ENV"
   ]
+[dev]
+  command = "$(node tasks/environment/setupEnv.js) && yarn rw dev"
 [browser]
   open = true
 [experimental]

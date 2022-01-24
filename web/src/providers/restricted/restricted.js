@@ -3,9 +3,15 @@ import { isProduction } from 'src/utils/helpers'
 
 const LOCAL_BASIC_AUTH_KEY = 'basic_auth'
 
-const passedBasicAuth = () =>
-  localStorage.getItem(LOCAL_BASIC_AUTH_KEY) ===
-    process.env.BASIC_AUTH_PASSWORD || isProduction
+const passedBasicAuth = () => {
+  if (!['development', 'dev', 'sandbox'].includes(process.env.NODE_ENV))
+    return true
+  return (
+    localStorage.getItem(LOCAL_BASIC_AUTH_KEY) ===
+    process.env.BASIC_AUTH_PASSWORD
+  )
+}
+console.log(process.env.NODE_ENV)
 
 const RestrictedContext = React.createContext({
   passed: passedBasicAuth(),

@@ -9,11 +9,18 @@ dotenv.config()
 
 const directoryPath = path.join(__dirname, '../../')
 
-const main = () => {
-  console.log('\nTesting decryption...')
+// Change me!
+const DEFAULT_ENVIRONMENT = 'dev'
+// const DEFAULT_ENVIRONMENT = 'prod'
+
+const testDecryption = (environment = DEFAULT_ENVIRONMENT) => {
+  console.log(`\nTesting decryption for "${environment}"`)
   var startTime = performance.now()
 
-  let ciphertext = require(path.join(directoryPath, 'dev.env.enc.js'))
+  let ciphertext = require(path.join(
+    directoryPath,
+    `${environment}.env.enc.js`
+  ))
 
   const decrypted = decrypt(ciphertext)
 
@@ -23,4 +30,4 @@ const main = () => {
   console.log(`Duration: ${(endTime - startTime).toFixed(2)} ms`)
 }
 
-main()
+module.exports = testDecryption

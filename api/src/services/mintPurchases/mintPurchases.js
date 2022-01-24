@@ -1,6 +1,7 @@
 import { EnvelopError } from '@envelop/core'
 
 import { db } from 'src/lib/db'
+import { checkGasAndAirdrop } from 'src/lib/web3/airdrop'
 import {
   validateMintRequest,
   processPendingPurchases,
@@ -30,6 +31,11 @@ export const mintWithCredit = async ({ gameId, endTime, title }) => {
         title,
       },
     })
+    try {
+      await checkGasAndAirdrop({ address: context.currentUser.address })
+    } catch {
+      // Do nothing
+    }
     await db.member.update({
       where: { id: context.currentUser.id },
       data: { mintCredits: context.currentUser.mintCredits - 1 },

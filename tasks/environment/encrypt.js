@@ -3,10 +3,10 @@ const path = require('path')
 const { decrypt, encrypt } = require('./cryptography')
 
 const directoryPath = path.join(__dirname, '../../')
-
+const testDecryption = require('./testDecryption')
 // Change me!
-// const ENVIRONMENT = 'dev'
-const ENVIRONMENT = 'prod'
+const ENVIRONMENT = 'dev'
+// const ENVIRONMENT = 'prod'
 
 const main = () => {
   const gitRevision = require('child_process')
@@ -30,6 +30,8 @@ module.exports = secret`
     encContents
   )
   console.log(`✅ Updated ${ENVIRONMENT}.env.enc.js`)
+
+  testDecryption(ENVIRONMENT)
 }
 
 main()

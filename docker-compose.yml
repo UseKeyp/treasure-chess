@@ -18,7 +18,7 @@ services:
   api:
     image: pi0neerpat/treasure-chess-redwood-api-main
     # image: ghcr.io/pi0neerpat/treasure-chess-redwood-api-main
-    restart: always
+    # restart: always
     ports:
       - '8911:8911' # http
     logging:
@@ -32,7 +32,7 @@ services:
   web:
     image: pi0neerpat/treasure-chess-redwood-web-main
     # image: ghcr.io/pi0neerpat/treasure-chess-redwood-web-main
-    restart: always
+    # restart: always
     ports:
       - '8910:8910' # http
     # depends_on:

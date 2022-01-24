@@ -13,16 +13,17 @@ const validateConfig = (wallet) => {
     throw 'Admin wallet address and mnemonic do not match'
 }
 
-export const adminSign = async (unsigned) => wallet.signTransaction(unsigned)
+export const adminSign = async (unsigned) =>
+  adminWallet.signTransaction(unsigned)
 
 export const adminSendTransaction = async (unsigned, chainId) => {
-  validateConfig(wallet)
+  validateConfig(adminWallet)
   try {
     const adminWalletWithProvider = adminWallet.connect(web3Provider)
     return adminWalletWithProvider.sendTransaction(unsigned)
   } catch (e) {
     // TODO: Better logging for why tx submission failed
-    // console.log(e)
+    console.log(e)
     throw new Error('adminSendTransaction() ', e)
   }
 }

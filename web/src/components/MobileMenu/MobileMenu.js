@@ -1,20 +1,30 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState, useRef } from 'react'
 import { createPortal } from 'react-dom'
-import { useLocation } from '@redwoodjs/router'
 import PropTypes from 'prop-types'
 
 import Button from 'src/components/Button/Button'
 
-const MobileMenu = ({ children, direction, isOpen, trigger }) => {
+const MobileMenu = ({ children, direction, isOpen, triggerContents }) => {
   const [showMenu, setShowMenu] = useState(isOpen)
-  const { pathname } = useLocation()
+  const childrenContainerRef = useRef(null)
+
+  const handleChildrenClick = useCallback(() => {
+    if (showMenu) {
+      childrenContainerRef.current.addEventListener('click', (e) => {
+        const interactiveElements = ['a', 'button']
+        if (interactiveElements.includes(e.target.tagName.toLowerCase())) {
+          setShowMenu(false)
+        }
+      })
+    }
+  }, [showMenu])
 
   useEffect(() => {
-    setShowMenu(false)
-  }, [pathname])
+    handleChildrenClick()
+  }, [handleChildrenClick])
 
   if (!showMenu) {
-    return <Button onClick={() => setShowMenu(true)}>{trigger}</Button>
+    return <Button onClick={() => setShowMenu(true)}>{triggerContents}</Button>
   }
 
   return createPortal(
@@ -22,7 +32,9 @@ const MobileMenu = ({ children, direction, isOpen, trigger }) => {
       <div className="flex justify-end items-center p-4 w-full">
         <Button onClick={() => setShowMenu(false)}>&times;</Button>
       </div>
-      <div className="mt-4 p-4">{children}</div>
+      <div className="mt-4 p-4" ref={childrenContainerRef}>
+        {children}
+      </div>
     </div>,
     document.querySelector('body')
   )
@@ -36,7 +48,7 @@ MobileMenu.defaultProps = {
 MobileMenu.propTypes = {
   direction: PropTypes.string,
   isOpen: PropTypes.bool,
-  trigger: PropTypes.oneOfType([PropTypes.string, PropTypes.element])
+  triggerContents: PropTypes.oneOfType([PropTypes.string, PropTypes.element])
     .isRequired,
 }
 

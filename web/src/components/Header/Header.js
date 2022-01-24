@@ -44,7 +44,7 @@ const MobileNav = () => {
   const navAnchorClasses = 'text-center w-full font-bold'
 
   return (
-    <MobileMenu trigger="Menu">
+    <MobileMenu triggerContents="Menu">
       <div className="flex-1 flex justify-center">
         <nav>
           <ul className="h-full relative">

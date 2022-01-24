@@ -1,8 +1,8 @@
 const { getIdFromNetworkName } = require('@treasure-chess/web3-helpers')
 const treasureArtifact = require('@treasure-chess/treasure-contracts/artifacts/contracts/Treasure.sol/Treasure.json')
-import { getProviderByChainId } from 'src/lib/web3/helpers'
 import { Contract } from '@ethersproject/contracts'
 import { adminSendTransaction } from 'src/lib/web3/admin'
+import { web3Provider } from 'src/lib/web3/helpers'
 
 import achievementsList from '@treasure-chess/chess-achievements/src/achievementsList'
 
@@ -34,7 +34,7 @@ export const mint = async ({ treasure, tokenUri, minterAddress }) => {
       chievScore[2], // uint16 _achievement3
       treasure.cardColor === 'black' // bool _color);
     )
-    const tx = await adminSendTransaction(unsignedTx, CHAIN_ID)
+    const tx = await adminSendTransaction(unsignedTx)
     return tx
   } catch (e) {
     throw new Error(`mint() ${e}`)
@@ -59,7 +59,7 @@ export const getTreasureContract = () => {
     return new Contract(
       process.env.CONTRACT_ADDRESS_TREASURE,
       treasureAbi,
-      getProviderByChainId(CHAIN_ID)
+      web3Provider
     )
   } catch (e) {
     /* eslint-disable-next-line no-console */

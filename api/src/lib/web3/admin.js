@@ -16,7 +16,7 @@ const validateConfig = (wallet) => {
 export const adminSign = async (unsigned) =>
   adminWallet.signTransaction(unsigned)
 
-export const adminSendTransaction = async (unsigned, chainId) => {
+export const adminSendTransaction = async (unsigned) => {
   validateConfig(adminWallet)
   try {
     const adminWalletWithProvider = adminWallet.connect(web3Provider)

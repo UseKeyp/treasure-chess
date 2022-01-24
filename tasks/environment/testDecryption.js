@@ -19,7 +19,7 @@ const testDecryption = (environment = DEFAULT_ENVIRONMENT) => {
 
   let ciphertext = require(path.join(
     directoryPath,
-    `${environment}.env.enc.js`
+    `.env.${environment}.js.enc`
   ))
 
   const decrypted = decrypt(ciphertext)

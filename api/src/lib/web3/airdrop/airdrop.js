@@ -1,4 +1,4 @@
-import Wallet from '@ethersproject/wallet'
+import { Wallet } from '@ethersproject/wallet'
 import parseEther from '@ethersproject/units'
 import { web3Provider } from 'src/lib/web3/helpers'
 

@@ -21,16 +21,16 @@ const validateConfig = (wallet) => {
 const airdropGasTransaction = async ({ address, amount }) => {
   try {
     const tx = {
-      to: toAddress,
+      to: address,
       value: parseEther(amount),
     }
     validateConfig(payerWallet)
     const payerWalletWithProvider = await payerWallet.connect(web3Provider)
     return await payerWalletWithProvider.sendTransaction(tx)
   } catch (e) {
-    console.log(e?.message)
+    console.log(e?.message || e)
     Sentry.captureException(e)
-    throw new Error('airdropGasTransaction() ', e?.message)
+    throw new Error('airdropGasTransaction() ', e?.message || e)
   }
 }
 
@@ -41,7 +41,7 @@ const hasEnoughGas = async ({ address }) => {
     return true
   } catch (e) {
     console.log(e)
-    throw new Error('hasEnoughGas() ', e?.message)
+    throw new Error('hasEnoughGas() ', e?.message || e)
   }
 }
 
@@ -62,7 +62,7 @@ const checkGasAndAirdrop = async ({
     return null
   } catch (e) {
     console.log(e)
-    throw new Error('checkGasAndAirdrop()', e)
+    throw new Error('checkGasAndAirdrop()', e.message || e)
   }
 }
 

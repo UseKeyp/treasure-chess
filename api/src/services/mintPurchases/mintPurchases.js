@@ -31,7 +31,11 @@ export const mintWithCredit = async ({ gameId, endTime, title }) => {
         title,
       },
     })
-    await checkGasAndAirdrop({ address: context.currentUser.address })
+    try {
+      await checkGasAndAirdrop({ address: context.currentUser.address })
+    } catch {
+      // Do nothing
+    }
     await db.member.update({
       where: { id: context.currentUser.id },
       data: { mintCredits: context.currentUser.mintCredits - 1 },

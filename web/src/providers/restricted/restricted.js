@@ -11,7 +11,6 @@ const passedBasicAuth = () => {
     process.env.BASIC_AUTH_PASSWORD
   )
 }
-console.log(process.env.NODE_ENV)
 
 const RestrictedContext = React.createContext({
   passed: passedBasicAuth(),

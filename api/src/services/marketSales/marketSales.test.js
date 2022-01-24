@@ -1,9 +1,11 @@
-import { marketSales } from './marketSales'
+import { listTreasure } from './marketSales'
 
 describe('marketSales', () => {
-  scenario('returns all marketSales', async (scenario) => {
-    const result = await marketSales()
-
-    expect(result.length).toEqual(Object.keys(scenario.marketSale).length)
+  scenario('listTreasure', async (scenario) => {
+    const result = await listTreasure({
+      treasureId: scenario.treasure.create.id,
+    })
+    console.log(result)
+    // expect(result.length).toEqual(Object.keys(scenario.marketSale).length)
   })
 })

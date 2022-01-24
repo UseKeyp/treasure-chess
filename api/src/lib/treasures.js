@@ -47,7 +47,7 @@ export const generateTreasureData = ({ game, title, minter, mintPurchase }) => {
 const getValueByName = (list, name) =>
   list.find((item) => item.name === name).value
 
-const getWhereQueryFromArgs = ({ username, filter, owner, _sort }) => {
+const getWhereQueryFromArgs = ({ username, filter, owner }) => {
   const searchParams = new URLSearchParams(filter)
   let filterObj = {}
   // Convert text names to values
@@ -123,7 +123,8 @@ const getWhereQueryFromArgs = ({ username, filter, owner, _sort }) => {
 }
 
 const getOrderByQueryFromArgs = ({ sort }) => {
-  if (sort === undefined) return undefined
+  if (sort === undefined) return { createdAt: 'desc' }
+
   const idx = filters.sortList.indexOf(sort)
 
   switch (idx) {

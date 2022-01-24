@@ -26,8 +26,6 @@
     "ETHEREUM_NETWORK_NAME",
     "NODE_ENV"
   ]
-[dev]
-  command = "$(node tasks/environment/setupEnv.js) && yarn rw dev"
 [browser]
   open = true
 [experimental]
@@ -36,3 +34,9 @@
 [build]
 # Note: This isn't being run, maybe need to delete
   command = "cd packages/treasure-html; yarn build && yarn rw build"
+[dev]
+# Allows running normal yarn rw dev
+  command = "$(node tasks/environment/setupEnv.js) && yarn rw dev"
+[test]
+# Allows running normal yarn rw dev
+  command = "$(node tasks/environment/setupEnv.js) && yarn rw test"

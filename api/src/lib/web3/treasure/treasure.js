@@ -77,19 +77,27 @@ export const getERC721Balance = async ({
   return await contract.balanceOf(userAddress)
 }
 
-export const setApprovalForAll = async ({ memberId }) => {
+export const checkAndSetMarketApproval = async ({ member }) => {
   try {
     const treasureContract = getTreasureContract()
-    const unsignedTx =
-      await treasureContract.populateTransaction.setApprovalForAll(
-        process.env.CONTRACT_ADDRESS_TREASURE_MARKET
-      )
-    const tx = await memberSendTransaction({
-      memberId,
-      unsignedTx,
-    })
-    return tx
+    const isApprovedForAll = await treasureContract.isApprovedForAll(
+      member.address,
+      process.env.CONTRACT_ADDRESS_TREASURE_MARKET
+    )
+    if (!isApprovedForAll) {
+      const unsignedTx =
+        await treasureContract.populateTransaction.setApprovalForAll(
+          process.env.CONTRACT_ADDRESS_TREASURE_MARKET,
+          true
+        )
+      const tx = await memberSendTransaction({
+        memberId: member.id,
+        unsignedTx,
+      })
+      return tx
+    }
+    return null
   } catch (e) {
-    throw new Error(`setApprovalForAll() ${e}`)
+    throw new Error(`checkAndSetMarketApproval() ${e}`)
   }
 }

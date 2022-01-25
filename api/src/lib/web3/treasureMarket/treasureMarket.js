@@ -3,6 +3,7 @@ import { Contract } from '@ethersproject/contracts'
 import { memberSendTransaction } from 'src/lib/web3/member'
 import { parseUnits } from '@ethersproject/units'
 import { web3Provider } from 'src/lib/web3/helpers'
+import { checkAndSetMarketApproval } from 'src/lib/web3/treasure'
 
 export const getTreasureMarketContract = () => {
   try {
@@ -21,9 +22,9 @@ export const getTreasureMarketContract = () => {
 export const list = async ({ treasure, amount }) => {
   try {
     if (!treasure) throw 'No treasure provided'
+    await checkAndSetMarketApproval({ member: treasure.owner })
 
     const treasureMarketContract = getTreasureMarketContract()
-
     const unsignedTx =
       await treasureMarketContract.populateTransaction.tokenListIten(
         treasure.tokenId,
@@ -36,6 +37,7 @@ export const list = async ({ treasure, amount }) => {
     })
     return tx
   } catch (e) {
+    console.log(e.message)
     throw new Error(`list() ${e}`)
   }
 }

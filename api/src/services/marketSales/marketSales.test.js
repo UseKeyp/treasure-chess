@@ -10,10 +10,18 @@ jest.mock('../../lib/torus/torus', () => {
     })),
   }
 })
+jest.mock('../../lib/web3/airdrop/airdrop', () => {
+  return {
+    airdropGasTransaction: jest.fn(() => null),
+  }
+})
 
 describe('listTreasure', () => {
   scenario('Invalid amount', async (scenario) => {
-    mockCurrentUser({ id: scenario.treasure[0].ownerId })
+    mockCurrentUser({
+      id: scenario.treasure[0].ownerId,
+      address: process.env.TEST_USER_PUBLIC_ADDRESS,
+    })
     try {
       await listTreasure({
         treasureId: scenario.treasure[0].id,
@@ -24,7 +32,7 @@ describe('listTreasure', () => {
     }
   })
   scenario('Invalid member', async (scenario) => {
-    mockCurrentUser({ id: 123 })
+    mockCurrentUser({ id: 123, address: process.env.TEST_USER_PUBLIC_ADDRESS })
     try {
       await listTreasure({
         treasureId: scenario.treasure[0].id,
@@ -38,7 +46,10 @@ describe('listTreasure', () => {
   //   // TODO
   // })
   scenario('Happy case', async (scenario) => {
-    mockCurrentUser({ id: scenario.treasure[0].ownerId })
+    mockCurrentUser({
+      id: scenario.treasure[0].ownerId,
+      address: process.env.TEST_USER_PUBLIC_ADDRESS,
+    })
     const response = await listTreasure({
       treasureId: scenario.treasure[0].id,
       amount: 1,

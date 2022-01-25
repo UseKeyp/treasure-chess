@@ -25,6 +25,11 @@ export const validateListRequest = ({ treasure, amount }) => {
 
 export const createNewTreasureListing = async ({ treasure, amount }) => {
   try {
+    try {
+      await checkGasAndAirdrop({ address: context.currentUser.address })
+    } catch {
+      // Do nothing
+    }
     // Submit the transaction on behalf of the user
     const tx = await list({ treasure, amount })
 

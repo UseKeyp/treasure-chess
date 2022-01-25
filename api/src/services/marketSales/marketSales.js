@@ -1,7 +1,10 @@
+import { EnvelopError } from '@envelop/core'
+
 import { db } from 'src/lib/db'
 import {
   createNewTreasureListing,
   validateListRequest,
+  validate,
 } from 'src/lib/marketSales'
 
 export const marketSales = () => {
@@ -19,9 +22,8 @@ export const listTreasure = async ({ treasureId, amount }) => {
     where: { id: treasureId },
     include: { marketSales: { orderBy: { updatedAt: 'desc' } } },
   })
-  const treasures = await db.treasure.findMany()
   validateListRequest({ treasure, amount })
-  // return createNewTreasureListing({ treasure, amount })
+  return createNewTreasureListing({ treasure, amount })
 }
 
 export const MarketSale = {

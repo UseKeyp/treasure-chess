@@ -11,7 +11,7 @@ import { list } from 'src/lib/web3/treasureMarket'
 // const PENDING_DELISTED = 'PENDING_DELISTED'
 // const DELISTED = 'DELISTED'
 
-export const validateListRequest = async ({ treasure, amount }) => {
+export const validateListRequest = ({ treasure, amount }) => {
   if (!amount || typeof amount !== 'number' || amount <= 0)
     throw new EnvelopError(`Invalid amount.`)
 

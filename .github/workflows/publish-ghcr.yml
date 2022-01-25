@@ -1,34 +1,31 @@
 # Adapted from https://github.com/users/jeliasson/packages/container/package/redwoodjs-app-api-main
 name: 'Github Publish Docker'
-
 on:
-  push:
-    branches:
-      - main
-
+  workflow_dispatch:
+    inputs:
+      image_tag_prefix:
+        description: 'Image Tag Prefix (dev or sandbox)'
+        required: true
+        default: 'dev'
 env:
-  NODE_ENV: 'development'
+  NODE_ENV: ${{ github.event.inputs.image_tag_prefix }}
   REDWOOD_API_URL: 'http://0.0.0.0:8911'
-  BASIC_AUTH_PASSWORD: 'pauliemorphy'
+  BASIC_AUTH_PASSWORD: 'pauliemorphy' # required for sandbox or dev
 
   # Container Registry
   CONTAINER_REGISTRY_HOSTNAME: ghcr.io
   CONTAINER_REGISTRY_USERNAME: pi0neerpat
   CONTAINER_REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
   CONTAINER_REGISTRY_REPOSITORY: pi0neerpat
-  CONTAINER_REGISTRY_IMAGE_PREFIX: treasure-chess-redwood
+  CONTAINER_REGISTRY_IMAGE_PREFIX: treasure-chess
 
   # Repository
   GIT_DEPLOY_REPOSITORY_NAME: pi0neerpat/treasure-chess
-  GIT_DEPLOY_REPOSITORY_BRANCH: main
   GIT_DEPLOY_REPOSITORY_AUTHOR_NAME: pi0neerpat
   GIT_DEPLOY_REPOSITORY_AUTHOR_EMAIL: pi0neerpat@users.noreply.github.com
   GIT_DEPLOY_REPOSITORY_AUTHOR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
-  #
-  # Build
-  #
   build:
     name: Build
     runs-on: ubuntu-20.04
@@ -37,10 +34,6 @@ jobs:
       fail-fast: true
       matrix:
         platform: [api, web]
-        # Todo: delete if unused
-        # include:
-        #   - platform: api
-        #   - platform: web
 
     steps:
       # Checkout source code
@@ -70,7 +63,5 @@ jobs:
             NODE_ENV=${{ env.NODE_ENV }}
             REDWOOD_API_URL=${{ env.REDWOOD_API_URL }}
           tags: |
-            ${{ env.CONTAINER_REGISTRY_HOSTNAME }}/${{ env.CONTAINER_REGISTRY_REPOSITORY }}/${{ env.CONTAINER_REGISTRY_IMAGE_PREFIX }}-${{ matrix.platform }}-${{ env.RUNTIME_ENV }}:latest
-            ${{ env.CONTAINER_REGISTRY_HOSTNAME }}/${{ env.CONTAINER_REGISTRY_REPOSITORY }}/${{ env.CONTAINER_REGISTRY_IMAGE_PREFIX }}-${{ matrix.platform }}-${{ env.RUNTIME_ENV }}:${{ github.sha }}
-
-  # TODO: Add CD tooling here. See https://github.com/users/jeliasson/packages/container/package/redwoodjs-app-api-main
+            ${{ env.CONTAINER_REGISTRY_HOSTNAME }}/${{ env.CONTAINER_REGISTRY_REPOSITORY }}/${{ env.CONTAINER_REGISTRY_IMAGE_PREFIX }}-${{ matrix.platform }}:latest
+            ${{ env.CONTAINER_REGISTRY_HOSTNAME }}/${{ env.CONTAINER_REGISTRY_REPOSITORY }}/${{ env.CONTAINER_REGISTRY_IMAGE_PREFIX }}-${{ matrix.platform }}:${{ env.NODE_ENV }}-${{ github.sha }}

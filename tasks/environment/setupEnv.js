@@ -5,14 +5,15 @@ const { decrypt } = require('./cryptography')
 
 dotenv.config()
 
-const isProduction = process.env.NODE_ENV === 'production'
+const environment = process.env.NODE_ENV || 'dev'
 
 const setupEnvironment = () => {
-  const ciphertext = isProduction
-    ? require(path.join(directoryPath, './prod.env.enc'))
-    : require(path.join(directoryPath, './dev.env.enc'))
+  const encrypted = require(path.join(
+    directoryPath,
+    `./.env.${environment}.js.enc`
+  ))
 
-  const decrypted = decrypt(ciphertext)
+  const decrypted = decrypt(encrypted)
   const env = JSON.parse(decrypted)
 
   Object.keys(env).map((key) => {

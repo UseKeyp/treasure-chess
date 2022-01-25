@@ -2,15 +2,7 @@ import { MetaTags } from '@redwoodjs/web'
 import TreasuresFetcher from 'src/components/Treasure/TreasuresFetcher'
 import FilterBar from 'src/components/FilterBar/FilterBar'
 import SortingDropdown from 'src/components/SortingDropdown/SortingDropdown'
-
 import { useFilter } from 'src/providers/filters'
-
-const defaultParams = {
-  outcome: filters.outcomeList,
-  sale: filters.saleList,
-  termination: filters.terminationList[0],
-  opening: filters.openingList[0],
-}
 
 const TreasuresPage = () => {
   const { filter, sort, username, defaultParams } = useFilter()

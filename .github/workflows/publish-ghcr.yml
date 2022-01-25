@@ -1,13 +1,14 @@
 # Adapted from https://github.com/users/jeliasson/packages/container/package/redwoodjs-app-api-main
 name: 'Github Publish Docker'
-
 on:
-  push:
-    branches:
-      - main
-
+  workflow_dispatch:
+    inputs:
+      image_tag_prefix:
+        description: 'Image Tag Prefix (dev or sandbox)'
+        required: true
+        default: 'dev'
 env:
-  NODE_ENV: ${{ github.ref }} # sandbox or dev
+  NODE_ENV: ${{ github.event.inputs.image_tag_prefix }}
   REDWOOD_API_URL: 'http://0.0.0.0:8911'
   BASIC_AUTH_PASSWORD: 'pauliemorphy' # required for sandbox or dev
 

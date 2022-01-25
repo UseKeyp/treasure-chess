@@ -28,7 +28,7 @@ jobs:
         run: gcloud auth configure-docker us-east4-docker.pkg.dev
       - name: Build and push image
         run: |
-          PREFIX=${{ github.event.inputs.image_tag_prefix }}
+          PREFIX=$NODE_ENV
           REDWOOD_API_URL=https://treasure.gcp-staging.chess-platform.com
           if [ $PREFIX == "prod" ] ; then
              REDWOOD_API_URL=https://treasure.chess.com

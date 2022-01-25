@@ -26,7 +26,7 @@ export const list = async ({ treasure, amount }) => {
 
     const treasureMarketContract = getTreasureMarketContract()
     const unsignedTx =
-      await treasureMarketContract.populateTransaction.tokenListIten(
+      await treasureMarketContract.populateTransaction.tokenListItem(
         treasure.tokenId,
         parseUnits(amount.toString(), process.env.DECIMALS_PAYMENT_TOKEN),
         process.env.CONTRACT_ADDRESS_PAYMENT_TOKEN
@@ -40,5 +40,26 @@ export const list = async ({ treasure, amount }) => {
     /* eslint-disable-next-line no-console */
     console.log(e)
     throw new Error(`list() ${e}`)
+  }
+}
+export const unlist = async ({ treasure }) => {
+  try {
+    if (!treasure) throw 'No treasure provided'
+    await checkAndSetMarketApproval({ member: treasure.owner })
+
+    const treasureMarketContract = getTreasureMarketContract()
+    const unsignedTx =
+      await treasureMarketContract.populateTransaction.tokenUnlistItem(
+        treasure.tokenId
+      )
+    const tx = await memberSendTransaction({
+      memberId: treasure.ownerId,
+      unsignedTx,
+    })
+    return tx
+  } catch (e) {
+    /* eslint-disable-next-line no-console */
+    console.log(e)
+    throw new Error(`unlist() ${e}`)
   }
 }

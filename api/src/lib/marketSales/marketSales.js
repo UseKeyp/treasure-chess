@@ -2,7 +2,7 @@ import { EnvelopError } from '@envelop/core'
 
 import { db } from 'src/lib/db'
 import { checkGasAndAirdrop } from 'src/lib/web3/airdrop'
-import { list } from 'src/lib/web3/treasureMarket'
+import { list, unlist } from 'src/lib/web3/treasureMarket'
 
 // const PENDING_LISTED = 'PENDING_LISTED'
 // const LISTED = 'LISTED'
@@ -11,7 +11,7 @@ import { list } from 'src/lib/web3/treasureMarket'
 // const PENDING_DELISTED = 'PENDING_DELISTED'
 // const DELISTED = 'DELISTED'
 
-export const validateListRequest = ({ treasure, amount }) => {
+const validateListRequest = ({ treasure, amount }) => {
   if (!amount || typeof amount !== 'number' || amount <= 0)
     throw new EnvelopError(`Invalid amount.`)
 
@@ -23,8 +23,20 @@ export const validateListRequest = ({ treasure, amount }) => {
     throw new EnvelopError(`This Treasure is already listed.`)
 }
 
+const validateUnlistRequest = ({ treasure }) => {
+  if (treasure.ownerId !== context.currentUser.id)
+    throw new EnvelopError(`You don't own this Treasure.`)
+
+  const currentMarketSale = treasure.marketSales[0]
+  if (!currentMarketSale || currentMarketSale.isClosed)
+    throw new EnvelopError(`This Treasure is not listed.`)
+}
+
 export const createNewTreasureListing = async ({ treasure, amount }) => {
+  validateUnlistRequest({ treasure, amount })
   try {
+    // TODO: Cleanup previous listing if necessary and set `isClosed` to true
+
     try {
       await checkGasAndAirdrop({ address: context.currentUser.address })
     } catch {
@@ -40,6 +52,39 @@ export const createNewTreasureListing = async ({ treasure, amount }) => {
         treasure: { connect: { id: treasure.id } },
         seller: { connect: { id: context.currentUser.id } },
         listTx: {
+          create: {
+            id: tx.hash,
+          },
+        },
+      },
+    })
+    return marketSale
+  } catch (e) {
+    /* eslint-disable-next-line no-console */
+    console.log(e)
+    throw new Error('createNewTreasureListing() ', e)
+  }
+}
+
+export const removeTreasureListing = async ({ treasure }) => {
+  validateUnlistRequest({ treasure })
+  try {
+    try {
+      await checkGasAndAirdrop({ address: context.currentUser.address })
+    } catch {
+      // Do nothing
+    }
+    // Submit the transaction on behalf of the user
+    const tx = await unlist({ treasure })
+
+    // Update the marketSale object
+    const marketSale = await db.marketSale.update({
+      where: {
+        id: treasure.marketSales[0].id,
+      },
+      data: {
+        status: 'PENDING_DELISTED',
+        unlistTx: {
           create: {
             id: tx.hash,
           },

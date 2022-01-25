@@ -62,3 +62,34 @@ describe('listTreasure', () => {
     expect(response.status).toBe('PENDING_LISTED')
   })
 })
+
+describe('listTreasure', () => {
+  scenario('Invalid member', async (scenario) => {
+    mockCurrentUser({ id: 123, address: process.env.TEST_USER_PUBLIC_ADDRESS })
+    try {
+      await unlistTreasure({
+        treasureId: scenario.treasure[0].id,
+      })
+    } catch (e) {
+      expect(e).toStrictEqual(new EnvelopError(`You don't own this Treasure.`))
+    }
+  })
+  // scenario('Already listed', async (scenario) => {
+  //   // TODO
+  // })
+  scenario('Happy case', async (scenario) => {
+    mockCurrentUser({
+      id: scenario.treasure[0].ownerId,
+      address: process.env.TEST_USER_PUBLIC_ADDRESS,
+    })
+    await listTreasure({
+      treasureId: scenario.treasure[0].id,
+      amount: 1,
+    })
+    const response = await listTreasure({
+      treasureId: scenario.treasure[0].id,
+      amount: 1,
+    })
+    expect(response.status).toBe('PENDING_UNLISTED')
+  })
+})

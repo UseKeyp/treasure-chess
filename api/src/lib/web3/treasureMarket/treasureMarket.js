@@ -1,0 +1,51 @@
+const treasureMerketArtifact = require('@treasure-chess/treasure-contracts/artifacts/contracts/TreasureMarket.sol/TreasureMarket.json')
+import { Contract } from '@ethersproject/contracts'
+import { memberSendTransaction } from 'src/lib/web3/member'
+import { parseUnits } from '@ethersproject/units'
+import { web3Provider } from 'src/lib/web3/helpers'
+
+export const getTreasureMarketContract = () => {
+  try {
+    return new Contract(
+      process.env.CONTRACT_ADDRESS_TREASURE_MARKET,
+      treasureMerketArtifact.abi,
+      web3Provider
+    )
+  } catch (e) {
+    /* eslint-disable-next-line no-console */
+    console.log(e)
+    throw new Error(e)
+  }
+}
+
+export const list = async ({ treasure, amount }) => {
+  try {
+    if (!treasure) throw 'No treasure provided'
+
+    const treasureMarketContract = getTreasureMarketContract()
+
+    const unsignedTx =
+      await treasureMarketContract.populateTransaction.tokenListIten(
+        treasure.tokenId,
+        parseUnits(amount, process.env.DECIMALS_PAYMENT_TOKEN),
+        process.env.CONTRACT_ADDRESS_PAYMENT_TOKEN
+      )
+    const tx = await memberSendTransaction(unsignedTx)
+    return tx
+  } catch (e) {
+    throw new Error(`mint() ${e}`)
+  }
+}
+
+export const getTokenIdFromHashId = async (hashId) => {
+  try {
+    if (!hashId) throw 'No hashId provided'
+    const treasureMarketContract = getTreasureMarketContract()
+    const tokenId = await treasureMarketContract.movesHashToId(hashId)
+    return tokenId
+  } catch (e) {
+    /* eslint-disable-next-line no-console */
+    console.log(e)
+    throw new Error(`getTokenIdFromHashId() ${e}`)
+  }
+}

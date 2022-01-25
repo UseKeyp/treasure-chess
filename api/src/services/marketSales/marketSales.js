@@ -1,5 +1,8 @@
 import { db } from 'src/lib/db'
-import { validateListRequest } from 'src/lib/marketSales'
+import {
+  createNewTreasureListing,
+  validateListRequest,
+} from 'src/lib/marketSales'
 
 export const marketSales = () => {
   return db.marketSale.findMany()
@@ -16,7 +19,9 @@ export const listTreasure = async ({ treasureId, amount }) => {
     where: { id: treasureId },
     include: { marketSales: { orderBy: { updatedAt: 'desc' } } },
   })
-  validateListRequest({ treasure })
+  const treasures = await db.treasure.findMany()
+  validateListRequest({ treasure, amount })
+  // return createNewTreasureListing({ treasure, amount })
 }
 
 export const MarketSale = {

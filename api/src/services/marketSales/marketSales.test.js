@@ -1,5 +1,5 @@
 import { EnvelopError } from '@envelop/core'
-import { listTreasure } from './marketSales'
+import { listTreasure, unlistTreasure } from './marketSales'
 
 jest.setTimeout(20000)
 jest.mock('../../lib/torus/torus', () => {
@@ -17,7 +17,9 @@ jest.mock('../../lib/web3/airdrop/airdrop', () => {
 })
 jest.mock('../../lib/web3/member', () => {
   return {
-    memberSendTransaction: jest.fn(() => ({ hash: '0xabc' })),
+    memberSendTransaction: jest.fn(() => ({
+      hash: `0xabc${Math.random(1000)}`,
+    })),
   }
 })
 
@@ -86,10 +88,10 @@ describe('listTreasure', () => {
       treasureId: scenario.treasure[0].id,
       amount: 1,
     })
-    const response = await listTreasure({
+    const response = await unlistTreasure({
       treasureId: scenario.treasure[0].id,
       amount: 1,
     })
-    expect(response.status).toBe('PENDING_UNLISTED')
+    expect(response.status).toBe('PENDING_DELISTED')
   })
 })

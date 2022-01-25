@@ -17,7 +17,13 @@ export const marketSale = ({ id }) => {
 export const listTreasure = async ({ treasureId, amount }) => {
   const treasure = await db.treasure.findUnique({
     where: { id: treasureId },
-    include: { marketSales: { orderBy: { updatedAt: 'desc' } }, owner: true },
+    include: {
+      marketSales: {
+        orderBy: { updatedAt: 'desc' },
+        include: { listTx: true, unlistTx: true, saleTx: true },
+      },
+      owner: true,
+    },
   })
   return createNewTreasureListing({ treasure, amount })
 }
@@ -25,7 +31,13 @@ export const listTreasure = async ({ treasureId, amount }) => {
 export const unlistTreasure = async ({ treasureId }) => {
   const treasure = await db.treasure.findUnique({
     where: { id: treasureId },
-    include: { marketSales: { orderBy: { updatedAt: 'desc' } }, owner: true },
+    include: {
+      marketSales: {
+        orderBy: { updatedAt: 'desc' },
+        include: { listTx: true, unlistTx: true, saleTx: true },
+      },
+      owner: true,
+    },
   })
   return removeTreasureListing({ treasure })
 }

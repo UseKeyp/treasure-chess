@@ -26,7 +26,9 @@ export const list = async ({ treasure, amount }) => {
 
     const treasureMarketContract = getTreasureMarketContract()
     const unsignedTx =
-      await treasureMarketContract.populateTransaction.tokenListItem(
+      // TODO: replace when new contracts are deployed
+      // await treasureMarketContract.populateTransaction.tokenListItem(
+      await treasureMarketContract.populateTransaction.tokenListIten(
         treasure.tokenId,
         parseUnits(amount.toString(), process.env.DECIMALS_PAYMENT_TOKEN),
         process.env.CONTRACT_ADDRESS_PAYMENT_TOKEN
@@ -49,7 +51,9 @@ export const unlist = async ({ treasure }) => {
 
     const treasureMarketContract = getTreasureMarketContract()
     const unsignedTx =
-      await treasureMarketContract.populateTransaction.tokenUnlistItem(
+      // TODO: Change with new contract deployment
+      // await treasureMarketContract.populateTransaction.tokenUnlistItem(
+      await treasureMarketContract.populateTransaction.tokenCancelSale(
         treasure.tokenId
       )
     const tx = await memberSendTransaction({

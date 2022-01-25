@@ -2,6 +2,19 @@ import Icon from 'src/components/Icon'
 import MemberLink from 'src/components/MemberLink'
 
 const TreasureSocial = ({ treasure }) => {
+  const [label, setLabel] = React.useState(false)
+  const labelHandler = () => {
+    setLabel(true)
+
+    //sample of what to copy
+    let text = 'copied'
+    navigator.clipboard.writeText(text)
+
+    setInterval(() => {
+      setLabel(false)
+    }, 1000)
+  }
+
   const linkToShare = `${process.env.APP_DOMAIN}/treasures/${treasure?.tokenId}`
   const facebookHandler = () => {
     const uriComponent = encodeURIComponent(linkToShare)
@@ -43,6 +56,9 @@ const TreasureSocial = ({ treasure }) => {
         <div className="treasure-social__buttons">
           <button onClick={facebookHandler}>
             <Icon name="facebook" size={24} />
+          </button>
+          <button onClick={labelHandler}>
+            {label ? <p>Copied</p> : <Icon name="copy" color="#abb6b9" />}
           </button>
           <a
             target="_blank"

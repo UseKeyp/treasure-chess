@@ -39,16 +39,3 @@ export const list = async ({ treasure, amount }) => {
     throw new Error(`list() ${e}`)
   }
 }
-
-export const getTokenIdFromHashId = async (hashId) => {
-  try {
-    if (!hashId) throw 'No hashId provided'
-    const treasureMarketContract = getTreasureMarketContract()
-    const tokenId = await treasureMarketContract.movesHashToId(hashId)
-    return tokenId
-  } catch (e) {
-    /* eslint-disable-next-line no-console */
-    console.log(e)
-    throw new Error(`getTokenIdFromHashId() ${e}`)
-  }
-}

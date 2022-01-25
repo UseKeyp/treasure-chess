@@ -11,11 +11,12 @@ const defaultParams = {
   outcome: filters.outcomeList,
   sale: filters.saleList,
   termination: filters.terminationList[0],
+  opening: filters.openingList[0],
 }
 
 const TreasuresPage = () => {
   const { filter, sort, username } = useFilter()
-
+  
   return (
     <div>
       <MetaTags title="Treasures" />

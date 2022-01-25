@@ -19,7 +19,9 @@ const FilterBar = ({ defaultParams }) => {
   const [timeControl, setTimeControl] = useState(filter.timeControl)
   const [moveCount, setMoveCount] = useState(filter.moveCount)
   const [achievements, setAchievements] = useState(filter.achievements || [])
-  const [opening, setOpening] = useState(filter.opening)
+  const [opening, setOpening] = useState(
+    defaultParams?.opening || filter.opening
+  )
   const [color, setColor] = useState(filter.color)
   const [termination, setTermination] = useState(
     defaultParams?.termination || filter.termination
@@ -47,7 +49,7 @@ const FilterBar = ({ defaultParams }) => {
   const updateFilter = () => {
     setFilter('filter', {
       ...(achievements?.length && { achievements }),
-      ...(opening && { opening }),
+      ...(opening && opening !== defaultParams?.opening && { opening }),
       ...(color && { color }),
       ...(title && { title }),
       ...(timeControl && { timeControl }),

@@ -15,6 +15,11 @@ jest.mock('../../lib/web3/airdrop/airdrop', () => {
     airdropGasTransaction: jest.fn(() => null),
   }
 })
+jest.mock('../../lib/web3/member', () => {
+  return {
+    memberSendTransaction: jest.fn(() => ({ hash: '0xabc' })),
+  }
+})
 
 describe('listTreasure', () => {
   scenario('Invalid amount', async (scenario) => {

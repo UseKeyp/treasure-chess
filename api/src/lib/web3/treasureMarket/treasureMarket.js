@@ -37,7 +37,8 @@ export const list = async ({ treasure, amount }) => {
     })
     return tx
   } catch (e) {
-    console.log(e.message)
+    /* eslint-disable-next-line no-console */
+    console.log(e)
     throw new Error(`list() ${e}`)
   }
 }

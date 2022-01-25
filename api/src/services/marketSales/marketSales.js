@@ -1,10 +1,7 @@
-import { EnvelopError } from '@envelop/core'
-
 import { db } from 'src/lib/db'
 import {
   createNewTreasureListing,
   validateListRequest,
-  validate,
 } from 'src/lib/marketSales'
 
 export const marketSales = () => {

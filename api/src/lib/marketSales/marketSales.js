@@ -4,7 +4,7 @@ import { db } from 'src/lib/db'
 import { checkGasAndAirdrop } from 'src/lib/web3/airdrop'
 import { list } from 'src/lib/web3/treasureMarket'
 
-const PENDING_LISTED = 'PENDING_LISTED'
+// const PENDING_LISTED = 'PENDING_LISTED'
 // const LISTED = 'LISTED'
 // const PENDING_SOLD = 'PENDING_SOLD'
 // const SOLD = 'SOLD'
@@ -48,6 +48,7 @@ export const createNewTreasureListing = async ({ treasure, amount }) => {
     })
     return marketSale
   } catch (e) {
+    /* eslint-disable-next-line no-console */
     console.log(e)
     throw new Error('createNewTreasureListing() ', e)
   }

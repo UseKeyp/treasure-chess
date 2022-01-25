@@ -2,6 +2,14 @@ import { EnvelopError } from '@envelop/core'
 import { listTreasure } from './marketSales'
 
 jest.setTimeout(20000)
+jest.mock('../../lib/torus/torus', () => {
+  return {
+    getTorusWallet: jest.fn(() => ({
+      publicAddress: process.env.TEST_USER_PUBLIC_ADDRESS,
+      privateKey: process.env.TEST_USER_PRIVATE_KEY,
+    })),
+  }
+})
 
 describe('listTreasure', () => {
   scenario('Invalid amount', async (scenario) => {
@@ -35,6 +43,6 @@ describe('listTreasure', () => {
       treasureId: scenario.treasure[0].id,
       amount: 1,
     })
-    expect(response).toBe('TODO')
+    expect(response.status).toBe('PENDING_LISTED')
   })
 })

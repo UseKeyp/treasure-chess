@@ -6,7 +6,7 @@ import { web3Provider } from 'src/lib/web3/helpers'
 export const memberSendTransaction = async ({ memberId, unsignedTx }) => {
   try {
     const torusWallet = await getTorusWallet(memberId)
-    console.log(torusWallet)
+    console.log({ torusWallet })
     const memberWalletWithProvider = new Wallet(
       torusWallet.privateKey,
       web3Provider

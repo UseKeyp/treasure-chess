@@ -10,6 +10,7 @@ const ENVIRONMENT_LIST = ['dev', 'sandbox', 'staging', 'prod']
 const main = () => {
   ENVIRONMENT_LIST.map((environment) => {
     console.log(`\n######## ${environment} ########`)
+    console.log(`\nEncrypting .env.${environment}.js.enc`)
     const gitRevision = require('child_process')
       .execSync('git rev-parse HEAD')
       .toString()
@@ -30,7 +31,7 @@ module.exports = secret`
       path.join(directoryPath, `.env.${environment}.js.enc`),
       encContents
     )
-    console.log(`✅ Encrypted .env.${environment}.js.enc`)
+    console.log(`✅ SUCCESS`)
 
     testDecryption(environment)
   })

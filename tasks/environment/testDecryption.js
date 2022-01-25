@@ -14,7 +14,7 @@ const DEFAULT_ENVIRONMENT = 'dev'
 // const DEFAULT_ENVIRONMENT = 'prod'
 
 const testDecryption = (environment = DEFAULT_ENVIRONMENT) => {
-  console.log(`\nTesting decryption for "${environment}"`)
+  console.log(`\nDecrypting .env.${environment}.js.enc`)
   var startTime = performance.now()
 
   let ciphertext = require(path.join(
@@ -24,14 +24,15 @@ const testDecryption = (environment = DEFAULT_ENVIRONMENT) => {
 
   const decrypted = decrypt(ciphertext)
 
-  console.log('If successful, the next line should be readable:')
   try {
-    console.log(JSON.parse(decrypted))
+    const parsed = JSON.parse(decrypted)
+    // console.log(parsed)
+    console.log('✅ SUCCESS')
   } catch (e) {
-    console.log(e)
+    console.log('❌ FAILED')
   }
   var endTime = performance.now()
-  console.log(`Duration: ${(endTime - startTime).toFixed(2)} ms`)
+  console.log(`(Duration: ${(endTime - startTime).toFixed(2)} ms)`)
 }
 
 module.exports = testDecryption

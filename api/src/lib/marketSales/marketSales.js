@@ -36,9 +36,7 @@ export const createNewTreasureListing = async ({ treasure, amount }) => {
         seller: { connect: { id: context.currentUser.id } },
         listTx: {
           create: {
-            data: {
-              id: tx.hash,
-            },
+            id: tx.hash,
           },
         },
       },

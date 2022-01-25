@@ -32,6 +32,7 @@ export const list = async ({ treasure, amount }) => {
       )
     const tx = await memberSendTransaction({ memberId, unsignedTx })
     return tx
+    return { hash: '0x123' }
   } catch (e) {
     throw new Error(`list() ${e}`)
   }

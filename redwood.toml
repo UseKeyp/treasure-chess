@@ -38,5 +38,5 @@
 # Allows running normal yarn rw dev
   command = "$(node tasks/environment/setupEnv.js) && yarn rw dev"
 [test]
-# Allows running normal yarn rw dev
+# Note: This isn't being run, maybe need to delete
   command = "$(node tasks/environment/setupEnv.js) && yarn rw test"

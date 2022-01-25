@@ -1,13 +1,27 @@
-const { getIdFromNetworkName } = require('@treasure-chess/web3-helpers')
 const treasureArtifact = require('@treasure-chess/treasure-contracts/artifacts/contracts/Treasure.sol/Treasure.json')
-import { getProviderByChainId } from 'src/lib/web3/helpers'
 import { Contract } from '@ethersproject/contracts'
-import { adminSendTransaction } from 'src/lib/web3/admin'
 
 import achievementsList from '@treasure-chess/chess-achievements/src/achievementsList'
 
+import { adminSendTransaction } from 'src/lib/web3/admin'
+import { web3Provider } from 'src/lib/web3/helpers'
+import { memberSendTransaction } from 'src/lib/web3/member'
+
 const treasureAbi = treasureArtifact.abi
-const CHAIN_ID = getIdFromNetworkName(process.env.ETHEREUM_NETWORK_NAME)
+
+export const getTreasureContract = () => {
+  try {
+    return new Contract(
+      process.env.CONTRACT_ADDRESS_TREASURE,
+      treasureAbi,
+      web3Provider
+    )
+  } catch (e) {
+    /* eslint-disable-next-line no-console */
+    console.log(e)
+    throw new Error(e)
+  }
+}
 
 export const mint = async ({ treasure, tokenUri, minterAddress }) => {
   try {
@@ -34,7 +48,7 @@ export const mint = async ({ treasure, tokenUri, minterAddress }) => {
       chievScore[2], // uint16 _achievement3
       treasure.cardColor === 'black' // bool _color);
     )
-    const tx = await adminSendTransaction(unsignedTx, CHAIN_ID)
+    const tx = await adminSendTransaction(unsignedTx)
     return tx
   } catch (e) {
     throw new Error(`mint() ${e}`)
@@ -54,20 +68,6 @@ export const getTokenIdFromHashId = async (hashId) => {
   }
 }
 
-export const getTreasureContract = () => {
-  try {
-    return new Contract(
-      process.env.CONTRACT_ADDRESS_TREASURE,
-      treasureAbi,
-      getProviderByChainId(CHAIN_ID)
-    )
-  } catch (e) {
-    /* eslint-disable-next-line no-console */
-    console.log(e)
-    throw new Error(e)
-  }
-}
-
 export const getERC721Balance = async ({
   contractAddress,
   rpcProvider,
@@ -75,4 +75,29 @@ export const getERC721Balance = async ({
 }) => {
   const contract = new Contract(contractAddress, treasureAbi, rpcProvider)
   return await contract.balanceOf(userAddress)
+}
+
+export const checkAndSetMarketApproval = async ({ member }) => {
+  try {
+    const treasureContract = getTreasureContract()
+    const isApprovedForAll = await treasureContract.isApprovedForAll(
+      member.address,
+      process.env.CONTRACT_ADDRESS_TREASURE_MARKET
+    )
+    if (!isApprovedForAll) {
+      const unsignedTx =
+        await treasureContract.populateTransaction.setApprovalForAll(
+          process.env.CONTRACT_ADDRESS_TREASURE_MARKET,
+          true
+        )
+      const tx = await memberSendTransaction({
+        memberId: member.id,
+        unsignedTx,
+      })
+      return tx
+    }
+    return null
+  } catch (e) {
+    throw new Error(`checkAndSetMarketApproval() ${e}`)
+  }
 }

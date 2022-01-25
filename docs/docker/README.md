@@ -84,7 +84,12 @@ Killing Docker
 ```bash
 # WARNING: may kill other containers on your machine
 sudo killall containerd-shim && docker-compose down
-#
+
+sudo netstat -tulpn | grep :8910
+# or
+sudo lsof -i tcp:8910
+sudo kill 1888
+
 docker kill CONTAINER
 # kill stubborn container
 sudo service docker restart
@@ -92,4 +97,6 @@ sudo service docker restart
 docker kill $(docker ps -q)
 # !!! Remove all containers~!!!
 docker rm --force $(docker ps -a -q)
+
+sudo /etc/init.d/docker restart
 ```

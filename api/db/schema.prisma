@@ -87,7 +87,7 @@ model MarketSale {
   id         Int              @id @default(autoincrement())
   createdAt  DateTime         @default(now())
   updatedAt  DateTime
-  listedAt   DateTime // Updated when listing tx is confirmed
+  listedAt   DateTime? // Updated when listing tx is confirmed
   // --------------- LINKS --------------
   treasure   Treasure         @relation(fields: [treasureId], references: [id])
   treasureId String
@@ -103,7 +103,7 @@ model MarketSale {
   saleTxId   String?          @unique
   // --------------- STATE --------------
   status     MarketSaleStatus @default(PENDING_LISTED)
-  isClosed   Boolean
+  isClosed   Boolean @default(false)
   amount     Int
 }
 

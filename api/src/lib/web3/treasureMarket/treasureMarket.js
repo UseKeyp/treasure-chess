@@ -14,7 +14,7 @@ export const getTreasureMarketContract = () => {
   } catch (e) {
     /* eslint-disable-next-line no-console */
     console.log(e)
-    throw new Error(e)
+    throw new Error(`getTreasureMarketContract() ${e}`)
   }
 }
 
@@ -27,13 +27,13 @@ export const list = async ({ treasure, amount }) => {
     const unsignedTx =
       await treasureMarketContract.populateTransaction.tokenListIten(
         treasure.tokenId,
-        parseUnits(amount, process.env.DECIMALS_PAYMENT_TOKEN),
+        parseUnits(amount.toString(), process.env.DECIMALS_PAYMENT_TOKEN),
         process.env.CONTRACT_ADDRESS_PAYMENT_TOKEN
       )
-    const tx = await memberSendTransaction(unsignedTx)
+    const tx = await memberSendTransaction({ memberId, unsignedTx })
     return tx
   } catch (e) {
-    throw new Error(`mint() ${e}`)
+    throw new Error(`list() ${e}`)
   }
 }
 

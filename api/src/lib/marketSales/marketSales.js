@@ -4,7 +4,7 @@ import { db } from 'src/lib/db'
 import { checkGasAndAirdrop } from 'src/lib/web3/airdrop'
 import { list } from 'src/lib/web3/treasureMarket'
 
-// const PENDING_LISTED = 'PENDING_LISTED'
+const PENDING_LISTED = 'PENDING_LISTED'
 // const LISTED = 'LISTED'
 // const PENDING_SOLD = 'PENDING_SOLD'
 // const SOLD = 'SOLD'
@@ -25,11 +25,25 @@ export const validateListRequest = ({ treasure, amount }) => {
 
 export const createNewTreasureListing = async ({ treasure, amount }) => {
   try {
-    console.log(treasure)
     // Submit the transaction on behalf of the user
     const tx = await list({ treasure, amount })
 
     // Create the marketSale object
+    const marketSale = await db.marketSale.create({
+      data: {
+        amount,
+        treasure: { connect: { id: treasure.id } },
+        seller: { connect: { id: context.currentUser.id } },
+        listTx: {
+          create: {
+            data: {
+              id: tx.hash,
+            },
+          },
+        },
+      },
+    })
+    return marketSale
   } catch (e) {
     console.log(e)
     throw new Error('createNewTreasureListing() ', e)

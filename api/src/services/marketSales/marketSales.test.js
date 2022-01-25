@@ -5,7 +5,7 @@ jest.setTimeout(20000)
 
 describe('listTreasure', () => {
   scenario('Invalid amount', async (scenario) => {
-    mockCurrentUser({ id: scenario.member[0].id })
+    mockCurrentUser({ id: scenario.treasure[0].ownerId })
     try {
       await listTreasure({
         treasureId: scenario.treasure[0].id,
@@ -26,10 +26,15 @@ describe('listTreasure', () => {
       expect(e).toStrictEqual(new EnvelopError(`You don't own this Treasure.`))
     }
   })
-  scenario.skip('Already listed', async (scenario) => {
-    // TODO
-  })
-  scenario.skip('Happy case', async (scenario) => {
-    // TODO
+  // scenario('Already listed', async (scenario) => {
+  //   // TODO
+  // })
+  scenario('Happy case', async (scenario) => {
+    mockCurrentUser({ id: scenario.treasure[0].ownerId })
+    const response = await listTreasure({
+      treasureId: scenario.treasure[0].id,
+      amount: 1,
+    })
+    expect(response).toBe('TODO')
   })
 })

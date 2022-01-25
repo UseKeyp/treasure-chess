@@ -14,8 +14,6 @@ const gen = () => {
     .trim()
   const dateString = new Date().toString()
 
-  const iv = new Buffer(randomBytes(12), 'utf8')
-
   fs.appendFileSync(
     path.join(directoryPath, '.env'),
     `# Generated ${dateString}

@@ -26,8 +26,10 @@ const main = () => {
 // Git revision ${gitRevision}
 const content = "${encrypted.content}";
 const tag = "${encrypted.tag}";
+const iv = "${encrypted.iv}";
 module.exports.content = content
-module.exports.tag = tag`
+module.exports.tag = tag
+module.exports.iv = iv`
 
     fs.writeFileSync(
       path.join(directoryPath, `.env.${environment}.js.enc`),

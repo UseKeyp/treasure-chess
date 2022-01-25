@@ -17,12 +17,12 @@ const testDecryption = (environment = DEFAULT_ENVIRONMENT) => {
   console.log(`\nDecrypting .env.${environment}.js.enc`)
   var startTime = performance.now()
 
-  let { content, tag } = require(path.join(
+  let encrypted = require(path.join(
     directoryPath,
     `.env.${environment}.js.enc`
   ))
 
-  const decrypted = decrypt({ content, tag })
+  const decrypted = decrypt(encrypted)
 
   try {
     const parsed = JSON.parse(decrypted)

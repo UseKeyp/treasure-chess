@@ -7,9 +7,8 @@ dotenv.config()
 
 const ALGORITHM = 'aes-256-gcm'
 
-const decrypt = ({ tag, content }) => {
+const decrypt = ({ tag, content, iv }) => {
   const key = process.env.ENCRYPTION_KEY
-  const iv = process.env.ENCRYPTION_IV
   if (!key || !iv) throw 'No ENCRYPTION_KEY or ENCRYPTION_IV found in .env'
   const decipher = createDecipheriv(ALGORITHM, key, iv)
   decipher.setAuthTag(new Buffer(tag, 'hex'))
@@ -28,7 +27,7 @@ const encrypt = (plaintext) => {
   let encrypted = cipher.update(plaintext, 'utf8', 'hex')
   encrypted += cipher.final('hex')
   var tag = cipher.getAuthTag()
-  return { content: encrypted, tag: tag.toString('hex') }
+  return { content: encrypted, tag: tag.toString('hex'), iv }
 }
 
 module.exports = { decrypt, encrypt }

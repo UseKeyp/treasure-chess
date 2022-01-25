@@ -5,8 +5,6 @@ const { Buffer } = require('buffer')
 const dotenv = require('dotenv')
 dotenv.config()
 
-// const ALGORITHM = 'aes-256-cbc'
-// const ALGORITHM = 'aes-128-ctr'
 const ALGORITHM = 'aes-256-gcm'
 
 const decrypt = ({ tag, content }) => {

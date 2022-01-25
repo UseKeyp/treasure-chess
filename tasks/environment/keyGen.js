@@ -14,7 +14,7 @@ const gen = () => {
     .trim()
   const dateString = new Date().toString()
 
-  const iv = randomBytes(16)
+  const iv = new Buffer(randomBytes(12), 'utf8')
 
   fs.appendFileSync(
     path.join(directoryPath, '.env'),
@@ -24,7 +24,7 @@ const gen = () => {
 # NOTE: Any additions here must also be added to /scripts/encryptEnv/generateKey.js
 
 ENCRYPTION_KEY=${process.env.ENCRYPTION_KEY}
-ENCRYPTION_IV=${iv.toString('hex')}`,
+ENCRYPTION_IV=${iv}`,
     (err) => {
       if (err) throw err
     }

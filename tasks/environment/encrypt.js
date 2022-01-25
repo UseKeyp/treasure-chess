@@ -20,12 +20,14 @@ const main = () => {
     let plaintext = require(path.join(directoryPath, `.env.${environment}.js`))
     plaintext = JSON.stringify(plaintext)
 
-    const ciphertext = encrypt(plaintext)
+    const encrypted = encrypt(plaintext)
 
     const encContents = `// Generated ${dateString}
 // Git revision ${gitRevision}
-const secret = "${ciphertext}";
-module.exports = secret`
+const content = "${encrypted.content}";
+const tag = "${encrypted.tag}";
+module.exports.content = content
+module.exports.tag = tag`
 
     fs.writeFileSync(
       path.join(directoryPath, `.env.${environment}.js.enc`),

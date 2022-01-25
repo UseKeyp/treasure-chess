@@ -30,9 +30,11 @@ export const list = async ({ treasure, amount }) => {
         parseUnits(amount.toString(), process.env.DECIMALS_PAYMENT_TOKEN),
         process.env.CONTRACT_ADDRESS_PAYMENT_TOKEN
       )
-    const tx = await memberSendTransaction({ memberId, unsignedTx })
+    const tx = await memberSendTransaction({
+      memberId: treasure.ownerId,
+      unsignedTx,
+    })
     return tx
-    return { hash: '0x123' }
   } catch (e) {
     throw new Error(`list() ${e}`)
   }

@@ -8,12 +8,12 @@ dotenv.config()
 const environment = process.env.NODE_ENV || 'dev'
 
 const setupEnvironment = () => {
-  const ciphertext = require(path.join(
+  const encrypted = require(path.join(
     directoryPath,
     `./.env.${environment}.js.enc`
   ))
 
-  const decrypted = decrypt(ciphertext)
+  const decrypted = decrypt(encrypted)
   const env = JSON.parse(decrypted)
 
   Object.keys(env).map((key) => {

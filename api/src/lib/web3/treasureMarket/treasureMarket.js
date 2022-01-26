@@ -76,10 +76,9 @@ export const buy = async ({ treasure }) => {
 
     const treasureMarketContract = getTreasureMarketContract()
     const unsignedTx =
-      // TODO: Change with new contract deployment
-      // await treasureMarketContract.populateTransaction.tokenUnlistItem(
-      await treasureMarketContract.populateTransaction.tokenCancelSale(
-        treasure.tokenId
+      await treasureMarketContract.populateTransaction.tokenInstantBuy(
+        treasure.tokenId,
+        process.env.CONTRACT_ADDRESS_PAYMENT_TOKEN
       )
     const tx = await memberSendTransaction({
       memberId: treasure.ownerId,

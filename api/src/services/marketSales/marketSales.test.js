@@ -24,9 +24,17 @@ jest.mock('../../lib/web3/member', () => {
     })),
   }
 })
+jest.mock('../../lib/web3/tokens', () => {
+  return {
+    getUsdcBalance: jest.fn((address) => {
+      if (address === process.env.TEST_USER_PUBLIC_ADDRESS) return '100.0'
+      return '0'
+    }),
+  }
+})
 
 // NOTE: alice and bob own all the treasures
-describe.skip('listTreasure', () => {
+describe('listTreasure', () => {
   scenario('Invalid amount', async (scenario) => {
     mockCurrentUser({
       id: scenario.treasure[0].ownerId,
@@ -78,7 +86,7 @@ describe.skip('listTreasure', () => {
   })
 })
 
-describe.skip('unlistTreasure', () => {
+describe('unlistTreasure', () => {
   scenario('Not owner', async (scenario) => {
     mockCurrentUser({ id: 123, address: process.env.TEST_USER_PUBLIC_ADDRESS })
     try {
@@ -162,8 +170,8 @@ describe('buyTreasure', () => {
   })
   scenario('Not enough funds', async (scenario) => {
     mockCurrentUser({
-      id: scenario.treasure[1].id,
-      address: process.env.TEST_USER_PUBLIC_ADDRESS,
+      id: scenario.member.carol.id,
+      address: scenario.member.carol.address,
     })
     try {
       await buyTreasure({
@@ -177,44 +185,14 @@ describe('buyTreasure', () => {
       )
     }
   })
-  // scenario('Already listed', async (scenario) => {
-  //   // TODO
-  // })
-  // scenario('Happy case', async (scenario) => {
-  //   mockCurrentUser({
-  //     id: scenario.treasure[0].ownerId,
-  //     address: process.env.TEST_USER_PUBLIC_ADDRESS,
-  //   })
-  //   await listTreasure({
-  //     treasureId: scenario.treasure[0].id,
-  //     amount: 1,
-  //   })
-  //   await buyTreasure({
-  //     treasureId: scenario.treasure[0].id,
-  //     amount: 1,
-  //   })
-  //   try {
-  //     await buyTreasure({
-  //       treasureId: scenario.treasure[0].id,
-  //       amount: 1,
-  //     })
-  //   } catch (e) {
-  //     expect(e).toStrictEqual(new EnvelopError(`This Treasure is not listed.`))
-  //   }
-  // })
-  // scenario('Happy case', async (scenario) => {
-  //   mockCurrentUser({
-  //     id: scenario.treasure[0].ownerId,
-  //     address: process.env.TEST_USER_PUBLIC_ADDRESS,
-  //   })
-  //   await listTreasure({
-  //     treasureId: scenario.treasure[0].id,
-  //     amount: 1,
-  //   })
-  //   const response = await buyTreasure({
-  //     treasureId: scenario.treasure[0].id,
-  //     amount: 1,
-  //   })
-  //   expect(response.status).toBe('PENDING_DELISTED')
-  // })
+  scenario('Happy case', async (scenario) => {
+    mockCurrentUser({
+      id: scenario.member.carol.id,
+      address: process.env.TEST_USER_PUBLIC_ADDRESS,
+    })
+    const response = await buyTreasure({
+      treasureId: scenario.treasure[1].id,
+    })
+    expect(response.status).toBe('PENDING_SOLD')
+  })
 })

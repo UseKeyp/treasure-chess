@@ -55,8 +55,8 @@ const validatePurchaseRequest = async ({ treasure }) => {
 
   // Check balance
   const memberBalance = await getUsdcBalance(context.currentUser.address)
-  console.log(memberBalance)
-  if (memberBalance < currentMarketSale.amount)
+  console.log(Number(memberBalance))
+  if (Number(memberBalance) < currentMarketSale.amount)
     throw new EnvelopError(
       `You don't have enough funds to purchase this Treasure.`
     )

@@ -17,7 +17,7 @@ const SUBMITTED = 'SUBMITTED'
 const FAILED = 'FAILED'
 const COMPLETE = 'COMPLETE'
 
-const validateListRequest = ({ treasure, amount }) => {
+const validateCreateNewListingRequest = ({ treasure, amount }) => {
   if (!amount || typeof amount !== 'number' || amount <= 0)
     throw new EnvelopError(`Invalid amount.`)
 
@@ -29,7 +29,7 @@ const validateListRequest = ({ treasure, amount }) => {
     throw new EnvelopError(`This Treasure is already listed.`)
 }
 
-const validateUnlistRequest = ({ treasure }) => {
+const validateRemoveListingRequest = ({ treasure }) => {
   if (treasure.ownerId !== context.currentUser.id)
     throw new EnvelopError(`You don't own this Treasure.`)
 
@@ -38,31 +38,42 @@ const validateUnlistRequest = ({ treasure }) => {
     throw new EnvelopError(`This Treasure is not listed.`)
 }
 
-const processPendingTransactions = async ({ treasure }) => {
-  const transactions = await Promise.all(
-    ['listTx', 'unlistTx', 'saleTx'].map(async (txType) => {
-      const tx = treasure[txType]
-      if (!tx) return
-      if (tx.txStatus !== SUBMITTED) return
-      const txStatus = await getTxStatus(tx.id)
-      return await db.transaction.update({
-        where: { id: tx.id },
-        data: {
-          txStatus,
-        },
+export const processPendingTransactions = async ({ treasure }) => {
+  try {
+    const currentMarketSale = treasure.marketSales[0]
+    if (!currentMarketSale) return treasure
+    const { listTx, unlistTx, saleTx } = currentMarketSale
+    let transactions = { listTx, unlistTx, saleTx }
+    await Promise.all(
+      ['listTx', 'unlistTx', 'saleTx'].map(async (txType) => {
+        const tx = transactions[txType]
+        if (!tx) return tx
+        if (tx.txStatus !== SUBMITTED) return tx
+        const txStatus = await getTxStatus(tx.id)
+        const newTx = await db.transaction.update({
+          where: { id: tx.id },
+          data: {
+            txStatus,
+          },
+        })
+        // TODO: Update Market Sale `status` and `isClosed`
+        transactions[txType] = newTx
       })
-    })
-  )
-  console.log(transactions)
-  return transactions
+    )
+    const newtreasure = treasure
+    newtreasure.marketSales[0] = { ...currentMarketSale, ...transactions }
+    return newtreasure
+  } catch (e) {
+    /* eslint-disable-next-line no-console */
+    console.log(e)
+    throw new Error(e)
+  }
 }
 
 export const createNewTreasureListing = async ({ treasure, amount }) => {
-  validateListRequest({ treasure, amount })
-  await processPendingTransactions({ treasure })
+  const updatedTreasure = await processPendingTransactions({ treasure })
+  validateCreateNewListingRequest({ treasure: updatedTreasure, amount })
   try {
-    // TODO: Cleanup previous listing if necessary and set `isClosed` to true
-
     try {
       await checkGasAndAirdrop({ address: context.currentUser.address })
     } catch {
@@ -93,8 +104,8 @@ export const createNewTreasureListing = async ({ treasure, amount }) => {
 }
 
 export const removeTreasureListing = async ({ treasure }) => {
-  validateUnlistRequest({ treasure })
-  await processPendingTransactions({ treasure })
+  const updatedTreasure = await processPendingTransactions({ treasure })
+  validateRemoveListingRequest({ treasure: updatedTreasure })
   try {
     try {
       await checkGasAndAirdrop({ address: context.currentUser.address })

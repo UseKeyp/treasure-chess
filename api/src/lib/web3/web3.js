@@ -134,7 +134,7 @@ const getLogByTopic = ({ logs, topic }) => {
 }
 
 export const getTxReceipt = async (txHash) =>
-  web3Provider.getTransactionReceipt(mintPurchase.txHash)
+  web3Provider.getTransactionReceipt(txHash)
 
 export const getTxStatus = async (txHash) => {
   const receipt = await getTxReceipt(txHash)

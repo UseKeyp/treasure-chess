@@ -1,5 +1,6 @@
 import { EnvelopError } from '@envelop/core'
 import { listTreasure, unlistTreasure } from './marketSales'
+const { id } = require('@ethersproject/hash')
 
 jest.setTimeout(20000)
 jest.mock('../../lib/torus/torus', () => {
@@ -18,7 +19,9 @@ jest.mock('../../lib/web3/airdrop/airdrop', () => {
 jest.mock('../../lib/web3/member', () => {
   return {
     memberSendTransaction: jest.fn(() => ({
-      hash: `0xabc${Math.random(1000)}`,
+      hash: `0x56570de287d73cd1cb6092bb8fdee6173974955fdef345ae579ee9f475ea${Math.floor(
+        Math.random() * (9999 - 1000 + 1) + 1000
+      )}`,
     })),
   }
 })
@@ -79,6 +82,28 @@ describe('listTreasure', () => {
   // scenario('Already listed', async (scenario) => {
   //   // TODO
   // })
+  scenario('Happy case', async (scenario) => {
+    mockCurrentUser({
+      id: scenario.treasure[0].ownerId,
+      address: process.env.TEST_USER_PUBLIC_ADDRESS,
+    })
+    await listTreasure({
+      treasureId: scenario.treasure[0].id,
+      amount: 1,
+    })
+    await unlistTreasure({
+      treasureId: scenario.treasure[0].id,
+      amount: 1,
+    })
+    try {
+      await unlistTreasure({
+        treasureId: scenario.treasure[0].id,
+        amount: 1,
+      })
+    } catch (e) {
+      expect(e).toStrictEqual(new EnvelopError(`This Treasure is not listed.`))
+    }
+  })
   scenario('Happy case', async (scenario) => {
     mockCurrentUser({
       id: scenario.treasure[0].ownerId,

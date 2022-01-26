@@ -1,9 +1,13 @@
 .filterBarWrapper {
   position: -webkit-sticky;
-	position: sticky;
+  position: sticky;
   top: 25px;
   width: 480px;
   height: 100vh;
+
+  &[data-hide-on-mobile='true'] {
+    @apply hidden md:block;
+  }
 }
 .filterBar {
   display: flex;

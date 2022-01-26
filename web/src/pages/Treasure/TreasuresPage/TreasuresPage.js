@@ -4,6 +4,7 @@ import filters from '@treasure-chess/treasure-filters'
 import TreasuresFetcher from 'src/components/Treasure/TreasuresFetcher'
 import FilterBar from 'src/components/FilterBar/FilterBar'
 import SortingDropdown from 'src/components/SortingDropdown/SortingDropdown'
+import MobileMenu from 'src/components/MobileMenu/MobileMenu'
 
 import { useFilter } from 'src/providers/filters'
 
@@ -32,7 +33,19 @@ const TreasuresPage = () => {
             sort={new URLSearchParams(sort).toString()}
           />
         </div>
-        <FilterBar defaultParams={defaultParams} />
+        <FilterBar defaultParams={defaultParams} hideOnMobile />
+      </div>
+      <div className="mobile-filter">
+        <MobileMenu
+          direction="ltr"
+          triggerContents="Filter"
+          triggerProps={{ variant: 'grey', fluid: true }}
+          disableAutoClose
+        >
+          <div className="w-full flex justify-center items-center">
+            <FilterBar defaultParams={defaultParams} />
+          </div>
+        </MobileMenu>
       </div>
     </div>
   )

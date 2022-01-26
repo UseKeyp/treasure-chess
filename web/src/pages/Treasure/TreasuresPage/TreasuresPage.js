@@ -16,7 +16,7 @@ const defaultParams = {
 
 const TreasuresPage = () => {
   const { filter, sort, username } = useFilter()
-  
+
   return (
     <div>
       <MetaTags title="Treasures" />

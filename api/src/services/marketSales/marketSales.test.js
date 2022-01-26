@@ -1,6 +1,5 @@
 import { EnvelopError } from '@envelop/core'
 import { listTreasure, unlistTreasure } from './marketSales'
-const { id } = require('@ethersproject/hash')
 
 jest.setTimeout(20000)
 jest.mock('../../lib/torus/torus', () => {

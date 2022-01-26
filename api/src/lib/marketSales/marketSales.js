@@ -14,8 +14,6 @@ const PENDING_DELISTED = 'PENDING_DELISTED'
 
 // txStatus
 const SUBMITTED = 'SUBMITTED'
-const FAILED = 'FAILED'
-const COMPLETE = 'COMPLETE'
 
 const validateCreateNewListingRequest = ({ treasure, amount }) => {
   if (!amount || typeof amount !== 'number' || amount <= 0)

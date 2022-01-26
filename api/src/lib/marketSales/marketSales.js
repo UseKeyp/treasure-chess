@@ -5,10 +5,10 @@ import { checkGasAndAirdrop } from 'src/lib/web3/airdrop'
 import { getTxStatus } from 'src/lib/web3'
 import { list, unlist } from 'src/lib/web3/treasureMarket'
 
-// const PENDING_LISTED = 'PENDING_LISTED'
-// const LISTED = 'LISTED'
-// const PENDING_SOLD = 'PENDING_SOLD'
-// const SOLD = 'SOLD'
+const PENDING_LISTED = 'PENDING_LISTED'
+const LISTED = 'LISTED'
+const PENDING_SOLD = 'PENDING_SOLD'
+const SOLD = 'SOLD'
 const PENDING_DELISTED = 'PENDING_DELISTED'
 // const DELISTED = 'DELISTED'
 
@@ -34,6 +34,19 @@ const validateRemoveListingRequest = ({ treasure }) => {
   const currentMarketSale = treasure.marketSales[0]
   if (!currentMarketSale || currentMarketSale.isClosed)
     throw new EnvelopError(`This Treasure is not listed.`)
+}
+
+const validatePurchaseRequest = async ({ treasure }) => {
+  const currentMarketSale = treasure.marketSales[0]
+  if (!currentMarketSale || currentMarketSale.isClosed)
+    throw new EnvelopError(`This Treasure is not listed.`)
+
+  const validStatuses = [LISTED, PENDING_SOLD, PENDING_DELISTED]
+  if (!validStatuses.includes(currentMarketSale.status))
+    throw new EnvelopError(`This Treasure is not listed.`)
+
+  if (treasure.ownerId !== context.currentUser.id)
+    throw new EnvelopError(`You don't own this Treasure.`)
 }
 
 export const processPendingTransactions = async ({ treasure }) => {
@@ -64,7 +77,7 @@ export const processPendingTransactions = async ({ treasure }) => {
   } catch (e) {
     /* eslint-disable-next-line no-console */
     console.log(e)
-    throw new Error(e)
+    throw new Error('processPendingTransactions()', e)
   }
 }
 
@@ -131,6 +144,40 @@ export const removeTreasureListing = async ({ treasure }) => {
   } catch (e) {
     /* eslint-disable-next-line no-console */
     console.log(e)
-    throw new Error('createNewTreasureListing() ', e)
+    throw new Error('removeTreasureListing() ', e)
+  }
+}
+
+export const purchaseTreasure = async ({ treasure }) => {
+  const updatedTreasure = await processPendingTransactions({ treasure })
+  validatePurchaseRequest({ treasure: updatedTreasure })
+  try {
+    // try {
+    //   await checkGasAndAirdrop({ address: context.currentUser.address })
+    // } catch {
+    //   // Do nothing
+    // }
+    // // Submit the transaction on behalf of the user
+    // const tx = await unlist({ treasure })
+    //
+    // // Update the marketSale object
+    // const marketSale = await db.marketSale.update({
+    //   where: {
+    //     id: treasure.marketSales[0].id,
+    //   },
+    //   data: {
+    //     status: PENDING_DELISTED,
+    //     unlistTx: {
+    //       create: {
+    //         id: tx.hash,
+    //       },
+    //     },
+    //   },
+    // })
+    // return marketSale
+  } catch (e) {
+    /* eslint-disable-next-line no-console */
+    console.log(e)
+    throw new Error('removeTreasureListing() ', e)
   }
 }

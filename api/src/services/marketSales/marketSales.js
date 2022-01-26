@@ -2,6 +2,7 @@ import { db } from 'src/lib/db'
 import {
   createNewTreasureListing,
   removeTreasureListing,
+  purchaseTreasure,
 } from 'src/lib/marketSales'
 
 export const marketSales = () => {
@@ -40,6 +41,20 @@ export const unlistTreasure = async ({ treasureId }) => {
     },
   })
   return removeTreasureListing({ treasure })
+}
+
+export const buyTreasure = async ({ treasureId }) => {
+  const treasure = await db.treasure.findUnique({
+    where: { id: treasureId },
+    include: {
+      marketSales: {
+        orderBy: { updatedAt: 'desc' },
+        include: { listTx: true, unlistTx: true, saleTx: true },
+      },
+      owner: true,
+    },
+  })
+  return purchaseTreasure({ treasure })
 }
 
 export const MarketSale = {

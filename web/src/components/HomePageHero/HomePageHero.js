@@ -1,7 +1,8 @@
 import Button from 'src/components/Button/Button'
 import { getCardHtml } from '@treasure-chess/treasure-html'
+import { game } from './data.js'
 
-const TreasureHomeChess = ({ game }) => {
+const HomePageHero = () => {
   const [card, setCard] = React.useState()
   const update = async () => {
     const raw = await getCardHtml({
@@ -35,4 +36,4 @@ const TreasureHomeChess = ({ game }) => {
   )
 }
 
-export default TreasureHomeChess
+export default HomePageHero

@@ -2,6 +2,7 @@ import { EnvelopError } from '@envelop/core'
 
 import { db } from 'src/lib/db'
 import { checkGasAndAirdrop } from 'src/lib/web3/airdrop'
+import { getUsdcBalance } from 'src/lib/web3/tokens'
 import { getTxStatus } from 'src/lib/web3'
 import { list, unlist } from 'src/lib/web3/treasureMarket'
 
@@ -32,21 +33,33 @@ const validateRemoveListingRequest = ({ treasure }) => {
     throw new EnvelopError(`You don't own this Treasure.`)
 
   const currentMarketSale = treasure.marketSales[0]
-  if (!currentMarketSale || currentMarketSale.isClosed)
+  if (
+    !currentMarketSale ||
+    currentMarketSale.isClosed ||
+    currentMarketSale.status === PENDING_LISTED
+  )
     throw new EnvelopError(`This Treasure is not listed.`)
 }
 
 const validatePurchaseRequest = async ({ treasure }) => {
   const currentMarketSale = treasure.marketSales[0]
   if (!currentMarketSale || currentMarketSale.isClosed)
-    throw new EnvelopError(`This Treasure is not listed.`)
+    throw new EnvelopError('This Treasure is not for sale.')
+
+  if (treasure.ownerId === context.currentUser.id)
+    throw new EnvelopError('You cannot buy your own Treasure.')
 
   const validStatuses = [LISTED, PENDING_SOLD, PENDING_DELISTED]
   if (!validStatuses.includes(currentMarketSale.status))
-    throw new EnvelopError(`This Treasure is not listed.`)
+    throw new EnvelopError('This Treasure is not for sale.')
 
-  if (treasure.ownerId !== context.currentUser.id)
-    throw new EnvelopError(`You don't own this Treasure.`)
+  // Check balance
+  const memberBalance = await getUsdcBalance(context.currentUser.address)
+  console.log(memberBalance)
+  if (memberBalance < currentMarketSale.amount)
+    throw new EnvelopError(
+      `You don't have enough funds to purchase this Treasure.`
+    )
 }
 
 export const processPendingTransactions = async ({ treasure }) => {
@@ -150,7 +163,7 @@ export const removeTreasureListing = async ({ treasure }) => {
 
 export const purchaseTreasure = async ({ treasure }) => {
   const updatedTreasure = await processPendingTransactions({ treasure })
-  validatePurchaseRequest({ treasure: updatedTreasure })
+  await validatePurchaseRequest({ treasure: updatedTreasure })
   try {
     // try {
     //   await checkGasAndAirdrop({ address: context.currentUser.address })

@@ -25,11 +25,12 @@ jest.mock('../../lib/web3/member', () => {
   }
 })
 
+// NOTE: alice and bob own all the treasures
 describe.skip('listTreasure', () => {
   scenario('Invalid amount', async (scenario) => {
     mockCurrentUser({
       id: scenario.treasure[0].ownerId,
-      address: process.env.TEST_USER_PUBLIC_ADDRESS,
+      address: scenario.member.alice.address,
     })
     try {
       await listTreasure({
@@ -40,8 +41,8 @@ describe.skip('listTreasure', () => {
       expect(e).toStrictEqual(new EnvelopError(`Invalid amount.`))
     }
   })
-  scenario('Invalid member', async (scenario) => {
-    mockCurrentUser({ id: 123, address: process.env.TEST_USER_PUBLIC_ADDRESS })
+  scenario('Not owner', async (scenario) => {
+    mockCurrentUser({ id: 1111, address: scenario.member.alice.address })
     try {
       await listTreasure({
         treasureId: scenario.treasure[0].id,
@@ -51,9 +52,19 @@ describe.skip('listTreasure', () => {
       expect(e).toStrictEqual(new EnvelopError(`You don't own this Treasure.`))
     }
   })
-  // scenario('Already listed', async (scenario) => {
-  //   // TODO
-  // })
+  scenario('Already listed', async (scenario) => {
+    mockCurrentUser({ id: scenario.treasure[1].ownerId })
+    try {
+      await listTreasure({
+        treasureId: scenario.treasure[1].id,
+        amount: 1,
+      })
+    } catch (e) {
+      expect(e).toStrictEqual(
+        new EnvelopError(`This Treasure is already listed.`)
+      )
+    }
+  })
   scenario('Happy case', async (scenario) => {
     mockCurrentUser({
       id: scenario.treasure[0].ownerId,
@@ -67,37 +78,42 @@ describe.skip('listTreasure', () => {
   })
 })
 
-describe.skip('listTreasure', () => {
-  scenario('Invalid member', async (scenario) => {
+describe.skip('unlistTreasure', () => {
+  scenario('Not owner', async (scenario) => {
     mockCurrentUser({ id: 123, address: process.env.TEST_USER_PUBLIC_ADDRESS })
     try {
       await unlistTreasure({
-        treasureId: scenario.treasure[0].id,
+        treasureId: scenario.treasure[1].id,
       })
     } catch (e) {
       expect(e).toStrictEqual(new EnvelopError(`You don't own this Treasure.`))
     }
   })
-  // scenario('Already listed', async (scenario) => {
-  //   // TODO
-  // })
-  scenario('Happy case', async (scenario) => {
+  scenario('Not listed', async (scenario) => {
     mockCurrentUser({
       id: scenario.treasure[0].ownerId,
       address: process.env.TEST_USER_PUBLIC_ADDRESS,
     })
-    await listTreasure({
-      treasureId: scenario.treasure[0].id,
-      amount: 1,
-    })
-    await unlistTreasure({
-      treasureId: scenario.treasure[0].id,
-      amount: 1,
-    })
     try {
       await unlistTreasure({
         treasureId: scenario.treasure[0].id,
+      })
+    } catch (e) {
+      expect(e).toStrictEqual(new EnvelopError(`This Treasure is not listed.`))
+    }
+  })
+  scenario('Pending listing', async (scenario) => {
+    mockCurrentUser({
+      id: scenario.treasure[0].ownerId,
+      address: process.env.TEST_USER_PUBLIC_ADDRESS,
+    })
+    try {
+      await listTreasure({
+        treasureId: scenario.treasure[0].id,
         amount: 1,
+      })
+      await unlistTreasure({
+        treasureId: scenario.treasure[0].id,
       })
     } catch (e) {
       expect(e).toStrictEqual(new EnvelopError(`This Treasure is not listed.`))
@@ -105,30 +121,60 @@ describe.skip('listTreasure', () => {
   })
   scenario('Happy case', async (scenario) => {
     mockCurrentUser({
-      id: scenario.treasure[0].ownerId,
+      id: scenario.treasure[1].ownerId,
       address: process.env.TEST_USER_PUBLIC_ADDRESS,
     })
-    await listTreasure({
-      treasureId: scenario.treasure[0].id,
-      amount: 1,
-    })
     const response = await unlistTreasure({
-      treasureId: scenario.treasure[0].id,
-      amount: 1,
+      treasureId: scenario.treasure[1].id,
     })
     expect(response.status).toBe('PENDING_DELISTED')
   })
 })
 
 describe('buyTreasure', () => {
-  scenario('Invalid treasure', async (scenario) => {
-    mockCurrentUser({ id: 123, address: process.env.TEST_USER_PUBLIC_ADDRESS })
+  scenario('Cannot buy own treasure', async (scenario) => {
+    mockCurrentUser({
+      id: scenario.treasure[1].ownerId,
+    })
+    try {
+      await buyTreasure({
+        treasureId: scenario.treasure[1].id,
+      })
+    } catch (e) {
+      expect(e).toStrictEqual(
+        new EnvelopError(`You cannot buy your own Treasure.`)
+      )
+    }
+  })
+  scenario('Not for sale', async (scenario) => {
+    mockCurrentUser({
+      id: scenario.treasure[0].ownerId,
+    })
     try {
       await buyTreasure({
         treasureId: scenario.treasure[0].id,
       })
     } catch (e) {
-      expect(e).toStrictEqual(new EnvelopError(`You don't own this Treasure.`))
+      expect(e).toStrictEqual(
+        new EnvelopError(`This Treasure is not for sale.`)
+      )
+    }
+  })
+  scenario('Not enough funds', async (scenario) => {
+    mockCurrentUser({
+      id: scenario.treasure[1].id,
+      address: process.env.TEST_USER_PUBLIC_ADDRESS,
+    })
+    try {
+      await buyTreasure({
+        treasureId: scenario.treasure[1].id,
+      })
+    } catch (e) {
+      expect(e).toStrictEqual(
+        new EnvelopError(
+          `You don't have enough funds to purchase this Treasure.`
+        )
+      )
     }
   })
   // scenario('Already listed', async (scenario) => {

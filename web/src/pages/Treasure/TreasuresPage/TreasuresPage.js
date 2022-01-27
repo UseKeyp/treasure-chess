@@ -32,9 +32,14 @@ const TreasuresPage = () => {
           triggerContents="Filter"
           triggerProps={{ variant: 'grey', fluid: true }}
           disableAutoClose
+          title="Filter"
         >
           <div className="w-full flex justify-center items-center">
-            <FilterBar defaultParams={defaultParams} />
+            <FilterBar
+              defaultParams={defaultParams}
+              showScrollbar
+              extendAchievements
+            />
           </div>
         </MobileMenu>
       </div>

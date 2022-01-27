@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
 
 import Button from 'src/components/Button/Button'
+import Icon from 'src/components/Icon/Icon'
 
 const MobileMenu = ({
   children,
@@ -11,6 +12,7 @@ const MobileMenu = ({
   triggerContents,
   triggerProps,
   disableAutoClose,
+  title,
 }) => {
   const [showMenu, setShowMenu] = useState(isOpen)
   const childrenContainerRef = useRef(null)
@@ -40,10 +42,17 @@ const MobileMenu = ({
 
   return createPortal(
     <div className="mobile-menu" data-direction={direction}>
-      <div className="flex justify-end items-center p-4 w-full">
-        <Button onClick={() => setShowMenu(false)}>&times;</Button>
+      <div
+        className={`flex justify-${
+          title ? 'between' : 'end'
+        } items-center p-4 w-full`}
+      >
+        {title ? <div className="mobile-menu--title">{title}</div> : null}
+        <Button onClick={() => setShowMenu(false)}>
+          <Icon name="close_x" />
+        </Button>
       </div>
-      <div className="mt-4 p-4" ref={childrenContainerRef}>
+      <div className="px-4" ref={childrenContainerRef}>
         {children}
       </div>
     </div>,
@@ -64,6 +73,7 @@ MobileMenu.propTypes = {
     .isRequired,
   disableAutoClose: PropTypes.bool,
   triggerProps: PropTypes.object,
+  title: PropTypes.string,
 }
 
 export default MobileMenu

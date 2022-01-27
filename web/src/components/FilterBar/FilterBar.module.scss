@@ -23,8 +23,10 @@
   max-height: 1025px;
   overflow-y: auto;
   overflow-x: hidden;
-  &::-webkit-scrollbar {
-    display: none;
+  &:not([data-show-scrollbar='true']) {
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 }
 

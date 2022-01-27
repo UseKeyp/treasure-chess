@@ -34,6 +34,8 @@ const AchievementScroll = (props) => {
         id="achievements"
         onScroll={filterBarPosition}
         className={styles.achievementScrollArea}
+        data-extend-scroll-area={props.extendScrollArea || false}
+        data-show-scrollbar={props.showScrollbar || false}
       >
         {achievements?.map((cheeve, index) => {
           return (
@@ -60,7 +62,10 @@ const AchievementScroll = (props) => {
         })}
       </div>
       <div className={gradientTop && styles.topGradient} />
-      <div className={gradientBottom && styles.bottomGradient} />
+      <div
+        className={gradientBottom && styles.bottomGradient}
+        data-extend-scroll-area={props.extendScrollArea || false}
+      />
     </div>
   )
 }

@@ -38,6 +38,10 @@ export const schema = gql`
     unlistTreasure(treasureId: String!): MarketSale! @requireAuth
   }
 
+  type Mutation {
+    listTreasure(treasureId: String!, amount: Int!): MarketSale! @requireAuth
+  }
+
   input CreateMarketSaleInput {
     listedAt: DateTime!
     treasureId: String!

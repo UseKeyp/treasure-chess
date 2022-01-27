@@ -5,12 +5,12 @@ import styles from './SearchBar.module.scss'
  * @param {Function} changeHandler Pass a function via props to be triggered on value change
  * Renders a styled interactive searchbar that has a value change event listener
  */
-const SearchBar = ({ value, changeHandler }) => {
+const SearchBar = ({ value, changeHandler, placeholder }) => {
   return (
     <div className={styles.searchBarContainer}>
       <input
         type="text"
-        placeholder={'Search Marketplace'}
+        placeholder={placeholder ? placeholder : 'Search Marketplace'}
         className={styles.searchBar}
         value={value}
         onChange={(e) => changeHandler(e.target.value)}

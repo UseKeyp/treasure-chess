@@ -3,6 +3,7 @@ import { MetaTags } from '@redwoodjs/web'
 import TreasureMovesCell from 'src/components/Treasure/TreasureMovesCell'
 import TreasureSocialCell from 'src/components/Treasure/TreasureSocialCell'
 import TreasureCardCell from 'src/components/Treasure/TreasureCardCell'
+import ItemSaleInteractionCell from 'src/components/ItemSaleInteractionCell/ItemSaleInteractionCell'
 
 const TreasurePage = ({ tokenId }) => {
   return (
@@ -18,7 +19,10 @@ const TreasurePage = ({ tokenId }) => {
         <div className="flex justify-center">
           <TreasureCardCell tokenId={tokenId} />
         </div>
-        <TreasureSocialCell tokenId={tokenId} />
+        <div>
+          <ItemSaleInteractionCell />
+          <TreasureSocialCell tokenId={tokenId} />
+        </div>
         <TreasureMovesCell tokenId={tokenId} />
       </div>
     </div>

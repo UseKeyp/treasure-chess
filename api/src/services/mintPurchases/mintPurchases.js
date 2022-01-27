@@ -32,7 +32,7 @@ export const mintWithCredit = async ({ gameId, endTime, title }) => {
       },
     })
     try {
-      await checkGasAndAirdrop({ address: context.currentUser.address })
+      await checkGasAndAirdrop({ member: context.currentUser })
     } catch {
       // Do nothing
     }

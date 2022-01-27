@@ -7,7 +7,6 @@ import { isProduction } from 'src/lib/helpers'
 const DISCORD_WYRE_DASHBOARD_URL = isProduction
   ? 'https://www.wyre.com/#/dashboard'
   : 'https://www.testwyre.com/#/dashboard'
-const DISCORD_MESSAGE_TITLE = isProduction ? '[prod]' : '[dev]'
 
 const validateMintOrder = (order) => {
   try {
@@ -66,7 +65,7 @@ export const processOrder = async ({ reservation, orderId }) => {
     await sendDiscordAlert({
       embed: {
         color: 16740982,
-        title: `${DISCORD_MESSAGE_TITLE}  ⛈️💳  Failed to process Wyre Order!`,
+        title: `⛈️💳  Failed to process Wyre Order!`,
         description: `Wyre order ID: ${orderId}
 
 ${e}
@@ -77,6 +76,7 @@ ${e}
         },
         type: 'link',
       },
+      channelName: 'orders',
     })
     Sentry.captureException(e)
   }

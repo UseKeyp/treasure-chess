@@ -1,6 +1,6 @@
 # Environments
 
-###aes-256-gcm
+### aes-256-gcm
 
 - Initialization vector (iv) has 12 bytes (96 bits). Must be unique but not necessarily random. New iv should be generated each time.
 
@@ -16,7 +16,11 @@ NOTE: A new iv must be generated for each new production encrypted file.
 node tasks/environment/keyGen
 ```
 
-The `.env` will be updated with the new secret and a fresh initialization vector (iv). Note that the iv can be re-used with new secrets.
+3. Encrypt the files. Change `ENVIRONMENT_LIST`, then run
+
+```bash
+node tasks/environment/encrypt
+```
 
 ### Example implementations
 

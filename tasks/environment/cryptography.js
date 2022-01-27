@@ -20,7 +20,7 @@ const decrypt = ({ tag, content, iv }) => {
 
 const encrypt = (plaintext) => {
   const key = process.env.ENCRYPTION_KEY
-  const iv = process.env.ENCRYPTION_IV
+  const iv = randomBytes(16).toString('hex')
   if (!key || key.length < 24 || !iv) throw new Error('Missing key or iv')
   const cipher = createCipheriv(ALGORITHM, key, iv)
 

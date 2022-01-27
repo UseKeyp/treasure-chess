@@ -5,7 +5,9 @@ const { decrypt, encrypt } = require('./cryptography')
 const directoryPath = path.join(__dirname, '../../')
 const testDecryption = require('./testDecryption')
 
-const ENVIRONMENT_LIST = ['dev', 'sandbox', 'staging', 'prod']
+// const ENVIRONMENT_LIST = ['dev', 'sandbox']
+// const ENVIRONMENT_LIST = ['staging']
+// const ENVIRONMENT_LIST = ['prod']
 
 const main = () => {
   ENVIRONMENT_LIST.map((environment) => {
@@ -29,7 +31,8 @@ const tag = "${encrypted.tag}";
 const iv = "${encrypted.iv}";
 module.exports.content = content
 module.exports.tag = tag
-module.exports.iv = iv`
+module.exports.iv = iv
+`
 
     fs.writeFileSync(
       path.join(directoryPath, `.env.${environment}.js.enc`),

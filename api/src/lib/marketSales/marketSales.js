@@ -12,9 +12,7 @@ const PENDING_SOLD = 'PENDING_SOLD'
 const SOLD = 'SOLD'
 const PENDING_DELISTED = 'PENDING_DELISTED'
 const COMPLETE = 'COMPLETE'
-
-// txStatus
-const SUBMITTED = 'SUBMITTED'
+const DELISTED = 'DELISTED'
 
 const validateCreateNewListingRequest = ({ treasure, amount }) => {
   if (!amount || typeof amount !== 'number' || amount <= 0)

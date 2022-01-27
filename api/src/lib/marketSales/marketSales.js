@@ -65,9 +65,10 @@ export const processPendingTransactions = async ({ treasure }) => {
   try {
     // WARNING: the next line doesn't account for re-orgs.
     // marketSales marked completed are not re-checked
-    const currentMarketSale = treasure.marketSales[0]
+    let currentMarketSale = treasure.marketSales[0]
     if (!currentMarketSale) return treasure
-    let { status, isClosed } = currentMarketSale
+    let { isClosed } = currentMarketSale
+    if (isClosed) return treasure
     let transactions = {}
 
     await Promise.all(
@@ -76,38 +77,49 @@ export const processPendingTransactions = async ({ treasure }) => {
         if (!tx) return
 
         // Check them all
-        const txStatus = await getTxStatus(tx.id)
-        if (txStatus !== tx.status) {
+        const newStatus = await getTxStatus(tx.id)
+        if (newStatus !== tx.status) {
           // Status has changed
           tx = await db.transaction.update({
             where: { id: tx.id },
             data: {
-              status: txStatus,
+              status: newStatus,
             },
           })
           transactions[type] = tx
 
           if (type === 'listTx' && tx.status === COMPLETE) {
-            await db.marketSale.update({
+            currentMarketSale = await db.marketSale.update({
+              where: { id: currentMarketSale.id },
+              data: { status: LISTED },
+            })
+          } else if (type === 'unlistTx' && tx.status === COMPLETE) {
+            isClosed = true
+            currentMarketSale = await db.marketSale.update({
               where: { id: currentMarketSale.id },
               data: {
-                status: LISTED,
+                status: DELISTED,
+                isClosed: true,
               },
             })
           }
-
-          if (type === 'unlistTx') {
-          }
         }
-
-        // TODO: Update Market Sale `status` and `isClosed`
-        transactions[type] = newTx
+        transactions[type] = tx
       })
     )
+
+    await Promies.all(
+      currentMarketSale.saleTransactions.map((tx) => {
+        const newStatus = await getTxStatus(tx.id)
+        if (newStatus !== tx.status) {
+          // do something
+        }
+      })
+    )
+
     const newtreasure = treasure
     newtreasure.marketSales[0] = {
       ...currentMarketSale,
-      status,
       isClosed,
       ...transactions,
     }

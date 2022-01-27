@@ -34,7 +34,7 @@ jest.mock('../../lib/web3/tokens', () => {
 })
 
 // NOTE: alice and bob own all the treasures
-describe('listTreasure', () => {
+describe.skip('listTreasure', () => {
   scenario('Invalid amount', async (scenario) => {
     mockCurrentUser({
       id: scenario.treasure[0].ownerId,
@@ -86,7 +86,7 @@ describe('listTreasure', () => {
   })
 })
 
-describe('unlistTreasure', () => {
+describe.skip('unlistTreasure', () => {
   scenario('Not owner', async (scenario) => {
     mockCurrentUser({ id: 123, address: process.env.TEST_USER_PUBLIC_ADDRESS })
     try {

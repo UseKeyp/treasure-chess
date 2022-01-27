@@ -11,7 +11,7 @@ const LISTED = 'LISTED'
 const PENDING_SOLD = 'PENDING_SOLD'
 const SOLD = 'SOLD'
 const PENDING_DELISTED = 'PENDING_DELISTED'
-// const DELISTED = 'DELISTED'
+const COMPLETE = 'COMPLETE'
 
 // txStatus
 const SUBMITTED = 'SUBMITTED'
@@ -63,28 +63,54 @@ const validatePurchaseRequest = async ({ treasure }) => {
 
 export const processPendingTransactions = async ({ treasure }) => {
   try {
+    // WARNING: the next line doesn't account for re-orgs.
+    // marketSales marked completed are not re-checked
     const currentMarketSale = treasure.marketSales[0]
     if (!currentMarketSale) return treasure
-    const { listTx, unlistTx, saleTx } = currentMarketSale
-    let transactions = { listTx, unlistTx, saleTx }
+    let { status, isClosed } = currentMarketSale
+    let transactions = {}
+
     await Promise.all(
-      ['listTx', 'unlistTx', 'saleTx'].map(async (txType) => {
-        const tx = transactions[txType]
-        if (!tx) return tx
-        if (tx.txStatus !== SUBMITTED) return tx
+      ['listTx', 'unlistTx'].map(async (type) => {
+        let tx = currentMarketSale[type]
+        if (!tx) return
+
+        // Check them all
         const txStatus = await getTxStatus(tx.id)
-        const newTx = await db.transaction.update({
-          where: { id: tx.id },
-          data: {
-            txStatus,
-          },
-        })
+        if (txStatus !== tx.status) {
+          // Status has changed
+          tx = await db.transaction.update({
+            where: { id: tx.id },
+            data: {
+              status: txStatus,
+            },
+          })
+          transactions[type] = tx
+
+          if (type === 'listTx' && tx.status === COMPLETE) {
+            await db.marketSale.update({
+              where: { id: currentMarketSale.id },
+              data: {
+                status: LISTED,
+              },
+            })
+          }
+
+          if (type === 'unlistTx') {
+          }
+        }
+
         // TODO: Update Market Sale `status` and `isClosed`
-        transactions[txType] = newTx
+        transactions[type] = newTx
       })
     )
     const newtreasure = treasure
-    newtreasure.marketSales[0] = { ...currentMarketSale, ...transactions }
+    newtreasure.marketSales[0] = {
+      ...currentMarketSale,
+      status,
+      isClosed,
+      ...transactions,
+    }
     return newtreasure
   } catch (e) {
     /* eslint-disable-next-line no-console */
@@ -179,7 +205,7 @@ export const purchaseTreasure = async ({ treasure }) => {
       },
       data: {
         status: PENDING_SOLD,
-        saleTx: {
+        saleTransactions: {
           create: {
             id: tx.hash,
           },

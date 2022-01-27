@@ -35,7 +35,7 @@ treasure[1].data.marketSales = {
         id: `0x56570de287d73cd1cb6092bb8fdee6173974955fdef345ae579ee9f475ea${Math.floor(
           Math.random() * (9999 - 1000 + 1) + 1000
         )}`,
-        txStatus: 'COMPLETE',
+        status: 'COMPLETE',
       },
     },
   },

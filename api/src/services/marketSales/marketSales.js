@@ -21,7 +21,7 @@ export const listTreasure = async ({ treasureId, amount }) => {
     include: {
       marketSales: {
         orderBy: { updatedAt: 'desc' },
-        include: { listTx: true, unlistTx: true, saleTx: true },
+        include: { listTx: true, unlistTx: true, saleTransactions: true },
       },
       owner: true,
     },
@@ -35,7 +35,7 @@ export const unlistTreasure = async ({ treasureId }) => {
     include: {
       marketSales: {
         orderBy: { updatedAt: 'desc' },
-        include: { listTx: true, unlistTx: true, saleTx: true },
+        include: { listTx: true, unlistTx: true, saleTransactions: true },
       },
       owner: true,
     },
@@ -49,7 +49,7 @@ export const buyTreasure = async ({ treasureId }) => {
     include: {
       marketSales: {
         orderBy: { updatedAt: 'desc' },
-        include: { listTx: true, unlistTx: true, saleTx: true },
+        include: { listTx: true, unlistTx: true, saleTransactions: true },
       },
       owner: true,
     },
@@ -68,6 +68,6 @@ export const MarketSale = {
     db.marketSale.findUnique({ where: { id: root.id } }).listTx(),
   unlistTx: (_obj, { root }) =>
     db.marketSale.findUnique({ where: { id: root.id } }).unlistTx(),
-  saleTx: (_obj, { root }) =>
-    db.marketSale.findUnique({ where: { id: root.id } }).saleTx(),
+  saleTransactions: (_obj, { root }) =>
+    db.marketSale.findUnique({ where: { id: root.id } }).saleTransactions(),
 }

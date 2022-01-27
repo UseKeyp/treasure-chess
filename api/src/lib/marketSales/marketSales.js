@@ -61,16 +61,17 @@ const validatePurchaseRequest = async ({ treasure }) => {
     )
 }
 
-export const processPendingTransactions = async ({ treasure }) => {
+export const processPendingMarketTransactions = async ({ treasure }) => {
   try {
     // WARNING: the next line doesn't account for re-orgs.
     // marketSales marked completed are not re-checked
     let currentMarketSale = treasure.marketSales[0]
     if (!currentMarketSale) return treasure
-    let { isClosed } = currentMarketSale
-    if (isClosed) return treasure
+    if (currentMarketSale.isClosed) return treasure
     let transactions = {}
+    let newMarketSale = currentMarketSale
 
+    // List and Unlist transactions
     await Promise.all(
       ['listTx', 'unlistTx'].map(async (type) => {
         let tx = currentMarketSale[type]
@@ -82,25 +83,19 @@ export const processPendingTransactions = async ({ treasure }) => {
           // Status has changed
           tx = await db.transaction.update({
             where: { id: tx.id },
-            data: {
-              status: newStatus,
-            },
+            data: { status: newStatus },
           })
           transactions[type] = tx
 
           if (type === 'listTx' && tx.status === COMPLETE) {
-            currentMarketSale = await db.marketSale.update({
+            newMarketSale = await db.marketSale.update({
               where: { id: currentMarketSale.id },
               data: { status: LISTED },
             })
           } else if (type === 'unlistTx' && tx.status === COMPLETE) {
-            isClosed = true
-            currentMarketSale = await db.marketSale.update({
+            newMarketSale = await db.marketSale.update({
               where: { id: currentMarketSale.id },
-              data: {
-                status: DELISTED,
-                isClosed: true,
-              },
+              data: { status: DELISTED, isClosed: true },
             })
           }
         }
@@ -108,31 +103,42 @@ export const processPendingTransactions = async ({ treasure }) => {
       })
     )
 
-    await Promies.all(
-      currentMarketSale.saleTransactions.map((tx) => {
+    // Sale transactions
+    await Promise.all(
+      currentMarketSale.saleTransactions.map(async (tx, index) => {
+        // Check them all
         const newStatus = await getTxStatus(tx.id)
         if (newStatus !== tx.status) {
-          // do something
+          tx = await db.transaction.update({
+            where: { id: tx.id },
+            data: { status: newStatus },
+          })
+          if (tx.status === COMPLETE) {
+            newMarketSale = await db.marketSale.update({
+              where: { id: currentMarketSale.id },
+              data: { status: SOLD, isClosed: true },
+            })
+          }
         }
+        transactions.saleTransactions[index] = { ...tx, status: newStatus }
       })
     )
 
     const newtreasure = treasure
     newtreasure.marketSales[0] = {
-      ...currentMarketSale,
-      isClosed,
+      ...newMarketSale,
       ...transactions,
     }
     return newtreasure
   } catch (e) {
     /* eslint-disable-next-line no-console */
     console.log(e)
-    throw new Error('processPendingTransactions()', e)
+    throw new Error('processPendingMarketTransactions()', e)
   }
 }
 
 export const createNewTreasureListing = async ({ treasure, amount }) => {
-  const updatedTreasure = await processPendingTransactions({ treasure })
+  const updatedTreasure = await processPendingMarketTransactions({ treasure })
   validateCreateNewListingRequest({ treasure: updatedTreasure, amount })
   try {
     try {
@@ -165,7 +171,7 @@ export const createNewTreasureListing = async ({ treasure, amount }) => {
 }
 
 export const removeTreasureListing = async ({ treasure }) => {
-  const updatedTreasure = await processPendingTransactions({ treasure })
+  const updatedTreasure = await processPendingMarketTransactions({ treasure })
   validateRemoveListingRequest({ treasure: updatedTreasure })
   try {
     try {
@@ -199,7 +205,7 @@ export const removeTreasureListing = async ({ treasure }) => {
 }
 
 export const purchaseTreasure = async ({ treasure }) => {
-  const updatedTreasure = await processPendingTransactions({ treasure })
+  const updatedTreasure = await processPendingMarketTransactions({ treasure })
   await validatePurchaseRequest({ treasure: updatedTreasure })
   try {
     try {

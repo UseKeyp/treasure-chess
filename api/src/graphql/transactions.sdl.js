@@ -3,7 +3,7 @@ export const schema = gql`
     id: String!
     createdAt: DateTime!
     updatedAt: DateTime!
-    txStatus: TxStatus!
+    status: TxStatus!
     MarketSaleList: MarketSale
     MarketSaleUnlist: MarketSale
     MarketSaleSale: MarketSale

@@ -14,7 +14,7 @@ const ItemSaleInteraction = ({
 
   return isLoading || (!marketSales && isError) ? (
     <SaleSkeleton />
-  ) : isOwner || marketSales.sellerId === currentUser.id ? (
+  ) : isOwner || marketSales.sellerId === currentUser?.id ? (
     <OwnerSaleInteraction
       marketSales={marketSales}
       onClick={onClick}

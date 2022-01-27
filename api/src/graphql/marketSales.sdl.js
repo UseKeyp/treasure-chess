@@ -35,12 +35,9 @@ export const schema = gql`
   }
 
   type Mutation {
+    listTreasure(treasureId: String!, amount: Int!): MarketSale! @requireAuth
     unlistTreasure(treasureId: String!): MarketSale! @requireAuth
     buyTreasure(treasureId: String!): MarketSale! @requireAuth
-  }
-
-  type Mutation {
-    listTreasure(treasureId: String!, amount: Int!): MarketSale! @requireAuth
   }
 
   input CreateMarketSaleInput {

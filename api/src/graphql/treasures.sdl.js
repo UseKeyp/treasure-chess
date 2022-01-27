@@ -21,6 +21,8 @@ export const schema = gql`
     tokenId: Int
     mintedAt: DateTime
 
+    marketSales: MarketSale[]
+
     title: String!
     gifUrl: String!
     cardColor: String!

@@ -5,7 +5,6 @@ const doubleOnClick = (type) => {
   if (type === 'list') console.log('wassssuppp')
   if (type === 'gift') console.log('hi')
 }
-
 export const generated = () => {
   return (
     <div>

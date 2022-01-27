@@ -9,8 +9,6 @@ const parsePgn = (pgn) => {
   let eventName
   let moves
   let termination
-  let blackRatingBefore
-  let whiteRatingBefore
   let timeControl
   pgn.split(/\n/).map((line) => {
     if (line.includes('[Black ')) black = line.split(`"`)[1]
@@ -26,10 +24,6 @@ const parsePgn = (pgn) => {
         .replace(/\{.+?\} /g, '') // remove clock time
         .trim()
     if (line.includes('[Termination ')) termination = line.split(`"`)[1]
-    if (line.includes('[BlackElo '))
-      blackRatingBefore = Number(line.split(`"`)[1])
-    if (line.includes('[WhiteElo '))
-      whiteRatingBefore = Number(line.split(`"`)[1])
     if (line.includes('[TimeControl ')) timeControl = line.split(`"`)[1]
   })
 
@@ -41,8 +35,6 @@ const parsePgn = (pgn) => {
     moves,
     moveCount: countMoves(moves),
     termination,
-    blackRatingBefore,
-    whiteRatingBefore,
     timeControl,
   }
 }
@@ -53,16 +45,8 @@ const getGameRuleVariant = (game) => {
 }
 
 const parseGameFromChessDotCom = (game) => {
-  const {
-    termination,
-    blackRatingBefore,
-    whiteRatingBefore,
-    timeControl,
-    moveCount,
-    moves,
-    winner,
-    event,
-  } = parsePgn(game.pgn)
+  const { termination, timeControl, moveCount, moves, winner, event } =
+    parsePgn(game.pgn)
   const splitUrl = game.url.split('/')
   const id = splitUrl[splitUrl.length - 1]
   let winnerUsername
@@ -73,9 +57,7 @@ const parseGameFromChessDotCom = (game) => {
     pgn: game.pgn,
     tcn: game.tcn,
     blackRating: game.black.rating,
-    blackRatingDelta: game.black.rating - blackRatingBefore,
     whiteRating: game.white.rating,
-    whiteRatingDelta: game.white.rating - whiteRatingBefore,
     timeControl,
     termination: termination
       ?.split(/( on | by | game | vs )/)[2]

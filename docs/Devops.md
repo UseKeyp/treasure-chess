@@ -80,13 +80,13 @@ Production
 
 - Redirect URL https://treasure-chess-dev-4.vercel.app/redirect/chess
 - CHESS_API_ACCESS_TOKEN eyJ0...
-- Image <img src="./icon-large-dev.png" width="100">
+- Image <img src="./assets/icon-large-test.png" width="100">
 
 ### 2. Sandbox
 
 - Redirect URL https://treasure-chess-sandbox-4.vercel.app/redirect/chess
 - CHESS_API_ACCESS_TOKEN eyJ0...
-- Image <img src="./icon-large-sandbox.png" width="100">
+- Image <img src="./assets/icon-large-test.png" width="100">
 
 ### 3. Staging
 
@@ -94,13 +94,13 @@ NOTE: For `CHESS_API_ACCESS_TOKEN`, they don’t check TTL, only check that they
 
 - Redirect URL https://treasure.gcp-staging.chess-platform.com/redirect/chess
 - CHESS_API_ACCESS_TOKEN (???)
-- Image <img src="./icon-large-staging.png" width="100">
+- Image <img src="./assets/icon-large-test.png" width="100">
 
 ### 4. Production
 
 - Redirect URL https://treasure.chess.com/redirect/chess
 - CHESS_API_ACCESS_TOKEN (???)
-- Image <img src="./icon-large.png" width="100">
+- Image <img src="./assets/icon-large.png" width="100">
 
 ### For all environments
 

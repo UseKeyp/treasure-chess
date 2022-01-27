@@ -16,6 +16,8 @@ const SUBMITTED = 'SUBMITTED'
 const COMPLETE = 'COMPLETE'
 const FAILED = 'FAILED'
 
+const MINIMUM_CONFIRMATIONS = 15
+
 const DISCORD_MESSAGE_TITLE = isProduction ? '[prod]' : '[dev]'
 
 export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
@@ -131,12 +133,26 @@ const getLogByTopic = ({ logs, topic }) => {
   return logByTopic
 }
 
+export const getTxReceipt = async (txHash) =>
+  web3Provider.getTransactionReceipt(txHash)
+
+export const getTxStatus = async (txHash) => {
+  const receipt = await getTxReceipt(txHash)
+  if (receipt?.status === 0) {
+    return FAILED
+  } else if (
+    receipt?.status == 1 &&
+    receipt?.confirmations >= MINIMUM_CONFIRMATIONS
+  ) {
+    return COMPLETE
+  }
+  return SUBMITTED
+}
+
 export const getMintTxStatus = async ({ mintPurchase }) => {
   try {
     if (mintPurchase.txStatus === SUBMITTED) {
-      const receipt = await web3Provider.getTransactionReceipt(
-        mintPurchase.txHash
-      )
+      const receipt = await getTxReceipt(mintPurchase.txHash)
 
       if (receipt?.status === 0) {
         return { status: FAILED }

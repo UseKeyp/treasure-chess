@@ -1,8 +1,7 @@
 datasource db {
-  // provider = "sqlite"
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+  // shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 generator client {
@@ -87,8 +86,8 @@ model Treasure {
 model MarketSale {
   id         Int              @id @default(autoincrement())
   createdAt  DateTime         @default(now())
-  updatedAt  DateTime
-  listedAt   DateTime // Updated when listing tx is confirmed
+  updatedAt  DateTime         @updatedAt
+  listedAt   DateTime? // Updated when listing tx is confirmed
   // --------------- LINKS --------------
   treasure   Treasure         @relation(fields: [treasureId], references: [id])
   treasureId String
@@ -104,7 +103,7 @@ model MarketSale {
   saleTxId   String?          @unique
   // --------------- STATE --------------
   status     MarketSaleStatus @default(PENDING_LISTED)
-  isClosed   Boolean
+  isClosed   Boolean @default(false)
   amount     Int
 }
 
@@ -141,7 +140,7 @@ model OAuth {
 model Transaction {
   id               String      @id
   createdAt        DateTime    @default(now())
-  updatedAt        DateTime
+  updatedAt        DateTime    @updatedAt
   // --------------- STATE --------------
   txStatus         TxStatus    @default(SUBMITTED)
   MarketSaleList   MarketSale? @relation("listTx")

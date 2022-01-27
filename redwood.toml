@@ -15,7 +15,8 @@
     "APP_DOMAIN",
     "ETHEREUM_NETWORK_NAME",
     "REDWOOD_API_URL",
-    "BASIC_AUTH_PASSWORD"
+    "BASIC_AUTH_PASSWORD",
+    "NODE_ENV"
   ]
 [api]
   port = 8911
@@ -23,12 +24,13 @@
   includeEnvironmentVariables = [
     "APP_DOMAIN",
     "ETHEREUM_NETWORK_NAME",
+    "NODE_ENV"
   ]
 [browser]
   open = true
 [experimental]
   esbuild = false
   useEnvelop = true # https://community.redwoodjs.com/t/using-graphql-envelop-helix-in-redwood-v0-35/2276
-[build]
-# Note: This isn't being run, maybe need to delete
-  command = "cd packages/treasure-html; yarn build && yarn rw build"
+[dev]
+# Allows running normal yarn rw dev
+  command = "$(node tasks/environment/setupEnv.js) && yarn rw dev"

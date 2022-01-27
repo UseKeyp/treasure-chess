@@ -3,33 +3,42 @@ const path = require('path')
 const { decrypt, encrypt } = require('./cryptography')
 
 const directoryPath = path.join(__dirname, '../../')
+const testDecryption = require('./testDecryption')
 
-// Change me!
-// const ENVIRONMENT = 'dev'
-const ENVIRONMENT = 'prod'
+const ENVIRONMENT_LIST = ['dev', 'sandbox', 'staging', 'prod']
 
 const main = () => {
-  const gitRevision = require('child_process')
-    .execSync('git rev-parse HEAD')
-    .toString()
-    .trim()
-  const dateString = new Date().toString()
+  ENVIRONMENT_LIST.map((environment) => {
+    console.log(`\n######## ${environment} ########`)
+    console.log(`\nEncrypting .env.${environment}.js.enc`)
+    const gitRevision = require('child_process')
+      .execSync('git rev-parse HEAD')
+      .toString()
+      .trim()
+    const dateString = new Date().toString()
 
-  let plaintext = require(path.join(directoryPath, `.env.${ENVIRONMENT}.js`))
-  plaintext = JSON.stringify(plaintext)
+    let plaintext = require(path.join(directoryPath, `.env.${environment}.js`))
+    plaintext = JSON.stringify(plaintext)
 
-  const ciphertext = encrypt(plaintext)
+    const encrypted = encrypt(plaintext)
 
-  const encContents = `// Generated ${dateString}
+    const encContents = `// Generated ${dateString}
 // Git revision ${gitRevision}
-const secret = "${ciphertext}";
-module.exports = secret`
+const content = "${encrypted.content}";
+const tag = "${encrypted.tag}";
+const iv = "${encrypted.iv}";
+module.exports.content = content
+module.exports.tag = tag
+module.exports.iv = iv`
 
-  fs.writeFileSync(
-    path.join(directoryPath, `${ENVIRONMENT}.env.enc.js`),
-    encContents
-  )
-  console.log(`✅ Updated ${ENVIRONMENT}.env.enc.js`)
+    fs.writeFileSync(
+      path.join(directoryPath, `.env.${environment}.js.enc`),
+      encContents
+    )
+    console.log(`✅ SUCCESS`)
+
+    testDecryption(environment)
+  })
 }
 
 main()

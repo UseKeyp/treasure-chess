@@ -1,8 +1,18 @@
-New Pull Request
-- [ ] This PR solves # issue
-- [ ] a discription of the changes
-- [ ] If its a front end issue, I have posted an image of the change.
+This PR closes #
 
-Next
-- [ ] I have tagged someone to review my changes
-- [ ] I have fixed any build issues with chromatic 
+<!-- Required -->
+
+### Tasks
+
+<!-- Required -->
+
+- [ ] I have requested a review
+- [ ] I have fixed lint + build issues with CI
+
+### Description
+
+<!-- Required -->
+
+### Screenshots
+
+<!-- Required for Frontend issues -->

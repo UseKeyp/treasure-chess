@@ -1,4 +1,8 @@
 import { db } from 'src/lib/db'
+import {
+  createNewTreasureListing,
+  removeTreasureListing,
+} from 'src/lib/marketSales'
 
 export const marketSales = () => {
   return db.marketSale.findMany()
@@ -8,6 +12,34 @@ export const marketSale = ({ id }) => {
   return db.marketSale.findUnique({
     where: { id },
   })
+}
+
+export const listTreasure = async ({ treasureId, amount }) => {
+  const treasure = await db.treasure.findUnique({
+    where: { id: treasureId },
+    include: {
+      marketSales: {
+        orderBy: { updatedAt: 'desc' },
+        include: { listTx: true, unlistTx: true, saleTx: true },
+      },
+      owner: true,
+    },
+  })
+  return createNewTreasureListing({ treasure, amount })
+}
+
+export const unlistTreasure = async ({ treasureId }) => {
+  const treasure = await db.treasure.findUnique({
+    where: { id: treasureId },
+    include: {
+      marketSales: {
+        orderBy: { updatedAt: 'desc' },
+        include: { listTx: true, unlistTx: true, saleTx: true },
+      },
+      owner: true,
+    },
+  })
+  return removeTreasureListing({ treasure })
 }
 
 export const MarketSale = {

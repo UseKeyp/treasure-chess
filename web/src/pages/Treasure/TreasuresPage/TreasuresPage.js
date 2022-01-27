@@ -1,20 +1,11 @@
 import { MetaTags } from '@redwoodjs/web'
-import filters from '@treasure-chess/treasure-filters'
-
 import TreasuresFetcher from 'src/components/Treasure/TreasuresFetcher'
 import FilterBar from 'src/components/FilterBar/FilterBar'
 import SortingDropdown from 'src/components/SortingDropdown/SortingDropdown'
-
 import { useFilter } from 'src/providers/filters'
 
-const defaultParams = {
-  outcome: filters.outcomeList,
-  sale: filters.saleList,
-  termination: filters.terminationList[0],
-}
-
 const TreasuresPage = () => {
-  const { filter, sort, username } = useFilter()
+  const { filter, sort, username, defaultParams } = useFilter()
 
   return (
     <div>
@@ -28,7 +19,7 @@ const TreasuresPage = () => {
           <TreasuresFetcher
             username={username}
             filter={new URLSearchParams(filter).toString()}
-            sort={new URLSearchParams(sort).toString()}
+            sort={sort}
           />
         </div>
         <FilterBar defaultParams={defaultParams} />

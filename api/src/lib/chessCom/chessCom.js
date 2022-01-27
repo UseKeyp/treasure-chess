@@ -40,3 +40,15 @@ export const fetchChessGame = async ({ username, gameId, endTime }) => {
   const game = games.find((g) => g.url.includes(gameId))
   return game
 }
+
+export const fetchRatingDelta = async (id) => {
+  const response = await fetch(
+    `https://www.chess.com/callback/live/game/${id}`
+  ).then((res) => {
+    return res.json()
+  })
+  return {
+    white: response.game.ratingChangeWhite,
+    black: response.game.ratingChangeBlack,
+  }
+}

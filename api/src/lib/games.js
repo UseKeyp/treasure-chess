@@ -3,7 +3,11 @@ const { id: sha3 } = require('@ethersproject/hash')
 
 import { db } from 'src/lib/db'
 import { fetchMember } from 'src/lib/members'
-import { fetchChessGames, fetchChessGame } from 'src/lib/chessCom/chessCom'
+import {
+  fetchChessGames,
+  fetchChessGame,
+  fetchRatingDelta,
+} from 'src/lib/chessCom/chessCom'
 import { parseGameFromChessDotCom } from 'src/lib/chessCom/gameParsing'
 import { getGifUrl } from 'src/lib/chessCom/gifGetter'
 import { getBoardLayout } from 'src/lib/helpers'
@@ -35,7 +39,13 @@ const getFullGameDetails = async ({
   includeAchievements,
 }) => {
   try {
-    const game = parseGameFromChessDotCom(rawGame)
+    let game = parseGameFromChessDotCom(rawGame)
+    const ratingChange = await fetchRatingDelta(game.id)
+    game = {
+      ...game,
+      blackRatingDelta: ratingChange.black,
+      whiteRatingDelta: ratingChange.white,
+    }
     const cardColor = getTreasureCardColor({ game, username })
     const treasureId = getTreasureId({
       moves: game.moves,

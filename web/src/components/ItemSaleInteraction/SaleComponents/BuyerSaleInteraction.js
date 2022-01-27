@@ -1,9 +1,7 @@
 import LoadingDots from '../../LoadingDots/LoadingDots'
 import Button from '../../Button/Button'
 
-const BuyerSaleInteraction = ({ marketSale, onClick, isError }) => {
-  const { status, amount } = marketSale
-
+const BuyerSaleInteraction = ({ status, amount, onClick, isError }) => {
   const DELISTED = 'DELISTED'
   const SOLD = 'SOLD'
   const PENDING_SOLD = 'PENDING_SOLD'

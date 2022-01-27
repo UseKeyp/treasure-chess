@@ -2,9 +2,7 @@ import LoadingDots from 'src/components/LoadingDots/LoadingDots'
 import Button from 'src/components/Button/Button'
 import SearchBar from 'src/components/Marketplace/SearchBar/SearchBar'
 
-const OwnerSaleInteraction = ({ marketSale, onClick, isError }) => {
-  const { status, amount } = marketSale
-
+const OwnerSaleInteraction = ({ status, amount, onClick, isError }) => {
   const PENDING_LISTED = 'PENDING_LISTED'
   const PENDING_DELISTED = 'PENDING_DELISTED'
 

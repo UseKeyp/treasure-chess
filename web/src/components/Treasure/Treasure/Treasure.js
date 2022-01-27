@@ -10,13 +10,15 @@ const Treasure = ({ treasure, isLoading, isEmpty, isError }) => {
   if (isLoading) return <>Loading...</>
   if (isError) return <>Error</>
 
+  const currentMarketSale = treasure.marketSales ? treasure.marketSales[0] : {}
+
   return (
     <div className="grid md:grid-cols-3 grid-cols-1 gap-10">
       <div className="flex justify-center">
         <TreasureCardCell tokenId={treasure.tokenId} />
       </div>
       <div>
-        <ItemSaleInteraction marketSale={treasure.marketSales[0]} />
+        <ItemSaleInteraction marketSale={currentMarketSale} />
         <TreasureSocialCell tokenId={treasure.tokenId} />
       </div>
       <TreasureMovesCell tokenId={treasure.tokenId} />

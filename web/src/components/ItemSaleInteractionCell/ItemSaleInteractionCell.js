@@ -31,4 +31,6 @@ export const Failure = ({ marketSales }) => (
   <ItemSaleInteraction isError={true} marketSales={marketSales} />
 )
 
-export const Success = ({ marketSales }) => <ItemSaleInteraction marketSales={marketSales}/>
+export const Success = ({ marketSales }) => (
+  <ItemSaleInteraction marketSales={marketSales} />
+)

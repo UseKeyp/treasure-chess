@@ -1,9 +1,28 @@
-import Treasure from 'src/components/Treasure/Treasue'
+import Treasure from 'src/components/Treasure/Treasure'
 
 export const QUERY = gql`
-  query FindTreasureQuery($tokenId: String!) {
+  query FindTreasureQuery($tokenId: Int!) {
     treasure: treasure(tokenId: $tokenId) {
+      id
       tokenId
+      marketSales {
+        id
+        createdAt
+        updatedAt
+        listedAt
+        treasureId
+        seller {
+          id
+        }
+        sellerId
+        listTx {
+          id
+        }
+        listTxId
+        status
+        isClosed
+        amount
+      }
     }
   }
 `

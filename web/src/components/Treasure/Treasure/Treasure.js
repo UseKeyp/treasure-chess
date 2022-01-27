@@ -1,19 +1,25 @@
 import TreasureMovesCell from 'src/components/Treasure/TreasureMovesCell'
 import TreasureSocialCell from 'src/components/Treasure/TreasureSocialCell'
 import TreasureCardCell from 'src/components/Treasure/TreasureCardCell'
-import ItemSaleInteractionCell from 'src/components/ItemSaleInteractionCell/ItemSaleInteractionCell'
+import ItemSaleInteraction from 'src/components/ItemSaleInteraction/ItemSaleInteraction'
 
-const Treasure = ({ treasure, isLoading }) => {
+const Treasure = ({ treasure, isLoading, isEmpty, isError }) => {
+  // TODO: Update these with proper UI
+  // We could pass isLoading to the individual items so they can render the appropriate skeletons
+  // This way everything stays "in place"
+  if (isLoading) return <>Loading...</>
+  if (isError) return <>Error</>
+
   return (
     <div className="grid md:grid-cols-3 grid-cols-1 gap-10">
       <div className="flex justify-center">
-        <TreasureCardCell tokenId={tokenId} />
+        <TreasureCardCell tokenId={treasure.tokenId} />
       </div>
       <div>
-        <ItemSaleInteraction treasure={treasure} />
-        <TreasureSocialCell tokenId={tokenId} />
+        <ItemSaleInteraction marketSale={treasure.marketSales[0]} />
+        <TreasureSocialCell tokenId={treasure.tokenId} />
       </div>
-      <TreasureMovesCell tokenId={tokenId} />
+      <TreasureMovesCell tokenId={treasure.tokenId} />
     </div>
   )
 }

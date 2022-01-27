@@ -8,21 +8,21 @@ const ItemSaleInteraction = ({
   isLoading,
   isOwner,
   onClick,
-  marketSales,
+  marketSale,
 }) => {
   const { currentUser } = useAuth()
 
-  return isLoading || (!marketSales && isError) ? (
+  return isLoading || (!marketSale && isError) ? (
     <SaleSkeleton />
-  ) : isOwner || marketSales.sellerId === currentUser?.id ? (
+  ) : isOwner || marketSale.sellerId === currentUser?.id ? (
     <OwnerSaleInteraction
-      marketSales={marketSales}
+      marketSale={marketSale}
       onClick={onClick}
       isError={isError}
     />
   ) : (
     <BuyerSaleInteraction
-      marketSales={marketSales}
+      marketSale={marketSale}
       onClick={onClick}
       isError={isError}
     />

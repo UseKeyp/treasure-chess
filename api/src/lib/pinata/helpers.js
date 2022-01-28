@@ -1,4 +1,4 @@
-import { achievements, ecoCodes } from '@treasure-chess/chess-achievements'
+import { ecoCodes } from '@treasure-chess/chess-achievements'
 
 export const getDescription = ({ _opening }) => {
   return `A chess game collectible. One of the players of this game created this Treasure. Create your own at https://treasure.chess.com`

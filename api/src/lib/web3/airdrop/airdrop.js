@@ -73,7 +73,7 @@ const notifyDiscord = async ({ member, txHash, payerBalance }) => {
         title: `✅  Airdrop Submitted!`,
         description: `Username: ${member.username}
 Address: ${member.address}
-${getExplorerBaseUrlFromName(process.env.ETHEREUM_NETWORK_NAME) + txHash}
+${getExplorerBaseUrlFromName(process.env.ETHEREUM_NETWORK_NAME)}tx/${txHash}
 
 Payer balance: **${payerBalance}**`,
         footer: { text: new Date().toString() },

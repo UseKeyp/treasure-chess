@@ -1,25 +1,22 @@
+import ChainData from 'src/components/ChainData'
+
 export const QUERY = gql`
   query ChainDataQuery {
     chainData {
-      id
+      networkName
+      treasureAddress
+      marketAddress
+      totalSupply
     }
   }
 `
 
-export const Loading = () => <div>Loading...</div>
+export const Loading = () => <ChainData isLoading />
 
-export const Empty = () => <div>Empty</div>
+export const Empty = () => <ChainData isError />
 
-export const Failure = ({ error }) => (
-  <div style={{ color: 'red' }}>Error: {error.message}</div>
-)
+export const Failure = ({ error }) => <ChainData isError />
 
 export const Success = ({ chainData }) => {
-  return (
-    <ul>
-      {chainData.map((item) => {
-        return <li key={item.id}>{JSON.stringify(item)}</li>
-      })}
-    </ul>
-  )
+  return <ChainData chainData={chainData} />
 }

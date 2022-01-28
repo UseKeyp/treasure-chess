@@ -1,19 +1,17 @@
-import { Link, routes } from '@redwoodjs/router'
 import { MetaTags } from '@redwoodjs/web'
+import ChainDataCell from 'src/components/ChainDataCell'
 
 const ChainDataPage = () => {
   return (
     <>
       <MetaTags title="ChainData" description="ChainData page" />
-
-      <h1>ChainDataPage</h1>
-      <p>
-        Find me in <code>./web/src/pages/ChainDataPage/ChainDataPage.js</code>
-      </p>
-      <p>
-        My default route is named <code>chainData</code>, link to me with `
-        <Link to={routes.chainData()}>ChainData</Link>`
-      </p>
+      <h1>Chain Data</h1>
+      <h3 className="mt-4">
+        Technical info for developers and inquisitive minds.
+      </h3>
+      <div className="mt-4">
+        <ChainDataCell />
+      </div>
     </>
   )
 }

@@ -55,6 +55,7 @@ const moveCountList = [
 ]
 
 const openingList = [
+  { name: 'Any', value: 'Any' },
   { name: "King's Pawn Game", value: 'KingsPawn' },
   { name: "Queen's Gambit", value: 'QueensGambit' },
   { name: 'Ruy Lopez', value: 'RuyLopez' },
@@ -93,8 +94,8 @@ const sortList = [
   'Price: Low to High',
   'Newest First',
   'Oldest First',
-  'Played: Oldest',
   'Played: Newest',
+  'Played: Oldest',
 ]
 
 const filters = {

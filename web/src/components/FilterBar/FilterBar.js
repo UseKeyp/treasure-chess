@@ -12,14 +12,21 @@ import UsernameSearchBar from 'src/components/UsernameSearchBar'
 
 import { useFilter } from 'src/providers/filters'
 
-const FilterBar = ({ defaultParams }) => {
+const FilterBar = ({
+  defaultParams,
+  hideOnMobile = false,
+  showScrollbar = false,
+  extendAchievements = false,
+}) => {
   const { filter, setFilter, resetFilter } = useFilter()
 
   const [title, setTitle] = useState(filter.title)
   const [timeControl, setTimeControl] = useState(filter.timeControl)
   const [moveCount, setMoveCount] = useState(filter.moveCount)
   const [achievements, setAchievements] = useState(filter.achievements || [])
-  const [opening, setOpening] = useState(filter.opening)
+  const [opening, setOpening] = useState(
+    defaultParams?.opening || filter.opening
+  )
   const [color, setColor] = useState(filter.color)
   const [termination, setTermination] = useState(
     defaultParams?.termination || filter.termination
@@ -47,7 +54,7 @@ const FilterBar = ({ defaultParams }) => {
   const updateFilter = () => {
     setFilter('filter', {
       ...(achievements?.length && { achievements }),
-      ...(opening && { opening }),
+      ...(opening && opening !== defaultParams?.opening && { opening }),
       ...(color && { color }),
       ...(title && { title }),
       ...(timeControl && { timeControl }),
@@ -97,42 +104,101 @@ const FilterBar = ({ defaultParams }) => {
   ])
 
   return (
-    <div className={styles.filterBar}>
-      <div className={styles.resetRow}>
-        <button className={styles.reset} onClick={onReset}>
-          Reset
-        </button>
-      </div>
-      <div className={styles.dropdownRowSpacing}>
-        <Dropdown
-          category={'Opening'}
-          options={filters.openingList.map((opening) => opening.name)}
-          queryFilterFunction={setOpening}
-          queryFilter={opening}
-        />
-      </div>
-      <div className={styles.dropdownRowSpacing}>
-        <Dropdown
-          category={'Rarity'}
-          options={filters.rarityList}
-          queryFilterFunction={setRarity}
-          queryFilter={rarity}
-        />
-      </div>
-      <div className={styles.dropdownRow}>
-        <FilterCheckbox
-          category={'Sale'}
-          options={filters.saleList}
-          queryFilterFunction={updateSale}
-          queryFilter={sale}
-        />
-      </div>
-      <div className={styles.priceRowWrapper}>
-        <h4>Price Range</h4>
-        <div className={styles.priceRow}>
-          <FilterPriceInput value={lowPrice} setValue={setLowPrice} />
-          <span>to</span>
-          <FilterPriceInput value={highPrice} setValue={setHighPrice} />
+    <div className={styles.filterBarWrapper} data-hide-on-mobile={hideOnMobile}>
+      <div className={styles.filterBar} data-show-scrollbar={showScrollbar}>
+        <div className={styles.resetRow}>
+          <button className={styles.reset} onClick={onReset}>
+            Reset
+          </button>
+        </div>
+        <div className={styles.dropdownRow}>
+          <h4 style={{ marginLeft: `1em`, marginBottom: `0.5em` }}>Username</h4>
+          <UsernameSearchBar />
+        </div>
+        <div className={styles.dropdownRowSpacing}>
+          <Dropdown
+            category={'Opening'}
+            options={filters.openingList.map((opening) => opening.name)}
+            queryFilterFunction={setOpening}
+            queryFilter={opening}
+          />
+        </div>
+        <div className={styles.dropdownRowSpacing}>
+          <Dropdown
+            category={'Rarity'}
+            options={filters.rarityList}
+            queryFilterFunction={setRarity}
+            queryFilter={rarity}
+          />
+        </div>
+        <div className={styles.dropdownRow}>
+          <FilterCheckbox
+            category={'Sale'}
+            options={filters.saleList}
+            queryFilterFunction={updateSale}
+            queryFilter={sale}
+          />
+        </div>
+        <div className={styles.priceRowWrapper}>
+          <h4>Price Range</h4>
+          <div className={styles.priceRow}>
+            <FilterPriceInput value={lowPrice} setValue={setLowPrice} />
+            <span>to</span>
+            <FilterPriceInput value={highPrice} setValue={setHighPrice} />
+          </div>
+        </div>
+        <div className={styles.dropdownRow}>
+          <FilterCheckbox
+            category={'Outcome'}
+            options={filters.outcomeList}
+            queryFilterFunction={updateOutcomes}
+            queryFilter={outcome}
+          />
+        </div>
+        <div className={styles.dropdownRowSpacing}>
+          <Dropdown
+            category={'Termination'}
+            options={filters.terminationList}
+            queryFilterFunction={setTermination}
+            queryFilter={termination}
+          />
+        </div>
+        <div className={styles.dropdownTwoElementRow}>
+          <Dropdown
+            category={'Time'}
+            options={filters.timeControlList}
+            queryFilterFunction={setTimeControl}
+            queryFilter={timeControl}
+          />
+          <Dropdown
+            category={'Move Count'}
+            options={filters.moveCountList.map((moves) => moves.name)}
+            queryFilterFunction={setMoveCount}
+            queryFilter={moveCount}
+          />
+        </div>
+        <div className={styles.dropdownRow}>
+          <FilterCheckbox
+            category={'Master Title'}
+            options={filters.titleList.map((title) => title.toUpperCase())}
+            queryFilterFunction={setTitle}
+            queryFilter={title}
+            deselect={true}
+          />
+        </div>
+        <div className={styles.dropdownRow}>
+          <h4 style={{ marginLeft: `1em`, marginBottom: `0.5em` }}>
+            Achievements
+          </h4>
+          <AchievementScroll
+            achievements={filters.achievementList.sort(
+              (a, b) => b.points - a.points
+            )}
+            queryFilterFunction={updateAchievements}
+            queryFilter={achievements}
+            extendScrollArea={extendAchievements}
+            showScrollbar={showScrollbar}
+          />
         </div>
       </div>
       <div className={styles.dropdownRow}>

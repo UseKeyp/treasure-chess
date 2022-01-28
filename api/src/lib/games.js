@@ -3,7 +3,11 @@ const { id: sha3 } = require('@ethersproject/hash')
 
 import { db } from 'src/lib/db'
 import { fetchMember } from 'src/lib/members'
-import { fetchChessGames, fetchChessGame } from 'src/lib/chessCom/chessCom'
+import {
+  fetchChessGames,
+  fetchChessGame,
+  fetchRatingDelta,
+} from 'src/lib/chessCom/chessCom'
 import { parseGameFromChessDotCom } from 'src/lib/chessCom/gameParsing'
 import { getGifUrl } from 'src/lib/chessCom/gifGetter'
 import { getBoardLayout } from 'src/lib/helpers'
@@ -34,46 +38,56 @@ const getFullGameDetails = async ({
   username,
   includeAchievements,
 }) => {
-  const game = parseGameFromChessDotCom(rawGame)
-  const cardColor = getTreasureCardColor({ game, username })
-  const treasureId = getTreasureId({
-    moves: game.moves,
-    endTime: game.endTime,
-    cardColor,
-  })
-  const treasure = await db.treasure.findUnique({
-    where: { id: treasureId },
-    include: {
-      black: true,
-      white: true,
-    },
-  })
-  if (treasure) return treasure
-  const { openingValue, score, achievements } = achievementsCalculator(
-    game.pgn,
-    cardColor
-  )
-  const achievementsList = achievements.map((item) => item.value)
-  const white = await fetchMember(game.whiteUsername)
-  const black = await fetchMember(game.blackUsername)
-  let winnerId
-  if (game.winnerUsername === game.whiteUsername) winnerId = white.id
-  else if (game.winnerUsername === game.blackUsername) winnerId = black.id
-  return {
-    ...game,
-    treasureId,
-    white,
-    black,
-    blackId: black.id,
-    whiteId: white.id,
-    winnerId,
-    cardColor,
-    opening: openingValue,
-    boardLayout: JSON.stringify(getBoardLayout(game.moves)),
-    gifUrl: getGifUrl({ tcn: game.tcn, playerColor: cardColor }),
-    ...(includeAchievements && { achievements: achievementsList }),
-    ...(includeAchievements && { rarity: getRarity(score) }),
-    ...(includeAchievements && { achievementScore: score }),
+  try {
+    let game = parseGameFromChessDotCom(rawGame)
+    const ratingChange = await fetchRatingDelta(game.id)
+    game = {
+      ...game,
+      blackRatingDelta: ratingChange.black,
+      whiteRatingDelta: ratingChange.white,
+    }
+    const cardColor = getTreasureCardColor({ game, username })
+    const treasureId = getTreasureId({
+      moves: game.moves,
+      endTime: game.endTime,
+      cardColor,
+    })
+    const treasure = await db.treasure.findUnique({
+      where: { id: treasureId },
+      include: {
+        black: true,
+        white: true,
+      },
+    })
+    if (treasure) return treasure
+    const { openingValue, score, achievements } = achievementsCalculator(
+      game.pgn,
+      cardColor
+    )
+    const achievementsList = achievements.map((item) => item.value)
+    const white = await fetchMember(game.whiteUsername)
+    const black = await fetchMember(game.blackUsername)
+    let winnerId
+    if (game.winnerUsername === game.whiteUsername) winnerId = white.id
+    else if (game.winnerUsername === game.blackUsername) winnerId = black.id
+    return {
+      ...game,
+      treasureId,
+      white,
+      black,
+      blackId: black.id,
+      whiteId: white.id,
+      winnerId,
+      cardColor,
+      opening: openingValue,
+      boardLayout: JSON.stringify(getBoardLayout(game.moves)),
+      gifUrl: getGifUrl({ tcn: game.tcn, playerColor: cardColor }),
+      ...(includeAchievements && { achievements: achievementsList }),
+      ...(includeAchievements && { rarity: getRarity(score) }),
+      ...(includeAchievements && { achievementScore: score }),
+    }
+  } catch (e) {
+    throw new Error(`getFullGameDetails() ${e}`)
   }
 }
 

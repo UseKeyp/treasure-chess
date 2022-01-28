@@ -88,7 +88,7 @@ const card = `<html>
             </div>
   				</div>
   			</div>
-  			<div id="achievements" style="width: 100%; margin-top: 10px; display: grid; grid-template-columns: 2fr 1fr; align-items: center; row-gap: 5px;">
+  			<div id="achievements" style="width: 100%; margin-top: 10px; display: grid; grid-template-columns: 2fr 1fr; align-items: center; row-gap: 5px; white-space: nowrap;">
   				<div style="width: 100%; display: flex; align-items: center; font-size: 13px;">
   					<div id="achievement-1-icon">
               <svg width="6px" height="10px" viewBox="0 0 16 28" xmlns="http://www.w3.org/2000/svg">

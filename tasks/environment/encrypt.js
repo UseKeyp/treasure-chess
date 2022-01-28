@@ -5,7 +5,7 @@ const { decrypt, encrypt } = require('./cryptography')
 const directoryPath = path.join(__dirname, '../../')
 const testDecryption = require('./testDecryption')
 
-const ENVIRONMENT_LIST = ['dev', 'sandbox']
+// const ENVIRONMENT_LIST = ['dev', 'sandbox']
 // const ENVIRONMENT_LIST = ['staging']
 // const ENVIRONMENT_LIST = ['prod']
 

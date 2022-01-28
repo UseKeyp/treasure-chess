@@ -15,7 +15,7 @@ export const Loading = () => <ChainData isLoading />
 
 export const Empty = () => <ChainData isError />
 
-export const Failure = ({ error }) => <ChainData isError />
+export const Failure = () => <ChainData isError />
 
 export const Success = ({ chainData }) => {
   return <ChainData chainData={chainData} />

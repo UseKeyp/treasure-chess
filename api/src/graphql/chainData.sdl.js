@@ -7,6 +7,6 @@ export const schema = gql`
   }
 
   type Query {
-    chainData: ChainData! @requireAuth
+    chainData: ChainData! @skipAuth
   }
 `

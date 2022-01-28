@@ -3,12 +3,12 @@ import config from 'src/global.config'
 import { RowsSkeleton } from 'src/components/LoadingSkeleton'
 const getAddressContent = (address) => (
   <div className="flex">
-    {address}
+    <p className="ml-2 mr-2">{address}</p>
     <a
       href={`${config.BLOCK_EXPLORER_BASE_URL}address/${address}`}
       target="blank"
     >
-      <Icon name="network" color="grey" />
+      <Icon name="network" color="white" />
     </a>
   </div>
 )
@@ -28,9 +28,13 @@ const ChainData = ({ chainData, isLoading, isError }) => {
   return (
     <div>
       <p className="mt-4">Network: {networkName}</p>
-      <p>Treasure contract address: {getAddressContent(treasureAddress)}</p>
-      <p>Market contract address: {getAddressContent(marketAddress)}</p>
-      <p>Total supply: {totalSupply}</p>
+      <div className="flex mt-4">
+        <p>Treasure contract address:</p> {getAddressContent(treasureAddress)}
+      </div>
+      <div className="flex mt-4">
+        <p>Market contract address:</p> {getAddressContent(marketAddress)}
+      </div>
+      <p className="flex mt-4">Total supply: {totalSupply}</p>
     </div>
   )
 }

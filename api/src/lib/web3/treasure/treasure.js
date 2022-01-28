@@ -77,6 +77,12 @@ export const getERC721Balance = async ({
   return await contract.balanceOf(userAddress)
 }
 
+export const totalSupply = async () => {
+  const treasureContract = getTreasureContract()
+  const supply = await treasureContract.getTotalGames()
+  return supply.toString()
+}
+
 export const checkAndSetMarketApproval = async ({ member }) => {
   try {
     const treasureContract = getTreasureContract()

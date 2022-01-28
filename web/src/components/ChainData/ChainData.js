@@ -1,6 +1,5 @@
 import Icon from 'src/components/Icon'
 import config from 'src/global.config'
-import { RowsSkeleton } from 'src/components/LoadingSkeleton'
 import Table from 'src/components/Table'
 
 const TITLE = 'Chain Data'

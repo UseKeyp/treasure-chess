@@ -1,6 +1,7 @@
 import LoadingDots from 'src/components/LoadingDots/LoadingDots'
 import Button from 'src/components/Button/Button'
 import SearchBar from 'src/components/Marketplace/SearchBar/SearchBar'
+import UsernameSearchBar from 'src/components/UsernameSearchBar/UsernameSearchBar'
 
 const OwnerSaleInteraction = ({ status, amount, onClick, isError }) => {
   const PENDING_LISTED = 'PENDING_LISTED'
@@ -34,9 +35,9 @@ const OwnerSaleInteraction = ({ status, amount, onClick, isError }) => {
     } else return null
   }
 
-  return amount ? (
+  return amount !== 0 ? (
     <div>
-      <div className="flex flex-col justify-between w-[396px] h-[108px] p-4 rounded-xl shadow-md bg-chessBlack-200">
+      <div className="flex flex-col justify-between w-[396px] h-[108px] p-4 mb-4 rounded-xl shadow-md bg-chessBlack-200">
         <div className="flex items-center justify-between">
           <h2 className="text-base text-white">Buy Treasure</h2>
           {status && <Status />}
@@ -57,14 +58,14 @@ const OwnerSaleInteraction = ({ status, amount, onClick, isError }) => {
       </div>
     </div>
   ) : (
-    <div className="flex flex-col w-[396px] h-52 p-4 rounded-xl shadow-md justify-between bg-chessBlack-200">
+    <div className="flex flex-col w-[396px] h-52 p-4 mb-4 rounded-xl shadow-md justify-between bg-chessBlack-200">
       <div>
         <div className="flex items-center justify-between mb-2">
           <h2 className="text-base text-white">List Your Treasure</h2>
           {status && <Status />}
         </div>
         <div className="flex flex-col items-center justify-between">
-          <div className="flex">
+          <div className="flex items-center">
             <SearchBar placeholder="Price in USD" />
             <Button
               className={`w-28 h-[40px] text-xl ml-2 hover:bg-green hover:shadow-greenDark ${
@@ -84,16 +85,18 @@ const OwnerSaleInteraction = ({ status, amount, onClick, isError }) => {
             Enter the person you want to gift it to.
           </p>
         </div>
-        <div className="flex">
-          <SearchBar placeholder="Username" />
-          <Button
-            className={`w-28 h-[40px] text-xl ml-2 hover:bg-green hover:shadow-greenDark ${
-              status === PENDING_LISTED && 'pointer-events-none'
-            }`}
-            variant={status === PENDING_LISTED ? 'grey' : 'green'}
-            label="Gift"
-            onClick={() => onClick('gift')}
-          />
+        <div className="flex flex-col items-center justify-between">
+          <div className="flex items-center">
+            <UsernameSearchBar />
+            <Button
+              className={`w-28 h-[40px] text-xl ml-2 hover:bg-green hover:shadow-greenDark ${
+                status === PENDING_LISTED && 'pointer-events-none'
+              }`}
+              variant={status === PENDING_LISTED ? 'grey' : 'green'}
+              label="Gift"
+              onClick={() => onClick('gift')}
+            />
+          </div>
         </div>
       </div>
     </div>

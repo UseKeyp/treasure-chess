@@ -13,28 +13,28 @@ export const generated = () => {
       <ItemSaleInteraction
         isOwner={false}
         onClick={() => console.log('shalom')}
-        marketSales={{ status: 'LISTED', amount: 123 }}
+        marketSale={{ status: 'LISTED', amount: 123, sellerId: 23 }}
       />
       <br />
       <h3>Success</h3>
       <ItemSaleInteraction
         isOwner={false}
         onClick={() => console.log('shalom')}
-        marketSales={{ status: 'SOLD', amount: 123 }}
+        marketSale={{ status: 'SOLD', amount: 123, sellerId: 23 }}
       />
       <br />
       <h3>Listed</h3>
       <ItemSaleInteraction
         isOwner={true}
         onClick={() => console.log('shalom')}
-        marketSales={{ status: 'LISTED', amount: 123 }}
+        marketSale={{ status: 'LISTED', amount: 123, sellerId: 23 }}
       />
       <br />
       <h3>Unlisted</h3>
       <ItemSaleInteraction
         isOwner={true}
         onClick={doubleOnClick}
-        marketSales={{ status: 'UNLISTED' }}
+        marketSale={{ status: 'UNLISTED', sellerId: 23 }}
       />
       <br />
       <h3>Loading</h3>
@@ -44,19 +44,17 @@ export const generated = () => {
       <ItemSaleInteraction
         isOwner={false}
         onClick={() => console.log('shalom')}
-        marketSales={{ status: 'PENDING_SOLD', amount: 123 }}
+        marketSale={{ status: 'PENDING_SOLD', amount: 123, sellerId: 23 }}
       />
       <ItemSaleInteraction
         isOwner={true}
         onClick={() => console.log('shalom')}
-        price={321}
-        marketSales={{ status: 'PENDING_DELISTED', amount: 123 }}
+        marketSale={{ status: 'PENDING_DELISTED', amount: 123, sellerId: 23 }}
       />
       <ItemSaleInteraction
         isOwner={true}
         onClick={doubleOnClick}
-        price={321}
-        marketSales={{ status: 'PENDING_LISTED' }}
+        marketSale={{ status: 'PENDING_LISTED', sellerId: 23 }}
       />
       <br />
       <h3>Error</h3>
@@ -64,21 +62,19 @@ export const generated = () => {
         isOwner={false}
         isError={true}
         onClick={() => console.log('shalom')}
-        marketSales={{ status: 'LISTED', amount: 123 }}
+        marketSale={{ status: 'LISTED', amount: 123, sellerId: 23 }}
       />
       <ItemSaleInteraction
         isOwner={true}
         isError={true}
         onClick={() => console.log('shalom')}
-        price={321}
-        marketSales={{ status: 'LISTED', amount: 123 }}
+        marketSale={{ status: 'LISTED', amount: 123, sellerId: 23 }}
       />
       <ItemSaleInteraction
         isOwner={true}
         isError={true}
         onClick={doubleOnClick}
-        price={321}
-        marketSales={{ status: 'UNLISTED' }}
+        marketSale={{ status: 'UNLISTED', sellerId: 23 }}
       />
     </div>
   )

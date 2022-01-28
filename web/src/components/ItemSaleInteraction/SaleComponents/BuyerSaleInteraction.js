@@ -50,7 +50,7 @@ const BuyerSaleInteraction = ({ status, amount, onClick, isError }) => {
 
   return (
     <div
-      className={`flex flex-col justify-between w-[396px] h-[108px] p-4 rounded-xl shadow-md ${backgroundColor}`}
+      className={`flex flex-col justify-between w-[396px] h-[108px] mb-4 p-4 rounded-xl shadow-md ${backgroundColor}`}
     >
       <div className="flex items-center justify-between">
         <h2 className={`text-base ${textColor}`}>Buy Treasure</h2>

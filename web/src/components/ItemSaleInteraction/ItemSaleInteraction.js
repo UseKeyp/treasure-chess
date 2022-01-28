@@ -15,23 +15,29 @@ const ItemSaleInteraction = ({
   const { currentUser } = useAuth()
   const status = marketSale?.status || UNLISTED
   const amount = marketSale?.amount || 0
-  return isLoading || (!marketSale && isError) ? (
-    <SaleSkeleton />
-  ) : isOwner || marketSale?.sellerId === currentUser?.id ? (
-    <OwnerSaleInteraction
-      status={status}
-      amount={amount}
-      onClick={onClick}
-      isError={isError}
-    />
-  ) : (
-    <BuyerSaleInteraction
-      status={status}
-      amount={amount}
-      onClick={onClick}
-      isError={isError}
-    />
-  )
+  if (isLoading || (!marketSale && isError)) {
+    return <SaleSkeleton />
+  } else {
+    if (isOwner || marketSale?.sellerId === currentUser?.id) {
+      return (
+        <OwnerSaleInteraction
+          status={status}
+          amount={amount}
+          onClick={onClick}
+          isError={isError}
+        />
+      )
+    } else {
+      return (
+        <BuyerSaleInteraction
+          status={status}
+          amount={amount}
+          onClick={onClick}
+          isError={isError}
+        />
+      )
+    }
+  }
 }
 
 export default ItemSaleInteraction

@@ -112,8 +112,10 @@ const FilterBar = ({
           </button>
         </div>
         <div className={styles.dropdownRow}>
-          <h4 style={{ marginLeft: `1em`, marginBottom: `0.5em` }}>Username</h4>
-          <UsernameSearchBar />
+          <h4 style={{ marginLeft: `2em`, marginBottom: `0.5em` }}>Username</h4>
+          <div className="ml-4">
+            <UsernameSearchBar />
+          </div>
         </div>
         <div className={styles.dropdownRowSpacing}>
           <Dropdown

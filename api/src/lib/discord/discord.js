@@ -18,8 +18,8 @@ const CHANNELS_PROD = {
 const getChannelId = (channel) => {
   let id = CHANNELS_DEV[channel]
   // Sandbox shares with dev
-  if (NODE_ENV === 'staging') id = CHANNELS_STAGING[channel]
-  if (NODE_ENV === 'prod') id = CHANNELS_PROD[channel]
+  if (process.env.NODE_ENV === 'staging') id = CHANNELS_STAGING[channel]
+  if (process.env.NODE_ENV === 'prod') id = CHANNELS_PROD[channel]
   if (!id) console.log(`Discord channel ${channel} not found`)
   return id
 }

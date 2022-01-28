@@ -6,6 +6,7 @@ import DefaultLayout from 'src/layouts/DefaultLayout'
 const Routes = () => {
   return (
     <Router>
+      <Route path="/chain-data" page={ChainDataPage} name="chainData" />
       <Route path="/restricted" page={RestrictedPage} name="restricted" />
       <Route path="/redirect/{type}" page={RedirectPage} name="redirect" />
       <Set wrap={DefaultLayout}>

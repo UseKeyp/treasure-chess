@@ -26,3 +26,29 @@ node tasks/environment/encrypt
 
 - aes-256-gcm https://gist.github.com/rjz/15baffeab434b8125ca4d783f4116d81
 - aes-256-gcm with a buffer https://stackoverflow.com/questions/53269132/aes-256-gcm-encryption-decryption-in-nodejs
+
+### Hasicorp vault
+
+vault dev server unseal key nr/GT+uvbwScDmsiTChtRTnInSTHtvm0bOAUa6p9o6c=
+
+```
+# Create a secret
+vault kv put secret/foo bar=baz
+
+# Get a secret
+vault kv get secret/foo
+
+# Get only the secret value with -field
+vault kv get -field=bar secret/foo
+vault kv delete secret/foo
+
+# add a new engine at a specific path
+vault secrets enable -path=kv kv
+vault secrets disable kv/
+
+# list all the paths
+vault secrets list
+
+# list secrets at a path
+vault kv list kv/
+```

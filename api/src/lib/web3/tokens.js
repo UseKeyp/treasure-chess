@@ -4,9 +4,11 @@ import { Contract } from '@ethersproject/contracts'
 import { formatUnits } from '@ethersproject/units'
 import { EnvelopError } from '@envelop/core'
 
+import { getTorusWallet } from 'src/lib/torus'
 const CHAIN_ID = getIdFromNetworkName(process.env.ETHEREUM_NETWORK_NAME)
 
 export const getUsdcBalance = async (address) => {
+  await getTorusWallet(context.currentUser.id)
   if (!address) throw 'No address provided'
   let contract
   try {

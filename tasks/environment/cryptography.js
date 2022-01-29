@@ -7,9 +7,9 @@ dotenv.config()
 
 const ALGORITHM = 'aes-256-gcm'
 
-const decrypt = ({ tag, content, iv }) => {
-  const key = process.env.ENCRYPTION_KEY
-  if (!key || !iv) throw 'No ENCRYPTION_KEY or ENCRYPTION_IV found in .env'
+const decrypt = ({ encrypted, key }) => {
+  const { tag, content, iv } = encrypted
+  if (!key || !iv) throw 'No ENCRYPTION_KEY or ENCRYPTION_IV provided'
   const decipher = createDecipheriv(ALGORITHM, key, iv)
   decipher.setAuthTag(new Buffer(tag, 'hex'))
 
@@ -18,8 +18,7 @@ const decrypt = ({ tag, content, iv }) => {
   return decrypted
 }
 
-const encrypt = (plaintext) => {
-  const key = process.env.ENCRYPTION_KEY
+const encrypt = ({ plaintext, key }) => {
   const iv = randomBytes(16).toString('hex')
   if (!key || key.length < 24 || !iv) throw new Error('Missing key or iv')
   const cipher = createCipheriv(ALGORITHM, key, iv)

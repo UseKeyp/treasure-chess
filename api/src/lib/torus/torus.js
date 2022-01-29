@@ -13,7 +13,7 @@ import { isProduction } from 'src/lib/helpers'
 
 let config = {
   network: 'ropsten',
-  proxyAddress: '0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183',
+  proxyAddress: '0x6258c9d6c12ed3edda59a1a6527e469517744aa7',
 }
 if (isProduction)
   config = {
@@ -30,47 +30,26 @@ const torusUtils = new TorusUtils(
     : undefined
 )
 
-const VERIFIER_ID = 'user_id'
-const verifierDetails = {
-  verifier: process.env.TORUS_VERIFIER,
-  verifierId: VERIFIER_ID,
-}
-
 export const getTorusPublicAddress = async (userId) => {
   try {
-    if (isProduction) {
-      const idToken = await getNewIdToken(userId)
-      console.log({ config })
-      console.log({ verifierDetails })
-      console.log({ idToken })
-      /* eslint-disable camelcase */
-      const { user_id } = decodeJwt(idToken)
-      const hashedIdToken = keccak256(idToken)
-
-      const { torusNodeEndpoints, torusIndexes } =
-        await fetchNodeDetails.getNodeDetails(verifierDetails)
-      const retrieveSharesResponse = await torusUtils.retrieveShares(
-        torusNodeEndpoints,
-        torusIndexes,
-        process.env.TORUS_VERIFIER,
-        {
-          verify_params: [{ verifier_id: VERIFIER_ID, idtoken: idToken }],
-          sub_verifier_ids: ['chess'],
-          verifier_id: VERIFIER_ID,
-        },
-        hashedIdToken.substring(2)
-      )
-      console.log(retrieveSharesResponse)
-    } else {
-      const { torusNodeEndpoints, torusNodePub } =
-        await fetchNodeDetails.getNodeDetails(false, true)
-      const publicAddress = await torusUtils.getPublicAddress(
-        torusNodeEndpoints,
-        torusNodePub,
-        { verifier: process.env.TORUS_VERIFIER, verifierId: userId }
-      )
-      return publicAddress
+    const idToken = await getNewIdToken(userId)
+    /* eslint-disable camelcase */
+    const { user_id: verifierId } = decodeJwt(idToken)
+    const verifierDetails = {
+      verifier: process.env.TORUS_VERIFIER,
+      verifierId: verifierId,
     }
+    const hashedIdToken = keccak256(idToken)
+
+    const { torusNodeEndpoints, torusNodePub } =
+      await fetchNodeDetails.getNodeDetails(verifierDetails)
+
+    const publicAddress = await torusUtils.getPublicAddress(
+      torusNodeEndpoints,
+      torusNodePub,
+      verifierDetails
+    )
+    return publicAddress
   } catch (e) {
     /* eslint-disable-next-line no-console */
     console.log(e)
@@ -78,43 +57,30 @@ export const getTorusPublicAddress = async (userId) => {
 }
 export const getTorusWallet = async (userId) => {
   try {
-    if (isProduction) {
-      const idToken = await getNewIdToken(userId)
-      /* eslint-disable camelcase */
-      const { user_id } = decodeJwt(idToken)
-
-      const { torusNodeEndpoints, torusIndexes } =
-        await fetchNodeDetails.getNodeDetails(verifierDetails)
-      const retrieveSharesResponse = await torusUtils.retrieveShares(
-        torusNodeEndpoints,
-        torusIndexes,
-        process.env.TORUS_VERIFIER,
-        {
-          verify_params: [{ verifier_id: verifierId, idtoken: idToken }],
-          sub_verifier_ids: ['chess'],
-          verifier_id: verifierId,
-        },
-        hashedIdToken.substring(2)
-      )
-    } else {
-      const idToken = await getNewIdToken(userId)
-      /* eslint-disable camelcase */
-      const { user_id } = decodeJwt(idToken)
-
-      const { torusNodeEndpoints, torusIndexes } =
-        await fetchNodeDetails.getNodeDetails(false, true)
-      const { ethAddress: publicAddress, privKey: privateKey } =
-        await torusUtils.retrieveShares(
-          torusNodeEndpoints,
-          torusIndexes,
-          process.env.TORUS_VERIFIER,
-          { verifier_id: user_id },
-          idToken
-        )
-
-      // TODO: Add logging here
-      return { publicAddress, privateKey }
+    const idToken = await getNewIdToken(userId)
+    /* eslint-disable camelcase */
+    const { user_id: verifierId } = decodeJwt(idToken)
+    const verifierDetails = {
+      verifier: process.env.TORUS_VERIFIER,
+      verifierId: verifierId,
     }
+
+    const hashedIdToken = keccak256(idToken)
+
+    const { torusNodeEndpoints, torusIndexes } =
+      await fetchNodeDetails.getNodeDetails(verifierDetails)
+    const retrieveSharesResponse = await torusUtils.retrieveShares(
+      torusNodeEndpoints,
+      torusIndexes,
+      process.env.TORUS_VERIFIER,
+      {
+        verify_params: [{ verifier_id: verifierId, idtoken: idToken }],
+        sub_verifier_ids: ['chess'],
+        verifier_id: verifierId,
+      },
+      hashedIdToken.substring(2)
+    )
+    console.log(retrieveSharesResponse)
   } catch (e) {
     /* eslint-disable-next-line no-console */
     console.log(e)

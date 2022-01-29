@@ -15,66 +15,51 @@ const config = {
 
 export const players = [
   {
-    name: 'Hikaru Nakamura',
+    name: 'Magnus Carlsen',
+    rating: 2865,
+    imageSrc:
+      'https://images.chesscomfiles.com/uploads/v1/master_player/3b0ddf4e-bd82-11e8-9421-af517c2ebfed.3ea0e292.160x160o.bcc8fdc32021@2x.jpeg',
     masterTitle: 'GM',
-    imageSrc:
-      'https://images.chesscomfiles.com/uploads/v1/user/15448422.90503d66.160x160o.269b19895ab0.jpeg',
-    url: '/treasures?username=hikaru',
-    rating: 3218,
-    country: 'US',
+    country: 'NO',
   },
   {
-    name: 'Alexandra Botez',
-    masterTitle: 'IM',
+    name: 'Alireza Firouzja',
+    rating: '2804',
     imageSrc:
-      'https://images.chesscomfiles.com/uploads/v1/user/28583276.26b0cd3b.160x160o.fcbeec9a680e.jpeg',
-    url: '/treasures?username=alexandrabotez',
-    rating: 2244,
-    country: 'US',
-  },
-  {
-    name: 'Maurice Ashley',
+      'https://images.chesscomfiles.com/uploads/v1/master_player/1c5b7992-3ddf-11ea-9e48-b932e6f44795.541c8641.160x160o.3f0df33bd4bb.png',
     masterTitle: 'GM',
-    imageSrc:
-      'https://images.chesscomfiles.com/uploads/v1/user/9194996.d712e3ce.160x160o.86f7fd01bf97.jpg',
-    url: '/treasures?username=gmashley',
-    rating: 2368,
-    country: 'US',
+    country: 'FR',
   },
   {
-    name: 'Eric Hansen',
+    name: 'Ding Liren',
+    rating: '2799',
+    imageSrc:
+      'https://images.chesscomfiles.com/uploads/v1/master_player/00ffadde-d6a8-11e8-bdb9-933b839db343.c693ec2d.160x160o.5015d8cb0fba.png',
     masterTitle: 'GM',
-    imageSrc:
-      'https://images.chesscomfiles.com/uploads/v1/user/1647368.72a2daa7.160x160o.05329203c4c9.gif',
-    url: '/treasures?username=erichansen',
-    rating: 2986,
-    country: 'US',
+    country: 'CN',
   },
   {
-    name: 'Maurice Ashley',
+    name: 'Fabiano Caruana',
+    rating: '2792',
+    imageSrc:
+      'https://images.chesscomfiles.com/uploads/v1/master_player/c66cb17a-c005-11e8-886b-692f3468f8e7.e1fe5773.160x160o.27a365c95467.jpeg',
     masterTitle: 'GM',
-    imageSrc:
-      'https://external-preview.redd.it/PBRzWyhmbC9m_N4P4po00yTtoebm709FWxdQvzsDqb0.jpg?auto=webp&s=0e7975b8befe0d64682258445fa4e9669fcf2987',
-    url: '/treasures?username=gmashley',
-    rating: 2368,
     country: 'US',
   },
   {
-    name: 'Alexandra Botez',
-    masterTitle: 'IM',
+    name: 'Anish Giri',
+    rating: '2772',
     imageSrc:
-      'https://images.chesscomfiles.com/uploads/v1/user/28583276.26b0cd3b.160x160o.fcbeec9a680e.jpeg',
-    url: '/treasures?username=alexandrabotez',
-    rating: 2244,
-    country: 'US',
-  },
-  {
-    name: 'Eric Hansen',
+      'https://images.chesscomfiles.com/uploads/v1/master_player/93222764-bd80-11e8-b51a-fd14c22a36df.a931527c.160x160o.a0852c56a701.jpeg',
     masterTitle: 'GM',
+    country: 'NL',
+  },
+  {
+    name: 'Wesly So',
+    rating: '2772',
     imageSrc:
-      'https://images.chesscomfiles.com/uploads/v1/user/1647368.72a2daa7.160x160o.05329203c4c9.gif',
-    url: '/treasures?username=erichansen',
-    rating: 2986,
+      'https://images.chesscomfiles.com/uploads/v1/master_player/d1da994a-c00b-11e8-ae3d-67e3121970db.0ffa8f0a.160x160o.7ed711a1126c.jpeg',
+    masterTitle: 'GM',
     country: 'US',
   },
 ]

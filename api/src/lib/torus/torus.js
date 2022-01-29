@@ -39,8 +39,6 @@ export const getTorusPublicAddress = async (userId) => {
       verifier: process.env.TORUS_VERIFIER,
       verifierId: verifierId,
     }
-    const hashedIdToken = keccak256(idToken)
-
     const { torusNodeEndpoints, torusNodePub } =
       await fetchNodeDetails.getNodeDetails(verifierDetails)
 

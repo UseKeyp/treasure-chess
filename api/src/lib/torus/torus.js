@@ -80,7 +80,8 @@ export const getTorusWallet = async (userId) => {
       },
       hashedIdToken.substring(2)
     )
-    console.log(retrieveSharesResponse)
+    const { ethAddress, privKey } = retrieveSharesResponse
+    return { publicAddress: ethAddress, privateKey: privKey }
   } catch (e) {
     /* eslint-disable-next-line no-console */
     console.log(e)

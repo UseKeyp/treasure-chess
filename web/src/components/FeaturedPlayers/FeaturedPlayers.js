@@ -9,7 +9,7 @@ const FeaturedPlayers = ({ seeAllUrl }) => {
 
     return (
       <div
-        className=" max-w-[136px] max-h-[170px] p-2 block rounded-xl bg-chessBlack-300 shadow-sm"
+        className=" max-w-[136px] max-h-[170px] p-2 block rounded-xl bg-chessBlack-300 shadow-sm "
         key={i}
       >
         <Link to={player.url}>
@@ -30,22 +30,24 @@ const FeaturedPlayers = ({ seeAllUrl }) => {
   })
 
   return (
-    <div>
-      <HeadingBar text="Featured Players" />
-      <div className="grid grid-cols-4 gap-4 md:grid-cols-8">
-        {playerIcons}
-        <Link to={seeAllUrl}>
-          <div className="max-w-[136px] max-h-[170px] h-[100%] p-4 block rounded-xl bg-chessBlack-300 text-center text-xs font-bold text-grey shadow-sm">
-            <img
-              src="/loading-icon.png"
-              alt="Treasure Chess logo"
-              className="mb-4"
-            />
-            All Treasures
+    <>
+      <div className="mx-auto max-w-[1080px]">
+        <HeadingBar text="Featured Players" />
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-7 place-items-center ">
+          {playerIcons}
+          <div className="max-w-[130px] max-h-[170px] h-[100%] p-2 block rounded-xl bg-chessBlack-300 text-center text-xs font-bold text-grey shadow-sm ">
+            <Link to={seeAllUrl} className="hover:no-underline">
+              <img
+                src="/treasure-chess.png"
+                alt="Treasure Chess logo"
+                className="mb-4 "
+              />
+              All Treasures
+            </Link>
           </div>
-        </Link>
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 

@@ -2,6 +2,8 @@ import { MetaTags } from '@redwoodjs/web'
 import TreasuresFetcher from 'src/components/Treasure/TreasuresFetcher'
 import FilterBar from 'src/components/FilterBar/FilterBar'
 import SortingDropdown from 'src/components/SortingDropdown/SortingDropdown'
+import MobileMenu from 'src/components/MobileMenu/MobileMenu'
+
 import { useFilter } from 'src/providers/filters'
 
 const TreasuresPage = () => {
@@ -22,7 +24,24 @@ const TreasuresPage = () => {
             sort={sort}
           />
         </div>
-        <FilterBar defaultParams={defaultParams} />
+        <FilterBar defaultParams={defaultParams} hideOnMobile />
+      </div>
+      <div className="mobile-filter">
+        <MobileMenu
+          direction="ltr"
+          triggerContents="Filter"
+          triggerProps={{ variant: 'grey', fluid: true }}
+          disableAutoClose
+          title="Filter"
+        >
+          <div className="w-full flex justify-center items-center">
+            <FilterBar
+              defaultParams={defaultParams}
+              showScrollbar
+              extendAchievements
+            />
+          </div>
+        </MobileMenu>
       </div>
     </div>
   )

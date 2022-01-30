@@ -3,6 +3,7 @@ import { ReactComponent as Facebook } from './facebook.svg'
 import { ReactComponent as Twitter } from './twitter.svg'
 import { ReactComponent as Search } from './search.svg'
 import { ReactComponent as Share } from './share.svg'
+import { ReactComponent as CloseX } from './close-x.svg'
 
 const ChessCom = ({ height = '34' }) => (
   <svg
@@ -529,4 +530,5 @@ export default {
   arrow_up: ArrowUp,
   search: Search,
   share: Share,
+  close_x: CloseX,
 }

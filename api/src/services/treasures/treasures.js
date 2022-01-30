@@ -3,6 +3,7 @@ import {
   getTreasuresWithFilter,
   getTreasuresWithFilterCount,
 } from 'src/lib/treasures'
+import { processPendingMarketTransactions } from 'src/lib/marketSales'
 
 export const treasures = () => db.treasure.findMany()
 
@@ -11,10 +12,19 @@ export const treasuresWithFilter = ({ username, owner, sort, filter, page }) =>
 export const treasuresWithFilterCount = ({ username, owner, filter }) =>
   getTreasuresWithFilterCount({ username, filter, owner })
 
-export const treasure = ({ tokenId }) =>
-  db.treasure.findUnique({
+export const treasure = async ({ tokenId }) => {
+  const treasure = await db.treasure.findUnique({
     where: { tokenId },
+    include: {
+      marketSales: {
+        orderBy: { updatedAt: 'desc' },
+        include: { listTx: true, unlistTx: true, saleTransactions: true },
+      },
+      owner: true,
+    },
   })
+  return processPendingMarketTransactions({ treasure })
+}
 
 export const treasureNftDetails = async ({ tokenId }) => {
   const treasure = await db.treasure.findUnique({

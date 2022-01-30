@@ -7,6 +7,7 @@ const Cell = ({ children }) => {
 
 const Table = ({
   isLoading,
+  error,
   height,
   width,
   rowHeight,
@@ -39,21 +40,18 @@ const Table = ({
       </div>
     )
   })
+  let contents
+  if (error) contents = <p>{error}</p>
+  else if (!isLoading) contents = rows
+  else
+    contents = (
+      <RowsSkeleton rowCount={6} maxWidth={rowWidth} maxHeight={rowHeight} />
+    )
 
   return (
     <div className="table-wrapper" style={{ height, width }}>
       <h1 className="table-header">{title}</h1>
-      <div className="table-component flex-col">
-        {!isLoading ? (
-          rows
-        ) : (
-          <RowsSkeleton
-            rowCount={6}
-            maxWidth={rowWidth}
-            maxHeight={rowHeight}
-          />
-        )}
-      </div>
+      <div className="table-component flex-col">{contents}</div>
     </div>
   )
 }

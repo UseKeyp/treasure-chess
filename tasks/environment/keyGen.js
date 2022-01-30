@@ -22,7 +22,7 @@ const gen = () => {
 # NOTE: Any additions here must also be added to /scripts/encryptEnv/generateKey.js
 
 ENCRYPTION_KEY=${process.env.ENCRYPTION_KEY}
-ENCRYPTION_IV=${iv}`,
+`,
     (err) => {
       if (err) throw err
     }

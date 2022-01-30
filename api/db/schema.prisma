@@ -79,7 +79,7 @@ model Treasure {
   opening          Opening
   achievements     Achievement[] // List eg. "win/play above 2200,queen side castle,mate with a bishop"
   achievementScore Int // eg. 10
-  rarity           String // eg. 10
+  rarity           Rarity // eg. 10
   marketSales      MarketSale[]
 }
 

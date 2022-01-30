@@ -51,6 +51,11 @@ const getMintPurchaseData = async () => {
 
 const getTreasureData = async () => {
   const total = await db.treasure.count()
+  const Good = await db.treasure.count({ where: { rarity: 'Good' } })
+  const Great = await db.treasure.count({ where: { rarity: 'Great' } })
+  const Ultra = await db.treasure.count({ where: { rarity: 'Ultra' } })
+  const Mythic = await db.treasure.count({ where: { rarity: 'Mythic' } })
+
   // per achievement (specific date range)
   // # cards
   // avg sale price
@@ -61,11 +66,50 @@ const getTreasureData = async () => {
   // avg sale price
   // # sales
 
-  return { total }
+  return {
+    total,
+    rarity: {
+      Good,
+      Great,
+      Ultra,
+      Mythic,
+    },
+  }
 }
+const getMarketSaleData = async () => {
+  const total = await db.treasure.count()
+
+  // TODO sum the totals for each category
+  const Good = await db.treasure.findMany({
+    where: { treasure: { rarity: 'Good' }, status: 'SOLD' },
+  })
+  const Great = await db.treasure.findMany({
+    where: { treasure: { rarity: 'Great' }, status: 'SOLD' },
+  })
+  const Ultra = await db.treasure.findMany({
+    where: { treasure: { rarity: 'Ultra' }, status: 'SOLD' },
+  })
+  const Mythic = await db.treasure.findMany({
+    where: { treasure: { rarity: 'Mythic' }, status: 'SOLD' },
+  })
+
+  const totalSales = Good + Great + Ultra + Mythic
+
+  return {
+    total,
+    sales: {
+      total: totalSales,
+      Good,
+      Great,
+      Ultra,
+      Mythic,
+    },
+  }
+}
+
 const getMemberData = async () => {
   const members = await db.member.findMany({
-    where: { address: true },
+    where: { address: { startsWith: '0x' } },
     include: {
       mintPurchases: { orderBy: { createdAt: 'desc' } },
       marketSalesSold: { orderBy: { updatedAt: 'desc' } },
@@ -92,14 +136,7 @@ export const getMetrics = async ({ _startTime, _endTime }) => {
     const mintPurchase = await getMintPurchaseData()
     const treasure = await getTreasureData()
     const member = await getMemberData()
-
-    const mintsPerMember = mintPurchase.total / member.total
-    const treasresPerMember = treasure.total / member.total
-
-    const calculated = {
-      mintsPerMember,
-      treasresPerMember,
-    }
+    const marketSale = await getMarketSaleData()
 
     const totalSupply = await totalSupply()
     const chainData = {
@@ -107,6 +144,19 @@ export const getMetrics = async ({ _startTime, _endTime }) => {
       marketAddress: process.env.CONTRACT_ADDRESS_TREASURE_MARKET,
       totalSupply: supply,
       networkName: process.env.ETHEREUM_NETWORK_NAME,
+    }
+
+    const mintsPerMember = mintPurchase.total / member.total
+    const treasresPerMember = treasure.total / member.total
+
+    const totalSales = {}
+    const sales = {}
+    const calculated = {
+      member: {
+        mintsPerMember,
+        treasresPerMember,
+      },
+      // marketSale,
     }
 
     return {

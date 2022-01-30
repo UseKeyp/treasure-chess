@@ -1,4 +1,4 @@
-import { Link } from '@redwoodjs/router'
+import { Link, routes } from '@redwoodjs/router'
 import HeadingBar from '../HeadingBar/HeadingBar'
 import { getFlagBase64 } from '@treasure-chess/treasure-html'
 import { players } from 'src/global.config'
@@ -9,7 +9,7 @@ const FeaturedPlayers = ({ seeAllUrl }) => {
 
     return (
       <Link
-        to={player.url}
+        to={routes.treasures({ username: player.username })}
         key={i}
         className="hover:no-underline cursor-pointer"
       >

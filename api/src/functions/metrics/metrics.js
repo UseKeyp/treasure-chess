@@ -26,7 +26,6 @@ export const handler = async (event, context) => {
     const register = new Registry()
     collectDefaultMetrics({ register })
 
-    console.log(await register.metrics())
     const data = await register.metrics()
 
     return {

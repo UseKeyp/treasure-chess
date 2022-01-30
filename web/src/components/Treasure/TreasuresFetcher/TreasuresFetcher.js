@@ -115,7 +115,7 @@ const TreasuresFetcher = ({ username, owner, filter, sort }) => {
   React.useEffect(() => {
     onNewSearch()
     /* eslint-disable-next-line react-hooks/exhaustive-deps*/
-  }, [username, filter, sort])
+  }, [username, filter])
 
   // TODO: add button to scroll to top
   // https://www.w3schools.com/howto/howto_js_scroll_to_top.asp

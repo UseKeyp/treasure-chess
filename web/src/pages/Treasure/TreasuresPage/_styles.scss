@@ -1,0 +1,5 @@
+.mobile-filter {
+  @apply md:hidden w-full p-4 items-center fixed;
+
+  bottom: 25px;
+}

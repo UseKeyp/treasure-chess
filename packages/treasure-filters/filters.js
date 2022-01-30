@@ -56,6 +56,7 @@ const moveCountList = [
 // Items without name/value pair
 const titleList = ['gm', 'im', 'nm']
 const openingList = [
+  'Any',
   "King's Pawn Game",
   "Queen's Gambit",
   'Ruy Lopez',
@@ -90,8 +91,8 @@ const sortList = [
   'Price: Low to High',
   'Newest First',
   'Oldest First',
-  'Played: Oldest',
   'Played: Newest',
+  'Played: Oldest',
 ]
 
 const filters = {

@@ -7,9 +7,7 @@ on:
         required: true
         default: 'staging'
 env:
-  NODE_ENV: 'development'
-  BASIC_AUTH_PASSWORD: 'pauliemorphy'
-
+  NODE_ENV: ${{ github.event.inputs.image_tag_prefix }}
   GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
   GITHUB_SHA: ${{ github.sha }}
   GITHUB_BRANCH: ${{ github.ref }}
@@ -30,7 +28,7 @@ jobs:
         run: gcloud auth configure-docker us-east4-docker.pkg.dev
       - name: Build and push image
         run: |
-          PREFIX=${{ github.event.inputs.image_tag_prefix }}
+          PREFIX=$NODE_ENV
           REDWOOD_API_URL=https://treasure.gcp-staging.chess-platform.com
           if [ $PREFIX == "prod" ] ; then
              REDWOOD_API_URL=https://treasure.chess.com

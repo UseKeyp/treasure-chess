@@ -8,15 +8,13 @@ import { pinTreasure } from 'src/lib/pinata/pinata'
 import { mint } from 'src/lib/web3/treasure/treasure'
 import { web3Provider } from 'src/lib/web3/helpers'
 import { generateTreasureData } from 'src/lib/treasures'
-import { isProduction } from 'src/lib/helpers'
-
 import { sendDiscordAlert } from 'src/lib/discord/discord'
 
 const SUBMITTED = 'SUBMITTED'
 const COMPLETE = 'COMPLETE'
 const FAILED = 'FAILED'
 
-const DISCORD_MESSAGE_TITLE = isProduction ? '[prod]' : '[dev]'
+const MINIMUM_CONFIRMATIONS = 15
 
 export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
   try {
@@ -92,7 +90,7 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
       await sendDiscordAlert({
         embed: {
           color: 16740982,
-          title: `${DISCORD_MESSAGE_TITLE}  ⛈️⛓️  Failed to submit mint transaction!`,
+          title: `⛈️⛓️  Failed to submit mint transaction!`,
           description: `Mint Purchase ID: ${mintPurchase?.id || '?'}
 Order Type: ${mintPurchase?.paymentType || '?'}
 Member: ${member?.username || '?'}
@@ -101,6 +99,7 @@ Game: ${gameId || '?'}  ${gameEndTime || '?'}
 ${e.message.substring(0, 2000)}`,
           footer: { text: new Date().toString() },
         },
+        channelName: 'orders',
       })
       Sentry.setUser({ username: mintPurchase.member.username })
       Sentry.captureException(e)
@@ -131,12 +130,26 @@ const getLogByTopic = ({ logs, topic }) => {
   return logByTopic
 }
 
+export const getTxReceipt = async (txHash) =>
+  web3Provider.getTransactionReceipt(txHash)
+
+export const getTxStatus = async (txHash) => {
+  const receipt = await getTxReceipt(txHash)
+  if (receipt?.status === 0) {
+    return FAILED
+  } else if (
+    receipt?.status == 1 &&
+    receipt?.confirmations >= MINIMUM_CONFIRMATIONS
+  ) {
+    return COMPLETE
+  }
+  return SUBMITTED
+}
+
 export const getMintTxStatus = async ({ mintPurchase }) => {
   try {
     if (mintPurchase.txStatus === SUBMITTED) {
-      const receipt = await web3Provider.getTransactionReceipt(
-        mintPurchase.txHash
-      )
+      const receipt = await getTxReceipt(mintPurchase.txHash)
 
       if (receipt?.status === 0) {
         return { status: FAILED }

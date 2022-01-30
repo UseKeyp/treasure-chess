@@ -13,6 +13,7 @@ const realGames = require('./data/realGames.json')
 const randomTitles = require('./data/randomTitles.json')
 const randomAvatarsBase64 = require('./data/randomAvatarsBase64.js')
 const countries = require('./data/countries')
+const deltaRating = require('./data/deltaData.json')
 
 const getBoardLayout = (pgn) => {
   const chess = new Chess()
@@ -70,7 +71,12 @@ const generateRandomTreasures = (count, highestTokenId, members) => {
 
       const realGame = realGames[randomInt(0, realGames.length - 1)]
 
-      const game = parseGameFromChessDotCom(realGame)
+      let game = parseGameFromChessDotCom(realGame)
+      game = {
+        ...game,
+        blackRatingDelta: deltaRating[game.id].black,
+        whiteRatingDelta: deltaRating[game.id].white,
+      }
       const treasure = generateTreasureDataOffline({
         game,
         title: randomTitles[randomInt(0, randomTitles.length - 1)],

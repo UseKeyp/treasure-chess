@@ -38,8 +38,10 @@ FROM node:14 as serve
 WORKDIR /app
 
 COPY tasks/environment/ tasks/environment/
-COPY dev.env.enc.js dev.env.enc.js
-COPY prod.env.enc.js prod.env.enc.js
+COPY .env.dev.js.enc .
+COPY .env.sandbox.js.enc .
+COPY .env.staging.js.enc .
+COPY .env.prod.js.enc .
 COPY serve-api.sh serve-api.sh
 
 COPY --from=build /app/packages /app/packages

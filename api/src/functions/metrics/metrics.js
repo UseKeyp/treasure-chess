@@ -28,15 +28,15 @@ export const handler = async (event, _context) => {
     const register = new Registry()
     collectDefaultMetrics({ register })
 
-    const data = await register.metrics()
-
+    const promData = await register.metrics()
+    const metricsData = await getMetrics({})
     return {
       statusCode: 200,
       headers: {
         'Content-Type': 'application/json',
       },
 
-      body: JSON.stringify(data),
+      body: JSON.stringify({ promData, metricsData }),
     }
   } catch (e) {
     /* eslint-disable no-console */

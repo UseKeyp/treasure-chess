@@ -1,5 +1,3 @@
-import { useState } from 'react'
-import { createPortal } from 'react-dom'
 import { routes, useLocation } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
 import { useParams } from '@redwoodjs/router'
@@ -8,6 +6,7 @@ import { useWallet } from 'src/providers/wallet'
 import Icon from 'src/components/Icon/Icon'
 import Avatar from 'src/components/Avatar/Avatar'
 import Button from 'src/components/Button/Button'
+import MobileMenu from 'src/components/MobileMenu/MobileMenu'
 
 import UsernameSearchBar from 'src/components/UsernameSearchBar'
 import MemberBalance from 'src/components/Member/MemberBalance'
@@ -37,7 +36,6 @@ const WalletBalance = () => {
 const MobileNav = () => {
   const { isAuthenticated: isLoggedIn, logOut } = useAuth()
   const { pathname } = useLocation()
-  const [isOpen, setOpen] = useState(false)
 
   const isOnTreasuresPage = pathname === '/treasures'
   const isOnAboutPage = pathname === '/about'
@@ -45,21 +43,8 @@ const MobileNav = () => {
   const navItemClasses = 'block text-center mt-4 flex'
   const navAnchorClasses = 'text-center w-full font-bold'
 
-  React.useEffect(() => {
-    setOpen(false)
-  }, [pathname])
-
-  if (!isOpen) {
-    return <Button onClick={() => setOpen(true)}>Menu</Button>
-  }
-
-  return createPortal(
-    <div
-      className="fixed flex inset-0"
-      style={{ backgroundColor: 'hsla(36, 7%, 14%, 1)', zIndex: 100 }}
-      role="dialog"
-      aria-label="Mobile navigation"
-    >
+  return (
+    <MobileMenu triggerContents="Menu">
       <div className="flex-1 flex justify-center">
         <nav>
           <ul className="h-full relative">
@@ -103,16 +88,10 @@ const MobileNav = () => {
                 </li>
               </>
             )}
-            <li className="absolute" style={{ bottom: '10%' }}>
-              <Button onClick={() => setOpen(false)} size="large">
-                Close Menu
-              </Button>
-            </li>
           </ul>
         </nav>
       </div>
-    </div>,
-    document.querySelector('body')
+    </MobileMenu>
   )
 }
 

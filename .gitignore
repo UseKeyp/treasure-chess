@@ -1,8 +1,9 @@
 .idea
 .DS_Store
 .env
-.env.js
-.env.*.js
+.env.*
+!*.enc
+!.env.template
 *.env
 .netlify
 .redwood

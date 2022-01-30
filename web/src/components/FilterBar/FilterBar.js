@@ -12,14 +12,21 @@ import UsernameSearchBar from 'src/components/UsernameSearchBar'
 
 import { useFilter } from 'src/providers/filters'
 
-const FilterBar = ({ defaultParams }) => {
+const FilterBar = ({
+  defaultParams,
+  hideOnMobile = false,
+  showScrollbar = false,
+  extendAchievements = false,
+}) => {
   const { filter, setFilter, resetFilter } = useFilter()
 
   const [title, setTitle] = useState(filter.title)
   const [timeControl, setTimeControl] = useState(filter.timeControl)
   const [moveCount, setMoveCount] = useState(filter.moveCount)
   const [achievements, setAchievements] = useState(filter.achievements || [])
-  const [opening, setOpening] = useState(filter.opening)
+  const [opening, setOpening] = useState(
+    defaultParams?.opening || filter.opening
+  )
   const [color, setColor] = useState(filter.color)
   const [termination, setTermination] = useState(
     defaultParams?.termination || filter.termination
@@ -47,7 +54,7 @@ const FilterBar = ({ defaultParams }) => {
   const updateFilter = () => {
     setFilter('filter', {
       ...(achievements?.length && { achievements }),
-      ...(opening && { opening }),
+      ...(opening && opening !== defaultParams?.opening && { opening }),
       ...(color && { color }),
       ...(title && { title }),
       ...(timeControl && { timeControl }),
@@ -97,8 +104,8 @@ const FilterBar = ({ defaultParams }) => {
   ])
 
   return (
-    <div className={styles.filterBarWrapper}>
-      <div className={styles.filterBar}>
+    <div className={styles.filterBarWrapper} data-hide-on-mobile={hideOnMobile}>
+      <div className={styles.filterBar} data-show-scrollbar={showScrollbar}>
         <div className={styles.resetRow}>
           <button className={styles.reset} onClick={onReset}>
             Reset
@@ -189,6 +196,8 @@ const FilterBar = ({ defaultParams }) => {
             )}
             queryFilterFunction={updateAchievements}
             queryFilter={achievements}
+            extendScrollArea={extendAchievements}
+            showScrollbar={showScrollbar}
           />
         </div>
       </div>

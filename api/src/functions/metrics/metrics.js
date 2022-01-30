@@ -17,7 +17,7 @@ import Sentry from 'src/lib/sentry'
  * @param { Context } context - contains information about the invocation,
  * function, and execution environment.
  */
-export const handler = async (event, context) => {
+export const handler = async (event, _context) => {
   try {
     logger.info('Invoked metrics function')
 
@@ -37,11 +37,13 @@ export const handler = async (event, context) => {
       body: JSON.stringify(data),
     }
   } catch (e) {
+    /* eslint-disable no-console */
     console.log(e)
     console.log(event)
+    /* eslint-enable no-console */
     Sentry.captureException(e)
     return {
-      statusCode, // Always return 200
+      statusCode: 500, // Always return 200
       body: {
         message: 'Internal server error',
       },

@@ -210,10 +210,9 @@ const getCardHtml = async ({ treasure, gifBase64, gifUrl }) => {
         iconByPoints(3, treasure.cardColor),
         true
       )
-      const achievements = treasure.achievements.split(',')
-      updateContent('achievement-1', achievements[0])
-      updateContent('achievement-2', achievements[1])
-      updateContent('achievement-3', achievements[2])
+      updateContent('achievement-1', treasure.achievements[0])
+      updateContent('achievement-2', treasure.achievements[1])
+      updateContent('achievement-3', treasure.achievements[2])
 
       // Metadata
       updateContent(

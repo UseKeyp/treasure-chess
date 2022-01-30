@@ -8,8 +8,6 @@ import { pinTreasure } from 'src/lib/pinata/pinata'
 import { mint } from 'src/lib/web3/treasure/treasure'
 import { web3Provider } from 'src/lib/web3/helpers'
 import { generateTreasureData } from 'src/lib/treasures'
-import { isProduction } from 'src/lib/helpers'
-
 import { sendDiscordAlert } from 'src/lib/discord/discord'
 
 const SUBMITTED = 'SUBMITTED'
@@ -17,8 +15,6 @@ const COMPLETE = 'COMPLETE'
 const FAILED = 'FAILED'
 
 const MINIMUM_CONFIRMATIONS = 15
-
-const DISCORD_MESSAGE_TITLE = isProduction ? '[prod]' : '[dev]'
 
 export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
   try {
@@ -94,7 +90,7 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
       await sendDiscordAlert({
         embed: {
           color: 16740982,
-          title: `${DISCORD_MESSAGE_TITLE}  ⛈️⛓️  Failed to submit mint transaction!`,
+          title: `⛈️⛓️  Failed to submit mint transaction!`,
           description: `Mint Purchase ID: ${mintPurchase?.id || '?'}
 Order Type: ${mintPurchase?.paymentType || '?'}
 Member: ${member?.username || '?'}
@@ -103,6 +99,7 @@ Game: ${gameId || '?'}  ${gameEndTime || '?'}
 ${e.message.substring(0, 2000)}`,
           footer: { text: new Date().toString() },
         },
+        channelName: 'orders',
       })
       Sentry.setUser({ username: mintPurchase.member.username })
       Sentry.captureException(e)

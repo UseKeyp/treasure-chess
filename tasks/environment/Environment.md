@@ -1,3 +1,5 @@
+> This doc is intended for external audience, as an open-source guide
+
 # encrypted-env-demo
 
 > An example app using encrypted environment variables.

@@ -1,6 +1,6 @@
 # Environments
 
-###aes-256-gcm
+### aes-256-gcm
 
 - Initialization vector (iv) has 12 bytes (96 bits). Must be unique but not necessarily random. New iv should be generated each time.
 
@@ -16,9 +16,39 @@ NOTE: A new iv must be generated for each new production encrypted file.
 node tasks/environment/keyGen
 ```
 
-The `.env` will be updated with the new secret and a fresh initialization vector (iv). Note that the iv can be re-used with new secrets.
+3. Encrypt the files. Change `ENVIRONMENT_LIST`, then run
+
+```bash
+node tasks/environment/encrypt
+```
 
 ### Example implementations
 
 - aes-256-gcm https://gist.github.com/rjz/15baffeab434b8125ca4d783f4116d81
 - aes-256-gcm with a buffer https://stackoverflow.com/questions/53269132/aes-256-gcm-encryption-decryption-in-nodejs
+
+### Hasicorp vault
+
+vault dev server unseal key nr/GT+uvbwScDmsiTChtRTnInSTHtvm0bOAUa6p9o6c=
+
+```
+# Create a secret
+vault kv put secret/foo bar=baz
+
+# Get a secret
+vault kv get secret/foo
+
+# Get only the secret value with -field
+vault kv get -field=bar secret/foo
+vault kv delete secret/foo
+
+# add a new engine at a specific path
+vault secrets enable -path=kv kv
+vault secrets disable kv/
+
+# list all the paths
+vault secrets list
+
+# list secrets at a path
+vault kv list kv/
+```

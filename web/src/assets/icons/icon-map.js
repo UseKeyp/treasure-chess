@@ -2,6 +2,7 @@ import { ReactComponent as Wyre } from './wyre.svg'
 import { ReactComponent as Facebook } from './facebook.svg'
 import { ReactComponent as Twitter } from './twitter.svg'
 import { ReactComponent as Search } from './search.svg'
+import { ReactComponent as CloseX } from './close-x.svg'
 
 const ChessCom = ({ height = '34' }) => (
   <svg
@@ -527,4 +528,5 @@ export default {
   facebook: Facebook,
   arrow_up: ArrowUp,
   search: Search,
+  close_x: CloseX,
 }

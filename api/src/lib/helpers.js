@@ -11,8 +11,7 @@ export const isHexAddress = (address) => {
 export const isDevelopment =
   process.env.NODE_ENV === 'development' || process.env.NODE_ENV == null
 
-export const isProduction =
-  process.env.NODE_ENV !== 'development' && process.env.NODE_ENV !== null
+export const isProduction = ['staging', 'prod'].includes(process.env.NODE_ENV)
 
 export const isExpired = (expiration) => {
   return new Date(expiration) > new Date()

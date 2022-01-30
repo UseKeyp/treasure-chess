@@ -23,7 +23,7 @@ const Redirect = ({ type }) => {
     }).then((res) => {
       return res.json()
     })
-    if (response.error) return setErrorMessage(response.error)
+    if (response.error || !response) return setErrorMessage(response.error)
     if (response.id) navigate(getRedirectTo() || '/')
   }
 

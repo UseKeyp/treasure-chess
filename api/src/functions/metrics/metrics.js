@@ -1,6 +1,8 @@
 import { logger } from 'src/lib/logger'
 import client from 'prom-client'
 import Sentry from 'src/lib/sentry'
+import { getMetrics } from 'src/lib/metrics'
+
 /**
  * The handler function is your code that processes http request events.
  * You can use return and throw to send a response or error, respectively.

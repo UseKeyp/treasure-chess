@@ -5,6 +5,7 @@ import { ReactComponent as Search } from './search.svg'
 import { ReactComponent as Play } from './play.svg'
 import { ReactComponent as Create } from './create.svg'
 import { ReactComponent as Collect } from './collect.svg'
+import { ReactComponent as Share } from './share.svg'
 import { ReactComponent as CloseX } from './close-x.svg'
 
 const ChessCom = ({ height = '34' }) => (
@@ -534,5 +535,6 @@ export default {
   play: Play,
   create: Create,
   collect: Collect,
+  share: Share,
   close_x: CloseX,
 }

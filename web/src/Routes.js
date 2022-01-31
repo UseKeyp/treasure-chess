@@ -23,6 +23,7 @@ const Routes = () => {
           <Route path="/treasures/{tokenId:Int}" page={TreasureTreasurePage} name="treasure" />
           <Route path="/treasures" page={TreasureTreasuresPage} name="treasures" />
         </Set>
+        <Route path="/chain-data" page={ChainDataPage} name="chainData" />
       </Set>
     </Router>
   )

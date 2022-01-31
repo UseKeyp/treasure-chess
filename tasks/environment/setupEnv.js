@@ -13,7 +13,7 @@ const setupEnvironment = () => {
     `./.env.${environment}.js.enc`
   ))
 
-  const decrypted = decrypt(encrypted)
+  const decrypted = decrypt({ encrypted, key: process.env.ENCRYPTION_KEY })
   const env = JSON.parse(decrypted)
 
   Object.keys(env).map((key) => {

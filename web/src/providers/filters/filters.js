@@ -1,10 +1,18 @@
+import filters from '@treasure-chess/treasure-filters'
 const FilterContext = React.createContext({})
 
 const initialState = {
-  sort: 'Sort by',
+  sort: undefined,
   username: '',
   filter: {},
   initialized: false,
+}
+
+const defaultParams = {
+  outcome: filters.outcomeList,
+  sale: filters.saleList,
+  termination: filters.terminationList[0],
+  sort: filters.sortList[4],
 }
 
 const FilterProvider = ({ children }) => {
@@ -23,7 +31,7 @@ const FilterProvider = ({ children }) => {
   const updateUrl = () => {
     const searchParams = new URLSearchParams(filter)
     username && searchParams.append('username', username)
-    sort && sort !== 'Sort by' && searchParams.append('sort', sort)
+    sort && sort !== defaultParams.sort && searchParams.append('sort', sort)
 
     searchParams.sort()
     const newPath = searchParams.toString()
@@ -64,6 +72,7 @@ const FilterProvider = ({ children }) => {
         filter,
         sort,
         username,
+        defaultParams,
         setFilter: updateFilter,
         resetFilter,
       }}

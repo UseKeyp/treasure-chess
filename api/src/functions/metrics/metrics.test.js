@@ -8,15 +8,7 @@ describe('metrics function', () => {
 
     const response = await handler(httpEvent, null)
     const { data } = JSON.parse(response.body)
-
     expect(response.statusCode).toBe(200)
-    expect(data).toBe('metrics function')
+    expect(typeof data).toBe('object')
   })
-
-  // You can also use scenarios to test your api functions
-  // See guide here: https://redwoodjs.com/docs/testing#scenarios
-  //
-  // scenario('Scenario test', async () => {
-  //
-  // })
 })

@@ -80,7 +80,7 @@ const getWhereQueryFromArgs = ({ username, filter, owner }) => {
     ? {
         OR: filterObj.achievements.split(',').map((chiev) => ({
           achievements: {
-            contains: chiev,
+            has: chiev,
           },
         })),
       }

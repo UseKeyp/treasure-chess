@@ -30,13 +30,13 @@ export const handler = async (event, _context) => {
 
     const promData = await register.metrics()
     const metricsData = await getMetrics({})
+
     return {
       statusCode: 200,
       headers: {
         'Content-Type': 'application/json',
       },
-
-      body: JSON.stringify({ promData, metricsData }),
+      body: JSON.stringify({ data: { promData, metricsData } }),
     }
   } catch (e) {
     /* eslint-disable no-console */

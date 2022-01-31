@@ -104,17 +104,41 @@ const getMarketSaleData = async () => {
   })
 
   // TODO sum the totals for each category
-  const Good = await db.marketSale.findMany({
-    where: { treasure: { rarity: 'Good' }, status: 'SOLD' },
+  const {
+    _sum: { amount: Good },
+  } = await db.marketSale.aggregate({
+    where: {
+      treasure: { rarity: 'Good' },
+      status: 'SOLD',
+    },
+    _sum: { amount: true },
   })
-  const Great = await db.marketSale.findMany({
-    where: { treasure: { rarity: 'Great' }, status: 'SOLD' },
+  const {
+    _sum: { amount: Great },
+  } = await db.marketSale.aggregate({
+    where: {
+      treasure: { rarity: 'Great' },
+      status: 'SOLD',
+    },
+    _sum: { amount: true },
   })
-  const Ultra = await db.marketSale.findMany({
-    where: { treasure: { rarity: 'Ultra' }, status: 'SOLD' },
+  const {
+    _sum: { amount: Ultra },
+  } = await db.marketSale.aggregate({
+    where: {
+      treasure: { rarity: 'Ultra' },
+      status: 'SOLD',
+    },
+    _sum: { amount: true },
   })
-  const Mythic = await db.marketSale.findMany({
-    where: { treasure: { rarity: 'Mythic' }, status: 'SOLD' },
+  const {
+    _sum: { amount: Mythic },
+  } = await db.marketSale.aggregate({
+    where: {
+      treasure: { rarity: 'Mythic' },
+      status: 'SOLD',
+    },
+    _sum: { amount: true },
   })
 
   const treasures = await db.treasure.findMany({

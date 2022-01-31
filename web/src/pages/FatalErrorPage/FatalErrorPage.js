@@ -27,7 +27,7 @@ export default () => (
               @media all and (min-width:800px) {
                 .header-container {
                   max-width: 80rem;
-                  margin: 0 auto;
+                  margin: 14px auto;
                   height: 66px;
                   display: flex;
                   flex-direction: row;
@@ -61,7 +61,7 @@ export default () => (
               @media all and (max-width:800px) {
                 .header-container {
                   max-width: 80rem;
-                  margin: 0 auto;
+                  margin: 14px auto;
                   height: 66px;
                   display: flex;
                   flex-direction: row;
@@ -147,13 +147,11 @@ export default () => (
                   </div>
                 </div>
                 <div class="error-container">
-                  <h1 class="error-title">Oops!</h1>
+                  <h1 class="error-title">Blunder!</h1>
                   <div class="error-content">
                     <h4>Something went wrong</h4>
                     <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
-                      ultricies, nulla et tempus egestas, lacus nisi congue nisl, ac
-                      euismod dolor mi nec dui. Aliquam.
+                    The developer team has been notified of this error. Thank you for your patience.
                     </p>
                   </div>
                 </div>

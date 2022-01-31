@@ -9,7 +9,7 @@ const HomePage = () => {
   return (
     <>
       <Head>
-        <title>Treasure Chess</title>
+        <title>Home</title>
       </Head>
       <h1 className="font-bold">Treasure Chess</h1>
       {/* TODO: remaining home page content */}

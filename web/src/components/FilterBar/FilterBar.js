@@ -12,7 +12,12 @@ import UsernameSearchBar from 'src/components/UsernameSearchBar'
 
 import { useFilter } from 'src/providers/filters'
 
-const FilterBar = ({ defaultParams }) => {
+const FilterBar = ({
+  defaultParams,
+  hideOnMobile = false,
+  showScrollbar = false,
+  extendAchievements = false,
+}) => {
   const { filter, setFilter, resetFilter } = useFilter()
 
   const [title, setTitle] = useState(filter.title)
@@ -99,8 +104,8 @@ const FilterBar = ({ defaultParams }) => {
   ])
 
   return (
-    <div className={styles.filterBarWrapper}>
-      <div className={styles.filterBar}>
+    <div className={styles.filterBarWrapper} data-hide-on-mobile={hideOnMobile}>
+      <div className={styles.filterBar} data-show-scrollbar={showScrollbar}>
         <div className={styles.resetRow}>
           <button className={styles.reset} onClick={onReset}>
             Reset
@@ -191,6 +196,8 @@ const FilterBar = ({ defaultParams }) => {
             )}
             queryFilterFunction={updateAchievements}
             queryFilter={achievements}
+            extendScrollArea={extendAchievements}
+            showScrollbar={showScrollbar}
           />
         </div>
       </div>

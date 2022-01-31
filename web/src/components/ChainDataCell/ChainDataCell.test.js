@@ -1,8 +1,8 @@
-import { render } from '@redwoodjs/testing'
-import { Loading, Empty, Failure, Success } from './TreasureOpeningCell'
-import { standard } from './TreasureOpeningCell.mock'
+import { render } from '@redwoodjs/testing/web'
+import { Loading, Empty, Failure, Success } from './ChainDataCell'
+import { standard } from './ChainDataCell.mock'
 
-describe('TreasureOpeningCell', () => {
+describe('ChainDataCell', () => {
   it('renders Loading successfully', () => {
     expect(() => {
       render(<Loading />)
@@ -24,12 +24,12 @@ describe('TreasureOpeningCell', () => {
   // When you're ready to test the actual output of your component render
   // you could test that, for example, certain text is present:
   //
-  // 1. import { screen } from '@redwoodjs/testing'
+  // 1. import { screen } from '@redwoodjs/testing/web'
   // 2. Add test: expect(screen.getByText('Hello, world')).toBeInTheDocument()
 
   it('renders Success successfully', async () => {
     expect(() => {
-      render(<Success treasureOpening={standard().treasureOpening} />)
+      render(<Success chainData={standard().chainData} />)
     }).not.toThrow()
   })
 })

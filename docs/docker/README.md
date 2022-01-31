@@ -89,6 +89,7 @@ sudo netstat -tulpn | grep :8910
 # or
 sudo lsof -i tcp:8910
 sudo kill 1888
+sudo kill -9 $(sudo lsof -t -i:8910) && sudo kill -9 $(sudo lsof -t -i:8911)
 
 docker kill CONTAINER
 # kill stubborn container

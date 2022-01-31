@@ -1,6 +1,8 @@
 import { Wallet } from '@ethersproject/wallet'
-import { parseEther } from '@ethersproject/units'
+import { parseEther, formatEther } from '@ethersproject/units'
 import { web3Provider } from 'src/lib/web3/helpers'
+import { sendDiscordAlert } from 'src/lib/discord/discord'
+import { getExplorerBaseUrlFromName } from '@treasure-chess/web3-helpers'
 import Sentry from 'src/lib/sentry'
 
 const MINIMUM_GAS_THRESHOLD = '0.0075' // Units of Ether
@@ -35,30 +37,24 @@ const airdropGasTransaction = async ({ address, amount }) => {
   }
 }
 
-const hasEnoughGas = async ({ address }) => {
-  try {
-    const balance = await getEtherBalance({ address })
-    if (balance.lte(parseEther(MINIMUM_GAS_THRESHOLD))) return false
-    return true
-  } catch (e) {
-    /* eslint-disable-next-line no-console */
-    console.log(e)
-    throw new Error('hasEnoughGas() ', e?.message || e)
-  }
-}
-
 const getEtherBalance = async ({ address }) => {
   return web3Provider.getBalance(address)
 }
 
-const checkGasAndAirdrop = async ({
-  address,
-  amount = DEFAULT_DROP_AMOUNT,
-}) => {
+const checkGasAndAirdrop = async ({ member, amount = DEFAULT_DROP_AMOUNT }) => {
   try {
-    const hasGas = await hasEnoughGas({ address })
-    if (!hasGas) {
-      const tx = await airdropGasTransaction({ address, amount })
+    const balance = await getEtherBalance({ address: member.address })
+    const payerBalance = await getEtherBalance({ address: payerWallet.address })
+    if (balance.lte(parseEther(MINIMUM_GAS_THRESHOLD))) {
+      const tx = await airdropGasTransaction({
+        address: member.address,
+        amount,
+      })
+      await notifyDiscord({
+        member,
+        txHash: tx.hash,
+        payerBalance: formatEther(payerBalance),
+      })
       return tx
     }
     return null
@@ -66,6 +62,27 @@ const checkGasAndAirdrop = async ({
     /* eslint-disable-next-line no-console */
     console.log(e)
     throw new Error('checkGasAndAirdrop()', e.message || e)
+  }
+}
+
+const notifyDiscord = async ({ member, txHash, payerBalance }) => {
+  try {
+    await sendDiscordAlert({
+      embed: {
+        color: 16740982,
+        title: `✅  Airdrop Submitted!`,
+        description: `Username: ${member.username}
+Address: ${member.address}
+${getExplorerBaseUrlFromName(process.env.ETHEREUM_NETWORK_NAME)}tx/${txHash}
+
+Payer balance: **${payerBalance}**`,
+        footer: { text: new Date().toString() },
+      },
+      channelName: 'airdrop',
+    })
+  } catch (e) {
+    /* eslint-disable-next-line no-console */
+    console.log(e)
   }
 }
 

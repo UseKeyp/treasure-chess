@@ -40,12 +40,15 @@
 1. Run "GCP Publish Docker" with branch `main` and tag `prod`
 2. Check deployment status using ArgoCD & logs in Kibana
 
+# Logs, Analytics
+
+TODO
 https://argo-cd.readthedocs.io/en/stable/
 https://kruschecompany.com/logstash-elasticsearch-kibana/#Install_Kibana
 
-# Config - Chess.com OAuth / API
+# Chess.com OAuth
 
-Development
+`dev` config for Nikola
 
 ```
 {
@@ -61,7 +64,7 @@ Development
 }
 ```
 
-Production
+`prod` config for Nikola
 
 ```
 {
@@ -76,40 +79,21 @@ Production
 }
 ```
 
-### 1. Development
+### Setting up a new Oauth client
 
-- Redirect URL https://treasure-chess-dev-4.vercel.app/redirect/chess
-- CHESS_API_ACCESS_TOKEN eyJ0...
-- Image <img src="./assets/icon-large-test.png" width="100">
+1. Determine the `APP_DOMAIN` and the appropriate redirect URL. Don't forget to include the "/redirect/chess" at the end.
+2. Ask Nikola to create a new oauth client
 
-### 2. Sandbox
+# Chess.com API
 
-- Redirect URL https://treasure-chess-sandbox-4.vercel.app/redirect/chess
-- CHESS_API_ACCESS_TOKEN eyJ0...
-- Image <img src="./assets/icon-large-test.png" width="100">
+API auth tokens are needed to bypass API rate-limiting. They can be generated using any one of our own Chess accounts.
 
-### 3. Staging
+1. Uncomment the line in `api/src/lib/oAuth/chessDotCom.js` and log in.
+2. Copy the results of auth token and set as `CHESS_API_ACCESS_TOKEN`.
 
-NOTE: For `CHESS_API_ACCESS_TOKEN`, they don’t check TTL, only check that they are signed by chess.com keys. You can obtain one and use it forever in order to bypass rate limiting. Since this is just a user's api token, make sure if it's exposed, it can't access that user's Torus wallet. Create one by uncommenting the line in `api/src/lib/oAuth/chessDotCom.js` and then logging in.
+Chess doesn’t check TTL, only that the auth token is signed by chess.com. You can use it forever in order to bypass rate limiting.
 
-- Redirect URL https://treasure.gcp-staging.chess-platform.com/redirect/chess
-- CHESS_API_ACCESS_TOKEN (???)
-- Image <img src="./assets/icon-large-test.png" width="100">
-
-### 4. Production
-
-- Redirect URL https://treasure.chess.com/redirect/chess
-- CHESS_API_ACCESS_TOKEN (???)
-- Image <img src="./assets/icon-large.png" width="100">
-
-### For all environments
-
-- CHESS_API_URL https://api.chess.com
-
-### Setting up a new environment
-
-1. Determine the `APP_DOMAIN`
-2. Ask Nikola to create a new oauth client with the appropriate redirect URL. Don't forget to include the "/redirect/chess" at the end.
+> NOTE: Since this is just a user's api token, make sure if it's exposed, it can't access that user's Torus wallet. Is this a problem?
 
 # Config - Environment
 
@@ -119,10 +103,9 @@ NOTE: For `CHESS_API_ACCESS_TOKEN`, they don’t check TTL, only check that they
 APP_DOMAIN=https://treasure-chess-sandbox-4.vercel.app
 BASIC_AUTH_PASSWORD=pauliemorphy
 ENCRYPTION_KEY=g1WM...
-ENCRYPTION_IV=999...
 DATABASE_URL=postgres://...@ec2-44-194-112-166.compute-1.amazonaws.com:5432/d27fkbgjshtb7g?connection_limit=1
-CONTRACT_ADDRESS_TREASURE=0xCb9fC489C31309fD66F2F9b52593a699dAF49C86
-CONTRACT_ADDRESS_TREASURE_MARKET=0xc9234371D7943C0A333AB1eE4e9E6583323efD5d
+CONTRACT_ADDRESS_TREASURE=0x54758647B008890E9C8545dD92464cea908d1dBA
+CONTRACT_ADDRESS_TREASURE_MARKET=0xAca9dF519620b3351C65F96e30f47851BC5946A6
 ETHEREUM_NETWORK_NAME=ropsten
 ```
 
@@ -134,44 +117,62 @@ Exclude `REDWOOD_API_URL` for vercel
 APP_DOMAIN=https://treasure-chess-sandbox-4.vercel.app
 BASIC_AUTH_PASSWORD=pauliemorphy
 ENCRYPTION_KEY=g1WM...
-ENCRYPTION_IV=999...
 DATABASE_URL=postgres://...@ec2-34-239-196-254.compute-1.amazonaws.com:5432/deg6ltaujv3vei?connection_limit=1
-CONTRACT_ADDRESS_TREASURE=0x271DEb88eA5543c131A998327314dc02eAEc8a9C
-CONTRACT_ADDRESS_TREASURE_MARKET=0x55C0029BD0536Ac7EC2Ddd673436a0703E2081a9
+CONTRACT_ADDRESS_TREASURE=0x154154Eb0D213F0FAdc5664E0C421171335981d0
+CONTRACT_ADDRESS_TREASURE_MARKET=0x6574193B98Bc37Ec8a43865D721713F9a8FbdC30
 ETHEREUM_NETWORK_NAME=ropsten
 ```
 
 ## Staging - container tag prefix `staging`
 
-Environment is the same as for Production, except for the following:
+CONTRACT_ADDRESS_PAYMENT_TOKEN
+CONTRACT_ADDRESS_TREASURE
+CONTRACT_ADDRESS_TREASURE_MARKET
 
 ```js
-// Must be in vault
+// vault
 APP_DOMAIN=https://treasure.gcp-staging.chess-platform.com
 REDWOOD_API_URL=https://treasure.gcp-staging.chess-platform.com
+ENCRYPTION_KEY=
+DATABASE_URL=
+ETHEREUM_NETWORK_NAME=matic
+NODE_ENV=staging
 ```
 
 ## Production - container tag prefix `prod`
 
+CONTRACT_ADDRESS_PAYMENT_TOKEN
+CONTRACT_ADDRESS_TREASURE
+CONTRACT_ADDRESS_TREASURE_MARKET
+
 ```js
-// Must be in vault
+// vault
 APP_DOMAIN=https://treasure.chess.com
 REDWOOD_API_URL=https://treasure.chess.com
-ENCRYPTION_KEY= (dev keys, needs change)
-ENCRYPTION_IV= (dev keys, needs change)
-DATABASE_URL= (sanbox keys, needs change)
-ETHEREUM_NETWORK_NAME=(ropsten, needs change)
-NODE_ENV=production
+ENCRYPTION_KEY= (needs change)
+DATABASE_URL= (needs change)
+ETHEREUM_NETWORK_NAME=matic
+NODE_ENV=prod
 ```
 
-# Ngrok
+# Docs for GD
 
-Useful for testing webhook from Wyre. Open a ngrok to your local dev environment
+Secrets needed for web
 
-```bash
-ngrok http --host-header=rewrite 10.61.141.225:8910
-# OR using specified domain
-ngrok http -region=us --hostname=tc-checkout-dev.ngrok.io --host-header=rewrite 0.0.0.0:8910
+```
+APP_DOMAIN
+REDWOOD_API_URL
+ETHEREUM_NETWORK_NAME
+NODE_ENV
+```
 
-> Forwarding https://tc-checkout-dev.ngrok.io -> http://0.0.0.0:8910
+Secrets needed for api
+
+```
+APP_DOMAIN
+REDWOOD_API_URL
+ETHEREUM_NETWORK_NAME
+NODE_ENV
+DATABASE_URL
+ENCRYPTION_KEY
 ```

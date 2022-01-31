@@ -44,6 +44,7 @@ export const list = async ({ treasure, amount }) => {
     throw new Error(`list() ${e}`)
   }
 }
+
 export const unlist = async ({ treasure }) => {
   try {
     if (!treasure) throw 'No treasure provided'
@@ -65,5 +66,28 @@ export const unlist = async ({ treasure }) => {
     /* eslint-disable-next-line no-console */
     console.log(e)
     throw new Error(`unlist() ${e}`)
+  }
+}
+
+export const buy = async ({ treasure }) => {
+  try {
+    if (!treasure) throw 'No treasure provided'
+    await checkAndSetMarketApproval({ member: treasure.owner })
+
+    const treasureMarketContract = getTreasureMarketContract()
+    const unsignedTx =
+      await treasureMarketContract.populateTransaction.tokenInstantBuy(
+        treasure.tokenId,
+        process.env.CONTRACT_ADDRESS_PAYMENT_TOKEN
+      )
+    const tx = await memberSendTransaction({
+      memberId: treasure.ownerId,
+      unsignedTx,
+    })
+    return tx
+  } catch (e) {
+    /* eslint-disable-next-line no-console */
+    console.log(e)
+    throw new Error(`buy() ${e}`)
   }
 }

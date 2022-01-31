@@ -70,6 +70,7 @@ const openingList = [
 ]
 
 const terminationList = [
+  { name: 'Any', value: 'Any' },
   { name: 'Checkmate', value: 'Checkmate' },
   { name: 'Resignation', value: 'Resignation' },
   { name: 'Stalemate', value: 'Stalemate' },

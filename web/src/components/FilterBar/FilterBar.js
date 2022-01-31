@@ -111,6 +111,7 @@ const FilterBar = ({
             Reset
           </button>
         </div>
+
         <div className={styles.dropdownRow}>
           <h4 style={{ marginLeft: `1em`, marginBottom: `0.5em` }}>Username</h4>
           <UsernameSearchBar />
@@ -158,7 +159,9 @@ const FilterBar = ({
         <div className={styles.dropdownRowSpacing}>
           <Dropdown
             category={'Termination'}
-            options={filters.terminationList}
+            options={filters.terminationList.map(
+              (termination) => termination.name
+            )}
             queryFilterFunction={setTermination}
             queryFilter={termination}
           />
@@ -166,7 +169,7 @@ const FilterBar = ({
         <div className={styles.dropdownTwoElementRow}>
           <Dropdown
             category={'Time'}
-            options={filters.timeControlList}
+            options={filters.timeControlList.map((time) => time.name)}
             queryFilterFunction={setTimeControl}
             queryFilter={timeControl}
           />
@@ -180,7 +183,8 @@ const FilterBar = ({
         <div className={styles.dropdownRow}>
           <FilterCheckbox
             category={'Master Title'}
-            options={filters.titleList.map((title) => title.toUpperCase())}
+            options={filters.titleList}
+            // options={filters.titleList.map((title) => title.toUpperCase())}
             queryFilterFunction={setTitle}
             queryFilter={title}
             deselect={true}
@@ -200,59 +204,6 @@ const FilterBar = ({
             showScrollbar={showScrollbar}
           />
         </div>
-      </div>
-      <div className={styles.dropdownRow}>
-        <FilterCheckbox
-          category={'Outcome'}
-          options={filters.outcomeList}
-          queryFilterFunction={updateOutcomes}
-          queryFilter={outcome}
-        />
-      </div>
-      <div className={styles.dropdownRowSpacing}>
-        <Dropdown
-          category={'Termination'}
-          options={filters.terminationList.map(
-            (termination) => termination.name
-          )}
-          queryFilterFunction={setTermination}
-          queryFilter={termination}
-        />
-      </div>
-      <div className={styles.dropdownTwoElementRow}>
-        <Dropdown
-          category={'Time'}
-          options={filters.timeControlList.map((time) => time.name)}
-          queryFilterFunction={setTimeControl}
-          queryFilter={timeControl}
-        />
-        <Dropdown
-          category={'Move Count'}
-          options={filters.moveCountList.map((moves) => moves.name)}
-          queryFilterFunction={setMoveCount}
-          queryFilter={moveCount}
-        />
-      </div>
-      <div className={styles.dropdownRow}>
-        <FilterCheckbox
-          category={'Master Title'}
-          options={filters.titleList}
-          queryFilterFunction={setTitle}
-          queryFilter={title}
-          deselect={true}
-        />
-      </div>
-      <div className={styles.dropdownRow}>
-        <h4 style={{ marginLeft: `1em`, marginBottom: `0.5em` }}>
-          Achievements
-        </h4>
-        <AchievementScroll
-          achievements={filters.achievementList.sort(
-            (a, b) => b.points - a.points
-          )}
-          queryFilterFunction={updateAchievements}
-          queryFilter={achievements}
-        />
       </div>
     </div>
   )

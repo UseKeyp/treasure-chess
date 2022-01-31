@@ -77,19 +77,19 @@ const getTreasureData = async () => {
   }
 }
 const getMarketSaleData = async () => {
-  const total = await db.treasure.count()
+  const total = await db.marketSale.count()
 
   // TODO sum the totals for each category
-  const Good = await db.treasure.findMany({
+  const Good = await db.marketSale.findMany({
     where: { treasure: { rarity: 'Good' }, status: 'SOLD' },
   })
-  const Great = await db.treasure.findMany({
+  const Great = await db.marketSale.findMany({
     where: { treasure: { rarity: 'Great' }, status: 'SOLD' },
   })
-  const Ultra = await db.treasure.findMany({
+  const Ultra = await db.marketSale.findMany({
     where: { treasure: { rarity: 'Ultra' }, status: 'SOLD' },
   })
-  const Mythic = await db.treasure.findMany({
+  const Mythic = await db.marketSale.findMany({
     where: { treasure: { rarity: 'Mythic' }, status: 'SOLD' },
   })
 
@@ -108,24 +108,24 @@ const getMarketSaleData = async () => {
 }
 
 const getMemberData = async () => {
-  const members = await db.member.findMany({
+  const members = await db.member.count({
     where: { address: { startsWith: '0x' } },
-    include: {
-      mintPurchases: { orderBy: { createdAt: 'desc' } },
-      marketSalesSold: { orderBy: { updatedAt: 'desc' } },
-      marketSalesPurchased: { orderBy: { updatedAt: 'desc' } },
-      treasuresOwned: { orderBy: { createdAt: 'desc' } },
-      treasuresMinted: { orderBy: { createdAt: 'desc' } },
-    },
+    // include: {
+    //   mintPurchases: { orderBy: { createdAt: 'desc' } },
+    //   marketSalesSold: { orderBy: { updatedAt: 'desc' } },
+    //   marketSalesPurchased: { orderBy: { updatedAt: 'desc' } },
+    //   treasuresOwned: { orderBy: { createdAt: 'desc' } },
+    //   treasuresMinted: { orderBy: { createdAt: 'desc' } },
+    // },
   })
   const total = members.length
 
-  // Active: minted, bought, sold, listed
-  const activeMembers = users.map((user) => {
-    if (user.mint) return user
-  })
+  // // Active: minted, bought, sold, listed
+  // const activeMembers = members.map((user) => {
+  //   if (user.mint) return user
+  // })
 
-  return { total, active: {} }
+  return { total }
 }
 
 export const getMetrics = async ({ _startTime, _endTime }) => {
@@ -138,7 +138,9 @@ export const getMetrics = async ({ _startTime, _endTime }) => {
     const member = await getMemberData()
     const marketSale = await getMarketSaleData()
 
-    const totalSupply = await totalSupply()
+    // TODO: Uncomment when not on an airplane
+    // const supply = await totalSupply()
+    const supply = 0
     const chainData = {
       treasureAddress: process.env.CONTRACT_ADDRESS_TREASURE,
       marketAddress: process.env.CONTRACT_ADDRESS_TREASURE_MARKET,
@@ -160,7 +162,7 @@ export const getMetrics = async ({ _startTime, _endTime }) => {
     }
 
     return {
-      user,
+      member,
       treasure,
       mintPurchase,
       chainData,

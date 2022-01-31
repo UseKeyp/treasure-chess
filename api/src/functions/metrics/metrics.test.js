@@ -8,6 +8,15 @@ describe('metrics function', () => {
 
     const response = await handler(httpEvent, null)
     const { data } = JSON.parse(response.body)
+    // prometheus metrics
+    // console.log(data.promData)
+
+    // Business logic metrics
+    console.log(
+      Object.keys(data.businessData).map((key) =>
+        console.log(data.businessData[key])
+      )
+    )
     expect(response.statusCode).toBe(200)
     expect(typeof data).toBe('object')
   })

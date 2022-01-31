@@ -1,7 +1,7 @@
 import { logger } from 'src/lib/logger'
 import client from 'prom-client'
 import Sentry from 'src/lib/sentry'
-import { getMetrics } from 'src/lib/metrics'
+import { getBusinessMetrics } from 'src/lib/metrics'
 
 /**
  * The handler function is your code that processes http request events.
@@ -29,14 +29,14 @@ export const handler = async (event, _context) => {
     collectDefaultMetrics({ register })
 
     const promData = await register.metrics()
-    const metricsData = await getMetrics({})
+    const businessData = await getBusinessMetrics()
 
     return {
       statusCode: 200,
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ data: { promData, metricsData } }),
+      body: JSON.stringify({ data: { promData, businessData } }),
     }
   } catch (e) {
     /* eslint-disable no-console */

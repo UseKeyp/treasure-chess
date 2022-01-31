@@ -1,4 +1,5 @@
 import { db } from 'src/lib/db'
+import achievementsList from '@treasure-chess/chess-achievements/src/achievementsList'
 
 import { totalSupply } from 'src/lib/web3/treasure'
 
@@ -31,20 +32,25 @@ const getMintPurchaseData = async () => {
   })
 
   return {
-    total,
-    orderStatus: {
-      COMPLETE,
-      RESERVATION,
+    sales: {
+      total: total * 3,
     },
-    paymentType: {
-      WYRE,
-      MINTCREDIT,
-    },
-    txStatus: {
-      UNSUBMITTED,
-      SUBMITTED,
-      COMPLETE: completeTx,
-      FAILED,
+    count: {
+      total,
+      orderStatus: {
+        COMPLETE,
+        RESERVATION,
+      },
+      paymentType: {
+        WYRE,
+        MINTCREDIT,
+      },
+      txStatus: {
+        UNSUBMITTED,
+        SUBMITTED,
+        COMPLETE: completeTx,
+        FAILED,
+      },
     },
   }
 }
@@ -56,26 +62,30 @@ const getTreasureData = async () => {
   const Ultra = await db.treasure.count({ where: { rarity: 'Ultra' } })
   const Mythic = await db.treasure.count({ where: { rarity: 'Mythic' } })
 
-  // per achievement (specific date range)
-  // # cards
-  // avg sale price
-  // # sales
-  //
-  // per rarity (specific date range)
-  // # cards
-  // avg sale price
-  // # sales
+  const achievements = {}
+  await Promise.all(
+    achievementsList.map(async (chiev) => {
+      const count = await db.treasure.count({
+        where: { achievements: { has: chiev.value } },
+      })
+      achievements[chiev.name] = count
+    })
+  )
 
   return {
-    total,
-    rarity: {
-      Good,
-      Great,
-      Ultra,
-      Mythic,
+    count: {
+      total,
+      rarity: {
+        Good,
+        Great,
+        Ultra,
+        Mythic,
+      },
+      achievements,
     },
   }
 }
+
 const getMarketSaleData = async () => {
   const totalSalesCount = await db.marketSale.count()
   const isClosed = await db.marketSale.count({

@@ -170,7 +170,7 @@ const getMarketSaleData = async () => {
   })
 
   const platformFees = totalSales * 0.05
-  // minterEarningsResidual - strictly earned after the first sale
+  // minterEarningsResidual are earned only after the first sale
   const minterEarningsResidual = (totalSales - minterEarningsFirstSale) * 0.05
   const minterEarnings = minterEarningsResidual + minterEarningsFirstSale
 
@@ -207,41 +207,17 @@ const getMarketSaleData = async () => {
 const getMemberData = async () => {
   const total = await db.member.count({
     where: { address: { startsWith: '0x' } },
-    // include: {
-    //   mintPurchases: { orderBy: { createdAt: 'desc' } },
-    //   marketSalesSold: { orderBy: { updatedAt: 'desc' } },
-    //   marketSalesPurchased: { orderBy: { updatedAt: 'desc' } },
-    //   treasuresOwned: { orderBy: { createdAt: 'desc' } },
-    //   treasuresMinted: { orderBy: { createdAt: 'desc' } },
-    // },
+    _count: {
+      mintPurchases: true,
+      marketSalesSold: true,
+      marketSalesPurchased: true,
+      treasuresOwned: true,
+      treasuresMinted: true,
+    },
   })
+  console.log(total)
   const minted = {}
   const buckets = [1, 2, 5, 10, 20, 30, 40, 50, 75, 100, 150, 200, 250]
-
-  // await Promise.all(
-  //   buckets.map(
-  //     async (number) => {
-  //       const count = await db.member.aggregate({
-  //         where: {
-  //           AND: [
-  //             { address: { startsWith: '0x' } },
-  //             { treasuresMinted: { every: { gte: number } } },
-  //           ],
-  //         },
-  //         _count: true,
-  //       })
-  //       minted[number] = count
-  //     }
-  //   )
-  // )
-
-  const res = await db.member.groupBy({
-    by: [{ treasuresMinted: { every: { gte: number } } }],
-    where: { address: { startsWith: '0x' } },
-    having: {},
-    _count: true,
-  })
-  console.log(res)
 
   // // Active: minted, bought, sold, listed
   // const activeMembers = members.map((user) => {

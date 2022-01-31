@@ -77,7 +77,31 @@ const getTreasureData = async () => {
   }
 }
 const getMarketSaleData = async () => {
-  const total = await db.marketSale.count()
+  const totalSalesCount = await db.marketSale.count()
+  const isClosed = await db.marketSale.count({
+    where: {
+      isClosed: true,
+    },
+  })
+  const isOpen = totalSalesCount - isClosed
+  const PENDING_LISTED = await db.marketSale.count({
+    where: { status: 'PENDING_LISTED' },
+  })
+  const LISTED = await db.marketSale.count({
+    where: { status: 'LISTED' },
+  })
+  const PENDING_SOLD = await db.marketSale.count({
+    where: { status: 'PENDING_SOLD' },
+  })
+  const SOLD = await db.marketSale.count({
+    where: { status: 'SOLD' },
+  })
+  const PENDING_DELISTED = await db.marketSale.count({
+    where: { status: 'PENDING_DELISTED' },
+  })
+  const DELISTED = await db.marketSale.count({
+    where: { status: 'DELISTED' },
+  })
 
   // TODO sum the totals for each category
   const Good = await db.marketSale.findMany({
@@ -93,16 +117,51 @@ const getMarketSaleData = async () => {
     where: { treasure: { rarity: 'Mythic' }, status: 'SOLD' },
   })
 
+  const treasures = await db.treasure.findMany({
+    include: { marketSales: { orderBy: { updatedAt: 'asc' } } },
+  })
+
+  let minterEarningsFirstSale = 0
+  treasures.map((treasure) => {
+    const index = treasure.marketSales.indexOf((sale) => sale.isClosed)
+    if (index)
+      minterEarningsFirstSale += treasure.marketSales[index].amount * 0.95
+  })
+
   const totalSales = Good + Great + Ultra + Mythic
+  const platformFees = totalSales * 0.05
+  // Strictly earned after the first sale
+  const minterEarningsResidual = (totalSales - minterEarningsFirstSale) * 0.05
+  const minterEarnings = minterEarningsResidual + minterEarningsFirstSale
 
   return {
-    total,
     sales: {
       total: totalSales,
-      Good,
-      Great,
-      Ultra,
-      Mythic,
+      platformFees,
+      minterEarnings,
+      minterEarningsFirstSale,
+      minterEarningsResidual,
+      rarity: {
+        Good,
+        Great,
+        Ultra,
+        Mythic,
+      },
+    },
+    count: {
+      total: totalSalesCount,
+      isClosed: {
+        true: isClosed,
+        false: isOpen,
+      },
+      status: {
+        PENDING_LISTED,
+        LISTED,
+        PENDING_SOLD,
+        SOLD,
+        PENDING_DELISTED,
+        DELISTED,
+      },
     },
   }
 }
@@ -151,8 +210,6 @@ export const getMetrics = async ({ _startTime, _endTime }) => {
     const mintsPerMember = mintPurchase.total / member.total
     const treasresPerMember = treasure.total / member.total
 
-    const totalSales = {}
-    const sales = {}
     const calculated = {
       member: {
         mintsPerMember,
@@ -164,6 +221,7 @@ export const getMetrics = async ({ _startTime, _endTime }) => {
     return {
       member,
       treasure,
+      marketSale,
       mintPurchase,
       chainData,
       calculated,

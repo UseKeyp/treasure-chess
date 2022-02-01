@@ -3,7 +3,7 @@ import { db } from 'src/lib/db'
 import filters, { TREASURES_PER_PAGE } from '@treasure-chess/treasure-filters'
 
 // NOTE: any updates to this function should also be made in /scripts/seed
-export const generateTreasureData = ({ game, title, minter, mintPurchase }) => {
+export const generateTreasureData = ({ game, title, minter }) => {
   return {
     id: game.treasureId,
     black: { connect: { id: game.black.id } },
@@ -34,12 +34,6 @@ export const generateTreasureData = ({ game, title, minter, mintPurchase }) => {
     rarity: game.rarity,
     achievements: game.achievements,
     achievementScore: game.achievementScore,
-    // Purchase details
-    mintPurchase: {
-      connect: {
-        id: mintPurchase.id,
-      },
-    },
   }
 }
 

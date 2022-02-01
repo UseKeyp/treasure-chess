@@ -1,6 +1,5 @@
 import { routes, useLocation } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
-import { useParams } from '@redwoodjs/router'
 import { useWallet } from 'src/providers/wallet'
 
 import Icon from 'src/components/Icon/Icon'
@@ -8,7 +7,6 @@ import Avatar from 'src/components/Avatar/Avatar'
 import Button from 'src/components/Button/Button'
 import MobileMenu from 'src/components/MobileMenu/MobileMenu'
 
-import UsernameSearchBar from 'src/components/UsernameSearchBar'
 import MemberBalance from 'src/components/Member/MemberBalance'
 
 import { trimAddress } from 'src/utils/helpers'
@@ -102,8 +100,6 @@ const Header = () => {
     logOut,
   } = useAuth()
   const { pathname } = useLocation()
-  const params = useParams()
-  const { username: initialUsername = '', ...currentFilter } = params
 
   const isOnTreasuresPage = pathname === '/treasures'
   const isOnAboutPage = pathname === '/about'
@@ -112,27 +108,12 @@ const Header = () => {
 
   const address = trimAddress(profile?.address) || 'No address set'
 
-  const onUpdateUsername = (newUsername) => {
-    const searchParams = new URLSearchParams(currentFilter)
-    searchParams.append('username', newUsername)
-    const newPath = searchParams.toString()
-      ? window.location.pathname + '?' + searchParams.toString()
-      : window.location.pathname
-    window.history.replaceState({}, '', newPath)
-  }
-
   return (
     <div className={'header'}>
       <div className={'header__iconSearch'}>
         <Button to={routes.home()} className="mr-4">
           <Icon name="treasure_chess_full" height="35px" color="#fff" />
         </Button>
-        <div className="hidden mr-4 lg:block">
-          <UsernameSearchBar
-            initialQuery={initialUsername}
-            setQuery={onUpdateUsername}
-          />
-        </div>
       </div>
       <div className="flex flex-1 items-center justify-end lg:hidden">
         <MobileNav />

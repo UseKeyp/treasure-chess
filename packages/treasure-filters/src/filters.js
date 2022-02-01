@@ -1,5 +1,7 @@
-const achievementList = require('@treasure-chess/chess-achievements/src/achievementsList')
-
+const {
+  achievements: achievementList,
+  ecoCodes: ecoCodeList,
+} = require('@treasure-chess/chess-achievements')
 ////////////////////////////////
 // Items with name/value pair
 
@@ -52,34 +54,36 @@ const moveCountList = [
   { name: '200+', value: [200, 999] },
 ]
 
+const openingList = [
+  { name: 'Any', value: 'Any' },
+  { name: "King's Pawn Game", value: 'KingsPawnGame' },
+  { name: "Queen's Gambit", value: 'QueensGambit' },
+  { name: 'Ruy Lopez', value: 'RuyLopez' },
+  { name: 'French Defense', value: 'FrenchDefense' },
+  { name: 'Caro-Kann', value: 'CaroKann' },
+  { name: 'Reti Opening', value: 'RetiOpening' },
+  { name: 'English', value: 'English' },
+  { name: 'Modern', value: 'Modern' },
+  { name: "Bird's Opening", value: 'BirdsOpening' },
+  { name: 'Scandinavian', value: 'Scandinavian' },
+  { name: 'Scotch Game', value: 'ScotchGame' },
+]
+
+const terminationList = [
+  { name: 'Any', value: 'Any' },
+  { name: 'Checkmate', value: 'Checkmate' },
+  { name: 'Resignation', value: 'Resignation' },
+  { name: 'Stalemate', value: 'Stalemate' },
+  { name: 'Time', value: 'Time' },
+  { name: 'Repetition', value: 'Repetition' },
+  { name: 'Agreement', value: 'Agreement' },
+  { name: 'Insufficient Material', value: 'Insufficient' },
+  { name: 'Abandoned', value: 'Abandoned' },
+]
 ////////////////////////////////
 // Items without name/value pair
-const titleList = ['gm', 'im', 'nm']
-const openingList = [
-  'Any',
-  "King's Pawn Game",
-  "Queen's Gambit",
-  'Ruy Lopez',
-  'French Defense',
-  'Caro-Kann',
-  'Reti Opening',
-  'English',
-  'Norwegian', // Not in chess-achiemvements?
-  "Bird's Opening",
-  'Scandinavian',
-  'Scotch Game',
-]
+const titleList = ['GM', 'IM', 'NM']
 const colorList = ['white', 'black']
-const terminationList = [
-  'Any',
-  'Checkmate',
-  'Resignation',
-  'Stalemate',
-  'Time',
-  'Repetition',
-  'Agreement',
-  'Insufficient Material',
-]
 const rarityList = ['Good', 'Great', 'Ultra', 'Mythic']
 const saleList = ['For Sale', 'Unlisted']
 const outcomeList = ['black', 'white', 'draw']
@@ -97,6 +101,7 @@ const sortList = [
 
 const filters = {
   achievementList,
+  ecoCodeList,
   openingList,
   colorList,
   titleList,
@@ -109,7 +114,13 @@ const filters = {
   sortList,
 }
 
-const TREASURES_PER_PAGE = 9
+export const TREASURES_PER_PAGE = 9
 
-module.exports = filters
-module.exports.TREASURES_PER_PAGE = TREASURES_PER_PAGE
+export const getAchievementNamesFromValues = (achievements) =>
+  achievements.map((value) => {
+    let chiev = achievementList.find((item, index) => item.value === value)
+    if (!chiev) return value
+    return chiev.name
+  })
+
+export default filters

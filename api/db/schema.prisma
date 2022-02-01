@@ -1,7 +1,7 @@
 datasource db {
-  provider          = "postgresql"
-  url               = env("DATABASE_URL")
-  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  // shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 generator client {
@@ -26,7 +26,7 @@ model Member {
   createdAt            DateTime       @default(now())
   updatedAt            DateTime       @updatedAt
   imageSrc             String? // Avatar URL
-  masterTitle          String? // "Grand Master" or "International Master"
+  masterTitle          MasterTitle? // "Grand Master" or "International Master"
   country              String // Player's country  eg. US, DE
   mintCredits          Int            @default(3) // Mint for free!
   // Oauth
@@ -64,22 +64,22 @@ model Treasure {
   whiteRating      Int // Rating at the time of the game
   blackRatingDelta Int // Rating at the time of the game
   whiteRatingDelta Int
-  blackMasterTitle String? // eg. "GM" "NM", or "IM"
-  whiteMasterTitle String?
+  blackMasterTitle MasterTitle? // eg. "GM" "NM", or "IM"
+  whiteMasterTitle MasterTitle?
   timeControl      String // game time variant
-  termination      String // eg. "Checkmate",  "Resignation", "Stalemate", "Insufficient Material"
+  termination      Termination
   endTime          DateTime
-  outcome          String // "white" "black" "draw" etc.
+  outcome          Outcome // "white" "black" "draw" etc.
   event            String // eg. "Live Chess"
   moves            String // pgn moves
   boardLayout      String // Final positions used to generate the image
   moveCount        Int // eg. 43
   ruleVariant      String        @default("Standard") // eg. "Standard" or "Chess960"
   externalUrl      String? // Link to game on chess.com
-  opening          String // eg. "Queen's Gambit"
-  achievements     String // List eg. "win/play above 2200,queen side castle,mate with a bishop"
+  opening          Opening
+  achievements     Achievement[] // List eg. "win/play above 2200,queen side castle,mate with a bishop"
   achievementScore Int // eg. 10
-  rarity           String // eg. 10
+  rarity           Rarity // eg. 10
   marketSales      MarketSale[]
 }
 
@@ -117,7 +117,7 @@ model MintPurchase {
   // --------------- STATE --------------
   gameId      String
   gameEndTime String
-  title       String                   @default("Cool game") // User's desired title
+  title       String // User's desired title
   // Order
   paymentType String                   @default("WYRE") // WYRE, MINTCREDIT
   orderStatus MintPurchaseOrderStatus?
@@ -145,7 +145,7 @@ model Transaction {
   marketSaleList   MarketSale? @relation("listTx")
   marketSaleUnlist MarketSale? @relation("unlistTx")
   marketSaleSale   MarketSale? @relation("saleTransactions", fields: [marketSaleSaleId], references: [id])
-  marketSaleSaleId     Int?
+  marketSaleSaleId Int?
 }
 
 enum MarketSaleStatus {
@@ -167,4 +167,123 @@ enum TxStatus {
 enum MintPurchaseOrderStatus {
   RESERVATION
   COMPLETE
+}
+
+enum Opening {
+  QueensGambit
+  RuyLopez
+  ScotchGame
+  KingsPawnGame
+  FrenchDefense
+  CaroKann
+  Scandinavian
+  Modern
+  English
+  RetiOpening
+  BirdsOpening
+  // Not filterable below this line
+  Uncommon
+  NimzoLarsen
+  KingsIndianAttack
+  Reti
+  QueensPawnGame
+  Benoni
+  QueensIndian
+  KingsIndian
+  BudapestGambit
+  OldIndian
+  BenkoGambit
+  Dutch
+  Alekhine
+  Pirc
+  Sicilian
+  French
+  CenterGame
+  BishopsOpening
+  Vienna
+  KingsGambit
+  KingsKnightOpening
+  Philidor
+  Petroff
+  ThreeKnights
+  FourKnights
+  Italian
+  EvansGambit
+  TwoKnights
+  Veresov
+  Torre
+  Grunfeld
+  Catalan
+  BogoIndian
+  NimzoIndian
+}
+
+enum Rarity {
+  Good
+  Great
+  Ultra
+  Mythic
+}
+
+enum Outcome {
+  black
+  white
+  draw
+}
+
+enum Termination {
+  Checkmate
+  Resignation
+  Stalemate
+  Time
+  Repetition
+  Agreement
+  Insufficient
+  Abandoned
+}
+
+enum MasterTitle {
+  GM
+  IM
+  NM
+}
+
+enum Achievement {
+  Player
+  Winner750
+  Played750
+  Winner1500
+  Played1500
+  Played2000
+  BigWinner
+  StrongestOpponent
+  MythicWinner
+  DefeatIM
+  DefeatNM
+  DefeatGM
+  CrissCross
+  Jousting
+  UtterDisrespect
+  TripleDigitClub
+  Excessive
+  Ultramarathoners
+  OpeningExpert
+  DontBlink
+  FoolsMate
+  LeveledField
+  Hellomlady
+  HorseFarmer
+  HolyPromotion
+  TheSneakyPawn
+  GodModeGlitch
+  CuttingitClose
+  DejaVu
+  TheUnderdog
+  CheckinYouOut
+  PawnShy
+  PawnShopper
+  MinorProblem
+  MrMarathonMan
+  PawnHoarder
+  Winner
 }

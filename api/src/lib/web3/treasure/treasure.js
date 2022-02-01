@@ -33,7 +33,7 @@ export const mint = async ({ treasure, tokenUri, minterAddress }) => {
 
     // Lookup the number of each achievement
     let chievScore = [0, 0, 0]
-    treasure.achievements.split(',').map((chiev, index) => {
+    treasure.achievements.map((chiev, index) => {
       const match = achievementsList.find((item) => item.name == chiev)
       if (match) chievScore[index] = match.number
     })
@@ -75,6 +75,12 @@ export const getERC721Balance = async ({
 }) => {
   const contract = new Contract(contractAddress, treasureAbi, rpcProvider)
   return await contract.balanceOf(userAddress)
+}
+
+export const totalSupply = async () => {
+  const treasureContract = getTreasureContract()
+  const supply = await treasureContract.getTotalGames()
+  return supply.toString()
 }
 
 export const checkAndSetMarketApproval = async ({ member }) => {

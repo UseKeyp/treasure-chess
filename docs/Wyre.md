@@ -148,5 +148,7 @@ http://7269-208-46-234-70.ngrok.io/api/checkout/?orderId=WO_87736T9Y8X
 
 # 🌞 Production
 
-- Wyre team must update our webhook URL to https://treasure.chess.com/api/checkout
+- Wyre team must update our webhook URL to
+  - https://treasure.chess.com/checkout
+  - https://treasure.gcp-staging.chess-platform.com/checkout
 - Wyre team must enable USD->USD transfers to our account

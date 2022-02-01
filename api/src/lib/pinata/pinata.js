@@ -2,6 +2,7 @@ import FormData from 'form-data'
 import fetch from 'node-fetch'
 
 import { getCardHtml } from '@treasure-chess/treasure-html'
+import { getAchievementNamesFromValues } from '@treasure-chess/treasure-filters'
 
 import { getDescription, getAttributes } from 'src/lib/pinata/helpers'
 import { getGifBase64 } from 'src/lib/chessCom/gifGetter'
@@ -56,9 +57,14 @@ export const pinTreasure = async ({ treasure, tcn }) => {
       tcn,
       playerColor: treasure.cardColor,
     })
+    const achievementNames = getAchievementNamesFromValues(
+      treasure.achievements
+    )
     // Generate the HTML
-    const htmlString = await getCardHtml({ treasure, gifBase64 })
-    // const htmlString = 'await getCardHtml({ treasure, gifData })'
+    const htmlString = await getCardHtml({
+      treasure: { ...treasure, achievements: achievementNames },
+      gifBase64,
+    })
 
     // Upload the HTML
     /* eslint-disable camelcase */
@@ -72,7 +78,7 @@ export const pinTreasure = async ({ treasure, tcn }) => {
     // TODO: ensure file extension is correct
     const image = await pinFile(imageSnapshotData, `${treasure.id}.png`)
 
-    const attributes = getAttributes(treasure)
+    const attributes = getAttributes({ ...treasure, achievementNames })
 
     const uriData = {
       description: getDescription({ opening: treasure.opening }), // TODO: Update copy for this

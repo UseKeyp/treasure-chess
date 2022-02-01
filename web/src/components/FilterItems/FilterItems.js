@@ -119,7 +119,6 @@ const FilterItems = ({ onChange }) => {
   )
 }
 FilterItems.propTypes = {
-  headline: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
 }
 

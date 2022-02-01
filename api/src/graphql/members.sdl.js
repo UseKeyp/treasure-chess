@@ -10,7 +10,7 @@ export const schema = gql`
     treasuresWon: [Treasure]!
     imageSrc: String
     country: String
-    masterTitle: String
+    masterTitle: MasterTitle
     activity: JSON
   }
 
@@ -56,5 +56,11 @@ export const schema = gql`
     usernames(query: String!): [String]! @skipAuth
     profile: Profile! @requireAuth
     memberBalance: MemberBalance! @requireAuth
+  }
+
+  enum MasterTitle {
+    GM
+    IM
+    NM
   }
 `

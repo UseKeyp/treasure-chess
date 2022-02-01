@@ -34,7 +34,7 @@ const FeaturedPlayers = () => {
 
   return (
     <>
-      <div className="mx-auto max-w-[1080px]">
+      <div className="mx-auto max-w-[1080px] mt-16">
         <HeadingBar text="Featured Players" />
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-7 place-items-center ">
           {playerIcons}

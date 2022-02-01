@@ -23,7 +23,7 @@ const LandingPageBoxes = () => {
         />
         <h2 className="text-center capitalize">create</h2>
         <h4 className="text-center w-56 mx-auto">
-          Turn your own games into a one-of-a-kind collectible Treasure.
+          Turn your own games into a one-of-a-kind Treasure.
         </h4>
       </div>
       <div className="pageBox">

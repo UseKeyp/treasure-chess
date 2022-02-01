@@ -32,7 +32,7 @@ export const schema = gql`
 
   type Query {
     marketSales: [MarketSale!]! @requireAuth
-    marketSaleByTokenId(tokenId: Int!): MarketSale! @requireAuth
+    marketSaleByTokenId(tokenId: Int!): MarketSale @skipAuth
   }
 
   type Mutation {

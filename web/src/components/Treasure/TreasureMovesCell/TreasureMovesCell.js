@@ -5,6 +5,7 @@ export const QUERY = gql`
     treasure: treasure(tokenId: $tokenId) {
       id
       moves
+      tokenId
       white {
         id
         username

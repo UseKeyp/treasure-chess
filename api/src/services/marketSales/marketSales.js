@@ -17,19 +17,27 @@ export const marketSale = ({ id }) => {
 }
 
 export const marketSaleByTokenId = async ({ tokenId }) => {
-  const treasure = await db.marketSales.findUnique({
-    where: { tokenId },
+  const marketSales = await db.marketSale.findMany({
+    where: {
+      treasure: { tokenId },
+      isClosed: false,
+    },
+    take: 1,
+    orderBy: { updatedAt: 'desc' },
     include: {
-      marketSales: {
-        where: { isClosed: false },
-        orderBy: { updatedAt: 'desc' },
-        take: 1,
-        include: { listTx: true, unlistTx: true, saleTransactions: true },
+      listTx: true,
+      unlistTx: true,
+      saleTransactions: true,
+      treasure: {
+        include: {
+          owner: true,
+        },
       },
-      owner: true,
     },
   })
-  return processPendingMarketTransactions({ treasure })
+  console.log(marketSales[0])
+  return marketSales[0]
+  // return processPendingMarketTransactions({ marketSale:marketSales[0] })
 }
 
 export const listTreasure = async ({ treasureId, amount }) => {

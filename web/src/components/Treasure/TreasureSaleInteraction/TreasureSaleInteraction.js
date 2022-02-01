@@ -1,5 +1,5 @@
 import { useAuth } from '@redwoodjs/auth'
-import { SaleSkeleton } from '../LoadingSkeleton'
+import { SaleSkeleton } from 'src/components/LoadingSkeleton'
 import BuyerSaleInteraction from './SaleComponents/BuyerSaleInteraction'
 import OwnerSaleInteraction from './SaleComponents/OwnerSaleInteraction'
 
@@ -10,12 +10,13 @@ const TreasureSaleInteraction = ({ marketSale, isLoading }) => {
 
   const status = marketSale?.status || UNLISTED
   const amount = marketSale?.amount || 0
-  const isOwner = currentUser.id === marketSale.treasure.owner.id
+  const isOwner = currentUser?.id === marketSale?.treasure.owner.id
   let isError = false
 
   if (isLoading) return <SaleSkeleton />
+  if (!marketSale) return <>empty</>
 
-  if (isOwner || marketSale?.sellerId === currentUser?.id) {
+  if (isOwner) {
     return (
       <OwnerSaleInteraction
         status={status}

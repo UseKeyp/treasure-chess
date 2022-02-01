@@ -1,4 +1,4 @@
-import TreasureSaleInteraction from 'src/components/TreasureSaleInteraction/'
+import TreasureSaleInteraction from 'src/components/Treasure/TreasureSaleInteraction/'
 
 export const QUERY = gql`
   query FindTreasureInteractionQuery($tokenId: Int!) {
@@ -8,7 +8,7 @@ export const QUERY = gql`
   }
 `
 
-export const Loading = () => <div>Loading...</div>
+export const Loading = () => <TreasureSaleInteraction isLoading />
 
 export const Empty = () => <div>Empty</div>
 

@@ -1,5 +1,5 @@
-import LoadingDots from '../../LoadingDots/LoadingDots'
-import Button from '../../Button/Button'
+import LoadingDots from 'src/components/LoadingDots/LoadingDots'
+import Button from 'src/components/Button/Button'
 
 const BuyerSaleInteraction = ({ status, amount, onClick, isError }) => {
   const DELISTED = 'DELISTED'

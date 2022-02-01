@@ -14,13 +14,13 @@ export const QUERY = gql`
         username
       }
       owner {
-        username
         id
+        username
         address
       }
       minter {
-        username
         id
+        username
         address
       }
     }

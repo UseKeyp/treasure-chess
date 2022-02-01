@@ -21,6 +21,9 @@ export const QUERY = gql`
         username
         id
       }
+      owner {
+        id
+      }
       title
       cardColor
       blackRating

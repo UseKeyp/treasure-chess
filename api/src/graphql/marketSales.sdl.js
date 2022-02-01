@@ -32,13 +32,12 @@ export const schema = gql`
 
   type Query {
     marketSales: [MarketSale!]! @requireAuth
-    marketSaleByTokenId(tokenId: Int!): MarketSale @skipAuth
   }
 
   type Mutation {
-    listTreasure(treasureId: String!, amount: Int!): MarketSale! @requireAuth
-    unlistTreasure(treasureId: String!): MarketSale! @requireAuth
-    buyTreasure(treasureId: String!): MarketSale! @requireAuth
+    listTreasure(tokenId: Int!, amount: Int!): MarketSale! @requireAuth
+    unlistTreasure(tokenId: Int!): MarketSale! @requireAuth
+    buyTreasure(tokenId: Int!): MarketSale! @requireAuth
   }
 
   input CreateMarketSaleInput {

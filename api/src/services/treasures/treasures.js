@@ -17,7 +17,6 @@ export const treasure = async ({ tokenId }) => {
     where: { tokenId },
     include: {
       marketSales: {
-        where: { isClosed: false },
         orderBy: { updatedAt: 'desc' },
         take: 1,
         include: { listTx: true, unlistTx: true, saleTransactions: true },

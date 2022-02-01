@@ -79,6 +79,7 @@ const GameCard = ({ game, isMinting, title, showGif }) => {
     if (!showGif) fetchImageAndUpdate()
     /* eslint-disable react-hooks/exhaustive-deps */
   }, [game])
+
   if (!isMinting && !game)
     return (
       <div className={styles.gameCardWrapper}>

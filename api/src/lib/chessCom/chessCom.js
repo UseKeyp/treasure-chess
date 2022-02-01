@@ -53,16 +53,16 @@ export const fetchRatingDelta = async (id) => {
   }
 }
 
-export const isStaff = async (username) =>{
+export const isStaff = async (username) => {
   const response = await fetch(
     `https://api.chess.com/pub/player/${username}`
   ).then((res) => {
-      return res.json()
-    })
+    return res.json()
+  })
 
-    if (response.status === "staff") {
-      return true
-    } else {
-      return false
-    }
+  if (response.status === 'staff') {
+    return true
+  } else {
+    return false
+  }
 }

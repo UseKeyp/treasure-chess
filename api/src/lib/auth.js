@@ -13,6 +13,7 @@ export const getCurrentUser = async (session) => {
       address: true,
       imageSrc: true,
       mintCredits: true,
+      country: true,
     },
   })
   if (!member) return null

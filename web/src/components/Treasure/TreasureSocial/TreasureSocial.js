@@ -2,6 +2,17 @@ import Icon from 'src/components/Icon'
 import MemberLink from 'src/components/MemberLink'
 
 const TreasureSocial = ({ treasure }) => {
+  const [label, setLabel] = React.useState(false)
+  const labelHandler = React.useCallback(() => {
+    setLabel(true)
+    const linkToShare = `${process.env.APP_DOMAIN}/treasures/${treasure?.tokenId}`
+    navigator.clipboard.writeText(linkToShare)
+
+    setTimeout(() => {
+      setLabel(false)
+    }, 1000)
+  }, [treasure])
+
   const linkToShare = `${process.env.APP_DOMAIN}/treasures/${treasure?.tokenId}`
   const facebookHandler = () => {
     const uriComponent = encodeURIComponent(linkToShare)
@@ -41,6 +52,13 @@ const TreasureSocial = ({ treasure }) => {
       <div className="treasure-social__socials">
         <p className="treasure-social__title">Share Your Treasure</p>
         <div className="treasure-social__buttons">
+          <button onClick={labelHandler}>
+            {label ? (
+              <p>Copied</p>
+            ) : (
+              <Icon name="share" color="#abb6b9" size={24} />
+            )}
+          </button>
           <button onClick={facebookHandler}>
             <Icon name="facebook" size={24} />
           </button>

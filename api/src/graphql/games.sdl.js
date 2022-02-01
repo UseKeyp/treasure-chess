@@ -4,23 +4,22 @@ export const schema = gql`
     black: Member
     white: Member
     winner: Member
-    outcome: String!
-    termination: String!
+    outcome: Outcome!
+    termination: Termination!
     gifUrl: String!
     blackRating: Int!
     blackRatingDelta: String!
     whiteRating: Int!
     whiteRatingDelta: String!
-    timeControl: String!
+    timeControl: Int!
     endTime: DateTime!
     event: String!
     moves: String!
     moveCount: Int!
     ruleVariant: String!
     externalUrl: String
-    opening: String!
+    opening: Opening!
     cardColor: String!
-    achievements: String
     tokenId: Int
     title: String
   }

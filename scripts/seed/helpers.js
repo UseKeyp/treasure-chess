@@ -1,7 +1,7 @@
 const rug = require('random-username-generator')
 const { Wallet: EthersWallet } = require('@ethersproject/wallet')
 const { id: sha3 } = require('@ethersproject/hash')
-const filters = require('@treasure-chess/treasure-filters')
+const filters = require('@treasure-chess/treasure-filters').default
 const achievementsCalculator = require('@treasure-chess/chess-achievements')
 const {
   parseGameFromChessDotCom,
@@ -13,6 +13,7 @@ const realGames = require('./data/realGames.json')
 const randomTitles = require('./data/randomTitles.json')
 const randomAvatarsBase64 = require('./data/randomAvatarsBase64.js')
 const countries = require('./data/countries')
+const deltaRating = require('./data/deltaData.json')
 
 const getBoardLayout = (pgn) => {
   const chess = new Chess()
@@ -39,10 +40,7 @@ const generateRandomMembers = (count, highestMemberId) => {
       const randomAddress = EthersWallet.createRandom().address
       let masterTitle
       if (Math.random() > 0.9) {
-        masterTitle =
-          filters.titleList[
-            Math.floor(Math.random() * filters.titleList.length)
-          ].toUpperCase()
+        masterTitle = filters.titleList[randomInt(0, 2)]
       }
       return {
         id: (highestMemberId + index).toString(),
@@ -52,7 +50,7 @@ const generateRandomMembers = (count, highestMemberId) => {
           randomAvatarsBase64[randomInt(0, 199)]
         }`,
         country: countries[Math.floor(Math.random() * countries.length)],
-        masterTitle,
+        ...(masterTitle && { masterTitle }),
       }
     })
 }
@@ -70,7 +68,12 @@ const generateRandomTreasures = (count, highestTokenId, members) => {
 
       const realGame = realGames[randomInt(0, realGames.length - 1)]
 
-      const game = parseGameFromChessDotCom(realGame)
+      let game = parseGameFromChessDotCom(realGame)
+      game = {
+        ...game,
+        blackRatingDelta: deltaRating[game.id].black,
+        whiteRatingDelta: deltaRating[game.id].white,
+      }
       const treasure = generateTreasureDataOffline({
         game,
         title: randomTitles[randomInt(0, randomTitles.length - 1)],
@@ -125,11 +128,11 @@ const generateTreasureDataOffline = ({
     winner = white
     if (game.outcome === 'black') winner = black
   }
-  const { opening, score, achievements } = achievementsCalculator(
+  const { openingValue, score, achievements } = achievementsCalculator(
     game.pgn,
     cardColor
   )
-  const achievementsString = achievements.map((item) => item.name).join(',')
+  const achievementsList = achievements.map((item) => item.value)
   return {
     id: treasureId,
     blackId: black.id,
@@ -152,13 +155,13 @@ const generateTreasureDataOffline = ({
     outcome: game.outcome,
     event: game.event,
     moves: game.moves,
-    boardLayout: JSON.stringify(getBoardLayout('1. f3 e6 2. g4 Qh4# 0-1')),
+    boardLayout: JSON.stringify(getBoardLayout(game.moves)),
     moveCount: game.moveCount,
     ruleVariant: game.ruleVariant,
     externalUrl: game.externalUrl,
-    opening: opening,
+    opening: openingValue,
     rarity: getRarity(score),
-    achievements: achievementsString,
+    achievements: achievementsList,
     achievementScore: score,
   }
 }

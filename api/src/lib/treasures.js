@@ -1,10 +1,9 @@
 import { db } from 'src/lib/db'
 
-const { TREASURES_PER_PAGE } = require('@treasure-chess/treasure-filters')
-const filters = require('@treasure-chess/treasure-filters')
+import filters, { TREASURES_PER_PAGE } from '@treasure-chess/treasure-filters'
 
 // NOTE: any updates to this function should also be made in /scripts/seed
-export const generateTreasureData = ({ game, title, minter, mintPurchase }) => {
+export const generateTreasureData = ({ game, title, minter }) => {
   return {
     id: game.treasureId,
     black: { connect: { id: game.black.id } },
@@ -35,12 +34,6 @@ export const generateTreasureData = ({ game, title, minter, mintPurchase }) => {
     rarity: game.rarity,
     achievements: game.achievements,
     achievementScore: game.achievementScore,
-    // Purchase details
-    mintPurchase: {
-      connect: {
-        id: mintPurchase.id,
-      },
-    },
   }
 }
 
@@ -81,7 +74,7 @@ const getWhereQueryFromArgs = ({ username, filter, owner }) => {
     ? {
         OR: filterObj.achievements.split(',').map((chiev) => ({
           achievements: {
-            contains: chiev,
+            has: getValueByName(filters.achievementList, chiev),
           },
         })),
       }
@@ -102,6 +95,11 @@ const getWhereQueryFromArgs = ({ username, filter, owner }) => {
         ],
       }
     : null
+  const openingQuery = filterObj.opening
+    ? {
+        opening: getValueByName(filters.openingList, filterObj.opening),
+      }
+    : null
 
   return {
     ...(usernameQuery && usernameQuery),
@@ -110,7 +108,7 @@ const getWhereQueryFromArgs = ({ username, filter, owner }) => {
     ...(outcomeQuery && outcomeQuery),
     ...(moveCountQuery && moveCountQuery),
     ...(titleQuery && titleQuery),
-    ...(filterObj.opening && { opening: filterObj.opening }),
+    ...(openingQuery && openingQuery),
     ...(filterObj.color && { cardColor: filterObj.color }),
     ...(filterObj.termination && { termination: filterObj.termination }),
     ...(filterObj.timeControl && { timeControl: filterObj.timeControl }),
@@ -122,24 +120,56 @@ const getWhereQueryFromArgs = ({ username, filter, owner }) => {
   }
 }
 
+const getOrderByQueryFromArgs = ({ sort }) => {
+  if (sort === undefined) return { createdAt: 'desc' }
+
+  const idx = filters.sortList.indexOf(sort)
+
+  switch (idx) {
+    case 0:
+      return { achievementScore: 'desc' }
+    case 1:
+      return { achievementScore: 'asc' }
+    // TODO: sort price
+    // case 2:
+    //   return {price: 'desc'}
+    //   break
+    // case 3:
+    //   return {price: 'desc'}
+    //   break
+    case 4:
+      return { createdAt: 'desc' }
+    case 5:
+      return { createdAt: 'asc' }
+    case 6:
+      return { endTime: 'desc' }
+    case 7:
+      return { endTime: 'asc' }
+  }
+}
+
 export const getTreasuresWithFilter = async ({
   username,
-  filter,
   owner,
-  _sort,
+  filter,
+  sort,
   page = 0,
 }) => {
-  const whereQuery = getWhereQueryFromArgs({ username, filter, owner })
+  const whereQuery = getWhereQueryFromArgs({ username, filter, owner, sort })
+  const orderByQuery = getOrderByQueryFromArgs({ sort })
   // Cannot use cursor pagination, since custom sorting is needed
   const skip = page * TREASURES_PER_PAGE
   const treasures = await db.treasure.findMany({
     skip,
+    include: {
+      marketSales: true,
+    },
     // Taking 9 elements may cause issues if there's only <9 to take?
     take: TREASURES_PER_PAGE,
     // take: Math.min(count - skip, TREASURES_PER_PAGE),
     where: whereQuery,
     // TODO: add sorting, see https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#orderby
-    // orderBy:
+    orderBy: orderByQuery,
   })
   return treasures
 }

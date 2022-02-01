@@ -48,12 +48,20 @@
     @apply bg-orange;
   }
 
+  &[data-variant='black'] {
+    @apply bg-chessBlack-200;
+  }
+
   &[data-textcolor='black'] {
     @apply text-black;
   }
 
   &[data-textcolor='blue'] {
     @apply text-blueLink;
+  }
+
+  &[data-textcolor='grey'] {
+    @apply text-grey;
   }
 }
 

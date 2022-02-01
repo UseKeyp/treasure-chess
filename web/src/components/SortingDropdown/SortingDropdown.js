@@ -4,7 +4,7 @@ import Dropdown from 'src/components/Dropdown/Dropdown'
 import { useFilter } from 'src/providers/filters'
 
 const SortingDropdown = () => {
-  const { sort, setFilter } = useFilter()
+  const { sort, setFilter, defaultParams } = useFilter()
 
   const setSort = (value) => {
     setFilter('sort', value)
@@ -13,7 +13,7 @@ const SortingDropdown = () => {
   return (
     <div className="absolute w-full" style={{ maxWidth: '235px' }}>
       <Dropdown
-        default="Sort by"
+        default={defaultParams.sort}
         options={filters.sortList}
         queryFilterFunction={setSort}
         queryFilter={sort}

@@ -1,8 +1,8 @@
 import { render } from '@redwoodjs/testing/web'
-import { Loading, Empty, Failure, Success } from './TreasureInteractionCell'
-import { standard } from './TreasureInteractionCell.mock'
+import { Loading, Empty, Failure, Success } from './TreasureSaleInteractionCell'
+import { standard } from './TreasureSaleInteractionCell.mock'
 
-describe('TreasureInteractionCell', () => {
+describe('TreasureSaleInteractionCell', () => {
   it('renders Loading successfully', () => {
     expect(() => {
       render(<Loading />)

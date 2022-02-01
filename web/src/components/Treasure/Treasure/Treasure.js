@@ -1,7 +1,7 @@
 import TreasureMovesCell from 'src/components/Treasure/TreasureMovesCell'
 import TreasureSocialCell from 'src/components/Treasure/TreasureSocialCell'
 import TreasureCardCell from 'src/components/Treasure/TreasureCardCell'
-import TreasureInteractionCell from 'src/components/Treasure/TreasureInteractionCell'
+import TreasureSaleInteractionCell from 'src/components/Treasure/TreasureSaleInteractionCell'
 
 const Treasure = ({ tokenId }) => {
   // const currentMarketSale = treasure.marketSales ? treasure.marketSales[0] : {}
@@ -13,7 +13,7 @@ const Treasure = ({ tokenId }) => {
         <TreasureCardCell tokenId={tokenId} />
       </div>
       <div>
-        <TreasureInteractionCell tokenId={tokenId} />
+        <TreasureSaleInteractionCell tokenId={tokenId} />
         <TreasureSocialCell tokenId={tokenId} />
       </div>
       <TreasureMovesCell tokenId={tokenId} />

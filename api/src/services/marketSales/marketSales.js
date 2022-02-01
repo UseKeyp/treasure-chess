@@ -3,6 +3,7 @@ import {
   createNewTreasureListing,
   removeTreasureListing,
   purchaseTreasure,
+  processPendingMarketTransactions,
 } from 'src/lib/marketSales'
 
 export const marketSales = () => {
@@ -16,7 +17,7 @@ export const marketSale = ({ id }) => {
 }
 
 export const marketSaleByTokenId = async ({ tokenId }) => {
-  const treasure = await db.treasure.findUnique({
+  const treasure = await db.marketSales.findUnique({
     where: { tokenId },
     include: {
       marketSales: {

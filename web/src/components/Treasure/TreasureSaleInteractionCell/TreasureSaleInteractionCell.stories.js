@@ -1,5 +1,5 @@
-import { Loading, Empty, Failure, Success } from './TreasureInteractionCell'
-import { standard } from './TreasureInteractionCell.mock'
+import { Loading, Empty, Failure, Success } from './TreasureSaleInteractionCell'
+import { standard } from './TreasureSaleInteractionCell.mock'
 
 export const loading = () => {
   return Loading ? <Loading /> : null
@@ -17,4 +17,4 @@ export const success = () => {
   return Success ? <Success {...standard()} /> : null
 }
 
-export default { title: 'Cells/TreasureInteractionCell' }
+export default { title: 'Cells/TreasureSaleInteractionCell' }

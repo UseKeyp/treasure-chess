@@ -1,4 +1,4 @@
-import ItemSaleInteraction from 'src/components/ItemSaleInteraction/'
+import TreasureSaleInteraction from 'src/components/TreasureSaleInteraction/'
 
 export const QUERY = gql`
   query FindTreasureInteractionQuery($tokenId: Int!) {
@@ -17,5 +17,5 @@ export const Failure = ({ error }) => (
 )
 
 export const Success = ({ marketSaleByTokenId }) => {
-  return <ItemSaleInteraction marketSale={marketSaleByTokenId} />
+  return <TreasureSaleInteraction marketSale={marketSaleByTokenId} />
 }

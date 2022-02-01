@@ -16,22 +16,24 @@ const HomePageHero = () => {
     update()
   }, [])
   return (
-    <div className="treasureContainer">
-      <div className="treasureText px-8 pb-4 ">
-        <h1 className="capitalize my-6">treasure your chess games</h1>
-        <h3 className="mb-8">
-          Every chess game is one-of-a-kind. Make yours a collectible.
-        </h3>
-        <p className="mb-4 text-center">Connect Your Chess.com Account</p>
+    <div className="h-[800px] md:h-[600px]">
+      <div className="treasureContainer">
+        <div className="treasureText px-8 pb-4 ">
+          <h1 className="capitalize my-6">treasure your chess games</h1>
+          <h3 className="mb-6 md:mb-8">
+            Every chess game is one-of-a-kind. Make yours a collectible.
+          </h3>
+          <p className="mb-4 text-center">Connect Your Chess.com Account</p>
 
-        <Button className="treasureButton" to={'/login'}>
-          Get Started
-        </Button>
+          <Button className="treasureButton" to={'/login'}>
+            Get Started
+          </Button>
+        </div>
+        <div
+          className="min-w-258px mt-2 mx-auto lg:mx-0 md:mt-0"
+          dangerouslySetInnerHTML={{ __html: card }}
+        />
       </div>
-      <div
-        className="min-w-258px mt-2 mx-auto lg:mx-0 md:mt-0"
-        dangerouslySetInnerHTML={{ __html: card }}
-      />
     </div>
   )
 }

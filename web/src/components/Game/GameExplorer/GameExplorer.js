@@ -27,7 +27,6 @@ const GameExplorer = () => {
     filterParams.sort()
     setFilter(filterParams.toString())
   }
-
   return (
     <div className="grid grid-rows-1">
       <div className="grid md:grid-cols-3 grid-cols-1 gap-10">

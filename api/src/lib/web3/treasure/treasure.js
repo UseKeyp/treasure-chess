@@ -33,7 +33,7 @@ export const mint = async ({ treasure, tokenUri, minterAddress }) => {
 
     // Lookup the number of each achievement
     let chievScore = [0, 0, 0]
-    treasure.achievements.split(',').map((chiev, index) => {
+    treasure.achievements.map((chiev, index) => {
       const match = achievementsList.find((item) => item.name == chiev)
       if (match) chievScore[index] = match.number
     })

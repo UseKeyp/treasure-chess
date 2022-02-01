@@ -14,7 +14,7 @@ async function main() {
   // NOTE: change these as desired
   const newTreasuresToCreate = 100
   // const newMembersToCreate = Math.floor(newTreasuresToCreate / 3)
-  const newMembersToCreate = 30
+  const newMembersToCreate = 3
 
   var startMemberGenTime = performance.now()
   // MEMBERS

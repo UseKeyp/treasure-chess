@@ -1,10 +1,9 @@
 import { db } from 'src/lib/db'
 
-const { TREASURES_PER_PAGE } = require('@treasure-chess/treasure-filters')
-const filters = require('@treasure-chess/treasure-filters')
+import filters, { TREASURES_PER_PAGE } from '@treasure-chess/treasure-filters'
 
 // NOTE: any updates to this function should also be made in /scripts/seed
-export const generateTreasureData = ({ game, title, minter, mintPurchase }) => {
+export const generateTreasureData = ({ game, title, minter }) => {
   return {
     id: game.treasureId,
     black: { connect: { id: game.black.id } },
@@ -35,12 +34,6 @@ export const generateTreasureData = ({ game, title, minter, mintPurchase }) => {
     rarity: game.rarity,
     achievements: game.achievements,
     achievementScore: game.achievementScore,
-    // Purchase details
-    mintPurchase: {
-      connect: {
-        id: mintPurchase.id,
-      },
-    },
   }
 }
 
@@ -81,7 +74,7 @@ const getWhereQueryFromArgs = ({ username, filter, owner }) => {
     ? {
         OR: filterObj.achievements.split(',').map((chiev) => ({
           achievements: {
-            contains: chiev,
+            has: getValueByName(filters.achievementList, chiev),
           },
         })),
       }
@@ -102,6 +95,11 @@ const getWhereQueryFromArgs = ({ username, filter, owner }) => {
         ],
       }
     : null
+  const openingQuery = filterObj.opening
+    ? {
+        opening: getValueByName(filters.openingList, filterObj.opening),
+      }
+    : null
 
   return {
     ...(usernameQuery && usernameQuery),
@@ -110,7 +108,7 @@ const getWhereQueryFromArgs = ({ username, filter, owner }) => {
     ...(outcomeQuery && outcomeQuery),
     ...(moveCountQuery && moveCountQuery),
     ...(titleQuery && titleQuery),
-    ...(filterObj.opening && { opening: filterObj.opening }),
+    ...(openingQuery && openingQuery),
     ...(filterObj.color && { cardColor: filterObj.color }),
     ...(filterObj.termination && { termination: filterObj.termination }),
     ...(filterObj.timeControl && { timeControl: filterObj.timeControl }),
@@ -163,6 +161,9 @@ export const getTreasuresWithFilter = async ({
   const skip = page * TREASURES_PER_PAGE
   const treasures = await db.treasure.findMany({
     skip,
+    include: {
+      marketSales: true,
+    },
     // Taking 9 elements may cause issues if there's only <9 to take?
     take: TREASURES_PER_PAGE,
     // take: Math.min(count - skip, TREASURES_PER_PAGE),

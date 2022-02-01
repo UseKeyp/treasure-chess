@@ -6,6 +6,7 @@ const {
   getBoardBase64,
 } = require('@treasure-chess/chess-image-generator')
 import { getCardHtml } from '@treasure-chess/treasure-html'
+import { getAchievementNamesFromValues } from '@treasure-chess/treasure-filters'
 import placeholderGame from './placeholderGameData'
 import { useSpring, animated } from '@react-spring/web'
 
@@ -36,8 +37,15 @@ const GameCard = ({ game, isMinting, title, showGif }) => {
       })
       setCardHtml(rawHtml)
     } else {
+      const achievements = game.achievements
+        ? getAchievementNamesFromValues(game.achievements)
+        : undefined
       const rawHtml = await getCardHtml({
-        treasure: { ...game, title: title || game.title || 'Add a title' },
+        treasure: {
+          ...game,
+          achievements,
+          title: title || game.title || 'Add a title',
+        },
         gifUrl: showGif ? game.gifUrl : imageSrc,
       })
       setCardHtml(rawHtml)
@@ -71,7 +79,17 @@ const GameCard = ({ game, isMinting, title, showGif }) => {
     if (!showGif) fetchImageAndUpdate()
     /* eslint-disable react-hooks/exhaustive-deps */
   }, [game])
-  if (!isMinting && !game) return null
+  if (!isMinting && !game)
+    return (
+      <div className={styles.gameCardWrapper}>
+        <div className={styles.gameCardMintingContainer}>
+          <div className={styles.gameCardEmpty}>
+            <h2>Select a game</h2>
+          </div>
+        </div>
+      </div>
+    )
+
   return (
     <div className={styles.gameCardWrapper}>
       {isMinting && (
@@ -79,10 +97,12 @@ const GameCard = ({ game, isMinting, title, showGif }) => {
           <div className={styles.gameCardMintingContainer}>
             <div className={styles.gameCardMintingOverlay} />
             <div className="items-center">
-              <Loader />
+              <div className="mb-6 h-full">
+                <Loader />
+              </div>
               <P
                 fontWeight={700}
-                className="mt-4"
+                className="mt-8"
                 fontSize={16}
                 color={'chessBlack.100'}
               >

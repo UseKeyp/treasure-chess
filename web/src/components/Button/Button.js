@@ -45,8 +45,8 @@ const Button = ({
       data-textcolor={textColor}
       data-selected={String(isSelected)}
       data-fluid={String(fluid)}
-      href={href || false}
-      alt={alt || false}
+      href={href || ''}
+      alt={alt || ''}
       {...rest}
     >
       {label || children}

@@ -3,12 +3,15 @@ import TreasureMoves from 'src/components/Treasure/TreasureMoves'
 export const QUERY = gql`
   query TreasureMovesQuery($tokenId: Int!) {
     treasure: treasure(tokenId: $tokenId) {
+      id
       moves
       white {
+        id
         username
         imageSrc
       }
       black {
+        id
         username
         imageSrc
       }

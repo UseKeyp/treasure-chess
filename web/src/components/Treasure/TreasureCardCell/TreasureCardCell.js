@@ -2,7 +2,7 @@ import GameCard from 'src/components/Game/GameCard'
 import { CardSkeleton } from 'src/components/LoadingSkeleton'
 export const QUERY = gql`
   query FindTreasureCardQuery($tokenId: Int!) {
-    treasure: treasure(tokenId: $tokenId) {
+    treasureCard: treasure(tokenId: $tokenId) {
       id
       createdAt
       black {
@@ -58,6 +58,6 @@ export const Failure = () => (
   </div>
 )
 
-export const Success = ({ treasure }) => {
-  return <GameCard game={treasure} showGif={true} />
+export const Success = ({ treasureCard }) => {
+  return <GameCard game={treasureCard} showGif={true} />
 }

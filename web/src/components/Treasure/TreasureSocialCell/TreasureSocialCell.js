@@ -2,12 +2,15 @@ import TreasureSocial from 'src/components/Treasure/TreasureSocial'
 
 export const QUERY = gql`
   query TreasureSocialQuery($tokenId: Int!) {
-    treasure(tokenId: $tokenId) {
+    treasureSocial: treasure(tokenId: $tokenId) {
+      id
       tokenId
       black {
+        id
         username
       }
       white {
+        id
         username
       }
       owner {
@@ -34,4 +37,6 @@ export const Failure = () => (
   </div>
 )
 
-export const Success = ({ treasure }) => <TreasureSocial treasure={treasure} />
+export const Success = ({ treasureSocial }) => (
+  <TreasureSocial treasure={treasureSocial} />
+)

@@ -65,7 +65,6 @@ export const processPendingMarketTransactions = async ({ treasure }) => {
     // marketSales marked completed are not re-checked
     let currentMarketSale = treasure.marketSales[0]
     if (!currentMarketSale) return treasure
-    if (currentMarketSale.isClosed) return treasure
     let transactions = {}
     let newMarketSale = currentMarketSale
 

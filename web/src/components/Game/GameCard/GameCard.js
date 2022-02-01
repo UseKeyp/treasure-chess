@@ -53,6 +53,7 @@ const GameCard = ({ game, isMinting, title, showGif }) => {
   }
 
   const fetchImageAndUpdate = async () => {
+    if (!game) return
     let boardLayout
     try {
       // TODO: properly load the board layout from BE

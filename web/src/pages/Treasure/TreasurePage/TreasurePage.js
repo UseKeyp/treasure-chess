@@ -1,6 +1,6 @@
 import { MetaTags } from '@redwoodjs/web'
 
-import TreasureCell from 'src/components/Treasure/TreasureCell'
+import Treasure from 'src/components/Treasure/Treasure'
 
 const TreasurePage = ({ tokenId }) => {
   return (
@@ -12,7 +12,7 @@ const TreasurePage = ({ tokenId }) => {
         // ogContentUrl="https://awesomeredwoodapp.com/static/og.png"
         // robots={['nofollow']}
       />
-      <TreasureCell tokenId={tokenId} />
+      <Treasure tokenId={tokenId} />
     </div>
   )
 }

@@ -1,7 +1,7 @@
 const rug = require('random-username-generator')
 const { Wallet: EthersWallet } = require('@ethersproject/wallet')
 const { id: sha3 } = require('@ethersproject/hash')
-const filters = require('@treasure-chess/treasure-filters')
+const filters = require('@treasure-chess/treasure-filters').default
 const achievementsCalculator = require('@treasure-chess/chess-achievements')
 const {
   parseGameFromChessDotCom,
@@ -40,7 +40,7 @@ const generateRandomMembers = (count, highestMemberId) => {
       const randomAddress = EthersWallet.createRandom().address
       let masterTitle
       if (Math.random() > 0.9) {
-        masterTitle = filters.titleList[randomInt(0, 2)].toUpperCase()
+        masterTitle = filters.titleList[randomInt(0, 2)]
       }
       return {
         id: (highestMemberId + index).toString(),

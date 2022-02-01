@@ -11,11 +11,10 @@ const HomePage = () => {
       <Head>
         <title>Home</title>
       </Head>
-      <h1 className="font-bold">Treasure Chess</h1>
       {/* TODO: remaining home page content */}
       <HomePageHero />
       <LandingPageBoxes />
-      <FeaturedPlayers />  
+      <FeaturedPlayers />
       <FaqSection />
     </>
   )

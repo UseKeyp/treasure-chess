@@ -1,10 +1,10 @@
 import { Link, routes } from '@redwoodjs/router'
 import HeadingBar from '../HeadingBar/HeadingBar'
 import { getFlagBase64 } from '@treasure-chess/treasure-html'
-import { players } from 'src/global.config'
+import { featuredPlayers } from 'src/global.config'
 
 const FeaturedPlayers = ({ seeAllUrl }) => {
-  const playerIcons = players?.map((player, i) => {
+  const playerIcons = featuredPlayers?.map((player, i) => {
     const flagImageSrc = getFlagBase64(player.country)
 
     return (

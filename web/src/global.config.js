@@ -13,7 +13,7 @@ const config = {
   SUPPORT_URL: '',
 }
 
-export const players = [
+export const featuredPlayers = [
   {
     name: 'Magnus Carlsen',
     rating: 2865,

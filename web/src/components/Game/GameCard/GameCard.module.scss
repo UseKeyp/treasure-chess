@@ -42,3 +42,15 @@
   z-index: -1;
 }
 
+.gameCardEmpty {
+  top: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 266px;
+  height: 500px;
+  background-color: grey;
+  opacity: 80%;
+  border-radius: 12px;
+  z-index: -1;
+}

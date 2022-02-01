@@ -61,9 +61,9 @@ const AchievementScroll = (props) => {
           )
         })}
       </div>
-      <div className={gradientTop && styles.topGradient} />
+      <div className={gradientTop ? styles.topGradient : ''} />
       <div
-        className={gradientBottom && styles.bottomGradient}
+        className={gradientBottom ? styles.bottomGradient : ''}
         data-extend-scroll-area={props.extendScrollArea || false}
       />
     </div>

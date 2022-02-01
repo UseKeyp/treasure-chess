@@ -2,32 +2,35 @@ import { useState } from 'react'
 import styles from './Dropdown.module.scss'
 import { ReactComponent as Carat } from '../../assets/icons/carat.svg'
 
-const Dropdown = (props) => {
+const Dropdown = ({
+  options,
+  queryFilter,
+  queryFilterFunction,
+  category,
+  defaultValue,
+}) => {
   const [isOpen, setIsOpen] = useState(false)
-  let options = props.options
 
   const toggleOpen = () => {
     setIsOpen((v) => !v)
   }
 
   const handleSelection = (option) => {
-    props.queryFilter === option
-      ? props.queryFilterFunction()
-      : props.queryFilterFunction(option)
+    queryFilter === option ? queryFilterFunction() : queryFilterFunction(option)
     setIsOpen(false)
   }
 
   const handleKeyDown = (e, option, index) => {
     // jsx ally yelled at me to implement keyboard navigation
     let elements = document.querySelectorAll(
-      `div[name="${props.category}--${styles.dropdownObject}"]`
+      `div[name="${category}--${styles.dropdownObject}"]`
     )
     if (e.key === 'Enter') {
-      handleSelection(props.category === 'Time' ? option.label : option)
+      handleSelection(option)
       toggleOpen()
     }
     if (e.key === 'ArrowRight') {
-      handleSelection(props.category === 'Time' ? option.label : option)
+      handleSelection(option)
     }
     if (e.key === 'ArrowUp' && index > 0) {
       let nextElement = elements[index - 1]
@@ -35,9 +38,7 @@ const Dropdown = (props) => {
     }
     if (e.key === 'ArrowUp' && index === 0) {
       document
-        .querySelectorAll(
-          `div[name="${props.category}--${styles.dropdownLabel}"]`
-        )[0]
+        .querySelectorAll(`div[name="${category}--${styles.dropdownLabel}"]`)[0]
         .focus()
     }
     if (e.key === 'ArrowDown' && index < options.length - 1) {
@@ -46,12 +47,12 @@ const Dropdown = (props) => {
     }
   }
 
-  const dropdownElementName = `${props.category}--${styles.dropdownObject}`
-  const dropdownSelectorName = `${props.category}--${styles.dropdownLabel}`
+  const dropdownElementName = `${category}--${styles.dropdownObject}`
+  const dropdownSelectorName = `${category}--${styles.dropdownLabel}`
 
   return (
     <div className={styles.dropdownWrapper}>
-      <h4>{props.category}</h4>
+      <h4>{category}</h4>
       <div onMouseLeave={() => setIsOpen(false)} className={styles.dropdown}>
         <div
           className={styles.dropdownLabel}
@@ -71,13 +72,13 @@ const Dropdown = (props) => {
           role={'button'}
           tabIndex={0}
         >
-          {typeof props.queryFilter !== 'undefined' ? (
+          {typeof queryFilter !== 'undefined' ? (
             <>
-              <span>{props.queryFilter}</span> <Carat />
+              <span>{queryFilter}</span> <Carat />
             </>
           ) : (
             <>
-              <span>{props?.default ? props.default : 'Select'}</span> <Carat />
+              <span>{defaultValue ? defaultValue : 'Select'}</span> <Carat />
             </>
           )}
         </div>
@@ -93,13 +94,11 @@ const Dropdown = (props) => {
                     tabIndex={0}
                     name={`${dropdownElementName}`}
                     onClick={() => {
-                      handleSelection(
-                        props.category === 'Time' ? option.name : option
-                      )
+                      handleSelection(option)
                     }}
                     onKeyDown={(e) => handleKeyDown(e, option, index)}
                   >
-                    {props.category === 'Time' ? option.name : option}
+                    {option}
                   </div>
                 )
               })}

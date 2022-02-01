@@ -32,7 +32,6 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
       game,
       title,
       minter: member,
-      mintPurchase,
     })
 
     const { tokenUri, uriData } = await pinTreasure({
@@ -57,21 +56,21 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
         // YAY! Create the treasure in the database
         // TODO: optimize by combining these two db calls
         // Stop, don't mint again
-        await db.treasure.upsert({
-          where: { tokenId },
-          create: {
-            ...treasureData,
-            tokenId,
-            uriData,
-            tokenUri,
-          },
-          update: {},
-        })
-        return await db.mintPurchase.update({
+        const purchase = await db.mintPurchase.update({
           where: { id: mintPurchase.id },
-          data: { txStatus: COMPLETE },
-          include: { treasure: true },
+          data: {
+            txStatus: COMPLETE,
+            treasure: {
+              create: {
+                ...treasureData,
+                tokenId,
+                uriData,
+                tokenUri,
+              },
+            },
+          },
         })
+        return purchase
       }
       // If status is FAILED, let's continue and try to mint again
     }

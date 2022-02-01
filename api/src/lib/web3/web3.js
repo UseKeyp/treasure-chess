@@ -70,8 +70,6 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
             },
           },
         })
-        console.log('Successful minting')
-        console.log(purchase)
         return purchase
       }
       // If status is FAILED, let's continue and try to mint again

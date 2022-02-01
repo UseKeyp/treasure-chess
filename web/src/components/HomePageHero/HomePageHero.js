@@ -6,9 +6,9 @@ const HomePageHero = () => {
   const [card, setCard] = React.useState()
   const update = async () => {
     const raw = await getCardHtml({
-      treasure: { ...game, title: 'Pawn Checkmate' },
+      treasure: { ...game, title: 'Lucky Timeout' },
       gifUrl:
-        'https://images.chesscomfiles.com/uploads/game-gifs/90px/brown/neo/0/cc/0/1/bUMwS2d2NVFmQTlJa3NaUnB4M1ZpcVdPZWchVGZlMk12cE1FeEZWTmxCS0JDS1JLb3c2U2JsQnNqc1NBbEE3ZGVkVENjdUl1QXVDc2RlODZhY3NIcXlIUmVtMVRtazdacGZRQmtqWFB5R1BIdUo_OUpQNjdQWjdaZnVZUWpsQnJsUlpSdUxSWWNkOTdkZVFJTDI3PzJTWVJTMklBZWRyQjJMUklMMEFzMFVza2RjQm1nb21jVT9jdD9Va35VMGNsMExsbm9obkw,.gif',
+        'https://images.chesscomfiles.com/uploads/game-gifs/90px/brown/neo/0/cc/0/0/bUNaSkNKN0psQiFUYnNKR2NsWVFzQ0dZQ1QyVGd2NkVmbTBLQktFdm12VEtlZzlSdk41WmR2ODZ2MTc5MVM2NWxzWklTQUtDZ2g5THM_TE5BIVk2ITY1Nm93Q3VudVJ3aG93UnB4SUNhZE5Nb3ZNTA,,.gif',
     })
     setCard(raw)
   }

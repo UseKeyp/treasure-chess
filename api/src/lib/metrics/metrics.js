@@ -215,9 +215,8 @@ const getMemberData = async () => {
       treasuresMinted: true,
     },
   })
-  console.log(total)
   const minted = {}
-  const buckets = [1, 2, 5, 10, 20, 30, 40, 50, 75, 100, 150, 200, 250]
+  // const buckets = [1, 2, 5, 10, 20, 30, 40, 50, 75, 100, 150, 200, 250]
 
   // // Active: minted, bought, sold, listed
   // const activeMembers = members.map((user) => {

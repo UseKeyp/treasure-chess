@@ -102,7 +102,7 @@ const Header = () => {
   } = useAuth()
   const { pathname } = useLocation()
   const params = useParams()
-  const { username: initialUsername = '', ...currentFilter } = params
+  const { ...currentFilter } = params
 
   const isOnTreasuresPage = pathname === '/treasures'
   const isOnAboutPage = pathname === '/about'
@@ -110,15 +110,6 @@ const Header = () => {
   const imageSrc = profile?.imageSrc || null
 
   const address = trimAddress(profile?.address) || 'No address set'
-
-  const onUpdateUsername = (newUsername) => {
-    const searchParams = new URLSearchParams(currentFilter)
-    searchParams.append('username', newUsername)
-    const newPath = searchParams.toString()
-      ? window.location.pathname + '?' + searchParams.toString()
-      : window.location.pathname
-    window.history.replaceState({}, '', newPath)
-  }
 
   return (
     <div className={'header'}>

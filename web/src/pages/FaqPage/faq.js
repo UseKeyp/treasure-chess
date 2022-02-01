@@ -2,26 +2,27 @@ const faqs = [
   {
     question: 'What is Treasure Chess?',
     answer:
-      'Treasure Chess is an app that lets you save, collect, trade, and marvel at unique games of chess by saving them as NFTs. Each token represents a completely unique game, no two can represent the same sequence of moves, and its other attributes are a reflection of those particular moves.',
+      'Treasure Chess is an app that lets you save, collect, and trade games of chess by saving them as NFTs (a type of digital item you own). ',
   },
   {
-    question: 'What are NFTs?',
-    answer: 'TODO',
+    question: 'What are Treasures',
+    answer:
+      'Each unique game played on Chess.com can be turned into a Treasure, no two can be the same. Each Treasure has special attributes and acheivements.',
   },
   {
     question: 'What is a wallet?',
     answer: 'TODO',
   },
   {
-    question: 'How do I see my tokens?',
-    answer: 'TODO',
+    question: 'What do I need to join?',
+    answer: 'You ',
   },
   {
     question: 'How do I transfer my Treasure Chess token to someone else?',
     answer: 'TODO',
   },
   {
-    question: 'How do I mint a new game on Treasure Chess?',
+    question: 'What is the environmental ',
     answer: 'TODO',
   },
 ]

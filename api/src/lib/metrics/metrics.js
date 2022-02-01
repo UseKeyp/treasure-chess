@@ -165,8 +165,10 @@ const getMarketSaleData = async () => {
   })
   treasures.map((treasure) => {
     const index = treasure.marketSales.indexOf((sale) => sale.isClosed)
-    if (index)
-      minterEarningsFirstSale += treasure.marketSales[index].amount * 0.95
+    if (index) {
+      const increment = treasure.marketSales[index]?.amount * 0.95 || 0
+      minterEarningsFirstSale += increment
+    }
   })
 
   const platformFees = totalSales * 0.05
@@ -206,15 +208,21 @@ const getMarketSaleData = async () => {
 
 const getMemberData = async () => {
   const total = await db.member.count({
+    // Only users who have logged in
     where: { address: { startsWith: '0x' } },
-    _count: {
-      mintPurchases: true,
-      marketSalesSold: true,
-      marketSalesPurchased: true,
-      treasuresOwned: true,
-      treasuresMinted: true,
-    },
   })
+  const withoutAddress = await db.member.count({
+    where: { address: null },
+  })
+  // select: {
+  //   mintPurchases: { _count: true },
+  //   marketSalesSold: { _count: true },
+  //   marketSalesPurchased: { _count: true },
+  //   treasuresOwned: { _count: true },
+  //   treasuresMinted: { _count: true },
+  // },
+  console.log(withoutAddress)
+  console.log(total)
   const minted = {}
   // const buckets = [1, 2, 5, 10, 20, 30, 40, 50, 75, 100, 150, 200, 250]
 
@@ -223,7 +231,7 @@ const getMemberData = async () => {
   //   if (user.mint) return user
   // })
 
-  return { count: { total, minted } }
+  return { count: { total, withoutAddress, minted } }
 }
 
 export const getBusinessMetrics = async () => {

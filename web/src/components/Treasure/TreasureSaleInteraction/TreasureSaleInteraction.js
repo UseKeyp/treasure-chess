@@ -10,34 +10,40 @@ const UNLISTED = 'UNLISTED'
 
 const TreasureSaleInteraction = ({ tokenId }) => {
   const { currentUser } = useAuth()
-  const { treasure, marketSale, isLoading, buy, sell, list, unlist } =
-    useMarket({ tokenId })
+  const {
+    // marketSale,
+    marketStatus,
+    marketError,
+    marketLoading,
+    isOwner,
+    // buy,
+    // list,
+    // unlist,
+    amount,
+  } = useMarket()
 
-  const status = treasure?.marketSales[0]?.status || UNLISTED
-  const amount = treasure?.marketSales[0]?.amount || 0
-  const isOwner = currentUser?.id === treasure?.ownerId
   let isError = false
 
-  if (isLoading) return <SaleSkeleton />
+  if (marketLoading) return <SaleSkeleton />
 
   const onClick = () => {}
 
   if (isOwner) {
     return (
       <OwnerSaleInteraction
-        status={status}
+        status={marketStatus}
         amount={amount}
         onClick={onClick}
-        isError={isError}
+        isError={marketError}
       />
     )
 
     return (
       <BuyerSaleInteraction
-        status={status}
+        status={marketStatus}
         amount={amount}
         onClick={onClick}
-        isError={isError}
+        isError={marketError}
       />
     )
   }

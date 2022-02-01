@@ -1,6 +1,6 @@
 import { useLazyQuery, useQuery, useMutation } from '@apollo/client'
 import { useAuth } from '@redwoodjs/auth'
-
+import { useParams } from '@redwoodjs/router'
 import { useWallet } from 'src/providers/wallet'
 import { useToast } from 'src/providers/toast'
 import { useModal } from 'src/hooks/useModal'
@@ -28,46 +28,52 @@ import {
 } from './constants'
 
 const MarketContext = React.createContext({
-  status: null,
+  marketStatus: null,
+  marketError: null,
+  marketLoading: true,
   amount: null,
   isOwner: false,
+  marketSale: {},
 })
 
 const MarketProvider = ({ children }) => {
   const { mintCreditBalance } = useWallet()
-  const { isAuthenticated } = useAuth()
+  const { isAuthenticated, currentUser } = useAuth()
+  const { tokenId } = useParams()
   const { toast } = useToast()
-  const { isVisible: isVisibleModalCancel, toggleModal: toggleModalCancel } =
-    useModal()
-  const { isVisible: isVisibleModalSuccess, toggleModal: toggleModalSuccess } =
-    useModal()
+
+  // const { isVisible: isVisibleModalCancel, toggleModal: toggleModalCancel } =
+  //   useModal()
+  // const { isVisible: isVisibleModalSuccess, toggleModal: toggleModalSuccess } =
+  //   useModal()
 
   const [state, setState] = React.useState({
-    mintStatus: null,
     shouldPoll: false,
-    pendingMintPurchases: [],
-    successfulMintPurchase: null,
-    mintLoading: false,
+    marketStatus: null,
+    marketError: null,
+    marketLoading: true,
+    amount: null,
+    isOwner: false,
   })
 
-  const toastPurchase = (purchase) => {
-    // TODO: Add more data to toasts (links, etc.)
-    if (purchase.orderStatus === RESERVATION)
-      return toast.loading('Waiting for Wyre', { id: purchase.id })
-    if (purchase.txStatus === SUBMITTED)
-      return toast.loading(<MintingToast mintPurchase={purchase} />, {
-        id: purchase.id,
-      })
-    if (purchase.txStatus === COMPLETE)
-      return toast.success('Success!', { id: purchase.id })
-    if (purchase.txStatus === FAILED)
-      return toast.error('Minting Failed!', { id: purchase.id })
-    if (purchase.txStatus === UNSUBMITTED) {
-      if (purchase.paymentType === WYRE)
-        toast.success('Wyre checkout successful!')
-      toast.loading('Preparing to Mint', { id: purchase.id })
-    }
-  }
+  // const toastPurchase = (purchase) => {
+  //   // TODO: Add more data to toasts (links, etc.)
+  //   if (purchase.orderStatus === RESERVATION)
+  //     return toast.loading('Waiting for Wyre', { id: purchase.id })
+  //   if (purchase.txStatus === SUBMITTED)
+  //     return toast.loading(<MintingToast mintPurchase={purchase} />, {
+  //       id: purchase.id,
+  //     })
+  //   if (purchase.txStatus === COMPLETE)
+  //     return toast.success('Success!', { id: purchase.id })
+  //   if (purchase.txStatus === FAILED)
+  //     return toast.error('Minting Failed!', { id: purchase.id })
+  //   if (purchase.txStatus === UNSUBMITTED) {
+  //     if (purchase.paymentType === WYRE)
+  //       toast.success('Wyre checkout successful!')
+  //     toast.loading('Preparing to Mint', { id: purchase.id })
+  //   }
+  // }
 
   useQuery(PENDING_MINT_PURCHASES_QUERY, {
     pollInterval: 5000,
@@ -119,7 +125,7 @@ const MarketProvider = ({ children }) => {
     },
   })
 
-  const [pendingMintPurchasesLazyQuery] = useLazyQuery(
+  const [treasureWithMarketSalesLazyQuery] = useLazyQuery(
     PENDING_MINT_PURCHASES_QUERY
   )
 
@@ -127,99 +133,121 @@ const MarketProvider = ({ children }) => {
 
   const [mintWithCreditMutation] = useMutation(MINT_WITH_CREDIT_MUTATION)
 
-  const onPageLoad = async () => {
-    const { data: { pendingMintPurchases } = {} } =
-      await pendingMintPurchasesLazyQuery()
-    if (!pendingMintPurchases) return
-    pendingMintPurchases.map((purchase) => toastPurchase(purchase))
-    setState({ ...state, pendingMintPurchases, shouldPoll: true })
-  }
-
-  const mint = async ({ title, gameId, endTime }) => {
-    setState({ ...state, mintLoading: true, mintError: false })
-    if (mintCreditBalance < 1) {
-      try {
-        const { data: { mintCheckoutUrl } = {} } =
-          await mintCheckoutUrlMutation({
-            variables: { title, gameId, endTime },
-          })
-        setState({
-          ...state,
-          mintStatus: MINT_STATUS_ADDING_FUNDS,
-          shouldPoll: true,
-          mintLoading: false,
-        })
-        window.open(
-          mintCheckoutUrl,
-          'Treasure Chess Checkout',
-          'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
-        )
-      } catch (error) {
-        setState({
-          ...state,
-          mintStatus: null,
-          mintError: error.message,
-          mintLoading: false,
-        })
-      }
-    } else {
-      try {
-        const { data: { mintWithCredit: mintPurchase } = {} } =
-          await mintWithCreditMutation({
-            variables: { title, gameId, endTime },
-          })
-        setState({
-          ...state,
-          pendingMintPurchases: [mintPurchase],
-          mintStatus: MINT_STATUS_MINTING,
-          shouldPoll: true,
-          mintLoading: false,
-        })
-        toastPurchase(mintPurchase)
-      } catch (error) {
-        setState({
-          ...state,
-          mintStatus: null,
-          mintError: error.message,
-          mintLoading: false,
-        })
-      }
-    }
-  }
-
-  const cancelMint = ({ _gameId, _endTime }) => toggleModalCancel()
-  const onConfirmCancel = () => {
-    toggleModalCancel()
-    // TODO:  Delete mintPurchaseMutation
-    setState({ ...state, mintStatus: null, mintError: null })
-  }
-
-  const cleanupMintSuccess = () =>
-    setState({
-      ...state,
-      mintStatus: null,
-      mintError: null,
-      successfulMintPurchase: null,
-    })
-  const clearMintError = () => setState({ ...state, mintError: null })
+  // const mint = async ({ title, gameId, endTime }) => {
+  //   setState({ ...state, mintLoading: true, mintError: false })
+  //   if (mintCreditBalance < 1) {
+  //     try {
+  //       const { data: { mintCheckoutUrl } = {} } =
+  //         await mintCheckoutUrlMutation({
+  //           variables: { title, gameId, endTime },
+  //         })
+  //       setState({
+  //         ...state,
+  //         mintStatus: MINT_STATUS_ADDING_FUNDS,
+  //         shouldPoll: true,
+  //         mintLoading: false,
+  //       })
+  //       window.open(
+  //         mintCheckoutUrl,
+  //         'Treasure Chess Checkout',
+  //         'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
+  //       )
+  //     } catch (error) {
+  //       setState({
+  //         ...state,
+  //         mintStatus: null,
+  //         mintError: error.message,
+  //         mintLoading: false,
+  //       })
+  //     }
+  //   } else {
+  //     try {
+  //       const { data: { mintWithCredit: mintPurchase } = {} } =
+  //         await mintWithCreditMutation({
+  //           variables: { title, gameId, endTime },
+  //         })
+  //       setState({
+  //         ...state,
+  //         pendingMintPurchases: [mintPurchase],
+  //         mintStatus: MINT_STATUS_MINTING,
+  //         shouldPoll: true,
+  //         mintLoading: false,
+  //       })
+  //       toastPurchase(mintPurchase)
+  //     } catch (error) {
+  //       setState({
+  //         ...state,
+  //         mintStatus: null,
+  //         mintError: error.message,
+  //         mintLoading: false,
+  //       })
+  //     }
+  //   }
+  // }
+  //
+  // const cancelMint = ({ _gameId, _endTime }) => toggleModalCancel()
+  //
+  // const onConfirmCancel = () => {
+  //   toggleModalCancel()
+  //   // TODO:  Delete mintPurchaseMutation
+  //   setState({ ...state, mintStatus: null, mintError: null })
+  // }
+  //
+  // const cleanupMintSuccess = () =>
+  //   setState({
+  //     ...state,
+  //     mintStatus: null,
+  //     mintError: null,
+  //     successfulMintPurchase: null,
+  //   })
+  // const clearMintError = () => setState({ ...state, mintError: null })
 
   React.useEffect(() => {
-    isAuthenticated && onPageLoad()
+    if (currentUser.id === treasure.id) setState({ ...state, isOwner: true })
     /* eslint-disable-next-line react-hooks/exhaustive-deps*/
-  }, [isAuthenticated])
+  }, [currentUser, treasure])
+
+  const fetchData = async () => {
+    const { data: { treasure } = {} } = await treasureWithMarketSalesLazyQuery()
+    if (!treasure) return
+    if (!treasure.marketSales[0])
+      return setState({
+        ...state,
+        marketLoading: false,
+        marketStatus: null,
+        marketError: null,
+        treasure,
+      })
+    const { status, listedAt, isClosed, amount } = treasure.marketSales[0]
+    setState({
+      ...state,
+      marketError: null,
+      marketLoading: false,
+      marketStatus: status,
+      amount,
+    })
+  }
+
+  React.useEffect(() => {
+    if (!tokenId) return
+    fetchData()
+    /* eslint-disable-next-line react-hooks/exhaustive-deps*/
+  }, [tokenId])
 
   return (
     <MarketContext.Provider
       value={{
-        mint,
-        cancelMint,
-        clearMintError,
-        mintStatus: state.mintStatus,
-        mintError: state.mintError,
-        mintLoading: state.mintLoading,
+        buy,
+        list,
+        unlist,
+        marketStatus: state.marketStatus,
+        marketError: state.marketError,
+        marketLoading: state.marketLoading,
+        amount: state.amount,
+        isOwner: state.isOwner,
       }}
     >
-      <CancelModal
+      {/*  <CancelModal
         onSubmit={onConfirmCancel}
         isVisible={isVisibleModalCancel}
         toggleModal={toggleModalCancel}
@@ -230,6 +258,7 @@ const MarketProvider = ({ children }) => {
         isVisible={isVisibleModalSuccess}
         toggleModal={toggleModalSuccess}
       />
+    */}
       {children}
     </MarketContext.Provider>
   )

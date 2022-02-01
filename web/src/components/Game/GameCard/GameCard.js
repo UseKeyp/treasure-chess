@@ -37,7 +37,9 @@ const GameCard = ({ game, isMinting, title, showGif }) => {
       })
       setCardHtml(rawHtml)
     } else {
-      const achievements = getAchievementNamesFromValues(game.achievements)
+      const achievements = game.achievements
+        ? getAchievementNamesFromValues(game.achievements)
+        : []
       const rawHtml = await getCardHtml({
         treasure: {
           ...game,

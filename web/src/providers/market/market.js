@@ -74,56 +74,56 @@ const MarketProvider = ({ children }) => {
   //     toast.loading('Preparing to Mint', { id: purchase.id })
   //   }
   // }
-
-  useQuery(PENDING_MINT_PURCHASES_QUERY, {
-    pollInterval: 5000,
-    skip: !state.shouldPoll,
-    fetchPolicy: 'network-only',
-    onCompleted: async ({
-      pendingMintPurchases: pendingMintPurchasesPoll,
-    } = {}) => {
-      const last = state.pendingMintPurchases
-      const current = pendingMintPurchasesPoll
-      if (current === last) return
-      if (current && !current.length)
-        return setState({
-          ...state,
-          pendingMintPurchases: [],
-          shouldPoll: false,
-        })
-
-      setState({ ...state, pendingMintPurchases: current })
-      current?.map((purchase) => {
-        if (!last.map((item) => item.id).includes(purchase.id))
-          return toastPurchase(purchase)
-        const lastPurchase = last.find((item) => item.id === purchase.id)
-        if (lastPurchase.txStatus !== purchase.txStatus) {
-          toastPurchase(purchase)
-          if (purchase.txStatus === COMPLETE) {
-            setState({
-              ...state,
-              successfulMintPurchase: purchase,
-              shouldPoll: false,
-              pendingMintPurchases: [],
-              mintStatus: MINT_STATUS_SUCCESS,
-            })
-            toggleModalSuccess()
-          } else if (purchase.txStatus === FAILED) {
-            setState({
-              ...state,
-              shouldPoll: false,
-              mintStatus: null,
-            })
-          } else if (purchase.orderStatus === COMPLETE) {
-            setState({
-              ...state,
-              mintStatus: MINT_STATUS_MINTING,
-            })
-          }
-        }
-      })
-    },
-  })
+  //
+  // useQuery(PENDING_MINT_PURCHASES_QUERY, {
+  //   pollInterval: 5000,
+  //   skip: !state.shouldPoll,
+  //   fetchPolicy: 'network-only',
+  //   onCompleted: async ({
+  //     pendingMintPurchases: pendingMintPurchasesPoll,
+  //   } = {}) => {
+  //     const last = state.pendingMintPurchases
+  //     const current = pendingMintPurchasesPoll
+  //     if (current === last) return
+  //     if (current && !current.length)
+  //       return setState({
+  //         ...state,
+  //         pendingMintPurchases: [],
+  //         shouldPoll: false,
+  //       })
+  //
+  //     setState({ ...state, pendingMintPurchases: current })
+  //     current?.map((purchase) => {
+  //       if (!last.map((item) => item.id).includes(purchase.id))
+  //         return toastPurchase(purchase)
+  //       const lastPurchase = last.find((item) => item.id === purchase.id)
+  //       if (lastPurchase.txStatus !== purchase.txStatus) {
+  //         toastPurchase(purchase)
+  //         if (purchase.txStatus === COMPLETE) {
+  //           setState({
+  //             ...state,
+  //             successfulMintPurchase: purchase,
+  //             shouldPoll: false,
+  //             pendingMintPurchases: [],
+  //             mintStatus: MINT_STATUS_SUCCESS,
+  //           })
+  //           toggleModalSuccess()
+  //         } else if (purchase.txStatus === FAILED) {
+  //           setState({
+  //             ...state,
+  //             shouldPoll: false,
+  //             mintStatus: null,
+  //           })
+  //         } else if (purchase.orderStatus === COMPLETE) {
+  //           setState({
+  //             ...state,
+  //             mintStatus: MINT_STATUS_MINTING,
+  //           })
+  //         }
+  //       }
+  //     })
+  //   },
+  // })
 
   const [treasureWithMarketSalesLazyQuery] = useLazyQuery(
     PENDING_MINT_PURCHASES_QUERY

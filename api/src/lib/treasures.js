@@ -80,7 +80,7 @@ const getWhereQueryFromArgs = ({ username, filter, owner }) => {
     ? {
         OR: filterObj.achievements.split(',').map((chiev) => ({
           achievements: {
-            has: chiev,
+            has: getValueByName(filters.achievementList, chiev),
           },
         })),
       }
@@ -101,6 +101,11 @@ const getWhereQueryFromArgs = ({ username, filter, owner }) => {
         ],
       }
     : null
+  const openingQuery = filterObj.opening
+    ? {
+        opening: getValueByName(filters.openingList, filterObj.opening),
+      }
+    : null
 
   return {
     ...(usernameQuery && usernameQuery),
@@ -109,7 +114,7 @@ const getWhereQueryFromArgs = ({ username, filter, owner }) => {
     ...(outcomeQuery && outcomeQuery),
     ...(moveCountQuery && moveCountQuery),
     ...(titleQuery && titleQuery),
-    ...(filterObj.opening && { opening: filterObj.opening }),
+    ...(openingQuery && openingQuery),
     ...(filterObj.color && { cardColor: filterObj.color }),
     ...(filterObj.termination && { termination: filterObj.termination }),
     ...(filterObj.timeControl && { timeControl: filterObj.timeControl }),

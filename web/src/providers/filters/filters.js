@@ -9,6 +9,7 @@ const initialState = {
 }
 
 const defaultParams = {
+  opening: filters.openingList[0].name,
   outcome: filters.outcomeList,
   sale: filters.saleList,
   termination: filters.terminationList[0].name,

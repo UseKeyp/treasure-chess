@@ -56,7 +56,7 @@ const moveCountList = [
 
 const openingList = [
   { name: 'Any', value: 'Any' },
-  { name: "King's Pawn Game", value: 'KingsPawn' },
+  { name: "King's Pawn Game", value: 'KingsPawnGame' },
   { name: "Queen's Gambit", value: 'QueensGambit' },
   { name: 'Ruy Lopez', value: 'RuyLopez' },
   { name: 'French Defense', value: 'FrenchDefense' },
@@ -64,9 +64,9 @@ const openingList = [
   { name: 'Reti Opening', value: 'RetiOpening' },
   { name: 'English', value: 'English' },
   { name: 'Modern', value: 'Modern' },
-  { name: "Bird's Opening", value: 'Bird' },
+  { name: "Bird's Opening", value: 'BirdsOpening' },
   { name: 'Scandinavian', value: 'Scandinavian' },
-  { name: 'Scotch Game', value: 'Scotch' },
+  { name: 'Scotch Game', value: 'ScotchGame' },
 ]
 
 const terminationList = [

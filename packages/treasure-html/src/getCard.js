@@ -245,7 +245,7 @@ const getCardHtml = async ({ treasure, gifBase64, gifUrl }) => {
     // Footer
     updateContent(
       'match-anchor',
-      `Match #${treasure.externalUrl.split('/').pop()}`
+      `Match #${treasure.externalUrl?.split('/').pop()}`
     )
     updateTag('match-anchor', 'href', treasure.externalUrl)
     updateContent('date', formatDate(treasure.endTime))

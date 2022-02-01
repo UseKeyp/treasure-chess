@@ -12,11 +12,9 @@ describe('metrics function', () => {
     // console.log(data.promData)
 
     // Business logic metrics
-    console.log(
-      Object.keys(data.businessData).map((key) =>
-        console.log(data.businessData[key])
-      )
-    )
+    // Object.keys(data.businessData).map((key) =>
+    //   console.log(data.businessData[key])
+    // )
     expect(response.statusCode).toBe(200)
     expect(typeof data).toBe('object')
   })

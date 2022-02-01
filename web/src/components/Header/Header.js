@@ -1,6 +1,5 @@
 import { routes, useLocation } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
-import { useParams } from '@redwoodjs/router'
 import { useWallet } from 'src/providers/wallet'
 
 import Icon from 'src/components/Icon/Icon'
@@ -101,8 +100,6 @@ const Header = () => {
     logOut,
   } = useAuth()
   const { pathname } = useLocation()
-  const params = useParams()
-  const { ...currentFilter } = params
 
   const isOnTreasuresPage = pathname === '/treasures'
   const isOnAboutPage = pathname === '/about'

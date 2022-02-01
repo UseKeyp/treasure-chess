@@ -28,22 +28,22 @@ export const schema = gql`
     whiteRating: Int!
     blackRatingDelta: Int!
     whiteRatingDelta: Int!
-    blackMasterTitle: String
-    whiteMasterTitle: String
+    blackMasterTitle: MasterTitle
+    whiteMasterTitle: MasterTitle
     timeControl: Int!
-    termination: String!
+    termination: Termination!
     endTime: DateTime!
-    outcome: String!
+    outcome: Outcome!
     event: String!
     moves: String!
     boardLayout: String!
     moveCount: Int!
     ruleVariant: String!
     externalUrl: String
-    opening: String!
-    achievements: String!
+    opening: Opening!
+    achievements: [Achievement!]!
     achievementScore: Int!
-    rarity: String!
+    rarity: Rarity!
   }
 
   type TreasureNftDetails {
@@ -73,5 +73,117 @@ export const schema = gql`
     ): Int! @skipAuth
     treasure(tokenId: Int!): Treasure @skipAuth
     treasureNftDetails(tokenId: Int!): TreasureNftDetails @skipAuth
+  }
+
+  enum Opening {
+    QueensGambit
+    RuyLopez
+    ScotchGame
+    KingsPawnGame
+    FrenchDefense
+    CaroKann
+    Scandinavian
+    Modern
+    English
+    RetiOpening
+    BirdsOpening
+    Uncommon
+    NimzoLarsen
+    KingsIndianAttack
+    Reti
+    QueensPawnGame
+    Benoni
+    QueensIndian
+    KingsIndian
+    BudapestGambit
+    OldIndian
+    BenkoGambit
+    Dutch
+    Alekhine
+    Pirc
+    Sicilian
+    French
+    CenterGame
+    BishopsOpening
+    Vienna
+    KingsGambit
+    KingsKnightOpening
+    Philidor
+    Petroff
+    ThreeKnights
+    FourKnights
+    Italian
+    EvansGambit
+    TwoKnights
+    Veresov
+    Torre
+    Grunfeld
+    Catalan
+    BogoIndian
+    NimzoIndian
+  }
+
+  enum Rarity {
+    Good
+    Great
+    Ultra
+    Mythic
+  }
+
+  enum Outcome {
+    black
+    white
+    draw
+  }
+
+  enum Termination {
+    Checkmate
+    Resignation
+    Stalemate
+    Time
+    Repetition
+    Agreement
+    Insufficient
+    Abandoned
+  }
+
+  enum Achievement {
+    Player
+    Winner750
+    Played750
+    Winner1500
+    Played1500
+    Played2000
+    BigWinner
+    StrongestOpponent
+    MythicWinner
+    DefeatIM
+    DefeatNM
+    DefeatGM
+    CrissCross
+    Jousting
+    UtterDisrespect
+    TripleDigitClub
+    Excessive
+    Ultramarathoners
+    OpeningExpert
+    DontBlink
+    FoolsMate
+    LeveledField
+    Hellomlady
+    HorseFarmer
+    HolyPromotion
+    TheSneakyPawn
+    GodModeGlitch
+    CuttingitClose
+    DejaVu
+    TheUnderdog
+    CheckinYouOut
+    PawnShy
+    PawnShopper
+    MinorProblem
+    MrMarathonMan
+    PawnHoarder
+    Winner
   }
 `

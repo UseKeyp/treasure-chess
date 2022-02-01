@@ -18,7 +18,7 @@ console.log(
 )
 console.log(
   `%c⚠️ This is a browser feature intended for developers. Do not paste anything here! If someone told you to copy and paste something here, it is a scam and will give them access to your Treasure Chess account. ⚠️`,
-  'font-family:sans-serif;font-size:1.5rem;-webkit-text-stroke: 1px black;'
+  'font-family:sans-serif;font-size:1rem;-webkit-text-stroke: 1px black;'
 )
 console.log(
   `%cAre you a developer? We have open positions posted here >> https://github.com/treasure-chess/jobs`,

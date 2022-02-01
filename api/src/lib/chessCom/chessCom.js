@@ -52,3 +52,17 @@ export const fetchRatingDelta = async (id) => {
     black: response.game.ratingChangeBlack,
   }
 }
+
+export const isStaff = async (username) =>{
+  const response = await fetch(
+    `https://api.chess.com/pub/player/${username}`
+  ).then((res) => {
+      return res.json()
+    })
+
+    if (response.status === "staff") {
+      return true
+    } else {
+      return false
+    }
+}

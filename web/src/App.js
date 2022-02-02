@@ -1,5 +1,6 @@
+import * as Sentry from '@sentry/browser'
 import { FatalErrorBoundary, RedwoodProvider } from '@redwoodjs/web'
-import { AuthProvider } from '@redwoodjs/auth'
+import { AuthProvider, useAuth } from '@redwoodjs/auth'
 import { RedwoodApolloProvider } from '@redwoodjs/web/apollo'
 
 import AllContextProviders from 'src/providers'
@@ -34,10 +35,33 @@ class AuthProviderExtended extends AuthProvider {
   }
 }
 
+const SentryInjector = () => {
+  const { currentUser } = useAuth
+  try {
+    Sentry.init({
+      dsn: 'https://0723d14bc0b94064902f01f77a915392@o1016103.ingest.sentry.io/5981718',
+      beforeSend(event, hint) {
+        console.log(event)
+        // Check if it is an exception, and if so, show the report dialog
+        if (event.exception) {
+          Sentry.showReportDialog({ eventId: event.event_id })
+        }
+        return event
+      },
+    })
+  } catch (e) {
+    /* eslint-disable-next-line no-console */
+    console.log(e)
+  }
+  if (currentUser) Sentry.setUser(currentUser)
+  return null
+}
+
 const App = () => (
   <FatalErrorBoundary page={FatalErrorPage}>
     <RedwoodProvider titleTemplate="%PageTitle | %AppTitle">
       <AuthProviderExtended type="dbAuth">
+        <SentryInjector />
         <RedwoodApolloProvider>
           <AllContextProviders>
             <Routes />

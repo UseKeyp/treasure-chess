@@ -20,6 +20,7 @@
     "@redwoodjs/forms": "^0.40.0",
     "@redwoodjs/router": "^0.40.0",
     "@redwoodjs/web": "^0.40.0",
+    "@sentry/browser": "^6.17.3",
     "@treasure-chess/chess-image-generator": "1.4.8",
     "@treasure-chess/treasure-filters": "^1.1.0",
     "@treasure-chess/treasure-html": "^1.1.0",

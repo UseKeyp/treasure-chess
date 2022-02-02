@@ -224,7 +224,6 @@ const MarketProvider = ({ children }) => {
       // amount,
     })
   }
-
   const buy = async () => {}
   const list = async (listAmount) => {
     try {

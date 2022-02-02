@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import TreasureSaleInteraction from './TreasureSaleInteraction'
+import TreasureMarketInteraction from './TreasureMarketInteraction'
 
 const doubleOnClick = (type) => {
   if (type === 'list') console.log('wassssuppp')
@@ -9,7 +9,7 @@ export const loading = () => {
   return (
     <div>
       <h3>Loading</h3>
-      <TreasureSaleInteraction isLoading />
+      <TreasureMarketInteraction isLoading />
     </div>
   )
 }
@@ -17,19 +17,19 @@ export const error = () => {
   return (
     <div>
       <h3>Error</h3>
-      <TreasureSaleInteraction
+      <TreasureMarketInteraction
         isOwner={false}
         isError={true}
         onClick={() => console.log('shalom')}
         marketSale={{ status: 'LISTED', amount: 123, sellerId: 23 }}
       />
-      <TreasureSaleInteraction
+      <TreasureMarketInteraction
         isOwner={true}
         isError={true}
         onClick={() => console.log('shalom')}
         marketSale={{ status: 'LISTED', amount: 123, sellerId: 23 }}
       />
-      <TreasureSaleInteraction
+      <TreasureMarketInteraction
         isOwner={true}
         isError={true}
         onClick={doubleOnClick}
@@ -43,67 +43,67 @@ export const generated = () => {
     <div>
       <br />
       <h3>Default</h3>
-      <TreasureSaleInteraction
+      <TreasureMarketInteraction
         isOwner={false}
         onClick={() => console.log('shalom')}
         marketSale={{ status: 'LISTED', amount: 123, sellerId: 23 }}
       />
       <br />
       <h3>Success</h3>
-      <TreasureSaleInteraction
+      <TreasureMarketInteraction
         isOwner={false}
         onClick={() => console.log('shalom')}
         marketSale={{ status: 'SOLD', amount: 123, sellerId: 23 }}
       />
       <br />
       <h3>Listed</h3>
-      <TreasureSaleInteraction
+      <TreasureMarketInteraction
         isOwner={true}
         onClick={() => console.log('shalom')}
         marketSale={{ status: 'LISTED', amount: 123, sellerId: 23 }}
       />
       <br />
       <h3>Unlisted</h3>
-      <TreasureSaleInteraction
+      <TreasureMarketInteraction
         isOwner={true}
         onClick={doubleOnClick}
         marketSale={{ status: 'UNLISTED', sellerId: 23 }}
       />
       <br />
       <h3>Loading</h3>
-      <TreasureSaleInteraction isLoading />
+      <TreasureMarketInteraction isLoading />
       <br />
       <h3>Pending</h3>
-      <TreasureSaleInteraction
+      <TreasureMarketInteraction
         isOwner={false}
         onClick={() => console.log('shalom')}
         marketSale={{ status: 'PENDING_SOLD', amount: 123, sellerId: 23 }}
       />
-      <TreasureSaleInteraction
+      <TreasureMarketInteraction
         isOwner={true}
         onClick={() => console.log('shalom')}
         marketSale={{ status: 'PENDING_DELISTED', amount: 123, sellerId: 23 }}
       />
-      <TreasureSaleInteraction
+      <TreasureMarketInteraction
         isOwner={true}
         onClick={doubleOnClick}
         marketSale={{ status: 'PENDING_LISTED', sellerId: 23 }}
       />
       <br />
       <h3>Error</h3>
-      <TreasureSaleInteraction
+      <TreasureMarketInteraction
         isOwner={false}
         isError={true}
         onClick={() => console.log('shalom')}
         marketSale={{ status: 'LISTED', amount: 123, sellerId: 23 }}
       />
-      <TreasureSaleInteraction
+      <TreasureMarketInteraction
         isOwner={true}
         isError={true}
         onClick={() => console.log('shalom')}
         marketSale={{ status: 'LISTED', amount: 123, sellerId: 23 }}
       />
-      <TreasureSaleInteraction
+      <TreasureMarketInteraction
         isOwner={true}
         isError={true}
         onClick={doubleOnClick}
@@ -113,4 +113,4 @@ export const generated = () => {
   )
 }
 
-export default { title: 'Components/TreasureSaleInteraction' }
+export default { title: 'Components/TreasureMarketInteraction' }

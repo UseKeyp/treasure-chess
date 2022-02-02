@@ -1,6 +1,6 @@
 export const TREASURE_WITH_MARKET_SALES_QUERY = gql`
   query FindTreasureWithMarketSalesQuery($tokenId: Int!) {
-    treasure(tokenId: $tokenId) {
+    treasureWithMarketSales: treasure(tokenId: $tokenId) {
       id
       tokenId
       ownerId

@@ -1,7 +1,7 @@
 import TreasureMoves from 'src/components/Treasure/TreasureMoves'
 
 export const QUERY = gql`
-  query TreasureMovesQuery($tokenId: Int!) {
+  query TreasureMovesQuery($tokenId: String!) {
     treasure: treasure(tokenId: $tokenId) {
       id
       moves

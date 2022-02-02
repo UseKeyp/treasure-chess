@@ -13,8 +13,10 @@ export const treasuresWithFilterCount = ({ username, owner, filter }) =>
   getTreasuresWithFilterCount({ username, filter, owner })
 
 export const treasure = async ({ tokenId }) => {
+  let id
+  if (tokenId.startsWith('0x')) id = tokenId
   const treasure = await db.treasure.findUnique({
-    where: { tokenId },
+    where: { ...(id ? { id } : { tokenId: Number(tokenId) }) },
     include: {
       marketSales: {
         orderBy: { updatedAt: 'desc' },

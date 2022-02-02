@@ -1,6 +1,5 @@
 import { useLazyQuery, useQuery, useMutation } from '@apollo/client'
 import { useAuth } from '@redwoodjs/auth'
-import { useParams } from '@redwoodjs/router'
 import { useWallet } from 'src/providers/wallet'
 import { useToast } from 'src/providers/toast'
 import { useModal } from 'src/hooks/useModal'
@@ -39,9 +38,8 @@ const MarketContext = React.createContext({
 const MarketProvider = ({ children }) => {
   const { mintCreditBalance } = useWallet()
   const { isAuthenticated, currentUser } = useAuth()
-  const { tokenId } = useParams()
   const { toast } = useToast()
-
+  const tokenId = Number(window.location.toString().split('treasures/')[1])
   // const { isVisible: isVisibleModalCancel, toggleModal: toggleModalCancel } =
   //   useModal()
   // const { isVisible: isVisibleModalSuccess, toggleModal: toggleModalSuccess } =
@@ -126,12 +124,12 @@ const MarketProvider = ({ children }) => {
   // })
 
   const [treasureWithMarketSalesLazyQuery] = useLazyQuery(
-    PENDING_MINT_PURCHASES_QUERY
+    TREASURE_WITH_MARKET_SALES_QUERY
   )
-
-  const [mintCheckoutUrlMutation] = useMutation(MINT_CHECKOUT_URL_MUTATION)
-
-  const [mintWithCreditMutation] = useMutation(MINT_WITH_CREDIT_MUTATION)
+  //
+  // const [mintCheckoutUrlMutation] = useMutation(MINT_CHECKOUT_URL_MUTATION)
+  //
+  // const [mintWithCreditMutation] = useMutation(MINT_WITH_CREDIT_MUTATION)
 
   // const mint = async ({ title, gameId, endTime }) => {
   //   setState({ ...state, mintLoading: true, mintError: false })
@@ -202,31 +200,36 @@ const MarketProvider = ({ children }) => {
   //   })
   // const clearMintError = () => setState({ ...state, mintError: null })
 
-  React.useEffect(() => {
-    if (currentUser.id === treasure.id) setState({ ...state, isOwner: true })
-    /* eslint-disable-next-line react-hooks/exhaustive-deps*/
-  }, [currentUser, treasure])
-
   const fetchData = async () => {
-    const { data: { treasure } = {} } = await treasureWithMarketSalesLazyQuery()
-    if (!treasure) return
-    if (!treasure.marketSales[0])
+    const { data: { treasureWithMarketSales } = {} } =
+      await treasureWithMarketSalesLazyQuery({
+        variables: { tokenId },
+      })
+    console.log(treasureWithMarketSales)
+    const marketSale = treasureWithMarketSales?.marketSales[0]
+    if (!marketSale)
       return setState({
         ...state,
         marketLoading: false,
         marketStatus: null,
         marketError: null,
-        treasure,
       })
-    const { status, listedAt, isClosed, amount } = treasure.marketSales[0]
+    // const { status, listedAt, isClosed, amount } = marketSale
+    // let isOwner = false
+    // if (currentUser.id === treasure.id) isOwner = true
     setState({
       ...state,
       marketError: null,
       marketLoading: false,
-      marketStatus: status,
-      amount,
+      // marketStatus: status,
+      // amount,
+      // isOwner,
     })
   }
+
+  const buy = async () => {}
+  const list = async () => {}
+  const unlist = async () => {}
 
   React.useEffect(() => {
     if (!tokenId) return

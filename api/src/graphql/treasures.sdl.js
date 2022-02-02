@@ -73,8 +73,8 @@ export const schema = gql`
       filter: String
       owner: String
     ): Int! @skipAuth
-    treasure(tokenId: Int!): Treasure @skipAuth
-    treasureNftDetails(tokenId: Int!): TreasureNftDetails @skipAuth
+    treasure(tokenId: String!): Treasure @skipAuth
+    treasureNftDetails(tokenId: String!): TreasureNftDetails @skipAuth
   }
 
   enum Opening {

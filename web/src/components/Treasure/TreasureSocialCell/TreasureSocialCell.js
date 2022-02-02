@@ -1,7 +1,7 @@
 import TreasureSocial from 'src/components/Treasure/TreasureSocial'
 
 export const QUERY = gql`
-  query TreasureSocialQuery($tokenId: Int!) {
+  query TreasureSocialQuery($tokenId: String!) {
     treasureSocial: treasure(tokenId: $tokenId) {
       id
       tokenId

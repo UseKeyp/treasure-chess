@@ -13,30 +13,34 @@ const OwnerSaleInteraction = () => {
 
   const [listAmount, setListAmount] = React.useState(0)
   const [username, setUsername] = React.useState(0)
+  let statusContent = <></>
 
-  const Status = () => {
-    if (actionError) {
-      return <p className="text-red text-[11px]">{actionError}</p>
-    } else if (actionStatus === PENDING_LISTED) {
-      return (
-        <p className="text-white flex text-[10px]">
+  if (actionError) {
+    statusContent = <p className="text-red text-[11px]">{actionError}</p>
+  } else if (actionStatus === PENDING_LISTED) {
+    statusContent = (
+      <div className=" flex">
+        <p className="text-white text-[10px]">
           Listing can take up to 3 minutes.
-          <div className="ml-2">
-            <LoadingDots />
-          </div>
         </p>
-      )
-    } else if (actionStatus === PENDING_DELISTED) {
-      return (
-        <p className="text-white flex text-[10px]">
+        <div className="ml-2">
+          <LoadingDots />
+        </div>
+      </div>
+    )
+  } else if (actionStatus === PENDING_DELISTED) {
+    statusContent = (
+      <div className=" flex">
+        <p className="text-white text-[10px]">
           Delisting can take up to 3 minutes.
-          <div className="ml-2">
-            <LoadingDots />
-          </div>
         </p>
-      )
-    } else return null
+        <div className="ml-2">
+          <LoadingDots />
+        </div>
+      </div>
+    )
   }
+
   // <input
   //   type="text"
   //   value={inputValue}
@@ -52,7 +56,7 @@ const OwnerSaleInteraction = () => {
       <div className="flex flex-col justify-between w-[396px] h-[108px] p-4 mb-4 rounded-xl shadow-md bg-chessBlack-200">
         <div className="flex items-center justify-between">
           <h2 className="text-base text-white">Listed</h2>
-          {actionStatus && <Status />}
+          {actionStatus && statusContent}
         </div>
         <div className="flex items-center justify-between">
           <h2 className="text-xl ml-3.5 text-white">{`$${amount}`}</h2>
@@ -76,7 +80,7 @@ const OwnerSaleInteraction = () => {
       <div>
         <div className="flex items-center justify-between mb-2">
           <h2 className="text-base text-white">List Your Treasure</h2>
-          {actionStatus && <Status />}
+          {actionStatus && statusContent}
         </div>
         <div className="flex flex-col items-center justify-between">
           <div className="flex items-center justify-end w-full">

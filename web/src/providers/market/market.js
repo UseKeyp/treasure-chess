@@ -242,6 +242,7 @@ const MarketProvider = ({ children }) => {
         ...state,
         actionLoading: false,
         actionError: error.message,
+        actionStatus: null,
       })
     }
   }

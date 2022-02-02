@@ -17,7 +17,6 @@
     "REDWOOD_API_URL",
     "BASIC_AUTH_PASSWORD",
     "NODE_ENV",
-    "SENTRY_DSN"
   ]
 [api]
   port = 8911

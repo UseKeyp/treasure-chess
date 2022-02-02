@@ -13,7 +13,7 @@ const OwnerSaleInteraction = () => {
 
   const [listAmount, setListAmount] = React.useState(0)
   const [username, setUsername] = React.useState(0)
-  let statusContent = <></>
+  let statusContent = null
 
   if (actionError) {
     statusContent = <p className="text-red text-[11px]">{actionError}</p>
@@ -56,7 +56,7 @@ const OwnerSaleInteraction = () => {
       <div className="flex flex-col justify-between w-[396px] h-[108px] p-4 mb-4 rounded-xl shadow-md bg-chessBlack-200">
         <div className="flex items-center justify-between">
           <h2 className="text-base text-white">Listed</h2>
-          {actionStatus && statusContent}
+          {statusContent}
         </div>
         <div className="flex items-center justify-between">
           <h2 className="text-xl ml-3.5 text-white">{`$${amount}`}</h2>
@@ -80,7 +80,7 @@ const OwnerSaleInteraction = () => {
       <div>
         <div className="flex items-center justify-between mb-2">
           <h2 className="text-base text-white">List Your Treasure</h2>
-          {actionStatus && statusContent}
+          {statusContent}
         </div>
         <div className="flex flex-col items-center justify-between">
           <div className="flex items-center justify-end w-full">

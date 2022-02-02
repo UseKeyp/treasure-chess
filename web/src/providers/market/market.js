@@ -73,55 +73,53 @@ const MarketProvider = ({ children }) => {
   //   }
   // }
   //
-  // useQuery(PENDING_MINT_PURCHASES_QUERY, {
-  //   pollInterval: 5000,
-  //   skip: !state.shouldPoll,
-  //   fetchPolicy: 'network-only',
-  //   onCompleted: async ({
-  //     pendingMintPurchases: pendingMintPurchasesPoll,
-  //   } = {}) => {
-  //     const last = state.pendingMintPurchases
-  //     const current = pendingMintPurchasesPoll
-  //     if (current === last) return
-  //     if (current && !current.length)
-  //       return setState({
-  //         ...state,
-  //         pendingMintPurchases: [],
-  //         shouldPoll: false,
-  //       })
-  //
-  //     setState({ ...state, pendingMintPurchases: current })
-  //     current?.map((purchase) => {
-  //       if (!last.map((item) => item.id).includes(purchase.id))
-  //         return toastPurchase(purchase)
-  //       const lastPurchase = last.find((item) => item.id === purchase.id)
-  //       if (lastPurchase.txStatus !== purchase.txStatus) {
-  //         toastPurchase(purchase)
-  //         if (purchase.txStatus === COMPLETE) {
-  //           setState({
-  //             ...state,
-  //             successfulMintPurchase: purchase,
-  //             shouldPoll: false,
-  //             pendingMintPurchases: [],
-  //             mintStatus: MINT_STATUS_SUCCESS,
-  //           })
-  //           toggleModalSuccess()
-  //         } else if (purchase.txStatus === FAILED) {
-  //           setState({
-  //             ...state,
-  //             shouldPoll: false,
-  //             mintStatus: null,
-  //           })
-  //         } else if (purchase.orderStatus === COMPLETE) {
-  //           setState({
-  //             ...state,
-  //             mintStatus: MINT_STATUS_MINTING,
-  //           })
-  //         }
-  //       }
-  //     })
-  //   },
-  // })
+  useQuery(TREASURE_WITH_MARKET_SALES_QUERY, {
+    pollInterval: 5000,
+    skip: !state.shouldPoll,
+    fetchPolicy: 'network-only',
+    onCompleted: async ({ treasureWithMarketSales } = {}) => {
+      const last = state.marketSale
+      const current = treasureWithMarketSales.marketSales[0]
+      if (current === last) return
+      if (current && !current.length)
+        return setState({
+          ...state,
+          pendingMintPurchases: [],
+          shouldPoll: false,
+        })
+
+      setState({ ...state, pendingMintPurchases: current })
+      current?.map((purchase) => {
+        if (!last.map((item) => item.id).includes(purchase.id))
+          return toastPurchase(purchase)
+        const lastPurchase = last.find((item) => item.id === purchase.id)
+        if (lastPurchase.txStatus !== purchase.txStatus) {
+          toastPurchase(purchase)
+          if (purchase.txStatus === COMPLETE) {
+            setState({
+              ...state,
+              successfulMintPurchase: purchase,
+              shouldPoll: false,
+              pendingMintPurchases: [],
+              mintStatus: MINT_STATUS_SUCCESS,
+            })
+            toggleModalSuccess()
+          } else if (purchase.txStatus === FAILED) {
+            setState({
+              ...state,
+              shouldPoll: false,
+              mintStatus: null,
+            })
+          } else if (purchase.orderStatus === COMPLETE) {
+            setState({
+              ...state,
+              mintStatus: MINT_STATUS_MINTING,
+            })
+          }
+        }
+      })
+    },
+  })
 
   const [treasureWithMarketSalesLazyQuery] = useLazyQuery(
     TREASURE_WITH_MARKET_SALES_QUERY
@@ -233,10 +231,14 @@ const MarketProvider = ({ children }) => {
         actionStatus: PENDING_LISTED,
         actionError: null,
       })
-      const { data: { listTreasure } = {} } = await listTreasureMutation({
+      const { data: { marketSale } = {} } = await listTreasureMutation({
         variables: { tokenId, amount: Number(listAmount) },
       })
-      console.log(listTreasure)
+      console.log(marketSale)
+      setState({
+        ...state,
+        shouldPoll: true,
+      })
     } catch (error) {
       setState({
         ...state,
@@ -265,20 +267,22 @@ const MarketProvider = ({ children }) => {
   return (
     <MarketContext.Provider
       value={{
-        buy,
-        list,
-        unlist,
-        gift,
+        // State
+        amount: state.amount,
+        isOwner: state.isOwner,
         // Treasure market sale details
         marketStatus: state.marketStatus,
         marketError: state.marketError,
         marketLoading: state.marketLoading,
+        // User actions
+        buy,
+        list,
+        unlist,
+        gift,
         // User action details
         actionStatus: state.actionStatus,
         actionError: state.actionError,
         actionLoading: state.actionLoading,
-        amount: state.amount,
-        isOwner: state.isOwner,
       }}
     >
       {/*  <CancelModal

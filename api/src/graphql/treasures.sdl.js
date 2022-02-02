@@ -74,6 +74,7 @@ export const schema = gql`
       owner: String
     ): Int! @skipAuth
     treasure(tokenId: String!): Treasure @skipAuth
+    treasureWithMarketSales(tokenId: String!): Treasure @skipAuth
     treasureNftDetails(tokenId: String!): TreasureNftDetails @skipAuth
   }
 

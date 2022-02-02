@@ -1,6 +1,6 @@
 export const TREASURE_WITH_MARKET_SALES_QUERY = gql`
   query FindTreasureWithMarketSalesQuery($tokenId: String!) {
-    treasureWithMarketSales: treasure(tokenId: $tokenId) {
+    treasureWithMarketSales(tokenId: $tokenId) {
       id
       tokenId
       ownerId
@@ -18,7 +18,7 @@ export const TREASURE_WITH_MARKET_SALES_QUERY = gql`
 
 export const LIST_MARKET_SALE_MUTATION = gql`
   mutation listTreasure($tokenId: String!, $amount: Int!) {
-    listTreasure(tokenId: $tokenId, amount: $amount) {
+    marketSale: listTreasure(tokenId: $tokenId, amount: $amount) {
       id
       updatedAt
       listedAt
@@ -30,7 +30,7 @@ export const LIST_MARKET_SALE_MUTATION = gql`
 `
 export const UNLIST_MARKET_SALE_MUTATION = gql`
   mutation unlistTreasure($tokenId: String!) {
-    unlistTreasure(tokenId: $tokenId) {
+    marketSale: unlistTreasure(tokenId: $tokenId) {
       id
       updatedAt
       listedAt
@@ -42,7 +42,7 @@ export const UNLIST_MARKET_SALE_MUTATION = gql`
 `
 export const BUY_MARKET_SALE_MUTATION = gql`
   mutation listTreasure($tokenId: String!) {
-    buyTreasure(tokenId: $tokenId) {
+    marketSale: buyTreasure(tokenId: $tokenId) {
       id
       updatedAt
       listedAt

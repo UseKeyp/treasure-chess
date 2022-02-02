@@ -53,7 +53,11 @@ const SentryInjector = () => {
     /* eslint-disable-next-line no-console */
     console.log(e)
   }
-  if (currentUser) Sentry.setUser(currentUser)
+  if (currentUser) {
+    // Matomo user
+    _paq.push(['setUserId', currentUser.username])
+    Sentry.setUser(currentUser)
+  }
   return null
 }
 

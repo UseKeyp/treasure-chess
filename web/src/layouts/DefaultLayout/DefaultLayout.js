@@ -25,6 +25,7 @@ const DefaultLayout = ({ children }) => {
         isVisible={isVisible}
         onSubmit={() => {
           window.localStorage.setItem('gdpr-accepted', true)
+          _paq.push(['rememberConsentGiven'])
           toggleModal()
         }}
       />

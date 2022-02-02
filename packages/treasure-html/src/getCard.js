@@ -123,7 +123,11 @@ const getCardHtml = async ({ treasure, gifBase64, gifUrl }) => {
     updateTag('twitter:description', 'content', description)
     updateTag('og:description', 'content', description)
     updateTag('description', 'content', description)
-    updateTag('og:url', 'content', `${APP_DOMAIN}/treasures/${treasure.id}`)
+    updateTag(
+      'og:url',
+      'content',
+      `${APP_DOMAIN}/treasures/${treasure.tokenId || treasure.id}`
+    )
     updateContent('termination', treasure.termination)
     const rarityColor = getRarityColor(treasure.achievementScore)
     updateStyle('banner', 'background-color', rarityColor)
@@ -183,7 +187,11 @@ const getCardHtml = async ({ treasure, gifBase64, gifUrl }) => {
     const staticImageUrl = `data:image/png;base64,${treasureBackgroundBase64}`
     updateStyle('game-image', 'background-image', `url('${staticImageUrl}')`)
     if (treasure.tokenId)
-      updateTag('game-anchor', 'href', `${APP_DOMAIN}/treasures/${treasure.id}`)
+      updateTag(
+        'game-anchor',
+        'href',
+        `${APP_DOMAIN}/treasures/${treasure.tokenId || treasure.id}`
+      )
 
     if (treasure.achievements) {
       // Achievements

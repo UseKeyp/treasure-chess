@@ -5246,10 +5246,10 @@
     canvas "^2.8.0"
     chess.js "^0.10.2"
 
-"@treasure-chess/treasure-contracts@^0.0.6-dev.872943.0":
-  version "0.0.6-dev.8e17d08.0"
-  resolved "https://registry.npmjs.org/@treasure-chess%2ftreasure-contracts/-/treasure-contracts-0.0.6-dev.8e17d08.0.tgz#6f1726ce5b54a8c4282de7426d19ddbd085bd102"
-  integrity sha512-s1wdNet8V3bPj4OVjTcm/zV5R0F+PMwu/utmWOeMJd9U/yfgVVza6dI1LoTaizeQ1wdCqoOy6ZxJus01s1HcPA==
+"@treasure-chess/treasure-contracts@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.npmjs.org/@treasure-chess/treasure-contracts/-/treasure-contracts-0.1.0.tgz#4eb59e87ad73be94f279ff0b94f58b538e6ad221"
+  integrity sha512-ysnFyATxT5IsbeKHJGsaHwPer19o9J06enkHx4daX17y2/AjFqVUt/3VOpJBYPCflK2yy2q+SEL1/W+rcgGKBQ==
   dependencies:
     "@opengsn/contracts" "^2.2.2"
     "@openzeppelin/contracts" "^4.3.1"

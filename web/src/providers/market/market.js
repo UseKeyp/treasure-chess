@@ -126,10 +126,9 @@ const MarketProvider = ({ children }) => {
   const [treasureWithMarketSalesLazyQuery] = useLazyQuery(
     TREASURE_WITH_MARKET_SALES_QUERY
   )
-  //
-  // const [mintCheckoutUrlMutation] = useMutation(MINT_CHECKOUT_URL_MUTATION)
-  //
-  // const [mintWithCreditMutation] = useMutation(MINT_WITH_CREDIT_MUTATION)
+  const [listTreasureMutation] = useMutation(LIST_MARKET_SALE_MUTATION)
+  const [unlistTreasureMutation] = useMutation(UNLIST_MARKET_SALE_MUTATION)
+  const [buyTreasureMutation] = useMutation(BUY_MARKET_SALE_MUTATION)
 
   // const mint = async ({ title, gameId, endTime }) => {
   //   setState({ ...state, mintLoading: true, mintError: false })
@@ -227,21 +226,41 @@ const MarketProvider = ({ children }) => {
   }
 
   const buy = async () => {}
-  const list = async () => {}
+  const list = async (listAmount) => {
+    try {
+      setState({
+        ...state,
+        actionLoading: true,
+        actionStatus: PENDING_LISTED,
+        actionError: null,
+      })
+      const { data: { listTreasure } = {} } = await listTreasureMutation({
+        variables: { tokenId, amount: Number(listAmount) },
+      })
+      console.log(listTreasure)
+    } catch (error) {
+      setState({
+        ...state,
+        actionLoading: false,
+        actionError: error.message,
+      })
+    }
+  }
   const unlist = async () => {}
+  const gift = async () => {}
 
   React.useEffect(() => {
-    if (!tokenId || authLoading) return
+    if (!tokenId) return
     fetchData()
     /* eslint-disable-next-line react-hooks/exhaustive-deps*/
-  }, [tokenId, authLoading])
+  }, [tokenId])
 
   React.useEffect(() => {
-    if (!currentUser || !state.treasure) return
+    if (authLoading || !currentUser || !state.treasure) return
     if (currentUser.id === state.treasure.ownerId)
       setState({ ...state, isOwner: true })
     /* eslint-disable-next-line react-hooks/exhaustive-deps*/
-  }, [currentUser, state.treasure])
+  }, [currentUser, state.treasure, authLoading])
 
   return (
     <MarketContext.Provider
@@ -249,9 +268,15 @@ const MarketProvider = ({ children }) => {
         buy,
         list,
         unlist,
+        gift,
+        // Treasure market sale details
         marketStatus: state.marketStatus,
         marketError: state.marketError,
         marketLoading: state.marketLoading,
+        // User action details
+        actionStatus: state.actionStatus,
+        actionError: state.actionError,
+        actionLoading: state.actionLoading,
         amount: state.amount,
         isOwner: state.isOwner,
       }}

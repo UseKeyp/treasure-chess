@@ -221,8 +221,6 @@ const getMemberData = async () => {
   //   treasuresOwned: { _count: true },
   //   treasuresMinted: { _count: true },
   // },
-  console.log(withoutAddress)
-  console.log(total)
   const minted = {}
   // const buckets = [1, 2, 5, 10, 20, 30, 40, 50, 75, 100, 150, 200, 250]
 

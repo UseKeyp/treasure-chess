@@ -11,16 +11,9 @@ const UNLISTED = 'UNLISTED'
 const TreasureMarketInteraction = ({ tokenId }) => {
   const { currentUser } = useAuth()
   const { marketLoading, isOwner } = useMarket()
-
-  let isError = false
-
+  console.log(isOwner)
   if (marketLoading) return <SaleSkeleton />
-
-  const onClick = () => {}
-
-  if (isOwner) {
-    return <OwnerSaleInteraction />
-  }
+  if (isOwner) return <OwnerSaleInteraction />
   return <BuyerSaleInteraction />
 }
 

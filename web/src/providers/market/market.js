@@ -37,9 +37,9 @@ const MarketContext = React.createContext({
 
 const MarketProvider = ({ children }) => {
   const { mintCreditBalance } = useWallet()
-  const { isAuthenticated, currentUser } = useAuth()
+  const { currentUser, loading: authLoading } = useAuth()
   const { toast } = useToast()
-  const tokenId = Number(window.location.toString().split('treasures/')[1])
+  const tokenId = window.location.toString().split('treasures/')[1]
   // const { isVisible: isVisibleModalCancel, toggleModal: toggleModalCancel } =
   //   useModal()
   // const { isVisible: isVisibleModalSuccess, toggleModal: toggleModalSuccess } =
@@ -205,25 +205,24 @@ const MarketProvider = ({ children }) => {
       await treasureWithMarketSalesLazyQuery({
         variables: { tokenId },
       })
-    console.log(treasureWithMarketSales)
     const marketSale = treasureWithMarketSales?.marketSales[0]
+    let isOwner = false
     if (!marketSale)
       return setState({
         ...state,
         marketLoading: false,
         marketStatus: null,
         marketError: null,
+        treasure: treasureWithMarketSales,
       })
-    // const { status, listedAt, isClosed, amount } = marketSale
-    // let isOwner = false
-    // if (currentUser.id === treasure.id) isOwner = true
+    const { status, listedAt, isClosed, amount } = marketSale
     setState({
       ...state,
       marketError: null,
       marketLoading: false,
+      treasure: treasureWithMarketSales,
       // marketStatus: status,
       // amount,
-      // isOwner,
     })
   }
 
@@ -232,10 +231,17 @@ const MarketProvider = ({ children }) => {
   const unlist = async () => {}
 
   React.useEffect(() => {
-    if (!tokenId) return
+    if (!tokenId || authLoading) return
     fetchData()
     /* eslint-disable-next-line react-hooks/exhaustive-deps*/
-  }, [tokenId])
+  }, [tokenId, authLoading])
+
+  React.useEffect(() => {
+    if (!currentUser || !state.treasure) return
+    if (currentUser.id === state.treasure.ownerId)
+      setState({ ...state, isOwner: true })
+    /* eslint-disable-next-line react-hooks/exhaustive-deps*/
+  }, [currentUser, state.treasure])
 
   return (
     <MarketContext.Provider

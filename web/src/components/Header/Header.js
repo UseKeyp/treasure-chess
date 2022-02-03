@@ -143,6 +143,14 @@ const Header = () => {
             </Button>
           </div>
         </div>
+        <Button href="https://airtable.com/shrWkB9MS13NXoM46" size="large">
+          <div className="flex items-center">
+            <div className="mr-2">
+              <Icon name="book" />
+            </div>
+            Feedback
+          </div>
+        </Button>
         {isLoggedIn ? (
           <div className="flex items-center">
             <div className="mr-4 w-8 h-8 flex items-center justify-center">

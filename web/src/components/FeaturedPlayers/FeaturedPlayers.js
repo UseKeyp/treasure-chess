@@ -40,13 +40,9 @@ const FeaturedPlayers = () => {
           {playerIcons}
           <div className="max-w-[130px] max-h-[170px] h-[100%] p-2 block rounded-xl bg-chessBlack-300 text-center text-xs font-bold text-grey shadow-sm ">
             <Link to={routes.treasures()} className="hover:no-underline">
-            <div className="mb-4 mt-4 mr-4 ml-4">
-            <Icon
-              name="treasure_chess"
-              height="82"
-              color="#ffffff"
-            />
-            </div>
+              <div className="mb-4 mt-4 mr-4 ml-4">
+                <Icon name="treasure_chess" height="82" color="#ffffff" />
+              </div>
               All Treasures
             </Link>
           </div>

@@ -146,7 +146,7 @@ APP_DOMAIN=https://treasure-chess-sandbox-4.vercel.app
 BASIC_AUTH_PASSWORD=pauliemorphy
 ENCRYPTION_KEY=g1WM...
 DATABASE_URL=postgres://...@ec2-34-239-196-254.compute-1.amazonaws.com:5432/deg6ltaujv3vei?connection_limit=1
-ETHEREUM_NETWORK_NAME=ropsten
+ETHEREUM_NETWORK_NAME=mumbai
 ```
 
 ## staging

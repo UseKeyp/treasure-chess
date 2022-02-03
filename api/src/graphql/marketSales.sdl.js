@@ -3,7 +3,7 @@ export const schema = gql`
     id: Int!
     createdAt: DateTime!
     updatedAt: DateTime!
-    listedAt: DateTime!
+    listedAt: DateTime
     treasure: Treasure!
     treasureId: String!
     seller: Member!

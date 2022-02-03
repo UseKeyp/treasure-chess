@@ -13,6 +13,7 @@ const SOLD = 'SOLD'
 const PENDING_DELISTED = 'PENDING_DELISTED'
 const COMPLETE = 'COMPLETE'
 const DELISTED = 'DELISTED'
+const FAILED = 'FAILED'
 
 const validateCreateNewListingRequest = ({ treasure, amount }) => {
   if (!amount || typeof amount !== 'number' || amount <= 0)
@@ -22,7 +23,7 @@ const validateCreateNewListingRequest = ({ treasure, amount }) => {
     throw new EnvelopError(`You don't own this Treasure.`)
 
   const currentMarketSale = treasure.marketSales[0]
-  if (currentMarketSale && !currentMarketSale.isClosed)
+  if (currentMarketSale.status === LISTED && !currentMarketSale.isClosed)
     throw new EnvelopError(`This Treasure is already listed.`)
 }
 
@@ -94,6 +95,9 @@ export const processPendingMarketTransactions = async ({ treasure }) => {
               where: { id: currentMarketSale.id },
               data: { status: DELISTED, isClosed: true },
             })
+          } else if (tx.status === FAILED) {
+            // TODO:
+            console.log('list/unlist tx failed')
           }
         }
         transactions[type] = tx
@@ -115,6 +119,9 @@ export const processPendingMarketTransactions = async ({ treasure }) => {
               where: { id: currentMarketSale.id },
               data: { status: SOLD, isClosed: true },
             })
+          } else if (tx.status === FAILED) {
+            // TODO:
+            console.log('buy tx failed')
           }
         }
         transactions.saleTransactions[index] = { ...tx, status: newStatus }

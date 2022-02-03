@@ -4,7 +4,7 @@ import { useWallet } from 'src/providers/wallet'
 import { useToast } from 'src/providers/toast'
 import { useModal } from 'src/hooks/useModal'
 import { MintingToast } from './toasts'
-import { CancelModal, SuccessModal } from './modals'
+import { ConfirmModal, SuccessModal } from './modals'
 
 import {
   TREASURE_WITH_MARKET_SALES_QUERY,
@@ -40,10 +40,8 @@ const MarketProvider = ({ children }) => {
   const { currentUser, loading: authLoading } = useAuth()
   const { toast } = useToast()
   const tokenId = window.location.toString().split('treasures/')[1]
-  // const { isVisible: isVisibleModalCancel, toggleModal: toggleModalCancel } =
-  //   useModal()
-  // const { isVisible: isVisibleModalSuccess, toggleModal: toggleModalSuccess } =
-  //   useModal()
+  const { isVisible: isVisibleModalConfirm, toggleModal: toggleModalConfirm } =
+    useModal()
 
   const [state, setState] = React.useState({
     shouldPoll: false,
@@ -52,72 +50,50 @@ const MarketProvider = ({ children }) => {
     marketLoading: true,
     amount: null,
     isOwner: false,
+    actionData: {},
   })
 
-  // const toastPurchase = (purchase) => {
-  //   // TODO: Add more data to toasts (links, etc.)
-  //   if (purchase.orderStatus === RESERVATION)
-  //     return toast.loading('Waiting for Wyre', { id: purchase.id })
-  //   if (purchase.txStatus === SUBMITTED)
-  //     return toast.loading(<MintingToast mintPurchase={purchase} />, {
-  //       id: purchase.id,
-  //     })
-  //   if (purchase.txStatus === COMPLETE)
-  //     return toast.success('Success!', { id: purchase.id })
-  //   if (purchase.txStatus === FAILED)
-  //     return toast.error('Minting Failed!', { id: purchase.id })
-  //   if (purchase.txStatus === UNSUBMITTED) {
-  //     if (purchase.paymentType === WYRE)
-  //       toast.success('Wyre checkout successful!')
-  //     toast.loading('Preparing to Mint', { id: purchase.id })
-  //   }
-  // }
-  //
+  const toastAction = (type) => {
+    // TODO: Add more data to toasts (links, etc.)
+    if (type === PENDING_LISTED)
+      return toast.loading('Listing', { id: treasure.id })
+    if (type === PENDING_DELISTED)
+      return toast.loading('Unlisting', { id: treasure.id })
+    if (type === PENDING_SOLD)
+      return toast.loading('Completing purchase', { id: treasure.id })
+
+    if (type === FAILED) return toast.error('Failure', { id: treasure.id })
+    if (type === LISTED) return toast.success('Listed!', { id: treasure.id })
+    if (type === DELISTED)
+      return toast.success('Unlisted!', { id: treasure.id })
+    if (type === SOLD) return toast.success('Purchased!', { id: treasure.id })
+  }
+
   useQuery(TREASURE_WITH_MARKET_SALES_QUERY, {
     pollInterval: 5000,
-    skip: !state.shouldPoll,
+    skip: !state.shouldPoll || !tokenId,
     fetchPolicy: 'network-only',
+    variables: { tokenId },
     onCompleted: async ({ treasureWithMarketSales } = {}) => {
       const last = state.marketSale
       const current = treasureWithMarketSales.marketSales[0]
-      if (current === last) return
-      if (current && !current.length)
-        return setState({
-          ...state,
-          pendingMintPurchases: [],
-          shouldPoll: false,
-        })
+      if (current.status === last.status) return
 
-      setState({ ...state, pendingMintPurchases: current })
-      current?.map((purchase) => {
-        if (!last.map((item) => item.id).includes(purchase.id))
-          return toastPurchase(purchase)
-        const lastPurchase = last.find((item) => item.id === purchase.id)
-        if (lastPurchase.txStatus !== purchase.txStatus) {
-          toastPurchase(purchase)
-          if (purchase.txStatus === COMPLETE) {
-            setState({
-              ...state,
-              successfulMintPurchase: purchase,
-              shouldPoll: false,
-              pendingMintPurchases: [],
-              mintStatus: MINT_STATUS_SUCCESS,
-            })
-            toggleModalSuccess()
-          } else if (purchase.txStatus === FAILED) {
-            setState({
-              ...state,
-              shouldPoll: false,
-              mintStatus: null,
-            })
-          } else if (purchase.orderStatus === COMPLETE) {
-            setState({
-              ...state,
-              mintStatus: MINT_STATUS_MINTING,
-            })
-          }
-        }
+      const { status, isClosed, amount } = current
+      let shouldPoll = false
+      if (status.includes('PENDING')) shouldPoll = true
+      setState({
+        ...state,
+        marketError: null,
+        marketSale: current,
+        marketStatus: status,
+        actionData: {},
+        isClosed,
+        amount,
+        shouldPoll,
       })
+      if (current.tx.status === FAILED) return toastAction(FAILED)
+      toastAction(status)
     },
   })
 
@@ -128,82 +104,13 @@ const MarketProvider = ({ children }) => {
   const [unlistTreasureMutation] = useMutation(UNLIST_MARKET_SALE_MUTATION)
   const [buyTreasureMutation] = useMutation(BUY_MARKET_SALE_MUTATION)
 
-  // const mint = async ({ title, gameId, endTime }) => {
-  //   setState({ ...state, mintLoading: true, mintError: false })
-  //   if (mintCreditBalance < 1) {
-  //     try {
-  //       const { data: { mintCheckoutUrl } = {} } =
-  //         await mintCheckoutUrlMutation({
-  //           variables: { title, gameId, endTime },
-  //         })
-  //       setState({
-  //         ...state,
-  //         mintStatus: MINT_STATUS_ADDING_FUNDS,
-  //         shouldPoll: true,
-  //         mintLoading: false,
-  //       })
-  //       window.open(
-  //         mintCheckoutUrl,
-  //         'Treasure Chess Checkout',
-  //         'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
-  //       )
-  //     } catch (error) {
-  //       setState({
-  //         ...state,
-  //         mintStatus: null,
-  //         mintError: error.message,
-  //         mintLoading: false,
-  //       })
-  //     }
-  //   } else {
-  //     try {
-  //       const { data: { mintWithCredit: mintPurchase } = {} } =
-  //         await mintWithCreditMutation({
-  //           variables: { title, gameId, endTime },
-  //         })
-  //       setState({
-  //         ...state,
-  //         pendingMintPurchases: [mintPurchase],
-  //         mintStatus: MINT_STATUS_MINTING,
-  //         shouldPoll: true,
-  //         mintLoading: false,
-  //       })
-  //       toastPurchase(mintPurchase)
-  //     } catch (error) {
-  //       setState({
-  //         ...state,
-  //         mintStatus: null,
-  //         mintError: error.message,
-  //         mintLoading: false,
-  //       })
-  //     }
-  //   }
-  // }
-  //
-  // const cancelMint = ({ _gameId, _endTime }) => toggleModalCancel()
-  //
-  // const onConfirmCancel = () => {
-  //   toggleModalCancel()
-  //   // TODO:  Delete mintPurchaseMutation
-  //   setState({ ...state, mintStatus: null, mintError: null })
-  // }
-  //
-  // const cleanupMintSuccess = () =>
-  //   setState({
-  //     ...state,
-  //     mintStatus: null,
-  //     mintError: null,
-  //     successfulMintPurchase: null,
-  //   })
-  // const clearMintError = () => setState({ ...state, mintError: null })
-
   const fetchData = async () => {
+    if (!tokenId) return
     const { data: { treasureWithMarketSales } = {} } =
       await treasureWithMarketSalesLazyQuery({
         variables: { tokenId },
       })
     const marketSale = treasureWithMarketSales?.marketSales[0]
-    let isOwner = false
     if (!marketSale)
       return setState({
         ...state,
@@ -212,33 +119,34 @@ const MarketProvider = ({ children }) => {
         marketError: null,
         treasure: treasureWithMarketSales,
       })
-    const { status, listedAt, isClosed, amount } = marketSale
+    const { status, isClosed, amount } = marketSale
+    let shouldPoll = false
+    if (status.includes('PENDING')) shouldPoll = true
     setState({
       ...state,
       marketError: null,
       marketLoading: false,
       treasure: treasureWithMarketSales,
-      // marketStatus: status,
-      // amount,
+      marketSale,
+      marketStatus: status,
+      isClosed,
+      amount,
+      shouldPoll,
     })
   }
-  const buy = async () => {}
-  const list = async (listAmount) => {
+
+  const onConfirmList = async () => {
     try {
       setState({
         ...state,
         actionLoading: true,
         actionStatus: PENDING_LISTED,
-        actionError: null,
-      })
-      const { data: { marketSale } = {} } = await listTreasureMutation({
-        variables: { tokenId, amount: Number(listAmount) },
-      })
-      console.log(marketSale)
-      setState({
-        ...state,
         shouldPoll: true,
       })
+      const { data: { marketSale } = {} } = await listTreasureMutation({
+        variables: { tokenId, amount: Number(state.actionData.amount) },
+      })
+      toastAction(PENDING_LISTED)
     } catch (error) {
       setState({
         ...state,
@@ -248,11 +156,93 @@ const MarketProvider = ({ children }) => {
       })
     }
   }
-  const unlist = async () => {}
-  const gift = async () => {}
+  const onConfirmDelist = async () => {
+    try {
+      setState({
+        ...state,
+        actionLoading: true,
+        actionStatus: PENDING_DELISTED,
+        shouldPoll: true,
+      })
+      const { data: { marketSale } = {} } = await unlistTreasureMutation({
+        variables: { tokenId },
+      })
+      toastAction(PENDING_DELISTED)
+    } catch (error) {
+      setState({
+        ...state,
+        actionLoading: false,
+        actionError: error.message,
+        actionStatus: null,
+      })
+    }
+  }
+  const onConfirmBuy = async () => {
+    try {
+      setState({
+        ...state,
+        actionLoading: true,
+        actionStatus: PENDING_SOLD,
+        shouldPoll: true,
+      })
+      const { data: { marketSale } = {} } = await buyTreasureMutation({
+        variables: { tokenId },
+      })
+      toastAction(PENDING_SOLD)
+    } catch (error) {
+      setState({
+        ...state,
+        actionLoading: false,
+        actionError: error.message,
+        actionStatus: null,
+      })
+    }
+  }
+
+  const list = (listAmount) => {
+    setState({
+      ...state,
+      actionData: {
+        amount: listAmount,
+        type: PENDING_LISTED,
+      },
+      actionLoading: false,
+      actionStatus: null,
+      actionError: null,
+    })
+    toggleModalConfirm()
+  }
+  const unlist = () => {
+    setState({
+      ...state,
+      actionData: {
+        type: PENDING_DELISTED,
+      },
+      actionLoading: false,
+      actionStatus: null,
+      actionError: null,
+    })
+    toggleModalConfirm()
+  }
+  const buy = () => {
+    setState({
+      ...state,
+      actionData: {
+        type: PENDING_SOLD,
+        amount: state.amount,
+      },
+      actionLoading: false,
+      actionStatus: null,
+      actionError: null,
+    })
+    toggleModalConfirm()
+  }
+  const gift = async () => {
+    /* esling-disable-next-line no-console */
+    console.log('This feature is not yet implemented')
+  }
 
   React.useEffect(() => {
-    if (!tokenId) return
     fetchData()
     /* eslint-disable-next-line react-hooks/exhaustive-deps*/
   }, [tokenId])
@@ -263,6 +253,12 @@ const MarketProvider = ({ children }) => {
       setState({ ...state, isOwner: true })
     /* eslint-disable-next-line react-hooks/exhaustive-deps*/
   }, [currentUser, state.treasure, authLoading])
+
+  const onSubmit = () => {
+    if (state.actionData.type === PENDING_LISTED) return onConfirmList()
+    if (state.actionData.type === PENDING_DELISTED) return onConfirmDelist()
+    if (state.actionData.type === PENDING_SOLD) return onConfirmBuy()
+  }
 
   return (
     <MarketContext.Provider
@@ -285,11 +281,13 @@ const MarketProvider = ({ children }) => {
         actionLoading: state.actionLoading,
       }}
     >
-      {/*  <CancelModal
-        onSubmit={onConfirmCancel}
-        isVisible={isVisibleModalCancel}
-        toggleModal={toggleModalCancel}
+      <ConfirmModal
+        data={state.actionData}
+        onSubmit={onSubmit}
+        isVisible={isVisibleModalConfirm}
+        toggleModal={toggleModalConfirm}
       />
+      {/*
       <SuccessModal
         onSubmit={cleanupMintSuccess}
         mintPurchase={state.successfulMintPurchase}

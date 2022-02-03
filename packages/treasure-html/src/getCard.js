@@ -66,6 +66,8 @@ const getCardHtml = async ({ treasure, gifBase64, gifUrl }) => {
   try {
     const doc = parser.parseFromString(card, 'text/html')
 
+    const isApp = treasure.tokenId
+
     const updateContent = (id, content, isNodeString) => {
       const element = doc.getElementById(id)
       if (!element) return //console.log(`No element with id ${id}`)
@@ -148,6 +150,8 @@ const getCardHtml = async ({ treasure, gifBase64, gifUrl }) => {
       'href',
       `${APP_DOMAIN}/members/${bottomUser.username}`
     )
+    isApp && updateTag('bottom-username-anchor', 'target', '_self')
+    isApp && updateTag('bottom-username-anchor', 'target', '_self')
     if (!bottomUser.masterTitle)
       updateStyle('bottom-masterTitle', 'background-color', null)
     if (!topUser.masterTitle)
@@ -186,12 +190,12 @@ const getCardHtml = async ({ treasure, gifBase64, gifUrl }) => {
     // TODO: Replace treasureBackgroundBase64 with final positions image
     const staticImageUrl = `data:image/png;base64,${treasureBackgroundBase64}`
     updateStyle('game-image', 'background-image', `url('${staticImageUrl}')`)
-    if (treasure.tokenId)
-      updateTag(
-        'game-anchor',
-        'href',
-        `${APP_DOMAIN}/treasures/${treasure.tokenId || treasure.id}`
-      )
+    updateTag(
+      'game-anchor',
+      'href',
+      `${APP_DOMAIN}/treasures/${treasure.tokenId || treasure.id}`
+    )
+    isApp && updateTag('game-anchor', 'target', '_self')
 
     if (treasure.achievements) {
       // Achievements

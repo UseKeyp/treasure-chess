@@ -145,7 +145,9 @@ const Header = () => {
         </div>
         <Button href="https://airtable.com/shrWkB9MS13NXoM46" size="large">
           <div className="flex items-center">
-            <Icon name="book" className="mx-2" />
+            <div className="mr-2">
+              <Icon name="book" />
+            </div>
             Feedback
           </div>
         </Button>

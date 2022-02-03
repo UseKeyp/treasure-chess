@@ -39,7 +39,7 @@ export const featuredPlayers = [
       'https://images.chesscomfiles.com/uploads/v1/master_player/00ffadde-d6a8-11e8-bdb9-933b839db343.c693ec2d.160x160o.5015d8cb0fba.png',
     masterTitle: 'GM',
     country: 'CN',
-    username:'chefshouse',
+    username: 'chefshouse',
   },
   {
     name: 'Fabiano Caruana',

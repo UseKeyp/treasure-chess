@@ -48,6 +48,7 @@ COPY --from=build /app/packages /app/packages
 
 COPY --from=build /app/node_modules/.prisma /app/node_modules/.prisma
 COPY --from=build /app/api/dist /app/api/dist
+COPY --from=build /app/api/db /app/api/db
 COPY --from=build /app/package.json /app/package.json
 COPY --from=build /app/api/package.json /app/api/package.json
 COPY --from=build /app/yarn.lock /app/api/yarn.lock

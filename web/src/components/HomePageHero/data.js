@@ -44,7 +44,7 @@ export const game = {
   ruleVariant: 'Standard',
   externalUrl: 'https://www.chess.com/game/live/37327285807',
   opening: 'Giuoco Piano',
-  achievements: '750+ Winner,Pawn Shy,The Underdog',
+  achievements: ['750+ Winner', 'Pawn Shy', 'The Underdog'],
   achievementScore: 6,
   rarity: 'Great',
   tokenId: 1,

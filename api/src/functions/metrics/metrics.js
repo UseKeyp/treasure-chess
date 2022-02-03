@@ -29,7 +29,13 @@ export const handler = async (event, _context) => {
     collectDefaultMetrics({ register })
 
     const promData = await register.metrics()
-    const businessData = await getBusinessMetrics()
+    let businessData = {}
+    try {
+      businessData = await getBusinessMetrics()
+    } catch (e) {
+      /* eslint-disable-next-line no-console */
+      console.log(e)
+    }
 
     return {
       statusCode: 200,

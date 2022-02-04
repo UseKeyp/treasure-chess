@@ -42,7 +42,7 @@ export const SuccessModal = ({
       cancelText="Back"
       content={
         <div className="flex justify-center align-center h-full w-full">
-          <TreasureCardCell tokenId={tokenId} />
+          <TreasureCardCell tokenId={tokenId.toString()} />
           <ConfettiExplosion />
         </div>
       }

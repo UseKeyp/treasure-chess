@@ -60,8 +60,8 @@ const LandingModal = () => {
       content={content}
       icon={<Icon name="treasure_chess" color="white" height="30px" />}
       hideCancelButton={true}
-      isVisible={true}
-      // isVisible={isVisible}
+      // isVisible={true}
+      isVisible={isVisible}
       onSubmit={() => {
         window.localStorage.setItem('gdpr-accepted', true)
         _paq.push(['rememberConsentGiven'])

@@ -4,6 +4,7 @@ import { AuthProvider, useAuth } from '@redwoodjs/auth'
 import { RedwoodApolloProvider } from '@redwoodjs/web/apollo'
 
 import AllContextProviders from 'src/providers'
+import LandingModal from 'src/components/LandingModal'
 import { logIn } from 'src/utils/auth/client'
 import FatalErrorPage from 'src/pages/FatalErrorPage'
 import Routes from 'src/Routes'
@@ -68,6 +69,7 @@ const App = () => (
         <SentryInjector />
         <RedwoodApolloProvider>
           <AllContextProviders>
+            <LandingModal />
             <Routes />
           </AllContextProviders>
         </RedwoodApolloProvider>

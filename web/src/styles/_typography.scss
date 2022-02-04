@@ -15,3 +15,6 @@ h4 {
 p {
   @include font(12px, normal, 16px);
 }
+li {
+  margin-top: 12px;
+}

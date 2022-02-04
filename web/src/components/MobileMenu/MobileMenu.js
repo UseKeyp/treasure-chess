@@ -22,7 +22,7 @@ const MobileMenu = ({
       childrenContainerRef.current.addEventListener('click', (e) => {
         const interactiveElements = ['a', 'button']
         if (interactiveElements.includes(e.target.tagName.toLowerCase())) {
-          setShowMenu(false)
+          setTimeout(() => setShowMenu(false), 250)
         }
       })
     }

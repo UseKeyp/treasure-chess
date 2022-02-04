@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useAuth } from '@redwoodjs/auth'
 import { routes, navigate, useParams } from '@redwoodjs/router'
 
@@ -7,19 +8,26 @@ import Button from 'src/components/Button'
 import globalConfig from 'src/global.config.js'
 
 const LoginPortal = () => {
-  const { logIn, isAuthenticated } = useAuth()
+  const { logIn, isAuthenticated, reauthenticate } = useAuth()
   const { error, redirectTo } = useParams()
   const [errorText, setErrorText] = React.useState('')
   const getErrorText = (error) => {
     if (error === 'expired') return `Session expired, please log in again.`
   }
-  React.useEffect(() => {
+
+  useEffect(() => {
+    if (redirectTo) {
+      reauthenticate()
+    }
+  }, [redirectTo, reauthenticate])
+
+  useEffect(() => {
     if (error) setErrorText(getErrorText(error))
   }, [error])
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isAuthenticated) {
-      navigate(routes.home())
+      navigate(routes.profile())
     }
   }, [isAuthenticated])
 
@@ -32,7 +40,7 @@ const LoginPortal = () => {
         <h3 className="mt-8 text-center">Login using your Chess account</h3>
         <div className="login-portal-container--button-wrapper">
           <Button
-            onClick={() => logIn({ redirectTo })}
+            onClick={() => logIn({ redirectTo: routes.profile() })}
             variant="green"
             size="small"
           >

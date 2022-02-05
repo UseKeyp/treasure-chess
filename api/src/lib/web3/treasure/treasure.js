@@ -68,12 +68,8 @@ export const getTokenIdFromHashId = async (hashId) => {
   }
 }
 
-export const getERC721Balance = async ({
-  contractAddress,
-  rpcProvider,
-  userAddress,
-}) => {
-  const contract = new Contract(contractAddress, treasureAbi, rpcProvider)
+export const getERC721Balance = async ({ contractAddress, userAddress }) => {
+  const contract = new Contract(contractAddress, treasureAbi, web3Provider)
   return await contract.balanceOf(userAddress)
 }
 

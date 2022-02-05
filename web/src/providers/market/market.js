@@ -56,17 +56,20 @@ const MarketProvider = ({ children }) => {
   const toastAction = (type) => {
     // TODO: Add more data to toasts (links, etc.)
     if (type === PENDING_LISTED)
-      return toast.loading('Listing', { id: treasure.id })
+      return toast.loading('Listing', { id: state.treasure.id })
     if (type === PENDING_DELISTED)
-      return toast.loading('Unlisting', { id: treasure.id })
+      return toast.loading('Unlisting', { id: state.treasure.id })
     if (type === PENDING_SOLD)
-      return toast.loading('Completing purchase', { id: treasure.id })
+      return toast.loading('Completing purchase', { id: state.treasure.id })
 
-    if (type === FAILED) return toast.error('Failure', { id: treasure.id })
-    if (type === LISTED) return toast.success('Listed!', { id: treasure.id })
+    if (type === FAILED)
+      return toast.error('Failure', { id: state.treasure.id })
+    if (type === LISTED)
+      return toast.success('Listed!', { id: state.treasure.id })
     if (type === DELISTED)
-      return toast.success('Unlisted!', { id: treasure.id })
-    if (type === SOLD) return toast.success('Purchased!', { id: treasure.id })
+      return toast.success('Unlisted!', { id: state.treasure.id })
+    if (type === SOLD)
+      return toast.success('Purchased!', { id: state.treasure.id })
   }
 
   useQuery(TREASURE_WITH_MARKET_SALES_QUERY, {
@@ -92,7 +95,9 @@ const MarketProvider = ({ children }) => {
         amount,
         shouldPoll,
       })
-      if (current.tx.status === FAILED) return toastAction(FAILED)
+      if (current.listTx?.status === FAILED) return toastAction(FAILED)
+      if (current.unlistTx?.status === FAILED) return toastAction(FAILED)
+      if (current.buyTx?.status === FAILED) return toastAction(FAILED)
       toastAction(status)
     },
   })

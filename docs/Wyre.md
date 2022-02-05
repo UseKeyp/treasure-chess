@@ -152,3 +152,21 @@ http://7269-208-46-234-70.ngrok.io/api/checkout/?orderId=WO_87736T9Y8X
   - https://treasure.chess.com/checkout
   - https://treasure.gcp-staging.chess-platform.com/checkout
 - Wyre team must enable USD->USD transfers to our account
+
+### Update the webhook endpoints
+
+Hi @Patrick Yes, you can now configure these yourself, but still there is a limit of 1 url per environment. The endpoint isnt yet in our docs so here is the instructions.
+
+To configure a webhook Url for wallet orders (card payments) use the v2/digitalwallet/webhook endpoint. The owner of the webhook is your Wyre (business) account Id as shown here. A successful request will replay the information back to you in response.
+
+```
+POST https://api.sendwyre.com/v2/digitalwallet/webhook
+{
+"owner":"account:AC_WR299G7MVUE", "webhook":"https://requestinspector.com/inspect/benswyreprod"
+}
+RESPONSE
+{
+"owner": "account:AC_WR299G7MVUE",
+"webhook": "https://requestinspector.com/inspect/benswyreprod"
+}
+```

@@ -35,6 +35,7 @@ export const fetchMember = async (usernameOrAddress, includeChessData) => {
           data: {
             id: chessData.player_id.toString(),
             username: chessData.username,
+            mintCredits: process.env.MINT_CREDITS_NEW_MEMBER,
             ...(chessData.avatar && { imageSrc: chessData.avatar }),
             ...(chessData.masterTitle && {
               masterTitle: chessData.masterTitle,

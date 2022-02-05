@@ -10,11 +10,13 @@ import { web3Provider } from 'src/lib/web3/helpers'
 import { generateTreasureData } from 'src/lib/treasures'
 import { sendDiscordAlert } from 'src/lib/discord/discord'
 
+import { isProduction } from 'src/lib/helpers'
+
 const SUBMITTED = 'SUBMITTED'
 const COMPLETE = 'COMPLETE'
 const FAILED = 'FAILED'
 
-const MINIMUM_CONFIRMATIONS = 15
+const MINIMUM_CONFIRMATIONS = isProduction ? 15 : 1
 
 export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
   try {

@@ -21,7 +21,7 @@ const OwnerSaleInteraction = () => {
     gift,
     amount,
   } = useMarket()
-
+  console.log(marketStatus)
   const [listAmount, setListAmount] = React.useState(0)
   const [username, setUsername] = React.useState(0)
   let statusContent = null

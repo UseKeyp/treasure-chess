@@ -36,6 +36,7 @@ export const treasureWithMarketSales = async ({ tokenId }) => {
       },
     },
   })
+  if (!treasure) return null
   return processPendingMarketTransactions({ treasure })
 }
 

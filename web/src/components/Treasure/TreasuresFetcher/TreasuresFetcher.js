@@ -58,6 +58,11 @@ const TREASURES_WITH_FILTER = gql`
       achievementScore
       rarity
       tokenId
+      marketSales {
+        id
+        amount
+        status
+      }
     }
   }
 `

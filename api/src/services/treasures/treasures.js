@@ -19,10 +19,15 @@ export const treasure = ({ tokenId }) => {
     where: { ...(id ? { id } : { tokenId: Number(tokenId) }) },
     include: {
       owner: true,
+      marketSales: {
+        orderBy: { updatedAt: 'desc' },
+        take: 1,
+      },
     },
   })
 }
 
+// Used to get the latest market sale, without slowing down the normal query
 export const treasureWithMarketSales = async ({ tokenId }) => {
   let id
   if (tokenId.startsWith('0x')) id = tokenId

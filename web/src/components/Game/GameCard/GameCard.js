@@ -92,36 +92,37 @@ const GameCard = ({ game, isMinting, title, showGif }) => {
       </div>
     )
 
+  let listAmount = null
+  if (game.marketSales) listAmount = game.marketSales[0].amount
+
   return (
     <div className={styles.gameCardWrapper}>
       {isMinting && (
-        <>
-          <div className={styles.gameCardMintingContainer}>
-            <div className={styles.gameCardMintingOverlay} />
-            <div className="items-center">
-              <div className="mb-6 h-full">
-                <Loader />
-              </div>
-              <P
-                fontWeight={700}
-                className="mt-8"
-                fontSize={16}
-                color={'chessBlack.100'}
-              >
-                Minting
-                <br />
-                in progress
-              </P>
+        <div className={styles.gameCardMintingContainer}>
+          <div className={styles.gameCardMintingOverlay} />
+          <div className="items-center">
+            <div className="mb-6 h-full">
+              <Loader />
             </div>
+            <P
+              fontWeight={700}
+              className="mt-8"
+              fontSize={16}
+              color={'chessBlack.100'}
+            >
+              Minting
+              <br />
+              in progress
+            </P>
           </div>
-        </>
+        </div>
       )}
       <animated.div
         id={`card_${game.id}`}
         className={
           game.tokenId
             ? `${styles.gameCardHtml} ${styles.mintedCardHtml}`
-            : `${styles.gameCardHtml} ${styles.isDisabled}`
+            : `${styles.gameCardHtml}`
         }
         onMouseMove={(e) => {
           var div = document
@@ -140,6 +141,7 @@ const GameCard = ({ game, isMinting, title, showGif }) => {
         }}
         dangerouslySetInnerHTML={{ __html: cardHtml }}
       />
+      {listAmount && listAmount}
     </div>
   )
 }

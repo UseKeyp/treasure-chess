@@ -32,7 +32,10 @@ export const handler = async (event, _context) => {
     let businessData = {}
     try {
       businessData = await getBusinessMetrics()
-    } catch (e) {}
+    } catch (e) {
+      /* eslint-disable-next-line no-console */
+      console.log(e)
+    }
 
     return {
       statusCode: 200,

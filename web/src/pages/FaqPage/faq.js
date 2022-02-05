@@ -7,7 +7,7 @@ const faqs = [
   {
     question: 'What are Treasures',
     answer:
-      'Each unique game played on Chess.com can be turned into a Treasure, no two can be the same. Each Treasure has special attributes and achievements.',
+      'Each unique game played on Chess.com can be turned into a Treasure, and no two Treasures can be the same. Each Treasure has special attributes and achievements as well.',
   },
   {
     question: 'What do I need to get started?',
@@ -16,48 +16,48 @@ const faqs = [
   {
     question: "How is a Treasure's level calculated?",
     answer:
-      'Each Treasure has a level: Good, Great, Ultra, or Mythic. The level is calculated automatically based on the achievemts earned. Do something amazing, like take all of your opponents pawns without losing any, and you will be on your way to a Mythic Treasure. Do something easier, like castle on the Queen side, and you might just have a Good Treasure.',
+      'Each Treasure has a level: Good, Great, Ultra, or Mythic. The level is calculated automatically based on the achievements earned. Do something amazing, like take all of your opponents pawns without losing any, and you will be on your way to a Mythic Treasure. Do something easier, like castle on the Queen side, and you might just have a Good Treasure.',
   },
   {
-    question: 'Who decides what the achievements are?',
+    question: 'Who decides the achievements?',
     answer:
-      'There are currently 36 different achievements in Treasure Chess. Who will be the first to earn them all (Send us a message if you have)? From here we hope to add dozens and dozens more, completely from feedback and suggestions from the community.',
+      'There are currently 36 achievements in Treasure Chess. Who will be the first to earn them all (send us a message if you have)? We hope to add dozens and dozens more, using feedback and suggestions from the community.',
   },
   {
-    question: 'What are the costs of Treasure Chess?',
+    question: 'How much does it cost?',
     answer:
-      'We promise to always be completely transparent with costs. We take a $5 fee for each Treasure that gets minted. We also take a 5% fee on all Marketplace sales, and give another 5% to the original minter of each Treasure.',
+      'We promise to always be completely transparent with costs. We take a $3 fee for each Treasure that gets minted. We also take a 5% fee on all Marketplace sales, and give another 5% to the original minter.',
   },
   {
     question:
       'Is there any limit to how much I can earn on the marketplace in secondary sale fees?',
     answer:
-      'There are no limits to any user earnings, and fees are paid directly to your Treasure Chess account balance from the marketplace.',
+      'There are no limits to any user earnings. Fees are paid directly to your Treasure Chess account balance from the marketplace.',
   },
   {
     question: 'Who decides the prices of Treasures in the Marketplace?',
-    answer:
-      'All prices in the marketplace are set by users, we do not decide the value of any Treasure. That’s up to the community',
+    answer: 'All prices in the marketplace are set by users, not by us.',
   },
   {
     question: 'How do I fund my Treasure Chess account?',
     answer:
-      'On your profile page there is a button for funding your account, where you can use a debit card. Advanced users might also want to find their accounts directly with USDC tokens on the Polygon network only.',
+      'On your profile page there is a button for funding your account using a debit card. Advanced users may also fund their accounts directly, using USDC tokens on the Polygon network.',
   },
   {
-    question: 'How do I transfer my Treasure Chess token to someone else?',
-    answer: 'This is a work in progress and will be added shortly.',
+    question: 'Can I transfer my Treasures to someone else?',
+    answer:
+      'You can send Treasures at any time to other Treasure Chess users. Transferring Treasures to external accounts is under development and will be added shortly.',
   },
   {
     question:
       'Can I bring a Treasure to other marketplaces outside of Treasure Chess?',
     answer:
-      'You will need to send your Treasure to your own wallet that is compatible with Polygon first. We are in the process of adding more tools to make it easier to do this.',
+      'Once external transfers are supported, you will be able to send Treasures to any wallet you own.',
   },
   {
     question: 'What is the environmental impact of Treasure Chess?',
     answer:
-      'Creating new treasures uses the same amount of electricity as make a search on your favorite search engine, or sending a few emails. We have also publicly pledged to spend a portion of our revenue on planting trees and carbon negative activities.',
+      'Creating new treasures uses an equivalent amount of electricity as a search engine query, or sending a few emails.',
   },
 ]
 

@@ -1,7 +1,4 @@
-import { routes, navigate } from '@redwoodjs/router'
-
 import ModalContainer from 'src/components/ModalContainer/ModalContainer'
-import TreasureCardCell from 'src/components/Treasure/TreasureCardCell'
 
 import { PENDING_SOLD, PENDING_DELISTED } from './constants'
 

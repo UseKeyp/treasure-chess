@@ -1,5 +1,3 @@
-import { useAuth } from '@redwoodjs/auth'
-
 import { useMarket } from 'src/providers/market'
 
 import { SaleSkeleton } from 'src/components/LoadingSkeleton'

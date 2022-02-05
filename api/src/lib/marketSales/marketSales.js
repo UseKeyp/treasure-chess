@@ -4,7 +4,6 @@ import { db } from 'src/lib/db'
 import { checkGasAndAirdrop } from 'src/lib/web3/airdrop'
 import { getUsdcBalance } from 'src/lib/web3/tokens'
 import { getTxStatus } from 'src/lib/web3'
-import { getERC721Balance } from 'src/lib/web3/treasure'
 import { list, unlist, buy } from 'src/lib/web3/treasureMarket'
 
 const PENDING_LISTED = 'PENDING_LISTED'

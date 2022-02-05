@@ -26,7 +26,7 @@ const LandingModal = () => {
           <h3 className="-indent-7 ">
             <b>
               <span className="mr-2">❤️</span> 95% of sales go directly to
-              creators and players - that's you!
+              creators and players - that&apos;s you!
             </b>
           </h3>
           <p className="mt-2 ">First sale: 95% player / 5% platform</p>
@@ -55,7 +55,7 @@ const LandingModal = () => {
       </ul>
       <p className="mt-8">
         We need your consent to set cookies on your device. To agree, click
-        'Accept' below.
+        &apos;Accept&apos; below.
       </p>
     </>
   )

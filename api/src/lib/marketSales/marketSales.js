@@ -90,19 +90,30 @@ export const processPendingMarketTransactions = async ({ treasure }) => {
           })
           transactions[type] = tx
 
-          if (type === 'listTx' && tx.status === COMPLETE) {
-            newMarketSale = await db.marketSale.update({
-              where: { id: currentMarketSale.id },
-              data: { status: LISTED },
-            })
-          } else if (type === 'unlistTx' && tx.status === COMPLETE) {
-            newMarketSale = await db.marketSale.update({
-              where: { id: currentMarketSale.id },
-              data: { status: DELISTED, isClosed: true },
-            })
-          } else if (tx.status === FAILED) {
-            // TODO:
-            console.log('list/unlist tx failed')
+          if (type === 'listTx') {
+            if (tx.status === COMPLETE) {
+              newMarketSale = await db.marketSale.update({
+                where: { id: currentMarketSale.id },
+                data: { status: LISTED, isClosed: false },
+              })
+            } else if (tx.status === FAILED) {
+              // newMarketSale = await db.marketSale.update({
+              //   where: { id: currentMarketSale.id },
+              //   data: { status: DELISTED, isClosed: true },
+              // })
+            }
+          } else if (type === 'unlistTx') {
+            if (tx.status === COMPLETE) {
+              newMarketSale = await db.marketSale.update({
+                where: { id: currentMarketSale.id },
+                data: { status: DELISTED, isClosed: true },
+              })
+            } else if (tx.status === FAILED) {
+              // newMarketSale = await db.marketSale.update({
+              //   where: { id: currentMarketSale.id },
+              //   data: { status: LISTED, isClosed: false },
+              // })
+            }
           }
         }
         transactions[type] = tx
@@ -125,8 +136,10 @@ export const processPendingMarketTransactions = async ({ treasure }) => {
               data: { status: SOLD, isClosed: true },
             })
           } else if (tx.status === FAILED) {
-            // TODO:
-            console.log('buy tx failed')
+            // newMarketSale = await db.marketSale.update({
+            //   where: { id: currentMarketSale.id },
+            //   data: { status: LISTED },
+            // })
           }
         }
         transactions.saleTransactions[index] = { ...tx, status: newStatus }
@@ -155,14 +168,8 @@ export const createNewTreasureListing = async ({ treasure, amount }) => {
     } catch {
       // Do nothing
     }
-    const balance = await getERC721Balance({
-      userAddress: context.currentUser.address,
-      contractAddress: process.env.CONTRACT_ADDRESS_TREASURE,
-    })
-    console.log({ balance })
     // Submit the transaction on behalf of the user
     const tx = await list({ treasure, amount })
-
     // Create the marketSale object
     const marketSale = await db.marketSale.create({
       data: {

@@ -12,6 +12,13 @@ const LandingModal = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  const onSubmit = () => {
+    window.localStorage.setItem('gdpr-accepted', true)
+    /* eslint-disable-next-line no-undef */
+    _paq.push(['rememberConsentGiven'])
+    toggleModal()
+  }
+
   const content = (
     <>
       <ul className="ml-8">
@@ -62,11 +69,7 @@ const LandingModal = () => {
       hideCancelButton={true}
       // isVisible={true}
       isVisible={isVisible}
-      onSubmit={() => {
-        window.localStorage.setItem('gdpr-accepted', true)
-        _paq.push(['rememberConsentGiven'])
-        toggleModal()
-      }}
+      onSubmit={onSubmit}
     />
   )
 }

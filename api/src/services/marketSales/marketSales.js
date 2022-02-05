@@ -3,7 +3,6 @@ import {
   createNewTreasureListing,
   removeTreasureListing,
   purchaseTreasure,
-  processPendingMarketTransactions,
 } from 'src/lib/marketSales'
 
 export const marketSales = () => {

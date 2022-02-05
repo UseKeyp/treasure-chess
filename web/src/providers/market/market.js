@@ -1,10 +1,8 @@
 import { useLazyQuery, useQuery, useMutation } from '@apollo/client'
 import { useAuth } from '@redwoodjs/auth'
-import { useWallet } from 'src/providers/wallet'
 import { useToast } from 'src/providers/toast'
 import { useModal } from 'src/hooks/useModal'
-import { MintingToast } from './toasts'
-import { ConfirmModal, SuccessModal } from './modals'
+import { ConfirmModal } from './modals'
 
 import {
   TREASURE_WITH_MARKET_SALES_QUERY,
@@ -20,10 +18,10 @@ import {
   SOLD,
   PENDING_DELISTED,
   DELISTED,
-  UNSUBMITTED,
-  SUBMITTED,
+  // UNSUBMITTED,
+  // SUBMITTED,
   FAILED,
-  COMPLETE,
+  // COMPLETE,
 } from './constants'
 
 const MarketContext = React.createContext({
@@ -36,7 +34,6 @@ const MarketContext = React.createContext({
 })
 
 const MarketProvider = ({ children }) => {
-  const { mintCreditBalance } = useWallet()
   const { currentUser, loading: authLoading } = useAuth()
   const { toast } = useToast()
   // TODO: Figure out a better way to do this. useLocation throws an error
@@ -72,7 +69,7 @@ const MarketProvider = ({ children }) => {
     if (type === SOLD)
       return toast.success('Purchased!', { id: state.treasure.id })
   }
-  console.log(state)
+
   useQuery(TREASURE_WITH_MARKET_SALES_QUERY, {
     pollInterval: 5000,
     skip: !state.shouldPoll || !tokenId,
@@ -273,7 +270,7 @@ const MarketProvider = ({ children }) => {
     toggleModalConfirm()
   }
   const gift = async () => {
-    /* esling-disable-next-line no-console */
+    /* eslint-disable-next-line no-console */
     console.log('This feature is not yet implemented')
   }
 

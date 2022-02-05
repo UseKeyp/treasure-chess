@@ -93,7 +93,7 @@ const GameCard = ({ game, isMinting, title, showGif }) => {
     )
 
   let listAmount = 0
-  if (game.marketSales && game.marketSales[0].status === 'LISTED')
+  if (game.marketSales && game.marketSales[0]?.status === 'LISTED')
     listAmount = game.marketSales[0].amount
 
   return (

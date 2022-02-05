@@ -72,22 +72,19 @@ const MarketProvider = ({ children }) => {
     if (type === SOLD)
       return toast.success('Purchased!', { id: state.treasure.id })
   }
-
+  console.log(state)
   useQuery(TREASURE_WITH_MARKET_SALES_QUERY, {
     pollInterval: 5000,
     skip: !state.shouldPoll || !tokenId,
     fetchPolicy: 'network-only',
     variables: { tokenId },
     onCompleted: async ({ treasureWithMarketSales } = {}) => {
-      console.log({ treasureWithMarketSales })
       const last = state.marketSale
       const current = treasureWithMarketSales.marketSales[0]
       if (current.status === last.status) return
-
       const { status, isClosed, amount } = current
       let shouldPoll = false
-      if (status.includes('PENDING')) return
-      // console.log({ current })
+      if (status.includes('PENDING')) shouldPoll = true
       setState({
         ...state,
         marketError: null,
@@ -98,10 +95,16 @@ const MarketProvider = ({ children }) => {
         amount,
         shouldPoll,
       })
-      if (current.listTx?.status === FAILED) return toastAction(FAILED)
-      if (current.unlistTx?.status === FAILED) return toastAction(FAILED)
-      if (current.buyTx?.status === FAILED) return toastAction(FAILED)
-      toastAction(status)
+      if (currentUser.id === current.sellerId) {
+        // Toast list/unlist/gift
+        if (current.listTx?.status === FAILED) return toastAction(FAILED)
+        if (current.unlistTx?.status === FAILED) return toastAction(FAILED)
+        toastAction(status)
+      } else if (currentUser.id === current.buyerId) {
+        // Toast purchases
+        if (current.buyTx?.status === FAILED) return toastAction(FAILED)
+        toastAction(status)
+      }
     },
   })
 
@@ -256,7 +259,7 @@ const MarketProvider = ({ children }) => {
   React.useEffect(() => {
     fetchData()
     /* eslint-disable-next-line react-hooks/exhaustive-deps*/
-  }, [tokenId])
+  }, [])
 
   React.useEffect(() => {
     if (authLoading || !currentUser || !state.treasure) return

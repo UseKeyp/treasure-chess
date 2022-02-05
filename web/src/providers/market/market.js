@@ -3,6 +3,7 @@ import { useAuth } from '@redwoodjs/auth'
 import { useToast } from 'src/providers/toast'
 import { useModal } from 'src/hooks/useModal'
 import { ConfirmModal } from './modals'
+import { TxToast } from './toasts'
 
 import {
   TREASURE_WITH_MARKET_SALES_QUERY,
@@ -26,7 +27,6 @@ import {
 
 const MarketContext = React.createContext({
   marketStatus: null,
-  marketError: null,
   marketLoading: true,
   amount: null,
   isOwner: false,
@@ -44,21 +44,27 @@ const MarketProvider = ({ children }) => {
   const [state, setState] = React.useState({
     shouldPoll: false,
     marketStatus: null,
-    marketError: null,
+
     marketLoading: true,
     amount: null,
     isOwner: false,
     actionData: {},
   })
 
-  const toastAction = (type) => {
+  const toastAction = (type, txHash) => {
     // TODO: Add more data to toasts (links, etc.)
     if (type === PENDING_LISTED)
-      return toast.loading('Listing', { id: state.treasure.id })
+      return toast.loading(<TxToast text="Listing" txHash={txHash} />, {
+        id: state.treasure.id,
+      })
     if (type === PENDING_DELISTED)
-      return toast.loading('Unlisting', { id: state.treasure.id })
+      return toast.loading(<TxToast text="Unlisting" txHash={txHash} />, {
+        id: state.treasure.id,
+      })
     if (type === PENDING_SOLD)
-      return toast.loading('Completing purchase', { id: state.treasure.id })
+      return toast.loading(<TxToast text="Purchasing" txHash={txHash} />, {
+        id: state.treasure.id,
+      })
 
     if (type === FAILED)
       return toast.error('Failure', { id: state.treasure.id })
@@ -84,13 +90,12 @@ const MarketProvider = ({ children }) => {
       if (status.includes('PENDING')) shouldPoll = true
       setState({
         ...state,
-        marketError: null,
         marketSale: current,
         marketStatus: status,
         actionData: {},
         actionLoading: false,
         actionError: null,
-        actionStatus: null,
+        actionStatus: status,
         isClosed,
         amount,
         shouldPoll,
@@ -127,7 +132,7 @@ const MarketProvider = ({ children }) => {
         ...state,
         marketLoading: false,
         marketStatus: null,
-        marketError: null,
+
         treasure: treasureWithMarketSales,
       })
     const { status, isClosed, amount } = marketSale
@@ -135,7 +140,7 @@ const MarketProvider = ({ children }) => {
     if (status.includes('PENDING')) shouldPoll = true
     setState({
       ...state,
-      marketError: null,
+
       marketLoading: false,
       treasure: treasureWithMarketSales,
       marketSale,
@@ -164,7 +169,7 @@ const MarketProvider = ({ children }) => {
         actionStatus: PENDING_LISTED,
         shouldPoll: true,
       })
-      toastAction(PENDING_LISTED)
+      toastAction(PENDING_LISTED, marketSale.listTxId)
     } catch (error) {
       setState({
         ...state,
@@ -192,7 +197,7 @@ const MarketProvider = ({ children }) => {
         actionStatus: PENDING_DELISTED,
         shouldPoll: true,
       })
-      toastAction(PENDING_DELISTED)
+      toastAction(PENDING_DELISTED, marketSale.unlistTxId)
     } catch (error) {
       setState({
         ...state,
@@ -220,7 +225,7 @@ const MarketProvider = ({ children }) => {
         actionStatus: PENDING_SOLD,
         shouldPoll: true,
       })
-      toastAction(PENDING_SOLD)
+      toastAction(PENDING_SOLD, marketSale.saleTransactions[0].id)
     } catch (error) {
       setState({
         ...state,
@@ -300,7 +305,6 @@ const MarketProvider = ({ children }) => {
         isOwner: state.isOwner,
         // Treasure market sale details
         marketStatus: state.marketStatus,
-        marketError: state.marketError,
         marketLoading: state.marketLoading,
         // User actions
         buy,

@@ -3,23 +3,17 @@ import { useMarket } from 'src/providers/market'
 import LoadingDots from 'src/components/LoadingDots/LoadingDots'
 import Button from 'src/components/Button/Button'
 
-const DELISTED = 'DELISTED'
-const SOLD = 'SOLD'
-const PENDING_SOLD = 'PENDING_SOLD'
+import { PENDING_SOLD, SOLD } from 'src/providers/market/constants'
 
 const BuyerSaleInteraction = () => {
-  const { marketStatus, marketError, buy, amount } = useMarket()
+  const { actionStatus, actionError, marketStatus, buy, amount } = useMarket()
 
   if (marketStatus === null) return <></>
 
-  const buttonText =
-    marketStatus === SOLD
-      ? 'View Treasure'
-      : marketStatus === PENDING_SOLD
-      ? 'Purchase in Progress'
-      : 'Buy'
+  let buttonText = 'Buy'
+  if (actionStatus === PENDING_SOLD) buttonText = 'Purchase in Progress'
 
-  const textColor = marketStatus === SOLD ? 'text-black' : 'text-white'
+  const textColor = marketStatus === PENDING_SOLD ? 'text-black' : 'text-white'
   const backgroundColor =
     marketStatus === SOLD ? 'bg-orange' : 'bg-chessBlack-200'
 
@@ -27,21 +21,21 @@ const BuyerSaleInteraction = () => {
     return (
       <Button
         className={`w-[272px] h-[40px] text-xl shadow-m hover:sm hover:bg-green hover:shadow-greenDark ${
-          marketStatus === PENDING_SOLD && 'pointer-events-none'
+          actionStatus === PENDING_SOLD && 'pointer-events-none'
         }`}
         label={buttonText}
-        variant={marketStatus === PENDING_SOLD ? 'grey' : 'green'}
+        variant={actionStatus === PENDING_SOLD ? 'grey' : 'green'}
         onClick={buy}
       />
     )
   }
 
   const Status = () => {
-    if (marketError) {
-      return <p className="text-red">Purchase Failed. Please Try Again.</p>
-    } else if (marketStatus === SOLD) {
+    if (actionError) {
+      return <p className="text-red">{actionError}</p>
+    } else if (actionStatus === SOLD) {
       return <p className="text-black">Congrats! This is now your Treasure.</p>
-    } else if (marketStatus === PENDING_SOLD) {
+    } else if (actionStatus === PENDING_SOLD) {
       return (
         <p className="text-white flex text-[10px]">
           Purchases can take up to 3 minutes.

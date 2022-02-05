@@ -14,8 +14,7 @@ export const schema = gql`
     listTxId: String!
     unlistTx: Transaction
     unlistTxId: String
-    saleTx: Transaction
-    saleTxId: String
+    saleTransactions: [Transaction]!
     status: MarketSaleStatus!
     isClosed: Boolean!
     amount: Int!

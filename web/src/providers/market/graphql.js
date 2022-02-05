@@ -27,6 +27,7 @@ export const LIST_MARKET_SALE_MUTATION = gql`
       status
       isClosed
       amount
+      listTxId
     }
   }
 `
@@ -39,6 +40,7 @@ export const UNLIST_MARKET_SALE_MUTATION = gql`
       status
       isClosed
       amount
+      unlistTxId
     }
   }
 `
@@ -51,6 +53,9 @@ export const BUY_MARKET_SALE_MUTATION = gql`
       status
       isClosed
       amount
+      saleTransactions {
+        id
+      }
     }
   }
 `

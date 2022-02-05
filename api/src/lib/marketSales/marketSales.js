@@ -250,6 +250,7 @@ export const purchaseTreasure = async ({ treasure }) => {
         },
       },
     })
+    marketSale.saleTransactions = [{ id: tx.hash }]
     return marketSale
   } catch (e) {
     /* eslint-disable-next-line no-console */

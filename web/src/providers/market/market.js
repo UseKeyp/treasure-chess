@@ -91,6 +91,9 @@ const MarketProvider = ({ children }) => {
         marketSale: current,
         marketStatus: status,
         actionData: {},
+        actionLoading: false,
+        actionError: null,
+        actionStatus: null,
         isClosed,
         amount,
         shouldPoll,
@@ -157,7 +160,13 @@ const MarketProvider = ({ children }) => {
       const { data: { marketSale } = {} } = await listTreasureMutation({
         variables: { tokenId, amount: Number(state.actionData.amount) },
       })
-      setState({ ...state, marketSale })
+      setState({
+        ...state,
+        marketSale,
+        actionLoading: true,
+        actionStatus: PENDING_LISTED,
+        shouldPoll: true,
+      })
       toastAction(PENDING_LISTED)
     } catch (error) {
       setState({
@@ -179,7 +188,13 @@ const MarketProvider = ({ children }) => {
       const { data: { marketSale } = {} } = await unlistTreasureMutation({
         variables: { tokenId },
       })
-      setState({ ...state, marketSale })
+      setState({
+        ...state,
+        marketSale,
+        actionLoading: true,
+        actionStatus: PENDING_DELISTED,
+        shouldPoll: true,
+      })
       toastAction(PENDING_DELISTED)
     } catch (error) {
       setState({
@@ -201,7 +216,13 @@ const MarketProvider = ({ children }) => {
       const { data: { marketSale } = {} } = await buyTreasureMutation({
         variables: { tokenId },
       })
-      setState({ ...state, marketSale })
+      setState({
+        ...state,
+        marketSale,
+        actionLoading: true,
+        actionStatus: PENDING_SOLD,
+        shouldPoll: true,
+      })
       toastAction(PENDING_SOLD)
     } catch (error) {
       setState({

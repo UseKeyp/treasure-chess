@@ -11,6 +11,8 @@ export const TREASURE_WITH_MARKET_SALES_QUERY = gql`
         status
         isClosed
         amount
+        sellerId
+        buyerId
       }
     }
   }

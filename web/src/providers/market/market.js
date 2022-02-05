@@ -39,6 +39,7 @@ const MarketProvider = ({ children }) => {
   const { mintCreditBalance } = useWallet()
   const { currentUser, loading: authLoading } = useAuth()
   const { toast } = useToast()
+  // TODO: Figure out a better way to do this. useLocation throws an error
   const tokenId = window.location.toString().split('treasures/')[1]
   const { isVisible: isVisibleModalConfirm, toggleModal: toggleModalConfirm } =
     useModal()
@@ -78,13 +79,15 @@ const MarketProvider = ({ children }) => {
     fetchPolicy: 'network-only',
     variables: { tokenId },
     onCompleted: async ({ treasureWithMarketSales } = {}) => {
+      console.log({ treasureWithMarketSales })
       const last = state.marketSale
       const current = treasureWithMarketSales.marketSales[0]
       if (current.status === last.status) return
 
       const { status, isClosed, amount } = current
       let shouldPoll = false
-      if (status.includes('PENDING')) return (shouldPoll = true)
+      if (status.includes('PENDING')) return
+      // console.log({ current })
       setState({
         ...state,
         marketError: null,

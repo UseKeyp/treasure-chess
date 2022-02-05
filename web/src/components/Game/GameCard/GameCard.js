@@ -92,8 +92,8 @@ const GameCard = ({ game, isMinting, title, showGif }) => {
       </div>
     )
 
-  let listAmount = null
-  if (game.marketSales && game.marketSales.status === 'LISTED')
+  let listAmount = 0
+  if (game.marketSales && game.marketSales[0].status === 'LISTED')
     listAmount = game.marketSales[0].amount
 
   return (
@@ -144,7 +144,7 @@ const GameCard = ({ game, isMinting, title, showGif }) => {
           dangerouslySetInnerHTML={{ __html: cardHtml }}
         />
       </div>
-      {listAmount ? (
+      {listAmount > 0 ? (
         <div className={styles.priceBadge}>
           <h2>${listAmount.toLocaleString()}</h2>
         </div>

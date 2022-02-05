@@ -24,11 +24,6 @@ export const QUERY = gql`
       owner {
         id
       }
-      marketSales {
-        id
-        amount
-        status
-      }
       title
       cardColor
       blackRating

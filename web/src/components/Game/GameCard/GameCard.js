@@ -93,55 +93,62 @@ const GameCard = ({ game, isMinting, title, showGif }) => {
     )
 
   let listAmount = null
-  if (game.marketSales) listAmount = game.marketSales[0].amount
+  if (game.marketSales && game.marketSales.status === 'LISTED')
+    listAmount = game.marketSales[0].amount
 
   return (
-    <div className={styles.gameCardWrapper}>
-      {isMinting && (
-        <div className={styles.gameCardMintingContainer}>
-          <div className={styles.gameCardMintingOverlay} />
-          <div className="items-center">
-            <div className="mb-6 h-full">
-              <Loader />
+    <div className={styles.container}>
+      <div className={styles.gameCardWrapper}>
+        {isMinting && (
+          <div className={styles.gameCardMintingContainer}>
+            <div className={styles.gameCardMintingOverlay} />
+            <div className="items-center">
+              <div className="mb-6 h-full">
+                <Loader />
+              </div>
+              <P
+                fontWeight={700}
+                className="mt-8"
+                fontSize={16}
+                color={'chessBlack.100'}
+              >
+                Minting
+                <br />
+                in progress
+              </P>
             </div>
-            <P
-              fontWeight={700}
-              className="mt-8"
-              fontSize={16}
-              color={'chessBlack.100'}
-            >
-              Minting
-              <br />
-              in progress
-            </P>
           </div>
+        )}
+        <animated.div
+          id={`card_${game.id}`}
+          className={
+            game.tokenId
+              ? `${styles.gameCardHtml} ${styles.mintedCardHtml}`
+              : `${styles.gameCardHtml}`
+          }
+          onMouseMove={(e) => {
+            var div = document
+              .getElementById(`card_${game.id}`)
+              .getBoundingClientRect()
+            set({
+              xys: calc(
+                e.clientX - div.left - div.width / 2,
+                e.clientY - div.top - div.height / 2
+              ),
+            })
+          }}
+          onMouseLeave={() => set({ xys: [0, 0, 1] })}
+          style={{
+            transform: game.id && !isMinting && props.xys.to(trans),
+          }}
+          dangerouslySetInnerHTML={{ __html: cardHtml }}
+        />
+      </div>
+      {listAmount ? (
+        <div className={styles.priceBadge}>
+          <h2>${listAmount.toLocaleString()}</h2>
         </div>
-      )}
-      <animated.div
-        id={`card_${game.id}`}
-        className={
-          game.tokenId
-            ? `${styles.gameCardHtml} ${styles.mintedCardHtml}`
-            : `${styles.gameCardHtml}`
-        }
-        onMouseMove={(e) => {
-          var div = document
-            .getElementById(`card_${game.id}`)
-            .getBoundingClientRect()
-          set({
-            xys: calc(
-              e.clientX - div.left - div.width / 2,
-              e.clientY - div.top - div.height / 2
-            ),
-          })
-        }}
-        onMouseLeave={() => set({ xys: [0, 0, 1] })}
-        style={{
-          transform: game.id && !isMinting && props.xys.to(trans),
-        }}
-        dangerouslySetInnerHTML={{ __html: cardHtml }}
-      />
-      {listAmount && listAmount}
+      ) : null}
     </div>
   )
 }

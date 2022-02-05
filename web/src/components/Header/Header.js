@@ -134,7 +134,7 @@ const Header = () => {
               </div>
             </Button>
           </div>
-          <div>
+          <div className="mr-4">
             <Button to={routes.faq()} size="large" isSelected={isOnAboutPage}>
               <div className="flex items-center">
                 <img src="/icons/HelpIcon.png" alt="" className="mr-2" />
@@ -142,15 +142,19 @@ const Header = () => {
               </div>
             </Button>
           </div>
-        </div>
-        <Button href="https://airtable.com/shrWkB9MS13NXoM46" size="large">
-          <div className="flex items-center">
-            <div className="mr-2">
-              <Icon name="book" />
+          <Button
+            href="https://airtable.com/shrWkB9MS13NXoM46"
+            target="_blank"
+            size="large"
+          >
+            <div className="flex items-center">
+              <div className="mr-2">
+                <Icon name="book" />
+              </div>
+              Feedback
             </div>
-            Feedback
-          </div>
-        </Button>
+          </Button>
+        </div>
         {isLoggedIn ? (
           <div className="flex items-center">
             <div className="mr-4 w-8 h-8 flex items-center justify-center">

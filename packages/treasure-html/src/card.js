@@ -70,6 +70,7 @@ const card = `<html>
         <div id="game" style="height: 258px; margin-top: 6px; background-image: url('');">
     			<a id="game-anchor" href="" target="_blank" rel="noopener" style="display:inline-block;">
     				<img id="game-image" src="" style="width: 100%; border-radius: 4px;" alt="Video of the game"/>
+    				<img id="game-image-static" src="" style="display:none" />
     			</a>
         </div>
   			<div id="bottom-member" style="width: 100%; display: flex; align-items: center; min-height: 40px; margin-top:3px;">
@@ -161,7 +162,8 @@ const card = `<html>
   <script>
     console.log('%cTreasure Chess', 'color:#88C54B;font-family:sans-serif;font-size:4rem;-webkit-text-stroke: 1px black;font-weight:bold');
     if (new URL(location.href).searchParams.get('static') === 'true' ) {
-      document.getElementById("game-image").setAttribute('src', document.getElementById("game").style.backgroundImage)
+      const staticImageSrc = document.getElementById("game-image-static").src
+      document.getElementById("game-image").src = staticImageSrc;
     }
   </script>
 </html>`

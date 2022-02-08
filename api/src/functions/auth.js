@@ -29,7 +29,7 @@ export const handler = async (event, context) => {
         incorrectPassword: 'Username ${username} not found',
       },
       // expires: 60 * 60, // 1 hour
-      expires: 60 * 60 * 24, // 1 days
+      expires: 60 * 60 * 24 * 3, // 3 days
       // expires: 60 * 60 * 24 *30, // 30 days
     },
     signup: {

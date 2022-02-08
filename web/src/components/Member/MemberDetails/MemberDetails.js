@@ -12,6 +12,7 @@ import { useWallet } from 'src/providers/wallet'
 import { trimAddress } from 'src/utils/helpers'
 
 const MemberDetails = ({ member, isProfile }) => {
+
   const { deposit, withdraw, getAddress } = useWallet()
 
   return (

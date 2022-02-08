@@ -6,12 +6,15 @@ import { getAchievementNamesFromValues } from '@treasure-chess/treasure-filters'
 
 import { getDescription, getAttributes } from 'src/lib/pinata/helpers'
 import { getGifBase64 } from 'src/lib/chessCom/gifGetter'
-import { captureCardScreenshot } from 'src/lib/screenshot'
 
 const PINATA_API_URL = 'https://api.pinata.cloud'
 const PINATA_API_KEY = process.env.PINATA_API_KEY
 const PINATA_API_SECRET_KEY = process.env.PINATA_API_SECRET_KEY
 const TOKEN_URI_DOMAIN = process.env.APP_DOMAIN
+
+const fetchCardScreenshot = async (url) => {
+  return fetch(`${process.env.APP_DOMAIN}/api/screenshot?url=${url}`)
+}
 
 const pinFile = async (blob, filename) => {
   if (!filename) throw 'No filename provided'
@@ -75,9 +78,10 @@ export const pinTreasure = async ({ treasure, tcn }) => {
     // Generate snapshot of card  @ final position
     // Upload the snapshot of the whole card
     const cardUrl = 'https://ipfs.io/ipfs/' + animation_url.split('ipfs://')[1]
-    console.log(cardUrl)
-    const imageSnapshotData = await captureCardScreenshot(cardUrl)
+    // console.log(cardUrl)
+    const imageSnapshotData = await fetchCardScreenshot(cardUrl)
     console.log(imageSnapshotData)
+    return
     // TODO: ensure file extension is correct
     const image = await pinFile(imageSnapshotData, `${treasure.id}.png`)
 

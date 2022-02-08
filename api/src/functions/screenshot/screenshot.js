@@ -12,6 +12,7 @@ export const handler = async (event, _context) => {
   logger.info('Invoked screenshot function')
   let browser = null
   try {
+    const { url } = event.queryStringParameters
     const browser = await playwright.chromium.launch({
       args: chromium.args,
       executablePath: await chromium.executablePath,

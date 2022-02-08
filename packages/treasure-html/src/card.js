@@ -158,6 +158,12 @@ const card = `<html>
     </div>
 		</div>
 	</body>
+  <script>
+    console.log('%cTreasure Chess', 'color:#88C54B;font-family:sans-serif;font-size:4rem;-webkit-text-stroke: 1px black;font-weight:bold');
+    if (new URL(location.href).searchParams.get('static') === 'true' ) {
+      document.getElementById("game-image").setAttribute('src', document.getElementById("game").style.backgroundImage)
+    }
+  </script>
 </html>`
 
 const maskedAchievements = `<div style="display:flex; height:64px; width:250px; align-items: center; justify-content: center; background:rgba(220, 220, 220, 0.9); border-radius:4px; color:#147DDD; font-size: 10px; font-weight: bold;">Mint to Generate Game Stats</div>`

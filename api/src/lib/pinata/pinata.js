@@ -77,11 +77,20 @@ export const pinTreasure = async ({ treasure, tcn }) => {
     // TODO: Get the static board image
     // Generate snapshot of card  @ final position
     // Upload the snapshot of the whole card
-    const cardUrl = 'https://ipfs.io/ipfs/' + animation_url.split('ipfs://')[1]
+    const snapshotUrl =
+      'https://ipfs.io/ipfs/' +
+      animation_url.split('ipfs://')[1] +
+      '?static=true'
     // console.log(cardUrl)
-    const imageSnapshotData = await fetchCardScreenshot(cardUrl)
+    const imageSnapshotData = await fetchCardScreenshot(snapshotUrl)
+    // TODO: remove this!
     console.log(imageSnapshotData)
-    return
+    fs.writeFile(
+      'deleteme-imageSnapshotData.png',
+      body,
+      (e) => e && console.log(e)
+    )
+
     // TODO: ensure file extension is correct
     const image = await pinFile(imageSnapshotData, `${treasure.id}.png`)
 

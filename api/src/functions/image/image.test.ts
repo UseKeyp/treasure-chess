@@ -1,6 +1,7 @@
 /* eslint-disable */
 import { mockHttpEvent } from '@redwoodjs/testing/api'
 import { handler } from './image'
+import fs from 'fs'
 
 describe('image serverless function', () => {
   it('generates a board image successfully', async () => {

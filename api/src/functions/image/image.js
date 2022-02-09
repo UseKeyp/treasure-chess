@@ -1,21 +1,16 @@
 const {
-  getBoardBase64Node,
+  getBoardBase64,
   getBoardLayout,
 } = require('@treasure-chess/chess-image-generator')
 import Sentry from 'src/lib/sentry'
 
 export const handler = async (event) => {
   try {
-    const { moves, playerColor, options, dataOnly } =
-      event.queryStringParameters
+    const { moves, playerColor, options, dataOnly } = event.body
 
     const boardLayout = getBoardLayout(moves)
 
-    const boardBase64 = await getBoardBase64Node(
-      boardLayout,
-      playerColor,
-      options
-    )
+    const boardBase64 = await getBoardBase64(boardLayout, playerColor, options)
 
     if (dataOnly) {
       return {

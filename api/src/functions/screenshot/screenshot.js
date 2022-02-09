@@ -4,10 +4,6 @@ const chromium = require('chrome-aws-lambda')
 import { logger } from 'src/lib/logger'
 import Sentry from 'src/lib/sentry'
 
-export const captureCardScreenshot = async (url) => {
-  return captureScreenshot(url)
-}
-
 export const handler = async (event, _context) => {
   logger.info('Invoked screenshot function')
   let browser = null

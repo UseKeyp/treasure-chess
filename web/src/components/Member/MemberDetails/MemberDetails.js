@@ -23,7 +23,7 @@ const MemberDetails = ({ member, isProfile }) => {
   }, [member])
 
   return (
-    <section className="member-details p-4">
+    <section className="member-details p-4 w-full lg:w-1/2">
       <div className="member-details--inner">
         <div className="member-details--avatar">
           <Avatar size="8rem" src={member.imageSrc} />

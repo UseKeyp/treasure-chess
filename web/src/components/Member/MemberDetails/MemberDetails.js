@@ -12,8 +12,15 @@ import { useWallet } from 'src/providers/wallet'
 import { trimAddress } from 'src/utils/helpers'
 
 const MemberDetails = ({ member, isProfile }) => {
-
+  const [login, setLogin] = React.useState(false)
   const { deposit, withdraw, getAddress } = useWallet()
+
+  React.useEffect(() => {
+    if (member.isLoggedIn === true) setLogin(false)
+    else {
+      setLogin(true)
+    }
+  }, [member])
 
   return (
     <section className="member-details p-4">
@@ -33,11 +40,19 @@ const MemberDetails = ({ member, isProfile }) => {
               {member.username}
             </a>
           </h3>
-          <div className="flex mt-2">
-            <p className="mr-2">{trimAddress(member.address)}</p>
-            <button onClick={getAddress}>
-              <Icon name="copy" color="#147DDD" />
-            </button>
+          <div className="flex mt-2 mx-auto lg:mx-0 ">
+            {login ? (
+              <>
+                <p className="mr-2">{trimAddress(member.address)}</p>
+                <button onClick={getAddress}>
+                  <Icon name="copy" color="#147DDD" />
+                </button>
+              </>
+            ) : (
+              <Button variant="green" size="small" className="w-40">
+                Donate
+              </Button>
+            )}
           </div>
           <div className="mt-2">
             {member.masterTitle && <p>{member.masterTitle}</p>}

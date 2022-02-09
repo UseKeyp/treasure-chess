@@ -6,6 +6,7 @@ const memberData = [
     imageSrc:
       'https://images.chesscomfiles-4.com/uploads/v1/user/41479298.3d21e1ba.200x200o.7b825295a3d5.jpeg',
     country: 'XX',
+    isLoggedIn: true,
     // masterTitle: 'GM',
   },
   {
@@ -15,6 +16,7 @@ const memberData = [
     imageSrc:
       'https://cssjs.chesscomfiles-4.com/bundles/web/images/noavatar_l.84a92436@2x.gif',
     country: 'DE',
+    isLoggedIn: false,
     // masterTitle: 'GM',
   },
   {
@@ -25,6 +27,7 @@ const memberData = [
       'https://cssjs.chesscomfiles-4.com/bundles/web/images/noavatar_l.84a92436@2x.gif',
     masterTitle: 'GM',
     country: 'US',
+    isLoggedIn: true,
   },
 ]
 module.exports = memberData

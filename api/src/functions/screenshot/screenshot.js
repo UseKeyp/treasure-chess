@@ -16,7 +16,10 @@ export const handler = async (event, _context) => {
       executablePath: await chromium.executablePath,
       headless: chromium.headless,
     })
-    const context = await browser.newContext({ deviceScaleFactor: 1 })
+    const context = await browser.newContext({
+      deviceScaleFactor: 2,
+      timeout: 60000, // 60 s
+    })
 
     const page = await context.newPage()
     await page.goto(url, {
@@ -29,7 +32,7 @@ export const handler = async (event, _context) => {
       headers: {
         'Content-Type': 'image/png',
       },
-      body: buffer,
+      body: buffer.toString('base64'),
     }
   } catch (error) {
     console.log(error)

@@ -190,7 +190,7 @@ const getCardHtml = async ({ treasure, gifBase64, gifUrl, staticBase64 }) => {
     updateTag(
       'game-image-static',
       'src',
-      staticBase64 && `data:image/gif;base64,${staticBase64}`
+      staticBase64 && `data:image/png;base64,${staticBase64}`
     )
 
     updateTag(

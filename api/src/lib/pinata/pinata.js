@@ -1,5 +1,5 @@
 import FormData from 'form-data'
-import fetch from 'node-fetch'
+import fetch from 'cross-fetch'
 import fs from 'fs'
 
 import { getCardHtml } from '@treasure-chess/treasure-html'
@@ -17,12 +17,20 @@ const TOKEN_URI_DOMAIN = process.env.APP_DOMAIN
 
 const fetchCardScreenshotBase64 = async (url) => {
   const target = `${process.env.APP_DOMAIN}/api/screenshot?url=${url}`
-
-  if (result.status !== 200) throw "Couldn't get card snapshot"
   const result = await fetch(target)
-  const buffer = result.body
-  console.log(buffer)
-  return buffer.toString('base64')
+  console.log(result)
+  if (result.status !== 200) throw "Couldn't get card snapshot"
+  const base64 = await result.body
+  // console.log(buffer)
+  // const screenshotBase64 = buffer.toString('base64')
+  // TODO: remove this!
+  console.log(base64)
+  fs.writeFile(
+    'deleteme-snapshotBase64.png',
+    base64,
+    (e) => e && console.log(e)
+  )
+  return base64
 }
 
 const pinFile = async (blob, filename) => {
@@ -101,20 +109,15 @@ export const pinTreasure = async ({ treasure, tcn }) => {
     // Generate snapshot of card  @ final position
     // Upload the snapshot of the whole card
     const snapshotUrl = escape(
-      'https://chess.mypinata.cloud/ipfs/' +
-        animation_url.split('ipfs://')[1] +
-        '?static=true'
+      'https://chess.mypinata.cloud/ipfs/' + animation_url.split('ipfs://')[1]
     )
     const snapshotBase64 = await fetchCardScreenshotBase64(snapshotUrl)
-    // TODO: remove this!
-    fs.writeFile(
-      'deleteme-snapshotBase64.png',
-      snapshotBase64,
-      (e) => e && console.log(e)
-    )
 
     // TODO: ensure file extension is correct
-    const image = await pinFile(snapshotBase64, `${treasure.id}.png`)
+    const image = await pinFile(
+      `data:image/png;base64,${snapshotBase64}`,
+      `${treasure.id}.png`
+    )
 
     const attributes = getAttributes({ ...treasure, achievementNames })
 

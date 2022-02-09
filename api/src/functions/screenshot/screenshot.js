@@ -16,7 +16,7 @@ export const handler = async (event, _context) => {
       executablePath: await chromium.executablePath,
       headless: chromium.headless,
     })
-    const context = await browser.newContext({ deviceScaleFactor: 3 })
+    const context = await browser.newContext({ deviceScaleFactor: 2 })
 
     const page = await context.newPage()
     await page.goto(url, {

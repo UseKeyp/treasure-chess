@@ -2768,6 +2768,66 @@
   resolved "https://registry.npmjs.org/@n1ru4l%2fgraphql-live-query/-/graphql-live-query-0.9.0.tgz#defaebdd31f625bee49e6745934f36312532b2bc"
   integrity sha512-BTpWy1e+FxN82RnLz4x1+JcEewVdfmUhV1C6/XYD5AjS7PQp9QFF7K8bCD6gzPTr2l+prvqOyVueQhFJxB1vfg==
 
+"@napi-rs/canvas-android-arm64@0.1.19":
+  version "0.1.19"
+  resolved "https://registry.npmjs.org/@napi-rs/canvas-android-arm64/-/canvas-android-arm64-0.1.19.tgz#2f7a54fe74a5300cf276d78687149e818c0f3de4"
+  integrity sha512-HSMvj4FpY/EW1yQ2KcpodCb9NGt8leDZqlFf+ORR+K6e4FQ5N42zbiABkNrzje8qCD37+mCWd2IO9P/onBCYCQ==
+
+"@napi-rs/canvas-darwin-arm64@0.1.19":
+  version "0.1.19"
+  resolved "https://registry.npmjs.org/@napi-rs/canvas-darwin-arm64/-/canvas-darwin-arm64-0.1.19.tgz#6abb53dbb6f26efff62f0ec94ff2841f68ffd07b"
+  integrity sha512-ammO0vS5NFzyFWTdiA0mfKyaTgITinCfGo33m/Xw6vX4FlT3gRhvOQZUIwSr7Uxh39TUr0Jb1DQRpUR3zSXKHA==
+
+"@napi-rs/canvas-darwin-x64@0.1.19":
+  version "0.1.19"
+  resolved "https://registry.npmjs.org/@napi-rs/canvas-darwin-x64/-/canvas-darwin-x64-0.1.19.tgz#9291e04c569b4c6ad70991c4cab613613622189a"
+  integrity sha512-KZt5Ey1ETlMHYwVd2cyv3nP6hOl9ouspcJKsphLyZMZ4bGjTGk2FK85ieUS5uko5KkAI/7T6SnCSXsTzb5YsUw==
+
+"@napi-rs/canvas-linux-arm-gnueabihf@0.1.19":
+  version "0.1.19"
+  resolved "https://registry.npmjs.org/@napi-rs/canvas-linux-arm-gnueabihf/-/canvas-linux-arm-gnueabihf-0.1.19.tgz#687ea58909cc62648f7edfe051dbf8f3f8a6bac2"
+  integrity sha512-6ksFDGbILCo9i3Oara0035kUjvP+uT1nEwcIGMj6v+LjV6pK8j/imYv+ilKKQc95t2dfqAbh9LLfg/HpJxGaFQ==
+
+"@napi-rs/canvas-linux-arm64-gnu@0.1.19":
+  version "0.1.19"
+  resolved "https://registry.npmjs.org/@napi-rs/canvas-linux-arm64-gnu/-/canvas-linux-arm64-gnu-0.1.19.tgz#870754652415df5c48033a9abe3389b130bd0efb"
+  integrity sha512-GjIOj1x0IGz8J7Fom2LdZrhKUjbOXrytooi57JPvYFRW0ial9lshW8Adnq78yTH+d7iEapOKUEFAtWWq9r0umw==
+
+"@napi-rs/canvas-linux-arm64-musl@0.1.19":
+  version "0.1.19"
+  resolved "https://registry.npmjs.org/@napi-rs/canvas-linux-arm64-musl/-/canvas-linux-arm64-musl-0.1.19.tgz#7bee4cd2bd3537c7af89e7106a9a6a654f77a98f"
+  integrity sha512-6ikcZzSDr5Uvk3AzF/E3bw+6l2VATb1YWGC9uJmmtuPG/e8rRk3r3fi2tq+EtoUIT508MJHQYWB7A0Q6Ztybxg==
+
+"@napi-rs/canvas-linux-x64-gnu@0.1.19":
+  version "0.1.19"
+  resolved "https://registry.npmjs.org/@napi-rs/canvas-linux-x64-gnu/-/canvas-linux-x64-gnu-0.1.19.tgz#9e13d9c1ec93dab34946dae0f8e99de64300b771"
+  integrity sha512-6uHDsXZGuDpZa53NIbkqYng4Cjz5pqVGgfxLDT6T+Lx7I9JeoJi/vBPyB4BLZjdWtY8YhZFWPQIb9bbA6RLMFg==
+
+"@napi-rs/canvas-linux-x64-musl@0.1.19":
+  version "0.1.19"
+  resolved "https://registry.npmjs.org/@napi-rs/canvas-linux-x64-musl/-/canvas-linux-x64-musl-0.1.19.tgz#9990bfd0ec4beaa1643cf4256502662b13f3c362"
+  integrity sha512-WeOOySiwexF91baetu7R193W9i1hfFMVHF+n6vxhwVxh09ahisL+AKhPNKJlouTizXYTvlinALZOnKmiTf7FHA==
+
+"@napi-rs/canvas-win32-x64-msvc@0.1.19":
+  version "0.1.19"
+  resolved "https://registry.npmjs.org/@napi-rs/canvas-win32-x64-msvc/-/canvas-win32-x64-msvc-0.1.19.tgz#734e5a6aba9bd393dd619e72ed2481498578066a"
+  integrity sha512-5RP4n9NsZsYi+Bg08Nd3VULr1+m2EC72OR0D77XqOIh5SXT+Hje+9x3FKgFCDEhaVAVqh5HUzYVD7BJhrXSsMA==
+
+"@napi-rs/canvas@^0.1.19":
+  version "0.1.19"
+  resolved "https://registry.npmjs.org/@napi-rs/canvas/-/canvas-0.1.19.tgz#1e3aedf8316430536f41899036557a3dcbeec618"
+  integrity sha512-bpM/IU+j21y3FrV0Gn+NxPXAid+wTtdNyEQC0DdoycmY8xBSnZ9dgwUzVSjpk6yyrRw1d+mPZjvw0IPc0P1v2g==
+  optionalDependencies:
+    "@napi-rs/canvas-android-arm64" "0.1.19"
+    "@napi-rs/canvas-darwin-arm64" "0.1.19"
+    "@napi-rs/canvas-darwin-x64" "0.1.19"
+    "@napi-rs/canvas-linux-arm-gnueabihf" "0.1.19"
+    "@napi-rs/canvas-linux-arm64-gnu" "0.1.19"
+    "@napi-rs/canvas-linux-arm64-musl" "0.1.19"
+    "@napi-rs/canvas-linux-x64-gnu" "0.1.19"
+    "@napi-rs/canvas-linux-x64-musl" "0.1.19"
+    "@napi-rs/canvas-win32-x64-msvc" "0.1.19"
+
 "@netlify/esbuild@^0.13.6":
   version "0.13.6"
   resolved "https://registry.npmjs.org/@netlify%2fesbuild/-/esbuild-0.13.6.tgz#ef0fda98604e708528ef0a57e853c50a6fc987f2"
@@ -5248,12 +5308,21 @@
   dependencies:
     chess.js "^0.12.0"
 
-"@treasure-chess/chess-image-generator@1.4.8", "@treasure-chess/chess-image-generator@^1.4.8":
+"@treasure-chess/chess-image-generator@1.4.8":
   version "1.4.8"
   resolved "https://registry.npmjs.org/@treasure-chess/chess-image-generator/-/chess-image-generator-1.4.8.tgz#46bee8e644ac88b3489aa240db0f38e846da7acb"
   integrity sha512-UHebQL7I0HRwiADpMfY8s9O9zne/OzSDMMB8KsBYtqGMS0MWu4skDjlbofQggbj4IpCJ4fAI+bcZTe8PSG9L2g==
   dependencies:
     canvas "^2.8.0"
+    chess.js "^0.10.2"
+
+"@treasure-chess/chess-image-generator@^1.5.0":
+  version "1.5.0"
+  resolved "https://registry.npmjs.org/@treasure-chess/chess-image-generator/-/chess-image-generator-1.5.0.tgz#b70c2559f0d4158d38caf977ce221defdfa77c25"
+  integrity sha512-FyOg9TQdYof/cbjjzrsMGwYVDE1Dn5Wpife5L2KZckjH/Gij1eGfXikwfldFnzcoj/od3BePwglm2Rpa43MFbg==
+  dependencies:
+    "@napi-rs/canvas" "^0.1.19"
+    canvas "^2.9.0"
     chess.js "^0.10.2"
 
 "@treasure-chess/treasure-contracts@^0.1.0":
@@ -8017,13 +8086,13 @@ canvas-confetti@1.4.0:
   resolved "https://registry.npmjs.org/canvas-confetti/-/canvas-confetti-1.4.0.tgz#840f6db4a566f8f32abe28c00dcd82acf39c92bd"
   integrity sha512-S18o4Y9PqI/uabdlT/jI3MY7XBJjNxnfapFIkjkMwpz6qNxLFZOm2b22OMf4ZYDL9lpNWI+Ih4fEMVPwO1KHFQ==
 
-canvas@^2.8.0:
-  version "2.8.0"
-  resolved "https://registry.npmjs.org/canvas/-/canvas-2.8.0.tgz#f99ca7f25e6e26686661ffa4fec1239bbef74461"
-  integrity sha512-gLTi17X8WY9Cf5GZ2Yns8T5lfBOcGgFehDFb+JQwDqdOoBOcECS9ZWMEAqMSVcMYwXD659J8NyzjRY/2aE+C2Q==
+canvas@^2.8.0, canvas@^2.9.0:
+  version "2.9.0"
+  resolved "https://registry.npmjs.org/canvas/-/canvas-2.9.0.tgz#7df0400b141a7e42e597824f377935ba96880f2a"
+  integrity sha512-0l93g7uxp7rMyr7H+XRQ28A3ud0dKIUTIEkUe1Dxh4rjUYN7B93+SjC3r1PDKA18xcQN87OFGgUnyw7LSgNLSQ==
   dependencies:
     "@mapbox/node-pre-gyp" "^1.0.0"
-    nan "^2.14.0"
+    nan "^2.15.0"
     simple-get "^3.0.3"
 
 capital-case@^1.0.4:
@@ -15658,7 +15727,7 @@ mute-stream@0.0.8:
   resolved "https://registry.npmjs.org/mute-stream/-/mute-stream-0.0.8.tgz#1630c42b2251ff81e2a283de96a5497ea92e5e0d"
   integrity sha512-nnbWWOkoWyUsTjKrhgD0dcz22mdkSnpYqbEjIm2nhwhuxlSkpywJmBo8h0ZqJdkp73mb90SssHkN4rsRaBAfAA==
 
-nan@^2.12.1, nan@^2.14.0, nan@^2.14.2:
+nan@^2.12.1, nan@^2.14.0, nan@^2.14.2, nan@^2.15.0:
   version "2.15.0"
   resolved "https://registry.npmjs.org/nan/-/nan-2.15.0.tgz#3f34a473ff18e15c1b5626b62903b5ad6e665fee"
   integrity sha512-8ZtvEnA2c5aYCZYd1cvgdnU6cqwixRoYg70xPLWUws5ORTa/lnw+u4amixRS/Ac5U5mQVgp9pnlSUnbNWFaWZQ==

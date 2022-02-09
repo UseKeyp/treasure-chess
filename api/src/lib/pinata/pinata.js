@@ -7,6 +7,8 @@ import { getAchievementNamesFromValues } from '@treasure-chess/treasure-filters'
 import { getDescription, getAttributes } from 'src/lib/pinata/helpers'
 import { getGifBase64 } from 'src/lib/chessCom/gifGetter'
 
+const { getBoardBase64 } = require('@treasure-chess/chess-image-generator')
+
 const PINATA_API_URL = 'https://api.pinata.cloud'
 const PINATA_API_KEY = process.env.PINATA_API_KEY
 const PINATA_API_SECRET_KEY = process.env.PINATA_API_SECRET_KEY
@@ -64,12 +66,26 @@ export const pinTreasure = async ({ treasure, tcn }) => {
     const achievementNames = getAchievementNamesFromValues(
       treasure.achievements
     )
+
+    let config = {
+      size: 640,
+      dark: 'rgb(181, 137, 98)',
+      light: 'rgb(241, 216, 180)',
+      // TODO: Change to neo
+      style: 'alpha',
+    }
+    const boardBase64 = await getBoardBase64(
+      treasure.boardLayout,
+      treasure.winner,
+      config
+    )
     // Generate the HTML
     const htmlString = await getCardHtml({
       treasure: { ...treasure, achievements: achievementNames },
       gifBase64,
+      staticBase64: boardBase64,
     })
-
+    console.log(htmlString)
     // Upload the HTML
     /* eslint-disable camelcase */
     const animation_url = await pinFile(htmlString, `${treasure.id}.html`)
@@ -78,7 +94,7 @@ export const pinTreasure = async ({ treasure, tcn }) => {
     // Generate snapshot of card  @ final position
     // Upload the snapshot of the whole card
     const snapshotUrl =
-      'https://ipfs.io/ipfs/' +
+      'https://chess.mypinata.cloud/ipfs/' +
       animation_url.split('ipfs://')[1] +
       '?static=true'
     // console.log(cardUrl)

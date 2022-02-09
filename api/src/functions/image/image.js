@@ -8,10 +8,16 @@ export const handler = async (event) => {
   try {
     const { moves, playerColor, options, dataOnly } = event.body
 
+    let config = {
+      size: 640,
+      dark: 'rgb(181, 137, 98)',
+      light: 'rgb(241, 216, 180)',
+      style: 'alpha',
+    }
+    if (options) config = options
+
     const boardLayout = getBoardLayout(moves)
-
-    const boardBase64 = await getBoardBase64(boardLayout, playerColor, options)
-
+    const boardBase64 = await getBoardBase64(boardLayout, playerColor, config)
     if (dataOnly) {
       return {
         statusCode: 200,

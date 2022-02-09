@@ -9,6 +9,8 @@ export const handler = async (event, _context) => {
   let browser = null
   try {
     const { url } = event.queryStringParameters
+    if (!url.match(/https:\/\/chess.mypinata.cloud\/ipfs/))
+      throw 'Only chess.mypinata.cloud is allowed'
     const browser = await playwright.chromium.launch({
       args: chromium.args,
       executablePath: await chromium.executablePath,
@@ -20,11 +22,12 @@ export const handler = async (event, _context) => {
     await page.goto(url, {
       waitUntil: 'networkidle',
     })
-    const buffer = await page.screenshot()
+    const buffer = await page.locator('body > div').screenshot()
+
     return {
       statusCode: 200,
       headers: {
-        'Content-Type': 'image/jpeg',
+        'Content-Type': 'image/png',
       },
       body: buffer,
     }
@@ -35,7 +38,7 @@ export const handler = async (event, _context) => {
     return {
       statusCode: 500,
       body: {
-        message: 'Internal server error',
+        message: `Internal server error. ${error}`,
       },
     }
   } finally {

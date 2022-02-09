@@ -2,23 +2,21 @@ import { mockHttpEvent } from '@redwoodjs/testing/api'
 
 import { handler } from './screenshot'
 import fs from 'fs'
-
+jest.setTimeout(20000)
 describe('metrics function', () => {
   it('Should respond with 200', async () => {
     const httpEvent = mockHttpEvent({
       queryStringParameters: {
-        url: 'https://ipfs.io/ipfs/QmPFGa2EwbZhf8AmP91TbfBXgoKSg5SjWnTBbuY3jH21vj',
+        url: 'https://chess.mypinata.cloud/ipfs/QmPFGa2EwbZhf8AmP91TbfBXgoKSg5SjWnTBbuY3jH21vj?static=true',
       },
     })
 
-    const response = await handler(httpEvent)
-    console.log(response)
-    console.log(response.body)
-    const body = response.body
+    const result = await handler(httpEvent)
+    console.log(result)
+    const base64 = await result.body
+    console.log(base64)
+    fs.writeFile('deleteme.png', base64, (e) => e && console.log(e))
 
-    fs.writeFile('deleteme.png', body, (e) => e && console.log(e))
-
-    expect(response.statusCode).toBe(200)
-    expect(typeof data).toBe('object')
+    expect(result.statusCode).toBe(200)
   })
 })

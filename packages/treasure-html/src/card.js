@@ -30,7 +30,7 @@ const card = `<html>
     <meta name="author" content="Treasure Chess">
 	</head>
 	<body style="font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; background-color:#4F4F4F; display: flex; align-items: center;" >
-  	<div id="container" style="height: 500px; color:black; width: 266px; min-width: 266px; border-radius: 12px; background-color: #FFF8EE; display: flex; flex-direction: column; padding: 4px; box-shadow: 0px 10px 30px -5px rgba(0, 0, 0, 0.3);">
+  	<div id="container" style="height: 500px; color:black; margin: 4px; width: 266px; min-width: 266px; border-radius: 12px; background-color: #FFF8EE; display: flex; flex-direction: column; padding: 4px; box-shadow: 0px 10px 30px -5px rgba(0, 0, 0, 0.3);">
 			<div id="banner" style="width: 100%; background-color: #ABB6B9; border-radius: 8px 8px 2px 2px; display: grid; grid-template-columns: 2fr 1fr; align-items: center; min-height: 39px; box-sizing: border-box; padding: 0 8px">
   			<div style="display: flex;align-items: center; min-height: 39px;">
   				<div style="padding-right: 8px;">

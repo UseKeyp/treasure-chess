@@ -1,5 +1,6 @@
 import FormData from 'form-data'
 import fetch from 'node-fetch'
+import fs from 'fs'
 
 import { getCardHtml } from '@treasure-chess/treasure-html'
 import { getAchievementNamesFromValues } from '@treasure-chess/treasure-filters'
@@ -14,8 +15,14 @@ const PINATA_API_KEY = process.env.PINATA_API_KEY
 const PINATA_API_SECRET_KEY = process.env.PINATA_API_SECRET_KEY
 const TOKEN_URI_DOMAIN = process.env.APP_DOMAIN
 
-const fetchCardScreenshot = async (url) => {
-  return fetch(`${process.env.APP_DOMAIN}/api/screenshot?url=${url}`)
+const fetchCardScreenshotBase64 = async (url) => {
+  const target = `${process.env.APP_DOMAIN}/api/screenshot?url=${url}`
+
+  if (result.status !== 200) throw "Couldn't get card snapshot"
+  const result = await fetch(target)
+  const buffer = result.body
+  console.log(buffer)
+  return buffer.toString('base64')
 }
 
 const pinFile = async (blob, filename) => {
@@ -85,7 +92,7 @@ export const pinTreasure = async ({ treasure, tcn }) => {
       gifBase64,
       staticBase64: boardBase64,
     })
-    console.log(htmlString)
+    // console.log(htmlString)
     // Upload the HTML
     /* eslint-disable camelcase */
     const animation_url = await pinFile(htmlString, `${treasure.id}.html`)
@@ -93,22 +100,21 @@ export const pinTreasure = async ({ treasure, tcn }) => {
     // TODO: Get the static board image
     // Generate snapshot of card  @ final position
     // Upload the snapshot of the whole card
-    const snapshotUrl =
+    const snapshotUrl = escape(
       'https://chess.mypinata.cloud/ipfs/' +
-      animation_url.split('ipfs://')[1] +
-      '?static=true'
-    // console.log(cardUrl)
-    const imageSnapshotData = await fetchCardScreenshot(snapshotUrl)
+        animation_url.split('ipfs://')[1] +
+        '?static=true'
+    )
+    const snapshotBase64 = await fetchCardScreenshotBase64(snapshotUrl)
     // TODO: remove this!
-    console.log(imageSnapshotData)
     fs.writeFile(
-      'deleteme-imageSnapshotData.png',
-      body,
+      'deleteme-snapshotBase64.png',
+      snapshotBase64,
       (e) => e && console.log(e)
     )
 
     // TODO: ensure file extension is correct
-    const image = await pinFile(imageSnapshotData, `${treasure.id}.png`)
+    const image = await pinFile(snapshotBase64, `${treasure.id}.png`)
 
     const attributes = getAttributes({ ...treasure, achievementNames })
 

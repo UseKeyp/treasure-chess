@@ -10,7 +10,7 @@ import {
 } from 'src/lib/chessCom/chessCom'
 import { parseGameFromChessDotCom } from 'src/lib/chessCom/gameParsing'
 import { getGifUrl } from 'src/lib/chessCom/gifGetter'
-import { getBoardLayout } from 'src/lib/helpers'
+import { getBoardLayout } from '@treasure-chess/chess-image-generator'
 import filters from '@treasure-chess/treasure-filters'
 
 const getRarity = (score) => {

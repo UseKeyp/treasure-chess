@@ -13,10 +13,10 @@ describe('image serverless function', () => {
 
     const result = await handler(httpEvent)
     const body = result.body
+    fs.writeFile('deleteme.png', body, (e) => e && console.log(e))
+
     console.log(body)
 
-    // expect(result.statusCode).toBe(200)
-    // expect(body.boardBase64).toContain('=')
-    // expect(body.quotient).toEqual(4)
+    expect(result.statusCode).toBe(200)
   })
 })

@@ -22,6 +22,15 @@ const fetchScreenshotBase64Buffer = async (url) => {
   const buffer = await result.buffer()
   return buffer
 }
+const fetchBoardBase64Buffer = async ({ boardLayout, playerColor }) => {
+  const result = await fetch(`${process.env.APP_DOMAIN}/api/image`, {
+    method: 'POST',
+    body: JSON.stringify({ boardLayout, playerColor }),
+  })
+  if (result.status !== 200) throw "Couldn't get static board image"
+  const buffer = await result.buffer()
+  return buffer.toString('base64')
+}
 
 const pinFile = async (blob, filename) => {
   try {
@@ -76,24 +85,16 @@ export const pinTreasure = async ({ treasure, tcn }) => {
       treasure.achievements
     )
 
-    let config = {
-      size: 640,
-      dark: 'rgb(181, 137, 98)',
-      light: 'rgb(241, 216, 180)',
-      // TODO: Change to neo
-      style: 'alpha',
-    }
-    const boardBase64 = await getBoardBase64(
-      treasure.boardLayout,
-      treasure.winner,
-      config
-    )
-    console.log(boardBase64)
+    const boardBuffer = await fetchBoardBase64Buffer({
+      boardLayout: treasure.boardLayout,
+      playerColor: treasure.winner,
+    })
+
     // Generate the HTML
     const htmlString = await getCardHtml({
       treasure: { ...treasure, achievements: achievementNames },
       gifBase64,
-      staticBase64: boardBase64,
+      staticBase64: boardBuffer,
     })
     // console.log(htmlString)
     // Upload the HTML
@@ -111,7 +112,6 @@ export const pinTreasure = async ({ treasure, tcn }) => {
     const screenshotBuffer = await fetchScreenshotBase64Buffer(screenshotUrl)
 
     const image = await pinFile(screenshotBuffer, `${treasure.id}.png`)
-    console.log(image)
     const attributes = getAttributes({ ...treasure, achievementNames })
 
     const uriData = {
@@ -124,6 +124,20 @@ export const pinTreasure = async ({ treasure, tcn }) => {
     }
     const stringifiedUriData = JSON.stringify(uriData)
     const tokenUri = await pinJson(stringifiedUriData)
+    console.log({
+      animation_url:
+        'https://chess.mypinata.cloud/ipfs/' +
+        animation_url.split('ipfs://')[1] +
+        '?static=true',
+    })
+    console.log({
+      image: 'https://chess.mypinata.cloud/ipfs/' + image.split('ipfs://')[1],
+    })
+    console.log({
+      tokenUri:
+        'https://chess.mypinata.cloud/ipfs/' + tokenUri.split('ipfs://')[1],
+    })
+    throw 'foo'
     return { tokenUri, uriData: stringifiedUriData }
   } catch (e) {
     throw `pinTreasure() ${e}`

@@ -85,7 +85,7 @@ const generateRandomTreasures = (count, highestTokenId, members) => {
       })
       return {
         ...treasure,
-        tokenId: highestTokenId + index + 1,
+        tokenId: highestTokenId + index + 1001,
         tokenUri: 'fakeUri',
         uriData: 'fakeUridata',
       }

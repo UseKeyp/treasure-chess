@@ -6,8 +6,9 @@ import Sentry from 'src/lib/sentry'
 
 export const handler = async (event) => {
   try {
-    const { moves, playerColor, options, dataOnly } = event.body
-
+    const { moves, playerColor, options, dataOnly, boardLayout } = JSON.parse(
+      event.body
+    )
     let config = {
       size: 640,
       dark: 'rgb(181, 137, 98)',
@@ -16,18 +17,21 @@ export const handler = async (event) => {
     }
     if (options) config = options
 
-    const boardLayout = getBoardLayout(moves)
-    const boardBase64 = await getBoardBase64(boardLayout, playerColor, config)
+    let layout = boardLayout
+    if (!layout) {
+      if (!moves) throw 'No boardLayout or moves provided'
+      layout = getBoardLayout(moves)
+    }
+    const buffer = await getBoardBase64(layout, playerColor, config)
     if (dataOnly) {
       return {
         statusCode: 200,
-        body: boardBase64,
+        body: buffer.toString('base64'),
       }
     }
-    const buffer = Buffer.from(boardBase64.split('base64,')[1], 'base64')
     return {
-      headers: { 'Content-Type': 'image/jpeg' },
       statusCode: 200,
+      headers: { 'Content-Type': 'image/jpeg' },
       body: buffer,
     }
   } catch (e) {
@@ -37,7 +41,7 @@ export const handler = async (event) => {
     return {
       statusCode: 500, // Always return 200
       body: {
-        message: 'Internal server error',
+        message: `Internal server error ${e}`,
       },
     }
   }

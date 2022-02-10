@@ -13,9 +13,9 @@ describe('metrics function', () => {
 
     const result = await handler(httpEvent)
     console.log(result)
-    const base64 = await result.body
-    console.log(base64)
-    fs.writeFile('deleteme.png', base64, (e) => e && console.log(e))
+    const buffer = await result.body
+    console.log(buffer)
+    fs.writeFile('deleteme.png', buffer, (e) => e && console.log(e))
 
     expect(result.statusCode).toBe(200)
   })

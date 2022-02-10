@@ -15,43 +15,37 @@ const PINATA_API_KEY = process.env.PINATA_API_KEY
 const PINATA_API_SECRET_KEY = process.env.PINATA_API_SECRET_KEY
 const TOKEN_URI_DOMAIN = process.env.APP_DOMAIN
 
-const fetchCardScreenshotBase64 = async (url) => {
+const fetchScreenshotBase64Buffer = async (url) => {
   const target = `${process.env.APP_DOMAIN}/api/screenshot?url=${url}`
   const result = await fetch(target)
-  console.log(result)
   if (result.status !== 200) throw "Couldn't get card snapshot"
-  const base64 = await result.body
-  // console.log(buffer)
-  // const screenshotBase64 = buffer.toString('base64')
-  // TODO: remove this!
-  console.log(base64)
-  fs.writeFile(
-    'deleteme-snapshotBase64.png',
-    base64,
-    (e) => e && console.log(e)
-  )
-  return base64
+  const buffer = await result.buffer()
+  return buffer
 }
 
 const pinFile = async (blob, filename) => {
-  if (!filename) throw 'No filename provided'
-  let form = new FormData()
-  form.append('file', blob, { filepath: filename })
-  form.append('pinataMetadata', JSON.stringify({ name: filename }))
-  const response = await fetch(`${PINATA_API_URL}/pinning/pinFileToIPFS`, {
-    method: 'post',
-    body: form,
-    maxContentLength: -1,
-    headers: {
-      'Content-Type': `multipart/form-data; boundary=${form._boundary}`,
-      pinata_api_key: PINATA_API_KEY,
-      pinata_secret_api_key: PINATA_API_SECRET_KEY,
-    },
-  }).then((res) => {
-    return res.json()
-  })
-  if (!response.IpfsHash) throw `Couldn't pin file: ${blob}`
-  return `ipfs://${response.IpfsHash}`
+  try {
+    if (!filename) throw 'No filename provided'
+    let form = new FormData()
+    form.append('file', blob, { filepath: filename })
+    form.append('pinataMetadata', JSON.stringify({ name: filename }))
+    const response = await fetch(`${PINATA_API_URL}/pinning/pinFileToIPFS`, {
+      method: 'post',
+      body: form,
+      maxContentLength: -1,
+      headers: {
+        'Content-Type': `multipart/form-data; boundary=${form._boundary}`,
+        pinata_api_key: PINATA_API_KEY,
+        pinata_secret_api_key: PINATA_API_SECRET_KEY,
+      },
+    }).then((res) => {
+      return res.json()
+    })
+    if (!response.IpfsHash) throw `Couldn't pin file: ${blob}`
+    return `ipfs://${response.IpfsHash}`
+  } catch (e) {
+    throw `pinFile() ${e}`
+  }
 }
 
 const pinJson = async (jsonString) => {
@@ -94,6 +88,7 @@ export const pinTreasure = async ({ treasure, tcn }) => {
       treasure.winner,
       config
     )
+    console.log(boardBase64)
     // Generate the HTML
     const htmlString = await getCardHtml({
       treasure: { ...treasure, achievements: achievementNames },
@@ -108,17 +103,15 @@ export const pinTreasure = async ({ treasure, tcn }) => {
     // TODO: Get the static board image
     // Generate snapshot of card  @ final position
     // Upload the snapshot of the whole card
-    const snapshotUrl = escape(
-      'https://chess.mypinata.cloud/ipfs/' + animation_url.split('ipfs://')[1]
+    const screenshotUrl = escape(
+      'https://chess.mypinata.cloud/ipfs/' +
+        animation_url.split('ipfs://')[1] +
+        '?static=true'
     )
-    const snapshotBase64 = await fetchCardScreenshotBase64(snapshotUrl)
+    const screenshotBuffer = await fetchScreenshotBase64Buffer(screenshotUrl)
 
-    // TODO: ensure file extension is correct
-    const image = await pinFile(
-      `data:image/png;base64,${snapshotBase64}`,
-      `${treasure.id}.png`
-    )
-
+    const image = await pinFile(screenshotBuffer, `${treasure.id}.png`)
+    console.log(image)
     const attributes = getAttributes({ ...treasure, achievementNames })
 
     const uriData = {

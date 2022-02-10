@@ -22,17 +22,14 @@ export const handler = async (event, _context) => {
     })
 
     const page = await context.newPage()
-    await page.goto(url, {
-      waitUntil: 'networkidle',
-    })
+    await page.goto(url)
     const buffer = await page.locator('body > div').screenshot()
-
     return {
       statusCode: 200,
       headers: {
         'Content-Type': 'image/png',
       },
-      body: buffer.toString('base64'),
+      body: buffer,
     }
   } catch (error) {
     console.log(error)

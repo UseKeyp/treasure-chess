@@ -5308,10 +5308,10 @@
   dependencies:
     chess.js "^0.12.0"
 
-"@treasure-chess/chess-image-generator@1.5.3", "@treasure-chess/chess-image-generator@^1.5.3":
-  version "1.5.3"
-  resolved "https://registry.npmjs.org/@treasure-chess/chess-image-generator/-/chess-image-generator-1.5.3.tgz#56261dd6b16ec865b83f6e473cad5b91a6d0ec54"
-  integrity sha512-RRG+KKf9DJzl7a9bAdW05vQ2eKCYBQ3vJ+2NHlK2IDDG86k+gT1/FTRpBZ+DFBBsb0OorJJuQdMXC1mFe4WkYA==
+"@treasure-chess/chess-image-generator@1.5.4", "@treasure-chess/chess-image-generator@^1.5.4":
+  version "1.5.4"
+  resolved "https://registry.npmjs.org/@treasure-chess/chess-image-generator/-/chess-image-generator-1.5.4.tgz#c1875c5e381b944871afcf5ea7be57410db7e284"
+  integrity sha512-DumhO3ga/9zF7R5E4bnRUfoga6E9iYxf0F35UOFPvxkeqsDRBj3IJ7xSxcw0qPdPP+YtRU5fEuZeBCxgi5RzeQ==
   dependencies:
     "@napi-rs/canvas" "^0.1.19"
     canvas "^2.9.0"

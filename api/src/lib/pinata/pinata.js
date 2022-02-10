@@ -8,8 +8,6 @@ import { getAchievementNamesFromValues } from '@treasure-chess/treasure-filters'
 import { getDescription, getAttributes } from 'src/lib/pinata/helpers'
 import { getGifBase64 } from 'src/lib/chessCom/gifGetter'
 
-const { getBoardBase64 } = require('@treasure-chess/chess-image-generator')
-
 const PINATA_API_URL = 'https://api.pinata.cloud'
 const PINATA_API_KEY = process.env.PINATA_API_KEY
 const PINATA_API_SECRET_KEY = process.env.PINATA_API_SECRET_KEY
@@ -86,7 +84,7 @@ export const pinTreasure = async ({ treasure, tcn }) => {
     )
 
     const boardBuffer = await fetchBoardBase64Buffer({
-      boardLayout: treasure.boardLayout,
+      boardLayout: JSON.parse(treasure.boardLayout),
       playerColor: treasure.winner,
     })
 

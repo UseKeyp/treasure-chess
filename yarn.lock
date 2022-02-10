@@ -5308,18 +5308,10 @@
   dependencies:
     chess.js "^0.12.0"
 
-"@treasure-chess/chess-image-generator@1.4.8":
-  version "1.4.8"
-  resolved "https://registry.npmjs.org/@treasure-chess/chess-image-generator/-/chess-image-generator-1.4.8.tgz#46bee8e644ac88b3489aa240db0f38e846da7acb"
-  integrity sha512-UHebQL7I0HRwiADpMfY8s9O9zne/OzSDMMB8KsBYtqGMS0MWu4skDjlbofQggbj4IpCJ4fAI+bcZTe8PSG9L2g==
-  dependencies:
-    canvas "^2.8.0"
-    chess.js "^0.10.2"
-
-"@treasure-chess/chess-image-generator@^1.5.1":
-  version "1.5.1"
-  resolved "https://registry.npmjs.org/@treasure-chess/chess-image-generator/-/chess-image-generator-1.5.1.tgz#254a3846c9d95a0a8ff671bbde44460baae61d82"
-  integrity sha512-/PeBXzfMmghgfjE1LwD3UnCC/BHzQzwELiuxkeToFfBWQX6fc55/jJazyKAdAVj50xb+BW7peK8My5l7wZhk9g==
+"@treasure-chess/chess-image-generator@1.5.3", "@treasure-chess/chess-image-generator@^1.5.3":
+  version "1.5.3"
+  resolved "https://registry.npmjs.org/@treasure-chess/chess-image-generator/-/chess-image-generator-1.5.3.tgz#56261dd6b16ec865b83f6e473cad5b91a6d0ec54"
+  integrity sha512-RRG+KKf9DJzl7a9bAdW05vQ2eKCYBQ3vJ+2NHlK2IDDG86k+gT1/FTRpBZ+DFBBsb0OorJJuQdMXC1mFe4WkYA==
   dependencies:
     "@napi-rs/canvas" "^0.1.19"
     canvas "^2.9.0"
@@ -8086,7 +8078,7 @@ canvas-confetti@1.4.0:
   resolved "https://registry.npmjs.org/canvas-confetti/-/canvas-confetti-1.4.0.tgz#840f6db4a566f8f32abe28c00dcd82acf39c92bd"
   integrity sha512-S18o4Y9PqI/uabdlT/jI3MY7XBJjNxnfapFIkjkMwpz6qNxLFZOm2b22OMf4ZYDL9lpNWI+Ih4fEMVPwO1KHFQ==
 
-canvas@^2.8.0, canvas@^2.9.0:
+canvas@^2.9.0:
   version "2.9.0"
   resolved "https://registry.npmjs.org/canvas/-/canvas-2.9.0.tgz#7df0400b141a7e42e597824f377935ba96880f2a"
   integrity sha512-0l93g7uxp7rMyr7H+XRQ28A3ud0dKIUTIEkUe1Dxh4rjUYN7B93+SjC3r1PDKA18xcQN87OFGgUnyw7LSgNLSQ==

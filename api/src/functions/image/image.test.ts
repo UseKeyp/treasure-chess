@@ -57,7 +57,9 @@ describe('image serverless function', () => {
     })
 
     const result = await handler(httpEvent)
-    const buffer = await result.body
+    console.log(result)
+
+    const buffer = result.body
     fs.writeFile('deleteme.png', buffer, (e) => e && console.log(e))
 
     expect(result.statusCode).toBe(200)

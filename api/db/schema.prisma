@@ -242,6 +242,9 @@ enum Termination {
   Abandoned
   Timeout
 }
+enum Deleteme {
+  Foo
+}
 
 enum MasterTitle {
   GM

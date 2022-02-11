@@ -100,8 +100,6 @@ const MarketProvider = ({ children }) => {
         amount,
         shouldPoll,
       })
-      console.log(current.buyerId)
-      console.log(current)
       if (currentUser.id === current.sellerId) {
         // Toast list/unlist/gift
         if (current.listTx?.status === FAILED) return toastAction(FAILED)

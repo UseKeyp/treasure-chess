@@ -4,6 +4,7 @@ import { db } from 'src/lib/db'
 import { checkGasAndAirdrop } from 'src/lib/web3/airdrop'
 import { getUsdcBalance } from 'src/lib/web3/tokens'
 import { getTxStatus, getSaleTxStatus } from 'src/lib/web3'
+import { fetchMember } from 'src/lib/members'
 import { list, unlist, buy } from 'src/lib/web3/treasureMarket'
 
 const PENDING_LISTED = 'PENDING_LISTED'
@@ -130,35 +131,30 @@ export const processPendingMarketTransactions = async ({ treasure }) => {
         const newStatus = await getSaleTxStatus(tx.id)
         if (newStatus?.status && newStatus.status !== tx.status) {
           // if (newStatus?.status) {
-          tx = await db.transaction.update({
-            where: { id: tx.id },
-            data: { status: newStatus.status },
-          })
-          if (tx.status === COMPLETE) {
+          if (newStatus.status === COMPLETE) {
             if (treasure.tokenId !== newStatus.tokenId) return // Could happen in weird edge case?
-            const buyer = await db.member.findUnique({
+            let buyer = await db.member.findUnique({
               where: { address: newStatus.buyerAddress },
             })
-            let buyerId = buyer.id
-
-            if (!buyer) {
-              console.log('external buyer!')
-              console.log(newStatus.buyerAddress)
-              // TODO:  create external user
-            }
-
+            // Create external wallet buyer
+            if (!buyer) buyer = await fetchMember(newStatus.buyerAddress)
+            return currentMarketSale
             newMarketSale = await db.marketSale.update({
               where: { id: currentMarketSale.id },
               data: {
                 status: SOLD,
                 isClosed: true,
-                buyer: { connect: { id: buyerId } },
+                buyer: { connect: { id: buyer.id } },
                 treasure: {
                   update: {
-                    owner: { connect: { id: buyerId } },
+                    owner: { connect: { id: buyer.id } },
                   },
                 },
               },
+            })
+            await db.transaction.update({
+              where: { id: tx.id },
+              data: { status: newStatus.status },
             })
           } else if (tx.status === FAILED) {
             // newMarketSale = await db.marketSale.update({

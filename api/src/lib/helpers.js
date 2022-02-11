@@ -6,7 +6,7 @@ const Chess = chess.Chess
 const profanityFilter = new ProfanityFilter()
 
 export const isHexAddress = (address) => {
-  return /^(0x)?[0-9a-f]{40}$/i.test(address)
+  return /^0x[0-9a-fA-F]{40}$/i.test(address)
 }
 
 export const isDevelopment =

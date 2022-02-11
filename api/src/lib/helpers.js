@@ -1,5 +1,7 @@
 import ProfanityFilter from 'bad-words'
 import { EnvelopError } from '@envelop/core'
+const chess = require('chess.js')
+Chess = chess.Chess
 
 const profanityFilter = new ProfanityFilter()
 
@@ -32,4 +34,21 @@ export const validateTreasureTitle = (string) => {
     throw new Error(
       `Only alphanumeric characters, emojis, and the symbols !@#$%^&*()+=-[]\\/|';,.{}":<>? are allowed.`
     )
+}
+
+/**
+ * Loads PGN into chess.js object,  and calculates the location pieces
+ * @param {string} pgn Chess game PGN
+ */
+export const getBoardLayout = (pgn) => {
+  const chess = new Chess()
+  chess.load_pgn(pgn)
+  const boardLayout = {}
+  ;['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'].map((col) => {
+    new Array(8).fill(null).map((_, i) => {
+      const piece = chess.get(col + (i + 1))
+      if (piece) boardLayout[col + (i + 1)] = piece
+    })
+  })
+  return boardLayout
 }

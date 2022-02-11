@@ -1,7 +1,7 @@
 import ProfanityFilter from 'bad-words'
 import { EnvelopError } from '@envelop/core'
 const chess = require('chess.js')
-Chess = chess.Chess
+const Chess = chess.Chess
 
 const profanityFilter = new ProfanityFilter()
 

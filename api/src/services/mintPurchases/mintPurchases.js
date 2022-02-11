@@ -2,6 +2,7 @@ import { EnvelopError } from '@envelop/core'
 
 import { db } from 'src/lib/db'
 import { checkGasAndAirdrop } from 'src/lib/web3/airdrop'
+import { checkAndSetMarketApprovals } from 'src/lib/web3/treasureMarket'
 import {
   validateMintRequest,
   processPendingPurchases,
@@ -33,6 +34,7 @@ export const mintWithCredit = async ({ gameId, endTime, title }) => {
     })
     try {
       await checkGasAndAirdrop({ member: context.currentUser })
+      await checkAndSetMarketApprovals({ member: context.currentUser })
     } catch {
       // Do nothing
     }

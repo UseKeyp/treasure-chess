@@ -78,28 +78,3 @@ export const totalSupply = async () => {
   const supply = await treasureContract.getTotalGames()
   return supply.toString()
 }
-
-export const checkAndSetMarketApproval = async ({ member }) => {
-  try {
-    const treasureContract = getTreasureContract()
-    const isApprovedForAll = await treasureContract.isApprovedForAll(
-      member.address,
-      process.env.CONTRACT_ADDRESS_TREASURE_MARKET
-    )
-    if (!isApprovedForAll) {
-      const unsignedTx =
-        await treasureContract.populateTransaction.setApprovalForAll(
-          process.env.CONTRACT_ADDRESS_TREASURE_MARKET,
-          true
-        )
-      const tx = await memberSendTransaction({
-        memberId: member.id,
-        unsignedTx,
-      })
-      return tx
-    }
-    return null
-  } catch (e) {
-    throw new Error(`checkAndSetMarketApproval() ${e}`)
-  }
-}

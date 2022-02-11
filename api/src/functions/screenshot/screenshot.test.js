@@ -16,8 +16,8 @@ describe('metrics function', () => {
     console.log(result)
     const buffer = await result.body
     console.log(buffer)
-    /* eslint-enable no-console */
     fs.writeFile('deleteme.png', buffer, (e) => e && console.log(e))
+    /* eslint-enable no-console */
 
     expect(result.statusCode).toBe(200)
   })

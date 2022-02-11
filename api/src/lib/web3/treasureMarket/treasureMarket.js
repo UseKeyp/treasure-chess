@@ -3,7 +3,8 @@ import { Contract } from '@ethersproject/contracts'
 import { memberSendTransaction } from 'src/lib/web3/member'
 import { parseUnits } from '@ethersproject/units'
 import { web3Provider } from 'src/lib/web3/helpers'
-import { checkAndSetMarketApproval } from 'src/lib/web3/treasure'
+import { getTreasureContract } from 'src/lib/web3/treasure'
+import { getTokenContract } from 'src/lib/web3/tokens'
 
 export const getTreasureMarketContract = () => {
   try {
@@ -19,10 +20,54 @@ export const getTreasureMarketContract = () => {
   }
 }
 
+export const checkAndSetMarketApprovals = async ({ member }) => {
+  try {
+    let treasureApprovalTx
+    let tokenApprovalTx
+    // Approve spending Treasure
+    const treasureContract = getTreasureContract()
+    const isApprovedForAllTreasures = await treasureContract.isApprovedForAll(
+      member.address,
+      process.env.CONTRACT_ADDRESS_TREASURE_MARKET
+    )
+    if (!isApprovedForAllTreasures) {
+      const unsignedTx =
+        await treasureContract.populateTransaction.setApprovalForAll(
+          process.env.CONTRACT_ADDRESS_TREASURE_MARKET,
+          true
+        )
+      treasureApprovalTx = await memberSendTransaction({
+        memberId: member.id,
+        unsignedTx,
+      })
+    }
+    // Approve spending ERC20
+    const tokenContract = getTokenContract()
+    const allowance = await tokenContract.allowance(
+      member.address,
+      process.env.CONTRACT_ADDRESS_TREASURE_MARKET
+    )
+    const ONE_BILLION_BN = parseUnits('1000000000', 18)
+    if (allowance.lt(ONE_BILLION_BN)) {
+      const unsignedTx = await tokenContract.populateTransaction.approve(
+        process.env.CONTRACT_ADDRESS_TREASURE_MARKET,
+        ONE_BILLION_BN
+      )
+      tokenApprovalTx = await memberSendTransaction({
+        memberId: member.id,
+        unsignedTx,
+      })
+    }
+    return { tokenApprovalTx, treasureApprovalTx }
+  } catch (e) {
+    throw new Error(`checkAndSetMarketApproval() ${e}`)
+  }
+}
+
 export const list = async ({ treasure, amount }) => {
   try {
     if (!treasure) throw 'No treasure provided'
-    await checkAndSetMarketApproval({ member: treasure.owner })
+    await checkAndSetMarketApprovals({ member: treasure.owner })
 
     const treasureMarketContract = getTreasureMarketContract()
     const unsignedTx =
@@ -46,7 +91,7 @@ export const list = async ({ treasure, amount }) => {
 export const unlist = async ({ treasure }) => {
   try {
     if (!treasure) throw 'No treasure provided'
-    await checkAndSetMarketApproval({ member: treasure.owner })
+    await checkAndSetMarketApprovals({ member: treasure.owner })
 
     const treasureMarketContract = getTreasureMarketContract()
     const unsignedTx =
@@ -68,7 +113,7 @@ export const unlist = async ({ treasure }) => {
 export const buy = async ({ treasure }) => {
   try {
     if (!treasure) throw 'No treasure provided'
-    await checkAndSetMarketApproval({ member: treasure.owner })
+    await checkAndSetMarketApprovals({ member: context.currentUser })
 
     const treasureMarketContract = getTreasureMarketContract()
     const unsignedTx =
@@ -77,7 +122,7 @@ export const buy = async ({ treasure }) => {
         process.env.CONTRACT_ADDRESS_PAYMENT_TOKEN
       )
     const tx = await memberSendTransaction({
-      memberId: treasure.ownerId,
+      memberId: context.currentUser.id,
       unsignedTx,
     })
     return tx

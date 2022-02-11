@@ -141,6 +141,7 @@ export const schema = gql`
 
   enum Termination {
     Checkmate
+    Timeout
     Resignation
     Stalemate
     Time

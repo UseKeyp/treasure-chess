@@ -36,7 +36,7 @@ export const handler = async (event, _context) => {
     /* eslint-enable no-console */
     Sentry.captureException(e)
     return {
-      statusCode: 500, // Always return 200
+      statusCode: 500,
       body: {
         message: 'Internal server error',
       },

@@ -8,7 +8,6 @@ export const QUERY = gql`
       id
       username
       address
-      rating
       imageSrc
       country
       masterTitle

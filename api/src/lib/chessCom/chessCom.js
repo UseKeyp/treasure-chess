@@ -48,8 +48,8 @@ export const fetchRatingDelta = async (id) => {
     return res.json()
   })
   return {
-    white: response.game.ratingChangeWhite,
-    black: response.game.ratingChangeBlack,
+    white: response.game.ratingChangeWhite || 0,
+    black: response.game.ratingChangeBlack || 0,
   }
 }
 

@@ -30,8 +30,11 @@ jobs:
         run: |
           PREFIX=$NODE_ENV
           REDWOOD_API_URL=https://treasure.gcp-staging.chess-platform.com
+          APP_DOMAIN=https://treasure.gcp-staging.chess-platform.com
+          ETHEREUM_NETWORK_NAME=matic
           if [ $PREFIX == "prod" ] ; then
              REDWOOD_API_URL=https://treasure.chess.com
+             APP_DOMAIN=https://treasure.chess.com
           fi
           IMAGE_TAG=$PREFIX-$(echo $GITHUB_SHA | cut -c 1-7)
           IMAGE_NAME=$(echo $GITHUB_REPOSIOTORY | cut -c 12-)
@@ -45,6 +48,8 @@ jobs:
               docker build -t $PROJECT_NAME/$IMAGE_NAME-$COMPONENT:$IMAGE_TAG \
                 --build-arg NODE_ENV=$NODE_ENV \
                 --build-arg REDWOOD_API_URL=$REDWOOD_API_URL \
+                --build-arg APP_DOMAIN=$APP_DOMAIN \
+                --build-arg ETHEREUM_NETWORK_NAME=$ETHEREUM_NETWORK_NAME \
                  -f ./$COMPONENT/Dockerfile .
 
               echo "pushing image... $PROJECT_NAME/$IMAGE_NAME:$IMAGE_TAG"

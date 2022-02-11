@@ -77,7 +77,7 @@ export const handleOauthCodeGrant = async ({ state, code }) => {
       },
     })
 
-    // NOTE: Get Torus wallet address if needed
+    // NOTE: Get Torus wallet address if needed.
     if (!member.address) {
       try {
         const publicAddress = await getTorusPublicAddress(member.id)

@@ -135,7 +135,12 @@ const MintingProvider = ({ children }) => {
   }
 
   const mint = async ({ title, gameId, endTime }) => {
-    setState({ ...state, mintLoading: true, mintError: false })
+    await setState({
+      ...state,
+      mintStatus: MINT_STATUS_MINTING,
+      mintLoading: true,
+      mintError: false,
+    })
     if (mintCreditBalance < 1) {
       try {
         const { data: { mintCheckoutUrl } = {} } =

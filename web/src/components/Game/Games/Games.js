@@ -52,7 +52,7 @@ const Games = ({ games, isLoading }) => {
   }
 
   const getItems = () => {
-    if (!activeGame && mintStatus === MINT_STATUS_MINTING)
+    if (mintStatus === MINT_STATUS_MINTING)
       return (
         <div className="games-history-list__status">
           Your Treasure is being minted.

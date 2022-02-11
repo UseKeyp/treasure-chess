@@ -29,6 +29,10 @@ const validateCreateNewListingRequest = ({ treasure, amount }) => {
     !currentMarketSale.isClosed
   )
     throw new EnvelopError(`This Treasure is already listed.`)
+  if (!treasure.white.address || !treasure.black.address)
+    throw new EnvelopError(
+      `Both players must sign-in before this Treasure can be listed.`
+    )
 }
 
 const validateRemoveListingRequest = ({ treasure }) => {

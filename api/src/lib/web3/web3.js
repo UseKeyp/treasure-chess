@@ -171,6 +171,30 @@ export const getMintTxStatus = async ({ mintPurchase }) => {
     throw `getMintTxStatus() ${e}`
   }
 }
+export const getSaleTxStatus = async ({ mintPurchase }) => {
+  try {
+    if (mintPurchase.txStatus === SUBMITTED) {
+      const receipt = await getTxReceipt(mintPurchase.txHash)
+
+      if (receipt?.status === 0) {
+        return { status: FAILED }
+      } else if (receipt?.status == 1 && receipt?.confirmations >= 1) {
+        const log = getLogByTopic({
+          logs: receipt.logs,
+          topic:
+            '0x106687a5763ca3a7dc8103c314927515b5a78bb3523d14a54b213bb47b39c6bf',
+        })
+        return {
+          status: COMPLETE,
+          tokenId: Number(`0x${log.data.substring(66, 130)}`),
+        }
+      }
+    }
+    return { status: mintPurchase.txStatus }
+  } catch (e) {
+    throw `getMintTxStatus() ${e}`
+  }
+}
 
 export const transferTreasure = async ({ recipient, _treasureId }) => {
   try {

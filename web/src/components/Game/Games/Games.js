@@ -51,18 +51,8 @@ const Games = ({ games, isLoading }) => {
     })
   }
 
-  const getItems = () => {
-    if (mintStatus === MINT_STATUS_MINTING)
-      return (
-        <div className="games-history-list__status">
-          Your Treasure is being minted.
-          <div className="games-history-list__loading-status">
-            This can take up to 3 minutes.
-            <LoadingDots className="ml-2" />
-          </div>
-        </div>
-      )
-    return games.map((game) => {
+  const getItems = () =>
+    games.map((game) => {
       const outcome = getOutcomeText({
         username: currentUser?.username,
         game,
@@ -80,7 +70,6 @@ const Games = ({ games, isLoading }) => {
         />
       )
     })
-  }
 
   React.useEffect(() => {
     setGamesContext({ ...gamesContext, gameTitle: '' })

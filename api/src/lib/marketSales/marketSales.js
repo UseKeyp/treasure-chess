@@ -3,7 +3,7 @@ import { EnvelopError } from '@envelop/core'
 import { db } from 'src/lib/db'
 import { checkGasAndAirdrop } from 'src/lib/web3/airdrop'
 import { getUsdcBalance } from 'src/lib/web3/tokens'
-import { getTxStatus } from 'src/lib/web3'
+import { getTxStatus, getSaleTxStatus } from 'src/lib/web3'
 import { list, unlist, buy } from 'src/lib/web3/treasureMarket'
 
 const PENDING_LISTED = 'PENDING_LISTED'
@@ -74,7 +74,7 @@ export const processPendingMarketTransactions = async ({ treasure }) => {
     // marketSales marked completed are not re-checked
     let currentMarketSale = treasure.marketSales[0]
     if (!currentMarketSale) return treasure
-    let transactions = {}
+    let transactions = { saleTransactions: [] }
     let newMarketSale = currentMarketSale
 
     // List and Unlist transactions
@@ -127,7 +127,7 @@ export const processPendingMarketTransactions = async ({ treasure }) => {
     await Promise.all(
       currentMarketSale.saleTransactions.map(async (tx, index) => {
         // Check them all
-        const newStatus = await getTxStatus(tx.id)
+        const newStatus = await getSaleTxStatus(tx.id)
         if (newStatus !== tx.status) {
           tx = await db.transaction.update({
             where: { id: tx.id },
@@ -138,6 +138,11 @@ export const processPendingMarketTransactions = async ({ treasure }) => {
               where: { id: currentMarketSale.id },
               data: { status: SOLD, isClosed: true },
             })
+            // TODO:  update owner in the database
+            // await db.treasure.update({
+            //   where: { id: currentMarketSale.id },
+            //   data: { status: SOLD, isClosed: true },
+            // })
           } else if (tx.status === FAILED) {
             // newMarketSale = await db.marketSale.update({
             //   where: { id: currentMarketSale.id },

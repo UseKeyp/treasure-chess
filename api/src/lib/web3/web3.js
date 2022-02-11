@@ -154,7 +154,10 @@ export const getMintTxStatus = async ({ mintPurchase }) => {
 
       if (receipt?.status === 0) {
         return { status: FAILED }
-      } else if (receipt?.status == 1 && receipt?.confirmations >= 1) {
+      } else if (
+        receipt?.status == 1 &&
+        receipt?.confirmations >= MINIMUM_CONFIRMATIONS
+      ) {
         const log = getLogByTopic({
           logs: receipt.logs,
           topic:
@@ -171,28 +174,29 @@ export const getMintTxStatus = async ({ mintPurchase }) => {
     throw `getMintTxStatus() ${e}`
   }
 }
-export const getSaleTxStatus = async ({ mintPurchase }) => {
+export const getSaleTxStatus = async (txHash) => {
   try {
-    if (mintPurchase.txStatus === SUBMITTED) {
-      const receipt = await getTxReceipt(mintPurchase.txHash)
+    const receipt = await getTxReceipt(txHash)
 
-      if (receipt?.status === 0) {
-        return { status: FAILED }
-      } else if (receipt?.status == 1 && receipt?.confirmations >= 1) {
-        const log = getLogByTopic({
-          logs: receipt.logs,
-          topic:
-            '0x106687a5763ca3a7dc8103c314927515b5a78bb3523d14a54b213bb47b39c6bf',
-        })
-        return {
-          status: COMPLETE,
-          tokenId: Number(`0x${log.data.substring(66, 130)}`),
-        }
+    if (receipt?.status === 0) {
+      return { status: FAILED }
+    } else if (
+      receipt?.status == 1 &&
+      receipt?.confirmations >= MINIMUM_CONFIRMATIONS
+    ) {
+      const log = getLogByTopic({
+        logs: receipt.logs,
+        topic:
+          '0x8652ee85f1e21c57e45f7228891f53ae2e89cbfa645c174c3e6630be914a2bb5',
+      })
+      return {
+        status: COMPLETE,
+        tokenId: Number(`0x${log.data.substring(66, 130)}`),
+        buyer: `0x${log.data.substring(154, 194)}`,
       }
     }
-    return { status: mintPurchase.txStatus }
   } catch (e) {
-    throw `getMintTxStatus() ${e}`
+    throw `getSaleTxStatus() ${e}`
   }
 }
 

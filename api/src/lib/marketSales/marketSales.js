@@ -128,21 +128,21 @@ export const processPendingMarketTransactions = async ({ treasure }) => {
       currentMarketSale.saleTransactions.map(async (tx, index) => {
         // Check them all
         const newStatus = await getSaleTxStatus(tx.id)
-        if (newStatus !== tx.status) {
+        if (newStatus.status !== tx.status) {
           tx = await db.transaction.update({
             where: { id: tx.id },
-            data: { status: newStatus },
+            data: { status: newStatus.status },
           })
           if (tx.status === COMPLETE) {
             newMarketSale = await db.marketSale.update({
               where: { id: currentMarketSale.id },
               data: { status: SOLD, isClosed: true },
             })
-            // TODO:  update owner in the database
-            // await db.treasure.update({
-            //   where: { id: currentMarketSale.id },
-            //   data: { status: SOLD, isClosed: true },
-            // })
+            if (treasure.tokenId !== newStatus.tokenId) return // Could happen in weird edge case?
+            await db.treasure.update({
+              where: { tokenId: treasure.tokenId },
+              data: { owner: newStatus.buyer },
+            })
           } else if (tx.status === FAILED) {
             // newMarketSale = await db.marketSale.update({
             //   where: { id: currentMarketSale.id },

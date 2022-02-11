@@ -1,6 +1,6 @@
 import FormData from 'form-data'
 import fetch from 'cross-fetch'
-import fs from 'fs'
+import { logger } from 'src/lib/logger'
 
 import { getCardHtml } from '@treasure-chess/treasure-html'
 import { getAchievementNamesFromValues } from '@treasure-chess/treasure-filters'
@@ -122,20 +122,22 @@ export const pinTreasure = async ({ treasure, tcn }) => {
     }
     const stringifiedUriData = JSON.stringify(uriData)
     const tokenUri = await pinJson(stringifiedUriData)
-    console.log({
+    /* eslint-disable no-console */
+    logger.info({
       animation_url:
         'https://chess.mypinata.cloud/ipfs/' +
         animation_url.split('ipfs://')[1] +
         '?static=true',
     })
-    console.log({
+    logger.info({
       image: 'https://chess.mypinata.cloud/ipfs/' + image.split('ipfs://')[1],
     })
-    console.log({
+    logger.info({
       tokenUri:
         'https://chess.mypinata.cloud/ipfs/' + tokenUri.split('ipfs://')[1],
     })
-    throw 'foo'
+    /* eslint-enable no-console */
+
     return { tokenUri, uriData: stringifiedUriData }
   } catch (e) {
     throw `pinTreasure() ${e}`

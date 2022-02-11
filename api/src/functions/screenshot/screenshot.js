@@ -32,8 +32,10 @@ export const handler = async (event, _context) => {
       body: buffer,
     }
   } catch (error) {
+    /* eslint-disable no-console */
     console.log(error)
     console.log(event)
+    /* eslint-enable no-console */
     Sentry.captureException(error)
     return {
       statusCode: 500,

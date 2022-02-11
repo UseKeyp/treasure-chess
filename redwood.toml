@@ -16,7 +16,7 @@
     "ETHEREUM_NETWORK_NAME",
     "REDWOOD_API_URL",
     "BASIC_AUTH_PASSWORD",
-    "NODE_ENV"
+    "NODE_ENV",
   ]
 [api]
   port = 8911

@@ -62,9 +62,11 @@ const getOrderedUsers = (treasure) => {
 // Pass gifBase64 to get the final HTML to pin to IPFS
 // OR pass gifUrl to fetch a smaller HTML file for the Frontend
 // gifUrl version should load faster, b/c it delays fetching the gif
-const getCardHtml = async ({ treasure, gifBase64, gifUrl }) => {
+const getCardHtml = async ({ treasure, gifBase64, gifUrl, staticBase64 }) => {
   try {
     const doc = parser.parseFromString(card, 'text/html')
+
+    const isApp = treasure.tokenId
 
     const updateContent = (id, content, isNodeString) => {
       const element = doc.getElementById(id)
@@ -126,7 +128,7 @@ const getCardHtml = async ({ treasure, gifBase64, gifUrl }) => {
     updateTag(
       'og:url',
       'content',
-      `${APP_DOMAIN}/treasures/${treasure.tokenId}`
+      `${APP_DOMAIN}/treasures/${treasure.tokenId || treasure.id}`
     )
     updateContent('termination', treasure.termination)
     const rarityColor = getRarityColor(treasure.achievementScore)
@@ -148,6 +150,8 @@ const getCardHtml = async ({ treasure, gifBase64, gifUrl }) => {
       'href',
       `${APP_DOMAIN}/members/${bottomUser.username}`
     )
+    isApp && updateTag('bottom-username-anchor', 'target', '_self')
+    isApp && updateTag('bottom-username-anchor', 'target', '_self')
     if (!bottomUser.masterTitle)
       updateStyle('bottom-masterTitle', 'background-color', null)
     if (!topUser.masterTitle)
@@ -183,15 +187,20 @@ const getCardHtml = async ({ treasure, gifBase64, gifUrl }) => {
       'src',
       (gifBase64 && `data:image/gif;base64,${gifBase64}`) || gifUrl
     )
-    // TODO: Replace treasureBackgroundBase64 with final positions image
-    const staticImageUrl = `data:image/png;base64,${treasureBackgroundBase64}`
-    updateStyle('game-image', 'background-image', `url('${staticImageUrl}')`)
-    if (treasure.tokenId)
-      updateTag(
-        'game-anchor',
-        'href',
-        `${APP_DOMAIN}/treasures/${treasure.tokenId}`
-      )
+    updateTag(
+      'game-image-static',
+      'src',
+      `data:image/png;base64,${staticBase64}`
+    )
+    // Don't show the border except for the final html used for screenshots
+    if (!staticBase64) updateStyle('screenshot-container', 'padding', '0px')
+
+    updateTag(
+      'game-anchor',
+      'href',
+      `${APP_DOMAIN}/treasures/${treasure.tokenId || treasure.id}`
+    )
+    isApp && updateTag('game-anchor', 'target', '_self')
 
     if (treasure.achievements) {
       // Achievements
@@ -245,7 +254,7 @@ const getCardHtml = async ({ treasure, gifBase64, gifUrl }) => {
     // Footer
     updateContent(
       'match-anchor',
-      `Match #${treasure.externalUrl.split('/').pop()}`
+      `Match #${treasure.externalUrl?.split('/').pop()}`
     )
     updateTag('match-anchor', 'href', treasure.externalUrl)
     updateContent('date', formatDate(treasure.endTime))

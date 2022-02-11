@@ -1,7 +1,7 @@
-import ProfileCell from 'src/components/Profile/ProfileCell/ProfileCell'
+import Profile from 'src/components/Profile/Profile'
 
 const ProfilePage = () => {
-  return <ProfileCell />
+  return <Profile />
 }
 
 export default ProfilePage

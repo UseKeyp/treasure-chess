@@ -53,6 +53,7 @@ const GameCard = ({ game, isMinting, title, showGif }) => {
   }
 
   const fetchImageAndUpdate = async () => {
+    if (!game) return
     let boardLayout
     try {
       // TODO: properly load the board layout from BE
@@ -79,6 +80,7 @@ const GameCard = ({ game, isMinting, title, showGif }) => {
     if (!showGif) fetchImageAndUpdate()
     /* eslint-disable react-hooks/exhaustive-deps */
   }, [game])
+
   if (!isMinting && !game)
     return (
       <div className={styles.gameCardWrapper}>
@@ -90,10 +92,14 @@ const GameCard = ({ game, isMinting, title, showGif }) => {
       </div>
     )
 
+  let listAmount = 0
+  if (game.marketSales && game.marketSales[0]?.status === 'LISTED')
+    listAmount = game.marketSales[0].amount
+
   return (
-    <div className={styles.gameCardWrapper}>
-      {isMinting && (
-        <>
+    <div className={styles.container}>
+      <div className={styles.gameCardWrapper}>
+        {isMinting && (
           <div className={styles.gameCardMintingContainer}>
             <div className={styles.gameCardMintingOverlay} />
             <div className="items-center">
@@ -112,32 +118,37 @@ const GameCard = ({ game, isMinting, title, showGif }) => {
               </P>
             </div>
           </div>
-        </>
-      )}
-      <animated.div
-        id={`card_${game.id}`}
-        className={
-          game.tokenId
-            ? `${styles.gameCardHtml} ${styles.mintedCardHtml}`
-            : `${styles.gameCardHtml} ${styles.isDisabled}`
-        }
-        onMouseMove={(e) => {
-          var div = document
-            .getElementById(`card_${game.id}`)
-            .getBoundingClientRect()
-          set({
-            xys: calc(
-              e.clientX - div.left - div.width / 2,
-              e.clientY - div.top - div.height / 2
-            ),
-          })
-        }}
-        onMouseLeave={() => set({ xys: [0, 0, 1] })}
-        style={{
-          transform: game.id && !isMinting && props.xys.to(trans),
-        }}
-        dangerouslySetInnerHTML={{ __html: cardHtml }}
-      />
+        )}
+        <animated.div
+          id={`card_${game.id}`}
+          className={
+            game.tokenId
+              ? `${styles.gameCardHtml} ${styles.mintedCardHtml}`
+              : `${styles.gameCardHtml}`
+          }
+          onMouseMove={(e) => {
+            var div = document
+              .getElementById(`card_${game.id}`)
+              .getBoundingClientRect()
+            set({
+              xys: calc(
+                e.clientX - div.left - div.width / 2,
+                e.clientY - div.top - div.height / 2
+              ),
+            })
+          }}
+          onMouseLeave={() => set({ xys: [0, 0, 1] })}
+          style={{
+            transform: game.id && !isMinting && props.xys.to(trans),
+          }}
+          dangerouslySetInnerHTML={{ __html: cardHtml }}
+        />
+      </div>
+      {listAmount > 0 ? (
+        <div className={styles.priceBadge}>
+          <h2>${listAmount.toLocaleString()}</h2>
+        </div>
+      ) : null}
     </div>
   )
 }

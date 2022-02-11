@@ -3,7 +3,7 @@ export const schema = gql`
     id: Int!
     createdAt: DateTime!
     updatedAt: DateTime!
-    listedAt: DateTime!
+    listedAt: DateTime
     treasure: Treasure!
     treasureId: String!
     seller: Member!
@@ -14,8 +14,7 @@ export const schema = gql`
     listTxId: String!
     unlistTx: Transaction
     unlistTxId: String
-    saleTx: Transaction
-    saleTxId: String
+    saleTransactions: [Transaction]!
     status: MarketSaleStatus!
     isClosed: Boolean!
     amount: Int!
@@ -35,8 +34,9 @@ export const schema = gql`
   }
 
   type Mutation {
-    unlistTreasure(treasureId: String!): MarketSale! @requireAuth
-    buyTreasure(treasureId: String!): MarketSale! @requireAuth
+    listTreasure(tokenId: String!, amount: Int!): MarketSale! @requireAuth
+    unlistTreasure(tokenId: String!): MarketSale! @requireAuth
+    buyTreasure(tokenId: String!): MarketSale! @requireAuth
   }
 
   input CreateMarketSaleInput {

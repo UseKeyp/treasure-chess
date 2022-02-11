@@ -21,6 +21,8 @@ export const schema = gql`
     tokenId: Int
     mintedAt: DateTime
 
+    marketSales: [MarketSale!]!
+
     title: String!
     gifUrl: String!
     cardColor: String!
@@ -71,8 +73,9 @@ export const schema = gql`
       filter: String
       owner: String
     ): Int! @skipAuth
-    treasure(tokenId: Int!): Treasure @skipAuth
-    treasureNftDetails(tokenId: Int!): TreasureNftDetails @skipAuth
+    treasure(tokenId: String!): Treasure @skipAuth
+    treasureWithMarketSales(tokenId: String!): Treasure @skipAuth
+    treasureNftDetails(tokenId: String!): TreasureNftDetails @skipAuth
   }
 
   enum Opening {
@@ -138,6 +141,7 @@ export const schema = gql`
 
   enum Termination {
     Checkmate
+    Timeout
     Resignation
     Stalemate
     Time

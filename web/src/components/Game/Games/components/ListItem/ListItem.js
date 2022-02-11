@@ -62,7 +62,7 @@ const ListItem = ({
       return (
         <div className="games-history-list__status flex">
           <LoadingDots />
-          <div className="ml-4">Minting Treasure (~1 minute)</div>
+          <div className="ml-4">Minting (~1 minute)</div>
         </div>
       )
     if (mintStatus === MINT_STATUS_SUCCESS)

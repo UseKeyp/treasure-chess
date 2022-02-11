@@ -122,3 +122,11 @@ TODO
 - [Hardhat](https://hardhat.org)
 - [Paul R Berg Solidity Template](https://github.com/paulrberg/solidity-template)
 - [0xDanvinci upgraded hardhat template](https://github.com/0xDavinci)
+
+### Treasure Tips, Tricks, and Design Decisions
+
+- No meta transactions on the main Treasure contract, since only the admin controlled accounts can call minting function, and we only need to make transfers free.
+- contract name will be changed at the end, since we want to reserve the url /TreasureChess on third party marketplaces and don't want it scrapped if we decide to test on polygon later.
+- Overridden `approveForAll` check so that OpenSea and our marketplace do not require an approval transaction for use.
+- Achievements are on-chain and also can be part of json URI so make it something that on-chain governance can decide
+- The `Owner` should be updated to a multi-sig wallet (gnosis safe) controlled by the dev team, possibly a lawyer + a DAO for tiebreakers, while `Admins` should be internal addresses controlled

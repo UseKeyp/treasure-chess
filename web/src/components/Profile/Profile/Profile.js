@@ -1,18 +1,22 @@
+import { useAuth } from '@redwoodjs/auth'
+
 import MemberDetails from 'src/components/Member/MemberDetails'
 import MemberActivityCell from 'src/components/Member/MemberActivityCell'
 import GameExplorer from 'src/components/Game/GameExplorer'
 import TreasuresFetcher from 'src/components/Treasure/TreasuresFetcher'
 
-const Profile = ({ profile: member }) => {
+const Profile = () => {
+  const { currentUser } = useAuth()
+
   return (
     <div className="max-width-container">
       <div className="grid grid-rows-1">
         <div className="grid md:grid-cols-2 grid-cols-1 gap-10">
           <div>
-            <MemberDetails member={member} isProfile />
+            <MemberDetails member={currentUser} isProfile />
           </div>
           <div>
-            <MemberActivityCell address={member.address} />
+            <MemberActivityCell address={currentUser.address} />
           </div>
         </div>
       </div>
@@ -23,7 +27,7 @@ const Profile = ({ profile: member }) => {
       </div>
       <h1 className="mt-4">Treasures</h1>
       <div className="flex mt-4">
-        <TreasuresFetcher owner={member.username} />
+        <TreasuresFetcher owner={currentUser.username} />
       </div>
     </div>
   )

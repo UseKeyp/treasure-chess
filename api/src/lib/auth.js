@@ -13,6 +13,7 @@ export const getCurrentUser = async (session) => {
       address: true,
       imageSrc: true,
       mintCredits: true,
+      country: true,
     },
   })
   if (!member) return null
@@ -67,7 +68,7 @@ export const hasRole = ({ roles }) => {
  */
 export const requireAuth = ({ roles } = {}) => {
   if (!isAuthenticated()) {
-    throw new AuthenticationError("You don't have permission to do that.")
+    throw new AuthenticationError('You must be logged in to do that.')
   }
 
   if (!hasRole({ roles })) {

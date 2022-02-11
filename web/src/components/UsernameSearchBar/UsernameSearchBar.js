@@ -10,7 +10,7 @@ const USERNAME_QUERY = gql`
   }
 `
 
-const UsernameSearchBar = () => {
+const UsernameSearchBar = ({ setValue: setParentValue }) => {
   const { username, setFilter } = useFilter()
 
   React.useEffect(() => {
@@ -18,6 +18,7 @@ const UsernameSearchBar = () => {
   }, [username])
 
   const [value, setValue] = useState(username)
+
   const [_isValueFromSelector, setIsValueFromSelector] = useState(false)
   const [dropdownOptions, setDropdownOptions] = useState([])
 
@@ -33,7 +34,7 @@ const UsernameSearchBar = () => {
     if (value === '') return setDropdownOptions([])
     if (dropdownOptions.includes(value)) {
       // Handles when user types full username, without clicking from the dropdown
-      setFilter('username', value)
+      setParentValue ? setParentValue(value) : setFilter('username', value)
       // Prevents performing another query after selection
       return setDropdownOptions([])
     }
@@ -53,7 +54,7 @@ const UsernameSearchBar = () => {
   const onSelectUsername = (option) => {
     setIsValueFromSelector(true)
     setValue(option)
-    setFilter('username', option)
+    setParentValue ? setParentValue(option) : setFilter('username', option)
   }
 
   const onChange = (e) => {

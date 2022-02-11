@@ -37,6 +37,7 @@ export const getFlagBase64 = (code) => {
 }
 
 export const formatDate = (rawString) => {
+  if (!rawString) return ''
   const date = new Date(rawString)
   let options = { month: 'short' }
   const month = new Intl.DateTimeFormat('en-US', options).format(date)

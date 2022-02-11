@@ -12,42 +12,37 @@ export const treasuresWithFilter = ({ username, owner, sort, filter, page }) =>
 export const treasuresWithFilterCount = ({ username, owner, filter }) =>
   getTreasuresWithFilterCount({ username, filter, owner })
 
-export const treasure = async ({ tokenId }) => {
+export const treasure = ({ tokenId }) => {
+  let id
+  if (tokenId.startsWith('0x')) id = tokenId
+  return db.treasure.findUnique({
+    where: { ...(id ? { id } : { tokenId: Number(tokenId) }) },
+    include: {
+      owner: true,
+      marketSales: {
+        orderBy: { updatedAt: 'desc' },
+        take: 1,
+      },
+    },
+  })
+}
+
+// Used to get the latest market sale, without slowing down the normal query
+export const treasureWithMarketSales = async ({ tokenId }) => {
+  let id
+  if (tokenId.startsWith('0x')) id = tokenId
   const treasure = await db.treasure.findUnique({
-    where: { tokenId },
+    where: { ...(id ? { id } : { tokenId: Number(tokenId) }) },
     include: {
       marketSales: {
         orderBy: { updatedAt: 'desc' },
+        take: 2,
         include: { listTx: true, unlistTx: true, saleTransactions: true },
       },
-      owner: true,
     },
   })
+  if (!treasure) return null
   return processPendingMarketTransactions({ treasure })
-}
-
-export const treasureNftDetails = async ({ tokenId }) => {
-  const treasure = await db.treasure.findUnique({
-    where: { tokenId },
-    include: {
-      owner: true,
-      minter: true,
-    },
-  })
-  if (treasure) {
-    // TODO: pull from subgraph
-    treasure.bids = [
-      { price: '1.00', bidder: 'jschiarizzi' },
-      { price: '1.00', bidder: '0xf4b420F15d6d878dCD0Df7120Ac0fc1509ee9Cad' },
-    ]
-    // TODO: pull from subgraph. Should include bids as well
-    treasure.history = [
-      { price: '1.00', bidder: 'jschiarizzi' },
-      { price: '1.00', bidder: '0xf4b420F15d6d878dCD0Df7120Ac0fc1509ee9Cad' },
-    ]
-    return treasure
-  }
-  return null
 }
 
 export const Treasure = {

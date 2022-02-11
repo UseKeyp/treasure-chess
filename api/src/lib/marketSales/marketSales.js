@@ -3,7 +3,8 @@ import { EnvelopError } from '@envelop/core'
 import { db } from 'src/lib/db'
 import { checkGasAndAirdrop } from 'src/lib/web3/airdrop'
 import { getUsdcBalance } from 'src/lib/web3/tokens'
-import { getTxStatus } from 'src/lib/web3'
+import { getTxStatus, getSaleTxStatus } from 'src/lib/web3'
+import { fetchMember } from 'src/lib/members'
 import { list, unlist, buy } from 'src/lib/web3/treasureMarket'
 
 const PENDING_LISTED = 'PENDING_LISTED'
@@ -13,6 +14,7 @@ const SOLD = 'SOLD'
 const PENDING_DELISTED = 'PENDING_DELISTED'
 const COMPLETE = 'COMPLETE'
 const DELISTED = 'DELISTED'
+const FAILED = 'FAILED'
 
 const validateCreateNewListingRequest = ({ treasure, amount }) => {
   if (!amount || typeof amount !== 'number' || amount <= 0)
@@ -22,8 +24,16 @@ const validateCreateNewListingRequest = ({ treasure, amount }) => {
     throw new EnvelopError(`You don't own this Treasure.`)
 
   const currentMarketSale = treasure.marketSales[0]
-  if (currentMarketSale && !currentMarketSale.isClosed)
+  if (
+    currentMarketSale &&
+    currentMarketSale.status === LISTED &&
+    !currentMarketSale.isClosed
+  )
     throw new EnvelopError(`This Treasure is already listed.`)
+  if (!treasure.white.address || !treasure.black.address)
+    throw new EnvelopError(
+      `Both players must sign-in before this Treasure can be listed.`
+    )
 }
 
 const validateRemoveListingRequest = ({ treasure }) => {
@@ -65,8 +75,7 @@ export const processPendingMarketTransactions = async ({ treasure }) => {
     // marketSales marked completed are not re-checked
     let currentMarketSale = treasure.marketSales[0]
     if (!currentMarketSale) return treasure
-    if (currentMarketSale.isClosed) return treasure
-    let transactions = {}
+    let transactions = { saleTransactions: [] }
     let newMarketSale = currentMarketSale
 
     // List and Unlist transactions
@@ -85,16 +94,30 @@ export const processPendingMarketTransactions = async ({ treasure }) => {
           })
           transactions[type] = tx
 
-          if (type === 'listTx' && tx.status === COMPLETE) {
-            newMarketSale = await db.marketSale.update({
-              where: { id: currentMarketSale.id },
-              data: { status: LISTED },
-            })
-          } else if (type === 'unlistTx' && tx.status === COMPLETE) {
-            newMarketSale = await db.marketSale.update({
-              where: { id: currentMarketSale.id },
-              data: { status: DELISTED, isClosed: true },
-            })
+          if (type === 'listTx') {
+            if (tx.status === COMPLETE) {
+              newMarketSale = await db.marketSale.update({
+                where: { id: currentMarketSale.id },
+                data: { status: LISTED, isClosed: false },
+              })
+            } else if (tx.status === FAILED) {
+              // newMarketSale = await db.marketSale.update({
+              //   where: { id: currentMarketSale.id },
+              //   data: { status: DELISTED, isClosed: true },
+              // })
+            }
+          } else if (type === 'unlistTx') {
+            if (tx.status === COMPLETE) {
+              newMarketSale = await db.marketSale.update({
+                where: { id: currentMarketSale.id },
+                data: { status: DELISTED, isClosed: true },
+              })
+            } else if (tx.status === FAILED) {
+              // newMarketSale = await db.marketSale.update({
+              //   where: { id: currentMarketSale.id },
+              //   data: { status: LISTED, isClosed: false },
+              // })
+            }
           }
         }
         transactions[type] = tx
@@ -105,17 +128,37 @@ export const processPendingMarketTransactions = async ({ treasure }) => {
     await Promise.all(
       currentMarketSale.saleTransactions.map(async (tx, index) => {
         // Check them all
-        const newStatus = await getTxStatus(tx.id)
-        if (newStatus !== tx.status) {
-          tx = await db.transaction.update({
-            where: { id: tx.id },
-            data: { status: newStatus },
-          })
-          if (tx.status === COMPLETE) {
+        const newStatus = await getSaleTxStatus(tx.id)
+        if (newStatus?.status && newStatus.status !== tx.status) {
+          if (newStatus.status === COMPLETE) {
+            if (treasure.tokenId !== newStatus.tokenId) return // Could happen in weird edge case?
+            let buyer = await db.member.findUnique({
+              where: { address: newStatus.buyerAddress },
+            })
+            // Create external wallet buyer
+            if (!buyer) buyer = await fetchMember(newStatus.buyerAddress)
             newMarketSale = await db.marketSale.update({
               where: { id: currentMarketSale.id },
-              data: { status: SOLD, isClosed: true },
+              data: {
+                status: SOLD,
+                isClosed: true,
+                buyer: { connect: { id: buyer.id } },
+                treasure: {
+                  update: {
+                    owner: { connect: { id: buyer.id } },
+                  },
+                },
+              },
             })
+            await db.transaction.update({
+              where: { id: tx.id },
+              data: { status: newStatus.status },
+            })
+          } else if (tx.status === FAILED) {
+            // newMarketSale = await db.marketSale.update({
+            //   where: { id: currentMarketSale.id },
+            //   data: { status: LISTED },
+            // })
           }
         }
         transactions.saleTransactions[index] = { ...tx, status: newStatus }
@@ -146,7 +189,6 @@ export const createNewTreasureListing = async ({ treasure, amount }) => {
     }
     // Submit the transaction on behalf of the user
     const tx = await list({ treasure, amount })
-
     // Create the marketSale object
     const marketSale = await db.marketSale.create({
       data: {
@@ -228,6 +270,7 @@ export const purchaseTreasure = async ({ treasure }) => {
         },
       },
     })
+    marketSale.saleTransactions = [{ id: tx.hash }]
     return marketSale
   } catch (e) {
     /* eslint-disable-next-line no-console */

@@ -27,7 +27,7 @@ const TreasureSocial = ({ treasure }) => {
       <script
         async
         src="https://platform.twitter.com/widgets.js"
-        charset="utf-8"
+        charSet="utf-8"
       ></script>
       <script>
         {(function (d, s, id) {

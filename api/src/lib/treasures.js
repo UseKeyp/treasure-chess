@@ -162,7 +162,10 @@ export const getTreasuresWithFilter = async ({
   const treasures = await db.treasure.findMany({
     skip,
     include: {
-      marketSales: true,
+      marketSales: {
+        orderBy: { updatedAt: 'desc' },
+        take: 1,
+      },
     },
     // Taking 9 elements may cause issues if there's only <9 to take?
     take: TREASURES_PER_PAGE,

@@ -15,23 +15,29 @@ export const marketSale = ({ id }) => {
   })
 }
 
-export const listTreasure = async ({ treasureId, amount }) => {
+export const listTreasure = async ({ tokenId, amount }) => {
+  let id
+  if (tokenId.startsWith('0x')) id = tokenId
   const treasure = await db.treasure.findUnique({
-    where: { id: treasureId },
+    where: { ...(id ? { id } : { tokenId: Number(tokenId) }) },
     include: {
       marketSales: {
         orderBy: { updatedAt: 'desc' },
         include: { listTx: true, unlistTx: true, saleTransactions: true },
       },
       owner: true,
+      white: { select: { address: true } },
+      black: { select: { address: true } },
     },
   })
   return createNewTreasureListing({ treasure, amount })
 }
 
-export const unlistTreasure = async ({ treasureId }) => {
+export const unlistTreasure = async ({ tokenId }) => {
+  let id
+  if (tokenId.startsWith('0x')) id = tokenId
   const treasure = await db.treasure.findUnique({
-    where: { id: treasureId },
+    where: { ...(id ? { id } : { tokenId: Number(tokenId) }) },
     include: {
       marketSales: {
         orderBy: { updatedAt: 'desc' },
@@ -43,9 +49,11 @@ export const unlistTreasure = async ({ treasureId }) => {
   return removeTreasureListing({ treasure })
 }
 
-export const buyTreasure = async ({ treasureId }) => {
+export const buyTreasure = async ({ tokenId }) => {
+  let id
+  if (tokenId.startsWith('0x')) id = tokenId
   const treasure = await db.treasure.findUnique({
-    where: { id: treasureId },
+    where: { ...(id ? { id } : { tokenId: Number(tokenId) }) },
     include: {
       marketSales: {
         orderBy: { updatedAt: 'desc' },

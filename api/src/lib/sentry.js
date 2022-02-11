@@ -6,7 +6,7 @@ import { isProduction } from 'src/lib/helpers'
 Sentry.init({
   dsn: process.env.SENTRY_DSN,
   tracesSampleRate: 0.5,
-  environment: isProduction ? 'production' : 'development',
+  environment: process.env.NODE_ENV,
 })
 
 export default Sentry

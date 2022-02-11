@@ -2,7 +2,6 @@ import { useAuth } from '@redwoodjs/auth'
 
 import { P, H3 } from 'src/components/Typography'
 import Table from 'src/components/Table'
-import LoadingDots from 'src/components/LoadingDots'
 
 import { getOutcomeText } from 'src/utils/helpers'
 import { useMinting } from 'src/providers/minting'
@@ -11,13 +10,11 @@ import { GamesContext } from 'src/providers/games'
 
 import ListItem from './components/ListItem/ListItem'
 
-import { MINT_STATUS_MINTING } from 'src/providers/minting/constants'
-
 const TITLE = 'Games'
 
 const Games = ({ games, isLoading }) => {
   const { currentUser } = useAuth()
-  const { mint, cancelMint, mintStatus } = useMinting()
+  const { mint, cancelMint } = useMinting()
 
   const [gamesContext, setGamesContext] = React.useContext(GamesContext)
   const { activeGame } = gamesContext

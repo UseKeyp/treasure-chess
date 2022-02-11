@@ -5,7 +5,6 @@ import achievementsList from '@treasure-chess/chess-achievements/src/achievement
 
 import { adminSendTransaction } from 'src/lib/web3/admin'
 import { web3Provider } from 'src/lib/web3/helpers'
-import { memberSendTransaction } from 'src/lib/web3/member'
 
 const treasureAbi = treasureArtifact.abi
 

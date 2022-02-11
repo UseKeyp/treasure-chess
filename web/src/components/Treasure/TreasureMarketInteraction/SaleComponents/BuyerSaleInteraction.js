@@ -9,12 +9,11 @@ const BuyerSaleInteraction = () => {
   const { actionStatus, actionError, marketStatus, buy, amount } = useMarket()
   if ([null, DELISTED, SOLD].includes(marketStatus) && actionStatus !== SOLD)
     return <></>
-  console.log(actionStatus, actionError, marketStatus)
   let buttonText = 'Buy'
   if (actionStatus === PENDING_SOLD) buttonText = 'Purchase in Progress'
 
   const textColor = marketStatus === PENDING_SOLD ? 'text-black' : 'text-white'
-  const backgroundColor = actionStatus === SOLD ? 'greenDark' : 'chessBlack-200'
+  const backgroundColor = actionStatus === SOLD ? '[#47A7FF]' : 'chessBlack-200'
 
   const PurchaseButton = () => {
     if (actionStatus === SOLD) return <div className="w-[272px] h-[40px]"></div>

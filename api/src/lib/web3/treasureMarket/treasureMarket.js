@@ -47,11 +47,11 @@ export const checkAndSetMarketApprovals = async ({ member }) => {
       member.address,
       process.env.CONTRACT_ADDRESS_TREASURE_MARKET
     )
-    const ONE_HUNDRED_MILLION_BN = parseUnits('100000000', 18)
-    if (allowance.lt(ONE_HUNDRED_MILLION_BN)) {
+    const ONE_BILLION_BN = parseUnits('1000000000', 18)
+    if (allowance.lt(ONE_BILLION_BN)) {
       const unsignedTx = await tokenContract.populateTransaction.approve(
         process.env.CONTRACT_ADDRESS_TREASURE_MARKET,
-        ONE_HUNDRED_MILLION_BN
+        ONE_BILLION_BN
       )
       tokenApprovalTx = await memberSendTransaction({
         memberId: member.id,

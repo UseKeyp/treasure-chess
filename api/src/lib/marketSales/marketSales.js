@@ -128,20 +128,37 @@ export const processPendingMarketTransactions = async ({ treasure }) => {
       currentMarketSale.saleTransactions.map(async (tx, index) => {
         // Check them all
         const newStatus = await getSaleTxStatus(tx.id)
-        if (newStatus.status !== tx.status) {
+        if (newStatus?.status && newStatus.status !== tx.status) {
+          // if (newStatus?.status) {
           tx = await db.transaction.update({
             where: { id: tx.id },
             data: { status: newStatus.status },
           })
           if (tx.status === COMPLETE) {
+            if (treasure.tokenId !== newStatus.tokenId) return // Could happen in weird edge case?
+            const buyer = await db.member.findUnique({
+              where: { address: newStatus.buyerAddress },
+            })
+            let buyerId = buyer.id
+
+            if (!buyer) {
+              console.log('external buyer!')
+              console.log(newStatus.buyerAddress)
+              // TODO:  create external user
+            }
+
             newMarketSale = await db.marketSale.update({
               where: { id: currentMarketSale.id },
-              data: { status: SOLD, isClosed: true },
-            })
-            if (treasure.tokenId !== newStatus.tokenId) return // Could happen in weird edge case?
-            await db.treasure.update({
-              where: { tokenId: treasure.tokenId },
-              data: { owner: newStatus.buyer },
+              data: {
+                status: SOLD,
+                isClosed: true,
+                buyer: { connect: { id: buyerId } },
+                treasure: {
+                  update: {
+                    owner: { connect: { id: buyerId } },
+                  },
+                },
+              },
             })
           } else if (tx.status === FAILED) {
             // newMarketSale = await db.marketSale.update({

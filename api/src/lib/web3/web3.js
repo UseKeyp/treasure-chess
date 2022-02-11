@@ -192,8 +192,11 @@ export const getSaleTxStatus = async (txHash) => {
       return {
         status: COMPLETE,
         tokenId: Number(`0x${log.data.substring(66, 130)}`),
-        buyer: `0x${log.data.substring(154, 194)}`,
+        buyerAddress: `0x${log.data.substring(154, 194)}`,
       }
+    }
+    return {
+      status: SUBMITTED,
     }
   } catch (e) {
     throw `getSaleTxStatus() ${e}`

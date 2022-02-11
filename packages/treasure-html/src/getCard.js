@@ -192,6 +192,8 @@ const getCardHtml = async ({ treasure, gifBase64, gifUrl, staticBase64 }) => {
       'src',
       `data:image/png;base64,${staticBase64}`
     )
+    // Don't show the border except for the final html used for screenshots
+    if (!staticBase64) updateStyle('screenshot-container', 'padding', '0px')
 
     updateTag(
       'game-anchor',

@@ -1,10 +1,8 @@
-const { getBoardLayout } = require('@treasure-chess/chess-image-generator')
+const getBoardLayout = require('@treasure-chess/chess-image-generator/src/getBoardLayout')
 const getBoardBase64Node = require('@treasure-chess/chess-image-generator/src/node/getBoardBase64-node')
 import Sentry from 'src/lib/sentry'
-import { logger } from 'src/lib/logger'
 
 export const handler = async (event) => {
-  logger.info('Invoked image function')
   try {
     const { moves, playerColor, options, dataOnly, boardLayout } = JSON.parse(
       event.body

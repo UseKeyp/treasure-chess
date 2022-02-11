@@ -130,7 +130,6 @@ export const processPendingMarketTransactions = async ({ treasure }) => {
         // Check them all
         const newStatus = await getSaleTxStatus(tx.id)
         if (newStatus?.status && newStatus.status !== tx.status) {
-          // if (newStatus?.status) {
           if (newStatus.status === COMPLETE) {
             if (treasure.tokenId !== newStatus.tokenId) return // Could happen in weird edge case?
             let buyer = await db.member.findUnique({
@@ -138,7 +137,6 @@ export const processPendingMarketTransactions = async ({ treasure }) => {
             })
             // Create external wallet buyer
             if (!buyer) buyer = await fetchMember(newStatus.buyerAddress)
-            return currentMarketSale
             newMarketSale = await db.marketSale.update({
               where: { id: currentMarketSale.id },
               data: {

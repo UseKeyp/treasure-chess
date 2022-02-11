@@ -178,9 +178,12 @@ NODE_ENV=prod
 Secrets needed for web
 
 ```
+# Only needed during build
 APP_DOMAIN
 REDWOOD_API_URL
 ETHEREUM_NETWORK_NAME
+
+# Needed at runtime
 NODE_ENV
 ```
 

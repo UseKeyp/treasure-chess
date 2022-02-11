@@ -88,20 +88,14 @@ export const pinTreasure = async ({ treasure, tcn }) => {
       playerColor: treasure.winner,
     })
 
-    // Generate the HTML
     const htmlString = await getCardHtml({
       treasure: { ...treasure, achievements: achievementNames },
       gifBase64,
       staticBase64: boardBuffer,
     })
-    // console.log(htmlString)
-    // Upload the HTML
     /* eslint-disable camelcase */
     const animation_url = await pinFile(htmlString, `${treasure.id}.html`)
 
-    // TODO: Get the static board image
-    // Generate snapshot of card  @ final position
-    // Upload the snapshot of the whole card
     const screenshotUrl = escape(
       'https://chess.mypinata.cloud/ipfs/' +
         animation_url.split('ipfs://')[1] +

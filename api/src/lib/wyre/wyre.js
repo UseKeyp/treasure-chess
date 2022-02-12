@@ -7,6 +7,7 @@ const WYRE_API_KEY = process.env.WYRE_API_KEY
 const API_URL = isProduction
   ? 'https://api.wyre.com/v3'
   : 'https://api.testwyre.com/v3'
+const WYRE_TOKEN_SYMBOL = 'MUSDC'
 
 const signature = (url, data) => {
   let dataToBeSigned = url
@@ -89,5 +90,58 @@ export const createMintReservation = async ({
     /* eslint-disable-next-line no-console */
     console.log(e)
     throw new Error('createMintReservation() Error creating Wyre reservation')
+  }
+}
+
+export const createDepositReservation = async (destinationAddress) => {
+  try {
+    const url = `${API_URL}/orders/reserve`
+    const response = await fetchWyre(url, {
+      // sourceAmount: process.env.WYRE_MINT_USD_SOURCE_AMOUNT,
+      paymentMethod: 'debit-card',
+      amountIncludeFees: false,
+      // sourceCurrency: 'USD',
+      destCurrency: WYRE_TOKEN_SYMBOL,
+      // referenceId,
+      hideTrackBtn: true,
+      redirectUrl: `${process.env.APP_DOMAIN}/redirect/wyre`,
+      failureRedirectUrl: `${process.env.APP_DOMAIN}/redirect/wyre`,
+      referrerAccountId: process.env.WYRE_ACCOUNT_ID_TREASURE,
+      dest: `ethereum:${destinationAddress}`,
+      // country: 'US',
+    })
+    console.log(response)
+    return response
+  } catch (e) {
+    /* eslint-disable-next-line no-console */
+    console.log(e)
+    throw new Error(
+      'createDepositReservation() Error creating Wyre reservation'
+    )
+  }
+}
+export const createWithdrawReservation = async (destinationAddress) => {
+  try {
+    const url = `${API_URL}/orders/reserve`
+    const response = await fetchWyre(url, {
+      // sourceAmount: process.env.WYRE_MINT_USD_SOURCE_AMOUNT,
+      paymentMethod: 'debit-card',
+      // amountIncludeFees: true,
+      sourceCurrency: WYRE_TOKEN_SYMBOL,
+      hideTrackBtn: true,
+      redirectUrl: `${process.env.APP_DOMAIN}/redirect/wyre`,
+      failureRedirectUrl: `${process.env.APP_DOMAIN}/redirect/wyre`,
+      referrerAccountId: process.env.WYRE_ACCOUNT_ID_TREASURE,
+      // dest: `ethereum:${destinationAddress}`,
+      // country: 'US',
+    })
+    console.log(response)
+    return response
+  } catch (e) {
+    /* eslint-disable-next-line no-console */
+    console.log(e)
+    throw new Error(
+      'createDepositReservation() Error creating Wyre reservation'
+    )
   }
 }

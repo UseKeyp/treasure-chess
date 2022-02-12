@@ -1,18 +1,10 @@
-import { useQuery } from '@apollo/client'
+import { useQuery, useLazyQuery } from '@apollo/client'
 import { useAuth } from '@redwoodjs/auth'
 
 import { useModal } from 'src/hooks/useModal'
 
 import { WithdrawModal, DepositModal, AddressModal } from './modals'
-
-const MEMBER_BALANCE = gql`
-  query FindMemberBalanceQuery {
-    memberBalance {
-      usdcBalance
-      mintCreditBalance
-    }
-  }
-`
+import { WYRE_DEPOSIT_URL_QUERY, MEMBER_BALANCE_QUERY } from './graphql'
 
 const WalletContext = React.createContext({
   balanceLoading: true,
@@ -31,9 +23,16 @@ const WalletProvider = ({ children }) => {
   const { isVisible: isVisibleWit, toggleModal: toggleModalWit } = useModal()
   const { isVisible: isVisibleAdd, toggleModal: toggleModalAdd } = useModal()
 
+  const [wyreDepositUrlQuery] = useLazyQuery(WYRE_DEPOSIT_URL_QUERY)
+
   const onDeposit = async () => {
+    const { data: { wyreDepositUrl } = {} } = await wyreDepositUrlQuery()
+    window.open(
+      wyreDepositUrl,
+      'Treasure Chess - Deposit',
+      'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
+    )
     toggleModalDep()
-    // trigger wyre
   }
   const onWithdraw = () => {
     toggleModalWit()
@@ -44,7 +43,7 @@ const WalletProvider = ({ children }) => {
     data: { memberBalance } = {},
     error: balanceError,
     loading: balanceLoading,
-  } = useQuery(MEMBER_BALANCE, {
+  } = useQuery(MEMBER_BALANCE_QUERY, {
     pollInterval: 30000,
     skip: !isAuthenticated,
     fetchPolicy: 'network-only',

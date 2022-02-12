@@ -1,11 +1,11 @@
-import { wyreDepositUrl, wyreWithdrawUrl } from './wyre'
+import { wyreDepositUrl, _wyreWithdrawUrl } from './wyre'
 jest.setTimeout(20000)
 
 describe('wyreDepositUrl', () => {
   scenario('Happy case', async (scenario) => {
     mockCurrentUser(scenario.member.alice)
     const url = await wyreDepositUrl()
-    // expect(url).toStrictEqual(new EnvelopError(`Invalid amount.`))
+    expect(typeof url === 'string').toBe(true)
   })
 })
 

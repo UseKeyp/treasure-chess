@@ -86,7 +86,7 @@ export const DepositModal = ({ isVisible, toggleModal, onSubmit }) => {
   )
 }
 
-export const WithdrawModal = ({ isVisible, toggleModal, onSubmit }) => (
+export const WithdrawModal = ({ isVisible, toggleModal, _onSubmit }) => (
   <ModalContainer
     headerText="Withdraw Funds"
     isVisible={isVisible}

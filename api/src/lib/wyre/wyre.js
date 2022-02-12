@@ -116,23 +116,11 @@ export const createDepositReservation = async (destinationAddress) => {
     )
   }
 }
-export const createWithdrawReservation = async (destinationAddress) => {
+export const createWithdrawReservation = async () => {
   try {
+    // TODO: Finish implementing off-ramp
     const url = `${API_URL}/transfers`
-    const response = await fetchWyre(url, {
-      // sourceAmount: process.env.WYRE_MINT_USD_SOURCE_AMOUNT,
-      // paymentMethod: 'debit-card',
-      // amountIncludeFees: true,
-      sourceCurrency: WYRE_TOKEN_SYMBOL,
-      hideTrackBtn: true,
-      redirectUrl: `${process.env.APP_DOMAIN}/redirect/wyre`,
-      failureRedirectUrl: `${process.env.APP_DOMAIN}/redirect/wyre`,
-      referrerAccountId: process.env.WYRE_ACCOUNT_ID_TREASURE,
-      lockFields: ['sourceCurrency', 'paymentMethod'],
-      // dest: `ethereum:${destinationAddress}`,
-      // country: 'US',
-    })
-    console.log(response)
+    const response = await fetchWyre(url)
     return response
   } catch (e) {
     /* eslint-disable-next-line no-console */

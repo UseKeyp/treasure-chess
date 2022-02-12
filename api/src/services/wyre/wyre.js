@@ -1,4 +1,7 @@
-import { createDepositReservation } from 'src/lib/wyre'
+import {
+  createDepositReservation,
+  createWithdrawReservation,
+} from 'src/lib/wyre'
 
 export const wyreDepositUrl = async () => {
   const { url, _reservaton } = await createDepositReservation(

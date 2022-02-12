@@ -13,5 +13,8 @@ describe('wyreDepositUrl', () => {
 })
 
 describe('wyreWithdrawUrl', () => {
-  scenario('Not owner', async (scenario) => {})
+  scenario('Happy case', async (scenario) => {
+    // const url = await wyreWithdrawUrl()
+    // console.log(url)
+  })
 })

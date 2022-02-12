@@ -97,20 +97,16 @@ export const createDepositReservation = async (destinationAddress) => {
   try {
     const url = `${API_URL}/orders/reserve`
     const response = await fetchWyre(url, {
-      // sourceAmount: process.env.WYRE_MINT_USD_SOURCE_AMOUNT,
       paymentMethod: 'debit-card',
-      amountIncludeFees: false,
-      // sourceCurrency: 'USD',
       destCurrency: WYRE_TOKEN_SYMBOL,
-      // referenceId,
       hideTrackBtn: true,
       redirectUrl: `${process.env.APP_DOMAIN}/redirect/wyre`,
       failureRedirectUrl: `${process.env.APP_DOMAIN}/redirect/wyre`,
       referrerAccountId: process.env.WYRE_ACCOUNT_ID_TREASURE,
       dest: `ethereum:${destinationAddress}`,
-      // country: 'US',
+      lockFields: ['destCurrency', 'dest', 'paymentMethod'],
     })
-    console.log(response)
+    if (!response.url) throw 'Error'
     return response
   } catch (e) {
     /* eslint-disable-next-line no-console */
@@ -122,16 +118,17 @@ export const createDepositReservation = async (destinationAddress) => {
 }
 export const createWithdrawReservation = async (destinationAddress) => {
   try {
-    const url = `${API_URL}/orders/reserve`
+    const url = `${API_URL}/transfers`
     const response = await fetchWyre(url, {
       // sourceAmount: process.env.WYRE_MINT_USD_SOURCE_AMOUNT,
-      paymentMethod: 'debit-card',
+      // paymentMethod: 'debit-card',
       // amountIncludeFees: true,
       sourceCurrency: WYRE_TOKEN_SYMBOL,
       hideTrackBtn: true,
       redirectUrl: `${process.env.APP_DOMAIN}/redirect/wyre`,
       failureRedirectUrl: `${process.env.APP_DOMAIN}/redirect/wyre`,
       referrerAccountId: process.env.WYRE_ACCOUNT_ID_TREASURE,
+      lockFields: ['sourceCurrency', 'paymentMethod'],
       // dest: `ethereum:${destinationAddress}`,
       // country: 'US',
     })

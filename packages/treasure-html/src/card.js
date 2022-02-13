@@ -30,10 +30,12 @@ const card = `<html>
     <meta name="author" content="Treasure Chess">
     <style>
     #match-anchor{
-      opacity:0.7;
+      opacity:0.5;
+
     }
     #match-anchor:hover{
-      opacity:1
+      color:#000;
+      opacity:1;
     }
     </style>
 	</head>
@@ -160,7 +162,7 @@ const card = `<html>
   			</div>
   		</div>
       <div id="footer" style="width: 95%; display: flex; justify-content: space-between;align-items: center; margin-top: auto; align-self: center;">
-      <a id="match-anchor" href="" target="_blank" rel="noopener" style="text-decoration: none; font-size: 8px; color:black;">Match #000000</a>
+      <a id="match-anchor" href="" target="_blank" rel="noopener" style="text-decoration: underline; font-size: 8px; color:black;">Match #000000</a>
       <p id="edition" style="color: black;  opacity: 0.70;  font-size: 8px;">Single Edition</p>
       <p id="date" style="color: black;  opacity: 0.70;  font-size: 8px;">Jan 1 1900</p>
     </div>

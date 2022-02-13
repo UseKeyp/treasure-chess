@@ -7,6 +7,7 @@ const WYRE_API_KEY = process.env.WYRE_API_KEY
 const API_URL = isProduction
   ? 'https://api.wyre.com/v3'
   : 'https://api.testwyre.com/v3'
+const WYRE_TOKEN_SYMBOL = 'MUSDC'
 
 const signature = (url, data) => {
   let dataToBeSigned = url
@@ -89,5 +90,43 @@ export const createMintReservation = async ({
     /* eslint-disable-next-line no-console */
     console.log(e)
     throw new Error('createMintReservation() Error creating Wyre reservation')
+  }
+}
+
+export const createDepositReservation = async (destinationAddress) => {
+  try {
+    const url = `${API_URL}/orders/reserve`
+    const response = await fetchWyre(url, {
+      paymentMethod: 'debit-card',
+      destCurrency: WYRE_TOKEN_SYMBOL,
+      hideTrackBtn: true,
+      redirectUrl: `${process.env.APP_DOMAIN}/redirect/wyre`,
+      failureRedirectUrl: `${process.env.APP_DOMAIN}/redirect/wyre`,
+      referrerAccountId: process.env.WYRE_ACCOUNT_ID_TREASURE,
+      dest: `ethereum:${destinationAddress}`,
+      lockFields: ['destCurrency', 'dest', 'paymentMethod'],
+    })
+    if (!response.url) throw 'Error'
+    return response
+  } catch (e) {
+    /* eslint-disable-next-line no-console */
+    console.log(e)
+    throw new Error(
+      'createDepositReservation() Error creating Wyre reservation'
+    )
+  }
+}
+export const createWithdrawReservation = async () => {
+  try {
+    // TODO: Finish implementing off-ramp
+    const url = `${API_URL}/transfers`
+    const response = await fetchWyre(url)
+    return response
+  } catch (e) {
+    /* eslint-disable-next-line no-console */
+    console.log(e)
+    throw new Error(
+      'createDepositReservation() Error creating Wyre reservation'
+    )
   }
 }

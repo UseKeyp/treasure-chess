@@ -7,10 +7,7 @@ import { db } from 'src/lib/db'
 import { fetchMember } from 'src/lib/members'
 import { getTorusPublicAddress } from 'src/lib/torus/torus'
 
-import {
-  CHESS_SCOPE,
-  getChessAccessTokenFromCode,
-} from 'src/lib/oAuth/chessDotCom'
+import { CHESS_SCOPE, getChessAccessTokenFromCode } from 'src/lib/oAuth/chess'
 
 import {
   COINBASE_SCOPE,

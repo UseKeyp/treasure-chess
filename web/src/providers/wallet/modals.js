@@ -1,4 +1,4 @@
-import ModalContainer from 'src/components/ModalContainer/ModalContainer'
+import ModalContainer from 'src/components/ModalContainer'
 import Icon from 'src/components/Icon'
 
 export const AddressModal = ({ address, isVisible, toggleModal }) => {
@@ -86,21 +86,41 @@ export const DepositModal = ({ isVisible, toggleModal, onSubmit }) => {
   )
 }
 
-export const WithdrawModal = ({ isVisible, toggleModal, _onSubmit }) => (
-  <ModalContainer
-    headerText="Withdraw Funds"
-    isVisible={isVisible}
-    // onSubmit={onSubmit}
-    onSubmit={toggleModal}
-    hideModal={toggleModal}
-    icon={<Icon name="wyre" size="29" />}
-    submitText="(under development)"
-    // submitText="Withdraw with Wyre"
-    content={
-      <p className="text-base">
-        Withdraw your funds using Wyre. Funds can be withdrawn anytime according
-        to the limits set by Wyre.
-      </p>
-    }
-  />
-)
+export const WithdrawModal = ({
+  isVisible,
+  toggleModal,
+  _onSubmitWithdrawWyre,
+  onSubmitWithdrawCoinbase,
+  coinbaseDetails,
+  wyreDetails,
+}) => {
+  const accounts = (
+    <>
+      <h3>Coinbase</h3>
+      No account connected
+    </>
+  )
+
+  const connectOrUpdate = <></>
+  return (
+    <ModalContainer
+      headerText="Withdraw Funds"
+      isVisible={isVisible}
+      // onSubmit={onSubmit}
+      onSubmit={toggleModal}
+      hideModal={toggleModal}
+      icon={<Icon name="wyre" size="29" />}
+      // submitText="Withdraw with Wyre"
+      content={
+        <>
+          <p className="text-base">
+            Withdraw your funds anytime, according to the limits set by each
+            third-party provider.
+          </p>
+          {accounts}
+          {connectOrUpdate}
+        </>
+      }
+    />
+  )
+}

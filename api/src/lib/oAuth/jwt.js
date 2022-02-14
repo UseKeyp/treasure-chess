@@ -5,10 +5,7 @@ import { AuthenticationError } from '@redwoodjs/graphql-server'
 
 import { db } from 'src/lib/db'
 import productionJwks from 'src/lib/oAuth/jwks'
-import {
-  getChessBasicAuth,
-  refreshChessTokens,
-} from 'src/lib/oAuth/chessDotCom'
+import { getChessBasicAuth, refreshChessTokens } from 'src/lib/oAuth/chess'
 
 const API_URL = process.env.CHESS_OAUTH_URL
 

@@ -6,6 +6,7 @@ import { InputError } from '@redwoodjs/graphql-server'
 
 import { db } from 'src/lib/db'
 import { handleOauthCodeGrant } from 'src/lib/oAuth/oAuth'
+import { CHESS } from 'src/lib/oAuth/chess'
 
 export const handler = async (event, context) => {
   const authHandler = new DbAuthHandler(event, context, {
@@ -63,7 +64,7 @@ export const handler = async (event, context) => {
     if (!code || !state)
       throw new InputError('logIn() Code or state not provided.')
 
-    const user = await handleOauthCodeGrant({ state, code })
+    const user = await handleOauthCodeGrant({ state, code, type: CHESS })
 
     const sessionData = { id: user[authHandler.options.authFields.id] }
 

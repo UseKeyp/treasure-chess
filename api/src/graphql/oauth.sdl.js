@@ -6,5 +6,6 @@ export const schema = gql`
   }
   type Query {
     loginUrl: LoginUrl! @skipAuth
+    coinbaseLoginUrl: LoginUrl! @requireAuth
   }
 `

@@ -1,3 +1,3 @@
-import { getLoginUrl } from 'src/lib/oAuth/oAuth'
+import { getLoginUrl } from 'src/lib/oAuth'
 
-export const loginUrl = (input) => getLoginUrl(input)
+export const loginUrl = () => getLoginUrl()

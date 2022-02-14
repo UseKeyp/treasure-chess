@@ -12,9 +12,36 @@ import {
   getChessAccessTokenFromCode,
 } from 'src/lib/oAuth/chessDotCom'
 
-export const getLoginUrl = async () => {
-  const state = uuidv4()
+const coinbaseParams = {
+  client_id: process.env.COINBASE_CLIENT_ID,
+  scope: COINBASE_SCOPE,
+  redirect_uri: process.env.APP_DOMAIN + '/redirect/coinbase',
+  referral: 'gallag_jq',
+}
+const chessParams = {
+  client_id: process.env.CHESS_CLIENT_ID,
+  scope: CHESS_SCOPE,
+  redirect_uri: process.env.APP_DOMAIN + '/redirect/chess',
+}
+
+export const getLoginUrl = async (type) => {
+  let url
+  let params
   const pkce = pkceChallenge()
+  if (!type) {
+    // Chess.com Oauth
+    params = chessParams
+    url = new URL('authorize', process.env.CHESS_OAUTH_URL)
+    url.searchParams.set('code_challenge', pkce.code_challenge) // eg. 3uWDl1fX2ioAqf38eSOFlKnxVEl_VyfaYKG2GyLndKs
+    url.searchParams.set('code_challenge_method', 'S256')
+  } else if (type === 'coinbase') {
+    params = coinbaseParams
+    url = new URL('authorize', 'https://www.coinbase.com/oauth')
+  }
+  Object.keys(params).map((key) => {
+    url.searchParams.set(key, params[key])
+  })
+  const state = uuidv4()
   await db.oAuth.create({
     data: {
       state,
@@ -22,19 +49,10 @@ export const getLoginUrl = async () => {
       codeChallenge: pkce.code_challenge,
     },
   })
-  const url = new URL('authorize', process.env.CHESS_OAUTH_URL)
-  url.searchParams.set('client_id', process.env.CHESS_CLIENT_ID)
-  url.searchParams.set('code_challenge', pkce.code_challenge) // eg. 3uWDl1fX2ioAqf38eSOFlKnxVEl_VyfaYKG2GyLndKs
-  url.searchParams.set('code_challenge_method', 'S256')
-  url.searchParams.set(
-    'redirect_uri',
-    process.env.APP_DOMAIN + '/redirect/chess'
-  )
-  url.searchParams.set('scope', CHESS_SCOPE)
+
   url.searchParams.set('response_type', 'code')
   url.searchParams.set('state', state)
   url.searchParams.set('prompt', 'none')
-  // console.log(url.href.split('&'))
   return {
     text: 'success',
     type: 'redirect',

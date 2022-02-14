@@ -1,3 +1,3 @@
-import { getLoginUrl } from 'src/lib/oAuth'
+import { getLoginUrl, CHESS } from 'src/lib/oAuth'
 
-export const loginUrl = () => getLoginUrl()
+export const loginUrl = () => getLoginUrl(CHESS)

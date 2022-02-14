@@ -12,6 +12,14 @@ import {
   getChessAccessTokenFromCode,
 } from 'src/lib/oAuth/chessDotCom'
 
+import {
+  COINBASE_SCOPE,
+  getCoinbaseAccessTokenFromCode,
+} from 'src/lib/oAuth/coinbase'
+
+export const COINBASE = 'coinbase'
+export const CHESS = 'chess'
+
 const coinbaseParams = {
   client_id: process.env.COINBASE_CLIENT_ID,
   scope: COINBASE_SCOPE,
@@ -28,15 +36,14 @@ export const getLoginUrl = async (type) => {
   let url
   let params
   const pkce = pkceChallenge()
-  if (!type) {
-    // Chess.com Oauth
+  if (type === CHESS) {
     params = chessParams
     url = new URL('authorize', process.env.CHESS_OAUTH_URL)
     url.searchParams.set('code_challenge', pkce.code_challenge) // eg. 3uWDl1fX2ioAqf38eSOFlKnxVEl_VyfaYKG2GyLndKs
     url.searchParams.set('code_challenge_method', 'S256')
-  } else if (type === 'coinbase') {
+  } else if (type === COINBASE) {
     params = coinbaseParams
-    url = new URL('authorize', 'https://www.coinbase.com/oauth')
+    url = new URL('https://www.coinbase.com/oauth/authorize')
   }
   Object.keys(params).map((key) => {
     url.searchParams.set(key, params[key])

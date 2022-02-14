@@ -1,4 +1,4 @@
-import { coinbaseLoginUrl } from 'coinbase'
+import { coinbaseLoginUrl } from './coinbase'
 jest.setTimeout(20000)
 
 describe('coinbaseLoginUrl', () => {
@@ -7,7 +7,7 @@ describe('coinbaseLoginUrl', () => {
     const { url } = await coinbaseLoginUrl()
     /* eslint-disable no-console */
     console.log(url)
-    console.log(url.href.split('&'))
+    console.log(url.split('&'))
     expect(typeof url === 'string').toBe(true)
   })
 })

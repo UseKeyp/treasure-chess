@@ -1,6 +1,4 @@
-import { getLoginUrl } from 'src/lib/oAuth'
-
-const COINBASE = 'coinbase'
+import { getLoginUrl, COINBASE } from 'src/lib/oAuth'
 
 export const coinbaseLoginUrl = async () => {
   return getLoginUrl(COINBASE)

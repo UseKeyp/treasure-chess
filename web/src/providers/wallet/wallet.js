@@ -17,8 +17,10 @@ const WalletProvider = ({ children }) => {
   const [state, setState] = React.useState({
     usdcBalance: null,
     mintCreditBalance: null,
+    wyreDetails: { isConnected: false },
+    coinbaseDetails: { isConnected: false },
   })
-
+  console.log(state)
   const { isVisible: isVisibleDep, toggleModal: toggleModalDep } = useModal()
   const { isVisible: isVisibleWit, toggleModal: toggleModalWit } = useModal()
   const { isVisible: isVisibleAdd, toggleModal: toggleModalAdd } = useModal()
@@ -56,7 +58,6 @@ const WalletProvider = ({ children }) => {
     })
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [memberBalance])
-
   return (
     <WalletContext.Provider
       value={{
@@ -78,6 +79,7 @@ const WalletProvider = ({ children }) => {
         onSubmit={onWithdraw}
         isVisible={isVisibleWit}
         toggleModal={toggleModalWit}
+        {...state}
       />
       <AddressModal
         address={currentUser?.address}

@@ -1,5 +1,7 @@
 import ModalContainer from 'src/components/ModalContainer'
 import Icon from 'src/components/Icon'
+import FilterPriceInput from 'src/components/FilterPriceInput'
+import Button from 'src/components/Button'
 
 export const AddressModal = ({ address, isVisible, toggleModal }) => {
   const [copied, setCopied] = React.useState(false)
@@ -86,39 +88,52 @@ export const DepositModal = ({ isVisible, toggleModal, onSubmit }) => {
   )
 }
 
+const VendorConnection = ({ details, amount }) => {
+  if (!details) return null
+  let button = (
+    <Button onClick={() => details.onConnect(amount)}>Connect</Button>
+  )
+  if (details.isConnected)
+    button = <Button onClick={() => details.onDepost(amount)}>Withdraw</Button>
+  let status = 'Not connected'
+  if (details.isConnected) status = 'Connected'
+  return (
+    <>
+      <h3>{details.name}</h3>
+      {button}
+    </>
+  )
+}
+
 export const WithdrawModal = ({
   isVisible,
   toggleModal,
-  _onSubmitWithdrawWyre,
-  onSubmitWithdrawCoinbase,
-  coinbaseDetails,
-  wyreDetails,
+  // coinbaseDetails,
+  // wyreDetails,
+  error,
 }) => {
-  const accounts = (
-    <>
-      <h3>Coinbase</h3>
-      No account connected
-    </>
-  )
-
+  const [amount, setAmount] = React.useState(0)
   const connectOrUpdate = <></>
+  const wyreDetails = { name: 'Wyre', isConnected: false }
+  const coinbaseDetails = { name: 'Coinbase', isConnected: false }
   return (
     <ModalContainer
       headerText="Withdraw Funds"
       isVisible={isVisible}
-      // onSubmit={onSubmit}
       onSubmit={toggleModal}
       hideModal={toggleModal}
-      icon={<Icon name="wyre" size="29" />}
-      // submitText="Withdraw with Wyre"
+      // icon={<Icon name="wyre" size="29" />}
       content={
         <>
           <p className="text-base">
             Withdraw your funds anytime, according to the limits set by each
             third-party provider.
           </p>
-          {accounts}
-          {connectOrUpdate}
+          <h4 className="mt-4 ">Amount</h4>
+          <FilterPriceInput value={amount} setValue={setAmount} />
+          {error && <p className="text-red">{error}</p>}
+          <VendorConnection amount={amount} details={coinbaseDetails} />
+          <VendorConnection amount={amount} details={wyreDetails} />
         </>
       }
     />

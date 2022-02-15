@@ -68,8 +68,13 @@ export const oAuthUrl = async (type) => {
 export const validateCodeGrant = async ({ state, code }) => {
   try {
     // Delete the OAuth Item
-    const oAuth = await db.oAuth.delete({ where: { state } })
-    if (!oAuth) throw 'State not valid'
+    let oAuth
+    try {
+      oAuth = await db.oAuth.delete({ where: { state } })
+      if (!oAuth) throw 'state not valid'
+    } catch (e) {
+      throw 'Oauth state has expired. Please try logging in again.'
+    }
 
     // Check expiration
     if (new Date() - new Date(oAuth.createdAt) > 10 * 60 * 1000)
@@ -82,11 +87,11 @@ export const validateCodeGrant = async ({ state, code }) => {
     console.log(e)
     /* eslint-enable no-console */
     Sentry.captureException(e)
-    throw new AuthenticationError()
+    throw new AuthenticationError(e)
   }
 }
 
-const handleUserLogin = async ({ code, codeVerifier }) => {
+export const handleUserLogin = async ({ code, codeVerifier }) => {
   try {
     // Exchange code for token from Chess.com
     const { refreshToken, decoded } = await getChessAccessTokenFromCode(

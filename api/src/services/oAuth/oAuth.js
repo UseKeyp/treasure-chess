@@ -18,6 +18,7 @@ export const oAuthCodeGrant = async ({ type, code, state }) => {
   console.log(tokens)
   if (type === COINBASE) {
     console.log({ type })
-    return handleCoinbaseLogin(tokens)
+    await handleCoinbaseLogin(tokens)
+    return { action: 'close' }
   }
 }

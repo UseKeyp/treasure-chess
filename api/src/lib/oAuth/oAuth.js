@@ -22,7 +22,6 @@ export const oAuthUrl = async (type) => {
     params = coinbaseParams
     url = new URL('https://www.coinbase.com/oauth/authorize')
   }
-  console.log(params)
   Object.keys(params).map((key) => {
     url.searchParams.set(key, params[key])
   })
@@ -61,7 +60,6 @@ export const validateCodeGrant = async ({ state, code, type }) => {
       throw 'Sorry, authentication must be completed within 10 minutes.'
 
     if (type === CHESS) {
-      // Exchange code for token from Chess.com
       return getChessAccessTokenFromCode(code, codeVerifier)
     } else if (type === COINBASE) {
       return getCoinbaseAccessTokenFromCode(code, codeVerifier)

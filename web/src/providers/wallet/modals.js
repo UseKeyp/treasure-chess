@@ -2,6 +2,7 @@ import ModalContainer from 'src/components/ModalContainer'
 import Icon from 'src/components/Icon'
 import FilterPriceInput from 'src/components/FilterPriceInput'
 import Button from 'src/components/Button'
+import LoadingDots from 'src/components/LoadingDots'
 
 export const AddressModal = ({ address, isVisible, toggleModal }) => {
   const [copied, setCopied] = React.useState(false)
@@ -88,23 +89,37 @@ export const DepositModal = ({ isVisible, toggleModal, onSubmit }) => {
   )
 }
 
-const VendorConnection = ({ details, amount, isLoading }) => {
+const VendorConnection = ({ details, amount, isLoading, disabled }) => {
   if (!details) return null
+  const backgroundColor = isLoading
+    ? 'bg-chessBlack-200 pointer-events-none'
+    : 'bg-green'
+  const loadingText = (
+    <p className="text-white flex justify-center text-[10px]">
+      <LoadingDots />
+    </p>
+  )
+  const buttonClassName = `mt-4 w-[272px] h-[40px] text-xl shadow-m hover:sm hover:bg-greenDark hover:shadow-greenDark ${backgroundColor}`
   let button = (
     <Button
-      className="mt-4 w-[272px] h-[40px] text-xl shadow-m hover:sm bg-green hover:bg-greenDark hover:shadow-greenDark"
-      onClick={() => details.onConnect(amount)}
+      className={buttonClassName}
+      onClick={details.onConnect}
       disabled={isLoading}
     >
-      Connect
+      {details.isLoading ? loadingText : 'Connect'}
     </Button>
   )
   if (details.isConnected)
     button = (
-      <Button isDisabled={isLoading} onClick={() => details.onDepost(amount)}>
-        Withdraw
+      <Button
+        className={buttonClassName}
+        disabled={isLoading}
+        onClick={() => details.onWithdraw(amount)}
+      >
+        {details.isLoading ? loadingText : 'Withdraw'}
       </Button>
     )
+  if (disabled) button = <h3 className="mt-4">(Coming soon)</h3>
 
   let status = 'Not connected'
   if (details.isConnected) status = 'Connected'
@@ -117,6 +132,7 @@ const VendorConnection = ({ details, amount, isLoading }) => {
         </p>
       </div>
       {button}
+      <p className="mt-2 text-red">{details.error}</p>
     </div>
   )
 }
@@ -124,14 +140,11 @@ const VendorConnection = ({ details, amount, isLoading }) => {
 export const WithdrawModal = ({
   isVisible,
   toggleModal,
-  // coinbaseDetails,
-  // wyreDetails,
-  error,
+  coinbaseDetails,
+  wyreDetails,
 }) => {
   const [amount, setAmount] = React.useState(0)
-  const connectOrUpdate = <></>
-  const wyreDetails = { name: 'Wyre', isConnected: false }
-  const coinbaseDetails = { name: 'Coinbase', isConnected: false }
+
   const isLoading = wyreDetails.isLoading || coinbaseDetails.isLoading
   return (
     <ModalContainer
@@ -148,7 +161,6 @@ export const WithdrawModal = ({
           </p>
           <h4 className="mt-4 ">Amount to withdraw</h4>
           <FilterPriceInput value={amount} setValue={setAmount} />
-          {error && <p className="text-red">{error}</p>}
           <VendorConnection
             isLoading={isLoading}
             amount={amount}
@@ -158,6 +170,7 @@ export const WithdrawModal = ({
             isLoading={isLoading}
             amount={amount}
             details={wyreDetails}
+            disabled
           />
         </>
       }

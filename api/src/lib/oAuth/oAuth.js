@@ -22,6 +22,8 @@ const coinbaseParams = {
   scope: COINBASE_SCOPE,
   redirect_uri: process.env.APP_DOMAIN + '/redirect/coinbase',
   referral: 'gallag_jq',
+  account_currency: 'MUSDC',
+  account: 'all',
 }
 const chessParams = {
   client_id: process.env.CHESS_CLIENT_ID,

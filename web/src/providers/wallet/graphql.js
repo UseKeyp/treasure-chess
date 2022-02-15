@@ -11,3 +11,11 @@ export const MEMBER_BALANCE_QUERY = gql`
     }
   }
 `
+
+export const COINBASE_LOGIN_URL_QUERY = gql`
+  query CoinbaseLoginQuery {
+    coinbaseLoginUrl {
+      url
+    }
+  }
+`

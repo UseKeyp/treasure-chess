@@ -4,7 +4,11 @@ import { useAuth } from '@redwoodjs/auth'
 import { useModal } from 'src/hooks/useModal'
 
 import { WithdrawModal, DepositModal, AddressModal } from './modals'
-import { WYRE_DEPOSIT_URL_QUERY, MEMBER_BALANCE_QUERY } from './graphql'
+import {
+  WYRE_DEPOSIT_URL_QUERY,
+  MEMBER_BALANCE_QUERY,
+  COINBASE_LOGIN_URL_QUERY,
+} from './graphql'
 
 const WalletContext = React.createContext({
   balanceLoading: true,
@@ -17,15 +21,22 @@ const WalletProvider = ({ children }) => {
   const [state, setState] = React.useState({
     usdcBalance: null,
     mintCreditBalance: null,
-    wyreDetails: { isConnected: false },
-    coinbaseDetails: { isConnected: false },
   })
-  console.log(state)
+  const [coinbaseDetails, setCoinbaseDetails] = React.useState({
+    isConnected: false,
+    name: 'Coinbase',
+  })
+  const [wyreDetails, setWyreDetails] = React.useState({
+    isConnected: false,
+    name: 'Wyre',
+  })
+
   const { isVisible: isVisibleDep, toggleModal: toggleModalDep } = useModal()
   const { isVisible: isVisibleWit, toggleModal: toggleModalWit } = useModal()
   const { isVisible: isVisibleAdd, toggleModal: toggleModalAdd } = useModal()
 
   const [wyreDepositUrlQuery] = useLazyQuery(WYRE_DEPOSIT_URL_QUERY)
+  const [coinbaseLoginUrlQuery] = useLazyQuery(COINBASE_LOGIN_URL_QUERY)
 
   const onDeposit = async () => {
     const { data: { wyreDepositUrl } = {} } = await wyreDepositUrlQuery()
@@ -36,9 +47,25 @@ const WalletProvider = ({ children }) => {
     )
     toggleModalDep()
   }
-  const onWithdraw = () => {
-    toggleModalWit()
-    // trigger wyre
+
+  const onConnectCoinbase = async () => {
+    const { data: { coinbaseLoginUrl } = {} } = await coinbaseLoginUrlQuery()
+    window.open(
+      coinbaseLoginUrl.url,
+      'Coinbase - Connect',
+      'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
+    )
+    setCoinbaseDetails({ ...coinbaseDetails, isLoading: true })
+  }
+
+  const onConnectWyre = async () => {
+    // const { data: { url } = {} } = await coinbaseLoginUrlQuery()
+    // window.open(
+    //   url,
+    //   'Coinbase - Connect',
+    //   'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
+    // )
+    // setCoinbaseDetails({ ...coinbaseDetails, isLoading: true })
   }
 
   const {
@@ -76,10 +103,10 @@ const WalletProvider = ({ children }) => {
         toggleModal={toggleModalDep}
       />
       <WithdrawModal
-        onSubmit={onWithdraw}
         isVisible={isVisibleWit}
         toggleModal={toggleModalWit}
-        {...state}
+        wyreDetails={{ ...wyreDetails, onConnect: onConnectWyre }}
+        coinbaseDetails={{ ...coinbaseDetails, onConnect: onConnectCoinbase }}
       />
       <AddressModal
         address={currentUser?.address}

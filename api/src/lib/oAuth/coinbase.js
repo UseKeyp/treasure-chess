@@ -3,8 +3,7 @@ import fetch from 'cross-fetch'
 import { isDevelopment } from 'src/lib/helpers'
 import { decode as decodeJwt } from 'jsonwebtoken'
 
-export const COINBASE_SCOPE =
-  'wallet:addresses:read wallet:addresses:create wallet:user:email'
+export const COINBASE_SCOPE = 'wallet:addresses:read wallet:user:email'
 ///////////////////////////
 
 ///////////////////////////

@@ -1,5 +1,6 @@
 import { getLoginUrl, COINBASE } from 'src/lib/oAuth'
 
 export const coinbaseLoginUrl = async () => {
-  return getLoginUrl(COINBASE)
+  const res = await getLoginUrl(COINBASE)
+  return res
 }

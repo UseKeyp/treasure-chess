@@ -32,6 +32,7 @@ jobs:
           REDWOOD_API_URL="https://treasure.gcp-staging.chess-platform.com"
           APP_DOMAIN="https://treasure.gcp-staging.chess-platform.com"
           ETHEREUM_NETWORK_NAME=matic
+          BASIC_AUTH_PASSWORD=pauliemorphy
           if [ $PREFIX == "prod" ] ; then
              REDWOOD_API_URL="https://treasure.chess.com"
              APP_DOMAIN="https://treasure.chess.com"
@@ -50,6 +51,7 @@ jobs:
                 --build-arg REDWOOD_API_URL=$REDWOOD_API_URL \
                 --build-arg APP_DOMAIN=$APP_DOMAIN \
                 --build-arg ETHEREUM_NETWORK_NAME=$ETHEREUM_NETWORK_NAME \
+                --build-arg BASIC_AUTH_PASSWORD=$BASIC_AUTH_PASSWORD \
                  -f ./$COMPONENT/Dockerfile .
 
               echo "pushing image... $PROJECT_NAME/$IMAGE_NAME:$IMAGE_TAG"

@@ -25,7 +25,7 @@ export const getCoinbaseAccessTokenFromCode = async (code, codeVerifier) => {
       code_verifier: codeVerifier,
     }
     const encodedBody = encodeBody(body)
-    console.log(encodedBody.split('&'))
+    // console.log(encodedBody.split('&'))
     const response = await fetch('https://www.coinbase.com/oauth/authorize', {
       method: 'post',
       body: encodedBody,

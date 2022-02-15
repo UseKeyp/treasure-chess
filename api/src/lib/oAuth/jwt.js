@@ -29,11 +29,8 @@ export const verifyChessJwt = async (jwt) => {
   let idToken = jwt
   let { header, payload } = decodeJwt(idToken, { complete: true })
 
-  // TODO: remove true check
   /* eslint-disable-next-line no-constant-condition */
-  if (true) {
-    // if (new Date(payload.exp * 1000) > new Date()) {
-    // TODO: Replace hardcoded value with user ID lookup
+  if (new Date(payload.exp * 1000) > new Date()) {
     idToken = await getNewIdToken(payload.user_id)
     ;({ header } = decodeJwt(idToken, { complete: true }))
   }

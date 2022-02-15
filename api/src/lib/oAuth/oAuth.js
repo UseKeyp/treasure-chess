@@ -30,7 +30,7 @@ const chessParams = {
   redirect_uri: process.env.APP_DOMAIN + '/redirect/chess',
 }
 
-export const getLoginUrl = async (type) => {
+export const oAuthUrl = async (type) => {
   let url
   let params
   const pkce = pkceChallenge()
@@ -65,7 +65,7 @@ export const getLoginUrl = async (type) => {
   }
 }
 
-export const handleOauthCodeGrant = async ({ state, code }) => {
+export const validateCodeGrant = async ({ state, code }) => {
   try {
     // Delete the OAuth Item
     const oAuth = await db.oAuth.delete({ where: { state } })
@@ -75,10 +75,23 @@ export const handleOauthCodeGrant = async ({ state, code }) => {
     if (new Date() - new Date(oAuth.createdAt) > 10 * 60 * 1000)
       throw 'Sorry, authentication must be completed within 10 minutes.'
 
+    // Save the Discord auth credentials and update state
+    return { codeVerifier: oAuth.codeVerifier, code }
+  } catch (e) {
+    /* eslint-disable no-console */
+    console.log(e)
+    /* eslint-enable no-console */
+    Sentry.captureException(e)
+    throw new AuthenticationError()
+  }
+}
+
+const handleUserLogin = async ({ code, codeVerifier }) => {
+  try {
     // Exchange code for token from Chess.com
     const { refreshToken, decoded } = await getChessAccessTokenFromCode(
       code,
-      oAuth.codeVerifier
+      codeVerifier
     )
 
     // Create member if needed, and get current avatar
@@ -115,8 +128,6 @@ export const handleOauthCodeGrant = async ({ state, code }) => {
         /* eslint-enable no-console */
       }
     }
-
-    // Save the Discord auth credentials and update state
     return member
   } catch (e) {
     /* eslint-disable no-console */

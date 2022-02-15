@@ -11,7 +11,7 @@ import { COINBASE, coinbaseParams } from 'src/lib/oAuth/coinbase'
 
 export const oAuthUrl = async (type) => {
   let url
-  let params = {}
+  let params
   const pkce = pkceChallenge()
   if (type === CHESS) {
     params = chessParams
@@ -22,6 +22,7 @@ export const oAuthUrl = async (type) => {
     params = coinbaseParams
     url = new URL('https://www.coinbase.com/oauth/authorize')
   }
+  console.log(params)
   Object.keys(params).map((key) => {
     url.searchParams.set(key, params[key])
   })

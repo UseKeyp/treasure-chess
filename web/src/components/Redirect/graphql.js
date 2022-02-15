@@ -3,7 +3,6 @@ export const OAUTH_CODE_GRANT_MUTATION = gql`
     oauthCodeGrant(type: $type, state: $state, code: $code) {
       action
       text
-      url
     }
   }
 `

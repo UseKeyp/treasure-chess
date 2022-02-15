@@ -44,6 +44,7 @@ const Redirect = ({ type }) => {
         code,
         state,
       },
+      fetchPolicy: 'network-only',
     })
     console.log(data)
   }

@@ -88,20 +88,36 @@ export const DepositModal = ({ isVisible, toggleModal, onSubmit }) => {
   )
 }
 
-const VendorConnection = ({ details, amount }) => {
+const VendorConnection = ({ details, amount, isLoading }) => {
   if (!details) return null
   let button = (
-    <Button onClick={() => details.onConnect(amount)}>Connect</Button>
+    <Button
+      className="mt-4 w-[272px] h-[40px] text-xl shadow-m hover:sm bg-green hover:bg-greenDark hover:shadow-greenDark"
+      onClick={() => details.onConnect(amount)}
+      disabled={isLoading}
+    >
+      Connect
+    </Button>
   )
   if (details.isConnected)
-    button = <Button onClick={() => details.onDepost(amount)}>Withdraw</Button>
+    button = (
+      <Button isDisabled={isLoading} onClick={() => details.onDepost(amount)}>
+        Withdraw
+      </Button>
+    )
+
   let status = 'Not connected'
   if (details.isConnected) status = 'Connected'
   return (
-    <>
-      <h3>{details.name}</h3>
+    <div className="">
+      <div className="mt-4 flex align-center items-end">
+        <h3>{details.name}</h3>{' '}
+        <p className="ml-4">
+          <i>{status}</i>
+        </p>
+      </div>
       {button}
-    </>
+    </div>
   )
 }
 
@@ -116,6 +132,7 @@ export const WithdrawModal = ({
   const connectOrUpdate = <></>
   const wyreDetails = { name: 'Wyre', isConnected: false }
   const coinbaseDetails = { name: 'Coinbase', isConnected: false }
+  const isLoading = wyreDetails.isLoading || coinbaseDetails.isLoading
   return (
     <ModalContainer
       headerText="Withdraw Funds"
@@ -126,14 +143,22 @@ export const WithdrawModal = ({
       content={
         <>
           <p className="text-base">
-            Withdraw your funds anytime, according to the limits set by each
-            third-party provider.
+            Withdraw your funds anytime. Limits are set by each third-party
+            provider.
           </p>
-          <h4 className="mt-4 ">Amount</h4>
+          <h4 className="mt-4 ">Amount to withdraw</h4>
           <FilterPriceInput value={amount} setValue={setAmount} />
           {error && <p className="text-red">{error}</p>}
-          <VendorConnection amount={amount} details={coinbaseDetails} />
-          <VendorConnection amount={amount} details={wyreDetails} />
+          <VendorConnection
+            isLoading={isLoading}
+            amount={amount}
+            details={coinbaseDetails}
+          />
+          <VendorConnection
+            isLoading={isLoading}
+            amount={amount}
+            details={wyreDetails}
+          />
         </>
       }
     />

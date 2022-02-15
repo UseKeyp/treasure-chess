@@ -2,40 +2,31 @@ import fetch from 'cross-fetch'
 
 import { isDevelopment } from 'src/lib/helpers'
 import { decode as decodeJwt } from 'jsonwebtoken'
+import { encodeBody, getExpiration } from 'src/lib/oAuth/helpers'
 
-export const COINBASE_SCOPE = 'wallet:addresses:read wallet:user:email'
-///////////////////////////
+export const COINBASE = 'coinbase'
 
-///////////////////////////
-
-const getExpiration = (expiresIn) =>
-  new Date(new Date(Date.now() + expiresIn * 1000))
-
-const encodeBody = (body) =>
-  Object.keys(body)
-    .map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(body[key]))
-    .join('&')
-
-export const getChessBasicAuth = () =>
-  Buffer.from(
-    process.env.CHESS_BASIC_AUTH_USERNAME +
-      ':' +
-      process.env.CHESS_BASIC_AUTH_PASSWORD
-  ).toString('base64')
+export const coinbaseParams = {
+  client_id: process.env.COINBASE_CLIENT_ID,
+  scope: 'wallet:addresses:read wallet:user:email',
+  redirect_uri: process.env.APP_DOMAIN + '/redirect/coinbase',
+  referral: 'gallag_jq',
+  account_currency: 'ETH',
+}
 
 export const getCoinbaseAccessTokenFromCode = async (code, codeVerifier) => {
   try {
     const body = {
       grant_type: 'authorization_code',
-      client_id: process.env.CHESS_CLIENT_ID,
-      client_secret: process.env.CHESS_CLIENT_SECRET,
-      redirect_uri: process.env.APP_DOMAIN + '/redirect/chess',
+      client_id: process.env.COINBASE_CLIENT_ID,
+      client_secret: process.env.COINBASE_CLIENT_SECRET,
+      redirect_uri: process.env.APP_DOMAIN + '/redirect/coinbase',
       code,
       code_verifier: codeVerifier,
     }
     const encodedBody = encodeBody(body)
-    // console.log(encodedBody.split('&'))
-    const response = await fetch(process.env.CHESS_OAUTH_URL + '/token', {
+    console.log(encodedBody.split('&'))
+    const response = await fetch('https://www.coinbase.com/oauth/authorize', {
       method: 'post',
       body: encodedBody,
       headers: {
@@ -57,26 +48,21 @@ export const getCoinbaseAccessTokenFromCode = async (code, codeVerifier) => {
       access_token: accessToken,
       refresh_token: refreshToken,
       expires_in: expiration,
-      id_token: idToken, // JWT that contains identity information about user
     } = response
 
-    // Uncomment to get a new CHESS_API_ACCESS_TOKEN
-    // console.log(accessToken)
-
-    if (!response.id_token) throw 'Failed to get id_token from Chess.com'
-    const decoded = await decodeJwt(idToken)
-    if (new Date() - new Date(decoded.iat * 1000) > 60 * 1000)
-      throw 'Chess.com token was not issued recently. It must be <1 minute old.'
-    return {
-      accessToken,
-      accessTokenExpiration: getExpiration(expiration),
-      refreshToken,
-      idToken,
-      decoded,
-      idTokenExpiration: new Date(decoded.exp * 1000),
-    }
+    if (!refreshToken) throw 'Failed to get refresh_token from Chess.com'
+    console.log(accessToken)
+    // return {
+    //   accessToken,
+    //   accessTokenExpiration: getExpiration(expiration),
+    //   refreshToken,
+    // }
+    // TODO:
+    // Fetch Coinbase ETH address
+    // Save address and tokens to database
+    // Return success ?
   } catch (e) {
-    throw `getChessAccessTokenFromCode() ${e}`
+    throw `getCoinbaseAccessTokenFromCode() ${e}`
   }
 }
 
@@ -129,3 +115,5 @@ export const refreshChessTokens = async (refreshToken) => {
     throw `refreshChessTokens() ${e}`
   }
 }
+
+export const handleCoinbaseLogin = async ({ refreshToken, decoded }) => {}

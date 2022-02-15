@@ -10,11 +10,14 @@ import Loader from 'src/components/Loader'
 import Icon from 'src/components/Icon'
 import Button from 'src/components/Button'
 
+import { OAUTH_CODE_GRANT_MUTATION } from './graphql'
+
 const Redirect = ({ type }) => {
   const [errorMessage, setErrorMessage] = React.useState()
   const [orderSubmitted, setOrderSubmitted] = React.useState()
   const { code, state } = useParams()
   const { logIn } = useAuth()
+  const [codeGrant] = useMutation(OAUTH_CODE_GRANT_MUTATION)
 
   // ###############  Chess.com  ################
   const submitLoginCodeGrant = async () => {
@@ -35,13 +38,14 @@ const Redirect = ({ type }) => {
   const submitCodeGrant = async (type) => {
     if (!code || !state) return setErrorMessage('Invalid redirect parameters')
     /* eslint-disable-next-line no-undef */
-    const codeGrant = useMutation(OAUTH_CODE_GRANT_MUTATION)
-    const passed = await codeGrant({
+    const data = await codeGrant({
       variables: {
         type,
+        code,
+        state,
       },
     })
-    console.log({ passed })
+    console.log(data)
   }
 
   // ###############  Wyre  #####################

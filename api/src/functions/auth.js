@@ -5,7 +5,8 @@ import { DbAuthHandler } from '@redwoodjs/api'
 import { InputError } from '@redwoodjs/graphql-server'
 
 import { db } from 'src/lib/db'
-import { validateCodeGrant, handleUserLogin } from 'src/lib/oAuth'
+import { validateCodeGrant } from 'src/lib/oAuth'
+import { handleChessLogin } from 'src/lib/auth'
 import { CHESS } from 'src/lib/oAuth/chess'
 
 export const handler = async (event, context) => {
@@ -64,12 +65,12 @@ export const handler = async (event, context) => {
     if (!code || !state)
       throw new InputError('logIn() Code or state not provided.')
 
-    const { codeVerifier } = await validateCodeGrant({
+    const { refreshToken, decoded } = await validateCodeGrant({
       state,
       code,
       type: CHESS,
     })
-    const user = await handleUserLogin({ codeVerifier, code })
+    const user = await handleChessLogin({ refreshToken, decoded })
     const sessionData = { id: user[authHandler.options.authFields.id] }
 
     // TODO: this needs to go into graphql somewhere so that each request makes

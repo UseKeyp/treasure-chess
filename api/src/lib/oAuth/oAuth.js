@@ -4,35 +4,14 @@ import pkceChallenge from 'pkce-challenge'
 import Sentry from 'src/lib/sentry'
 
 import { db } from 'src/lib/db'
-import { fetchMember } from 'src/lib/members'
-import { getTorusPublicAddress } from 'src/lib/torus/torus'
 
-import { CHESS_SCOPE, getChessAccessTokenFromCode } from 'src/lib/oAuth/chess'
+import { CHESS, chessParams } from 'src/lib/oAuth/chess'
 
-import {
-  COINBASE_SCOPE,
-  getCoinbaseAccessTokenFromCode,
-} from 'src/lib/oAuth/coinbase'
-
-export const COINBASE = 'coinbase'
-export const CHESS = 'chess'
-
-const coinbaseParams = {
-  client_id: process.env.COINBASE_CLIENT_ID,
-  scope: COINBASE_SCOPE,
-  redirect_uri: process.env.APP_DOMAIN + '/redirect/coinbase',
-  referral: 'gallag_jq',
-  account_currency: 'ETH',
-}
-const chessParams = {
-  client_id: process.env.CHESS_CLIENT_ID,
-  scope: CHESS_SCOPE,
-  redirect_uri: process.env.APP_DOMAIN + '/redirect/chess',
-}
+import { COINBASE, coinbaseParams } from 'src/lib/oAuth/coinbase'
 
 export const oAuthUrl = async (type) => {
   let url
-  let params
+  let params = {}
   const pkce = pkceChallenge()
   if (type === CHESS) {
     params = chessParams
@@ -65,7 +44,7 @@ export const oAuthUrl = async (type) => {
   }
 }
 
-export const validateCodeGrant = async ({ state, code }) => {
+export const validateCodeGrant = async ({ state, code, type }) => {
   try {
     // Delete the OAuth Item
     let oAuth
@@ -80,65 +59,17 @@ export const validateCodeGrant = async ({ state, code }) => {
     if (new Date() - new Date(oAuth.createdAt) > 10 * 60 * 1000)
       throw 'Sorry, authentication must be completed within 10 minutes.'
 
-    // Save the Discord auth credentials and update state
-    return { codeVerifier: oAuth.codeVerifier, code }
+    if (type === CHESS) {
+      // Exchange code for token from Chess.com
+      return getChessAccessTokenFromCode(code, codeVerifier)
+    } else if (type === COINBASE) {
+      return getCoinbaseAccessTokenFromCode(code, codeVerifier)
+    }
   } catch (e) {
     /* eslint-disable no-console */
     console.log(e)
     /* eslint-enable no-console */
     Sentry.captureException(e)
     throw new AuthenticationError(e)
-  }
-}
-
-export const handleUserLogin = async ({ code, codeVerifier }) => {
-  try {
-    // Exchange code for token from Chess.com
-    const { refreshToken, decoded } = await getChessAccessTokenFromCode(
-      code,
-      codeVerifier
-    )
-
-    // Create member if needed, and get current avatar
-    const member = await fetchMember(decoded.preferred_username, true)
-    // TODO: Don't convert to string once type is changed in JWT (waiting on Chess.com)
-    if (decoded.user_id.toString() !== member.id)
-      throw new AuthenticationError(
-        `user_id in JWT doesn't match player_id from API`
-      )
-
-    await db.member.update({
-      where: { id: member.id },
-      data: {
-        refreshToken,
-        // NOTE: Updates user with their current avatar and country
-        imageSrc: member.imageSrc,
-        country: member.country,
-        ...(member.masterTitle && { masterTitle: member.masterTitle }),
-      },
-    })
-
-    // NOTE: Get Torus wallet address if needed.
-    if (!member.address) {
-      try {
-        const publicAddress = await getTorusPublicAddress(member.id)
-        await db.member.update({
-          where: { id: member.id },
-          data: { address: publicAddress },
-        })
-      } catch (e) {
-        /* eslint-disable no-console */
-        console.log("Error fetching user's wallet from Torus")
-        console.log(e)
-        /* eslint-enable no-console */
-      }
-    }
-    return member
-  } catch (e) {
-    /* eslint-disable no-console */
-    console.log(e)
-    /* eslint-enable no-console */
-    Sentry.captureException(e)
-    throw new AuthenticationError()
   }
 }

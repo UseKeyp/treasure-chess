@@ -7,7 +7,7 @@ import { WithdrawModal, DepositModal, AddressModal } from './modals'
 import {
   WYRE_DEPOSIT_URL_QUERY,
   MEMBER_BALANCE_QUERY,
-  COINBASE_LOGIN_URL_QUERY,
+  OAUTH_URL_QUERY,
 } from './graphql'
 
 const WalletContext = React.createContext({
@@ -36,7 +36,7 @@ const WalletProvider = ({ children }) => {
   const { isVisible: isVisibleAdd, toggleModal: toggleModalAdd } = useModal()
 
   const [wyreDepositUrlQuery] = useLazyQuery(WYRE_DEPOSIT_URL_QUERY)
-  const [coinbaseLoginUrlQuery] = useLazyQuery(COINBASE_LOGIN_URL_QUERY)
+  const [oAuthUrlQuery] = useLazyQuery(OAUTH_URL_QUERY)
 
   const onDeposit = async () => {
     const { data: { wyreDepositUrl } = {} } = await wyreDepositUrlQuery()
@@ -49,9 +49,11 @@ const WalletProvider = ({ children }) => {
   }
 
   const onConnectCoinbase = async () => {
-    const { data: { coinbaseLoginUrl } = {} } = await coinbaseLoginUrlQuery()
+    const { data: { oAuthUrl } = {} } = await oAuthUrlQuery({
+      variables: { type: 'coinbase' },
+    })
     window.open(
-      coinbaseLoginUrl.url,
+      oAuthUrl.url,
       'Coinbase - Connect',
       'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
     )

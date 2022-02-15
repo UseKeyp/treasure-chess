@@ -3,15 +3,15 @@ import fetch from 'cross-fetch'
 import { isDevelopment } from 'src/lib/helpers'
 import { decode as decodeJwt } from 'jsonwebtoken'
 
-export const CHESS_SCOPE = 'openid profile'
+import { fetchMember } from 'src/lib/members'
+import { getTorusPublicAddress } from 'src/lib/torus/torus'
+import { encodeBody, getExpiration } from 'src/lib/oAuth/helpers'
 
-const getExpiration = (expiresIn) =>
-  new Date(new Date(Date.now() + expiresIn * 1000))
-
-const encodeBody = (body) =>
-  Object.keys(body)
-    .map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(body[key]))
-    .join('&')
+export const chessParams = {
+  client_id: process.env.CHESS_CLIENT_ID,
+  scope: 'openid profile',
+  redirect_uri: process.env.APP_DOMAIN + '/redirect/chess',
+}
 
 export const getChessBasicAuth = () =>
   Buffer.from(
@@ -31,7 +31,6 @@ export const getChessAccessTokenFromCode = async (code, codeVerifier) => {
       code_verifier: codeVerifier,
     }
     const encodedBody = encodeBody(body)
-    // console.log(encodedBody.split('&'))
     const response = await fetch(process.env.CHESS_OAUTH_URL + '/token', {
       method: 'post',
       body: encodedBody,
@@ -124,5 +123,51 @@ export const refreshChessTokens = async (refreshToken) => {
     }
   } catch (e) {
     throw `refreshChessTokens() ${e}`
+  }
+}
+
+export const handleChessLogin = async ({ refreshToken, decoded }) => {
+  try {
+    // Create member if needed, and get current avatar
+    const member = await fetchMember(decoded.preferred_username, true)
+    // TODO: Don't convert to string once type is changed in JWT (waiting on Chess.com)
+    if (decoded.user_id.toString() !== member.id)
+      throw new AuthenticationError(
+        `user_id in JWT doesn't match player_id from API`
+      )
+
+    await db.member.update({
+      where: { id: member.id },
+      data: {
+        refreshToken,
+        // NOTE: Updates user with their current avatar and country
+        imageSrc: member.imageSrc,
+        country: member.country,
+        ...(member.masterTitle && { masterTitle: member.masterTitle }),
+      },
+    })
+
+    // NOTE: Get Torus wallet address if needed.
+    if (!member.address) {
+      try {
+        const publicAddress = await getTorusPublicAddress(member.id)
+        await db.member.update({
+          where: { id: member.id },
+          data: { address: publicAddress },
+        })
+      } catch (e) {
+        /* eslint-disable no-console */
+        console.log("Error fetching user's wallet from Torus")
+        console.log(e)
+        /* eslint-enable no-console */
+      }
+    }
+    return member
+  } catch (e) {
+    /* eslint-disable no-console */
+    console.log(e)
+    /* eslint-enable no-console */
+    Sentry.captureException(e)
+    throw new AuthenticationError()
   }
 }

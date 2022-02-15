@@ -8,4 +8,7 @@ export const schema = gql`
     loginUrl: LoginUrl! @skipAuth
     coinbaseLoginUrl: LoginUrl! @requireAuth
   }
+  type Mutation {
+    oauthCodeGrant: Boolean @requireAuth
+  }
 `

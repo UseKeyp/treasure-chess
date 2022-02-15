@@ -1,3 +1,5 @@
+import { useMutation } from '@apollo/client'
+
 import { Link, navigate, routes, useParams } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
 import { getRedirectTo } from 'src/utils/auth/helpers'
@@ -13,7 +15,7 @@ const Redirect = ({ type }) => {
   const { logIn } = useAuth()
 
   // ###############  Chess.com  ################
-  const submitOauthCodeGrant = async () => {
+  const submitLoginCodeGrant = async () => {
     if (!code || !state) return setErrorMessage('Invalid redirect parameters')
     /* eslint-disable-next-line no-undef */
     const response = await fetch(global.RWJS_API_DBAUTH_URL, {
@@ -25,6 +27,18 @@ const Redirect = ({ type }) => {
     })
     if (response.error || !response) return setErrorMessage(response.error)
     if (response.id) navigate(getRedirectTo() || '/')
+  }
+
+  // ###############  General  ################
+  const submitOauthCodeGrant = async (type) => {
+    if (!code || !state) return setErrorMessage('Invalid redirect parameters')
+    /* eslint-disable-next-line no-undef */
+    const oauthCodeGrant = useMutation(OAUTH_CODE_GRANT_MUTATION)
+    await oauthCodeGrant({
+      variables: {
+        type,
+      },
+    })
   }
 
   // ###############  Wyre  #####################
@@ -39,7 +53,9 @@ const Redirect = ({ type }) => {
     if (type === 'wyre') {
       completeWyreOrder()
     } else if (type === 'chess') {
-      submitOauthCodeGrant()
+      submitLoginCodeGrant()
+    } else {
+      submitOauthCodeGrant(type)
     }
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [code, state, type])

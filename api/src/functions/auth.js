@@ -5,7 +5,7 @@ import { DbAuthHandler } from '@redwoodjs/api'
 import { InputError } from '@redwoodjs/graphql-server'
 
 import { db } from 'src/lib/db'
-import { handleOauthCodeGrant, handleUserLogin } from 'src/lib/oAuth/oAuth'
+import { validateCodeGrant, handleUserLogin } from 'src/lib/oAuth/oAuth'
 import { CHESS } from 'src/lib/oAuth/chess'
 
 export const handler = async (event, context) => {
@@ -58,8 +58,6 @@ export const handler = async (event, context) => {
       },
     },
   })
-
-  authHandler.oAuthUrl = () => oAuthUrl(CHESS)
 
   authHandler.login = async () => {
     const { code, state } = authHandler.params

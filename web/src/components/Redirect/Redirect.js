@@ -30,15 +30,16 @@ const Redirect = ({ type }) => {
   }
 
   // ###############  General  ################
-  const submitOauthCodeGrant = async (type) => {
+  const submitCodeGrant = async (type) => {
     if (!code || !state) return setErrorMessage('Invalid redirect parameters')
     /* eslint-disable-next-line no-undef */
-    const oauthCodeGrant = useMutation(OAUTH_CODE_GRANT_MUTATION)
-    await oauthCodeGrant({
+    const codeGrant = useMutation(OAUTH_CODE_GRANT_MUTATION)
+    const passed = await codeGrant({
       variables: {
         type,
       },
     })
+    console.log({ passed })
   }
 
   // ###############  Wyre  #####################
@@ -55,7 +56,7 @@ const Redirect = ({ type }) => {
     } else if (type === 'chess') {
       submitLoginCodeGrant()
     } else {
-      submitOauthCodeGrant(type)
+      submitCodeGrant(type)
     }
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [code, state, type])

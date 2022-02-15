@@ -6,6 +6,7 @@ export const schema = gql`
   }
   type Query {
     oAuthUrl(type: String!): LoginUrl! @requireAuth
+    chessLoginUrl: LoginUrl! @skipAuth
   }
   type Mutation {
     oauthCodeGrant(code: String!, state: String!, type: String!): Boolean

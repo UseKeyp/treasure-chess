@@ -49,6 +49,7 @@ const MobileNav = () => {
             <li className={navItemClasses}>
               <Button to={routes.home()}>
                 <Icon name="treasure_chess_full_white" />
+                <span className="sr-only">home</span>
               </Button>
             </li>
             <li className={navItemClasses}>

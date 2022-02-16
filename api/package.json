@@ -10,6 +10,7 @@
     "@ethersproject/providers": "^5.4.5",
     "@ethersproject/units": "^5.5.0",
     "@ethersproject/wallet": "^5.4.0",
+    "@napi-rs/canvas": "^0.1.19",
     "@redwoodjs/api": "^0.40.0",
     "@redwoodjs/graphql-server": "^0.40.0",
     "@sentry/node": "^6.17.3",
@@ -17,24 +18,29 @@
     "@toruslabs/fetch-node-details": "^5.0.0",
     "@toruslabs/torus.js": "^5.0.1",
     "@treasure-chess/chess-achievements": "0.1.4",
+    "@treasure-chess/chess-image-generator": "^1.5.7",
     "@treasure-chess/treasure-contracts": "^0.1.0",
     "@treasure-chess/treasure-filters": "^1.1.0",
     "@treasure-chess/treasure-html": "^1.1.0",
     "@treasure-chess/web3-helpers": "^1.0.0",
     "atob": "^2.1.2",
     "bad-words": "^3.0.4",
-    "chess.js": "^0.10.2",
+    "chess.js": "^0.12.1",
+    "chrome-aws-lambda": "^10.1.0",
     "core-js": "^3.19.1",
     "form-data": "^4.0.0",
     "jwks-rsa": "^2.0.4",
     "pkce-challenge": "^2.2.0",
+    "playwright-core": "^1.18.1",
     "prom-client": "^14.0.1",
+    "puppeteer-core": "^13.3.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   },
   "devDependencies": {
     "@redwoodjs/cli": "^0.40.0",
     "dotenv": "^10.0.0",
-    "prisma": "^3.6.0"
+    "prisma": "^3.6.0",
+    "puppeteer": "^13.2.0"
   }
 }

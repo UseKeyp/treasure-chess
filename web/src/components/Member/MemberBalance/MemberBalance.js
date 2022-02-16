@@ -15,7 +15,12 @@ const MemberBalance = () => {
       <h4 className="memberBalance__balance">
         {usdcBalance ? (
           `$${
-            Number(usdcBalance) > 0 ? Number(usdcBalance).toLocaleString() : 0
+            Number(usdcBalance) > 0
+              ? Number(usdcBalance).toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })
+              : 0
           }`
         ) : (
           <LoadingDots />

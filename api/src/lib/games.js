@@ -118,7 +118,7 @@ export const getGamesWithArguments = async ({ username, filter }) => {
   const games = await fetchChessGames({ username, year, month })
   if (!games?.length) return []
   // TODO: Limit to 200 most recent games?
-  const sortedGames = games.sort((a, b) => b.endTime - a.endTime) //.slice(0, 200)
+  const sortedGames = games.sort((a, b) => b.end_time - a.end_time) //.slice(0, 200)
   const filteredGames = sortedGames.filter((game) => {
     if (
       filterObj.username &&

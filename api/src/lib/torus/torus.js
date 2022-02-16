@@ -47,7 +47,7 @@ export const getTorusPublicAddress = async (userId) => {
       torusNodePub,
       verifierDetails
     )
-    return publicAddress
+    return publicAddress.toLowerCase()
   } catch (e) {
     /* eslint-disable-next-line no-console */
     console.log(e)

@@ -41,6 +41,7 @@ const SentryInjector = () => {
   try {
     Sentry.init({
       dsn: 'https://0723d14bc0b94064902f01f77a915392@o1016103.ingest.sentry.io/5981718',
+      environment: process.env.NODE_ENV,
       beforeSend(event) {
         // Check if it is an exception, and if so, show the report dialog
         if (event.exception) {

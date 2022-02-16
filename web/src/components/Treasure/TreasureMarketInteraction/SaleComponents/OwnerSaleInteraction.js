@@ -9,6 +9,7 @@ import {
   PENDING_LISTED,
   PENDING_DELISTED,
   DELISTED,
+  SOLD,
 } from 'src/providers/market/constants'
 
 const OwnerSaleInteraction = () => {
@@ -51,7 +52,7 @@ const OwnerSaleInteraction = () => {
     )
   }
 
-  if ([PENDING_LISTED, null, DELISTED].includes(marketStatus))
+  if ([PENDING_LISTED, null, DELISTED, SOLD].includes(marketStatus))
     return (
       <div className="flex flex-col w-[396px] h-52 p-4 mb-4 rounded-xl shadow-md justify-between bg-chessBlack-200">
         <div>

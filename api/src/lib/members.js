@@ -12,7 +12,6 @@ export const fetchMember = async (usernameOrAddress, includeChessData) => {
     isHexAddress(usernameOrAddress)
       ? (address = usernameOrAddress)
       : (username = usernameOrAddress)
-
     member = await db.member.findUnique({
       where: {
         ...(address && { address }),
@@ -35,7 +34,7 @@ export const fetchMember = async (usernameOrAddress, includeChessData) => {
           data: {
             id: chessData.player_id.toString(),
             username: chessData.username,
-            mintCredits: process.env.MINT_CREDITS_NEW_MEMBER,
+            mintCredits: Number(process.env.MINT_CREDITS_NEW_MEMBER),
             ...(chessData.avatar && { imageSrc: chessData.avatar }),
             ...(chessData.masterTitle && {
               masterTitle: chessData.masterTitle,
@@ -53,6 +52,17 @@ export const fetchMember = async (usernameOrAddress, includeChessData) => {
         masterTitle: chessData.title,
         country,
       }
+    } else if (!member && address) {
+      // Create external wallet user
+      member = await db.member.create({
+        data: {
+          id: address.toLowerCase(),
+          username: address.toLowerCase(),
+          address: address.toLowerCase(),
+          mintCredits: 0,
+          country: 'ETHER',
+        },
+      })
     }
     return {
       ...member,

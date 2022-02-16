@@ -26,6 +26,8 @@ export const listTreasure = async ({ tokenId, amount }) => {
         include: { listTx: true, unlistTx: true, saleTransactions: true },
       },
       owner: true,
+      white: { select: { address: true } },
+      black: { select: { address: true } },
     },
   })
   return createNewTreasureListing({ treasure, amount })

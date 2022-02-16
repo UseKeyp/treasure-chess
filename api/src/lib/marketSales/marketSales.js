@@ -3,7 +3,8 @@ import { EnvelopError } from '@envelop/core'
 import { db } from 'src/lib/db'
 import { checkGasAndAirdrop } from 'src/lib/web3/airdrop'
 import { getUsdcBalance } from 'src/lib/web3/tokens'
-import { getTxStatus } from 'src/lib/web3'
+import { getTxStatus, getSaleTxStatus } from 'src/lib/web3'
+import { fetchMember } from 'src/lib/members'
 import { list, unlist, buy } from 'src/lib/web3/treasureMarket'
 
 const PENDING_LISTED = 'PENDING_LISTED'
@@ -29,6 +30,10 @@ const validateCreateNewListingRequest = ({ treasure, amount }) => {
     !currentMarketSale.isClosed
   )
     throw new EnvelopError(`This Treasure is already listed.`)
+  if (!treasure.white.address || !treasure.black.address)
+    throw new EnvelopError(
+      `Both players must sign-in before this Treasure can be listed.`
+    )
 }
 
 const validateRemoveListingRequest = ({ treasure }) => {
@@ -70,7 +75,7 @@ export const processPendingMarketTransactions = async ({ treasure }) => {
     // marketSales marked completed are not re-checked
     let currentMarketSale = treasure.marketSales[0]
     if (!currentMarketSale) return treasure
-    let transactions = {}
+    let transactions = { saleTransactions: [] }
     let newMarketSale = currentMarketSale
 
     // List and Unlist transactions
@@ -123,16 +128,31 @@ export const processPendingMarketTransactions = async ({ treasure }) => {
     await Promise.all(
       currentMarketSale.saleTransactions.map(async (tx, index) => {
         // Check them all
-        const newStatus = await getTxStatus(tx.id)
-        if (newStatus !== tx.status) {
-          tx = await db.transaction.update({
-            where: { id: tx.id },
-            data: { status: newStatus },
-          })
-          if (tx.status === COMPLETE) {
+        const newStatus = await getSaleTxStatus(tx.id)
+        if (newStatus?.status && newStatus.status !== tx.status) {
+          if (newStatus.status === COMPLETE) {
+            if (treasure.tokenId !== newStatus.tokenId) return // Could happen in weird edge case?
+            let buyer = await db.member.findUnique({
+              where: { address: newStatus.buyerAddress },
+            })
+            // Create external wallet buyer
+            if (!buyer) buyer = await fetchMember(newStatus.buyerAddress)
             newMarketSale = await db.marketSale.update({
               where: { id: currentMarketSale.id },
-              data: { status: SOLD, isClosed: true },
+              data: {
+                status: SOLD,
+                isClosed: true,
+                buyer: { connect: { id: buyer.id } },
+                treasure: {
+                  update: {
+                    owner: { connect: { id: buyer.id } },
+                  },
+                },
+              },
+            })
+            await db.transaction.update({
+              where: { id: tx.id },
+              data: { status: newStatus.status },
             })
           } else if (tx.status === FAILED) {
             // newMarketSale = await db.marketSale.update({

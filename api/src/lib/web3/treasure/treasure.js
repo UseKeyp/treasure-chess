@@ -5,7 +5,6 @@ import achievementsList from '@treasure-chess/chess-achievements/src/achievement
 
 import { adminSendTransaction } from 'src/lib/web3/admin'
 import { web3Provider } from 'src/lib/web3/helpers'
-import { memberSendTransaction } from 'src/lib/web3/member'
 
 const treasureAbi = treasureArtifact.abi
 
@@ -77,29 +76,4 @@ export const totalSupply = async () => {
   const treasureContract = getTreasureContract()
   const supply = await treasureContract.getTotalGames()
   return supply.toString()
-}
-
-export const checkAndSetMarketApproval = async ({ member }) => {
-  try {
-    const treasureContract = getTreasureContract()
-    const isApprovedForAll = await treasureContract.isApprovedForAll(
-      member.address,
-      process.env.CONTRACT_ADDRESS_TREASURE_MARKET
-    )
-    if (!isApprovedForAll) {
-      const unsignedTx =
-        await treasureContract.populateTransaction.setApprovalForAll(
-          process.env.CONTRACT_ADDRESS_TREASURE_MARKET,
-          true
-        )
-      const tx = await memberSendTransaction({
-        memberId: member.id,
-        unsignedTx,
-      })
-      return tx
-    }
-    return null
-  } catch (e) {
-    throw new Error(`checkAndSetMarketApproval() ${e}`)
-  }
 }

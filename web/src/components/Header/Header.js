@@ -49,7 +49,6 @@ const MobileNav = () => {
             <li className={navItemClasses}>
               <Button to={routes.home()}>
                 <Icon name="treasure_chess_full_white" />
-                <span className="sr-only">home</span>
               </Button>
             </li>
             <li className={navItemClasses}>
@@ -64,6 +63,20 @@ const MobileNav = () => {
                 className={navAnchorClasses}
               >
                 About
+              </Button>
+            </li>
+            <li className={navItemClasses}>
+              <Button
+                href="https://airtable.com/shrWkB9MS13NXoM46"
+                target="_blank"
+                size="large"
+              >
+                <div className="flex items-center">
+                  <div className="mr-2">
+                    <Icon name="book" />
+                  </div>
+                  <h3>Beta Feedback</h3>
+                </div>
               </Button>
             </li>
             {!isLoggedIn ? (
@@ -110,11 +123,9 @@ const Header = () => {
 
   return (
     <div className={'header'}>
-      <div className={'header__iconSearch'}>
-        <Button to={routes.home()} className="mr-4">
-          <Icon name="treasure_chess_full" height="35px" color="#fff" />
-        </Button>
-      </div>
+      <Button to={routes.home()} className="mr-4 align-center">
+        <Icon name="treasure_chess_full" height="35px" color="#fff" />
+      </Button>
       <div className="flex flex-1 items-center justify-end lg:hidden">
         <MobileNav />
       </div>
@@ -151,7 +162,7 @@ const Header = () => {
               <div className="mr-2">
                 <Icon name="book" />
               </div>
-              Feedback
+              Beta Feedback
             </div>
           </Button>
         </div>

@@ -5,9 +5,7 @@ import members from '../../../../../scripts/seed/member'
 export const generated = () => {
   return <MemberDetails member={members[1]} />
 }
-export const notLoggedIn = () => {
-  return <MemberDetails member={members[2]} />
-}
+
 export const profile = () => {
   return <MemberDetails member={members[2]} isProfile />
 }

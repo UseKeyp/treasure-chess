@@ -1,0 +1,27 @@
+.cardContainer{
+//max-width: 1084px;
+height: auto;
+//margin: 0 auto;
+place-items: center;
+align-items: flex-start;
+}
+
+.card{
+  width: 256px;
+}
+
+.cardText{
+  height:24px;
+  width: 80%;
+  text-align: center;
+  margin: 0 auto;
+  background-color: theme('colors.greenDark') ;
+  box-shadow: inset 0px 3px 0px rgba(0, 0, 0, 0.25);
+border-radius: 0px 0px 4px 4px;
+  p{
+    font-size: 13px;
+  line-height: 15.38px;
+  font-weight: 700;
+  padding-top: 4px;
+  }
+}

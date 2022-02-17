@@ -1,11 +1,12 @@
 import ProfanityFilter from 'bad-words'
 import { EnvelopError } from '@envelop/core'
-import { Chess } from 'chess.js'
+const chess = require('chess.js')
+const Chess = chess.Chess
 
 const profanityFilter = new ProfanityFilter()
 
 export const isHexAddress = (address) => {
-  return /^(0x)?[0-9a-f]{40}$/i.test(address)
+  return /^0x[0-9a-fA-F]{40}$/i.test(address)
 }
 
 export const isDevelopment =
@@ -36,7 +37,7 @@ export const validateTreasureTitle = (string) => {
 }
 
 /**
- * Loads PGN into chess.js object, and calculates the location pieces
+ * Loads PGN into chess.js object,  and calculates the location pieces
  * @param {string} pgn Chess game PGN
  */
 export const getBoardLayout = (pgn) => {

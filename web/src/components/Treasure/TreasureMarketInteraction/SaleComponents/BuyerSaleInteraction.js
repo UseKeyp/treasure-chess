@@ -7,21 +7,20 @@ import { PENDING_SOLD, SOLD, DELISTED } from 'src/providers/market/constants'
 
 const BuyerSaleInteraction = () => {
   const { actionStatus, actionError, marketStatus, buy, amount } = useMarket()
-
-  if ([null, DELISTED].includes(marketStatus)) return <></>
-
+  if ([null, DELISTED, SOLD].includes(marketStatus) && actionStatus !== SOLD)
+    return <></>
   let buttonText = 'Buy'
   if (actionStatus === PENDING_SOLD) buttonText = 'Purchase in Progress'
 
   const textColor = marketStatus === PENDING_SOLD ? 'text-black' : 'text-white'
-  const backgroundColor =
-    marketStatus === SOLD ? 'bg-orange' : 'bg-chessBlack-200'
+  const backgroundColor = actionStatus === SOLD ? '[#47A7FF]' : 'chessBlack-200'
 
   const PurchaseButton = () => {
+    if (actionStatus === SOLD) return <div className="w-[272px] h-[40px]"></div>
     return (
       <Button
         className={`w-[272px] h-[40px] text-xl shadow-m hover:sm hover:bg-green hover:shadow-greenDark ${
-          actionStatus === PENDING_SOLD && 'pointer-events-none'
+          [PENDING_SOLD, SOLD].includes(actionStatus) && 'pointer-events-none'
         }`}
         label={buttonText}
         variant={actionStatus === PENDING_SOLD ? 'grey' : 'green'}
@@ -49,7 +48,7 @@ const BuyerSaleInteraction = () => {
 
   return (
     <div
-      className={`flex flex-col justify-between w-[396px] h-[108px] mb-4 p-4 rounded-xl shadow-md ${backgroundColor}`}
+      className={`flex flex-col justify-between w-[396px] h-[108px] mb-4 p-4 rounded-xl shadow-md bg-${backgroundColor}`}
     >
       <div className="flex items-center justify-between">
         <h2 className={`text-base ${textColor}`}>Buy Treasure</h2>

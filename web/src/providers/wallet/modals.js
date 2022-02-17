@@ -51,32 +51,51 @@ export const AddressModal = ({ address, isVisible, toggleModal }) => {
     />
   )
 }
-export const DepositModal = ({ isVisible, toggleModal, onSubmit }) => (
-  <ModalContainer
-    isVisible={isVisible}
-    onSubmit={onSubmit}
-    hideModal={toggleModal}
-    headerText="Deposit Funds"
-    icon={<Icon name="wyre" size="29" />}
-    submitText="Deposit with Wyre"
-    content={
-      <p className="text-base">
-        Fund your wallet using Wyre. Funds are typically added in less than 3
-        minutes, and can be withdrawn anytime according to the limits set by
-        Wyre.
-      </p>
-    }
-  />
-)
+export const DepositModal = ({ isVisible, toggleModal, onSubmit }) => {
+  return (
+    <ModalContainer
+      isVisible={isVisible}
+      onSubmit={onSubmit}
+      // isLoading={isLoading}
+      hideModal={toggleModal}
+      headerText="Deposit Funds"
+      icon={<Icon name="wyre" size="29" />}
+      submitText="Deposit with Wyre"
+      content={
+        <>
+          {' '}
+          <p className="text-base">
+            Fund your wallet using Wyre. Funds are typically added in less than
+            3 minutes, and can be withdrawn anytime according to the limits set
+            by Wyre.
+          </p>
+          <p className="text-base mt-4 mb-4">
+            <i>
+              By submitting, I authorize Wyre Payments, Inc., to electronically
+              charge my credit/debit card (and, if necessary, electronically
+              credit my card) using the card indicated by me. I understand that
+              this authorization will remain in full force and effect until I
+              notify Treasure Chess that I wish to revoke this authorization. I
+              agree that credit/debit card transactions I authorize, comply with
+              all applicable law.
+            </i>
+          </p>
+        </>
+      }
+    />
+  )
+}
 
-export const WithdrawModal = ({ isVisible, toggleModal, onSubmit }) => (
+export const WithdrawModal = ({ isVisible, toggleModal, _onSubmit }) => (
   <ModalContainer
     headerText="Withdraw Funds"
     isVisible={isVisible}
-    onSubmit={onSubmit}
+    // onSubmit={onSubmit}
+    onSubmit={toggleModal}
     hideModal={toggleModal}
     icon={<Icon name="wyre" size="29" />}
-    submitText="Withdraw with Wyre"
+    submitText="(under development)"
+    // submitText="Withdraw with Wyre"
     content={
       <p className="text-base">
         Withdraw your funds using Wyre. Funds can be withdrawn anytime according

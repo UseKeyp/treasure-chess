@@ -30,12 +30,11 @@ const card = `<html>
     <meta name="author" content="Treasure Chess">
     <style>
     #match-anchor{
-      opacity:0.5;
-
+      opacity:1;
     }
     #match-anchor:hover{
       color:#000;
-      opacity:1;
+      opacity:0.5;
     }
     </style>
 	</head>

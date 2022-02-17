@@ -82,8 +82,8 @@ const MarketProvider = ({ children }) => {
     fetchPolicy: 'network-only',
     variables: { tokenId },
     onCompleted: async ({ treasureWithMarketSales } = {}) => {
-      const last = state.marketSale
-      const current = treasureWithMarketSales.marketSales[0]
+      const last = state?.marketSale || {}
+      const current = treasureWithMarketSales?.marketSales[0] || {}
       if (current.status === last.status) return
       const { status, isClosed, amount } = current
       let shouldPoll = false

@@ -35,15 +35,14 @@ Images are built via Github Action. To build the images locally:
 
 ```bash
 # web
-docker build . -t pi0neerpat/treasure-chess-redwood-web-main -f web/Dockerfile \
---build-arg NODE_ENV=production \
---build-arg RUNTIME_ENV=local \
---build-arg REDWOOD_API_URL=http://0.0.0.0:8911
+docker build . -t pi0neerpat/treasure-chess-redwood-web -f web/Dockerfile \
+--build-arg NODE_ENV=dev \
+--build-arg REDWOOD_API_URL=http://0.0.0.0:8911 \
+--build-arg BASIC_AUTH_PASSWORD='pauliemorphy'
 
 # api
-docker build . -t pi0neerpat/treasure-chess-redwood-api-main -f api/Dockerfile \
---build-arg NODE_ENV=production \
---build-arg RUNTIME_ENV=local
+docker build . -t pi0neerpat/treasure-chess-redwood-api -f api/Dockerfile \
+--build-arg NODE_ENV=dev \
 
 # both
 docker build . -t pi0neerpat/treasure-chess-redwood-both-main \

@@ -41,7 +41,7 @@ export const getCoinbaseAccessTokenFromCode = async (code, codeVerifier) => {
       },
     }).then((res) => {
       if (res.status == 401)
-        throw 'Chess.com basic authorization failed, or secret invalid'
+        throw 'Coinbase basic authorization failed, or secret invalid'
       return res.json()
     })
     if (response.error)
@@ -53,7 +53,7 @@ export const getCoinbaseAccessTokenFromCode = async (code, codeVerifier) => {
       expires_in: expiration,
     } = response
 
-    if (!refreshToken) throw 'Failed to get refresh_token from Chess.com'
+    if (!refreshToken) throw 'Failed to get refresh_token from Coinbase'
     console.log(accessToken)
     // return {
     //   accessToken,
@@ -91,7 +91,7 @@ export const refreshChessTokens = async (refreshToken) => {
       },
     }).then((res) => {
       if (res.status == 401)
-        throw new Error('Chess.com basic authorization failed')
+        throw new Error('Coinbase basic authorization failed')
       return res.json()
     })
     if (response.error)
@@ -103,7 +103,7 @@ export const refreshChessTokens = async (refreshToken) => {
       id_token: newIdToken, // JWT that contains identity information about user
     } = response
     if (!newAccessToken || !newRefreshToken || !newIdToken)
-      throw 'Failed to refresh tokens from Chess.com'
+      throw 'Failed to refresh tokens from Coinbase'
     const newExpirationDate = getExpiration(newExpiration)
     const decoded = decodeJwt(newIdToken)
     const idTokenExpiration = new Date(decoded.exp * 1000)

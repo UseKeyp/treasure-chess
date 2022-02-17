@@ -33,7 +33,10 @@ export const schema = gql`
     usdcBalance: String!
     mintCreditBalance: Int!
   }
-
+  type MemberRampDetaills {
+    coinbaseWithdrawAddress: String!
+    wyreWithdrawAddress: Int!
+  }
   input CreateMemberInput {
     address: String!
     rating: Int!
@@ -56,6 +59,7 @@ export const schema = gql`
     usernames(query: String!): [String]! @skipAuth
     profile: Profile! @requireAuth
     memberBalance: MemberBalance! @requireAuth
+    memberRamps: MemberRampDetaills! @requireAuth
   }
 
   enum MasterTitle {

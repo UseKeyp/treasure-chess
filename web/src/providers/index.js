@@ -7,6 +7,7 @@ import { ToastProvider } from 'src/providers/toast'
 import { FilterProvider } from './filters'
 import { RestrictedProvider } from './restricted'
 import { MarketProvider } from './market'
+import { RampProvider } from './ramp'
 
 const AllContextProviders = ({ children }) => {
   // Add additional context providers here
@@ -19,11 +20,13 @@ const AllContextProviders = ({ children }) => {
           <ToastProvider>
             <GamesContextProvider>
               <TokenSessionProvider />
-              <WalletProvider>
-                <MintingProvider>
-                  <MarketProvider>{children}</MarketProvider>
-                </MintingProvider>
-              </WalletProvider>
+              <RampProvider>
+                <WalletProvider>
+                  <MintingProvider>
+                    <MarketProvider>{children}</MarketProvider>
+                  </MintingProvider>
+                </WalletProvider>
+              </RampProvider>
             </GamesContextProvider>
           </ToastProvider>
         </FilterProvider>

@@ -38,38 +38,6 @@ const WalletProvider = ({ children }) => {
   const [wyreDepositUrlQuery] = useLazyQuery(WYRE_DEPOSIT_URL_QUERY)
   const [oAuthUrlQuery] = useLazyQuery(OAUTH_URL_QUERY)
 
-  const onDeposit = async () => {
-    const { data: { wyreDepositUrl } = {} } = await wyreDepositUrlQuery()
-    window.open(
-      wyreDepositUrl,
-      'Treasure Chess - Deposit',
-      'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
-    )
-    toggleModalDep()
-  }
-
-  const onConnectCoinbase = async () => {
-    const { data: { oAuthUrl } = {} } = await oAuthUrlQuery({
-      variables: { type: 'coinbase' },
-    })
-    window.open(
-      oAuthUrl.url,
-      'Coinbase - Connect',
-      'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
-    )
-    setCoinbaseDetails({ ...coinbaseDetails, isLoading: true })
-  }
-
-  const onConnectWyre = async () => {
-    // const { data: { url } = {} } = await coinbaseLoginUrlQuery()
-    // window.open(
-    //   url,
-    //   'Coinbase - Connect',
-    //   'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
-    // )
-    // setCoinbaseDetails({ ...coinbaseDetails, isLoading: true })
-  }
-
   const {
     data: { memberBalance } = {},
     error: balanceError,
@@ -99,17 +67,8 @@ const WalletProvider = ({ children }) => {
         balanceLoading,
       }}
     >
-      <DepositModal
-        onSubmit={onDeposit}
-        isVisible={isVisibleDep}
-        toggleModal={toggleModalDep}
-      />
-      <WithdrawModal
-        isVisible={isVisibleWit}
-        toggleModal={toggleModalWit}
-        wyreDetails={{ ...wyreDetails, onConnect: onConnectWyre }}
-        coinbaseDetails={{ ...coinbaseDetails, onConnect: onConnectCoinbase }}
-      />
+      <DepositModal isVisible={isVisibleDep} toggleModal={toggleModalDep} />
+      <WithdrawModal isVisible={isVisibleWit} toggleModal={toggleModalWit} />
       <AddressModal
         address={currentUser?.address}
         isVisible={isVisibleAdd}

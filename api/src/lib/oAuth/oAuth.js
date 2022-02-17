@@ -56,6 +56,7 @@ export const validateCodeGrant = async ({ state, code, type }) => {
   try {
     // Delete the OAuth Item
     let oAuth
+    console.log(`validateCodeGrant ${type} ${code} ${state}`)
     try {
       oAuth = await db.oAuth.delete({ where: { state } })
       if (!oAuth) throw 'state not valid'

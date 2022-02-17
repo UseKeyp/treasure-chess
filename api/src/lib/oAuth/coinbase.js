@@ -1,4 +1,7 @@
 import fetch from 'cross-fetch'
+import Sentry from 'src/lib/sentry'
+import { AuthenticationError } from '@redwoodjs/graphql-server'
+import { db } from 'src/lib/db'
 
 import { isDevelopment } from 'src/lib/helpers'
 import { decode as decodeJwt } from 'jsonwebtoken'

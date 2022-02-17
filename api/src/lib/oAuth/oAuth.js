@@ -5,9 +5,17 @@ import Sentry from 'src/lib/sentry'
 
 import { db } from 'src/lib/db'
 
-import { CHESS, chessParams } from 'src/lib/oAuth/chess'
+import {
+  CHESS,
+  chessParams,
+  getChessAccessTokenFromCode,
+} from 'src/lib/oAuth/chess'
 
-import { COINBASE, coinbaseParams } from 'src/lib/oAuth/coinbase'
+import {
+  COINBASE,
+  coinbaseParams,
+  getCoinbaseAccessTokenFromCode,
+} from 'src/lib/oAuth/coinbase'
 
 export const oAuthUrl = async (type) => {
   let url
@@ -60,9 +68,9 @@ export const validateCodeGrant = async ({ state, code, type }) => {
       throw 'Sorry, authentication must be completed within 10 minutes.'
 
     if (type === CHESS) {
-      return getChessAccessTokenFromCode(code, codeVerifier)
+      return getChessAccessTokenFromCode(code, oAuth.codeVerifier)
     } else if (type === COINBASE) {
-      return getCoinbaseAccessTokenFromCode(code, codeVerifier)
+      return getCoinbaseAccessTokenFromCode(code, oAuth.codeVerifier)
     }
   } catch (e) {
     /* eslint-disable no-console */

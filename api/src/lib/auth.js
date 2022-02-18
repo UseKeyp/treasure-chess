@@ -14,6 +14,7 @@ export const getCurrentUser = async (session) => {
       imageSrc: true,
       mintCredits: true,
       country: true,
+      banned: true,
     },
   })
   if (!member) return null

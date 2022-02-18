@@ -1,3 +1,4 @@
+import { useCallback, useEffect } from 'react'
 import { routes, useLocation } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
 import { useWallet } from 'src/providers/wallet'
@@ -121,6 +122,16 @@ const Header = () => {
   const imageSrc = profile?.imageSrc || null
 
   const address = trimAddress(profile?.address) || 'No address set'
+
+  const handleUserStatus = useCallback(() => {
+    if (profile !== null && profile.banned) {
+      logOut()
+    }
+  }, [profile, logOut])
+
+  useEffect(() => {
+    handleUserStatus()
+  }, [handleUserStatus])
 
   return (
     <div className={'header'}>

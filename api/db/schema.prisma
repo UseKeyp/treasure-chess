@@ -1,6 +1,6 @@
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
@@ -29,6 +29,7 @@ model Member {
   masterTitle          MasterTitle? // "Grand Master" or "International Master"
   country              String // Player's country  eg. US, DE
   mintCredits          Int            @default(3) // Mint for free!
+  banned               Boolean        @default(false)
   // Oauth
   refreshToken         String?
 }
@@ -242,6 +243,7 @@ enum Termination {
   Abandoned
   Timeout
 }
+
 enum Deleteme {
   Foo
 }

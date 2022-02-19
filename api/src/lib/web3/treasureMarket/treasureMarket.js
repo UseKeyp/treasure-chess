@@ -5,6 +5,7 @@ import { parseUnits } from '@ethersproject/units'
 import { web3Provider } from 'src/lib/web3/helpers'
 import { getTreasureContract } from 'src/lib/web3/treasure'
 import { getTokenContract } from 'src/lib/web3/tokens'
+import { DEFAULT_GAS_PRICE } from 'src/lib/web3/helpers'
 
 export const getTreasureMarketContract = () => {
   try {
@@ -34,7 +35,8 @@ export const checkAndSetMarketApprovals = async ({ member }) => {
       const unsignedTx =
         await treasureContract.populateTransaction.setApprovalForAll(
           process.env.CONTRACT_ADDRESS_TREASURE_MARKET,
-          true
+          true,
+          { gasPrice: DEFAULT_GAS_PRICE }
         )
       treasureApprovalTx = await memberSendTransaction({
         memberId: member.id,
@@ -51,7 +53,8 @@ export const checkAndSetMarketApprovals = async ({ member }) => {
     if (allowance.lt(ONE_BILLION_BN)) {
       const unsignedTx = await tokenContract.populateTransaction.approve(
         process.env.CONTRACT_ADDRESS_TREASURE_MARKET,
-        ONE_BILLION_BN
+        ONE_BILLION_BN,
+        { gasPrice: DEFAULT_GAS_PRICE }
       )
       tokenApprovalTx = await memberSendTransaction({
         memberId: member.id,
@@ -74,7 +77,8 @@ export const list = async ({ treasure, amount }) => {
       await treasureMarketContract.populateTransaction.tokenListItem(
         treasure.tokenId,
         parseUnits(amount.toString(), process.env.DECIMALS_PAYMENT_TOKEN),
-        process.env.CONTRACT_ADDRESS_PAYMENT_TOKEN
+        process.env.CONTRACT_ADDRESS_PAYMENT_TOKEN,
+        { gasPrice: DEFAULT_GAS_PRICE }
       )
     const tx = await memberSendTransaction({
       memberId: treasure.ownerId,
@@ -96,7 +100,8 @@ export const unlist = async ({ treasure }) => {
     const treasureMarketContract = getTreasureMarketContract()
     const unsignedTx =
       await treasureMarketContract.populateTransaction.tokenUnlistItem(
-        treasure.tokenId
+        treasure.tokenId,
+        { gasPrice: DEFAULT_GAS_PRICE }
       )
     const tx = await memberSendTransaction({
       memberId: treasure.ownerId,
@@ -119,7 +124,8 @@ export const buy = async ({ treasure }) => {
     const unsignedTx =
       await treasureMarketContract.populateTransaction.tokenInstantBuy(
         treasure.tokenId,
-        process.env.CONTRACT_ADDRESS_PAYMENT_TOKEN
+        process.env.CONTRACT_ADDRESS_PAYMENT_TOKEN,
+        { gasPrice: DEFAULT_GAS_PRICE }
       )
     const tx = await memberSendTransaction({
       memberId: context.currentUser.id,

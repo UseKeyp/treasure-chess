@@ -45,7 +45,8 @@ export const mint = async ({ treasure, tokenUri, minterAddress }) => {
       chievScore[0], // uint16 _achievement1
       chievScore[1], // uint16 _achievement2
       chievScore[2], // uint16 _achievement3
-      treasure.cardColor === 'black' // bool _color);
+      treasure.cardColor === 'black', // bool _color);
+      { gasPrice: DEFAULT_GAS_PRICE }
     )
     const tx = await adminSendTransaction(unsignedTx)
     return tx

@@ -35,6 +35,13 @@ export const memberBalance = async () => {
   }
 }
 
+export const memberRamps = () => {
+  return {
+    coinbaseWithdrawAddress: context.currentUser.coinbaseWithdrawAddress,
+    wyreWithdrawAddress: context.currentUser.wyreWithdrawAddress,
+  }
+}
+
 export const Member = {
   treasuresOwned: (_obj, { root }) =>
     db.member.findUnique({ where: { id: root.id } }).treasuresOwned(),

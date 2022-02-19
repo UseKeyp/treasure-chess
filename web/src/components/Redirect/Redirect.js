@@ -38,6 +38,7 @@ const Redirect = ({ type }) => {
   const submitCodeGrant = async (type) => {
     if (!code || !state) return setErrorMessage('Invalid redirect parameters')
     /* eslint-disable-next-line no-undef */
+    console.log(type)
     const data = await codeGrant({
       variables: {
         type,
@@ -46,7 +47,6 @@ const Redirect = ({ type }) => {
       },
       fetchPolicy: 'network-only',
     })
-    console.log(data)
   }
 
   // ###############  Wyre  #####################

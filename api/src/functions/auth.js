@@ -68,7 +68,7 @@ export const handler = async (event, context) => {
     const { refreshToken, decoded } = await validateCodeGrant({
       state,
       code,
-      type: CHESS,
+      type: 'chess',
     })
     const user = await handleChessLogin({ refreshToken, decoded })
     const sessionData = { id: user[authHandler.options.authFields.id] }

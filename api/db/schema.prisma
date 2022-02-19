@@ -32,6 +32,7 @@ model Member {
   mintCredits             Int            @default(3) // Mint for free!
   // Oauth
   refreshToken            String?
+  // Ramps
   coinbaseWithdrawAddress String?
   wyreWithdrawAddress     String?
 }

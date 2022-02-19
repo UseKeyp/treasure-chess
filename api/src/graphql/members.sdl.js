@@ -12,6 +12,8 @@ export const schema = gql`
     country: String
     masterTitle: MasterTitle
     activity: JSON
+    coinbaseWithdrawAddress: String
+    wyreWithdrawAddress: String
   }
 
   type Profile {

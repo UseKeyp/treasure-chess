@@ -10,6 +10,8 @@ import { fetchMember } from 'src/lib/members'
 import { getTorusPublicAddress } from 'src/lib/torus/torus'
 import { encodeBody, getExpiration } from 'src/lib/oAuth/helpers'
 
+export const CHESS = 'chess'
+
 export const chessParams = {
   client_id: process.env.CHESS_CLIENT_ID,
   scope: 'openid profile',

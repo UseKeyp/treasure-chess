@@ -37,8 +37,8 @@ export const memberBalance = async () => {
 
 export const memberRamps = () => {
   return {
-    coinbaseWithdrawAddress: context.currentUser.coinbaseWithdrawAddress,
-    wyreWithdrawAddress: context.currentUser.wyreWithdrawAddress,
+    // coinbaseWithdrawAddress: context?.currentUser?.coinbaseWithdrawAddress,
+    // wyreWithdrawAddress: context?.currentUser?.wyreWithdrawAddress,
   }
 }
 

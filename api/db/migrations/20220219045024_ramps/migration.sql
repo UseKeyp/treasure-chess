@@ -4,10 +4,6 @@ CREATE TYPE "Ramp" AS ENUM ('COINBASE', 'WYRE');
 -- CreateEnum
 CREATE TYPE "RampStatus" AS ENUM ('PENDING', 'COMPLETE', 'FAILED');
 
--- AlterTable
-ALTER TABLE "Member" ADD COLUMN     "coinbaseWithdrawAddress" TEXT,
-ADD COLUMN     "wyreWithdrawAddress" TEXT;
-
 -- CreateTable
 CREATE TABLE "RampWithdraw" (
     "id" TEXT NOT NULL,

@@ -12,8 +12,6 @@ export const schema = gql`
     country: String
     masterTitle: MasterTitle
     activity: JSON
-    coinbaseWithdrawAddress: String
-    wyreWithdrawAddress: String
   }
 
   type Profile {
@@ -36,8 +34,8 @@ export const schema = gql`
     mintCreditBalance: Int!
   }
   type MemberRampDetails {
-    coinbaseWithdrawAddress: String!
-    wyreWithdrawAddress: String!
+    coinbaseWithdrawAddress: String
+    wyreWithdrawAddress: String
   }
   input CreateMemberInput {
     address: String!

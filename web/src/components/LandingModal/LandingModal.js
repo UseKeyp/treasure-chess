@@ -3,6 +3,46 @@ import Icon from 'src/components/Icon'
 import { useModal } from 'src/hooks/useModal'
 import { useEffect } from 'react'
 
+export const content = (
+  <>
+    <ul className="ml-8">
+      <li>
+        <h3 className="-indent-7 ">
+          <b>
+            <span className="mr-2">❤️</span> 100% of primary sales goes directly
+            to players
+          </b>
+        </h3>
+        <p className="mt-2">
+          Secondary sales: 90% seller / 5% player / 5% platform
+        </p>
+      </li>
+      <li>
+        <h3 className="-indent-7 ">
+          <span className="mr-2">🌱</span> <b>Environmentally friendly</b>
+        </h3>
+        <p className="mt-2 ">
+          Less energy consumed than playing a game of chess online.
+        </p>
+      </li>
+      <li>
+        <h3 className="-indent-7 ">
+          <span className="mr-3">🌞</span>
+          <b>Keep it fun</b>
+        </h3>
+        <p className="mt-2 ">
+          Support the players and creator you love. Speculation is limited by a
+          $100 maximum deposit.
+        </p>
+      </li>
+    </ul>
+    <p className="mt-8">
+      We need your consent to set cookies on your device. To agree, click
+      &apos;Accept&apos; below.
+    </p>
+  </>
+)
+
 const LandingModal = () => {
   const { isVisible, toggleModal } = useModal()
 
@@ -18,46 +58,6 @@ const LandingModal = () => {
     _paq.push(['rememberConsentGiven'])
     toggleModal()
   }
-
-  const content = (
-    <>
-      <ul className="ml-8">
-        <li>
-          <h3 className="-indent-7 ">
-            <b>
-              <span className="mr-2">❤️</span> 100% of primary sales go directly
-              to players - that&apos;s you!
-            </b>
-          </h3>
-          <p className="">
-            Secondary sales: 90% seller / 5% player / 5% platform
-          </p>
-        </li>
-        <li>
-          <h3 className="-indent-7 ">
-            <span className="mr-2">🌱</span> <b>Environmentally friendly</b>
-          </h3>
-          <p className="mt-2 ">
-            Less energy consumed than playing a game of chess online.
-          </p>
-        </li>
-        <li>
-          <h3 className="-indent-7 ">
-            <span className="mr-3">🌞</span>
-            <b>Keep it fun</b>
-          </h3>
-          <p className="mt-2 ">
-            Support the players and creator you love. Speculation is limited by
-            a $100 maximum deposit.
-          </p>
-        </li>
-      </ul>
-      <p className="mt-8">
-        We need your consent to set cookies on your device. To agree, click
-        &apos;Accept&apos; below.
-      </p>
-    </>
-  )
 
   return (
     <ModalContainer

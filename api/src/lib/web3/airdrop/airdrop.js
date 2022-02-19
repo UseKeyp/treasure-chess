@@ -4,6 +4,7 @@ import { web3Provider } from 'src/lib/web3/helpers'
 import { sendDiscordAlert } from 'src/lib/discord/discord'
 import { getExplorerBaseUrlFromName } from '@treasure-chess/web3-helpers'
 import Sentry from 'src/lib/sentry'
+import { DEFAULT_GAS_PRICE } from 'src/lib/web3/helpers'
 
 const MINIMUM_GAS_THRESHOLD = '0.0075' // Units of Ether
 const DEFAULT_DROP_AMOUNT = '0.025' // Units of Ether
@@ -25,6 +26,7 @@ const airdropGasTransaction = async ({ address, amount }) => {
     const tx = {
       to: address,
       value: parseEther(amount),
+      gasPrice: DEFAULT_GAS_PRICE,
     }
     validateConfig(payerWallet)
     const payerWalletWithProvider = await payerWallet.connect(web3Provider)
@@ -53,6 +55,8 @@ const checkGasAndAirdrop = async ({ member, amount = DEFAULT_DROP_AMOUNT }) => {
       await notifyDiscord({
         member,
         txHash: tx.hash,
+        gasPrice: tx.gasPrice,
+        gasLimit: tx.gasLimit,
         payerBalance: formatEther(payerBalance),
       })
       return tx
@@ -65,7 +69,13 @@ const checkGasAndAirdrop = async ({ member, amount = DEFAULT_DROP_AMOUNT }) => {
   }
 }
 
-const notifyDiscord = async ({ member, txHash, payerBalance }) => {
+const notifyDiscord = async ({
+  member,
+  txHash,
+  payerBalance,
+  gasPrice,
+  gasLimit,
+}) => {
   try {
     await sendDiscordAlert({
       embed: {
@@ -73,6 +83,8 @@ const notifyDiscord = async ({ member, txHash, payerBalance }) => {
         title: `✅  Airdrop Submitted!`,
         description: `Username: ${member.username}
 Address: ${member.address}
+Gas Price: ${gasPrice}
+Gas Limit: ${gasLimit}
 ${getExplorerBaseUrlFromName(process.env.ETHEREUM_NETWORK_NAME)}tx/${txHash}
 
 Payer balance: **${payerBalance}**`,

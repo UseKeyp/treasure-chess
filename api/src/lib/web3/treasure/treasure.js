@@ -4,7 +4,7 @@ import { Contract } from '@ethersproject/contracts'
 import achievementsList from '@treasure-chess/chess-achievements/src/achievementsList'
 
 import { adminSendTransaction } from 'src/lib/web3/admin'
-import { web3Provider } from 'src/lib/web3/helpers'
+import { web3Provider, DEFAULT_GAS_PRICE } from 'src/lib/web3/helpers'
 
 const treasureAbi = treasureArtifact.abi
 
@@ -45,7 +45,8 @@ export const mint = async ({ treasure, tokenUri, minterAddress }) => {
       chievScore[0], // uint16 _achievement1
       chievScore[1], // uint16 _achievement2
       chievScore[2], // uint16 _achievement3
-      treasure.cardColor === 'black' // bool _color);
+      treasure.cardColor === 'black', // bool _color);
+      { gasPrice: DEFAULT_GAS_PRICE }
     )
     const tx = await adminSendTransaction(unsignedTx)
     return tx

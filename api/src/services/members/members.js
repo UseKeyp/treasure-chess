@@ -36,17 +36,13 @@ export const memberBalance = async () => {
 }
 
 export const memberRamps = async () => {
-  // const member = await db.member.findUnique({
-  //   where: { id: context.currentUser.id },
-  // })
-  //
-  // return {
-  //   coinbaseWithdrawAddress: member.coinbaseWithdrawAddress,
-  //   wyreWithdrawAddress: member.wyreWithdrawAddress,
-  // }
+  const member = await db.member.findUnique({
+    where: { id: context.currentUser.id },
+  })
+
   return {
-    coinbaseWithdrawAddress: null,
-    wyreWithdrawAddress: null,
+    coinbaseWithdrawAddress: member.coinbaseWithdrawAddress,
+    wyreWithdrawAddress: member.wyreWithdrawAddress,
   }
 }
 export const memberActivity = (usernameOrAddress) => getMemberActivity()

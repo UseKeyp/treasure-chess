@@ -35,10 +35,20 @@ const RampProvider = ({ children }) => {
   })
 
   const updateRamps = () => {
-    console.log(memberRamps)
+    setCoinbase({
+      ...coinbase,
+      isConnected: memberRamps.coinbaseWithdrawAddress && true,
+      address: memberRamps.coinbaseWithdrawAddress,
+    })
+    setWyre({
+      ...wyre,
+      isConnected: memberRamps.wyreWithdrawAddress && true,
+      address: memberRamps.wyreWithdrawAddress,
+    })
   }
 
   React.useEffect(() => {
+    if (!memberRamps) return
     updateRamps()
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [memberRamps])

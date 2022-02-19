@@ -4,6 +4,7 @@ import FilterPriceInput from 'src/components/FilterPriceInput'
 import Button from 'src/components/Button'
 import LoadingDots from 'src/components/LoadingDots'
 import { useRamp } from 'src/providers/ramp'
+import { trimAddress } from 'src/utils/helpers'
 
 export const AddressModal = ({ address, isVisible, toggleModal }) => {
   const [copied, setCopied] = React.useState(false)
@@ -124,7 +125,7 @@ const VendorConnection = ({ ramp, amount, isLoading, disabled }) => {
   if (disabled) button = <h3 className="mt-4">(Coming soon)</h3>
 
   let status = 'Not connected'
-  if (ramp.isConnected) status = 'Connected'
+  if (ramp.isConnected) status = `Connected - ${trimAddress(ramp.address)}`
   return (
     <div className="">
       <div className="mt-4 flex align-center items-end">

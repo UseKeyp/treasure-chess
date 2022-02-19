@@ -121,6 +121,7 @@ const RampProvider = ({ children }) => {
             ...wyre,
             onConnect: connectWyre,
             onWithdraw: withdrawWyre,
+            onDeposit: depositWyre,
           },
         ],
       }}

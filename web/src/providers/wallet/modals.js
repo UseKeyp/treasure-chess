@@ -57,12 +57,13 @@ export const AddressModal = ({ address, isVisible, toggleModal }) => {
   )
 }
 
-export const DepositModal = ({ isVisible, toggleModal, onSubmit }) => {
+export const DepositModal = ({ isVisible, toggleModal }) => {
+  const { ramps } = useRamp()
+  const wyreRamp = ramps.find((ramp) => ramp.name == 'Wyre')
   return (
     <ModalContainer
       isVisible={isVisible}
-      onSubmit={onSubmit}
-      // isLoading={isLoading}
+      onSubmit={wyreRamp?.onDeposit}
       hideModal={toggleModal}
       headerText="Deposit Funds"
       icon={<Icon name="wyre" size="29" />}

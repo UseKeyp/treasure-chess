@@ -37,21 +37,6 @@ export const schema = gql`
     coinbaseWithdrawAddress: String
     wyreWithdrawAddress: String
   }
-  input CreateMemberInput {
-    address: String!
-    rating: Int!
-    imageSrc: String!
-    country: String!
-    masterTitle: String
-  }
-
-  input UpdateMemberInput {
-    address: String
-    rating: Int
-    imageSrc: String
-    country: String
-    masterTitle: String
-  }
 
   type Query {
     members: [Member!]! @skipAuth

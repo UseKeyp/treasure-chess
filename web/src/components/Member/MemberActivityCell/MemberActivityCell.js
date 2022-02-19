@@ -1,8 +1,8 @@
 import MemberActivity from 'src/components/Member/MemberActivity'
 
 export const QUERY = gql`
-  query FindMemberActivityQuery($address: String!) {
-    activity: member(usernameOrAddress: $address) {
+  query FindMemberActivityQuery($usernameOrAddress: String!) {
+    memberActivity(usernameOrAddress: $usernameOrAddress) {
       activity
     }
   }

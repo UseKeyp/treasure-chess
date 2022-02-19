@@ -14,8 +14,6 @@ export const getCurrentUser = async (session) => {
       imageSrc: true,
       mintCredits: true,
       country: true,
-      // coinbaseWithdrawAddress: true,
-      // wyreWithdrawAddress: true,
     },
   })
   if (!member) return null

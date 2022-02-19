@@ -3,6 +3,7 @@ import Icon from 'src/components/Icon'
 import FilterPriceInput from 'src/components/FilterPriceInput'
 import Button from 'src/components/Button'
 import LoadingDots from 'src/components/LoadingDots'
+import { useRamp } from 'src/providers/ramp'
 
 export const AddressModal = ({ address, isVisible, toggleModal }) => {
   const [copied, setCopied] = React.useState(false)
@@ -54,6 +55,7 @@ export const AddressModal = ({ address, isVisible, toggleModal }) => {
     />
   )
 }
+
 export const DepositModal = ({ isVisible, toggleModal, onSubmit }) => {
   return (
     <ModalContainer
@@ -89,8 +91,8 @@ export const DepositModal = ({ isVisible, toggleModal, onSubmit }) => {
   )
 }
 
-const VendorConnection = ({ details, amount, isLoading, disabled }) => {
-  if (!details) return null
+const VendorConnection = ({ ramp, amount, isLoading, disabled }) => {
+  if (!ramp) return null
   const backgroundColor = isLoading
     ? 'bg-chessBlack-200 pointer-events-none'
     : 'bg-green'
@@ -103,49 +105,43 @@ const VendorConnection = ({ details, amount, isLoading, disabled }) => {
   let button = (
     <Button
       className={buttonClassName}
-      onClick={details.onConnect}
+      onClick={ramp.onConnect}
       disabled={isLoading}
     >
-      {details.isLoading ? loadingText : 'Connect'}
+      {ramp.isLoading ? loadingText : 'Connect'}
     </Button>
   )
-  if (details.isConnected)
+  if (ramp.isConnected)
     button = (
       <Button
         className={buttonClassName}
         disabled={isLoading}
-        onClick={() => details.onWithdraw(amount)}
+        onClick={() => ramp.onWithdraw(amount)}
       >
-        {details.isLoading ? loadingText : 'Withdraw'}
+        {ramp.isLoading ? loadingText : 'Withdraw'}
       </Button>
     )
   if (disabled) button = <h3 className="mt-4">(Coming soon)</h3>
 
   let status = 'Not connected'
-  if (details.isConnected) status = 'Connected'
+  if (ramp.isConnected) status = 'Connected'
   return (
     <div className="">
       <div className="mt-4 flex align-center items-end">
-        <h3>{details.name}</h3>{' '}
+        <h3>{ramp.name}</h3>{' '}
         <p className="ml-4">
           <i>{status}</i>
         </p>
       </div>
       {button}
-      <p className="mt-2 text-red">{details.error}</p>
+      <p className="mt-2 text-red">{ramp.error}</p>
     </div>
   )
 }
 
-export const WithdrawModal = ({
-  isVisible,
-  toggleModal,
-  coinbaseDetails,
-  wyreDetails,
-}) => {
+export const WithdrawModal = ({ isVisible, toggleModal }) => {
   const [amount, setAmount] = React.useState(0)
-
-  const isLoading = wyreDetails.isLoading || coinbaseDetails.isLoading
+  const { ramps, isLoading } = useRamp()
   return (
     <ModalContainer
       headerText="Withdraw Funds"
@@ -161,17 +157,14 @@ export const WithdrawModal = ({
           </p>
           <h4 className="mt-4 ">Amount to withdraw</h4>
           <FilterPriceInput value={amount} setValue={setAmount} />
-          <VendorConnection
-            isLoading={isLoading}
-            amount={amount}
-            details={coinbaseDetails}
-          />
-          <VendorConnection
-            isLoading={isLoading}
-            amount={amount}
-            details={wyreDetails}
-            disabled
-          />
+          {ramps.map((ramp) => (
+            <VendorConnection
+              key={ramp.name}
+              isLoading={isLoading}
+              amount={amount}
+              ramp={ramp}
+            />
+          ))}
         </>
       }
     />

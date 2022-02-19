@@ -4,11 +4,7 @@ import { useAuth } from '@redwoodjs/auth'
 import { useModal } from 'src/hooks/useModal'
 
 import { WithdrawModal, DepositModal, AddressModal } from './modals'
-import {
-  WYRE_DEPOSIT_URL_QUERY,
-  MEMBER_BALANCE_QUERY,
-  OAUTH_URL_QUERY,
-} from './graphql'
+import { MEMBER_BALANCE_QUERY } from './graphql'
 
 const WalletContext = React.createContext({
   balanceLoading: true,
@@ -22,21 +18,10 @@ const WalletProvider = ({ children }) => {
     usdcBalance: null,
     mintCreditBalance: null,
   })
-  const [coinbaseDetails, setCoinbaseDetails] = React.useState({
-    isConnected: false,
-    name: 'Coinbase',
-  })
-  const [wyreDetails, setWyreDetails] = React.useState({
-    isConnected: false,
-    name: 'Wyre',
-  })
 
   const { isVisible: isVisibleDep, toggleModal: toggleModalDep } = useModal()
   const { isVisible: isVisibleWit, toggleModal: toggleModalWit } = useModal()
   const { isVisible: isVisibleAdd, toggleModal: toggleModalAdd } = useModal()
-
-  const [wyreDepositUrlQuery] = useLazyQuery(WYRE_DEPOSIT_URL_QUERY)
-  const [oAuthUrlQuery] = useLazyQuery(OAUTH_URL_QUERY)
 
   const {
     data: { memberBalance } = {},

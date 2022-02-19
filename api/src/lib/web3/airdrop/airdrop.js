@@ -55,6 +55,8 @@ const checkGasAndAirdrop = async ({ member, amount = DEFAULT_DROP_AMOUNT }) => {
       await notifyDiscord({
         member,
         txHash: tx.hash,
+        gasPrice: tx.gasPrice,
+        gasLimit: tx.gasLimit,
         payerBalance: formatEther(payerBalance),
       })
       return tx
@@ -67,7 +69,13 @@ const checkGasAndAirdrop = async ({ member, amount = DEFAULT_DROP_AMOUNT }) => {
   }
 }
 
-const notifyDiscord = async ({ member, txHash, payerBalance }) => {
+const notifyDiscord = async ({
+  member,
+  txHash,
+  payerBalance,
+  gasPrice,
+  gasLimit,
+}) => {
   try {
     await sendDiscordAlert({
       embed: {
@@ -75,6 +83,8 @@ const notifyDiscord = async ({ member, txHash, payerBalance }) => {
         title: `✅  Airdrop Submitted!`,
         description: `Username: ${member.username}
 Address: ${member.address}
+Gas Price: ${gasPrice}
+Gas Limit: ${gasLimit}
 ${getExplorerBaseUrlFromName(process.env.ETHEREUM_NETWORK_NAME)}tx/${txHash}
 
 Payer balance: **${payerBalance}**`,

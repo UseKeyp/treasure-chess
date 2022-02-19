@@ -7,33 +7,15 @@ const wyreDetails = { name: 'Wyre', isConnected: false }
 const coinbaseDetails = { name: 'Coinbase', isConnected: false }
 
 export const withdraw = () => (
-  <WithdrawModal
-    onSubmit={() => {}}
-    isVisible={true}
-    toggleModal={() => {}}
-    wyreDetails={wyreDetails}
-    coinbaseDetails={coinbaseDetails}
-  />
+  <WithdrawModal onSubmit={() => {}} isVisible={true} toggleModal={() => {}} />
 )
 
 export const withdrawLoading = () => (
-  <WithdrawModal
-    onSubmit={() => {}}
-    wyreDetails={wyreDetails}
-    coinbaseDetails={{ ...coinbaseDetails, isLoading: true }}
-    isVisible={true}
-    toggleModal={() => {}}
-  />
+  <WithdrawModal onSubmit={() => {}} isVisible={true} toggleModal={() => {}} />
 )
 
 export const withdrawConnected = () => (
-  <WithdrawModal
-    onSubmit={() => {}}
-    wyreDetails={wyreDetails}
-    coinbaseDetails={{ ...coinbaseDetails, isConnected: true }}
-    isVisible={true}
-    toggleModal={() => {}}
-  />
+  <WithdrawModal onSubmit={() => {}} isVisible={true} toggleModal={() => {}} />
 )
 
 export const address = () => (

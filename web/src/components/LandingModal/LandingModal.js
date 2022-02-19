@@ -25,13 +25,12 @@ const LandingModal = () => {
         <li>
           <h3 className="-indent-7 ">
             <b>
-              <span className="mr-2">❤️</span> 95% of sales go directly to
-              creators and players - that&apos;s you!
+              <span className="mr-2">❤️</span> 100% of primary sales go directly
+              to players - that&apos;s you!
             </b>
           </h3>
-          <p className="mt-2 ">First sale: 95% player / 5% platform</p>
           <p className="">
-            Additional sales: 90% seller / 5% player / 5% platform
+            Secondary sales: 90% seller / 5% player / 5% platform
           </p>
         </li>
         <li>
@@ -39,7 +38,7 @@ const LandingModal = () => {
             <span className="mr-2">🌱</span> <b>Environmentally friendly</b>
           </h3>
           <p className="mt-2 ">
-            Less energy is used than playing a game of chess online.
+            Less energy consumed than playing a game of chess online.
           </p>
         </li>
         <li>

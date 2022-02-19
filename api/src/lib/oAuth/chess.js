@@ -11,10 +11,10 @@ import { getTorusPublicAddress } from 'src/lib/torus/torus'
 import { encodeBody, getExpiration } from 'src/lib/oAuth/helpers'
 
 export const CHESS = 'chess'
-
+const CHESS_SCOPE = 'openid profile'
 export const chessParams = {
   client_id: process.env.CHESS_CLIENT_ID,
-  scope: 'openid profile',
+  scope: CHESS_SCOPE,
   redirect_uri: process.env.APP_DOMAIN + '/redirect/chess',
 }
 

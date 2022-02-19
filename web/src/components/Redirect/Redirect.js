@@ -37,9 +37,10 @@ const Redirect = ({ type }) => {
 
   // ###############  General oAuth  ################
   const submitCodeGrant = async (type) => {
+    console.log(`submitCodeGrant ${type}`)
     if (!code || !state) return setErrorMessage('Invalid redirect parameters')
     /* eslint-disable-next-line no-undef */
-    const data = await codeGrant({
+    const { data: { oauthCodeGrant } = {} } = await codeGrant({
       variables: {
         type,
         code,
@@ -47,6 +48,7 @@ const Redirect = ({ type }) => {
       },
       fetchPolicy: 'network-only',
     })
+    console.log(oauthCodeGrant)
   }
 
   // ###############  Wyre  #####################
@@ -58,12 +60,12 @@ const Redirect = ({ type }) => {
   }
 
   React.useEffect(() => {
+    submitCodeGrant(type)
     if (type === 'wyre') {
       completeWyreOrder()
     } else if (type === 'chess') {
       submitLoginCodeGrant()
     } else {
-      submitCodeGrant(type)
     }
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [code, state, type])

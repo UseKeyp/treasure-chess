@@ -18,6 +18,6 @@ export const schema = gql`
       code: String!
       state: String!
       type: String!
-    ): CodeGrantResponse @skipAuth
+    ): CodeGrantResponse @requireAuth
   }
 `

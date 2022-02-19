@@ -2,10 +2,9 @@ const treasureMerketArtifact = require('@treasure-chess/treasure-contracts/artif
 import { Contract } from '@ethersproject/contracts'
 import { memberSendTransaction } from 'src/lib/web3/member'
 import { parseUnits } from '@ethersproject/units'
-import { web3Provider } from 'src/lib/web3/helpers'
+import { web3Provider, DEFAULT_GAS_PRICE } from 'src/lib/web3/helpers'
 import { getTreasureContract } from 'src/lib/web3/treasure'
 import { getTokenContract } from 'src/lib/web3/tokens'
-import { DEFAULT_GAS_PRICE } from 'src/lib/web3/helpers'
 
 export const getTreasureMarketContract = () => {
   try {

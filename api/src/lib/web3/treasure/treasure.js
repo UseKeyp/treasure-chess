@@ -4,7 +4,7 @@ import { Contract } from '@ethersproject/contracts'
 import achievementsList from '@treasure-chess/chess-achievements/src/achievementsList'
 
 import { adminSendTransaction } from 'src/lib/web3/admin'
-import { web3Provider } from 'src/lib/web3/helpers'
+import { web3Provider, DEFAULT_GAS_PRICE } from 'src/lib/web3/helpers'
 
 const treasureAbi = treasureArtifact.abi
 

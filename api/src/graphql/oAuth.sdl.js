@@ -5,8 +5,9 @@ export const schema = gql`
     url: String
   }
   type CodeGrantResponse {
-    action: String
-    text: String
+    action: String!
+    text: String!
+    status: CodeGrantStatus!
   }
 
   type Query {
@@ -14,10 +15,11 @@ export const schema = gql`
     chessLoginUrl: LoginUrl! @skipAuth
   }
   type Mutation {
-    oauthCodeGrant(
-      code: String!
-      state: String!
-      type: String!
-    ): CodeGrantResponse @requireAuth
+    codeGrant(code: String!, state: String!, type: String!): CodeGrantResponse!
+      @skipAuth
+  }
+  enum CodeGrantStatus {
+    SUCCESS
+    FAILED
   }
 `

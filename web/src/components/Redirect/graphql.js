@@ -1,8 +1,9 @@
 export const OAUTH_CODE_GRANT_MUTATION = gql`
-  mutation oauthCodeGrant($type: String!, $state: String!, $code: String!) {
-    oauthCodeGrant(type: $type, state: $state, code: $code) {
+  mutation codeGrant($type: String!, $state: String!, $code: String!) {
+    codeGrant(type: $type, state: $state, code: $code) {
       action
       text
+      status
     }
   }
 `

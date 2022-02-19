@@ -7,7 +7,7 @@ export const chessLoginUrl = () => getOAuthUrl(CHESS)
 
 export const oAuthUrl = ({ type }) => getOAuthUrl(type)
 
-export const oAuthCodeGrant = async ({ type, code, state }) => {
+export const codeGrant = async ({ type, code, state }) => {
   console.log('invoked CodeGrantResponse')
   console.log({ type, code, state })
   // WARNING: Don't return any sensitive user data here
@@ -17,8 +17,12 @@ export const oAuthCodeGrant = async ({ type, code, state }) => {
     type,
   })
   console.log(tokens)
-  // if (type === COINBASE) {
-  await handleCoinbaseLogin(tokens)
-  return { action: 'close' }
-  // }
+  if (type === COINBASE) {
+    await handleCoinbaseLogin(tokens)
+    return {
+      action: 'close',
+      text: 'Successfully connected to Coinbase',
+      status: 'SUCCESS',
+    }
+  }
 }

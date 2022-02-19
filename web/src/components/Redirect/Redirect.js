@@ -37,18 +37,21 @@ const Redirect = ({ type }) => {
 
   // ###############  General oAuth  ################
   const submitCodeGrant = async (type) => {
-    console.log(`submitCodeGrant ${type}`)
-    if (!code || !state) return setErrorMessage('Invalid redirect parameters')
-    /* eslint-disable-next-line no-undef */
-    const { data: { oauthCodeGrant } = {} } = await codeGrant({
-      variables: {
-        type,
-        code,
-        state,
-      },
-      fetchPolicy: 'network-only',
-    })
-    console.log(oauthCodeGrant)
+    try {
+      if (!code || !state) return setErrorMessage('Invalid redirect parameters')
+      /* eslint-disable-next-line no-undef */
+      const { data: { oauthCodeGrant } = {} } = await codeGrant({
+        variables: {
+          type,
+          code,
+          state,
+        },
+        fetchPolicy: 'network-only',
+      })
+      console.log(oauthCodeGrant)
+    } catch (error) {
+      setErrorMessage(error.message)
+    }
   }
 
   // ###############  Wyre  #####################

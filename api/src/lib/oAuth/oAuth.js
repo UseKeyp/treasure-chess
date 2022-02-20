@@ -34,7 +34,7 @@ export const oAuthUrl = async (type) => {
     url.searchParams.set(key, params[key])
   })
   const state = uuidv4()
-  await db.oAuth.create({
+  const oauth = await db.oAuth.create({
     data: {
       state,
       codeVerifier: pkce.code_verifier,
@@ -61,7 +61,7 @@ export const validateCodeGrant = async ({ state, code, type }) => {
       oAuth = await db.oAuth.delete({ where: { state } })
       if (!oAuth) throw 'state not valid'
     } catch (e) {
-      throw 'Oauth state has expired. Please try logging in again.'
+      throw 'Oauth state has expired. Please start over.'
     }
 
     // Check expiration

@@ -87,7 +87,7 @@ const Redirect = ({ type }) => {
               </span>
             </h1>
             {typeof errorMessage === 'string' ? (
-              <h3 className="mt-8 rw-cell-error text-red">
+              <h3 className="mt-8 font-bold text-[#FFBB0D]">
                 {errorMessage.substring(0, 200)}
               </h3>
             ) : null}

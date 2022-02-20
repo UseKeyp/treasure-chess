@@ -110,7 +110,7 @@ const VendorConnection = ({ ramp, amount, isLoading, disabled }) => {
       onClick={ramp.onConnect}
       disabled={isLoading}
     >
-      {ramp.isLoading ? loadingText : 'Connect'}
+      {ramp.isLoading ? loadingText : 'Connect  '}
     </Button>
   )
   if (ramp.isConnected)
@@ -156,6 +156,9 @@ export const WithdrawModal = ({ isVisible, toggleModal }) => {
           <p className="text-base">
             Withdraw your funds anytime. Limits are set by each third-party
             provider.
+          </p>
+          <p className="text-base">
+            <i>Read-only access</i>
           </p>
           <h4 className="mt-4 ">Amount to withdraw</h4>
           <FilterPriceInput value={amount} setValue={setAmount} />

@@ -53,8 +53,12 @@ const RampProvider = ({ children }) => {
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [memberRamps])
 
-  const [wyreDepositUrlQuery] = useLazyQuery(WYRE_DEPOSIT_URL_QUERY)
-  const [oAuthUrlQuery] = useLazyQuery(OAUTH_URL_QUERY)
+  const [wyreDepositUrlQuery] = useLazyQuery(WYRE_DEPOSIT_URL_QUERY, {
+    fetchPolicy: 'network-only',
+  })
+  const [oAuthUrlQuery] = useLazyQuery(OAUTH_URL_QUERY, {
+    fetchPolicy: 'network-only',
+  })
 
   const depositWyre = async () => {
     setWyre({ isLoading: true, ...wyre })

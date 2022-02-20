@@ -34,16 +34,14 @@ export const getCoinbaseAccessTokenFromCode = async (code, codeVerifier) => {
       body: encodedBody,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        // Basic auth required for oauth.chess-x.com development server
-        ...(isDevelopment && {
-          Authorization: `Basic ${getChessBasicAuth()}`,
-        }),
       },
     }).then((res) => {
-      if (res.status == 401)
+      console.log(res)
+      if (res.status != 200)
         throw 'Coinbase basic authorization failed, or secret invalid'
       return res.json()
     })
+    console.log(response)
     if (response.error)
       throw `${response.error} - ${response.hint}. ${response.message}`
 

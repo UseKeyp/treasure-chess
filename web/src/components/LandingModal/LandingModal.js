@@ -21,7 +21,7 @@ export const content = (
           <span className="mr-2">🌱</span> <b>Environmentally friendly</b>
         </h2>
         <h3 className="mt-2 ">
-          Less energy consumed than playing a game of chess online.
+          Less energy is consumed than from playing a game of chess online.
         </h3>
       </li>
       <li>

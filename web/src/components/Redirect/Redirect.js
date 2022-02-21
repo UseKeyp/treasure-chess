@@ -15,6 +15,7 @@ import { OAUTH_CODE_GRANT_MUTATION } from './graphql'
 const Redirect = ({ type }) => {
   const [errorMessage, setErrorMessage] = React.useState()
   const [orderSubmitted, setOrderSubmitted] = React.useState()
+  const [successMessage, setSuccessMessage] = React.useState()
   const { code, state } = useParams()
   const { logIn } = useAuth()
   const [codeGrant] = useMutation(OAUTH_CODE_GRANT_MUTATION)
@@ -36,11 +37,13 @@ const Redirect = ({ type }) => {
   }
 
   // ###############  General oAuth  ################
-  const submitCodeGrant = async (type) => {
+  const submitCodeGrant = async () => {
     try {
       if (!code || !state) return setErrorMessage('Invalid redirect parameters')
       /* eslint-disable-next-line no-undef */
-      const { data: { oauthCodeGrant } = {} } = await codeGrant({
+      const {
+        data: { codeGrant: codeGrantData },
+      } = await codeGrant({
         variables: {
           type,
           code,
@@ -48,7 +51,14 @@ const Redirect = ({ type }) => {
         },
         fetchPolicy: 'network-only',
       })
-      console.log(oauthCodeGrant)
+      if (codeGrantData.status === 'SUCCESS') {
+        setSuccessMessage('Connection complete')
+        setTimeout(() => {
+          window.close()
+        }, [1000])
+      } else {
+        setErrorMessage('Something went wrong')
+      }
     } catch (error) {
       setErrorMessage(error.message)
     }
@@ -63,12 +73,12 @@ const Redirect = ({ type }) => {
   }
 
   React.useEffect(() => {
-    submitCodeGrant(type)
-    if (type === 'wyre') {
-      completeWyreOrder()
-    } else if (type === 'chess') {
+    if (type === 'chess') {
       submitLoginCodeGrant()
+    } else if (type === 'wyre') {
+      completeWyreOrder(type)
     } else {
+      submitCodeGrant()
     }
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [code, state, type])
@@ -127,6 +137,21 @@ const Redirect = ({ type }) => {
             <h1 className="text-5xl ml-4 font-extrabold">Payment complete!</h1>
           </div>
           <p className="text-s m-4">Taking you back to Treasure Chess...</p>
+          <Link className="text-s mt-4" to={routes.profile()}>
+            (Go to my Profile)
+          </Link>
+        </div>
+      </div>
+    )
+  if (successMessage)
+    return (
+      <div className="min-w-screen min-h-screen ">
+        <div className="mt-16 text-center justify-center">
+          <div className="flex justify-center">
+            <Icon name="checkmark" width="3rem" height="3rem" color="green" />
+            <h1 className="text-5xl ml-4 font-extrabold">Success!</h1>
+          </div>
+          <p className="text-s m-4">{successMessage}</p>
           <Link className="text-s mt-4" to={routes.profile()}>
             (Go to my Profile)
           </Link>

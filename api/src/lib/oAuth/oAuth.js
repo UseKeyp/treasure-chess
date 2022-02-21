@@ -36,11 +36,16 @@ export const oAuthUrl = async (type) => {
     url.searchParams.set(key, params[key])
   })
   const state = uuidv4()
+  // For oAuth codeGrant, we sometimes need the member id
+  let memberId
+  if (context.currentUser?.id) memberId = context.currentUser?.id
+
   const oauth = await db.oAuth.create({
     data: {
       state,
       codeVerifier: pkce.code_verifier,
       codeChallenge: pkce.code_challenge,
+      ...(memberId && { member: { connect: { id: memberId } } }),
     },
   })
 
@@ -71,9 +76,9 @@ export const validateCodeGrant = async ({ state, code, type }) => {
       throw 'Sorry, authentication must be completed within 10 minutes.'
 
     if (type === CHESS) {
-      return getChessAccessTokenFromCode(code, oAuth.codeVerifier)
+      return getChessAccessTokenFromCode(code, oAuth)
     } else if (type === COINBASE) {
-      return getCoinbaseAccessTokenFromCode(code, oAuth.codeVerifier)
+      return getCoinbaseAccessTokenFromCode(code, oAuth)
     }
   } catch (e) {
     /* eslint-disable no-console */

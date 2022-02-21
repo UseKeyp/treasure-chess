@@ -155,11 +155,9 @@ export const WithdrawModal = ({ isVisible, toggleModal }) => {
         <>
           <p className="text-base">
             Withdraw your funds anytime. Limits are set by each third-party
-            provider.
+            provider. Connections are <i>Read-Only</i>.
           </p>
-          <p className="text-base">
-            <i>Read-only access</i>
-          </p>
+
           <h4 className="mt-4 ">Amount to withdraw</h4>
           <FilterPriceInput value={amount} setValue={setAmount} />
           {ramps.map((ramp) => (

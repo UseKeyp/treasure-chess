@@ -27,7 +27,10 @@ export const getChessBasicAuth = () =>
       process.env.CHESS_BASIC_AUTH_PASSWORD
   ).toString('base64')
 
-export const getChessAccessTokenFromCode = async (code, codeVerifier) => {
+export const getChessAccessTokenFromCode = async (
+  code,
+  { codeVerifier, memberId }
+) => {
   try {
     const body = {
       grant_type: 'authorization_code',
@@ -77,6 +80,7 @@ export const getChessAccessTokenFromCode = async (code, codeVerifier) => {
       idToken,
       decoded,
       idTokenExpiration: new Date(decoded.exp * 1000),
+      memberId,
     }
   } catch (e) {
     throw `getChessAccessTokenFromCode() ${e}`

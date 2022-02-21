@@ -21,7 +21,10 @@ export const coinbaseParams = {
   account_currency: 'ETH',
 }
 
-export const getCoinbaseAccessTokenFromCode = async (code, codeVerifier) => {
+export const getCoinbaseAccessTokenFromCode = async (
+  code,
+  { codeVerifier, memberId }
+) => {
   try {
     const body = {
       grant_type: 'authorization_code',
@@ -59,54 +62,59 @@ export const getCoinbaseAccessTokenFromCode = async (code, codeVerifier) => {
       accessToken,
       accessTokenExpiration: getExpiration(expiration),
       refreshToken,
+      memberId,
     }
   } catch (e) {
     throw `getCoinbaseAccessTokenFromCode() ${e}`
   }
 }
 
-export const handleCoinbaseLogin = async ({ accessToken, refreshToken }) => {
-  // TODO:
-  // Fetch Coinbase ETH address
-  // Save address and tokens to database
-  // Return success ?
-  const userDetails = await fetch('https://api.coinbase.com/v2/user', {
-    headers: { Authorization: `Bearer ${accessToken}` },
-  }).then((res) => {
-    if (res.status != 200)
-      throw 'Coinbase authorization failed, or secret invalid'
-    return res.json()
-  })
-  const accounts = await fetch(`https://api.coinbase.com/v2/accounts`, {
-    headers: { Authorization: `Bearer ${accessToken}` },
-  }).then((res) => {
-    if (res.status != 200)
-      throw 'Coinbase authorization failed, or secret invalid'
-    return res.json()
-  })
-  const ethAccount = accounts.data.find((account) => account.currency === 'ETH')
-  const addresses = await fetch(
-    `https://api.coinbase.com/v2/accounts/${ethAccount.id}/addresses`,
-    {
+export const handleCoinbaseLogin = async ({
+  accessToken,
+  refreshToken,
+  memberId,
+}) => {
+  try {
+    const userDetails = await fetch('https://api.coinbase.com/v2/user', {
       headers: { Authorization: `Bearer ${accessToken}` },
-    }
-  ).then((res) => {
-    if (res.status != 200)
-      throw 'Coinbase authorization failed, or secret invalid'
-    return res.json()
-  })
-  const address = addresses.data[0].address
-  await db.member.update({
-    where: {
-      id: context.currentUser.id,
-    },
-    data: {
-      coinbaseWithdrawAddress: address.toLowerCase(),
-      emailCoinbase: userDetails.data.email,
-      accessTokenCoinbase: accessToken,
-      refreshTokenCoinbase: refreshToken,
-    },
-  })
+    }).then((res) => {
+      if (res.status != 200)
+        throw 'Coinbase authorization failed, or secret invalid'
+      return res.json()
+    })
+    const accounts = await fetch(`https://api.coinbase.com/v2/accounts`, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    }).then((res) => {
+      if (res.status != 200)
+        throw 'Coinbase authorization failed, or secret invalid'
+      return res.json()
+    })
+    const ethAccount = accounts.data.find(
+      (account) => account.currency === 'ETH'
+    )
+    const addresses = await fetch(
+      `https://api.coinbase.com/v2/accounts/${ethAccount.id}/addresses`,
+      { headers: { Authorization: `Bearer ${accessToken}` } }
+    ).then((res) => {
+      if (res.status != 200)
+        throw 'Coinbase authorization failed, or secret invalid'
+      return res.json()
+    })
+    const address = addresses.data[0].address
+    await db.member.update({
+      where: {
+        id: memberId,
+      },
+      data: {
+        coinbaseWithdrawAddress: address.toLowerCase(),
+        emailCoinbase: userDetails.data.email,
+        accessTokenCoinbase: accessToken,
+        refreshTokenCoinbase: refreshToken,
+      },
+    })
+  } catch (e) {
+    console.log(`handleCoinbaseLogin() ${e}`)
+  }
 }
 // export const refreshCoinbaseTokens = async (refreshToken) => {
 //   try {

@@ -4,13 +4,14 @@ import CardsListWrapper from 'src/components/CardsListWrapper'
 import GameCard from 'src/components/Game/GameCard'
 import InfiniteScroll from 'src/components/InfiniteScroll'
 import LoadingDots from 'src/components/LoadingDots'
+import { isMobile } from 'src/utils/helpers'
 
 import { CardSkeleton } from 'src/components/LoadingSkeleton'
 
 const TreasuresList = ({ treasures, count, onLoadMore, page, loading }) => {
   const loader = (
     <CardsListWrapper>
-      {Array(6)
+      {Array(isMobile ? 1 : 6)
         .fill(null)
         .map((_, index) => (
           <CardSkeleton key={index} />

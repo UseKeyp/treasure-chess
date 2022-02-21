@@ -8,15 +8,12 @@ export const chessLoginUrl = () => getOAuthUrl(CHESS)
 export const oAuthUrl = ({ type }) => getOAuthUrl(type)
 
 export const codeGrant = async ({ type, code, state }) => {
-  console.log('invoked CodeGrantResponse')
-  console.log({ type, code, state })
   // WARNING: Don't return any sensitive user data here
   const tokens = await validateCodeGrant({
     code,
     state,
     type,
   })
-  console.log(tokens)
   if (type === COINBASE) {
     await handleCoinbaseLogin(tokens)
     return {

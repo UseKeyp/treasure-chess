@@ -7,12 +7,14 @@ import { db } from 'src/lib/db'
 
 import {
   CHESS,
+  CHESS_OAUTH_URL,
   chessParams,
   getChessAccessTokenFromCode,
 } from 'src/lib/oAuth/chess'
 
 import {
   COINBASE,
+  COINBASE_OAUTH_URL,
   coinbaseParams,
   getCoinbaseAccessTokenFromCode,
 } from 'src/lib/oAuth/coinbase'
@@ -23,12 +25,12 @@ export const oAuthUrl = async (type) => {
   const pkce = pkceChallenge()
   if (type === CHESS) {
     params = chessParams
-    url = new URL('authorize', process.env.CHESS_OAUTH_URL)
+    url = new URL('authorize', CHESS_OAUTH_URL)
     url.searchParams.set('code_challenge', pkce.code_challenge) // eg. 3uWDl1fX2ioAqf38eSOFlKnxVEl_VyfaYKG2GyLndKs
     url.searchParams.set('code_challenge_method', 'S256')
   } else if (type === COINBASE) {
     params = coinbaseParams
-    url = new URL('https://www.coinbase.com/oauth/authorize')
+    url = new URL(COINBASE_OAUTH_URL + '/authorize')
   }
   Object.keys(params).map((key) => {
     url.searchParams.set(key, params[key])

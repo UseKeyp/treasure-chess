@@ -8,11 +8,15 @@ import { decode as decodeJwt } from 'jsonwebtoken'
 import { encodeBody, getExpiration } from 'src/lib/oAuth/helpers'
 
 export const COINBASE = 'coinbase'
+export const COINBASE_OAUTH_URL = 'https://www.coinbase.com/oauth'
 
+const COINBASE_SCOPE =
+  'wallet:accounts:read,wallet:addresses:read,wallet:user:email'
+const COINBASE_REDIRECT_URI = process.env.APP_DOMAIN + '/redirect/coinbase'
 export const coinbaseParams = {
   client_id: process.env.COINBASE_CLIENT_ID,
-  scope: 'wallet:addresses:read wallet:user:email',
-  redirect_uri: process.env.APP_DOMAIN + '/redirect/coinbase',
+  scope: COINBASE_SCOPE,
+  redirect_uri: COINBASE_REDIRECT_URI,
   referral: 'gallag_jq',
   account_currency: 'ETH',
 }
@@ -23,25 +27,24 @@ export const getCoinbaseAccessTokenFromCode = async (code, codeVerifier) => {
       grant_type: 'authorization_code',
       client_id: process.env.COINBASE_CLIENT_ID,
       client_secret: process.env.COINBASE_CLIENT_SECRET,
-      redirect_uri: process.env.APP_DOMAIN + '/redirect/coinbase',
+      redirect_uri: COINBASE_REDIRECT_URI,
       code,
-      code_verifier: codeVerifier,
+      // code_verifier: codeVerifier,
     }
     const encodedBody = encodeBody(body)
     // console.log(encodedBody.split('&'))
-    const response = await fetch('https://www.coinbase.com/oauth/authorize', {
+    const response = await fetch(COINBASE_OAUTH_URL + '/token', {
       method: 'post',
       body: encodedBody,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
     }).then((res) => {
-      console.log(res)
+      // console.log(res)
       if (res.status != 200)
         throw 'Coinbase basic authorization failed, or secret invalid'
       return res.json()
     })
-    console.log(response)
     if (response.error)
       throw `${response.error} - ${response.hint}. ${response.message}`
 
@@ -52,69 +55,105 @@ export const getCoinbaseAccessTokenFromCode = async (code, codeVerifier) => {
     } = response
 
     if (!refreshToken) throw 'Failed to get refresh_token from Coinbase'
-    console.log(accessToken)
-    // return {
-    //   accessToken,
-    //   accessTokenExpiration: getExpiration(expiration),
-    //   refreshToken,
-    // }
-    // TODO:
-    // Fetch Coinbase ETH address
-    // Save address and tokens to database
-    // Return success ?
+    return {
+      accessToken,
+      accessTokenExpiration: getExpiration(expiration),
+      refreshToken,
+    }
   } catch (e) {
     throw `getCoinbaseAccessTokenFromCode() ${e}`
   }
 }
 
-export const refreshChessTokens = async (refreshToken) => {
-  try {
-    const body = {
-      grant_type: 'refresh_token',
-      client_id: process.env.CHESS_CLIENT_ID,
-      client_secret: process.env.CHESS_CLIENT_SECRET,
-      refresh_token: refreshToken,
-      scope: CHESS_SCOPE,
+export const handleCoinbaseLogin = async ({ accessToken, refreshToken }) => {
+  // TODO:
+  // Fetch Coinbase ETH address
+  // Save address and tokens to database
+  // Return success ?
+  const userDetails = await fetch('https://api.coinbase.com/v2/user', {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  }).then((res) => {
+    if (res.status != 200)
+      throw 'Coinbase authorization failed, or secret invalid'
+    return res.json()
+  })
+  const accounts = await fetch(`https://api.coinbase.com/v2/accounts`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  }).then((res) => {
+    if (res.status != 200)
+      throw 'Coinbase authorization failed, or secret invalid'
+    return res.json()
+  })
+  const ethAccount = accounts.data.find((account) => account.currency === 'ETH')
+  const addresses = await fetch(
+    `https://api.coinbase.com/v2/accounts/${ethAccount.id}/addresses`,
+    {
+      headers: { Authorization: `Bearer ${accessToken}` },
     }
-    const encodedBody = encodeBody(body)
-    const response = await fetch(process.env.CHESS_OAUTH_URL + '/token', {
-      method: 'post',
-      body: encodedBody,
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        // Basic auth required for oauth.chess-x.com development server
-        ...(isDevelopment && {
-          Authorization: `Basic ${getChessBasicAuth()}`,
-        }),
-      },
-    }).then((res) => {
-      if (res.status == 401)
-        throw new Error('Coinbase basic authorization failed')
-      return res.json()
-    })
-    if (response.error)
-      throw `${response.error} - ${response.hint}. ${response.message}`
-    const {
-      access_token: newAccessToken,
-      refresh_token: newRefreshToken,
-      expires_in: newExpiration,
-      id_token: newIdToken, // JWT that contains identity information about user
-    } = response
-    if (!newAccessToken || !newRefreshToken || !newIdToken)
-      throw 'Failed to refresh tokens from Coinbase'
-    const newExpirationDate = getExpiration(newExpiration)
-    const decoded = decodeJwt(newIdToken)
-    const idTokenExpiration = new Date(decoded.exp * 1000)
-    return {
-      accessToken: newAccessToken,
-      accessTokenExpiration: newExpirationDate,
-      refreshToken: newRefreshToken,
-      idToken: newIdToken,
-      idTokenExpiration,
-    }
-  } catch (e) {
-    throw `refreshChessTokens() ${e}`
-  }
+  ).then((res) => {
+    if (res.status != 200)
+      throw 'Coinbase authorization failed, or secret invalid'
+    return res.json()
+  })
+  const address = addresses.data[0].address
+  await db.member.update({
+    where: {
+      id: context.currentUser.id,
+    },
+    data: {
+      coinbaseWithdrawAddress: address.toLowerCase(),
+      emailCoinbase: userDetails.data.email,
+      accessTokenCoinbase: accessToken,
+      refreshTokenCoinbase: refreshToken,
+    },
+  })
 }
-
-export const handleCoinbaseLogin = async ({ refreshToken, decoded }) => {}
+// export const refreshCoinbaseTokens = async (refreshToken) => {
+//   try {
+//     const body = {
+//       grant_type: 'refresh_token',
+//       client_id: process.env.CHESS_CLIENT_ID,
+//       client_secret: process.env.CHESS_CLIENT_SECRET,
+//       refresh_token: refreshToken,
+//       scope: CHESS_SCOPE,
+//     }
+//     const encodedBody = encodeBody(body)
+//     const response = await fetch(process.env.CHESS_OAUTH_URL + '/token', {
+//       method: 'post',
+//       body: encodedBody,
+//       headers: {
+//         'Content-Type': 'application/x-www-form-urlencoded',
+//         // Basic auth required for oauth.chess-x.com development server
+//         ...(isDevelopment && {
+//           Authorization: `Basic ${getChessBasicAuth()}`,
+//         }),
+//       },
+//     }).then((res) => {
+//       if (res.status == 401)
+//         throw new Error('Coinbase basic authorization failed')
+//       return res.json()
+//     })
+//     if (response.error)
+//       throw `${response.error} - ${response.hint}. ${response.message}`
+//     const {
+//       access_token: newAccessToken,
+//       refresh_token: newRefreshToken,
+//       expires_in: newExpiration,
+//       id_token: newIdToken, // JWT that contains identity information about user
+//     } = response
+//     if (!newAccessToken || !newRefreshToken || !newIdToken)
+//       throw 'Failed to refresh tokens from Coinbase'
+//     const newExpirationDate = getExpiration(newExpiration)
+//     const decoded = decodeJwt(newIdToken)
+//     const idTokenExpiration = new Date(decoded.exp * 1000)
+//     return {
+//       accessToken: newAccessToken,
+//       accessTokenExpiration: newExpirationDate,
+//       refreshToken: newRefreshToken,
+//       idToken: newIdToken,
+//       idTokenExpiration,
+//     }
+//   } catch (e) {
+//     throw `refreshChessTokens() ${e}`
+//   }
+// }

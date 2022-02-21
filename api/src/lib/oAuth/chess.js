@@ -12,6 +12,8 @@ import { encodeBody, getExpiration } from 'src/lib/oAuth/helpers'
 
 export const CHESS = 'chess'
 const CHESS_SCOPE = 'openid profile'
+export const CHESS_OAUTH_URL = process.env.CHESS_OAUTH_URL
+
 export const chessParams = {
   client_id: process.env.CHESS_CLIENT_ID,
   scope: CHESS_SCOPE,

@@ -35,6 +35,10 @@ model Member {
   // Ramps
   coinbaseWithdrawAddress String?
   wyreWithdrawAddress     String?
+  emailCoinbase             String?
+  emailWyre               String?
+  accessTokenCoinbase     String?
+  refreshTokenCoinbase    String?
 }
 
 model Treasure {

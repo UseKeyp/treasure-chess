@@ -1,4 +1,4 @@
-import { useQuery, useLazyQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 import { useAuth } from '@redwoodjs/auth'
 
 import { useModal } from 'src/hooks/useModal'

@@ -19,7 +19,7 @@ const API_DOMAIN = isProduction
   ? 'http://treasure-chess-api:8080'
   : `${process.env.APP_DOMAIN}/api`
 
-const fetchScreenshotBase64Buffer = async (url) => {
+const fetchScreenshotBase64Buffer = async (_url) => {
   // const target = `${API_DOMAIN}/screenshot?url=${url}`
   // const result = await fetch(target)
   // if (result.status !== 200) throw "Couldn't get card snapshot"

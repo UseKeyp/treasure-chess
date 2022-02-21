@@ -1,10 +1,8 @@
 import fetch from 'cross-fetch'
+import { db } from 'src/lib/db'
 import Sentry from 'src/lib/sentry'
 import { AuthenticationError } from '@redwoodjs/graphql-server'
-import { db } from 'src/lib/db'
 
-import { isDevelopment } from 'src/lib/helpers'
-import { decode as decodeJwt } from 'jsonwebtoken'
 import { encodeBody, getExpiration } from 'src/lib/oAuth/helpers'
 
 export const COINBASE = 'coinbase'
@@ -32,7 +30,7 @@ export const getCoinbaseAccessTokenFromCode = async (
       client_secret: process.env.COINBASE_CLIENT_SECRET,
       redirect_uri: COINBASE_REDIRECT_URI,
       code,
-      // code_verifier: codeVerifier,
+      code_verifier: codeVerifier,
     }
     const encodedBody = encodeBody(body)
     // console.log(encodedBody.split('&'))
@@ -113,7 +111,9 @@ export const handleCoinbaseLogin = async ({
       },
     })
   } catch (e) {
-    console.log(`handleCoinbaseLogin() ${e}`)
+    /* eslint-enable no-console */
+    Sentry.captureException(e)
+    throw new AuthenticationError(e)
   }
 }
 // export const refreshCoinbaseTokens = async (refreshToken) => {

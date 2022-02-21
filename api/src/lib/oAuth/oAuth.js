@@ -40,7 +40,7 @@ export const oAuthUrl = async (type) => {
   let memberId
   if (context.currentUser?.id) memberId = context.currentUser?.id
 
-  const oauth = await db.oAuth.create({
+  await db.oAuth.create({
     data: {
       state,
       codeVerifier: pkce.code_verifier,
@@ -63,7 +63,6 @@ export const validateCodeGrant = async ({ state, code, type }) => {
   try {
     // Delete the OAuth Item
     let oAuth
-    console.log(`validateCodeGrant ${type} ${code} ${state}`)
     try {
       oAuth = await db.oAuth.delete({ where: { state } })
       if (!oAuth) throw 'state not valid'

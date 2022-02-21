@@ -45,7 +45,7 @@ export const memberRamps = async () => {
     wyreWithdrawAddress: member.wyreWithdrawAddress,
   }
 }
-export const memberActivity = (usernameOrAddress) => getMemberActivity()
+// export const memberActivity = (usernameOrAddress) => getMemberActivity()
 
 export const Member = {
   treasuresOwned: (_obj, { root }) =>

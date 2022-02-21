@@ -26,7 +26,7 @@ const RampProvider = ({ children }) => {
 
   const {
     data: { memberRamps } = {},
-    error: rampsError,
+    error: rampError,
     loading: rampsLoading,
   } = useQuery(MEMBER_RAMPS_QUERY, {
     pollInterval: 30000,
@@ -69,7 +69,8 @@ const RampProvider = ({ children }) => {
       'Treasure Chess - Deposit',
       'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
     )
-    toggleModalDep()
+    // TODO: Close the modal
+    // toggleModalDep()
   }
 
   const connectCoinbase = async () => {
@@ -83,7 +84,6 @@ const RampProvider = ({ children }) => {
       'Coinbase - Connect',
       'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
     )
-    setCoinbase({ ...coinbaseDetails, isLoading: true })
   }
 
   const connectWyre = async () => {
@@ -98,14 +98,16 @@ const RampProvider = ({ children }) => {
     // setCoinbase({ ...coinbaseDetails, isLoading: true })
   }
 
-  const withdrawCoinbase = async (amount) => {
-    setCoinbase({ isLoading: true, ...coinbase })
-    console.log('withdraw from Coinbase ', amount)
+  const withdrawCoinbase = async (_amount) => {
+    setTimeout(() => {
+      setCoinbase({ isLoading: true, ...coinbase })
+    }, 2000)
     setCoinbase({ isLoading: false, ...coinbase })
   }
-  const withdrawWyre = async (amount) => {
-    setWyre({ isLoading: true, ...wyre })
-    console.log('withdraw from Wyre ', amount)
+  const withdrawWyre = async (_amount) => {
+    setTimeout(() => {
+      setWyre({ isLoading: true, ...wyre })
+    }, 2000)
     setWyre({ isLoading: false, ...wyre })
   }
 
@@ -115,6 +117,7 @@ const RampProvider = ({ children }) => {
     <RampContext.Provider
       value={{
         isLoading,
+        rampError, // Currently unused
         ramps: [
           {
             ...coinbase,

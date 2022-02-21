@@ -13,11 +13,11 @@ import { encodeBody, getExpiration } from 'src/lib/oAuth/helpers'
 export const CHESS = 'chess'
 const CHESS_SCOPE = 'openid profile'
 export const CHESS_OAUTH_URL = process.env.CHESS_OAUTH_URL
-
+const CHESS_REDIRECT_URI = process.env.APP_DOMAIN + '/redirect/chess'
 export const chessParams = {
   client_id: process.env.CHESS_CLIENT_ID,
   scope: CHESS_SCOPE,
-  redirect_uri: process.env.APP_DOMAIN + '/redirect/chess',
+  redirect_uri: CHESS_REDIRECT_URI,
 }
 
 export const getChessBasicAuth = () =>
@@ -36,7 +36,7 @@ export const getChessAccessTokenFromCode = async (
       grant_type: 'authorization_code',
       client_id: process.env.CHESS_CLIENT_ID,
       client_secret: process.env.CHESS_CLIENT_SECRET,
-      redirect_uri: process.env.APP_DOMAIN + '/redirect/chess',
+      redirect_uri: CHESS_REDIRECT_URI,
       code,
       code_verifier: codeVerifier,
     }

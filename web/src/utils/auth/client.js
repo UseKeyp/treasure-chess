@@ -2,9 +2,9 @@ import { getErrorResponse, saveRedirectTo } from './helpers'
 
 import { toast } from '@redwoodjs/web/toast'
 
-export const LOGIN_URL_QUERY = gql`
-  query LoginUrlQuery {
-    loginUrl {
+export const CHESS_LOGIN_URL_QUERY = gql`
+  query ChessLoginUrlQuery {
+    chessLoginUrl {
       url
     }
   }
@@ -23,14 +23,14 @@ export const logIn = async ({ redirectTo }) => {
           'content-type': 'application/json',
         },
         body: JSON.stringify({
-          query: LOGIN_URL_QUERY,
+          query: CHESS_LOGIN_URL_QUERY,
         }),
       }
     )
     if (response.ok) {
       // Redirect user
       const { data } = await response.json()
-      window.location = data.loginUrl.url
+      window.location = data.chessLoginUrl.url
     } else {
       /* eslint-disable-next-line no-console */
       console.log(

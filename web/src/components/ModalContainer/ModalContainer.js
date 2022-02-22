@@ -41,9 +41,11 @@ const ModalContainer = ({
               ) : (
                 <div></div>
               )}
-              <Button variant="blue" onClick={onSubmit}>
-                {isLoading ? <LoadingDots /> : submitText}
-              </Button>
+              {submitText && (
+                <Button variant="blue" onClick={onSubmit}>
+                  {isLoading ? <LoadingDots /> : submitText}
+                </Button>
+              )}
             </div>
           </div>
         </div>,

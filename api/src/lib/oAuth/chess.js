@@ -1,17 +1,24 @@
 import fetch from 'cross-fetch'
+import Sentry from 'src/lib/sentry'
+import { AuthenticationError } from '@redwoodjs/graphql-server'
+import { db } from 'src/lib/db'
 
 import { isDevelopment } from 'src/lib/helpers'
 import { decode as decodeJwt } from 'jsonwebtoken'
 
-export const CHESS_SCOPE = 'openid profile'
+import { fetchMember } from 'src/lib/members'
+import { getTorusPublicAddress } from 'src/lib/torus/torus'
+import { encodeBody, getExpiration } from 'src/lib/oAuth/helpers'
 
-const getExpiration = (expiresIn) =>
-  new Date(new Date(Date.now() + expiresIn * 1000))
-
-const encodeBody = (body) =>
-  Object.keys(body)
-    .map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(body[key]))
-    .join('&')
+export const CHESS = 'chess'
+const CHESS_SCOPE = 'openid profile'
+export const CHESS_OAUTH_URL = process.env.CHESS_OAUTH_URL
+const CHESS_REDIRECT_URI = process.env.APP_DOMAIN + '/redirect/chess'
+export const chessParams = {
+  client_id: process.env.CHESS_CLIENT_ID,
+  scope: CHESS_SCOPE,
+  redirect_uri: CHESS_REDIRECT_URI,
+}
 
 export const getChessBasicAuth = () =>
   Buffer.from(
@@ -20,18 +27,20 @@ export const getChessBasicAuth = () =>
       process.env.CHESS_BASIC_AUTH_PASSWORD
   ).toString('base64')
 
-export const getChessAccessTokenFromCode = async (code, codeVerifier) => {
+export const getChessAccessTokenFromCode = async (
+  code,
+  { codeVerifier, memberId }
+) => {
   try {
     const body = {
       grant_type: 'authorization_code',
       client_id: process.env.CHESS_CLIENT_ID,
       client_secret: process.env.CHESS_CLIENT_SECRET,
-      redirect_uri: process.env.APP_DOMAIN + '/redirect/chess',
+      redirect_uri: CHESS_REDIRECT_URI,
       code,
       code_verifier: codeVerifier,
     }
     const encodedBody = encodeBody(body)
-    // console.log(encodedBody.split('&'))
     const response = await fetch(process.env.CHESS_OAUTH_URL + '/token', {
       method: 'post',
       body: encodedBody,
@@ -71,6 +80,7 @@ export const getChessAccessTokenFromCode = async (code, codeVerifier) => {
       idToken,
       decoded,
       idTokenExpiration: new Date(decoded.exp * 1000),
+      memberId,
     }
   } catch (e) {
     throw `getChessAccessTokenFromCode() ${e}`
@@ -124,5 +134,51 @@ export const refreshChessTokens = async (refreshToken) => {
     }
   } catch (e) {
     throw `refreshChessTokens() ${e}`
+  }
+}
+
+export const handleChessLogin = async ({ refreshToken, decoded }) => {
+  try {
+    // Create member if needed, and get current avatar
+    const member = await fetchMember(decoded.preferred_username, true)
+    // TODO: Don't convert to string once type is changed in JWT (waiting on Chess.com)
+    if (decoded.user_id.toString() !== member.id)
+      throw new AuthenticationError(
+        `user_id in JWT doesn't match player_id from API`
+      )
+
+    await db.member.update({
+      where: { id: member.id },
+      data: {
+        refreshToken,
+        // NOTE: Updates user with their current avatar and country
+        imageSrc: member.imageSrc,
+        country: member.country,
+        ...(member.masterTitle && { masterTitle: member.masterTitle }),
+      },
+    })
+
+    // NOTE: Get Torus wallet address if needed.
+    if (!member.address) {
+      try {
+        const publicAddress = await getTorusPublicAddress(member.id)
+        await db.member.update({
+          where: { id: member.id },
+          data: { address: publicAddress },
+        })
+      } catch (e) {
+        /* eslint-disable no-console */
+        console.log("Error fetching user's wallet from Torus")
+        console.log(e)
+        /* eslint-enable no-console */
+      }
+    }
+    return member
+  } catch (e) {
+    /* eslint-disable no-console */
+    console.log(e)
+    /* eslint-enable no-console */
+    Sentry.captureException(e)
+    throw new AuthenticationError()
   }
 }

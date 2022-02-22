@@ -1,7 +1,6 @@
 import ReactInfiniteScrollComponent from 'react-infinite-scroll-component'
 import ScrollToTop from 'react-scroll-to-top'
 import Icon from 'src/components/Icon'
-
 const InfiniteScroll = ({
   children,
   onLoadMore,

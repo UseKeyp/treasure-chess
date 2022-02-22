@@ -1,6 +1,6 @@
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
@@ -10,27 +10,36 @@ generator client {
 }
 
 model Member {
-  id                   String         @id // Chess.com id
-  username             String         @unique // Chess.com username
-  address              String?        @unique // Torus wallet address
+  id                      String         @id // Chess.com id
+  username                String         @unique // Chess.com username
+  address                 String?        @unique // Torus wallet address
   // --------------- LINKS --------------
-  treasuresOwned       Treasure[]     @relation("treasuresOwned")
-  treasuresMinted      Treasure[]     @relation("treasuresMinted")
-  treasuresPlayedWhite Treasure[]     @relation("treasuresPlayedWhite")
-  treasuresPlayedBlack Treasure[]     @relation("treasuresPlayedBlack")
-  treasuresWon         Treasure[]     @relation("treasuresWon")
-  mintPurchases        MintPurchase[] @relation("mintPurchases")
-  marketSalesSold      MarketSale[]   @relation("marketSalesSold")
-  marketSalesPurchased MarketSale[]   @relation("marketSalesPurchased")
+  treasuresOwned          Treasure[]     @relation("treasuresOwned")
+  treasuresMinted         Treasure[]     @relation("treasuresMinted")
+  treasuresPlayedWhite    Treasure[]     @relation("treasuresPlayedWhite")
+  treasuresPlayedBlack    Treasure[]     @relation("treasuresPlayedBlack")
+  treasuresWon            Treasure[]     @relation("treasuresWon")
+  mintPurchases           MintPurchase[] @relation("mintPurchases")
+  marketSalesSold         MarketSale[]   @relation("marketSalesSold")
+  marketSalesPurchased    MarketSale[]   @relation("marketSalesPurchased")
+  rampWithdraws           RampWithdraw[] @relation("rampWithdraws")
   // --------------- STATE --------------
-  createdAt            DateTime       @default(now())
-  updatedAt            DateTime       @updatedAt
-  imageSrc             String? // Avatar URL
-  masterTitle          MasterTitle? // "Grand Master" or "International Master"
-  country              String // Player's country  eg. US, DE
-  mintCredits          Int            @default(3) // Mint for free!
+  createdAt               DateTime       @default(now())
+  updatedAt               DateTime       @updatedAt
+  imageSrc                String? // Avatar URL
+  masterTitle             MasterTitle? // "Grand Master" or "International Master"
+  country                 String // Player's country  eg. US, DE
+  mintCredits             Int            @default(3) // Mint for free!
   // Oauth
-  refreshToken         String?
+  refreshToken            String?
+  // Ramps
+  coinbaseWithdrawAddress String?
+  wyreWithdrawAddress     String?
+  emailCoinbase           String?
+  emailWyre               String?
+  accessTokenCoinbase     String?
+  refreshTokenCoinbase    String?
+  OAuth                   OAuth[]
 }
 
 model Treasure {
@@ -134,18 +143,46 @@ model OAuth {
   codeChallenge String
   codeVerifier  String
   createdAt     DateTime @default(now())
+  member        Member?   @relation(fields: [memberId], references: [id])
+  memberId      String?
+}
+
+model RampWithdraw {
+  id            String      @id
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  ramp          Ramp
+  status        RampStatus  @default(PENDING)
+  toAddress     String
+  amount        Int
+  transaction   Transaction @relation(fields: [transactionId], references: [id])
+  transactionId String      @unique
+  Member        Member?     @relation("rampWithdraws", fields: [memberId], references: [id])
+  memberId      String?
+}
+
+enum Ramp {
+  COINBASE
+  WYRE
+}
+
+enum RampStatus {
+  PENDING
+  COMPLETE
+  FAILED
 }
 
 model Transaction {
-  id               String      @id
-  createdAt        DateTime    @default(now())
-  updatedAt        DateTime    @updatedAt
+  id               String        @id
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
   // --------------- STATE --------------
-  status           TxStatus    @default(SUBMITTED)
-  marketSaleList   MarketSale? @relation("listTx")
-  marketSaleUnlist MarketSale? @relation("unlistTx")
-  marketSaleSale   MarketSale? @relation("saleTransactions", fields: [marketSaleSaleId], references: [id])
+  status           TxStatus      @default(SUBMITTED)
+  marketSaleList   MarketSale?   @relation("listTx")
+  marketSaleUnlist MarketSale?   @relation("unlistTx")
+  marketSaleSale   MarketSale?   @relation("saleTransactions", fields: [marketSaleSaleId], references: [id])
   marketSaleSaleId Int?
+  rampWithdraw     RampWithdraw?
 }
 
 enum MarketSaleStatus {
@@ -241,9 +278,6 @@ enum Termination {
   Insufficient
   Abandoned
   Timeout
-}
-enum Deleteme {
-  Foo
 }
 
 enum MasterTitle {

@@ -27,7 +27,9 @@ const OwnerSaleInteraction = () => {
   let statusContent = null
 
   if (actionError) {
-    statusContent = <p className="text-red text-[11px]">{actionError}</p>
+    statusContent = (
+      <p className="text-red  font-bold text-[11px]">{actionError}</p>
+    )
   } else if (actionStatus === PENDING_LISTED) {
     statusContent = (
       <div className=" flex">

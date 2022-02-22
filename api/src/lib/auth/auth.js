@@ -1,7 +1,7 @@
 import { AuthenticationError, ForbiddenError } from '@redwoodjs/graphql-server'
 import Sentry from 'src/lib/sentry'
 
-import { db } from './db'
+import { db } from 'src/lib/db'
 
 export const getCurrentUser = async (session) => {
   const member = await db.member.findUnique({

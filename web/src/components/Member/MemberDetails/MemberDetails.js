@@ -55,7 +55,7 @@ const MemberDetails = ({ member, isProfile }) => {
             </h4>
             <Button
               onClick={deposit}
-              variant="green"
+              variant="blue"
               size="small"
               className="w-40"
             >
@@ -63,8 +63,8 @@ const MemberDetails = ({ member, isProfile }) => {
             </Button>
             <Button
               onClick={withdraw}
-              variant="orange"
-              textColor="black"
+              variant="green"
+              // textColor="black"
               size="small"
               className="w-40"
             >

@@ -11,7 +11,7 @@ const Member = ({ member }) => {
             <MemberDetails member={member} />
           </div>
           <div>
-            <MemberActivityCell address={member.address} />
+            <MemberActivityCell member={member.address} />
           </div>
         </div>
       </div>

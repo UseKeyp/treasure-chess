@@ -77,7 +77,7 @@ const MobileNav = () => {
                   <div className="mr-2">
                     <Icon name="book" />
                   </div>
-                  <h3>Beta Feedback</h3>
+                  <h3>Feedback</h3>
                 </div>
               </Button>
             </li>
@@ -174,7 +174,7 @@ const Header = () => {
               <div className="mr-2">
                 <Icon name="book" />
               </div>
-              Beta Feedback
+              Feedback
             </div>
           </Button>
         </div>

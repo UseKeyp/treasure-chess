@@ -5,7 +5,7 @@ import fetch from 'node-fetch'
 const WYRE_SECRET_KEY = process.env.WYRE_SECRET_KEY
 const WYRE_API_KEY = process.env.WYRE_API_KEY
 const API_URL = isProduction
-  ? 'https://api.wyre.com/v3'
+  ? 'https://api.sendwyre.com/v3'
   : 'https://api.testwyre.com/v3'
 const WYRE_TOKEN_SYMBOL = 'MUSDC'
 

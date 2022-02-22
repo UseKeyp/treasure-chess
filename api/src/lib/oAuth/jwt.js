@@ -5,10 +5,7 @@ import { AuthenticationError } from '@redwoodjs/graphql-server'
 
 import { db } from 'src/lib/db'
 import productionJwks from 'src/lib/oAuth/jwks'
-import {
-  getChessBasicAuth,
-  refreshChessTokens,
-} from 'src/lib/oAuth/chessDotCom'
+import { getChessBasicAuth, refreshChessTokens } from 'src/lib/oAuth/chess'
 
 const API_URL = process.env.CHESS_OAUTH_URL
 
@@ -32,11 +29,8 @@ export const verifyChessJwt = async (jwt) => {
   let idToken = jwt
   let { header, payload } = decodeJwt(idToken, { complete: true })
 
-  // TODO: remove true check
   /* eslint-disable-next-line no-constant-condition */
-  if (true) {
-    // if (new Date(payload.exp * 1000) > new Date()) {
-    // TODO: Replace hardcoded value with user ID lookup
+  if (new Date(payload.exp * 1000) > new Date()) {
     idToken = await getNewIdToken(payload.user_id)
     ;({ header } = decodeJwt(idToken, { complete: true }))
   }

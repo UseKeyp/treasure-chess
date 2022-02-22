@@ -1,6 +1,9 @@
 import RedirectPage from './RedirectPage'
 
-export const generated = () => {
+export const loading = () => {
+  return <RedirectPage />
+}
+export const error = () => {
   return <RedirectPage />
 }
 

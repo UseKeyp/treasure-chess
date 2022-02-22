@@ -1,10 +1,10 @@
-import { useQuery, useLazyQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 import { useAuth } from '@redwoodjs/auth'
 
 import { useModal } from 'src/hooks/useModal'
 
 import { WithdrawModal, DepositModal, AddressModal } from './modals'
-import { WYRE_DEPOSIT_URL_QUERY, MEMBER_BALANCE_QUERY } from './graphql'
+import { MEMBER_BALANCE_QUERY } from './graphql'
 
 const WalletContext = React.createContext({
   balanceLoading: true,
@@ -23,22 +23,6 @@ const WalletProvider = ({ children }) => {
   const { isVisible: isVisibleWit, toggleModal: toggleModalWit } = useModal()
   const { isVisible: isVisibleAdd, toggleModal: toggleModalAdd } = useModal()
 
-  const [wyreDepositUrlQuery] = useLazyQuery(WYRE_DEPOSIT_URL_QUERY)
-
-  const onDeposit = async () => {
-    const { data: { wyreDepositUrl } = {} } = await wyreDepositUrlQuery()
-    window.open(
-      wyreDepositUrl,
-      'Treasure Chess - Deposit',
-      'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
-    )
-    toggleModalDep()
-  }
-  const onWithdraw = () => {
-    toggleModalWit()
-    // trigger wyre
-  }
-
   const {
     data: { memberBalance } = {},
     error: balanceError,
@@ -56,7 +40,6 @@ const WalletProvider = ({ children }) => {
     })
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [memberBalance])
-
   return (
     <WalletContext.Provider
       value={{
@@ -69,16 +52,8 @@ const WalletProvider = ({ children }) => {
         balanceLoading,
       }}
     >
-      <DepositModal
-        onSubmit={onDeposit}
-        isVisible={isVisibleDep}
-        toggleModal={toggleModalDep}
-      />
-      <WithdrawModal
-        onSubmit={onWithdraw}
-        isVisible={isVisibleWit}
-        toggleModal={toggleModalWit}
-      />
+      <DepositModal isVisible={isVisibleDep} toggleModal={toggleModalDep} />
+      <WithdrawModal isVisible={isVisibleWit} toggleModal={toggleModalWit} />
       <AddressModal
         address={currentUser?.address}
         isVisible={isVisibleAdd}

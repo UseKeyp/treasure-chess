@@ -141,6 +141,9 @@ export const handleChessLogin = async ({ refreshToken, decoded }) => {
   try {
     // Create member if needed, and get current avatar
     const member = await fetchMember(decoded.preferred_username, true)
+    if (member.banned) {
+      throw new AuthenticationError('user is banned')
+    }
     // TODO: Don't convert to string once type is changed in JWT (waiting on Chess.com)
     if (decoded.user_id.toString() !== member.id)
       throw new AuthenticationError(

@@ -24,13 +24,13 @@ model Member {
   marketSalesPurchased    MarketSale[]   @relation("marketSalesPurchased")
   rampWithdraws           RampWithdraw[] @relation("rampWithdraws")
   // --------------- STATE --------------
-  createdAt            DateTime       @default(now())
-  updatedAt            DateTime       @updatedAt
-  imageSrc             String? // Avatar URL
-  masterTitle          MasterTitle? // "Grand Master" or "International Master"
-  country              String // Player's country  eg. US, DE
-  mintCredits          Int            @default(3) // Mint for free!
-  banned               Boolean        @default(false)
+  createdAt               DateTime       @default(now())
+  updatedAt               DateTime       @updatedAt
+  imageSrc                String? // Avatar URL
+  masterTitle             MasterTitle? // "Grand Master" or "International Master"
+  country                 String // Player's country  eg. US, DE
+  mintCredits             Int            @default(3) // Mint for free!
+  banned                  Boolean        @default(false)
   // Oauth
   refreshToken            String?
   // Ramps
@@ -144,7 +144,7 @@ model OAuth {
   codeChallenge String
   codeVerifier  String
   createdAt     DateTime @default(now())
-  member        Member?   @relation(fields: [memberId], references: [id])
+  member        Member?  @relation(fields: [memberId], references: [id])
   memberId      String?
 }
 
@@ -280,13 +280,6 @@ enum Termination {
   Abandoned
   Timeout
 }
-<<<<<<< HEAD
-
-enum Deleteme {
-  Foo
-}
-=======
->>>>>>> 8e550bb6f7a477611dc79590fc81448e06bcaa69
 
 enum MasterTitle {
   GM

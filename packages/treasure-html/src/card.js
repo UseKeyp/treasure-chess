@@ -28,6 +28,15 @@ const card = `<html>
     <meta property="og:type" content="article" />
     <meta name="keywords" content="treasure, chess, NFT, collectibe, chess.com">
     <meta name="author" content="Treasure Chess">
+    <style>
+    #match-anchor{
+      opacity:1;
+    }
+    #match-anchor:hover{
+      color:#000;
+      opacity:0.5;
+    }
+    </style>
 	</head>
 	<body style="font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; background-color:#4F4F4F; display: flex; align-items: center;" >
     <div id="screenshot-container" style="padding: 8px;">
@@ -153,12 +162,11 @@ const card = `<html>
     				</div>
     			</div>
     		</div>
-        <div id="footer" style="width: 95%; display: flex; justify-content: space-between;align-items: center; margin-top: auto; align-self: center;">
-          <a id="match-anchor" href="" target="_blank" rel="noopener" style="text-decoration: none; color:black;  opacity: 0.70;  font-size: 8px; ">Match #000000</a>
-          <p id="edition" style="color: black;  opacity: 0.70;  font-size: 8px;">Single Edition</p>
-          <p id="date" style="color: black;  opacity: 0.70;  font-size: 8px;">Jan 1 1900</p>
-        </div>
-  		</div>
+      <div id="footer" style="width: 95%; display: flex; justify-content: space-between;align-items: center; margin-top: auto; align-self: center;">
+      <a id="match-anchor" href="" target="_blank" rel="noopener" style="text-decoration: underline; font-size: 8px; color:black;">Match #000000</a>
+      <p id="edition" style="color: black;  opacity: 0.70;  font-size: 8px;">Single Edition</p>
+      <p id="date" style="color: black;  opacity: 0.70;  font-size: 8px;">Jan 1 1900</p>
+    </div>
 		</div>
 	</body>
   <script>

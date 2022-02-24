@@ -103,7 +103,7 @@ export const createDepositReservation = async (destinationAddress) => {
       redirectUrl: `${process.env.APP_DOMAIN}/redirect/wyre`,
       failureRedirectUrl: `${process.env.APP_DOMAIN}/redirect/wyre`,
       referrerAccountId: process.env.WYRE_ACCOUNT_ID_TREASURE,
-      dest: `ethereum:${destinationAddress}`,
+      dest: `matic:${destinationAddress}`,
       lockFields: ['destCurrency', 'dest', 'paymentMethod'],
     })
     if (!response.url) throw 'Error'

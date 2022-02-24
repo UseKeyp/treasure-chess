@@ -2,6 +2,7 @@ import GameCard from 'src/components/Game/GameCard/GameCard'
 import TreasureSocial from '../TreasureSocial/TreasureSocial'
 import TreasureMoves from '../TreasureMoves/TreasureMoves'
 import TreasureMarketInteraction from 'src/components/Treasure/TreasureMarketInteraction'
+import TreasureSale from '../TreasureSale/TreasureSale'
 
 const Treasure = ({ treasure, isLoading }) => {
   // const currentMarketSale = treasure.marketSales ? treasure.marketSales[0] : {}
@@ -11,11 +12,12 @@ const Treasure = ({ treasure, isLoading }) => {
       <div className="flex justify-center">
         <GameCard game={treasure} isLoading={isLoading} />
       </div>
-      <div>
+      <div className="flex flex-col">
         <TreasureMarketInteraction
           tokenId={treasure?.tokenId}
           isLoading={isLoading}
         />
+        <TreasureSale treasure={treasure} isLoading={isLoading} />
         <TreasureSocial treasure={treasure} isLoading={isLoading} />
       </div>
       <TreasureMoves treasure={treasure} isLoading={isLoading} />

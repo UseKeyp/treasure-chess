@@ -59,6 +59,10 @@ export const QUERY = gql`
         updatedAt
         listedAt
         treasureId
+        buyer {
+          id
+          username
+        }
         seller {
           id
         }

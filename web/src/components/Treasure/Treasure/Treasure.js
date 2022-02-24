@@ -1,21 +1,24 @@
-import TreasureMovesCell from 'src/components/Treasure/TreasureMovesCell'
-import TreasureSocialCell from 'src/components/Treasure/TreasureSocialCell'
-import TreasureCardCell from 'src/components/Treasure/TreasureCardCell'
+import GameCard from 'src/components/Game/GameCard/GameCard'
+import TreasureSocial from '../TreasureSocial/TreasureSocial'
+import TreasureMoves from '../TreasureMoves/TreasureMoves'
 import TreasureMarketInteraction from 'src/components/Treasure/TreasureMarketInteraction'
 
-const Treasure = ({ tokenId }) => {
+const Treasure = ({ treasure, isLoading }) => {
   // const currentMarketSale = treasure.marketSales ? treasure.marketSales[0] : {}
   // <ItemSaleInteraction tokenId={tokenId} />
   return (
     <div className="grid md:grid-cols-3 grid-cols-1 gap-10">
       <div className="flex justify-center">
-        <TreasureCardCell tokenId={tokenId} />
+        <GameCard game={treasure} isLoading={isLoading} />
       </div>
       <div>
-        <TreasureMarketInteraction tokenId={tokenId} />
-        <TreasureSocialCell tokenId={tokenId} />
+        <TreasureMarketInteraction
+          tokenId={treasure?.tokenId}
+          isLoading={isLoading}
+        />
+        <TreasureSocial treasure={treasure} isLoading={isLoading} />
       </div>
-      <TreasureMovesCell tokenId={tokenId} />
+      <TreasureMoves treasure={treasure} isLoading={isLoading} />
     </div>
   )
 }

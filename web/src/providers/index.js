@@ -4,6 +4,7 @@ import { WalletProvider } from 'src/providers/wallet'
 import { ThemeContextProvider } from 'src/providers/theme'
 import { TokenSessionProvider } from 'src/providers/tokenSession'
 import { ToastProvider } from 'src/providers/toast'
+import { MetaTagProvider } from './metatags/metaTags'
 import { FilterProvider } from './filters'
 import { RestrictedProvider } from './restricted'
 import { MarketProvider } from './market'
@@ -22,9 +23,11 @@ const AllContextProviders = ({ children }) => {
               <TokenSessionProvider />
               <RampProvider>
                 <WalletProvider>
-                  <MintingProvider>
-                    <MarketProvider>{children}</MarketProvider>
-                  </MintingProvider>
+                  <MetaTagProvider>
+                    <MintingProvider>
+                      <MarketProvider>{children}</MarketProvider>
+                    </MintingProvider>
+                  </MetaTagProvider>
                 </WalletProvider>
               </RampProvider>
             </GamesContextProvider>

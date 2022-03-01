@@ -1,5 +1,10 @@
-import ModalContainer from 'src/components/ModalContainer/ModalContainer'
+import ModalContainer from 'src/components/ModalContainer'
 import Icon from 'src/components/Icon'
+import FilterPriceInput from 'src/components/FilterPriceInput'
+import Button from 'src/components/Button'
+import LoadingDots from 'src/components/LoadingDots'
+import { useRamp } from 'src/providers/ramp'
+import { trimAddress } from 'src/utils/helpers'
 
 export const AddressModal = ({ address, isVisible, toggleModal }) => {
   const [copied, setCopied] = React.useState(false)
@@ -51,37 +56,120 @@ export const AddressModal = ({ address, isVisible, toggleModal }) => {
     />
   )
 }
-export const DepositModal = ({ isVisible, toggleModal, onSubmit }) => (
-  <ModalContainer
-    isVisible={isVisible}
-    onSubmit={onSubmit}
-    hideModal={toggleModal}
-    headerText="Deposit Funds"
-    icon={<Icon name="wyre" size="29" />}
-    submitText="Deposit with Wyre"
-    content={
-      <p className="text-base">
-        Fund your wallet using Wyre. Funds are typically added in less than 3
-        minutes, and can be withdrawn anytime according to the limits set by
-        Wyre.
-      </p>
-    }
-  />
-)
 
-export const WithdrawModal = ({ isVisible, toggleModal, onSubmit }) => (
-  <ModalContainer
-    headerText="Withdraw Funds"
-    isVisible={isVisible}
-    onSubmit={onSubmit}
-    hideModal={toggleModal}
-    icon={<Icon name="wyre" size="29" />}
-    submitText="Withdraw with Wyre"
-    content={
-      <p className="text-base">
-        Withdraw your funds using Wyre. Funds can be withdrawn anytime according
-        to the limits set by Wyre.
-      </p>
-    }
-  />
-)
+export const DepositModal = ({ isVisible, toggleModal }) => {
+  const { ramps } = useRamp()
+  const wyreRamp = ramps.find((ramp) => ramp.name == 'Wyre')
+  return (
+    <ModalContainer
+      isVisible={isVisible}
+      onSubmit={wyreRamp?.onDeposit}
+      hideModal={toggleModal}
+      headerText="Deposit Funds"
+      icon={<Icon name="wyre" size="29" />}
+      submitText="Deposit with Wyre"
+      content={
+        <>
+          {' '}
+          <p className="text-base">
+            Fund your wallet using Wyre. Funds are typically added in less than
+            3 minutes, and can be withdrawn anytime according to the limits set
+            by Wyre.
+          </p>
+          <p className="text-base mt-4 mb-4">
+            <i>
+              By submitting, I authorize Wyre Payments, Inc., to electronically
+              charge my credit/debit card (and, if necessary, electronically
+              credit my card) using the card indicated by me. I understand that
+              this authorization will remain in full force and effect until I
+              notify Treasure Chess that I wish to revoke this authorization. I
+              agree that credit/debit card transactions I authorize, comply with
+              all applicable law.
+            </i>
+          </p>
+        </>
+      }
+    />
+  )
+}
+
+const VendorConnection = ({ ramp, amount, isLoading, disabled }) => {
+  if (!ramp) return null
+  const backgroundColor = isLoading
+    ? 'bg-chessBlack-200 pointer-events-none'
+    : 'bg-green'
+  const loadingText = (
+    <p className="text-white flex justify-center text-[10px]">
+      <LoadingDots />
+    </p>
+  )
+  const buttonClassName = `mt-4 w-[272px] h-[40px] text-xl shadow-m hover:sm hover:bg-greenDark hover:shadow-greenDark ${backgroundColor}`
+  let button = (
+    <Button
+      className={buttonClassName}
+      onClick={ramp.onConnect}
+      disabled={isLoading}
+    >
+      {ramp.isLoading ? loadingText : 'Connect  '}
+    </Button>
+  )
+  if (ramp.isConnected)
+    button = (
+      <Button
+        className={buttonClassName}
+        disabled={isLoading}
+        onClick={() => ramp.onWithdraw(amount)}
+      >
+        {ramp.isLoading ? loadingText : 'Withdraw'}
+      </Button>
+    )
+  if (disabled) button = <h3 className="mt-4">(Coming soon)</h3>
+
+  let status = 'Not connected'
+  if (ramp.isConnected) status = `Connected - ${trimAddress(ramp.address)}`
+  return (
+    <div className="">
+      <div className="mt-4 flex align-center items-end">
+        <h3>{ramp.name}</h3>{' '}
+        <p className="ml-4">
+          <i>{status}</i>
+        </p>
+      </div>
+      {button}
+      <p className="mt-2 text-red">{ramp.error}</p>
+    </div>
+  )
+}
+
+export const WithdrawModal = ({ isVisible, toggleModal }) => {
+  const [amount, setAmount] = React.useState(0)
+  const { ramps, isLoading } = useRamp()
+  return (
+    <ModalContainer
+      headerText="Withdraw Funds"
+      isVisible={isVisible}
+      onSubmit={toggleModal}
+      hideModal={toggleModal}
+      // icon={<Icon name="wyre" size="29" />}
+      content={
+        <>
+          <p className="text-base">
+            Withdraw your funds anytime. Limits are set by each third-party
+            provider. Connections are <i>Read-Only</i>.
+          </p>
+
+          <h4 className="mt-4 ">Amount to withdraw</h4>
+          <FilterPriceInput value={amount} setValue={setAmount} />
+          {ramps.map((ramp) => (
+            <VendorConnection
+              key={ramp.name}
+              isLoading={isLoading}
+              amount={amount}
+              ramp={ramp}
+            />
+          ))}
+        </>
+      }
+    />
+  )
+}

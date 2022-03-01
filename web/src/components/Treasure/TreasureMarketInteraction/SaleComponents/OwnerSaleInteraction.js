@@ -9,6 +9,7 @@ import {
   PENDING_LISTED,
   PENDING_DELISTED,
   DELISTED,
+  SOLD,
 } from 'src/providers/market/constants'
 
 const OwnerSaleInteraction = () => {
@@ -26,7 +27,9 @@ const OwnerSaleInteraction = () => {
   let statusContent = null
 
   if (actionError) {
-    statusContent = <p className="text-red text-[11px]">{actionError}</p>
+    statusContent = (
+      <p className="text-red  font-bold text-[11px]">{actionError}</p>
+    )
   } else if (actionStatus === PENDING_LISTED) {
     statusContent = (
       <div className=" flex">
@@ -51,7 +54,7 @@ const OwnerSaleInteraction = () => {
     )
   }
 
-  if ([PENDING_LISTED, null, DELISTED].includes(marketStatus))
+  if ([PENDING_LISTED, null, DELISTED, SOLD].includes(marketStatus))
     return (
       <div className="flex flex-col w-[396px] h-52 p-4 mb-4 rounded-xl shadow-md justify-between bg-chessBlack-200">
         <div>

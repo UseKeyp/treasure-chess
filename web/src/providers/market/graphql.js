@@ -45,7 +45,7 @@ export const UNLIST_MARKET_SALE_MUTATION = gql`
   }
 `
 export const BUY_MARKET_SALE_MUTATION = gql`
-  mutation listTreasure($tokenId: String!) {
+  mutation buyTreasure($tokenId: String!) {
     marketSale: buyTreasure(tokenId: $tokenId) {
       id
       updatedAt

@@ -1,7 +1,7 @@
 import { AuthenticationError, ForbiddenError } from '@redwoodjs/graphql-server'
 import Sentry from 'src/lib/sentry'
 
-import { db } from './db'
+import { db } from 'src/lib/db'
 
 export const getCurrentUser = async (session) => {
   const member = await db.member.findUnique({
@@ -14,11 +14,17 @@ export const getCurrentUser = async (session) => {
       imageSrc: true,
       mintCredits: true,
       country: true,
+      banned: true,
     },
   })
   if (!member) return null
   // WARNING: Returned values here are exposed to the FE
   // Don't include any Chess.com access tokens here
+
+  if (member.banned) {
+    throw new Error('user is banned')
+  }
+
   Sentry.setUser(member)
   return member
 }
@@ -68,7 +74,7 @@ export const hasRole = ({ roles }) => {
  */
 export const requireAuth = ({ roles } = {}) => {
   if (!isAuthenticated()) {
-    throw new AuthenticationError("You don't have permission to do that.")
+    throw new AuthenticationError('You must be logged in to do that.')
   }
 
   if (!hasRole({ roles })) {

@@ -4,15 +4,7 @@ import { useAuth } from '@redwoodjs/auth'
 import { useModal } from 'src/hooks/useModal'
 
 import { WithdrawModal, DepositModal, AddressModal } from './modals'
-
-const MEMBER_BALANCE = gql`
-  query FindMemberBalanceQuery {
-    memberBalance {
-      usdcBalance
-      mintCreditBalance
-    }
-  }
-`
+import { MEMBER_BALANCE_QUERY } from './graphql'
 
 const WalletContext = React.createContext({
   balanceLoading: true,
@@ -31,20 +23,11 @@ const WalletProvider = ({ children }) => {
   const { isVisible: isVisibleWit, toggleModal: toggleModalWit } = useModal()
   const { isVisible: isVisibleAdd, toggleModal: toggleModalAdd } = useModal()
 
-  const onDeposit = async () => {
-    toggleModalDep()
-    // trigger wyre
-  }
-  const onWithdraw = () => {
-    toggleModalWit()
-    // trigger wyre
-  }
-
   const {
     data: { memberBalance } = {},
     error: balanceError,
     loading: balanceLoading,
-  } = useQuery(MEMBER_BALANCE, {
+  } = useQuery(MEMBER_BALANCE_QUERY, {
     pollInterval: 30000,
     skip: !isAuthenticated,
     fetchPolicy: 'network-only',
@@ -57,7 +40,6 @@ const WalletProvider = ({ children }) => {
     })
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [memberBalance])
-
   return (
     <WalletContext.Provider
       value={{
@@ -70,16 +52,8 @@ const WalletProvider = ({ children }) => {
         balanceLoading,
       }}
     >
-      <DepositModal
-        onSubmit={onDeposit}
-        isVisible={isVisibleDep}
-        toggleModal={toggleModalDep}
-      />
-      <WithdrawModal
-        onSubmit={onWithdraw}
-        isVisible={isVisibleWit}
-        toggleModal={toggleModalWit}
-      />
+      <DepositModal isVisible={isVisibleDep} toggleModal={toggleModalDep} />
+      <WithdrawModal isVisible={isVisibleWit} toggleModal={toggleModalWit} />
       <AddressModal
         address={currentUser?.address}
         isVisible={isVisibleAdd}

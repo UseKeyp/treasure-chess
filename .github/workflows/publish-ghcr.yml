@@ -10,6 +10,7 @@ on:
 env:
   NODE_ENV: ${{ github.event.inputs.image_tag_prefix }}
   REDWOOD_API_URL: 'http://0.0.0.0:8911'
+  APP_DOMAIN: 'http://0.0.0.0:8910'
   BASIC_AUTH_PASSWORD: 'pauliemorphy' # required for sandbox or dev
 
   # Container Registry
@@ -62,6 +63,8 @@ jobs:
           build-args: |
             NODE_ENV=${{ env.NODE_ENV }}
             REDWOOD_API_URL=${{ env.REDWOOD_API_URL }}
+            APP_DOMAIN=${{ env.APP_DOMAIN }}
+            BASIC_AUTH_PASSWORD=${{ env.BASIC_AUTH_PASSWORD }}
           tags: |
             ${{ env.CONTAINER_REGISTRY_HOSTNAME }}/${{ env.CONTAINER_REGISTRY_REPOSITORY }}/${{ env.CONTAINER_REGISTRY_IMAGE_PREFIX }}-${{ matrix.platform }}:latest
             ${{ env.CONTAINER_REGISTRY_HOSTNAME }}/${{ env.CONTAINER_REGISTRY_REPOSITORY }}/${{ env.CONTAINER_REGISTRY_IMAGE_PREFIX }}-${{ matrix.platform }}:${{ env.NODE_ENV }}-${{ github.sha }}

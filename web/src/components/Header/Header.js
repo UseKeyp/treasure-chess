@@ -1,3 +1,4 @@
+import { useCallback, useEffect } from 'react'
 import { routes, useLocation } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
 import { useWallet } from 'src/providers/wallet'
@@ -66,6 +67,20 @@ const MobileNav = () => {
                 About
               </Button>
             </li>
+            <li className={navItemClasses}>
+              <Button
+                href="https://airtable.com/shrWkB9MS13NXoM46"
+                target="_blank"
+                size="large"
+              >
+                <div className="flex items-center">
+                  <div className="mr-2">
+                    <Icon name="book" />
+                  </div>
+                  <h3>Feedback</h3>
+                </div>
+              </Button>
+            </li>
             {!isLoggedIn ? (
               <li className={navItemClasses}>
                 <Button className={navAnchorClasses} to={routes.login()}>
@@ -108,13 +123,21 @@ const Header = () => {
 
   const address = trimAddress(profile?.address) || 'No address set'
 
+  const handleUserStatus = useCallback(() => {
+    if (profile !== null && profile.banned) {
+      logOut()
+    }
+  }, [profile, logOut])
+
+  useEffect(() => {
+    handleUserStatus()
+  }, [handleUserStatus])
+
   return (
     <div className={'header'}>
-      <div className={'header__iconSearch'}>
-        <Button to={routes.home()} className="mr-4">
-          <Icon name="treasure_chess_full" height="35px" color="#fff" />
-        </Button>
-      </div>
+      <Button to={routes.home()} className="mr-4 align-center">
+        <Icon name="treasure_chess_full" height="35px" color="#fff" />
+      </Button>
       <div className="flex flex-1 items-center justify-end lg:hidden">
         <MobileNav />
       </div>

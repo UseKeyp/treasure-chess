@@ -1,6 +1,6 @@
 import { createPortal } from 'react-dom'
 import Button from 'src/components/Button/Button'
-
+import LoadingDots from 'src/components/LoadingDots'
 const ModalContainer = ({
   isVisible,
   hideModal,
@@ -11,6 +11,7 @@ const ModalContainer = ({
   onSubmit,
   icon,
   hideCancelButton,
+  isLoading,
 }) => {
   // eslint-disable-next-line no-unused-expressions
   isVisible
@@ -40,9 +41,11 @@ const ModalContainer = ({
               ) : (
                 <div></div>
               )}
-              <Button variant="blue" onClick={onSubmit}>
-                {submitText}
-              </Button>
+              {submitText && (
+                <Button variant="blue" onClick={onSubmit}>
+                  {isLoading ? <LoadingDots /> : submitText}
+                </Button>
+              )}
             </div>
           </div>
         </div>,

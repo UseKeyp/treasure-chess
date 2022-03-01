@@ -4,8 +4,7 @@ import { Contract } from '@ethersproject/contracts'
 import achievementsList from '@treasure-chess/chess-achievements/src/achievementsList'
 
 import { adminSendTransaction } from 'src/lib/web3/admin'
-import { web3Provider } from 'src/lib/web3/helpers'
-import { memberSendTransaction } from 'src/lib/web3/member'
+import { web3Provider, DEFAULT_GAS_PRICE } from 'src/lib/web3/helpers'
 
 const treasureAbi = treasureArtifact.abi
 
@@ -46,7 +45,8 @@ export const mint = async ({ treasure, tokenUri, minterAddress }) => {
       chievScore[0], // uint16 _achievement1
       chievScore[1], // uint16 _achievement2
       chievScore[2], // uint16 _achievement3
-      treasure.cardColor === 'black' // bool _color);
+      treasure.cardColor === 'black', // bool _color);
+      { gasPrice: DEFAULT_GAS_PRICE }
     )
     const tx = await adminSendTransaction(unsignedTx)
     return tx
@@ -77,29 +77,4 @@ export const totalSupply = async () => {
   const treasureContract = getTreasureContract()
   const supply = await treasureContract.getTotalGames()
   return supply.toString()
-}
-
-export const checkAndSetMarketApproval = async ({ member }) => {
-  try {
-    const treasureContract = getTreasureContract()
-    const isApprovedForAll = await treasureContract.isApprovedForAll(
-      member.address,
-      process.env.CONTRACT_ADDRESS_TREASURE_MARKET
-    )
-    if (!isApprovedForAll) {
-      const unsignedTx =
-        await treasureContract.populateTransaction.setApprovalForAll(
-          process.env.CONTRACT_ADDRESS_TREASURE_MARKET,
-          true
-        )
-      const tx = await memberSendTransaction({
-        memberId: member.id,
-        unsignedTx,
-      })
-      return tx
-    }
-    return null
-  } catch (e) {
-    throw new Error(`checkAndSetMarketApproval() ${e}`)
-  }
 }

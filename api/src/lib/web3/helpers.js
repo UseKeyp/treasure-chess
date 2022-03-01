@@ -1,7 +1,9 @@
 import { JsonRpcProvider, InfuraProvider } from '@ethersproject/providers'
 const { getIdFromNetworkName } = require('@treasure-chess/web3-helpers')
+import { parseUnits } from '@ethersproject/units'
 
 const CHAIN_ID = getIdFromNetworkName(process.env.ETHEREUM_NETWORK_NAME)
+export const DEFAULT_GAS_PRICE = parseUnits('80', 'gwei')
 
 export const getProviderByChainId = (chainId) => {
   try {

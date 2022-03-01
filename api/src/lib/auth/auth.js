@@ -14,11 +14,17 @@ export const getCurrentUser = async (session) => {
       imageSrc: true,
       mintCredits: true,
       country: true,
+      banned: true,
     },
   })
   if (!member) return null
   // WARNING: Returned values here are exposed to the FE
   // Don't include any Chess.com access tokens here
+
+  if (member.banned) {
+    throw new Error('user is banned')
+  }
+
   Sentry.setUser(member)
   return member
 }

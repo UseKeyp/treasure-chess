@@ -30,6 +30,7 @@ model Member {
   masterTitle             MasterTitle? // "Grand Master" or "International Master"
   country                 String // Player's country  eg. US, DE
   mintCredits             Int            @default(3) // Mint for free!
+  banned                  Boolean        @default(false)
   // Oauth
   refreshToken            String?
   // Ramps
@@ -143,7 +144,7 @@ model OAuth {
   codeChallenge String
   codeVerifier  String
   createdAt     DateTime @default(now())
-  member        Member?   @relation(fields: [memberId], references: [id])
+  member        Member?  @relation(fields: [memberId], references: [id])
   memberId      String?
 }
 

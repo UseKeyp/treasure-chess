@@ -38,7 +38,7 @@ const LoginPortal = () => {
           <span className="block xl:inline">Login</span>
         </h1>
         <h3 className="mt-8 text-center">
-          Create your wallet using your Chess account
+          Create a Treasure Chess wallet using your Chess account
         </h3>
         <div className="login-portal-container--button-wrapper">
           <Button

@@ -312,6 +312,26 @@ const thirdPartyApps = [
     question: <></>,
     answer: (
       <>
+        <strong>Chess.com</strong>
+        <br />
+        <br />
+        <span>
+          <span>
+            We use Chess.com to provide account authentication. Chess.com's
+            privacy policy is available at
+          </span>
+          &nbsp;
+          <a
+            href="https://www.chess.com/legal/privacy"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            https://www.chess.com/legal/privacy
+          </a>
+          .
+        </span>
+        <br />
+        <br />
         <strong>Matomo</strong>
         <br />
         <br />

@@ -112,11 +112,9 @@ const FilterBar = ({
           </button>
         </div>
 
-        <div className={styles.dropdownRow}>
-          <h4 style={{ marginLeft: `2em`, marginBottom: `0.5em` }}>Username</h4>
-          <div className="ml-4">
-            <UsernameSearchBar />
-          </div>
+        <div className={styles.dropdownRowSpacing}>
+          <h4 style={{ marginBottom: `0.5em` }}>Username</h4>
+          <UsernameSearchBar />
         </div>
         <div className={styles.dropdownRowSpacing}>
           <Dropdown
@@ -134,7 +132,7 @@ const FilterBar = ({
             queryFilter={rarity}
           />
         </div>
-        <div className={styles.dropdownRow}>
+        <div className={styles.dropdownRowSpacing}>
           <FilterCheckbox
             category={'Sale'}
             options={filters.saleList}
@@ -150,7 +148,7 @@ const FilterBar = ({
             <FilterPriceInput value={highPrice} setValue={setHighPrice} />
           </div>
         </div>
-        <div className={styles.dropdownRow}>
+        <div className={styles.dropdownRowSpacing}>
           <FilterCheckbox
             category={'Outcome'}
             options={filters.outcomeList}
@@ -182,7 +180,7 @@ const FilterBar = ({
             queryFilter={moveCount}
           />
         </div>
-        <div className={styles.dropdownRow}>
+        <div className={styles.dropdownRowSpacing}>
           <FilterCheckbox
             category={'Master Title'}
             options={filters.titleList}

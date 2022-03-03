@@ -78,7 +78,7 @@ const Games = ({ games, isLoading }) => {
   return (
     <div className="games-history-list">
       <div className="games-history-list__heading">
-        <H3 mr={10}>Games</H3>
+        <H3 mr={10}>{TITLE}</H3>
         <P fontSize={12} color="grey">
           {games.length} Games
         </P>

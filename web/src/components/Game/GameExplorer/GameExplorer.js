@@ -29,10 +29,8 @@ const GameExplorer = () => {
   }
   return (
     <div className="grid grid-rows-1">
-      <div className="grid md:grid-cols-3 grid-cols-1 gap-10">
-        <div style={{ width: 330 }}>
-          <FilterItems onChange={onChangeFilter} />
-        </div>
+      <FilterItems onChange={onChangeFilter} />
+      <div className="grid md:grid-cols-2 grid-cols-1 gap-6">
         <GamesCell filter={filter} />
         <GameCard
           game={activeGame}

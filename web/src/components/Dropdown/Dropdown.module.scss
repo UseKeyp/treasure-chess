@@ -1,15 +1,15 @@
-@use "sass:color";
+@use 'sass:color';
 
 .dropdownWrapper {
-  font-size: .925rem;
+  font-size: 0.925rem;
   user-select: none;
   width: 100%;
 }
 
 .dropdown {
-  background-color: #4F4F4F;
+  background-color: #4f4f4f;
   font-size: 1rem;
-  margin: 1ex 0;
+  margin: 1ex 0 0 0;
   border-radius: 4px;
 }
 
@@ -25,8 +25,8 @@
   > span {
     padding-top: 0.5ex;
   }
-  &:hover{
-    background-color: color.scale(#4F4F4F, $lightness: 20%);
+  &:hover {
+    background-color: color.scale(#4f4f4f, $lightness: 20%);
     cursor: pointer;
   }
   &:focus {
@@ -37,8 +37,9 @@
 .dropdownObject {
   padding: 1ex 1em;
   transition: all 0.25s;
-  &:hover, &:focus {
-    background-color: color.scale(#4F4F4F, $lightness: 20%);
+  &:hover,
+  &:focus {
+    background-color: color.scale(#4f4f4f, $lightness: 20%);
     cursor: pointer;
   }
   &:focus {
@@ -55,7 +56,7 @@
   position: relative;
   left: 0;
   top: 0;
-  background-color: #4F4F4F;
+  background-color: #4f4f4f;
   width: 100%;
   overflow: auto;
   max-height: 180px;

@@ -9,7 +9,7 @@ const config = {
   DISCORD_URL: '',
   BLOG_URL: '',
   TOC_URL: '',
-  PRIVACY_POLICY_URL: '/privacy-policy',
+  PRIVACY_POLICY_URL: '/privacy',
   SUPPORT_URL: '',
 }
 

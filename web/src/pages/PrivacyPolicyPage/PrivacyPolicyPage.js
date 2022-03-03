@@ -42,7 +42,7 @@ const tos = [
         <br />
         <br />
         <span>
-          f you are visiting this site from the European Union (EU), see our
+          If you are visiting this site from the European Union (EU), see our
           Notice to EU Data Subjects below for our legal bases for processing
           and transfer of your data.
         </span>
@@ -201,6 +201,7 @@ const collect = [
             href="https://matomo.org/privacy-policy/"
             rel="noopener noreferrer"
             target="_blank"
+            className="ml-2"
           >
             https://matomo.org/privacy-policy/
           </a>
@@ -646,7 +647,7 @@ const eligibility = [
   {
     question: <></>,
     answer:
-      "If you are under the age of majority in your jurisdiction of residence, you may use the Site and Services only with the consent of or under the supervision of your parent or legal guardian. Consistent with the requirements of the Children's Online Privacy Protection Act (COPPA), if we learn that we have received any information directly from a child under age 13 without first",
+      "If you are under the age of majority in your jurisdiction of residence, you may use the Site and Services only with the consent of or under the supervision of your parent or legal guardian. Consistent with the requirements of the Children's Online Privacy Protection Act (COPPA), if we learn that we have received any information directly from a child under age 13 without first receiving his or her parent's verified consent, we will use that information only to respond directly to that child (or his or her parent or legal guardian) to inform the child that he or she cannot use the Site or Services and subsequently we will delete that information",
   },
 ]
 
@@ -1001,6 +1002,8 @@ const cookies = [
           reports based on the use of these technologies by our
           service/analytics providers on an individual and aggregated basis
         </span>
+        <br />
+        <br />
         <strong style={{ fontStyle: 'italic' }}>Why do we use Cookies?</strong>
         <br />
         <br />

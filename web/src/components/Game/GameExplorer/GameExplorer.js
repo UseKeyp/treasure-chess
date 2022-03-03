@@ -28,9 +28,11 @@ const GameExplorer = () => {
     setFilter(filterParams.toString())
   }
   return (
-    <div className="grid grid-rows-1">
-      <FilterItems onChange={onChangeFilter} />
-      <div className="grid md:grid-cols-2 grid-cols-1 gap-6">
+    <div className="w-full">
+      <div className="mb-4">
+        <FilterItems onChange={onChangeFilter} />
+      </div>
+      <div className="grid md:grid-cols-2 grid-cols-1 gap-6 w-full">
         <GamesCell filter={filter} />
         <GameCard
           game={activeGame}

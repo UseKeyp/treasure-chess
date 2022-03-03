@@ -11,6 +11,7 @@ const Routes = () => {
       <Set wrap={DefaultLayout}>
         <Route path="/" page={HomePage} name="home" />
         <Route path="/about" page={FaqPage} name="faq" />
+        <Route path="/privacy-policy" page={PrivacyPolicyPage} name="privacyPolicy" />
         <Route path="/login" page={LoginPage} name="login" />
         <Route notfound page={NotFoundPage} />
         <Set wrap={MembersLayout}>

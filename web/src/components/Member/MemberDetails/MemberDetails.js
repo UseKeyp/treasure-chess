@@ -12,7 +12,6 @@ import { useWallet } from 'src/providers/wallet'
 import { trimAddress } from 'src/utils/helpers'
 
 const MemberDetails = ({ member, isProfile }) => {
-
   const { deposit, withdraw, getAddress } = useWallet()
 
   return (
@@ -59,7 +58,7 @@ const MemberDetails = ({ member, isProfile }) => {
               size="small"
               className="w-40"
             >
-              Deposit Funds
+              Deposit
             </Button>
             <Button
               onClick={withdraw}
@@ -68,7 +67,7 @@ const MemberDetails = ({ member, isProfile }) => {
               size="small"
               className="w-40"
             >
-              Withdraw Funds
+              Withdraw
             </Button>
             <p className="mt-2">
               <a

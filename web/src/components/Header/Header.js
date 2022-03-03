@@ -25,7 +25,7 @@ const WalletBalance = () => {
           textColor="blue"
           className={'header__nav__fund-wallet'}
         >
-          Fund Wallet
+          Add Funds
         </Button>
       </div>
     </div>

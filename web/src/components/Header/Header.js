@@ -190,7 +190,7 @@ const Header = () => {
                   textColor="blue"
                   className="header__nav__username"
                 >
-                  {profile.username}
+                  {profile?.username}
                 </Button>
                 <div className="header__nav__address">{address}</div>
               </div>

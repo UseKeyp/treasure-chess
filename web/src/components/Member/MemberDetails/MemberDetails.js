@@ -3,7 +3,6 @@ import Button from 'src/components/Button/Button'
 import Icon from 'src/components/Icon'
 
 import MemberBalance from 'src/components/Member/MemberBalance'
-import { useAuth } from '@redwoodjs/auth'
 
 import globalConfig from 'src/global.config'
 

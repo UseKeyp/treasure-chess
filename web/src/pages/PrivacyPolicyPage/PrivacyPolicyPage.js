@@ -18,13 +18,13 @@ const tos = [
         <span>
           <span>
             By using the Site and/or Services, you accept the terms of this
-            Policy and our Terms of Use, and consent to our collection, use,
-            disclosure, and retention of your information as described in this
-            Policy. If you have not done so already, please also review our
-            Terms of Use. The Terms of Use contain provisions that limit our
-            liability to you and require you to resolve any dispute with us on
-            an individual basis and not as part of any class or representative
-            action.&nbsp;
+            Policy and our <a href="/terms">Terms of Use</a>, and consent to our
+            collection, use, disclosure, and retention of your information as
+            described in this Policy. If you have not done so already, please
+            also review our Terms of Use. The Terms of Use contain provisions
+            that limit our liability to you and require you to resolve any
+            dispute with us on an individual basis and not as part of any class
+            or representative action.&nbsp;
           </span>
           <strong>
             IF YOU DO NOT AGREE WITH ANY PART OF THIS PRIVACY POLICY OR OUR
@@ -71,13 +71,13 @@ const infoAndBlockchain = [
         <br />
         <br />
         <span>
-          Accordingly, by design, a blockchains records cannot be changed or
-          deleted and is said to be ‘immutable’. This may affect your ability to
-          exercise your rights such as your right to erasure (‘right to be
+          Accordingly, by design, blockchain records cannot be changed or
+          deleted and are said to be ‘immutable’. This may affect your ability
+          to exercise your rights such as your right to erasure (‘right to be
           forgotten’), or your rights to object or restrict processing, of your
           personal data. Data on the blockchain cannot be erased and cannot be
           changed. Although smart contracts may be used to revoke certain access
-          rights, and some content may be made invisible to others, it is not
+          rights, and some content may be made invisible to others, it is never
           deleted.
         </span>
         <br />

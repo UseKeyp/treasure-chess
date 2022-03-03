@@ -338,8 +338,8 @@ const thirdPartyApps = [
         <span>
           <span>
             We use Matomo to track visitor and user actions on the Site so that
-            we may improve user experience. We do not store any information
-            collected by Matomo. Matomo’s privacy policy is available at
+            we may improve user experience. Matomo’s privacy policy is available
+            at
           </span>
           &nbsp;
           <a

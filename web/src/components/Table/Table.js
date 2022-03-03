@@ -40,10 +40,11 @@ const Table = ({
       </div>
     )
   })
+  console.log(rows)
   let contents
   if (error) contents = <p>{error}</p>
+  else if (rows?.length === 0) contents = <p className="text-grey">Empty</p>
   else if (!isLoading) contents = rows
-  // else if (!rows.length) contents = 'Empty'
   else
     contents = (
       <RowsSkeleton rowCount={6} maxWidth={rowWidth} maxHeight={rowHeight} />

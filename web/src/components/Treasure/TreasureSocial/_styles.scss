@@ -1,7 +1,11 @@
-.treasure-social {
+.treasure-social-container {
   padding: 16px;
   background-color: #272522;
   border-radius: 12px;
+  width: 100%;
+  // max-height: 80px;
+}
+.treasure-social {
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -27,5 +31,4 @@
     display: flex;
     justify-content: space-around;
   }
- 
 }

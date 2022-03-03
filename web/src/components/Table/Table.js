@@ -43,6 +43,7 @@ const Table = ({
   let contents
   if (error) contents = <p>{error}</p>
   else if (!isLoading) contents = rows
+  // else if (!rows.length) contents = 'Empty'
   else
     contents = (
       <RowsSkeleton rowCount={6} maxWidth={rowWidth} maxHeight={rowHeight} />

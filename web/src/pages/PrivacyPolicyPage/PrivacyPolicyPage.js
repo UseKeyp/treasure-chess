@@ -88,7 +88,7 @@ const infoAndBlockchain = [
           to write certain personal data, such as your Ethereum or other
           cryptocurrency wallet address, onto the blockchain; this is done
           through a smart contract and requires you to execute such transactions
-          using your wallet’s private key
+          using your wallet’s private key.
         </span>
         <br />
         <br />
@@ -136,8 +136,9 @@ const collect = [
           <li>
             Newsletter subscription information, including dates and times that
             you subscribed and interacted with our newsletter as well as IP
-            address information; ● Profile information;
+            address information;
           </li>
+          <li>Profile information;</li>
           <li>
             Feedback and correspondence, such as information you provide in your
             responses to surveys, when you participate in market research
@@ -311,28 +312,6 @@ const thirdPartyApps = [
     question: <></>,
     answer: (
       <>
-        <strong>MailChimp</strong>
-        <br />
-        <br />
-        <span>
-          <span>
-            We use MailChimp to send out newsletters to subscribers. MailChimp
-            allows us to prepare customized Emails and manage our subscribers.
-            We do not store any information collected by MailChimp. MailChimp’s
-            privacy policy is available at
-          </span>
-          &nbsp;
-          <a
-            href="https://mailchimp.com/legal/privacy/"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            https://mailchimp.com/legal/privacy/
-          </a>
-          .
-        </span>
-        <br />
-        <br />
         <strong>Matomo</strong>
         <br />
         <br />
@@ -1208,16 +1187,16 @@ const cookies = [
           </thead>
           <tbody>
             <tr>
-              <td>Google Analytics</td>
+              <td>Matomo Analytics</td>
               <td>Analytics</td>
-              <td>3rd - Google</td>
+              <td>1st</td>
               <td>Persistent</td>
               <td>1 year</td>
             </tr>
             <tr>
               <td>Session ID </td>
               <td>User session tracking</td>
-              <td>1st - Nifty Chess (Standard Node session cookie)</td>
+              <td>1st (Standard Node session cookie)</td>
               <td>Persistent</td>
               <td>14 days</td>
             </tr>

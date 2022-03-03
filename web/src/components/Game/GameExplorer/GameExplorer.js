@@ -36,7 +36,8 @@ const GameExplorer = () => {
         <GamesCell filter={filter} />
         <GameCard
           game={activeGame}
-          isMinting={mintStatus === MINT_STATUS_MINTING}
+          isMinting
+          // isMinting={mintStatus === MINT_STATUS_MINTING}
           title={gameTitle}
         />
       </div>

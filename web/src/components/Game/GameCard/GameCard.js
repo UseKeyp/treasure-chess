@@ -107,7 +107,7 @@ const GameCard = ({ game, isMinting, isLoading, title, showGif }) => {
         {isMinting && (
           <div className={styles.gameCardMintingContainer}>
             <div className={styles.gameCardMintingOverlay} />
-            <div className="items-center">
+            <div>
               <div className="mb-6 h-full">
                 <Loader />
               </div>

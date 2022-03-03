@@ -5,6 +5,7 @@
   align-items: center;
 }
 .gameCardWrapper {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -29,18 +30,21 @@
 }
 
 .gameCardMintingContainer {
-  // position: absolute;
+  position: absolute;
   color: theme('colors.chessBlack.100');
   align-items: center;
   justify-content: center;
   text-align: center;
   display: flex;
+  height: 500px;
   z-index: 2;
+  top: 0px;
+  position: absolute;
 }
 
 .gameCardMintingOverlay {
-  top: 0px;
   position: absolute;
+  top: 0px;
   width: 266px;
   height: 500px;
   background-color: white;

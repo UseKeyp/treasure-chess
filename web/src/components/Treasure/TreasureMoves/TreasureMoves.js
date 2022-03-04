@@ -1,6 +1,6 @@
 import Avatar from 'src/components/Avatar'
 import { RowsSkeleton } from 'src/components/LoadingSkeleton'
-
+import MemberLink from 'src/components/MemberLink'
 const parsePgn = (str) => {
   if (!str) return []
   str = str.replace(/\d+\.\.\. /g, '')
@@ -30,9 +30,9 @@ const TreasureMoves = ({ treasure, isLoading }) => {
             <div className="mr-2">
               <Avatar src={treasure?.white.imageSrc} size="16px" />
             </div>
-            <p className="moves-details__player-nick">
-              {treasure?.white.username}
-            </p>
+            <div className="moves-details__player-nick">
+              <MemberLink usernameOrAddress={treasure?.white.username} />
+            </div>
           </div>
         </div>
         <div className="moves-details__player">
@@ -41,9 +41,9 @@ const TreasureMoves = ({ treasure, isLoading }) => {
             <div className="mr-2">
               <Avatar src={treasure?.black.imageSrc} size="16px" />
             </div>
-            <p className="moves-details__player-nick">
-              {treasure?.black.username}
-            </p>
+            <div className="moves-details__player-nick">
+              <MemberLink usernameOrAddress={treasure?.black.username} />
+            </div>
           </div>
         </div>
       </header>

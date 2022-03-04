@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
-import { H3, Span, P } from 'src/components/Typography'
+import { Span } from 'src/components/Typography'
 import Dropdown from 'src/components/Dropdown'
 import FilterCheckbox from 'src/components/FilterCheckbox'
 import UsernameSearchBar from 'src/components/UsernameSearchBar/UsernameSearchBar'
@@ -46,7 +46,7 @@ const FilterItems = ({ onChange }) => {
   const transparentWhite = 'rgba(255, 255, 255, 0.6)'
   const CategoryWrap = ({ children }) => (
     <Span fontSize={11} fontWeight="bold" color={transparentWhite}>
-      {children}
+      <h4>{children}</h4>
     </Span>
   )
 
@@ -62,34 +62,15 @@ const FilterItems = ({ onChange }) => {
   }, [month, year, username, outcome])
 
   return (
-    <div className="filter-items">
-      <H3 ml="1rem" mb="0.5rem">
-        Filter
-      </H3>
-      <div className="filter-items__time-wrap">
-        {/*    <div style={{ flex: 1, flexBasis: 75, margin: 4 }} className="flex">
-          <Dropdown
-            category={<CategoryWrap>Day</CategoryWrap>}
-            options={daysList}
-            queryFilterFunction={setDay}
-            queryFilter={day}
-          />
-        </div> */}
-        <div
-          style={{ flex: 1, flexBasis: 105, margin: 4, zIndex: 1 }}
-          className="flex"
-        >
+    <div className="filter-items w-full">
+      <div className="grid md:grid-cols-3 grid-cols-1 gap-2 md:gap-4">
+        <div className="grid grid-cols-2 gap-4">
           <Dropdown
             category={<CategoryWrap>Month</CategoryWrap>}
             options={monthsList}
             queryFilterFunction={setMonth}
             queryFilter={month}
           />
-        </div>
-        <div
-          style={{ flex: 1, flexBasis: 75, margin: 4, zIndex: 1 }}
-          className="flex"
-        >
           <Dropdown
             category={<CategoryWrap>Year</CategoryWrap>}
             options={yearsList}
@@ -97,22 +78,23 @@ const FilterItems = ({ onChange }) => {
             queryFilter={year}
           />
         </div>
-      </div>
-      <div className="filter-items__input-wrap">
-        <P fontSize={11} fontWeight="bold" color={transparentWhite} mb="0.5rem">
-          Opponent
-        </P>
-        <UsernameSearchBar initialQuery={username} setQuery={setUsername} />
-      </div>
-      <div className="filter-items__outcome-wrap">
-        <P fontSize={11} fontWeight="bold" color={transparentWhite} ml="1rem">
-          Your Outcome
-        </P>
+        <div className="filter-items__input-wrap">
+          <h4
+            fontSize={11}
+            fontWeight="bold"
+            color={transparentWhite}
+            mt="1rem"
+            className="mb-2"
+          >
+            Opponent
+          </h4>
+          <UsernameSearchBar initialQuery={username} setQuery={setUsername} />
+        </div>
         <FilterCheckbox
-          className="mt 0"
           options={['Any', 'Won', 'Draw', 'Lost']}
           queryFilterFunction={setOutcome}
           queryFilter={outcome}
+          category="Your Outcome"
         />
       </div>
     </div>

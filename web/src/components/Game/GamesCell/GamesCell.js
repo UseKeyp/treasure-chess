@@ -42,11 +42,7 @@ export const Loading = () => <Games isLoading />
 
 export const Empty = () => <Games games={[]} />
 
-export const Failure = () => (
-  <div className="">
-    <p className="text-white">{`Couldn't load games`}</p>
-  </div>
-)
+export const Failure = () => <Games error />
 
 export const Success = ({ games }) => {
   return <Games games={games} />

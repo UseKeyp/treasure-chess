@@ -20,14 +20,17 @@ const Profile = () => {
           </div>
         </div>
       </div>
-      <br />
-      <h1>Game History</h1>
-      <div className="flex mt-4">
+      <h1 className="mt-8">Games</h1>
+      <div className="mt-4">
         <GameExplorer />
       </div>
-      <h1 className="mt-4">Treasures</h1>
+      <h1 className="mt-8">Treasures Owned</h1>
       <div className="flex mt-4">
         <TreasuresFetcher owner={currentUser.username} />
+      </div>
+      <h1 className="mt-8">Treasures Played</h1>
+      <div className="flex mt-4">
+        <TreasuresFetcher username={currentUser.username} />
       </div>
     </div>
   )

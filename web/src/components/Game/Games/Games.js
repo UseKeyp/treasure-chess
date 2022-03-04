@@ -12,7 +12,7 @@ import ListItem from './components/ListItem/ListItem'
 
 const TITLE = 'Games'
 
-const Games = ({ games, isLoading }) => {
+const Games = ({ games, isLoading, error }) => {
   const { currentUser } = useAuth()
   const { mint, cancelMint } = useMinting()
 
@@ -49,7 +49,7 @@ const Games = ({ games, isLoading }) => {
   }
 
   const getItems = () =>
-    games.map((game) => {
+    games?.map((game) => {
       const outcome = getOutcomeText({
         username: currentUser?.username,
         game,
@@ -73,18 +73,22 @@ const Games = ({ games, isLoading }) => {
     /* eslint-disable react-hooks/exhaustive-deps */
   }, [])
 
-  if (isLoading) return <Table title={TITLE} isLoading height={500} />
-
   return (
-    <div className="games-history-list">
-      <div className="games-history-list__heading">
-        <H3 mr={10}>Games</H3>
-        <P fontSize={12} color="grey">
-          {games.length} Games
-        </P>
-      </div>
-      <div className="games-history-list__items">{getItems()}</div>
-    </div>
+    <Table
+      title={
+        <div className="games-history-list__heading">
+          <H3 mr={10}>{TITLE}</H3>
+          <P fontSize={12} color="grey">
+            {games?.length || 0} Games
+          </P>
+        </div>
+      }
+      // rowHeight={80}
+      isLoading={isLoading}
+      error={error && 'Failed to load games'}
+      height={500}
+      data={getItems()}
+    />
   )
 }
 

@@ -16,6 +16,7 @@ const Table = ({
   data,
 }) => {
   const rows = data?.map((row, i) => {
+    if (typeof row === 'object') return row
     const cells = row.map((item) => {
       return typeof item === 'string' ? (
         <Cell>{item}</Cell>
@@ -41,7 +42,8 @@ const Table = ({
     )
   })
   let contents
-  if (error) contents = <p>{error}</p>
+  if (error) contents = <p className="text-orange">{error}</p>
+  else if (rows?.length === 0) contents = <p className="text-grey">Empty</p>
   else if (!isLoading) contents = rows
   else
     contents = (

@@ -1,20 +1,18 @@
-// This page will be rendered when an error makes it all the way to the top of the
-// application without being handled by a Javascript catch statement or React error
-// boundary.
-//
-// You can modify this page as you wish, but it is important to keep things simple to
-// avoid the possibility that it will cause its own error. If it does, Redwood will
-// still render a generic error page, but your users will prefer something a bit more
-// thoughtful. =)
+let RedwoodDevFatalErrorPage = undefined
+if (process.env.NODE_ENV === 'development') {
+  RedwoodDevFatalErrorPage = require('@redwoodjs/web').DevFatalErrorPage
+}
+
 import globalConfig from 'src/global.config'
 
 const currentYear = new Date().getFullYear()
 
-export default () => (
-  <main>
-    <style
-      dangerouslySetInnerHTML={{
-        __html: `
+export default RedwoodDevFatalErrorPage ||
+  (() => (
+    <main>
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
               html, body {
                 position: fixed;
                 margin: 0;
@@ -124,11 +122,11 @@ export default () => (
                 }
 
             `,
-      }}
-    />
-    <div
-      dangerouslySetInnerHTML={{
-        __html: `
+        }}
+      />
+      <div
+        dangerouslySetInnerHTML={{
+          __html: `
               <div class="fatal-error-container">
                 <div class="header-container">
                   <a href="/">
@@ -176,7 +174,7 @@ export default () => (
                 </div>
               </div>
         `,
-      }}
-    />
-  </main>
-)
+        }}
+      />
+    </main>
+  ))

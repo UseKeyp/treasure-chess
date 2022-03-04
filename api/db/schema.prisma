@@ -290,8 +290,15 @@ enum Termination {
 
 enum MasterTitle {
   GM
+  WGM
   IM
+  WIM
+  FM
+  WFM
   NM
+  CM
+  WCM
+  WNM
 }
 
 enum Achievement {

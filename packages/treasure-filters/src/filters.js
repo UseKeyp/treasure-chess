@@ -149,7 +149,18 @@ const terminationList = [
 ]
 ////////////////////////////////
 // Items without name/value pair
-const titleList = ['GM', 'IM', 'NM']
+const titleList = [
+  'GM',
+  'WGM',
+  'IM',
+  'WIM',
+  'FM',
+  'WFM',
+  'NM',
+  'CM',
+  'WCM',
+  'WNM',
+]
 const colorList = ['white', 'black']
 const rarityList = ['Good', 'Great', 'Ultra', 'Mythic']
 const saleList = ['For Sale', 'Unlisted']

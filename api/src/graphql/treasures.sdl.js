@@ -139,15 +139,22 @@ export const schema = gql`
   }
 
   enum Termination {
+    Unknown
     Checkmate
-    Timeout
+    Time
+    Agreement
+    Repetition
     Resignation
     Stalemate
-    Time
-    Repetition
-    Agreement
     Insufficient
+    FiftyMove
     Abandoned
+    KingOfTheHill
+    ThreeCheck
+    TimeVsInsufficient
+    BughousePartnerLose
+    LosersAllCaptured
+    LosersStalemate
   }
 
   enum Achievement {

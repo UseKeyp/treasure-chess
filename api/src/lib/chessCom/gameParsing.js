@@ -48,9 +48,9 @@ const getTermination = (game, outcome) => {
   if (outcome === 'draw') {
     code = game.white.result // Same for both players on draw
   } else {
-    if (outcome === 'white') code = game.black.result
     // Code is on the loser
-    else code = game.black.result
+    if (outcome === 'white') code = game.black.result
+    else code = game.white.result
   }
   const result = filters.terminationList.find((trm) => {
     return code === trm.code

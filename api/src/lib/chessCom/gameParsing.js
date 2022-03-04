@@ -1,3 +1,5 @@
+import filters from '@treasure-chess/treasure-filters'
+
 const countMoves = (moves) => {
   return Math.round(moves.trim().split(' ').length / 2)
 }
@@ -8,7 +10,6 @@ const parsePgn = (pgn) => {
   let winner = 'white'
   let eventName
   let moves
-  let termination
   let timeControl
   pgn.split(/\n/).map((line) => {
     if (line.includes('[Black ')) black = line.split(`"`)[1]
@@ -23,7 +24,6 @@ const parsePgn = (pgn) => {
         .split(/[0-21/2]+-/)[0]
         .replace(/\{.+?\} /g, '') // remove clock time
         .trim()
-    if (line.includes('[Termination ')) termination = line.split(`"`)[1]
     if (line.includes('[TimeControl ')) timeControl = line.split(`"`)[1]
   })
 
@@ -44,14 +44,29 @@ const getGameRuleVariant = (game) => {
   return game.rules.replace(/^\w/, (c) => c.toUpperCase())
 }
 
+const getTermination = (game, outcome) => {
+  let termination = 'Unknown'
+  if (outcome === 'draw') {
+    filters.terminationList
+    return
+  } else {
+    let reasonForLoss
+    if (outcome === 'white') reasonForLoss = game.black.result
+    else reasonForLoss = game.black.result
+    filters.terminationList.find()
+  }
+
+  return termination
+}
+
 const parseGameFromChessDotCom = (game) => {
-  const { termination, timeControl, moveCount, moves, winner, event } =
-    parsePgn(game.pgn)
+  const { timeControl, moveCount, moves, winner, event } = parsePgn(game.pgn)
   const splitUrl = game.url.split('/')
   const id = splitUrl[splitUrl.length - 1]
   let winnerUsername
   if (winner === 'white') winnerUsername = game.white.username
   if (winner === 'black') winnerUsername = game.black.username
+  const termination = getTermination(game, winner)
   return {
     id,
     pgn: game.pgn,
@@ -59,9 +74,7 @@ const parseGameFromChessDotCom = (game) => {
     blackRating: game.black.rating,
     whiteRating: game.white.rating,
     timeControl,
-    termination: termination
-      ?.split(/( on | by | game | vs )/)[2]
-      ?.replace(/(^\w{1})|(\s+\w{1})/g, (c) => c.toUpperCase()),
+    termination,
     endTime: new Date(game.end_time * 1000),
     outcome: winner,
     moves,

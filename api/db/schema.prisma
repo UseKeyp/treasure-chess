@@ -270,15 +270,22 @@ enum Outcome {
 }
 
 enum Termination {
+  Unknown
   Checkmate
+  Time
+  Agreement
+  Repetition
   Resignation
   Stalemate
-  Time
-  Repetition
-  Agreement
   Insufficient
+  FiftyMove
   Abandoned
-  Timeout
+  KingOfTheHill
+  ThreeCheck
+  TimeVsInsufficient
+  BughousePartnerLose
+  LosersAllCaptured
+  LosersStalemate
 }
 
 enum MasterTitle {

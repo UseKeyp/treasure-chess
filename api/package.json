@@ -17,7 +17,7 @@
     "@sentry/tracing": "^6.17.3",
     "@toruslabs/fetch-node-details": "^5.0.0",
     "@toruslabs/torus.js": "^5.0.1",
-    "@treasure-chess/chess-achievements": "0.1.4",
+    "@treasure-chess/chess-achievements": "0.1.5",
     "@treasure-chess/chess-image-generator": "^1.5.7",
     "@treasure-chess/treasure-contracts": "^0.1.0",
     "@treasure-chess/treasure-filters": "^1.1.0",

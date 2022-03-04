@@ -5243,10 +5243,10 @@
     loglevel "^1.8.0"
     web3-utils "^1.7.0"
 
-"@treasure-chess/chess-achievements@0.1.4":
-  version "0.1.4"
-  resolved "https://registry.npmjs.org/@treasure-chess/chess-achievements/-/chess-achievements-0.1.4.tgz#cd3ee32e3a0d521011102540bc23d9a78b5cd2d5"
-  integrity sha512-vQSODOwGkB6Umk7KjWDft4aM28Dw00kgRLUejeXasDifFl3Y5cY8rXAdMXztrL9bIN0Mzsvqo9rj60KWzKMFeQ==
+"@treasure-chess/chess-achievements@0.1.5":
+  version "0.1.5"
+  resolved "https://registry.npmjs.org/@treasure-chess/chess-achievements/-/chess-achievements-0.1.5.tgz#de1b5a77f1e1b8c373d6bf1d2607842f14006389"
+  integrity sha512-1HmZxBhRvzMkafuPcAgxbmutx1p7Fa+dy39KpWXgCv5GMxIn+X2UvBjtZjuQ28IrbZRftn9U3LGLqcgy4+SS0A==
   dependencies:
     chess.js "^0.12.0"
 

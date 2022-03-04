@@ -32,7 +32,7 @@ export const schema = gql`
     whiteRatingDelta: Int!
     blackMasterTitle: MasterTitle
     whiteMasterTitle: MasterTitle
-    timeControl: Int!
+    timeControl: String!
     termination: Termination!
     endTime: DateTime!
     outcome: Outcome!

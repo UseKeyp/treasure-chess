@@ -98,6 +98,7 @@ export const fetchGame = async ({
   includeTreasureData,
 }) => {
   const game = await fetchChessGame({ username, gameId, endTime })
+
   if (!game) return null
   if (includeTreasureData)
     return getFullGameDetails({ game, username, includeAchievements: true })
@@ -118,7 +119,8 @@ export const getGamesWithArguments = async ({ username, filter }) => {
   const games = await fetchChessGames({ username, year, month })
   if (!games?.length) return []
   // TODO: Limit to 200 most recent games?
-  const sortedGames = games.sort((a, b) => b.end_time - a.end_time) //.slice(0, 200)
+  // INFO: limited on 50 games because greater than this Promise.all() has greater chance to fail.
+  const sortedGames = games.sort((a, b) => b.end_time - a.end_time).slice(0, 50)
   const filteredGames = sortedGames.filter((game) => {
     if (
       filterObj.username &&

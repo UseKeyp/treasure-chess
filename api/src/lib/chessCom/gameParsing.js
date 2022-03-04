@@ -45,18 +45,19 @@ const getGameRuleVariant = (game) => {
 }
 
 const getTermination = (game, outcome) => {
-  let termination = 'Unknown'
+  let code
   if (outcome === 'draw') {
-    filters.terminationList
-    return
+    code = game.white.result // Same for both players on draw
   } else {
-    let reasonForLoss
-    if (outcome === 'white') reasonForLoss = game.black.result
-    else reasonForLoss = game.black.result
-    filters.terminationList.find()
+    if (outcome === 'white') code = game.black.result
+    // Code is on the loser
+    else code = game.black.result
   }
-
-  return termination
+  const result = filters.terminationList.find((trm) => {
+    return code === trm.code
+  })
+  if (result) return result.value
+  return 'Unknown'
 }
 
 const parseGameFromChessDotCom = (game) => {

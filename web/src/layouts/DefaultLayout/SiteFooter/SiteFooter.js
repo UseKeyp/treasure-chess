@@ -12,6 +12,10 @@ const SiteFooter = () => {
             <Icon name="discord" size="24px" />
             <span className="sr-only">discord</span>
           </a>
+          <a href={globalConfig.GITHUB_URL} className="inline-block mr-4">
+            <Icon name="github" size="24px" />
+            <span className="sr-only">Github</span>
+          </a>
           <a href={globalConfig.BLOG_URL} className="inline-block mr-4">
             Blog
           </a>

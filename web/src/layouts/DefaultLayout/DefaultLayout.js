@@ -12,9 +12,9 @@ const DefaultLayout = ({ children }) => {
               <Header />
             </header>
             <div className="mx-4">{children}</div>
-            <SiteFooter className="self-end" />
           </div>
         </div>
+        <SiteFooter className="fixed inset-x-0 bottom-0 mx-4" />
       </div>
     </div>
   )

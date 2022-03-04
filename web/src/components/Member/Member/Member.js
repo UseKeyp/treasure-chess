@@ -15,9 +15,13 @@ const Member = ({ member }) => {
           </div>
         </div>
       </div>
-      <h1 className="mt-4">Treasures</h1>
+      <h1 className="mt-8">Treasures Owned</h1>
       <div className="flex mt-4">
         <TreasuresFetcher owner={member.username} />
+      </div>
+      <h1 className="mt-8">Treasures Played</h1>
+      <div className="flex mt-4">
+        <TreasuresFetcher username={member.username} />
       </div>
     </div>
   )

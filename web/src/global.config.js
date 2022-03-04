@@ -7,9 +7,10 @@ const config = {
   CHESS_COM_BASE_URL: 'https://chess.com/',
   HOW_TO_BUY_URL: '', // Link to docs on buying USDC
   DISCORD_URL: '',
+  GITHUB_URL: 'https://github.com/treasure-chess',
   BLOG_URL: '',
-  TOC_URL: '',
-  PRIVACY_POLICY_URL: '',
+  TOC_URL: '/terms',
+  PRIVACY_POLICY_URL: '/privacy',
   SUPPORT_URL: '',
 }
 

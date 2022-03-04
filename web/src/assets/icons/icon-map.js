@@ -7,6 +7,7 @@ import { ReactComponent as Create } from './create.svg'
 import { ReactComponent as Collect } from './collect.svg'
 import { ReactComponent as Share } from './share.svg'
 import { ReactComponent as CloseX } from './close-x.svg'
+import { ReactComponent as Github } from './github.svg'
 
 const ChessCom = ({ height = '34' }) => (
   <svg
@@ -557,4 +558,5 @@ export default {
   share: Share,
   close_x: CloseX,
   book: FeatherBook,
+  github: Github,
 }

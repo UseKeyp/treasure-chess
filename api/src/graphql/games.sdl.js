@@ -11,7 +11,7 @@ export const schema = gql`
     blackRatingDelta: String!
     whiteRating: Int!
     whiteRatingDelta: String!
-    timeControl: Int!
+    timeControl: String!
     endTime: DateTime!
     event: String!
     moves: String!

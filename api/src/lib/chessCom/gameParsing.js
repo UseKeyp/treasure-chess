@@ -34,7 +34,6 @@ const parsePgn = (pgn) => {
     event: eventName,
     moves,
     moveCount: countMoves(moves),
-    termination,
     timeControl,
   }
 }

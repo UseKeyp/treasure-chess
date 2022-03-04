@@ -75,7 +75,6 @@ export const schema = gql`
     ): Int! @skipAuth
     treasure(tokenId: String!): Treasure @skipAuth
     treasureWithMarketSales(tokenId: String!): Treasure @skipAuth
-    treasureNftDetails(tokenId: String!): TreasureNftDetails @skipAuth
   }
 
   enum Opening {

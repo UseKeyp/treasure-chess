@@ -11,13 +11,13 @@
     "@ethersproject/units": "^5.5.0",
     "@ethersproject/wallet": "^5.4.0",
     "@napi-rs/canvas": "^0.1.19",
-    "@redwoodjs/api": "^0.40.0",
-    "@redwoodjs/graphql-server": "^0.40.0",
+    "@redwoodjs/api": "^0.47.1",
+    "@redwoodjs/graphql-server": "^0.47.1",
     "@sentry/node": "^6.17.3",
     "@sentry/tracing": "^6.17.3",
     "@toruslabs/fetch-node-details": "^5.0.0",
     "@toruslabs/torus.js": "^5.0.1",
-    "@treasure-chess/chess-achievements": "0.1.4",
+    "@treasure-chess/chess-achievements": "0.1.5",
     "@treasure-chess/chess-image-generator": "^1.5.7",
     "@treasure-chess/treasure-contracts": "^0.1.0",
     "@treasure-chess/treasure-filters": "^1.1.0",
@@ -38,7 +38,7 @@
     "react-dom": "^17.0.2"
   },
   "devDependencies": {
-    "@redwoodjs/cli": "^0.40.0",
+    "@redwoodjs/cli": "^0.47.1",
     "dotenv": "^10.0.0",
     "prisma": "^3.6.0",
     "puppeteer": "^13.2.0"

@@ -71,18 +71,96 @@ const openingList = [
 
 const terminationList = [
   { name: 'Any', value: 'Any' },
-  { name: 'Checkmate', value: 'Checkmate' },
-  { name: 'Resignation', value: 'Resignation' },
-  { name: 'Stalemate', value: 'Stalemate' },
-  { name: 'Time', value: 'Time' },
-  { name: 'Repetition', value: 'Repetition' },
-  { name: 'Agreement', value: 'Agreement' },
-  { name: 'Insufficient Material', value: 'Insufficient' },
-  { name: 'Abandoned', value: 'Abandoned' },
+  {
+    name: 'Checkmate',
+    code: 'checkmated',
+    value: 'Checkmate',
+  },
+  {
+    name: 'Time',
+    code: 'timeout',
+    value: 'Time',
+  },
+  {
+    name: 'Draw by Agreement',
+    code: 'agreed',
+    value: 'Agreement',
+  },
+  {
+    name: 'Draw by repetition',
+    code: 'repetition',
+    value: 'Repetition',
+  },
+  {
+    name: 'Resignation',
+    code: 'resigned',
+    value: 'Resignation',
+  },
+  {
+    name: 'Stalemate',
+    code: 'stalemate',
+    value: 'Stalemate',
+  },
+  {
+    name: 'Insufficient Material',
+    code: 'insufficient',
+    value: 'Insufficient',
+  },
+  {
+    name: 'Draw by 50-move rule',
+    code: '50move',
+    value: 'FiftyMove',
+  },
+  {
+    name: 'Abandoned',
+    code: 'abandoned',
+    value: 'Abandoned',
+  },
+  {
+    name: 'Opponent king reached the hill',
+    code: 'kingofthehill',
+    Value: 'KingOfTheHill',
+  },
+  {
+    name: 'Checked for the 3rd time',
+    code: 'threecheck',
+    value: 'ThreeCheck',
+  },
+  {
+    name: 'Draw by timeout vs insufficient material',
+    code: 'timevsinsufficient',
+    value: 'TimeVsInsufficient',
+  },
+  {
+    name: 'Bughouse partner lost',
+    code: 'bughousepartnerlose',
+    value: 'BughousePartnerLose',
+  },
+  {
+    name: 'Losers all captured',
+    code: 'losersallcaptured',
+    value: 'LosersAllCaptured',
+  },
+  {
+    name: 'Losers stalemate',
+    code: 'losersstalemate',
+    value: 'LosersStalemate',
+  },
 ]
 ////////////////////////////////
 // Items without name/value pair
-const titleList = ['GM', 'IM', 'NM']
+const titleList = [
+  'GM',
+  'WGM',
+  'IM',
+  'WIM',
+  'FM',
+  'WFM',
+  'NM',
+  'CM',
+  'WCM',
+  'WNM',
+]
 const colorList = ['white', 'black']
 const rarityList = ['Good', 'Great', 'Ultra', 'Mythic']
 const saleList = ['For Sale', 'Unlisted']

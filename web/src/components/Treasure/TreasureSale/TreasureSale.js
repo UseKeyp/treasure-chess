@@ -1,5 +1,7 @@
 import Table from 'src/components/Table/Table'
 
+const TITLE = 'Transaction History'
+
 const TreasureSale = ({ treasure, isLoading }) => {
   const sales = treasure?.marketSales.map((sale) => {
     return [
@@ -12,16 +14,9 @@ const TreasureSale = ({ treasure, isLoading }) => {
     ]
   })
 
-  if (sales.length === 0) return null
-
   return (
     <div>
-      <Table
-        title="Transaction History"
-        isLoading={isLoading}
-        height={150}
-        data={sales}
-      />
+      <Table title={TITLE} isLoading={isLoading} height={150} data={sales} />
     </div>
   )
 }

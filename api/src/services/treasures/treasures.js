@@ -5,8 +5,6 @@ import {
 } from 'src/lib/treasures'
 import { processPendingMarketTransactions } from 'src/lib/marketSales'
 
-export const treasures = () => db.treasure.findMany()
-
 export const treasuresWithFilter = ({ username, owner, sort, filter, page }) =>
   getTreasuresWithFilter({ username, owner, sort, filter, page })
 export const treasuresWithFilterCount = ({ username, owner, filter }) =>

@@ -36,8 +36,7 @@ const different = [
 const FaqPage = () => {
   return (
     <div style={{ maxWidth: '85%', margin: 'auto' }}>
-      <FaqSection title="Values" questionList={different} />
-      <FaqSection title="About" questionList={about} />
+      <FaqSection title="About" questionList={[...different, ...about]} />
       <FaqSection title="FAQ's" questionList={faq} />
     </div>
   )

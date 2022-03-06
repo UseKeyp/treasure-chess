@@ -86,10 +86,12 @@ const GameCard = ({ game, isMinting, isLoading, title, showGif }) => {
 
   if (!isMinting && !game)
     return (
-      <div className={styles.gameCardWrapper}>
-        <div className={styles.gameCardMintingContainer}>
-          <div className={styles.gameCardEmpty}>
-            <h2>Select a game</h2>
+      <div className={styles.container}>
+        <div className={styles.gameCardWrapper}>
+          <div className={styles.gameCardMintingContainer}>
+            <div className={styles.gameCardEmpty}>
+              <h2>Select a game</h2>
+            </div>
           </div>
         </div>
       </div>
@@ -105,7 +107,7 @@ const GameCard = ({ game, isMinting, isLoading, title, showGif }) => {
         {isMinting && (
           <div className={styles.gameCardMintingContainer}>
             <div className={styles.gameCardMintingOverlay} />
-            <div className="items-center">
+            <div>
               <div className="mb-6 h-full">
                 <Loader />
               </div>

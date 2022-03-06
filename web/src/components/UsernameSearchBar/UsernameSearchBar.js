@@ -65,14 +65,12 @@ const UsernameSearchBar = ({ setValue: setParentValue }) => {
   return (
     <div>
       <div className={'searchBarContainer'}>
-        <div>
-          <input
-            placeholder="Search"
-            className="searchInput"
-            onChange={onChange}
-            value={value}
-          />
-        </div>
+        <input
+          placeholder="Search"
+          className="searchInput"
+          onChange={onChange}
+          value={value}
+        />
       </div>
       {dropdownOptions?.length > 0 && (
         <div className="dropdownContainer">

@@ -32,7 +32,7 @@ export const schema = gql`
     whiteRatingDelta: Int!
     blackMasterTitle: MasterTitle
     whiteMasterTitle: MasterTitle
-    timeControl: Int!
+    timeControl: String!
     termination: Termination!
     endTime: DateTime!
     outcome: Outcome!
@@ -75,7 +75,6 @@ export const schema = gql`
     ): Int! @skipAuth
     treasure(tokenId: String!): Treasure @skipAuth
     treasureWithMarketSales(tokenId: String!): Treasure @skipAuth
-    treasureNftDetails(tokenId: String!): TreasureNftDetails @skipAuth
   }
 
   enum Opening {
@@ -140,15 +139,22 @@ export const schema = gql`
   }
 
   enum Termination {
+    Unknown
     Checkmate
-    Timeout
+    Time
+    Agreement
+    Repetition
     Resignation
     Stalemate
-    Time
-    Repetition
-    Agreement
     Insufficient
+    FiftyMove
     Abandoned
+    KingOfTheHill
+    ThreeCheck
+    TimeVsInsufficient
+    BughousePartnerLose
+    LosersAllCaptured
+    LosersStalemate
   }
 
   enum Achievement {

@@ -82,7 +82,6 @@ const ListItem = ({
         />
       )
   }
-
   return (
     <div
       className="games-history-list__item"
@@ -103,13 +102,18 @@ const ListItem = ({
             <P pl={7} pr={7} fontWeight={600} color={mainColor}>
               {player1.username}
             </P>
-            <Icon name="crown" color={mainColor} />
+            {game.outcome === 'white' && (
+              <Icon name="crown" color={mainColor} />
+            )}
           </div>
           <div className="flex items-center">
             <div className="games-history-list__color-box games-history-list__color-box--black" />
-            <P pl={7} fontWeight={600} color={mainColor}>
+            <P pl={7} pr={7} fontWeight={600} color={mainColor}>
               {player2.username}
             </P>
+            {game.outcome === 'black' && (
+              <Icon name="crown" color={mainColor} />
+            )}
           </div>
         </div>
         <P fontSize={12} color={mainColor} fontWeight={600}>

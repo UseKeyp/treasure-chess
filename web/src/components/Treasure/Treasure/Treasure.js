@@ -12,7 +12,7 @@ const Treasure = ({ treasure, isLoading }) => {
       <div className="flex justify-center">
         <GameCard game={treasure} isLoading={isLoading} />
       </div>
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-4">
         <TreasureMarketInteraction
           tokenId={treasure?.tokenId}
           isLoading={isLoading}

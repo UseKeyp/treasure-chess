@@ -12,7 +12,6 @@ import { useWallet } from 'src/providers/wallet'
 import { trimAddress } from 'src/utils/helpers'
 
 const MemberDetails = ({ member, isProfile }) => {
-
   const { deposit, withdraw, getAddress } = useWallet()
 
   return (
@@ -34,10 +33,23 @@ const MemberDetails = ({ member, isProfile }) => {
             </a>
           </h3>
           <div className="flex mt-2">
-            <p className="mr-2">{trimAddress(member.address)}</p>
-            <button onClick={getAddress}>
-              <Icon name="copy" color="#147DDD" />
-            </button>
+            {isProfile ? (
+              <>
+                <p className="mr-2">{trimAddress(member.address)}</p>
+                <button onClick={getAddress}>
+                  <Icon name="copy" color="#147DDD" />
+                </button>
+              </>
+            ) : (
+              <Button
+                onClick={getAddress}
+                variant="green"
+                size="small"
+                className="w-40"
+              >
+                Donate
+              </Button>
+            )}
           </div>
           <div className="mt-2">
             {member.masterTitle && <p>{member.masterTitle}</p>}
@@ -59,7 +71,7 @@ const MemberDetails = ({ member, isProfile }) => {
               size="small"
               className="w-40"
             >
-              Deposit Funds
+              Deposit
             </Button>
             <Button
               onClick={withdraw}
@@ -68,7 +80,7 @@ const MemberDetails = ({ member, isProfile }) => {
               size="small"
               className="w-40"
             >
-              Withdraw Funds
+              Withdraw
             </Button>
             <p className="mt-2">
               <a

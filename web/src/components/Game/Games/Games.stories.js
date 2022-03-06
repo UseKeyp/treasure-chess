@@ -76,7 +76,7 @@ export const unminted = () => {
   })
 
   return (
-    <div style={{ height: 550, width: 530 }}>
+    <div style={{ height: 550, maxWidth: 530 }}>
       <Games games={games} />
     </div>
   )
@@ -91,7 +91,7 @@ export const checkout = () => {
     <GamesContext.Provider
       value={[{ mintingStatus: ADDING_FUNDS, activeGame: games[0] }, () => {}]}
     >
-      <div style={{ height: 550, width: 530 }}>
+      <div style={{ height: 550, maxWidth: 530 }}>
         <Games games={games} />
       </div>
     </GamesContext.Provider>
@@ -109,7 +109,7 @@ export const minting = () => {
         () => {},
       ]}
     >
-      <div style={{ height: 550, width: 530 }}>
+      <div style={{ height: 550, maxWidth: 530 }}>
         <Games games={games} />
       </div>
     </GamesContext.Provider>
@@ -124,7 +124,7 @@ export const success = () => {
     <GamesContext.Provider
       value={[{ mintingStatus: SUCCESS, activeGame: games[0] }, () => {}]}
     >
-      <div style={{ height: 550, width: 530 }}>
+      <div style={{ height: 550, maxWidth: 530 }}>
         <Games games={games} />
       </div>
     </GamesContext.Provider>

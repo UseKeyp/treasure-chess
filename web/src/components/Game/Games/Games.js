@@ -76,7 +76,7 @@ const Games = ({ games, isLoading, error }) => {
   return (
     <Table
       title={
-        <div className="games-history-list__heading">
+        <div className="games-history-list__heading flex items-center">
           <H3 mr={10}>{TITLE}</H3>
           <P fontSize={12} color="grey">
             {games?.length || 0} Games

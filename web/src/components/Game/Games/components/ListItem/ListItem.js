@@ -116,12 +116,12 @@ const ListItem = ({
             )}
           </div>
         </div>
-        <div className="w-[20%] mx-4">
+        <div className="w-[15%] mx-4">
           <P fontSize={12} color={mainColor} fontWeight={600}>
             {outcome}
           </P>
         </div>
-        <div className="flex flex-col text-right w-[35%]">
+        <div className="flex flex-col text-right w-[40%]">
           <P pb={3} fontSize={12} color={mainColor} fontWeight={600}>
             {date}
           </P>

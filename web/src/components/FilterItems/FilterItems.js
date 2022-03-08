@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
+import Pagination from '../Pagination/Pagination'
 import { Span } from 'src/components/Typography'
 import Dropdown from 'src/components/Dropdown'
 import FilterCheckbox from 'src/components/FilterCheckbox'
@@ -42,6 +43,11 @@ const FilterItems = ({ onChange }) => {
   const [year, setYear] = useState(yearsList[0])
   const [outcome, setOutcome] = useState('Any')
   const [username, setUsername] = useState('')
+  const [page, setPage] = useState(1)
+
+  const onChangePage = (pageParam) => {
+    setPage(pageParam)
+  }
 
   const transparentWhite = 'rgba(255, 255, 255, 0.6)'
   const CategoryWrap = ({ children }) => (
@@ -55,15 +61,16 @@ const FilterItems = ({ onChange }) => {
       // ...(day && { day }),
       ...(month && { month: monthsList.indexOf(month) + 1 }),
       ...(year && { year }),
-      ...(outcome && { outcome: outcome.toLowerCase() }),
       ...(username && { username }),
+      ...(outcome && { outcome: outcome.toLowerCase() }),
+      ...(page && { page }),
     })
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
-  }, [month, year, username, outcome])
+  }, [month, year, username, outcome, page])
 
   return (
     <div className="filter-items w-full">
-      <div className="grid md:grid-cols-3 grid-cols-1 gap-2 md:gap-4">
+      <div className="grid md:grid-cols-4 grid-cols-1 gap-2 md:gap-4">
         <div className="grid grid-cols-2 gap-4">
           <Dropdown
             category={<CategoryWrap>Month</CategoryWrap>}
@@ -96,6 +103,23 @@ const FilterItems = ({ onChange }) => {
           queryFilter={outcome}
           category="Your Outcome"
         />
+        <div className="flex flex-col">
+          <h4
+            fontSize={11}
+            fontWeight="bold"
+            color={transparentWhite}
+            mt="1rem"
+            className="mb-2"
+          >
+            Page
+          </h4>
+          <Pagination
+            // count={300}
+            page={page}
+            // perPage={50}
+            onChangePage={onChangePage}
+          />
+        </div>
       </div>
     </div>
   )

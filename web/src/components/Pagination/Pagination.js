@@ -1,25 +1,26 @@
 import Button from 'src/components/Button'
 
-const Pagination = ({ count, page, perPage, onChangePage }) => {
+const Pagination = ({ page, onChangePage }) => {
   const items = []
   const addButton = ({ text, page }) =>
     items.push(
-      <Button key={page} onClick={() => onChangePage(page)}>
+      <Button key={page} onClick={() => onChangePage(page < 1 ? 1 : page)}>
         {text}
       </Button>
     )
 
-  const totalPages = Math.ceil(count / perPage)
-  if (page > 10) addButton({ text: '<<', page: page - 10 })
+  // const totalPages = Math.ceil(count / perPage)
+  if (page > 2) addButton({ text: '<<', page: 1 })
   if (page > 1) addButton({ text: '<', page: page - 1 })
+
   items.push(
     <div key={page} className="inline-block mx-1 py-1 px-3 ">
       {page}
     </div>
   )
-  if (page < totalPages) addButton({ text: '>', page: page + 1 })
-  if (page < totalPages - 10) addButton({ text: '>>', page: page + 10 })
-  return <div className="text-lg font-semibold">{items}</div>
+  addButton({ text: '>', page: page + 1 })
+  // if (page < totalPages - 10) addButton({ text: '>>', page: page + 10 })
+  return <div className="text-lg font-semibold flex">{items}</div>
 }
 
 export default Pagination

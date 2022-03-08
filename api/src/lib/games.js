@@ -87,7 +87,7 @@ const getFullGameDetails = async ({
       ...(includeAchievements && { achievementScore: score }),
     }
   } catch (e) {
-    throw new Error(`getFullGameDetails() ${e}`)
+    throw new Error(`Error getting full game details: ${e.message}`)
   }
 }
 
@@ -114,13 +114,17 @@ export const getGamesWithArguments = async ({ username, filter }) => {
   }
   const year = filterObj.year || new Date().getFullYear()
   const month = filterObj.month || 0
+  const page = filterObj.page || 1
   // const month = filterObj.month === 'Any' ? null : filterObj.month || 0
   // const day = filterObj.day === 'Any' ? null : filterObj.day
   const games = await fetchChessGames({ username, year, month })
   if (!games?.length) return []
+
   // TODO: Limit to 200 most recent games?
   // INFO: limited on 50 games because greater than this Promise.all() has greater chance to fail.
-  const sortedGames = games.sort((a, b) => b.end_time - a.end_time).slice(0, 50)
+  const sortedGames = games
+    .sort((a, b) => b.end_time - a.end_time)
+    .slice((page - 1) * 25, page * 25)
   const filteredGames = sortedGames.filter((game) => {
     if (
       filterObj.username &&

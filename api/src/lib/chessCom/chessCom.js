@@ -42,14 +42,18 @@ export const fetchChessGame = async ({ username, gameId, endTime }) => {
 }
 
 export const fetchRatingDelta = async (id) => {
-  const response = await fetch(
-    `https://www.chess.com/callback/live/game/${id}`
-  ).then((res) => {
-    return res.json()
-  })
-  return {
-    white: response.game.ratingChangeWhite || 0,
-    black: response.game.ratingChangeBlack || 0,
+  try {
+    const response = await fetch(
+      `https://www.chess.com/callback/live/game/${id}`
+    ).then((res) => {
+      return res.json()
+    })
+    return {
+      white: response.game.ratingChangeWhite || 0,
+      black: response.game.ratingChangeBlack || 0,
+    }
+  } catch (e) {
+    throw new Error(`fetchingRatingDelta() ${e}`)
   }
 }
 

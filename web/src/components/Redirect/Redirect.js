@@ -31,6 +31,7 @@ const Redirect = ({ type }) => {
     }).then((res) => {
       return res.json()
     })
+    console.log(response)
     if (response.error || !response) return setErrorMessage(response.error)
     if (response.id) navigate(getRedirectTo() || '/')
   }

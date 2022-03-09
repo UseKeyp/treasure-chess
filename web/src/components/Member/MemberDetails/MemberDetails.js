@@ -11,6 +11,36 @@ import { useWallet } from 'src/providers/wallet'
 
 import { trimAddress } from 'src/utils/helpers'
 
+const TwitchLink = ({ isProfile, userName }) => {
+  if (userName) {
+    return (
+      <div className="ml-2 flex">
+        <a
+          href={`https://www.twitch.tv/${userName}`}
+          target="_blank"
+          rel="noreferrer"
+        >
+          <Icon name="twitch" size={20} color="#5A3E85" />
+        </a>
+        {isProfile && (
+          <a href="/#" className="ml-1 text-xs">
+            Edit
+          </a>
+        )}
+      </div>
+    )
+  }
+  if (isProfile) {
+    return (
+      <div className="ml-2 flex">
+        <Icon name="twitch" size={20} color="#888" />
+        <p className="ml-1">Connect</p>
+      </div>
+    )
+  }
+  return null
+}
+
 const MemberDetails = ({ member, isProfile }) => {
   const { deposit, withdraw, getAddress } = useWallet()
 
@@ -51,11 +81,15 @@ const MemberDetails = ({ member, isProfile }) => {
               </Button>
             )}
           </div>
-          <div className="mt-2">
+          <div className="mt-2 flex items-center">
             {member.masterTitle && <p>{member.masterTitle}</p>}
             <img
               alt={`Flag of ${member.country}`}
               src={getFlagBase64(member.country)}
+            />
+            <TwitchLink
+              userName={member.twitchUsername}
+              isProfile={isProfile}
             />
           </div>
         </div>

@@ -57,6 +57,13 @@ export const handler = async (event, context) => {
         reusedPassword: 'You must choose a new password',
       },
     },
+    cookie: {
+      HttpOnly: true,
+      Path: '/',
+      SameSite: 'Strict',
+      Secure: true,
+      // Domain: 'example.com',
+    },
   })
 
   authHandler.login = async () => {

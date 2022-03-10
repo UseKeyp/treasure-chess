@@ -16,10 +16,10 @@
     "generate-icons": "node src/scripts/generate-icon-system"
   },
   "dependencies": {
-    "@redwoodjs/auth": "^0.47.1",
-    "@redwoodjs/forms": "^0.47.1",
-    "@redwoodjs/router": "^0.47.1",
-    "@redwoodjs/web": "^0.47.1",
+    "@redwoodjs/auth": "^1.0.0-rc.6",
+    "@redwoodjs/forms": "^1.0.0-rc.6",
+    "@redwoodjs/router": "^1.0.0-rc.6",
+    "@redwoodjs/web": "^1.0.0-rc.6",
     "@sentry/browser": "^6.17.3",
     "@treasure-chess/chess-image-generator": "1.5.7",
     "@treasure-chess/treasure-filters": "^1.1.0",
@@ -38,7 +38,7 @@
     "react-spring": "^9.2.4"
   },
   "devDependencies": {
-    "@redwoodjs/core": "^0.47.1",
+    "@redwoodjs/core": "^1.0.0-rc.6",
     "@storybook/addon-essentials": "^6.3.12",
     "autoprefixer": "^9.0.0",
     "node-sass-glob-importer": "^5.3.2",

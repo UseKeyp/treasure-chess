@@ -53,6 +53,7 @@ export const getTorusPublicAddress = async (userId) => {
     console.log(e)
   }
 }
+
 export const getTorusWallet = async (userId) => {
   try {
     const idToken = await getNewIdToken(userId)

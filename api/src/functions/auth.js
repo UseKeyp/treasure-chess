@@ -6,7 +6,7 @@ import { InputError } from '@redwoodjs/graphql-server'
 
 import { db } from 'src/lib/db'
 import { validateCodeGrant } from 'src/lib/oAuth'
-import { handleChessLogin } from 'src/lib/oAuth/chess'
+import { handleChessLogin } from 'src/lib/oAuth/chess/login'
 
 export const handler = async (event, context) => {
   const authHandler = new DbAuthHandler(event, context, {

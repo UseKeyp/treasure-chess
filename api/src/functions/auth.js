@@ -57,13 +57,15 @@ export const handler = async (event, context) => {
         reusedPassword: 'You must choose a new password',
       },
     },
-    cookie: {
-      HttpOnly: true,
-      Path: '/',
-      SameSite: 'Strict',
-      Secure: true,
-      // Domain: 'example.com',
-    },
+    // Causes cookies not to be set properly, since
+    // Subsequent getCurrentUser requests overwrite them?
+    // cookie: {
+    //   HttpOnly: true,
+    //   Path: '/',
+    //   SameSite: 'Strict',
+    //   Secure: true,
+    //   // Domain: 'example.com',
+    // },
   })
 
   authHandler.login = async () => {

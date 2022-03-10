@@ -100,7 +100,7 @@ const ListItem = ({
           <div className="flex items-center pb-1">
             <div className="games-history-list__color-box" />
             <P pl={7} pr={7} fontWeight={600} color={mainColor}>
-              {player1.username}
+              {/* {player1.username} */} niftytesting
             </P>
             {game.outcome === 'white' && (
               <Icon name="crown" color={mainColor} />
@@ -109,14 +109,14 @@ const ListItem = ({
           <div className="flex items-center">
             <div className="games-history-list__color-box games-history-list__color-box--black" />
             <P pl={7} pr={7} fontWeight={600} color={mainColor}>
-              {player2.username}
+              {/* {player2.username} */} pi0nnerpat
             </P>
             {game.outcome === 'black' && (
               <Icon name="crown" color={mainColor} />
             )}
           </div>
         </div>
-        <div className="w-[15%] mx-4">
+        <div className="w-[10%] mx-4">
           <P fontSize={12} color={mainColor} fontWeight={600}>
             {outcome}
           </P>

@@ -44,9 +44,9 @@ const SentryInjector = () => {
       environment: process.env.NODE_ENV,
       beforeSend(event) {
         // Check if it is an exception, and if so, show the report dialog
-        if (event.exception) {
-          Sentry.showReportDialog({ eventId: event.event_id })
-        }
+        // if (event.exception) {
+        //   Sentry.showReportDialog({ eventId: event.event_id })
+        // }
         return event
       },
     })
@@ -65,9 +65,14 @@ const SentryInjector = () => {
 const App = () => (
   <FatalErrorBoundary page={FatalErrorPage}>
     <RedwoodProvider titleTemplate="%PageTitle | %AppTitle">
-      <AuthProviderExtended type="dbAuth">
+      <AuthProviderExtended
+        type="dbAuth"
+        config={{ fetchConfig: { credentials: 'include' } }}
+      >
         <SentryInjector />
-        <RedwoodApolloProvider>
+        <RedwoodApolloProvider
+          graphQLClientConfig={{ httpLinkConfig: { credentials: 'include' } }}
+        >
           <AllContextProviders>
             <LandingModal />
             <Routes />

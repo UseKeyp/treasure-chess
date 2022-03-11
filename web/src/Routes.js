@@ -24,6 +24,7 @@ const Routes = () => {
           <Route path="/treasures" page={TreasureTreasuresPage} name="treasures" />
         </Set>
         <Route path="/chain-data" page={ChainDataPage} name="chainData" />
+        <Route path="/wallet" page={WalletPage} name="wallet" />
       </Set>
     </Router>
   )

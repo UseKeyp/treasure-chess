@@ -52,3 +52,7 @@ export const getBoardLayout = (pgn) => {
   })
   return boardLayout
 }
+
+export const corsOrigin = isProduction
+  ? `https://${process.env.APP_DOMAIN}`
+  : `http://${process.env.APP_DOMAIN}`

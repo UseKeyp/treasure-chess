@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 import pkceChallenge from 'pkce-challenge'
 import Sentry from 'src/lib/sentry'
 
+import { logger } from 'src/lib/logger'
 import { db } from 'src/lib/db'
 
 import {
@@ -19,6 +20,8 @@ import {
   getCoinbaseAccessTokenFromCode,
 } from 'src/lib/oAuth/coinbase'
 
+import { PLAID, createPlaidLink } from 'src/lib/oAuth/wyre'
+
 export const oAuthUrl = async (type) => {
   let url
   let params
@@ -31,6 +34,12 @@ export const oAuthUrl = async (type) => {
   } else if (type === COINBASE) {
     params = coinbaseParams
     url = new URL(COINBASE_OAUTH_URL + '/authorize')
+  } else if (type === PLAID) {
+    const plaidLink = await createPlaidLink()
+    return {
+      text: plaidLink,
+      type: 'code',
+    }
   }
   Object.keys(params).map((key) => {
     url.searchParams.set(key, params[key])
@@ -48,7 +57,6 @@ export const oAuthUrl = async (type) => {
       ...(memberId && { member: { connect: { id: memberId } } }),
     },
   })
-
   url.searchParams.set('response_type', 'code')
   url.searchParams.set('state', state)
   url.searchParams.set('prompt', 'none')
@@ -80,9 +88,7 @@ export const validateCodeGrant = async ({ state, code, type }) => {
       return getCoinbaseAccessTokenFromCode(code, oAuth)
     }
   } catch (e) {
-    /* eslint-disable no-console */
-    console.log(e)
-    /* eslint-enable no-console */
+    logger.error(e)
     Sentry.captureException(e)
     throw new AuthenticationError(e)
   }

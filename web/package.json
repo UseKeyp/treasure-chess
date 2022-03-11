@@ -38,6 +38,7 @@
     "react-spring": "^9.2.4"
   },
   "devDependencies": {
+    "@ethersproject/wallet": "^5.5.0",
     "@redwoodjs/core": "^1.0.0-rc.6",
     "@storybook/addon-essentials": "^6.3.12",
     "autoprefixer": "^9.0.0",

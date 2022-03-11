@@ -10,6 +10,7 @@ import { getNewIdToken } from 'src/lib/oAuth/jwt'
 import { decode as decodeJwt } from 'jsonwebtoken'
 import { keccak256 } from 'web3-utils'
 import { isProduction } from 'src/lib/helpers'
+import { logger } from 'src/lib/logger'
 
 let config = {
   network: 'ropsten',
@@ -49,8 +50,7 @@ export const getTorusPublicAddress = async (userId) => {
     )
     return publicAddress.toLowerCase()
   } catch (e) {
-    /* eslint-disable-next-line no-console */
-    console.log(e)
+    logger.error(e)
   }
 }
 
@@ -83,6 +83,6 @@ export const getTorusWallet = async (userId) => {
     return { publicAddress: ethAddress, privateKey: privKey }
   } catch (e) {
     /* eslint-disable-next-line no-console */
-    console.log(e)
+    logger.error(e)
   }
 }

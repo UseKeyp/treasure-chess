@@ -5,6 +5,7 @@ import achievementsList from '@treasure-chess/chess-achievements/src/achievement
 
 import { adminSendTransaction } from 'src/lib/web3/admin'
 import { web3Provider, DEFAULT_GAS_PRICE } from 'src/lib/web3/helpers'
+import { logger } from 'src/lib/logger'
 
 const treasureAbi = treasureArtifact.abi
 
@@ -16,8 +17,7 @@ export const getTreasureContract = () => {
       web3Provider
     )
   } catch (e) {
-    /* eslint-disable-next-line no-console */
-    console.log(e)
+    logger.error(e)
     throw new Error(e)
   }
 }
@@ -62,8 +62,7 @@ export const getTokenIdFromHashId = async (hashId) => {
     const tokenId = await treasureContract.movesHashToId(hashId)
     return tokenId
   } catch (e) {
-    /* eslint-disable-next-line no-console */
-    console.log(e)
+    logger.error(e)
     throw new Error(`getTokenIdFromHashId() ${e}`)
   }
 }

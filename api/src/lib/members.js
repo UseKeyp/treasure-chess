@@ -2,6 +2,7 @@ import Sentry from 'src/lib/sentry'
 import { db } from 'src/lib/db'
 import { isHexAddress } from 'src/lib/helpers'
 import { fetchChessMember } from 'src/lib/chessCom/chessCom'
+import { logger } from 'src/lib/logger'
 
 export const fetchMember = async (usernameOrAddress, includeChessData) => {
   try {
@@ -26,7 +27,7 @@ export const fetchMember = async (usernameOrAddress, includeChessData) => {
         country = chessData.country.split('country/')[1]
       } catch (e) {
         /* eslint-disable-next-line no-console */
-        console.log('Error calculating member country', e)
+        logger.error('Error calculating member country', e)
       }
       if (!member) {
         // Create member if they don't exist (relationship required for treasures)

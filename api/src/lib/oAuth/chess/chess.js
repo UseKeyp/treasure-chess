@@ -3,6 +3,7 @@ import fetch from 'cross-fetch'
 import { isDevelopment } from 'src/lib/helpers'
 import { decode as decodeJwt } from 'jsonwebtoken'
 
+import { logger } from 'src/lib/logger'
 import { encodeBody, getExpiration } from 'src/lib/oAuth/helpers'
 
 export const CHESS = 'chess'
@@ -61,8 +62,8 @@ export const getChessAccessTokenFromCode = async (
       id_token: idToken, // JWT that contains identity information about user
     } = response
 
-    // Uncomment to get a new CHESS_API_ACCESS_TOKEN
-    // console.log(accessToken)
+    // Use to get your own CHESS_API_ACCESS_TOKEN for rate-limiting
+    accessToken && logger.debug('CHESS_API_ACCESS_TOKEN', accessToken)
 
     if (!response.id_token) throw 'Failed to get id_token from Chess.com'
     const decoded = await decodeJwt(idToken)

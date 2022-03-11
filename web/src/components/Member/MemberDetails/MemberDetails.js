@@ -43,7 +43,6 @@ const TwitchLink = ({ isProfile, userName }) => {
 
 const MemberDetails = ({ member, isProfile }) => {
   const { deposit, withdraw, getAddress } = useWallet()
-
   return (
     <section className="member-details p-4">
       <div className="member-details--inner">
@@ -62,14 +61,14 @@ const MemberDetails = ({ member, isProfile }) => {
               {member.username}
             </a>
           </h3>
-          <div className="flex mt-2">
+          <div className="flex mt-2 w-full content-center item-center">
             {isProfile ? (
-              <>
+              <div className="flex">
                 <p className="mr-2">{trimAddress(member.address)}</p>
                 <button onClick={getAddress}>
                   <Icon name="copy" color="#147DDD" />
                 </button>
-              </>
+              </div>
             ) : (
               <Button
                 onClick={getAddress}

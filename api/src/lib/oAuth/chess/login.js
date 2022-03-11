@@ -4,7 +4,7 @@ import { db } from 'src/lib/db'
 
 import { fetchMember } from 'src/lib/members'
 import { getTorusPublicAddress } from 'src/lib/torus/torus'
-
+import { logger } from 'src/lib/logger'
 export const handleChessLogin = async ({ refreshToken, decoded }) => {
   try {
     // Create member if needed, and get current avatar
@@ -38,17 +38,12 @@ export const handleChessLogin = async ({ refreshToken, decoded }) => {
           data: { address: publicAddress },
         })
       } catch (e) {
-        /* eslint-disable no-console */
-        console.log("Error fetching user's wallet from Torus")
-        console.log(e)
-        /* eslint-enable no-console */
+        logger.error(e, "Error fetching user's wallet from Torus")
       }
     }
     return member
   } catch (e) {
-    /* eslint-disable no-console */
-    console.log(e)
-    /* eslint-enable no-console */
+    logger.error(e)
     Sentry.captureException(e)
     throw new AuthenticationError()
   }

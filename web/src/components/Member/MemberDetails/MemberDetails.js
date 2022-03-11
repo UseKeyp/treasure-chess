@@ -1,6 +1,6 @@
 import Avatar from 'src/components/Avatar'
 import Button from 'src/components/Button/Button'
-import Icon from 'src/components/Icon'
+import Icon, { TwitchIcon } from 'src/components/Icon'
 
 import MemberBalance from 'src/components/Member/MemberBalance'
 
@@ -20,7 +20,7 @@ const TwitchLink = ({ isProfile, userName }) => {
           target="_blank"
           rel="noreferrer"
         >
-          <Icon name="twitch" size={20} color="#5A3E85" />
+          <TwitchIcon />
         </a>
         {isProfile && (
           <a href="/#" className="ml-1 text-xs">
@@ -33,7 +33,7 @@ const TwitchLink = ({ isProfile, userName }) => {
   if (isProfile) {
     return (
       <div className="ml-2 flex">
-        <Icon name="twitch" size={20} color="#888" />
+        <TwitchIcon color="#ABB6B9" />
         <p className="ml-1">Connect</p>
       </div>
     )

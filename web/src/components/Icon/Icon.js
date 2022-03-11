@@ -14,6 +14,6 @@ Icon.defaultProps = {
 
 export default Icon
 
-export const TwitchIcon = ({ color = '#5A3E85', ...rest }) => (
-  <Icon name="twitch" size={20} color={color} {...rest} />
+export const TwitchIcon = ({ color = '#5A3E85', size = 20, ...rest }) => (
+  <Icon name="twitch" size={size} color={color} {...rest} />
 )

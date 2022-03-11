@@ -134,6 +134,11 @@ Submit the game data to be minted!
 |  CustomerSupportException  |                              Please contact us at support@sendwyre.com to resolve this!                               |        400        |
 |    MFARequiredException    | An MFA action is required to complete the request. In general you should not get this exception while using API keys. |        400        |
 
+## `/paymentMethods`
+
+- For plaid-integration offramp bank details, no additional KYC is performed on these bank details. Set `chargebablePM` to false during PM creation, then the status will go directly into `AWAITING FOLLOW UP`. This the final status for offramp PMs.
+- Only US support is available for Plaid integration. For International accounts, we can create PMs by passing bank details directly. Maybe this list for supported regions: https://docs.sendwyre.com/docs/wyre-checkout-1#supported-states-and-countries (waiting for confirmation)
+
 ## Creating the checkout URL
 
 http://7269-208-46-234-70.ngrok.io/api/checkout/?orderId=WO_87736T9Y8X
@@ -170,3 +175,7 @@ RESPONSE
 "webhook": "https://requestinspector.com/inspect/benswyreprod"
 }
 ```
+
+## Wyre Troubleshooting
+
+Why accounts may not be approved: https://docs.sendwyre.com/docs/account-resource#cases-to-expect-auto-kyc-errors

@@ -1,4 +1,5 @@
 import fetch from 'cross-fetch'
+import { logger } from 'src/lib/logger'
 
 export const fetchChessMember = (username) => {
   try {
@@ -25,10 +26,10 @@ export const fetchChessGames = async ({ username, year, month }) => {
       },
     }
   ).then((res) => {
-    // console.log(res)
+    logger.debug(res)
     return res.json()
   })
-  // console.log(response)
+  logger.debug(response)
   return response.games || []
 }
 
@@ -43,7 +44,13 @@ export const fetchChessGame = async ({ username, gameId, endTime }) => {
 
 export const fetchRatingDelta = async (id) => {
   const response = await fetch(
-    `https://www.chess.com/callback/live/game/${id}`
+    `https://www.chess.com/callback/live/game/${id}`,
+    {
+      headers: {
+        // Required to prevent rate-limiting
+        Authorization: `Bearer ${process.env.CHESS_API_ACCESS_TOKEN}`,
+      },
+    }
   ).then((res) => {
     return res.json()
   })

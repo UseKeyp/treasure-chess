@@ -6,6 +6,7 @@ import { AuthenticationError } from '@redwoodjs/graphql-server'
 import { db } from 'src/lib/db'
 import productionJwks from 'src/lib/oAuth/jwks'
 import { getChessBasicAuth, refreshChessTokens } from 'src/lib/oAuth/chess'
+import { logger } from 'src/lib/logger'
 
 const API_URL = process.env.CHESS_OAUTH_URL
 
@@ -67,7 +68,7 @@ export const getNewIdToken = async (userId) => {
     return idToken
   } catch (e) {
     /* eslint-disable-next-line no-console */
-    console.log(e)
+    logger.error(e)
     throw new AuthenticationError('getNewIdToken() Unable to refresh session')
   }
 }

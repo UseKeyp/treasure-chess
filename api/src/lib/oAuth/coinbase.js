@@ -4,7 +4,7 @@ import Sentry from 'src/lib/sentry'
 import { AuthenticationError } from '@redwoodjs/graphql-server'
 
 import { encodeBody, getExpiration } from 'src/lib/oAuth/helpers'
-
+import { logger } from 'src/lib/logger'
 export const COINBASE = 'coinbase'
 export const COINBASE_OAUTH_URL = 'https://www.coinbase.com/oauth'
 
@@ -19,10 +19,7 @@ export const coinbaseParams = {
   account_currency: 'ETH',
 }
 
-export const getCoinbaseAccessTokenFromCode = async (
-  code,
-  { codeVerifier, memberId }
-) => {
+export const getCoinbaseAccessTokenFromCode = async (code, { memberId }) => {
   try {
     const body = {
       grant_type: 'authorization_code',
@@ -30,10 +27,9 @@ export const getCoinbaseAccessTokenFromCode = async (
       client_secret: process.env.COINBASE_CLIENT_SECRET,
       redirect_uri: COINBASE_REDIRECT_URI,
       code,
-      code_verifier: codeVerifier,
     }
     const encodedBody = encodeBody(body)
-    // console.log(encodedBody.split('&'))
+    logger.debug(encodedBody.split('&'))
     const response = await fetch(COINBASE_OAUTH_URL + '/token', {
       method: 'post',
       body: encodedBody,
@@ -41,9 +37,9 @@ export const getCoinbaseAccessTokenFromCode = async (
         'Content-Type': 'application/x-www-form-urlencoded',
       },
     }).then((res) => {
-      // console.log(res)
+      logger.debug(res)
       if (res.status != 200)
-        throw 'Coinbase basic authorization failed, or secret invalid'
+        throw `Coinbase API failed for /token. ${res.status} - ${res.statusText}`
       return res.json()
     })
     if (response.error)
@@ -99,19 +95,17 @@ export const handleCoinbaseLogin = async ({
       return res.json()
     })
     const address = addresses.data[0].address
-    await db.member.update({
-      where: {
-        id: memberId,
-      },
+    await db.ramp.create({
       data: {
-        coinbaseWithdrawAddress: address.toLowerCase(),
-        emailCoinbase: userDetails.data.email,
-        accessTokenCoinbase: accessToken,
-        refreshTokenCoinbase: refreshToken,
+        address,
+        email: userDetails.data.email,
+        type: 'COINBASE',
+        accessToken,
+        refreshToken,
+        member: { connect: { id: memberId } },
       },
     })
   } catch (e) {
-    /* eslint-enable no-console */
     Sentry.captureException(e)
     throw new AuthenticationError(e)
   }

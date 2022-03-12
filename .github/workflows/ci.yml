@@ -2,13 +2,14 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, staging]
   pull_request:
     types: [opened, synchronize]
 
 jobs:
   runCI:
     name: Run CI
+    id: runCI
     runs-on: ubuntu-latest
     steps:
       # check out this repo (so that this workflow can use it)
@@ -53,3 +54,37 @@ jobs:
       #   run: yarn zip-it-and-ship-it api/dist/functions/ zipped
       #   shell: bash
       # TODO: throw error if size exceeds limit
+  create-release-draft:
+    name: Create Release Draft
+    needs: runCI
+    if: github.ref_name == 'main' || github.ref_name == 'staging'
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+          registry-url: https://registry.npmjs.org/
+      - name: Get short sha
+        id: vars
+        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+      # - name: Get version
+      #   id: version
+      #   run: echo "::set-output name=version::$(git rev-parse --short HEAD)"
+      - name: Create release draft
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: ${{ github.ref_name }}-${{ steps.vars.outputs.sha_short }}
+          # tag_name: ${{ steps.version.outputs.version }}
+          release_name: ${{ github.ref_name }}-${{ steps.vars.outputs.sha_short }}
+          body: |
+            Changes in this Release
+            ## Changed
+            ## Added
+            ## Fixes
+            ## Breaking
+          draft: true

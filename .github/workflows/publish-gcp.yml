@@ -33,9 +33,11 @@ jobs:
           APP_DOMAIN="https://treasure.gcp-staging.chess-platform.com"
           ETHEREUM_NETWORK_NAME=matic
           BASIC_AUTH_PASSWORD=pauliemorphy
+          SENTRY_ENVIRONMENT=staging
           if [ $PREFIX == "prod" ] ; then
              REDWOOD_API_URL="https://treasure.chess.com"
              APP_DOMAIN="https://treasure.chess.com"
+             SENTRY_ENVIRONMENT="prod"
           fi
           IMAGE_TAG=$PREFIX-$(echo $GITHUB_SHA | cut -c 1-7)
           IMAGE_NAME=$(echo $GITHUB_REPOSIOTORY | cut -c 12-)
@@ -52,6 +54,7 @@ jobs:
                 --build-arg APP_DOMAIN=$APP_DOMAIN \
                 --build-arg ETHEREUM_NETWORK_NAME=$ETHEREUM_NETWORK_NAME \
                 --build-arg BASIC_AUTH_PASSWORD=$BASIC_AUTH_PASSWORD \
+                --build-arg SENTRY_ENVIRONMENT=$SENTRY_ENVIRONMENT \
                  -f ./$COMPONENT/Dockerfile .
 
               echo "pushing image... $PROJECT_NAME/$IMAGE_NAME:$IMAGE_TAG"

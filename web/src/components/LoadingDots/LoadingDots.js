@@ -22,7 +22,7 @@ const LoadingDots = () => {
           className="loading-dots__dot"
           key={i}
           style={{
-            transform: values.interpolate(
+            transform: values.to(
               (r) =>
                 `translate3d(0, ${
                   2 * Math.sin(r + (i * 2 * Math.PI) / 5)

@@ -58,12 +58,11 @@ export const AddressModal = ({ address, isVisible, toggleModal }) => {
 }
 
 export const DepositModal = ({ isVisible, toggleModal }) => {
-  const { ramps } = useRamp()
-  const wyreRamp = ramps.find((ramp) => ramp.name == 'Wyre')
+  const { deposit } = useRamp()
   return (
     <ModalContainer
       isVisible={isVisible}
-      onSubmit={wyreRamp?.onDeposit}
+      onSubmit={deposit}
       hideModal={toggleModal}
       headerText="Deposit Funds"
       icon={<Icon name="wyre" size="29" />}
@@ -113,7 +112,7 @@ const VendorConnection = ({ ramp, amount, isLoading, disabled }) => {
       {ramp.isLoading ? loadingText : 'Connect  '}
     </Button>
   )
-  if (ramp.isConnected)
+  if (ramp.address)
     button = (
       <Button
         className={buttonClassName}
@@ -126,23 +125,29 @@ const VendorConnection = ({ ramp, amount, isLoading, disabled }) => {
   if (disabled) button = <h3 className="mt-4">(Coming soon)</h3>
 
   let status = 'Not connected'
-  if (ramp.isConnected) status = `Connected - ${trimAddress(ramp.address)}`
+  if (ramp.address)
+    status = (
+      <div>
+        <p>Connected - {trimAddress(ramp.address)}</p>
+        <p>{ramp.accountNickname}</p>
+      </div>
+    )
   return (
     <div className="">
-      <div className="mt-4 flex align-center items-end">
+      <div className="mt-4 flex align-center items-center">
         <h3>{ramp.name}</h3>{' '}
         <p className="ml-4">
           <i>{status}</i>
         </p>
       </div>
       {button}
-      <p className="mt-2 text-red">{ramp.error}</p>
+      <p className="mt-2 text-orange">{ramp.error}</p>
     </div>
   )
 }
 
 export const WithdrawModal = ({ isVisible, toggleModal }) => {
-  const [amount, setAmount] = React.useState(0)
+  const [amount, setAmount] = React.useState('0')
   const { ramps, isLoading } = useRamp()
   return (
     <ModalContainer
@@ -166,6 +171,7 @@ export const WithdrawModal = ({ isVisible, toggleModal }) => {
               isLoading={isLoading}
               amount={amount}
               ramp={ramp}
+              toggleModal={toggleModal}
             />
           ))}
         </>

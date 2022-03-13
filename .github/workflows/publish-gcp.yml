@@ -33,9 +33,11 @@ jobs:
           APP_DOMAIN="https://treasure.gcp-staging.chess-platform.com"
           ETHEREUM_NETWORK_NAME=matic
           BASIC_AUTH_PASSWORD=pauliemorphy
+          SENTRY_ENVIRONMENT=staging
           if [ $PREFIX == "prod" ] ; then
              REDWOOD_API_URL="https://treasure.chess.com"
              APP_DOMAIN="https://treasure.chess.com"
+             SENTRY_ENVIRONMENT="prod"
           fi
           IMAGE_TAG=$PREFIX-$(echo $GITHUB_SHA | cut -c 1-7)
           IMAGE_NAME=$(echo $GITHUB_REPOSIOTORY | cut -c 12-)
@@ -52,6 +54,7 @@ jobs:
                 --build-arg APP_DOMAIN=$APP_DOMAIN \
                 --build-arg ETHEREUM_NETWORK_NAME=$ETHEREUM_NETWORK_NAME \
                 --build-arg BASIC_AUTH_PASSWORD=$BASIC_AUTH_PASSWORD \
+                --build-arg SENTRY_ENVIRONMENT=$SENTRY_ENVIRONMENT \
                  -f ./$COMPONENT/Dockerfile .
 
               echo "pushing image... $PROJECT_NAME/$IMAGE_NAME:$IMAGE_TAG"
@@ -63,3 +66,21 @@ jobs:
                  docker push $PROJECT_NAME/$IMAGE_NAME-$COMPONENT:latest
               fi
           done
+      - name: Set output
+        id: vars
+        run: |
+          echo ::set-output name=short_ref::${GITHUB_REF#refs/*/}
+          echo ::set-output name=short_sha::$(echo ${GITHUB_SHA} | cut -c1-7)
+      - name: Discord notification
+        if: github.event_name == 'workflow_dispatch'
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_DEVOPS }}
+        uses: Ilshidur/action-discord@0c4b27844ba47cb1c7bee539c8eead5284ce9fa9
+        with:
+          args: |
+            🚢 New Release 🚢
+
+            **${{ env.NODE_ENV }}-${{ steps.vars.outputs.short_sha }}**
+
+            Branch: `${{ steps.vars.outputs.short_ref }}`
+            Image: `$PROJECT_NAME/$IMAGE_NAME-$COMPONENT:$IMAGE_TAG`

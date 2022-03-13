@@ -5,6 +5,7 @@ import { validateTreasureTitle } from 'src/lib/helpers'
 import { mintTreasureAndUpdatePurchase } from 'src/lib/web3'
 import { getTokenIdFromHashId } from 'src/lib/web3/treasure'
 import { fetchGame } from 'src/lib/games'
+import { logger } from 'src/lib/logger'
 
 const COMPLETE = 'COMPLETE'
 const FAILED = 'FAILED'
@@ -32,7 +33,7 @@ export const fetchMintPurchase = async ({ gameId, endTime, memberId }) => {
   // Maybe some string gameId-endTime-memberId ?
   if (mintPurchases?.length > 1)
     /* eslint-disable-next-line no-console */
-    console.log('WARNING: Multiple mintPurchases for the same game')
+    logger.warn('Multiple mintPurchases for the same game')
   return mintPurchases[0] || null
 }
 

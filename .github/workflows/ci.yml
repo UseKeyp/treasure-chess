@@ -9,7 +9,6 @@ on:
 jobs:
   runCI:
     name: Run CI
-    id: runCI
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -17,6 +16,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '14'
+      # cache dependencies and build outputs to improve workflow execution time
       - name: Cache "node_modules"
         uses: actions/cache@v2
         with:
@@ -30,23 +30,24 @@ jobs:
       - name: Check
         run: yarn rw check
         shell: bash
-      # TODO: Inject DATABASE_URL for testing
-      # - name: Run tests
-      #   run: yarn rw test
-      #   shell: bash
+      # TODO: Inject TEST_DATABASE_URL if you wish to run api testing
+      - name: Test
+        run: yarn rw test
+        shell: bash
       - name: Build packages
         run: yarn build-packages
         shell: bash
-      - name: Build
+      - name: Build api & web
         run: yarn rw build
         shell: bash
+      # TODO: throw error if size exceeds limit for vercel
       # - name: Check serverless size
       #   run: yarn zip-it-and-ship-it api/dist/functions/ zipped
       #   shell: bash
-      # TODO: throw error if size exceeds limit
   create-release-draft:
     name: Create Release Draft
     needs: runCI
+    # Only create drafts on merge
     if: github.event_name == 'push'
     runs-on: ubuntu-20.04
     steps:
@@ -87,6 +88,7 @@ jobs:
             ## Changed
             ## Added
             ## Fixes
+            ## Breaking
           draft: true
           prerelease: ${{ steps.update_version.outputs.IS_PRERELEASE }}
       - name: Discord notify release draft
@@ -94,5 +96,4 @@ jobs:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_DEVOPS }}
         uses: Ilshidur/action-discord@0c4b27844ba47cb1c7bee539c8eead5284ce9fa9
         with:
-          args: |
-            🗒️ Draft Release created for `${{ steps.update_version.outputs.VERSION }}` ${{ steps.create_release.outputs.html_url }}
+          args: 🗒️ Draft Release created for `${{ steps.update_version.outputs.VERSION }}` ${{ steps.create_release.outputs.html_url }}

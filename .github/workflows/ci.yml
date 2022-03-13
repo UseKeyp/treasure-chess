@@ -12,28 +12,18 @@ jobs:
     id: runCI
     runs-on: ubuntu-latest
     steps:
-      # check out this repo (so that this workflow can use it)
-      # https://github.com/actions/checkout
       - uses: actions/checkout@v2
-      # set up a node environment
-      # https://github.com/actions/setup-node
       - name: Setup Node.js v14
         uses: actions/setup-node@v2
         with:
           node-version: '14'
-      # cache dependencies and build outputs to improve workflow execution time
-      # https://github.com/actions/cache
       - name: Cache "node_modules"
         uses: actions/cache@v2
         with:
           path: '**/node_modules'
           key: node_modules_${{ hashFiles('**/yarn.lock') }}
-      # install dependencies
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-      # lint, check, run tests, and build
-      # - name: Run CI
-      #   uses: jtoar/redwoodjs-ci@v0.2.0
       - name: Lint
         run: yarn rw lint
         shell: bash
@@ -57,7 +47,7 @@ jobs:
   create-release-draft:
     name: Create Release Draft
     needs: runCI
-    if: github.ref_name == 'main' || github.ref_name == 'staging'
+    if: github.event_name == 'push'
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
@@ -66,25 +56,43 @@ jobs:
         with:
           node-version: 12.x
           registry-url: https://registry.npmjs.org/
-      - name: Get short sha
-        id: vars
-        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
-      # - name: Get version
-      #   id: version
-      #   run: echo "::set-output name=version::$(git rev-parse --short HEAD)"
+      - name: Update version
+        id: update_version
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          IS_PRERELEASE=true
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor}}@users.noreply.github.com"
+
+          if [ ${{ github.ref_name }} == "main" ] ; then
+             npx lerna version --conventional-graduate --conventional-commits --yes
+             IS_PRERELEASE=false
+          else
+             npx lerna version prerelease --yes --preid staging
+          fi
+          VERSION=`jq -r .version lerna.json`
+          echo "::set-output name=VERSION::v$VERSION"
+          echo "::set-output name=IS_PRERELEASE::$IS_PRERELEASE"
       - name: Create release draft
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
-          tag_name: ${{ github.ref_name }}-${{ steps.vars.outputs.sha_short }}
-          # tag_name: ${{ steps.version.outputs.version }}
-          release_name: ${{ github.ref_name }}-${{ steps.vars.outputs.sha_short }}
+          tag_name: ${{ steps.update_version.outputs.VERSION }}
+          release_name: ${{ steps.update_version.outputs.VERSION }}
           body: |
             Changes in this Release
             ## Changed
             ## Added
             ## Fixes
-            ## Breaking
           draft: true
+          prerelease: ${{ steps.update_version.outputs.IS_PRERELEASE }}
+      - name: Discord notify release draft
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_DEVOPS }}
+        uses: Ilshidur/action-discord@0c4b27844ba47cb1c7bee539c8eead5284ce9fa9
+        with:
+          args: |
+            🗒️ Draft Release created for `${{ steps.update_version.outputs.VERSION }}` ${{ steps.create_release.outputs.html_url }}

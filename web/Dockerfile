@@ -31,6 +31,7 @@ COPY graphql.config.js .
 COPY package.json .
 COPY redwood.toml .
 COPY yarn.lock .
+COPY lerna.json .
 
 # Install dependencies
 RUN yarn install --frozen-lockfile

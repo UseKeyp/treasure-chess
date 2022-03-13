@@ -31,9 +31,9 @@ jobs:
         run: yarn rw check
         shell: bash
       # TODO: Inject TEST_DATABASE_URL if you wish to run api testing
-      - name: Test
-        run: yarn rw test
-        shell: bash
+      # - name: Test
+      #   run: yarn rw test
+      #   shell: bash
       - name: Build packages
         run: yarn build-packages
         shell: bash

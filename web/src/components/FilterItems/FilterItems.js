@@ -43,7 +43,7 @@ const FilterItems = ({ onChange }) => {
   const [year, setYear] = useState(yearsList[0])
   const [outcome, setOutcome] = useState('Any')
   const [username, setUsername] = useState('')
-  const [page, setPage] = useState(1)
+  const [page, setPage] = useState(0)
 
   const onChangePage = (pageParam) => {
     setPage(pageParam)
@@ -115,7 +115,7 @@ const FilterItems = ({ onChange }) => {
           </h4>
           <Pagination
             // count={300}
-            page={page}
+            page={page + 1}
             // perPage={50}
             onChangePage={onChangePage}
           />

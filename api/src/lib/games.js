@@ -114,18 +114,13 @@ export const getGamesWithArguments = async ({ username, filter }) => {
   }
   const year = filterObj.year || new Date().getFullYear()
   const month = filterObj.month || 0
-  const page = filterObj.page || 1
+  const page = filterObj.page || 0
   // const month = filterObj.month === 'Any' ? null : filterObj.month || 0
   // const day = filterObj.day === 'Any' ? null : filterObj.day
   const games = await fetchChessGames({ username, year, month })
   if (!games?.length) return []
 
-  // TODO: Limit to 200 most recent games?
-  // INFO: limited on 50 games because greater than this Promise.all() has greater chance to fail.
-  const sortedGames = games
-    .sort((a, b) => b.end_time - a.end_time)
-    .slice((page - 1) * 25, page * 25)
-  const filteredGames = sortedGames.filter((game) => {
+  const filteredGames = games.filter((game) => {
     if (
       filterObj.username &&
       ![game.black.username, game.white.username].includes(filterObj.username)
@@ -145,7 +140,14 @@ export const getGamesWithArguments = async ({ username, filter }) => {
     return true
   })
 
+  console.log({ page })
+  console.log({ filteredGames })
+
+  const sortedGames = filteredGames
+    .sort((a, b) => b.end_time - a.end_time)
+    .slice(page * 100, (page + 1) * 100)
+
   return Promise.all(
-    filteredGames.map((game) => getFullGameDetails({ game, username }))
+    sortedGames.map((game) => getFullGameDetails({ game, username }))
   )
 }

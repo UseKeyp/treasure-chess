@@ -3,6 +3,7 @@ import placeholderData from 'src/components/Game/GameCard/placeholderGameData'
 
 const boardLayout =
   '{"a4":{"type":"p","color":"w"},"a7":{"type":"p","color":"b"},"b1":{"type":"k","color":"w"},"b3":{"type":"q","color":"b"},"b6":{"type":"p","color":"b"},"b7":{"type":"p","color":"b"},"b8":{"type":"k","color":"b"},"c1":{"type":"r","color":"w"},"c2":{"type":"r","color":"w"},"c3":{"type":"r","color":"b"},"c8":{"type":"r","color":"b"},"d3":{"type":"p","color":"w"},"e5":{"type":"p","color":"b"},"f3":{"type":"p","color":"w"},"f5":{"type":"q","color":"w"},"f6":{"type":"p","color":"b"},"g3":{"type":"p","color":"w"},"g5":{"type":"p","color":"b"},"h2":{"type":"p","color":"w"},"h6":{"type":"p","color":"b"}}'
+const achievements = ['TheUnderdog', 'Winner1500', 'PawnShy']
 
 const DiagramLabel = ({
   text,
@@ -39,14 +40,42 @@ const GameCardDiagram = () => {
         connecterLength={26}
       />
       <DiagramLabel
+        text="Achievements"
+        position={{ top: 430, left: -75 }}
+        connectorPosition={{ top: 10, right: -33 }}
+        connecterLength={26}
+      />
+      <DiagramLabel
         text="Color"
-        position={{ top: 350, right: -6 }}
+        position={{ top: 50, right: -6 }}
         connectorPosition={{ top: 10, left: -33 }}
         connecterLength={26}
       />
+      <DiagramLabel
+        text={
+          <>
+            <span>Rarity</span>
+            <ul className="text-xs">
+              <li>&lt;6 - Good</li>
+              <li>6+ - Great</li>
+              <li>11+ - Ultra</li>
+              <li>14+ - Mythic</li>
+            </ul>
+          </>
+        }
+        position={{ top: 300, right: -40 }}
+        connectorPosition={{ top: 95, left: -50 }}
+        connecterLength={42}
+      />
       <GameCard
-        game={{ ...placeholderData, boardLayout }}
-        title="Example Game"
+        game={{
+          ...placeholderData,
+          boardLayout,
+          achievements,
+          achievementScore: 3,
+          rarity: 'Good',
+        }}
+        title={placeholderData.title}
       />
     </div>
   )

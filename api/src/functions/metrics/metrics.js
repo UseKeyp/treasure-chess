@@ -4,9 +4,8 @@ import Sentry from 'src/lib/sentry'
 import { getBusinessMetrics } from 'src/lib/metrics'
 
 export const handler = async (event, _context) => {
+  logger.debug('Invoked /metrics ')
   try {
-    logger.info('Invoked metrics function')
-
     const collectDefaultMetrics = client.collectDefaultMetrics
     const Registry = client.Registry
     const register = new Registry()
@@ -31,8 +30,7 @@ export const handler = async (event, _context) => {
     }
   } catch (e) {
     /* eslint-disable no-console */
-    console.log(e)
-    console.log(event)
+    logger.error({ custom: event }, e)
     /* eslint-enable no-console */
     Sentry.captureException(e)
     return {

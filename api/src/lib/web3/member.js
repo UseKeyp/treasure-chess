@@ -2,7 +2,7 @@ import { Wallet } from '@ethersproject/wallet'
 
 import { getTorusWallet } from 'src/lib/torus'
 import { web3Provider } from 'src/lib/web3/helpers'
-
+import { logger } from 'src/lib/logger'
 export const memberSendTransaction = async ({ memberId, unsignedTx }) => {
   try {
     const torusWallet = await getTorusWallet(memberId)
@@ -13,8 +13,7 @@ export const memberSendTransaction = async ({ memberId, unsignedTx }) => {
     return memberWalletWithProvider.sendTransaction(unsignedTx)
   } catch (e) {
     // TODO: Better logging for why tx submission failed
-    /* eslint-disable-next-line no-console */
-    console.log(e)
+    logger.error(e)
     throw new Error('memberSendTransaction() ', e)
   }
 }

@@ -15,6 +15,7 @@ export const schema = gql`
     chessLoginUrl: LoginUrl! @skipAuth
   }
   type Mutation {
+    connectPlaid(code: String!, accountId: String!): Ramp! @requireAuth
     codeGrant(code: String!, state: String!, type: String!): CodeGrantResponse!
       @skipAuth
   }

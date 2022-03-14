@@ -1,12 +1,19 @@
 const CryptoJS = require('crypto-js')
-import { isProduction } from 'src/lib/helpers'
 import fetch from 'node-fetch'
+
+import { isProduction } from 'src/lib/helpers'
+import { logger } from 'src/lib/logger'
 
 const WYRE_SECRET_KEY = process.env.WYRE_SECRET_KEY
 const WYRE_API_KEY = process.env.WYRE_API_KEY
 const API_URL = isProduction
   ? 'https://api.sendwyre.com/v3'
   : 'https://api.testwyre.com/v3'
+const API_URL_V2 = isProduction
+  ? 'https://api.sendwyre.com/v2'
+  : 'https://api.testwyre.com/v2'
+const WYRE_WEBHOOK_URL = process.env.APP_DOMAIN + '/api/wyre'
+
 const WYRE_TOKEN_SYMBOL = 'MUSDC'
 
 const signature = (url, data) => {
@@ -43,8 +50,20 @@ const fetchWyre = (url, data) => {
       'X-Api-Key': WYRE_API_KEY,
       'X-Api-Signature': signature(urlWithTimestamp, stringData),
     },
-  }).then((res) => {
-    return res.json()
+  }).then(async (res) => {
+    if (res.status === 204) return `No content returned by Wyre - ${url}`
+    const data = await res.json()
+    if (data.errorCode) {
+      throw {
+        status: res.status,
+        url,
+        statusText: res.statusText,
+        errorCode: data.errorCode,
+        type: data.type,
+        message: data.message,
+      }
+    }
+    return data
   })
 }
 
@@ -80,15 +99,14 @@ export const createMintReservation = async ({
       referenceId,
       hideTrackBtn: true,
       redirectUrl: `${process.env.APP_DOMAIN}/redirect/wyre`,
-      failureRedirectUrl: `${process.env.APP_DOMAIN}/redirect/wyre`,
+      failureRedirectUrl: `${process.env.APP_DOMAIN}/redirect/wyre?error=true`,
       referrerAccountId: process.env.WYRE_ACCOUNT_ID_TREASURE,
       dest: `account:${process.env.WYRE_ACCOUNT_ID_TREASURE}`,
       country: 'US',
     })
     return response
   } catch (e) {
-    /* eslint-disable-next-line no-console */
-    console.log(e)
+    logger.error(e)
     throw new Error('createMintReservation() Error creating Wyre reservation')
   }
 }
@@ -101,7 +119,7 @@ export const createDepositReservation = async (destinationAddress) => {
       destCurrency: WYRE_TOKEN_SYMBOL,
       hideTrackBtn: true,
       redirectUrl: `${process.env.APP_DOMAIN}/redirect/wyre`,
-      failureRedirectUrl: `${process.env.APP_DOMAIN}/redirect/wyre`,
+      failureRedirectUrl: `${process.env.APP_DOMAIN}/redirect/wyre?error=true`,
       referrerAccountId: process.env.WYRE_ACCOUNT_ID_TREASURE,
       dest: `matic:${destinationAddress}`,
       lockFields: ['destCurrency', 'dest', 'paymentMethod'],
@@ -109,8 +127,7 @@ export const createDepositReservation = async (destinationAddress) => {
     if (!response.url) throw 'Error'
     return response
   } catch (e) {
-    /* eslint-disable-next-line no-console */
-    console.log(e)
+    logger.error(e)
     throw new Error(
       'createDepositReservation() Error creating Wyre reservation'
     )
@@ -123,10 +140,53 @@ export const createWithdrawReservation = async () => {
     const response = await fetchWyre(url)
     return response
   } catch (e) {
-    /* eslint-disable-next-line no-console */
-    console.log(e)
+    logger.error(e)
     throw new Error(
       'createDepositReservation() Error creating Wyre reservation'
     )
   }
+}
+
+export const createPaymentMethod = async (details) => {
+  const url = `${API_URL_V2}/paymentMethods`
+  const args = {
+    ...details,
+    paymentMethodType: 'LOCAL_TRANSFER',
+    chargebablePM: false,
+  }
+  const response = await fetchWyre(url, args)
+  return response
+}
+
+export const createPaymentMethodFromPlaid = async (processorToken) => {
+  const url = `${API_URL_V2}/paymentMethods`
+  const args = {
+    plaidProcessorToken: processorToken,
+    paymentMethodType: 'LOCAL_TRANSFER',
+    country: 'US', // Wyre only supports US Plaid accounts
+    chargebablePM: false,
+  }
+  // console.log(args)
+  const response = await fetchWyre(url, args)
+  return response
+}
+
+export const fetchPaymentMethod = async (paymentMethodId) => {
+  const url = `${API_URL_V2}/paymentMethod/${paymentMethodId}`
+  const paymentMethod = await fetchWyre(url)
+  return paymentMethod
+}
+
+export const attachBlockchainPaymentMethod = async (paymentMethodId) => {
+  let url = `${API_URL_V2}/paymentMethod/${paymentMethodId}/attach`
+  await fetchWyre(url, {
+    blockchain: 'ETH',
+    notifyUrl: WYRE_WEBHOOK_URL,
+  })
+  // Bug with wyre returning 'No Content' status 204
+  // TODO: remove the extra call once this is fixed
+  const paymentMethod = await fetchPaymentMethod(paymentMethodId)
+  if (!paymentMethod || !paymentMethod?.blockchains?.ETH)
+    throw 'Error attaching blockchain'
+  return paymentMethod.blockchains.ETH
 }

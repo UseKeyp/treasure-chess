@@ -1,4 +1,4 @@
-import { getErrorResponse, saveRedirectTo } from './helpers'
+import { saveRedirectTo } from './helpers'
 
 import { toast } from '@redwoodjs/web/toast'
 
@@ -30,6 +30,7 @@ export const logIn = async ({ redirectTo }) => {
     if (response.ok) {
       // Redirect user
       const { data } = await response.json()
+      if (!data) throw 'No data in API response'
       window.location = data.chessLoginUrl.url
     } else {
       /* eslint-disable-next-line no-console */
@@ -39,7 +40,7 @@ export const logIn = async ({ redirectTo }) => {
     }
   } catch (e) {
     /* eslint-disable-next-line no-console */
-    const errorMessage = getErrorResponse(`${e}.`, 'login').error.message
+    const errorMessage = `Oops! Please try again later. ${e}`
     toast.error(errorMessage)
     /* eslint-disable-next-line no-console */
     console.log(errorMessage)

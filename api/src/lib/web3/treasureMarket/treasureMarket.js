@@ -6,6 +6,8 @@ import { web3Provider, DEFAULT_GAS_PRICE } from 'src/lib/web3/helpers'
 import { getTreasureContract } from 'src/lib/web3/treasure'
 import { getTokenContract } from 'src/lib/web3/tokens'
 
+import { logger } from 'src/lib/logger'
+
 export const getTreasureMarketContract = () => {
   try {
     return new Contract(
@@ -14,8 +16,7 @@ export const getTreasureMarketContract = () => {
       web3Provider
     )
   } catch (e) {
-    /* eslint-disable-next-line no-console */
-    console.log(e)
+    logger.error(e)
     throw new Error(`getTreasureMarketContract() ${e}`)
   }
 }
@@ -62,6 +63,7 @@ export const checkAndSetMarketApprovals = async ({ member }) => {
     }
     return { tokenApprovalTx, treasureApprovalTx }
   } catch (e) {
+    logger.error(e)
     throw new Error(`checkAndSetMarketApproval() ${e}`)
   }
 }
@@ -85,8 +87,7 @@ export const list = async ({ treasure, amount }) => {
     })
     return tx
   } catch (e) {
-    /* eslint-disable-next-line no-console */
-    console.log(e)
+    logger.error(e)
     throw new Error(`list() ${e}`)
   }
 }
@@ -108,8 +109,7 @@ export const unlist = async ({ treasure }) => {
     })
     return tx
   } catch (e) {
-    /* eslint-disable-next-line no-console */
-    console.log(e)
+    logger.error(e)
     throw new Error(`unlist() ${e}`)
   }
 }
@@ -132,8 +132,7 @@ export const buy = async ({ treasure }) => {
     })
     return tx
   } catch (e) {
-    /* eslint-disable-next-line no-console */
-    console.log(e)
+    logger.error(e)
     throw new Error(`buy() ${e}`)
   }
 }

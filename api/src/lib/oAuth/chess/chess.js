@@ -1,13 +1,9 @@
 import fetch from 'cross-fetch'
-import Sentry from 'src/lib/sentry'
-import { AuthenticationError } from '@redwoodjs/graphql-server'
-import { db } from 'src/lib/db'
 
 import { isDevelopment } from 'src/lib/helpers'
 import { decode as decodeJwt } from 'jsonwebtoken'
 
-import { fetchMember } from 'src/lib/members'
-import { getTorusPublicAddress } from 'src/lib/torus/torus'
+import { logger } from 'src/lib/logger'
 import { encodeBody, getExpiration } from 'src/lib/oAuth/helpers'
 
 export const CHESS = 'chess'
@@ -66,8 +62,8 @@ export const getChessAccessTokenFromCode = async (
       id_token: idToken, // JWT that contains identity information about user
     } = response
 
-    // Uncomment to get a new CHESS_API_ACCESS_TOKEN
-    // console.log(accessToken)
+    // Use to get your own CHESS_API_ACCESS_TOKEN for rate-limiting
+    accessToken && logger.debug('CHESS_API_ACCESS_TOKEN', accessToken)
 
     if (!response.id_token) throw 'Failed to get id_token from Chess.com'
     const decoded = await decodeJwt(idToken)
@@ -102,10 +98,6 @@ export const refreshChessTokens = async (refreshToken) => {
       body: encodedBody,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        // Basic auth required for oauth.chess-x.com development server
-        ...(isDevelopment && {
-          Authorization: `Basic ${getChessBasicAuth()}`,
-        }),
       },
     }).then((res) => {
       if (res.status == 401)
@@ -134,54 +126,5 @@ export const refreshChessTokens = async (refreshToken) => {
     }
   } catch (e) {
     throw `refreshChessTokens() ${e}`
-  }
-}
-
-export const handleChessLogin = async ({ refreshToken, decoded }) => {
-  try {
-    // Create member if needed, and get current avatar
-    const member = await fetchMember(decoded.preferred_username, true)
-    if (member.banned) {
-      throw new AuthenticationError('user is banned')
-    }
-    // TODO: Don't convert to string once type is changed in JWT (waiting on Chess.com)
-    if (decoded.user_id.toString() !== member.id)
-      throw new AuthenticationError(
-        `user_id in JWT doesn't match player_id from API`
-      )
-
-    await db.member.update({
-      where: { id: member.id },
-      data: {
-        refreshToken,
-        // NOTE: Updates user with their current avatar and country
-        imageSrc: member.imageSrc,
-        country: member.country,
-        ...(member.masterTitle && { masterTitle: member.masterTitle }),
-      },
-    })
-
-    // NOTE: Get Torus wallet address if needed.
-    if (!member.address) {
-      try {
-        const publicAddress = await getTorusPublicAddress(member.id)
-        await db.member.update({
-          where: { id: member.id },
-          data: { address: publicAddress },
-        })
-      } catch (e) {
-        /* eslint-disable no-console */
-        console.log("Error fetching user's wallet from Torus")
-        console.log(e)
-        /* eslint-enable no-console */
-      }
-    }
-    return member
-  } catch (e) {
-    /* eslint-disable no-console */
-    console.log(e)
-    /* eslint-enable no-console */
-    Sentry.captureException(e)
-    throw new AuthenticationError()
   }
 }

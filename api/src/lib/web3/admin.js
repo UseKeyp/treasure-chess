@@ -1,6 +1,6 @@
 import { Wallet } from '@ethersproject/wallet'
 import { web3Provider } from 'src/lib/web3/helpers'
-
+import { logger } from 'src/lib/logger'
 const adminWallet = Wallet.fromMnemonic(
   process.env.APP_ADMIN_WALLET_MNEMONIC.replace(/,/g, ' ')
 )
@@ -22,9 +22,7 @@ export const adminSendTransaction = async (unsigned) => {
     const adminWalletWithProvider = adminWallet.connect(web3Provider)
     return adminWalletWithProvider.sendTransaction(unsigned)
   } catch (e) {
-    // TODO: Better logging for why tx submission failed
-    /* eslint-disable-next-line no-console */
-    console.log(e)
+    logger.error(e)
     throw new Error('adminSendTransaction() ', e)
   }
 }

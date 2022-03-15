@@ -72,7 +72,7 @@ jobs:
     needs:
       - runCI
     # Only create drafts on merge
-    if: github.event_name == 'push' && ! ${{ needs.runCI.outputs.SKIP_RELEASE }}
+    if: github.event_name == 'push' && ! needs.runCI.outputs.SKIP_RELEASE && contains('staging main', github.ref_name)
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout
@@ -91,7 +91,7 @@ jobs:
         run: |
           IS_PRERELEASE=true
           git config user.name "${{ github.actor }}"
-          git config user.email "${{ github.actor}}@users.noreply.github.com"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
 
           if [ ${{ github.ref_name }} == "main" ] ; then
              npx lerna version --conventional-graduate --conventional-commits --yes

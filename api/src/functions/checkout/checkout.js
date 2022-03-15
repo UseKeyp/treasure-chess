@@ -1,7 +1,9 @@
 import Sentry from 'src/lib/sentry'
 import { processOrder } from 'src/lib/wyre/order'
+import { logger } from 'src/lib/logger'
 
 export const handler = async (event) => {
+  logger.debug('Invoked /checkout')
   // Default response
   let statusCode = 200
 
@@ -21,7 +23,7 @@ export const handler = async (event) => {
     }
   } catch (e) {
     /* eslint-disable-next-line no-console */
-    console.log(event)
+    logger.error(event)
     // Really these should never happen, since processOrder catches its own errors
     Sentry.captureException(e)
     return {

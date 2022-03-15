@@ -1,8 +1,12 @@
 export const MEMBER_RAMPS_QUERY = gql`
   query FindMemberRampsQuery {
-    memberRamps {
-      coinbaseWithdrawAddress
-      wyreWithdrawAddress
+    ramps {
+      id
+      address
+      accountNickname
+      isoCurrencyCode
+      type
+      createdAt
     }
   }
 `
@@ -16,6 +20,27 @@ export const OAUTH_URL_QUERY = gql`
   query oAuthUrlQuery($type: String!) {
     oAuthUrl(type: $type) {
       url
+      type
+      text
+    }
+  }
+`
+export const CONNECT_PLAID_MUTATION = gql`
+  mutation connectPlaidQuery($code: String!, $accountId: String!) {
+    connectPlaid(code: $code, accountId: $accountId) {
+      id
+      address
+      accountNickname
+      isoCurrencyCode
+      type
+    }
+  }
+`
+
+export const RAMP_WITHDRAW_MUTATION = gql`
+  mutation rampWithdrawMutation($type: String!, $amount: String!) {
+    rampWithdraw(type: $type, amount: $amount) {
+      id
     }
   }
 `

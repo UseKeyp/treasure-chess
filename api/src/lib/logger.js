@@ -1,5 +1,4 @@
 import { createLogger } from '@redwoodjs/api/logger'
-import { isProduction } from 'src/lib/helpers'
 /**
  * Creates a logger with RedwoodLoggerOptions
  *
@@ -15,5 +14,8 @@ import { isProduction } from 'src/lib/helpers'
  * @param {boolean} showConfig - whether to display logger configuration on initialization
  */
 export const logger = createLogger({
-  options: { level: isProduction ? 'error' : 'trace' },
+  // options: {
+  // level: isProduction ? 'warn' : 'trace'  // These are the redwoodJS defaults
+  // },
+  // showConfig: !isProduction, // Helpful for debugging
 })

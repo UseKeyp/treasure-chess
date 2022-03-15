@@ -3,6 +3,7 @@ import { fetchOrder } from 'src/lib/wyre/wyre'
 import { db } from 'src/lib/db'
 import { sendDiscordAlert } from 'src/lib/discord/discord'
 import { isProduction } from 'src/lib/helpers'
+import { logger } from 'src/lib/logger'
 
 const DISCORD_WYRE_DASHBOARD_URL = isProduction
   ? 'https://www.wyre.com/#/dashboard'
@@ -60,8 +61,7 @@ export const processOrder = async ({ reservation, orderId }) => {
       },
     })
   } catch (e) {
-    /* eslint-disable-next-line no-console */
-    console.log(e)
+    logger.error(e)
     await sendDiscordAlert({
       embed: {
         color: 16740982,

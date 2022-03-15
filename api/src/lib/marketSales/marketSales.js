@@ -6,6 +6,7 @@ import { getUsdcBalance } from 'src/lib/web3/tokens'
 import { getTxStatus, getSaleTxStatus } from 'src/lib/web3'
 import { fetchMember } from 'src/lib/members'
 import { list, unlist, buy } from 'src/lib/web3/treasureMarket'
+import { logger } from 'src/lib/logger'
 
 const PENDING_LISTED = 'PENDING_LISTED'
 const LISTED = 'LISTED'
@@ -173,7 +174,7 @@ export const processPendingMarketTransactions = async ({ treasure }) => {
     return newtreasure
   } catch (e) {
     /* eslint-disable-next-line no-console */
-    console.log(e)
+    logger.error(e)
     throw new Error('processPendingMarketTransactions()', e)
   }
 }
@@ -205,7 +206,7 @@ export const createNewTreasureListing = async ({ treasure, amount }) => {
     return marketSale
   } catch (e) {
     /* eslint-disable-next-line no-console */
-    console.log(e)
+    logger.error(e)
     throw new Error('createNewTreasureListing() ', e)
   }
 }
@@ -239,7 +240,7 @@ export const removeTreasureListing = async ({ treasure }) => {
     return marketSale
   } catch (e) {
     /* eslint-disable-next-line no-console */
-    console.log(e)
+    logger.error(e)
     throw new Error('removeTreasureListing() ', e)
   }
 }
@@ -274,7 +275,7 @@ export const purchaseTreasure = async ({ treasure }) => {
     return marketSale
   } catch (e) {
     /* eslint-disable-next-line no-console */
-    console.log(e)
+    logger.error(e)
     throw new Error('purchaseTreasure() ', e)
   }
 }

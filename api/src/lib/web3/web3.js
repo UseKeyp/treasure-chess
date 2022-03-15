@@ -10,6 +10,7 @@ import { web3Provider } from 'src/lib/web3/helpers'
 import { generateTreasureData } from 'src/lib/treasures'
 import { sendDiscordAlert } from 'src/lib/discord/discord'
 
+import { logger } from 'src/lib/logger'
 import { isProduction } from 'src/lib/helpers'
 
 const SUBMITTED = 'SUBMITTED'
@@ -223,8 +224,7 @@ export const transferTreasure = async ({ recipient, _treasureId }) => {
   } catch (e) {
     const errorMessage = `transferTreasure() ${e}`
     // TODO: Add Discord bot notifications here
-    /* eslint-disable-next-line no-console */
-    console.log(errorMessage)
+    logger.error(errorMessage)
     throw new Error(errorMessage)
   }
 }

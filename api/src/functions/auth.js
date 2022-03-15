@@ -6,13 +6,14 @@ import { InputError } from '@redwoodjs/graphql-server'
 
 import { db } from 'src/lib/db'
 import { validateCodeGrant } from 'src/lib/oAuth'
-import { handleChessLogin } from 'src/lib/oAuth/chess'
+import { handleChessLogin } from 'src/lib/oAuth/chess/login'
+import { isProduction, corsOrigin } from 'src/lib/helpers'
 
 export const handler = async (event, context) => {
   const authHandler = new DbAuthHandler(event, context, {
     db: db,
     cors: {
-      origin: '*',
+      origin: corsOrigin,
       credentials: true,
     },
     authModelAccessor: 'member',
@@ -56,6 +57,15 @@ export const handler = async (event, context) => {
         resetTokenRequired: 'You have to include a reset token',
         reusedPassword: 'You must choose a new password',
       },
+    },
+    // Causes cookies not to be set properly, since
+    // Subsequent getCurrentUser requests overwrite them?
+    cookie: {
+      HttpOnly: true,
+      Path: '/',
+      SameSite: 'Strict',
+      Secure: isProduction,
+      // Domain: '0.0.0.0:8910',
     },
   })
 

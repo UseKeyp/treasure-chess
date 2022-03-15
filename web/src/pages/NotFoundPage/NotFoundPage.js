@@ -15,8 +15,8 @@ export default () => (
           <img src="/no-go.png" className="h-auto w-full block" alt="" />
         </div>
         <div className="not-found--content">
-          <h1>Oops! Something is clearly wrong here...</h1>
-          <p>The page you are looking for doesn&apos;t exist. (404)</p>
+          <h1>Oops! 404</h1>
+          <p>The page you are looking for doesn&apos;t exist</p>
           <div className="not-found--content--go-home flex justify-center">
             <Button to={routes.home()}>
               <Icon name="treasure_chess_full" height="50px" color="#fff" />

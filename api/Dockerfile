@@ -5,10 +5,10 @@ FROM node:14 as base
 WORKDIR /app
 
 ARG NODE_ENV
-ARG RUNTIME_ENV
+ARG VERSION
 
 ENV NODE_ENV=$NODE_ENV
-ENV RUNTIME_ENV=$RUNTIME_ENV
+ENV VERSION=$VERSION
 
 COPY package.json package.json
 COPY yarn.lock yarn.lock
@@ -19,6 +19,7 @@ COPY graphql.config.js graphql.config.js
 COPY packages packages
 COPY api/package.json api/package.json
 COPY web/package.json web/package.json
+COPY lerna.json lerna.json
 
 RUN yarn install --frozen-lockfile
 

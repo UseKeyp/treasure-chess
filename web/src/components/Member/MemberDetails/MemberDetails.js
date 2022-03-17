@@ -3,6 +3,7 @@ import Button from 'src/components/Button/Button'
 import Icon from 'src/components/Icon'
 
 import MemberBalance from 'src/components/Member/MemberBalance'
+import MemberMintCredits from 'src/components/Member/MemberMintCredits'
 
 import globalConfig from 'src/global.config'
 
@@ -63,6 +64,9 @@ const MemberDetails = ({ member, isProfile }) => {
           <div className="member-details--funds-actions">
             <h4>
               <MemberBalance />
+            </h4>
+            <h4>
+              <MemberMintCredits />
             </h4>
             <Button
               onClick={deposit}

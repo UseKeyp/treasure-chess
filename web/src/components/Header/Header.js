@@ -1,4 +1,5 @@
 import { useCallback, useEffect } from 'react'
+import TooltipTrigger from 'react-popper-tooltip'
 import { routes, useLocation } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
 import { useWallet } from 'src/providers/wallet'
@@ -11,6 +12,28 @@ import MobileMenu from 'src/components/MobileMenu/MobileMenu'
 import MemberBalance from 'src/components/Member/MemberBalance'
 
 import { trimAddress } from 'src/utils/helpers'
+
+const Tooltip = ({
+  arrowRef,
+  tooltipRef,
+  getArrowProps,
+  getTooltipProps,
+  placement,
+}) => (
+  <div
+    {...getTooltipProps({
+      ref: tooltipRef,
+    })}
+  >
+    <div
+      {...getArrowProps({
+        ref: arrowRef,
+        'data-placement': placement,
+      })}
+    />
+    <h4 className={'header__tooltip'}>Log out</h4>
+  </div>
+)
 
 const WalletBalance = () => {
   const { deposit } = useWallet()
@@ -160,7 +183,7 @@ const Header = () => {
           <div className="mr-4">
             <Button to={routes.faq()} size="large" isSelected={isOnAboutPage}>
               <div className="flex items-center">
-                <img src="/icons/HelpIcon.png" alt="" className="mr-2" />
+                <img src="/icons/HelpIcon.svg" alt="" className="mr-2" />
                 About
               </div>
             </Button>
@@ -197,9 +220,33 @@ const Header = () => {
             </div>
             <WalletBalance />
             <div className="ml-4">
-              <Button onClick={logOut}>
-                <Icon name="logout" color="grey" />
-              </Button>
+              <TooltipTrigger
+                placement="bottom"
+                trigger="hover"
+                tooltip={Tooltip}
+              >
+                {({ getTriggerProps, triggerRef }) => (
+                  <span
+                    {...getTriggerProps({
+                      ref: triggerRef,
+                      className: 'trigger',
+                      /* your props here */
+                    })}
+                  >
+                    {/* Click Me! */}
+                    <Button
+                      onClick={logOut}
+                      {...getTriggerProps({
+                        ref: triggerRef,
+                        className: 'trigger',
+                        /* your props here */
+                      })}
+                    >
+                      <Icon name="logout" color="grey" />
+                    </Button>
+                  </span>
+                )}
+              </TooltipTrigger>
             </div>
           </div>
         ) : (

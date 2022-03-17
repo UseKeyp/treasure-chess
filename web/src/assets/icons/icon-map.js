@@ -109,7 +109,6 @@ const ChessCom = ({ height = '34' }) => (
     </defs>
   </svg>
 )
-
 const MobileWallet = () => {
   return (
     <svg
@@ -498,7 +497,6 @@ const TreasureChessFull = ({ color = '#ffffff', height = 13 }) => (
     />
   </svg>
 )
-
 const ArrowUp = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -514,7 +512,6 @@ const ArrowUp = () => (
     />
   </svg>
 )
-
 const FeatherBook = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -530,6 +527,16 @@ const FeatherBook = () => (
   >
     <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
     <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+  </svg>
+)
+const Twitch = ({ color, ...rest }) => (
+  <svg width="256px" height="268px" viewBox="0 0 256 268" {...rest}>
+    <g>
+      <path
+        d="M17.4579119,0 L0,46.5559188 L0,232.757287 L63.9826001,232.757287 L63.9826001,267.690956 L98.9144853,267.690956 L133.811571,232.757287 L186.171922,232.757287 L256,162.954193 L256,0 L17.4579119,0 Z M40.7166868,23.2632364 L232.73141,23.2632364 L232.73141,151.29179 L191.992415,192.033461 L128,192.033461 L93.11273,226.918947 L93.11273,192.033461 L40.7166868,192.033461 L40.7166868,23.2632364 Z M104.724985,139.668381 L127.999822,139.668381 L127.999822,69.843872 L104.724985,69.843872 L104.724985,139.668381 Z M168.721862,139.668381 L191.992237,139.668381 L191.992237,69.843872 L168.721862,69.843872 L168.721862,139.668381 Z"
+        fill={color}
+      ></path>
+    </g>
   </svg>
 )
 
@@ -559,4 +566,5 @@ export default {
   close_x: CloseX,
   book: FeatherBook,
   github: Github,
+  twitch: Twitch,
 }

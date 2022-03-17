@@ -25,6 +25,17 @@ const memberData = [
       'https://cssjs.chesscomfiles-4.com/bundles/web/images/noavatar_l.84a92436@2x.gif',
     masterTitle: 'GM',
     country: 'US',
+    twitchUsername: 'test3',
+  },
+  {
+    id: '4',
+    username: 'carl',
+    address: '0xcccccc94C5364a98D14E3b391F84d753A0fa5f14',
+    imageSrc:
+      'https://cssjs.chesscomfiles-4.com/bundles/web/images/noavatar_l.84a92436@2x.gif',
+    country: 'US',
+    masterTitle: 'GM',
+    twitchUsername: null,
   },
 ]
 module.exports = memberData

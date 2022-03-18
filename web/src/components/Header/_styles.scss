@@ -23,7 +23,6 @@
     &__username,
     &__login {
       font-weight: bold;
-      padding: 0 !important;
     }
     &__address {
       font-weight: light;
@@ -36,5 +35,9 @@
     &__fund-wallet {
       padding: 0 !important;
     }
+  }
+  &__tooltip {
+    font-weight: bold;
+    color: theme('colors.grey')
   }
 }

@@ -5,7 +5,7 @@ import { logger } from 'src/lib/logger'
 import Sentry from 'src/lib/sentry'
 
 export const handler = async (event, _context) => {
-  logger.info('Invoked screenshot function')
+  logger.debug('Invoked screenshot function')
   let browser = null
   try {
     const { url } = event.queryStringParameters
@@ -33,8 +33,7 @@ export const handler = async (event, _context) => {
     }
   } catch (error) {
     /* eslint-disable no-console */
-    console.log(error)
-    console.log(event)
+    logger.error(error, { custom: event })
     /* eslint-enable no-console */
     Sentry.captureException(error)
     return {

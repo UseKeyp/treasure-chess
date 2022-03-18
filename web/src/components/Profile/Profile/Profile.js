@@ -7,6 +7,13 @@ import TreasuresFetcher from 'src/components/Treasure/TreasuresFetcher'
 
 const Profile = () => {
   const { currentUser } = useAuth()
+<<<<<<< HEAD
+=======
+
+  if (!currentUser) {
+    return <></>
+  }
+>>>>>>> origin/dev
   return (
     <div className="max-width-container">
       <div className="grid grid-rows-1">
@@ -15,7 +22,7 @@ const Profile = () => {
             <MemberDetails member={currentUser} isProfile />
           </div>
           <div>
-            <MemberActivityCell address={currentUser.address} />
+            <MemberActivityCell address={currentUser?.address} />
           </div>
         </div>
       </div>
@@ -25,11 +32,19 @@ const Profile = () => {
       </div>
       <h1 className="mt-8">Treasures Owned</h1>
       <div className="flex mt-4">
+<<<<<<< HEAD
         <TreasuresFetcher owner={currentUser.username} sort={'Most Rare'} />
       </div>
       <h1 className="mt-8">Treasures Played</h1>
       <div className="flex mt-4">
         <TreasuresFetcher username={currentUser.username} sort={'Most Rare'} />
+=======
+        <TreasuresFetcher owner={currentUser?.username} />
+      </div>
+      <h1 className="mt-8">Treasures Played</h1>
+      <div className="flex mt-4">
+        <TreasuresFetcher username={currentUser?.username} />
+>>>>>>> origin/dev
       </div>
     </div>
   )

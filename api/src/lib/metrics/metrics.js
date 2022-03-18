@@ -1,6 +1,7 @@
 import { db } from 'src/lib/db'
 import achievementsList from '@treasure-chess/chess-achievements/src/achievementsList'
 
+import { logger } from 'src/lib/logger'
 import { getChainData } from 'src/lib/chainData'
 
 // per active user (minted or used the marketplace)
@@ -249,7 +250,7 @@ export const getBusinessMetrics = async () => {
     }
   } catch (e) {
     /* eslint-disable-next-line no-console*/
-    console.log(e)
+    logger.error(e)
     throw `getBusinessMetrics() ${e}`
   }
 }

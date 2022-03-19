@@ -1,6 +1,5 @@
 import { MetaTags } from '@redwoodjs/web'
 import TreasuresFetcher from 'src/components/Treasure/TreasuresFetcher'
-import { useAuth } from '@redwoodjs/auth'
 import { useState, useEffect } from 'react'
 import TreasureCell from 'src/components/Treasure/TreasureCell/TreasureCell'
 import { gql, useQuery } from '@apollo/client'
@@ -8,8 +7,6 @@ import { gql, useQuery } from '@apollo/client'
 const GET_PLAYERS = gql`
   query GetPlayersFromTreasure($tokenId: String!) {
     treasure: treasure(tokenId: $tokenId) {
-      id
-      tokenId
       black {
         username
       }
@@ -21,7 +18,6 @@ const GET_PLAYERS = gql`
 `
 
 const TreasurePage = ({ tokenId }) => {
-  const { currentUser } = useAuth()
   const { data } = useQuery(GET_PLAYERS, {
     variables: { tokenId },
   })
@@ -35,9 +31,6 @@ const TreasurePage = ({ tokenId }) => {
     })
   }, [data])
 
-  if (!currentUser) {
-    return <></>
-  }
   return (
     <div className="item-page max-width-container">
       <MetaTags

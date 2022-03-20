@@ -29,14 +29,15 @@ const GameCard = ({ game, isMinting, isLoading, title, showGif }) => {
     config: { mass: 4, tension: 450, friction: 40 },
   }))
   const [imageSrc, setImageSrc] = React.useState('/loading-board.png') // Use loading image
-
+  const ref = React.useRef(null)
   const update = async () => {
     if (isMinting && !game) {
       const rawHtml = await getCardHtml({
         treasure: { ...placeholderGame },
         gifUrl: game.gifUrl,
       })
-      setCardHtml(rawHtml)
+
+      ref.current && setCardHtml(rawHtml)
     } else {
       const achievements = game.achievements
         ? getAchievementNamesFromValues(game.achievements)
@@ -49,7 +50,7 @@ const GameCard = ({ game, isMinting, isLoading, title, showGif }) => {
         },
         gifUrl: showGif ? game.gifUrl : imageSrc,
       })
-      setCardHtml(rawHtml)
+      ref.current && setCardHtml(rawHtml)
     }
   }
 
@@ -68,8 +69,17 @@ const GameCard = ({ game, isMinting, isLoading, title, showGif }) => {
       game.cardColor, // Which player to show on bottom
       options
     )
-    setImageSrc(boardBase64)
+    if (ref.current) {
+      setImageSrc(boardBase64)
+    }
   }
+
+  React.useEffect(() => {
+    ref.current = true
+    return () => {
+      ref.current = false
+    }
+  }, [])
 
   React.useEffect(() => {
     if (!game) return
@@ -135,14 +145,14 @@ const GameCard = ({ game, isMinting, isLoading, title, showGif }) => {
             var div = document
               .getElementById(`card_${game.id}`)
               .getBoundingClientRect()
-            set({
+            set.start({
               xys: calc(
                 e.clientX - div.left - div.width / 2,
                 e.clientY - div.top - div.height / 2
               ),
             })
           }}
-          onMouseLeave={() => set({ xys: [0, 0, 1] })}
+          onMouseLeave={() => set.start({ xys: [0, 0, 1] })}
           style={{
             transform: game.id && !isMinting && props.xys.to(trans),
           }}

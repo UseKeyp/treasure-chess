@@ -139,7 +139,7 @@ export default RedwoodDevFatalErrorPage ||
                       Treasures
                     </a>
                     <a class="header-buttons" href="/about">
-                      <img src="/icons/HelpIcon.png" alt="question mark icon" style="height: 16px; padding: 0 8px"/>
+                      <img src="/icons/HelpIcon.svg" alt="question mark icon" style="height: 16px; padding: 0 8px"/>
                       About
                     </a>
                   </div>

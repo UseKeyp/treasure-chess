@@ -56,10 +56,10 @@ const GameCardDiagram = () => {
           <>
             <span>Rarity</span>
             <ul className="text-xs">
-              <li>&lt;6 - Good</li>
-              <li>6+ - Great</li>
-              <li>11+ - Ultra</li>
-              <li>14+ - Mythic</li>
+              <li>&lt;6 — Good</li>
+              <li>6+ — Great</li>
+              <li>11+ — Ultra</li>
+              <li>14-15 — Mythic</li>
             </ul>
           </>
         }

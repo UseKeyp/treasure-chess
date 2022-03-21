@@ -28,13 +28,13 @@ const GameCardDiagram = () => {
   return (
     <div className="game-card-diagram">
       <DiagramLabel
-        text="Winner"
+        text="Opponent"
         position={{ top: 44, left: -20 }}
         connectorPosition={{ top: 10, right: -33 }}
         connecterLength={26}
       />
       <DiagramLabel
-        text="Loser"
+        text="The player who minted this card"
         position={{ top: 350, left: -6 }}
         connectorPosition={{ top: 10, right: -33 }}
         connecterLength={26}
@@ -46,7 +46,7 @@ const GameCardDiagram = () => {
         connecterLength={26}
       />
       <DiagramLabel
-        text="Color"
+        text="The color pieces played by the card's minter"
         position={{ top: 50, right: -6 }}
         connectorPosition={{ top: 10, left: -33 }}
         connecterLength={26}

@@ -50,7 +50,7 @@ export const SuccessModal = ({
   )
 }
 
-const ConfettiExplosion = () => {
+export const ConfettiExplosion = () => {
   const refAnimationInstance = React.useRef(null)
 
   const canvasStyles = {

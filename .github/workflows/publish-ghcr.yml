@@ -11,7 +11,7 @@ env:
   NODE_ENV: ${{ github.event.inputs.image_tag_prefix }}
   REDWOOD_API_URL: 'http://0.0.0.0:8911'
   APP_DOMAIN: 'http://0.0.0.0:8910'
-  BASIC_AUTH_PASSWORD: 'pauliemorphy' # required for sandbox or dev
+  BASIC_AUTH_PASSWORD: 'pauliemorphy'
 
   # Container Registry
   CONTAINER_REGISTRY_HOSTNAME: ghcr.io
@@ -22,6 +22,7 @@ jobs:
   setup:
     name: Setup
     runs-on: ubuntu-20.04
+    continue-on-error: true
     outputs:
       RELEASE_HTML_URL: ${{ steps.get_release.outputs.html_url }}
       BRANCH: ${{ steps.get_variables.outputs.VERSION }}
@@ -38,6 +39,7 @@ jobs:
           echo github.event.inputs.image_tag_prefix: ${{ github.event.inputs.image_tag_prefix }}
       - name: Get release
         id: get_release
+        continue-on-error: true
         uses: bruceadams/get-release@v1.2.3
         env:
           GITHUB_TOKEN: ${{ github.token }}
@@ -59,19 +61,18 @@ jobs:
       - name: Checkout branch
         uses: actions/checkout@v2
         with:
+          token: ${{ secrets.PAT_GITHUB }}
           ref: ${{ steps.get_variables.outputs.BRANCH }}
       - name: Get version
         id: get_version
+        env:
+          GH_TOKEN: ${{ secrets.PAT_GITHUB }}
         run: |
+          VERSION=v$(echo jq -r .version lerna.json)
           if [ ${{ github.event.inputs.image_tag_prefix }} ] ;  then
-            if [ $github.ref_name == "main" ] ; then
-               npx lerna version --conventional-graduate --conventional-commits --yes
-            else
-               npx lerna version prerelease --yes --preid staging
-            fi
+            VERSION=${{ steps.get_variables.outputs.BRANCH }}-$(echo $GITHUB_SHA | cut -c 1-7)
           fi
-          VERSION=`jq -r .version lerna.json`
-          echo "::set-output name=VERSION::v$VERSION"
+          echo "::set-output name=VERSION::$VERSION"
       - name: Discord notify building
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_DEVOPS }}
@@ -111,6 +112,8 @@ jobs:
             REDWOOD_API_URL=${{ env.REDWOOD_API_URL }}
             APP_DOMAIN=${{ env.APP_DOMAIN }}
             VERSION=${{ needs.setup.outputs.VERSION }}
+            SENTRY_DSN=${{ env.SENTRY_DSN }}
+            SENTRY_ENVIRONMENT=${{ env.SENTRY_ENVIRONMENT }}
           tags: |
             ${{ env.CONTAINER_REGISTRY_HOSTNAME }}/${{ github.repository }}-${{ matrix.platform }}:latest
             ${{ env.CONTAINER_REGISTRY_HOSTNAME }}/${{ github.repository }}-${{ matrix.platform }}:${{ needs.setup.outputs.VERSION }}

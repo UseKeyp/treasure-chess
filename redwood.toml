@@ -12,22 +12,18 @@
   # apiProxyPort = 8911
   apiUrl = "${REDWOOD_API_URL:/api}"
   includeEnvironmentVariables = [
+    "NODE_ENV",
+    "VERSION",
     "APP_DOMAIN",
-    "ETHEREUM_NETWORK_NAME",
     "REDWOOD_API_URL",
     "BASIC_AUTH_PASSWORD",
-    "NODE_ENV",
+    "ETHEREUM_NETWORK_NAME",
     "SENTRY_DSN",
     "SENTRY_ENVIRONMENT",
   ]
 [api]
   port = 8911
   schemaPath = "./api/db/schema.prisma"
-  includeEnvironmentVariables = [
-    "APP_DOMAIN",
-    "ETHEREUM_NETWORK_NAME",
-    "NODE_ENV"
-  ]
 [browser]
   open = true
 [experimental]

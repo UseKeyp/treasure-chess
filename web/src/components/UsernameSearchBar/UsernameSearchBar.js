@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useLazyQuery } from '@apollo/client'
 import { debounce } from 'src/utils/helpers'
 
@@ -12,6 +12,8 @@ const USERNAME_QUERY = gql`
 
 const UsernameSearchBar = ({ setValue: setParentValue }) => {
   const { username, setFilter } = useFilter()
+
+  const ref = useRef(null)
 
   React.useEffect(() => {
     if (username == '') setValue('')
@@ -31,6 +33,7 @@ const UsernameSearchBar = ({ setValue: setParentValue }) => {
   })
 
   const update = () => {
+    if (!ref.current) return
     if (value === '') return setDropdownOptions([])
     if (dropdownOptions.includes(value)) {
       // Handles when user types full username, without clicking from the dropdown
@@ -46,6 +49,13 @@ const UsernameSearchBar = ({ setValue: setParentValue }) => {
   }
 
   const debounceUpdate = debounce(update, 1000)
+
+  React.useEffect(() => {
+    ref.current = true
+    return () => {
+      ref.current = false
+    }
+  })
 
   React.useEffect(() => {
     debounceUpdate()

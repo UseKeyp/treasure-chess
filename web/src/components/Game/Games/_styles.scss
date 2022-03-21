@@ -8,7 +8,7 @@
   transition: all 0.2s ease;
   &__heading {
     display: flex;
-    align-items: flex-end;
+    align-content: flex-end;
     margin-bottom: 1rem;
   }
   &__items {

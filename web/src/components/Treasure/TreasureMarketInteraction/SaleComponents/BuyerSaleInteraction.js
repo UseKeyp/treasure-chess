@@ -48,9 +48,9 @@ const BuyerSaleInteraction = () => {
 
   return (
     <div
-      className={`flex flex-col justify-between w-[396px] h-[108px] mb-4 p-4 rounded-xl shadow-md bg-${backgroundColor}`}
+      className={`flex flex-col justify-between w-[396px] mb-4 p-4 rounded-xl shadow-md bg-${backgroundColor}`}
     >
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col">
         <h2 className={`text-base ${textColor}`}>Buy Treasure</h2>
         {marketStatus && <Status />}
       </div>

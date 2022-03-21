@@ -1,13 +1,10 @@
 name: 'check reminders'
-
 on:
   schedule:
-    - cron: '0 9 * * 1-5'
-
+    - cron: '0 17 * * 1-5'
 jobs:
   reminder:
     runs-on: ubuntu-latest
-
     steps:
       - name: check reminders and notify
         uses: agrc/reminder-action@v1
@@ -20,4 +17,4 @@ jobs:
         with:
           webhook-url: 'https://discord.com/api/webhooks/952017446993281034/kptveM_x855z0txMPw56OQJwM5PBZw4pq8BJPtXymotk37YwbjjYugbrr32JvkIjZ3p4/slack' # Required
           provider: 'slack' # Required (slack or msteams)
-          github-provider-map: '' # Optional, eg: "DavideViolante:UEABCDEFG,foobar:UAABCDEFG"
+          github-provider-map: 'jschiarizzi:468883290577960980,pi0neerpat:381135787330109441'

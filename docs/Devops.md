@@ -50,7 +50,7 @@ https://kruschecompany.com/logstash-elasticsearch-kibana/#Install_Kibana
 
 `dev` config for Nikola
 
-```
+```json
 {
   "name": "Treasure Chess - Test",
   "logo": "https://treasure-chess-dev-4.vercel.app/logo-test.png",
@@ -58,6 +58,8 @@ https://kruschecompany.com/logstash-elasticsearch-kibana/#Install_Kibana
     "http://0.0.0.0:8910/redirect/chess",
     "https://treasure-chess-dev-4.vercel.app/redirect/chess",
     "https://treasure-chess-sandbox-4.vercel.app/redirect/chess",
+    "http://localhost:8910/redirect/chess",
+    "https://*.vercel.app/redirect/chess"
   ],
   "privacyPolicyUrl": "https://treasure.chess.com/privacy",
   "termsOfServiceUrl": "https://treasure.chess.com/terms"
@@ -66,7 +68,7 @@ https://kruschecompany.com/logstash-elasticsearch-kibana/#Install_Kibana
 
 `prod` config for Nikola
 
-```
+```json
 {
   "name": "Treasure Chess",
   "logo": "https://treasure.chess.com/logo.png",

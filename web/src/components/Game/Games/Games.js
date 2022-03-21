@@ -74,21 +74,23 @@ const Games = ({ games, isLoading, error }) => {
   }, [])
 
   return (
-    <Table
-      title={
-        <div className="games-history-list__heading">
-          <H3 mr={10}>{TITLE}</H3>
-          <P fontSize={12} color="grey">
-            {games?.length || 0} Games
-          </P>
-        </div>
-      }
-      // rowHeight={80}
-      isLoading={isLoading}
-      error={error && 'Failed to load games'}
-      height={500}
-      data={getItems()}
-    />
+    <div className="h-[550px] max-w-[530px]">
+      <Table
+        title={
+          <div className="games-history-list__heading flex items-center">
+            <H3 mr={10}>{TITLE}</H3>
+            <P fontSize={12} color="grey">
+              {games?.length || 0} Games
+            </P>
+          </div>
+        }
+        // rowHeight={80}
+        isLoading={isLoading}
+        error={error && 'Failed to load games'}
+        height={500}
+        data={getItems()}
+      />
+    </div>
   )
 }
 

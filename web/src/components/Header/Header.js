@@ -69,7 +69,7 @@ const MobileNav = () => {
     <MobileMenu triggerContents="Menu">
       <div className="flex-1 flex justify-center">
         <nav>
-          <ul className="h-full relative">
+          <ul className="h-full relative grid place-items-center">
             <li className={navItemClasses}>
               <Button to={routes.home()}>
                 <Icon name="treasure_chess_full_white" />
@@ -90,18 +90,13 @@ const MobileNav = () => {
                 About
               </Button>
             </li>
-            <li className={navItemClasses}>
+            <li className={`${navItemClasses} mx-auto`}>
               <Button
                 href="https://airtable.com/shrWkB9MS13NXoM46"
                 target="_blank"
                 size="large"
               >
-                <div className="flex items-center">
-                  <div className="mr-2">
-                    <Icon name="book" />
-                  </div>
-                  <h3>Feedback</h3>
-                </div>
+                <h3 className="text-[30px] font-bold">Feedback</h3>
               </Button>
             </li>
             {!isLoggedIn ? (

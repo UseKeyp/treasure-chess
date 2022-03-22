@@ -1,3 +1,4 @@
+import { useAuth } from '@redwoodjs/auth'
 import { useMutation } from '@redwoodjs/web'
 import { USER_LOCALE_MUTATION } from './graphql'
 
@@ -9,6 +10,8 @@ const getLocaleCode = () => {
 
 const LocaleProvider = ({ children }) => {
   const [locale, setLocale] = React.useState(getLocaleCode())
+  const { currentUser } = useAuth()
+
   const [userLocale] = useMutation(USER_LOCALE_MUTATION)
 
   const updateLocale = async () => {
@@ -17,7 +20,6 @@ const LocaleProvider = ({ children }) => {
         variables: {
           locale,
         },
-        fetchPolicy: 'network-only',
       })
     } catch (e) {
       /* eslint-disable-next-line no-console */
@@ -27,9 +29,11 @@ const LocaleProvider = ({ children }) => {
 
   React.useEffect(() => {
     if (!locale) return
-    updateLocale()
+    if (locale !== currentUser?.locale) {
+      updateLocale()
+    }
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
-  }, [locale])
+  }, [locale, currentUser])
 
   return (
     <LocaleContext.Provider
@@ -43,6 +47,4 @@ const LocaleProvider = ({ children }) => {
   )
 }
 
-const useLocale = () => React.useContext(LocaleContext)
-
-export { LocaleProvider, useLocale }
+export { LocaleProvider }

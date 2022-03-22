@@ -34,6 +34,7 @@ jobs:
           echo github.base_ref: ${{ github.base_ref }}
           echo github.event.inputs.image_tag_prefix: ${{ github.event.inputs.image_tag_prefix }}
       - name: Get release
+        continue-on-error: true
         id: get_release
         uses: bruceadams/get-release@v1.2.3
         env:
@@ -56,19 +57,18 @@ jobs:
       - name: Checkout branch
         uses: actions/checkout@v2
         with:
+          token: ${{ secrets.PAT_GITHUB }}
           ref: ${{ steps.get_variables.outputs.BRANCH }}
       - name: Get version
         id: get_version
+        env:
+          GH_TOKEN: ${{ secrets.PAT_GITHUB }}
         run: |
+          VERSION=v$(echo jq -r .version lerna.json)
           if [ ${{ github.event.inputs.image_tag_prefix }} ] ;  then
-            if [ $github.ref_name == "main" ] ; then
-               npx lerna version --conventional-graduate --conventional-commits --yes
-            else
-               npx lerna version prerelease --yes --preid staging
-            fi
+            VERSION=${{ steps.get_variables.outputs.BRANCH }}-$(echo $GITHUB_SHA | cut -c 1-7)
           fi
-          VERSION=`jq -r .version lerna.json`
-          echo "::set-output name=VERSION::v$VERSION"
+          echo "::set-output name=VERSION::$VERSION"
       - name: Discord notify building
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_DEVOPS }}
@@ -83,6 +83,7 @@ jobs:
       - name: Checkout branch
         uses: actions/checkout@v2
         with:
+          token: ${{ secrets.PAT_GITHUB }}
           ref: ${{ needs.setup.outputs.BRANCH }}
       - name: Set up gcloud
         uses: google-github-actions/setup-gcloud@v0
@@ -98,6 +99,7 @@ jobs:
           ETHEREUM_NETWORK_NAME=matic
           BASIC_AUTH_PASSWORD=pauliemorphy
           SENTRY_ENVIRONMENT=staging
+          SENTRY_DSN="https://0723d14bc0b94064902f01f77a915392@o1016103.ingest.sentry.io/5981718"
           if [ $NODE_ENV == "prod" ] ; then
              REDWOOD_API_URL="https://treasure.chess.com"
              APP_DOMAIN="https://treasure.chess.com"
@@ -120,6 +122,7 @@ jobs:
                 --build-arg ETHEREUM_NETWORK_NAME=$ETHEREUM_NETWORK_NAME \
                 --build-arg BASIC_AUTH_PASSWORD=$BASIC_AUTH_PASSWORD \
                 --build-arg SENTRY_ENVIRONMENT=$SENTRY_ENVIRONMENT \
+                --build-arg SENTRY_DSN=$SENTRY_DSN \
                  -f ./$COMPONENT/Dockerfile .
 
               echo "pushing image... $PROJECT_NAME/$IMAGE_NAME:$IMAGE_TAG"

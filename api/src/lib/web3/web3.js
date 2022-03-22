@@ -39,7 +39,7 @@ ${errorMessage.substring(0, 2000)}`,
   Sentry.captureException(errorMessage)
 
   // Apply mint credits to the account
-  await db.member.update({
+  const member = await db.member.update({
     where: { id: mintPurchase.member.id },
     data: {
       mintCredits: {
@@ -55,6 +55,7 @@ ${errorMessage.substring(0, 2000)}`,
 }
 
 export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
+  logger.debug('invoked mintTreasureAndUpdatePurchase')
   try {
     const { gameId, gameEndTime, title, member } = mintPurchase
 

@@ -77,6 +77,7 @@ export const processPendingPurchases = async () => {
       if (mintPurchase.orderStatus !== COMPLETE) return mintPurchase
       if (![COMPLETE, FAILED].includes(mintPurchase.status)) {
         // Treasure not successfully minted. Proceed to mint!
+        logger.debug(`pendingPurchases: ${mintPurchase.id}`)
         return mintTreasureAndUpdatePurchase({ mintPurchase })
       }
       return mintPurchase

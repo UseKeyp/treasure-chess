@@ -70,7 +70,6 @@ const MintingProvider = ({ children }) => {
       toast.loading('Preparing to Mint', { id: purchase.id })
     }
   }
-
   useQuery(PENDING_MINT_PURCHASES_QUERY, {
     pollInterval: 5000,
     skip: !state.shouldPoll,
@@ -132,7 +131,7 @@ const MintingProvider = ({ children }) => {
   const onPageLoad = async () => {
     const { data: { pendingMintPurchases } = {} } =
       await pendingMintPurchasesLazyQuery()
-    if (!pendingMintPurchases) return
+    if (!pendingMintPurchases.length) return
     pendingMintPurchases.map((purchase) => toastPurchase(purchase))
     setState({ ...state, pendingMintPurchases, shouldPoll: true })
   }

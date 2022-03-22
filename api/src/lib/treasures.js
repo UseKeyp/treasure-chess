@@ -60,14 +60,15 @@ const getWhereQueryFromArgs = ({ username, filter, owner }) => {
     const isManyUsernames = username.includes(',')
     let usernames = username.split(',')
 
-    let operand = isManyUsernames ? 'AND' : 'OR'
-    let white = isManyUsernames ? usernames[0] : username
-    let black = isManyUsernames ? usernames[1] : username
+    let player1 = isManyUsernames ? usernames[0] : username
+    let player2 = isManyUsernames ? usernames[1] : username
 
     return {
-      [operand]: [
-        { white: { username: white } },
-        { black: { username: black } },
+      OR: [
+        { white: { username: player1 } },
+        { black: { username: player2 } },
+        { white: { username: player2 } },
+        { black: { username: player1 } },
       ],
     }
   }

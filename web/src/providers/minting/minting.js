@@ -61,7 +61,9 @@ const MintingProvider = ({ children }) => {
     if (purchase.status === COMPLETE)
       return toast.success('Success!', { id: purchase.id })
     if (purchase.status === FAILED)
-      return toast.error('Minting Failed!', { id: purchase.id })
+      return toast.error(<MintingToast mintPurchase={purchase} />, {
+        id: purchase.id,
+      })
     if (purchase.status === PENDING) {
       if (purchase.paymentType === WYRE)
         toast.success('Wyre checkout successful!')

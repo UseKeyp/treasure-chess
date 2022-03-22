@@ -11,13 +11,48 @@ import { generateTreasureData } from 'src/lib/treasures'
 import { sendDiscordAlert } from 'src/lib/discord/discord'
 
 import { logger } from 'src/lib/logger'
-import { isProduction } from 'src/lib/helpers'
+import { isProduction, isOlderThanTenMinutes } from 'src/lib/helpers'
 
 const SUBMITTED = 'SUBMITTED'
 const COMPLETE = 'COMPLETE'
 const FAILED = 'FAILED'
 
 const MINIMUM_CONFIRMATIONS = isProduction ? 15 : 1
+
+const mintFailGracefully = async ({ mintPurchase, errorMessage }) => {
+  await sendDiscordAlert({
+    embed: {
+      color: 16740982,
+      title: `⛈️⛓️  Failed to submit mint transaction!`,
+      description: `Mint Purchase ID: ${mintPurchase.id || '?'}
+Order Type: ${mintPurchase?.paymentType || '?'}
+Member: ${mintPurchase.member.username || '?'}
+Game: ${mintPurchase.gameId || '?'}  ${mintPurchase.gameEndTime || '?'}
+
+${errorMessage.substring(0, 2000)}`,
+      footer: { text: new Date().toString() },
+    },
+    channelName: 'orders',
+  })
+
+  Sentry.setUser({ username: mintPurchase.member?.username })
+  Sentry.captureException(errorMessage)
+
+  // Apply mint credits to the account
+  await db.member.update({
+    where: { id: mintPurchase.member.id },
+    data: {
+      mintCredits: {
+        increment: 1,
+      },
+    },
+  })
+
+  return await db.mintPurchase.update({
+    where: { id: mintPurchase.id },
+    data: { status: FAILED },
+  })
+}
 
 export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
   try {
@@ -45,11 +80,9 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
       },
       tcn: game.tcn,
     })
-    logger.info({ custom: mintPurchase })
+    logger.debug({ custom: mintPurchase }, 'mintPurchase')
     if (mintPurchase.transaction?.id) {
       const { status, tokenId } = await getMintTxStatus({ mintPurchase })
-      if (status === SUBMITTED) return mintPurchase
-
       if (status === COMPLETE) {
         // YAY! Create the treasure in the database
         // TODO: optimize by combining these two db calls
@@ -68,14 +101,44 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
             },
           },
         })
+        // Check age of transaction and resubmit if needd
         return purchase
       }
-      // If status is FAILED, let's continue and try to mint again
+      if (status === SUBMITTED) {
+        if (!isOlderThanTenMinutes(mintPurchase.transaction.updatedAt)) {
+          return mintPurchase
+        }
+      }
+      // Status is FAILED, or is taking >10 minutes to confirm, then submit new tx
     }
 
     if (game.tokenId)
       throw `Treasure tokenId:${game.tokenId} already minted and in the database`
     let tx
+    // Validate if we should try to resubmit
+    const MAX_RESUBMIT_ATTEMPTS = 5
+    if (mintPurchase?.staleTransactions.length >= MAX_RESUBMIT_ATTEMPTS) {
+      const MAX_RESUBMIT_ATTEMPTS_MESSAGE =
+        'Max transaction resubmit attempts reached'
+      logger.info(MAX_RESUBMIT_ATTEMPTS_MESSAGE)
+      // TODO: Fail gracefully
+      return mintFailGracefully({
+        mintPurchase,
+        errorMessage: MAX_RESUBMIT_ATTEMPTS_MESSAGE,
+      })
+    }
+
+    // Move existing transaction to staleTransactions
+    if (mintPurchase.transaction) {
+      await db.mintPurchase.update({
+        where: { id: mintPurchase.id },
+        data: {
+          staleTransactions: { connect: { id: mintPurchase.transaction.id } },
+          transaction: { disconnect: true },
+        },
+      })
+    }
+
     try {
       tx = await mint({
         treasure: treasureData,
@@ -83,27 +146,8 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
         minterAddress: member.address,
       })
       if (!tx || !tx.hash) throw 'Transaction could not be submitted.'
-    } catch (e) {
-      await sendDiscordAlert({
-        embed: {
-          color: 16740982,
-          title: `⛈️⛓️  Failed to submit mint transaction!`,
-          description: `Mint Purchase ID: ${mintPurchase?.id || '?'}
-Order Type: ${mintPurchase?.paymentType || '?'}
-Member: ${member?.username || '?'}
-Game: ${gameId || '?'}  ${gameEndTime || '?'}
-
-${e.message.substring(0, 2000)}`,
-          footer: { text: new Date().toString() },
-        },
-        channelName: 'orders',
-      })
-      Sentry.setUser({ username: mintPurchase.member.username })
-      Sentry.captureException(e)
-      return await db.mintPurchase.update({
-        where: { id: mintPurchase.id },
-        data: { transaction: { status: FAILED } },
-      })
+    } catch (error) {
+      return mintFailGracefully({ mintPurchase, errorMessage: error.message })
     }
 
     return await db.mintPurchase.update({
@@ -151,7 +195,12 @@ export const getMintTxStatus = async ({ mintPurchase }) => {
   try {
     if (mintPurchase.transaction?.status === SUBMITTED) {
       const receipt = await getTxReceipt(mintPurchase.transaction.id)
-      logger.debug({ custom: { receipt, id: mintPurchase.transaction.id } })
+      logger.debug(
+        {
+          custom: { receipt, id: mintPurchase.transaction.id },
+        },
+        'getMintTxStatus'
+      )
       if (receipt?.status === 0) {
         return { status: FAILED }
       } else if (

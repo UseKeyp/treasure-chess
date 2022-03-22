@@ -18,6 +18,12 @@ export const isExpired = (expiration) => {
   return new Date(expiration) > new Date()
 }
 
+export const isOlderThanTenMinutes = (date) => {
+  // var TEN_MIN = 10 * 60 * 1000
+  var TEN_MIN = 1 * 60 * 1000
+  return new Date() - new Date(date) > TEN_MIN
+}
+
 export const checkProfanity = (string) => {
   if (profanityFilter.isProfane(string))
     throw new EnvelopError('String contains profanity')

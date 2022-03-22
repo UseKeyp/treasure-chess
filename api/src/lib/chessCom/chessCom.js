@@ -26,10 +26,10 @@ export const fetchChessGames = async ({ username, year, month }) => {
       },
     }
   ).then((res) => {
-    logger.debug(res)
+    // logger.debug({ custom: res })
     return res.json()
   })
-  logger.debug(response)
+  // logger.debug({ custom: response })
   return response.games || []
 }
 

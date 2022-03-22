@@ -29,7 +29,7 @@ export const getCoinbaseAccessTokenFromCode = async (code, { memberId }) => {
       code,
     }
     const encodedBody = encodeBody(body)
-    logger.debug(encodedBody.split('&'))
+    logger.debug({ custom: encodedBody.split('&') })
     const response = await fetch(COINBASE_OAUTH_URL + '/token', {
       method: 'post',
       body: encodedBody,
@@ -37,7 +37,7 @@ export const getCoinbaseAccessTokenFromCode = async (code, { memberId }) => {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
     }).then((res) => {
-      logger.debug(res)
+      logger.debug({ custom: res })
       if (res.status != 200)
         throw `Coinbase API failed for /token. ${res.status} - ${res.statusText}`
       return res.json()

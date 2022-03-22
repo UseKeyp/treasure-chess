@@ -183,7 +183,10 @@ const Header = () => {
           <div className="mr-4">
             <Button to={routes.faq()} size="large" isSelected={isOnAboutPage}>
               <div className="flex items-center">
-                <img src="/icons/HelpIcon.svg" alt="" className="mr-2" />
+                <div className="mr-2">
+                  {' '}
+                  <Icon name="help" size="small" />{' '}
+                </div>
                 About
               </div>
             </Button>

@@ -75,11 +75,7 @@ export const unminted = () => {
     username: 'treasure_joseph',
   })
 
-  return (
-    <div style={{ height: 550, width: 530 }}>
-      <Games games={games} />
-    </div>
-  )
+  return <Games games={games} />
 }
 
 export const checkout = () => {
@@ -91,9 +87,7 @@ export const checkout = () => {
     <GamesContext.Provider
       value={[{ mintingStatus: ADDING_FUNDS, activeGame: games[0] }, () => {}]}
     >
-      <div style={{ height: 550, width: 530 }}>
-        <Games games={games} />
-      </div>
+      <Games games={games} />
     </GamesContext.Provider>
   )
 }
@@ -109,9 +103,7 @@ export const minting = () => {
         () => {},
       ]}
     >
-      <div style={{ height: 550, width: 530 }}>
-        <Games games={games} />
-      </div>
+      <Games games={games} />
     </GamesContext.Provider>
   )
 }
@@ -124,9 +116,7 @@ export const success = () => {
     <GamesContext.Provider
       value={[{ mintingStatus: SUCCESS, activeGame: games[0] }, () => {}]}
     >
-      <div style={{ height: 550, width: 530 }}>
-        <Games games={games} />
-      </div>
+      <Games games={games} />
     </GamesContext.Provider>
   )
 }

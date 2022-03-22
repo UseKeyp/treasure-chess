@@ -1,4 +1,5 @@
 import { useCallback, useEffect } from 'react'
+import TooltipTrigger from 'react-popper-tooltip'
 import { routes, useLocation } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
 import { useWallet } from 'src/providers/wallet'
@@ -11,6 +12,28 @@ import MobileMenu from 'src/components/MobileMenu/MobileMenu'
 import MemberBalance from 'src/components/Member/MemberBalance'
 
 import { trimAddress } from 'src/utils/helpers'
+
+const Tooltip = ({
+  arrowRef,
+  tooltipRef,
+  getArrowProps,
+  getTooltipProps,
+  placement,
+}) => (
+  <div
+    {...getTooltipProps({
+      ref: tooltipRef,
+    })}
+  >
+    <div
+      {...getArrowProps({
+        ref: arrowRef,
+        'data-placement': placement,
+      })}
+    />
+    <h4 className={'header__tooltip'}>Log out</h4>
+  </div>
+)
 
 const WalletBalance = () => {
   const { deposit } = useWallet()
@@ -46,7 +69,7 @@ const MobileNav = () => {
     <MobileMenu triggerContents="Menu">
       <div className="flex-1 flex justify-center">
         <nav>
-          <ul className="h-full relative">
+          <ul className="h-full relative grid place-items-center">
             <li className={navItemClasses}>
               <Button to={routes.home()}>
                 <Icon name="treasure_chess_full_white" />
@@ -67,18 +90,13 @@ const MobileNav = () => {
                 About
               </Button>
             </li>
-            <li className={navItemClasses}>
+            <li className={`${navItemClasses} mx-auto`}>
               <Button
                 href="https://airtable.com/shrWkB9MS13NXoM46"
                 target="_blank"
                 size="large"
               >
-                <div className="flex items-center">
-                  <div className="mr-2">
-                    <Icon name="book" />
-                  </div>
-                  <h3>Feedback</h3>
-                </div>
+                <h3 className="text-[30px] font-bold">Feedback</h3>
               </Button>
             </li>
             {!isLoggedIn ? (
@@ -160,7 +178,7 @@ const Header = () => {
           <div className="mr-4">
             <Button to={routes.faq()} size="large" isSelected={isOnAboutPage}>
               <div className="flex items-center">
-                <img src="/icons/HelpIcon.png" alt="" className="mr-2" />
+                <img src="/icons/HelpIcon.svg" alt="" className="mr-2" />
                 About
               </div>
             </Button>
@@ -197,9 +215,33 @@ const Header = () => {
             </div>
             <WalletBalance />
             <div className="ml-4">
-              <Button onClick={logOut}>
-                <Icon name="logout" color="grey" />
-              </Button>
+              <TooltipTrigger
+                placement="bottom"
+                trigger="hover"
+                tooltip={Tooltip}
+              >
+                {({ getTriggerProps, triggerRef }) => (
+                  <span
+                    {...getTriggerProps({
+                      ref: triggerRef,
+                      className: 'trigger',
+                      /* your props here */
+                    })}
+                  >
+                    {/* Click Me! */}
+                    <Button
+                      onClick={logOut}
+                      {...getTriggerProps({
+                        ref: triggerRef,
+                        className: 'trigger',
+                        /* your props here */
+                      })}
+                    >
+                      <Icon name="logout" color="grey" />
+                    </Button>
+                  </span>
+                )}
+              </TooltipTrigger>
             </div>
           </div>
         ) : (

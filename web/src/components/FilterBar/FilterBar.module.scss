@@ -19,7 +19,7 @@
   align-items: center;
   justify-content: flex-start;
   max-width: clamp(264px, 100%, 344px);
-  height: 90vh;
+  height: calc(100vh - 100px);
   max-height: 1025px;
   overflow-y: auto;
   overflow-x: hidden;

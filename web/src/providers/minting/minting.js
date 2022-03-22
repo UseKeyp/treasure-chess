@@ -22,7 +22,7 @@ import {
   SUBMITTED,
   COMPLETE,
   RESERVATION,
-  UNSUBMITTED,
+  PENDING,
 } from 'src/providers/minting/constants'
 
 const MintingContext = React.createContext({
@@ -51,17 +51,18 @@ const MintingProvider = ({ children }) => {
 
   const toastPurchase = (purchase) => {
     // TODO: Add more data to toasts (links, etc.)
+    console.log(purchase)
     if (purchase.orderStatus === RESERVATION)
       return toast.loading('Waiting for Wyre', { id: purchase.id })
-    if (purchase.txStatus === SUBMITTED)
+    if (purchase.transaction?.status === SUBMITTED)
       return toast.loading(<MintingToast mintPurchase={purchase} />, {
         id: purchase.id,
       })
-    if (purchase.txStatus === COMPLETE)
+    if (purchase.status === COMPLETE)
       return toast.success('Success!', { id: purchase.id })
-    if (purchase.txStatus === FAILED)
+    if (purchase.status === FAILED)
       return toast.error('Minting Failed!', { id: purchase.id })
-    if (purchase.txStatus === UNSUBMITTED) {
+    if (purchase.status === PENDING) {
       if (purchase.paymentType === WYRE)
         toast.success('Wyre checkout successful!')
       toast.loading('Preparing to Mint', { id: purchase.id })
@@ -90,9 +91,9 @@ const MintingProvider = ({ children }) => {
         if (!last.map((item) => item.id).includes(purchase.id))
           return toastPurchase(purchase)
         const lastPurchase = last.find((item) => item.id === purchase.id)
-        if (lastPurchase.txStatus !== purchase.txStatus) {
+        if (lastPurchase.status !== purchase.status) {
           toastPurchase(purchase)
-          if (purchase.txStatus === COMPLETE) {
+          if (purchase.status === COMPLETE) {
             setState({
               ...state,
               successfulMintPurchase: purchase,
@@ -101,7 +102,7 @@ const MintingProvider = ({ children }) => {
               mintStatus: MINT_STATUS_SUCCESS,
             })
             toggleModalSuccess()
-          } else if (purchase.txStatus === FAILED) {
+          } else if (purchase.status === FAILED) {
             setState({
               ...state,
               shouldPoll: false,

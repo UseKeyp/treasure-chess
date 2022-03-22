@@ -45,15 +45,10 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
       },
       tcn: game.tcn,
     })
-
-    if (mintPurchase.txHash) {
+    logger.info({ custom: mintPurchase })
+    if (mintPurchase.transaction?.id) {
       const { status, tokenId } = await getMintTxStatus({ mintPurchase })
-      if (status === SUBMITTED)
-        // transaction still pending
-        return await db.mintPurchase.update({
-          where: { id: mintPurchase.id },
-          data: { txStatus: SUBMITTED },
-        })
+      if (status === SUBMITTED) return mintPurchase
 
       if (status === COMPLETE) {
         // YAY! Create the treasure in the database
@@ -62,7 +57,7 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
         const purchase = await db.mintPurchase.update({
           where: { id: mintPurchase.id },
           data: {
-            txStatus: COMPLETE,
+            transaction: { status: COMPLETE },
             treasure: {
               create: {
                 ...treasureData,
@@ -107,15 +102,19 @@ ${e.message.substring(0, 2000)}`,
       Sentry.captureException(e)
       return await db.mintPurchase.update({
         where: { id: mintPurchase.id },
-        data: { txStatus: FAILED },
+        data: { transaction: { status: FAILED } },
       })
     }
 
     return await db.mintPurchase.update({
       where: { id: mintPurchase.id },
       data: {
-        txHash: tx.hash,
-        txStatus: SUBMITTED,
+        transaction: {
+          create: {
+            id: tx.hash,
+            status: SUBMITTED,
+          },
+        },
       },
     })
     /* eslint-disable-next-line no-console */
@@ -150,9 +149,9 @@ export const getTxStatus = async (txHash) => {
 
 export const getMintTxStatus = async ({ mintPurchase }) => {
   try {
-    if (mintPurchase.txStatus === SUBMITTED) {
-      const receipt = await getTxReceipt(mintPurchase.txHash)
-
+    if (mintPurchase.transaction?.status === SUBMITTED) {
+      const receipt = await getTxReceipt(mintPurchase.transaction.id)
+      logger.debug({ custom: { receipt, id: mintPurchase.transaction.id } })
       if (receipt?.status === 0) {
         return { status: FAILED }
       } else if (
@@ -170,7 +169,7 @@ export const getMintTxStatus = async ({ mintPurchase }) => {
         }
       }
     }
-    return { status: mintPurchase.txStatus }
+    return { status: mintPurchase.transaction?.status }
   } catch (e) {
     throw `getMintTxStatus() ${e}`
   }

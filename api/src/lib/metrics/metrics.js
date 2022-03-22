@@ -7,10 +7,10 @@ import { getChainData } from 'src/lib/chainData'
 // per active user (minted or used the marketplace)
 const getMintPurchaseData = async () => {
   const total = await db.mintPurchase.count()
-  const RESERVATION = await db.mintPurchase.count({
+  const WYRE_ORDER_RESERVATION = await db.mintPurchase.count({
     where: { orderStatus: 'RESERVATION' },
   })
-  const COMPLETE = await db.mintPurchase.count({
+  const WYRE_ORDER_COMPLETE = await db.mintPurchase.count({
     where: { orderStatus: 'COMPLETE' },
   })
   const WYRE = await db.mintPurchase.count({
@@ -19,17 +19,14 @@ const getMintPurchaseData = async () => {
   const MINTCREDIT = await db.mintPurchase.count({
     where: { paymentType: 'MINTCREDIT' },
   })
-  const UNSUBMITTED = await db.mintPurchase.count({
-    where: { txStatus: 'UNSUBMITTED' },
-  })
-  const SUBMITTED = await db.mintPurchase.count({
-    where: { txStatus: 'SUBMITTED' },
-  })
-  const completeTx = await db.mintPurchase.count({
-    where: { txStatus: 'COMPLETE' },
+  const PENDING = await db.mintPurchase.count({
+    where: { status: 'UNSUBMITTED' },
   })
   const FAILED = await db.mintPurchase.count({
-    where: { txStatus: 'FAILED' },
+    where: { status: 'FAILED' },
+  })
+  const COMPLETE = await db.mintPurchase.count({
+    where: { status: 'COMPLETE' },
   })
 
   return {
@@ -39,8 +36,8 @@ const getMintPurchaseData = async () => {
     count: {
       total,
       orderStatus: {
-        COMPLETE,
-        RESERVATION,
+        COMPLETE: WYRE_ORDER_COMPLETE,
+        RESERVATION: WYRE_ORDER_RESERVATION,
       },
       paymentType: {
         WYRE,
@@ -49,7 +46,7 @@ const getMintPurchaseData = async () => {
       txStatus: {
         UNSUBMITTED,
         SUBMITTED,
-        COMPLETE: completeTx,
+        COMPLETE,
         FAILED,
       },
     },

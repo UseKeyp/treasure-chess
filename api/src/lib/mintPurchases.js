@@ -9,15 +9,21 @@ import { logger } from 'src/lib/logger'
 
 const COMPLETE = 'COMPLETE'
 const FAILED = 'FAILED'
+const PENDING = 'PENDING'
 
 const fetchPendingMintPurchases = () => {
   return db.mintPurchase.findMany({
     where: {
       member: { id: context.currentUser.id },
-      AND: [{ txStatus: { not: COMPLETE } }, { txStatus: { not: FAILED } }],
+      status: PENDING,
     },
     orderBy: [{ updatedAt: 'desc' }],
-    include: { treasure: true, member: true },
+    include: {
+      treasure: true,
+      member: true,
+      transaction: true,
+      staleTransactions: true,
+    },
   })
 }
 
@@ -69,7 +75,7 @@ export const processPendingPurchases = async () => {
   pendingPurchases = await Promise.all(
     pendingPurchases.map(async (mintPurchase) => {
       if (mintPurchase.orderStatus !== COMPLETE) return mintPurchase
-      if (![COMPLETE, FAILED].includes(mintPurchase.txStatus)) {
+      if (![COMPLETE, FAILED].includes(mintPurchase.status)) {
         // Treasure not successfully minted. Proceed to mint!
         return mintTreasureAndUpdatePurchase({ mintPurchase })
       }

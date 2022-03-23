@@ -12,6 +12,7 @@ export const schema = gql`
     country: String
     masterTitle: MasterTitle
     activity: JSON
+    twitchUsername: String
   }
 
   type Profile {

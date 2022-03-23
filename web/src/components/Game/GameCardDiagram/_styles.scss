@@ -1,0 +1,14 @@
+.game-card-diagram {
+  @apply max-w-sm m-auto relative;
+
+  &--label {
+    @apply absolute border border-black bg-greyDark px-2 py-4 rounded z-10 text-sm;
+
+    &--connector {
+      background-color: #000;
+      display: block;
+      height: 2px;
+      position: absolute;
+    }
+  }
+}

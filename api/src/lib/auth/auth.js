@@ -10,6 +10,7 @@ export const getCurrentUser = async (session) => {
     select: {
       id: true,
       username: true,
+      twitchUsername: true,
       address: true,
       imageSrc: true,
       mintCredits: true,

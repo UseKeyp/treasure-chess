@@ -13,6 +13,7 @@ model Member {
   id                   String         @id // Chess.com id
   username             String         @unique // Chess.com username
   address              String?        @unique // Torus wallet address
+  twitchUsername       String?        @unique // Twitch username
   // --------------- LINKS --------------
   treasuresOwned       Treasure[]     @relation("treasuresOwned")
   treasuresMinted      Treasure[]     @relation("treasuresMinted")

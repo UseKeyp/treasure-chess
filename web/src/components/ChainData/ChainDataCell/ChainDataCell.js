@@ -1,4 +1,4 @@
-import ChainData from 'src/components/ChainData'
+import ChainData from 'src/components/ChainData/ChainData'
 
 export const QUERY = gql`
   query ChainDataQuery {

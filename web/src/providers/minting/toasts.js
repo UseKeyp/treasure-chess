@@ -6,9 +6,8 @@ export const MintingToast = ({ mintPurchase }) => {
   if (mintPurchase.status == FAILED)
     return (
       <div className="align-center items-center">
-        <div>Minting failed for Treasure "{mintPurchase.title}"</div>
-        <div className="mt-2">We sent you $5 in mint credits</div>
-        <div className="mt-2">Please try again</div>
+        <div>Mint failed for Treasure "{mintPurchase.title}"</div>
+        <div className="mt-2">A credit has been refunded</div>
       </div>
     )
   return (

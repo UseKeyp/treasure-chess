@@ -51,7 +51,7 @@ export const validateMintRequest = async ({ gameId, endTime, title }) => {
     memberId: context.currentUser.id,
   })
   if (existingPurchase && !existingPurchase.status === FAILED)
-    throw new EnvelopError(`This Treasure cannot be minted right now.`)
+    throw new EnvelopError(`Minting already in progress.`)
 
   const game = await fetchGame({
     id: gameId,
@@ -83,6 +83,6 @@ export const processPendingPurchases = async () => {
       return mintPurchase
     })
   )
-  console.log(pendingPurchases)
+  logger.debug({ custom: pendingPurchases[0] }, 'mintPurchase')
   return pendingPurchases
 }

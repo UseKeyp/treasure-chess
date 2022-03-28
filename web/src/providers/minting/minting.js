@@ -108,11 +108,13 @@ const MintingProvider = ({ children }) => {
               ...state,
               shouldPoll: false,
               mintStatus: null,
+              mintError: 'Mint failed. Please try again.',
             })
           } else if (purchase.orderStatus === COMPLETE) {
             setState({
               ...state,
               mintStatus: MINT_STATUS_MINTING,
+              mintError: false,
             })
           }
         }
@@ -143,7 +145,6 @@ const MintingProvider = ({ children }) => {
       mintLoading: true,
       mintError: false,
     })
-    console.log('setting status to ', MINT_STATUS_MINTING)
     if (mintCreditBalance < 1) {
       try {
         const { data: { mintCheckoutUrl } = {} } =

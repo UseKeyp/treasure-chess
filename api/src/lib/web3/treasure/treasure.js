@@ -44,8 +44,9 @@ export const mint = async ({
     })
     const gasPrice = DEFAULT_GAS_PRICE && DEFAULT_GAS_PRICE * gasMultiplier
     logger.debug(`mint gasPrice: ${gasPrice}`)
+    let unsignedTx
     try {
-      const unsignedTx = await treasureContract.populateTransaction.mint(
+      unsignedTx = await treasureContract.populateTransaction.mint(
         minterAddress, // address player
         tokenUri, // string memory tokenURI
         treasure.id, //bytes32 moveHash

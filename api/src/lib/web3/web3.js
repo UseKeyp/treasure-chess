@@ -77,7 +77,7 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
       },
       tcn: game.tcn,
     })
-    logger.debug({ custom: mintPurchase }, 'mintPurchase')
+    // logger.debug({ custom: mintPurchase }, 'mintPurchase')
     if (mintPurchase.transaction?.id) {
       const { status, tokenId } = await getMintTxStatus({ mintPurchase })
       if (status === COMPLETE) {

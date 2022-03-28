@@ -1,5 +1,6 @@
 import { Wallet } from '@ethersproject/wallet'
 import { web3Provider } from 'src/lib/web3/helpers'
+
 import { logger } from 'src/lib/logger'
 const adminWallet = Wallet.fromMnemonic(
   process.env.APP_ADMIN_WALLET_MNEMONIC.replace(/,/g, ' ')
@@ -20,7 +21,9 @@ export const adminSendTransaction = async (unsigned) => {
   validateConfig(adminWallet)
   try {
     const adminWalletWithProvider = adminWallet.connect(web3Provider)
-    return adminWalletWithProvider.sendTransaction(unsigned)
+    const nonce = await web3Provider.getTransactionCount(adminWallet.address)
+    logger.debug(`Admin wallet transactionCount: ${nonce}`)
+    return await adminWalletWithProvider.sendTransaction(unsigned)
   } catch (e) {
     logger.error(e)
     throw new Error('adminSendTransaction() ', e)

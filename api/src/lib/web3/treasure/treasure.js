@@ -55,12 +55,21 @@ export const mint = async ({
         chievScore[1], // uint16 _achievement2
         chievScore[2], // uint16 _achievement3
         treasure.cardColor === 'black', // bool _color);
-        { ...(gasPrice && { gasPrice }) }
+        {
+          ...(gasPrice && {
+            maxPriorityFeePerGas: gasPrice,
+            maxFeePerGas: gasPrice,
+            // gasPrice,
+            gasLimit: 300000,
+          }),
+        }
       )
     } catch (e) {
-      console.log(e)
+      logger.error(e)
     }
+    logger.debug({ custom: { ...unsignedTx } }, 'unsignedTx')
     const tx = await adminSendTransaction(unsignedTx)
+    logger.debug({ custom: { ...tx } }, 'tx')
     return tx
   } catch (e) {
     throw new Error(`mint() ${e}`)

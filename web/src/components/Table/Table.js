@@ -16,21 +16,25 @@ const Table = ({
   data,
 }) => {
   const rows = data?.map((row, i) => {
+    // console.log(typeof row)
     if (typeof row === 'object') return row
     const cells = row.map((item) => {
-      return typeof item === 'string' ? (
-        <Cell>{item}</Cell>
-      ) : item.to ? (
-        <Link className="row-button" to={item.to}>
-          {item.text}
-        </Link>
-      ) : (
-        <a href={item.href} className="row-button">
-          {item.text}
-        </a>
-      )
+      if (typeof item === 'string') {
+        return <Cell>{item}</Cell>
+      } else if (item.to) {
+        return (
+          <Link className="row-button" to={item.to}>
+            {item.text}
+          </Link>
+        )
+      } else
+        return (
+          <a href={item.href} className="row-button">
+            {item.text}
+          </a>
+        )
     })
-
+    return null
     return (
       <div
         className="table-row"

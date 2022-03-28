@@ -8,7 +8,6 @@ const WIDTH = 500
 
 const ChainData = ({ chainData, isLoading, isError }) => {
   console.log(chainData)
-  return <Table title={TITLE} isLoading height={HEIGHT} width={WIDTH} />
   if (isLoading)
     return <Table title={TITLE} isLoading height={HEIGHT} width={WIDTH} />
   else if (isError)

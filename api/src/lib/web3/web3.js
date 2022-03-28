@@ -152,6 +152,9 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
           create: {
             id: tx.hash,
             status: SUBMITTED,
+            gasLimit: Number(tx.gasLimit?.toString()),
+            maxPriorityFeePerGas: Number(tx.maxPriorityFeePerGas?.toString()),
+            maxFeePerGas: Number(tx.maxFeePerGas?.toString()),
           },
         },
       },

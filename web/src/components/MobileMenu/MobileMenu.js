@@ -32,6 +32,11 @@ const MobileMenu = ({
     handleChildrenClick()
   }, [handleChildrenClick])
 
+  useEffect(() => {
+    document.body.style.overflow = 'hidden'
+    return () => (document.body.style.overflow = 'unset')
+  }, [])
+
   if (!showMenu) {
     return (
       <Button onClick={() => setShowMenu(true)} {...triggerProps}>
@@ -41,14 +46,14 @@ const MobileMenu = ({
   }
 
   return createPortal(
-    <div className="mobile-menu" data-direction={direction}>
+    <div className="mobile-menu overflow-hidden" data-direction={direction}>
       <div
         className={`flex justify-${
           title ? 'between' : 'end'
         } items-center p-4 w-full`}
       >
         {title ? <div className="mobile-menu--title">{title}</div> : null}
-        <Button onClick={() => setShowMenu(false)}>
+        <Button onClick={() => setShowMenu(false)} className="mr-2">
           <Icon name="close_x" />
         </Button>
       </div>

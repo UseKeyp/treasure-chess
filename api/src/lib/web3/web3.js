@@ -41,11 +41,7 @@ ${errorMessage.substring(0, 2000)}`,
   // Apply mint credits to the account
   const member = await db.member.update({
     where: { id: mintPurchase.member.id },
-    data: {
-      mintCredits: {
-        increment: 1,
-      },
-    },
+    data: { mintCredits: { increment: 1 } },
   })
 
   return await db.mintPurchase.update({
@@ -102,14 +98,12 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
             },
           },
         })
-        // Check age of transaction and resubmit if needd
         return purchase
       }
-      if (status === SUBMITTED) {
-        if (!isOlderThanTenMinutes(mintPurchase.transaction.updatedAt)) {
+      if (status === SUBMITTED)
+        if (!isOlderThanTenMinutes(mintPurchase.transaction.updatedAt))
           return mintPurchase
-        }
-      }
+
       // Status is FAILED, or is taking >10 minutes to confirm, then submit new tx
     }
 
@@ -119,10 +113,8 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
     // Validate if we should try to resubmit
     const MAX_RESUBMIT_ATTEMPTS = 5
     if (mintPurchase?.staleTransactions.length >= MAX_RESUBMIT_ATTEMPTS) {
-      const MAX_RESUBMIT_ATTEMPTS_MESSAGE =
-        'Max transaction resubmit attempts reached'
+      const MAX_RESUBMIT_ATTEMPTS_MESSAGE = `${MAX_RESUBMIT_ATTEMPTS} attempts reached... minting FAILED`
       logger.info(MAX_RESUBMIT_ATTEMPTS_MESSAGE)
-      // TODO: Fail gracefully
       return mintFailGracefully({
         mintPurchase,
         errorMessage: MAX_RESUBMIT_ATTEMPTS_MESSAGE,
@@ -131,7 +123,7 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
 
     // Move existing transaction to staleTransactions
     if (mintPurchase.transaction) {
-      await db.mintPurchase.update({
+      mintPurchase = await db.mintPurchase.update({
         where: { id: mintPurchase.id },
         data: {
           staleTransactions: { connect: { id: mintPurchase.transaction.id } },
@@ -145,6 +137,8 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
         treasure: treasureData,
         tokenUri,
         minterAddress: member.address,
+        // 5% boost per failed attempt
+        gasMultiplier: 1 + mintPurchase.staleTransactions.length * 0.05,
       })
       if (!tx || !tx.hash) throw 'Transaction could not be submitted.'
     } catch (error) {

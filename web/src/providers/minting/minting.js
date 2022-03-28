@@ -51,7 +51,6 @@ const MintingProvider = ({ children }) => {
 
   const toastPurchase = (purchase) => {
     // TODO: Add more data to toasts (links, etc.)
-    console.log(purchase)
     if (purchase.orderStatus === RESERVATION)
       return toast.loading('Waiting for Wyre', { id: purchase.id })
     if (purchase.transaction?.status === SUBMITTED)
@@ -78,6 +77,7 @@ const MintingProvider = ({ children }) => {
       pendingMintPurchases: pendingMintPurchasesPoll,
     } = {}) => {
       const last = state.pendingMintPurchases
+      console.log(pendingMintPurchasesPoll[0])
       const current = pendingMintPurchasesPoll
       if (current === last) return
       if (current && !current.length)
@@ -143,6 +143,7 @@ const MintingProvider = ({ children }) => {
       mintLoading: true,
       mintError: false,
     })
+    console.log('setting status to ', MINT_STATUS_MINTING)
     if (mintCreditBalance < 1) {
       try {
         const { data: { mintCheckoutUrl } = {} } =

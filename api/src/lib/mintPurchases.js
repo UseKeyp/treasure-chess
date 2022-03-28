@@ -50,7 +50,7 @@ export const validateMintRequest = async ({ gameId, endTime, title }) => {
     gameEndTime: endTime,
     memberId: context.currentUser.id,
   })
-  if (existingPurchase)
+  if (existingPurchase && !existingPurchase.status === FAILED)
     throw new EnvelopError(`This Treasure cannot be minted right now.`)
 
   const game = await fetchGame({
@@ -77,11 +77,12 @@ export const processPendingPurchases = async () => {
       if (mintPurchase.orderStatus !== COMPLETE) return mintPurchase
       if (![COMPLETE, FAILED].includes(mintPurchase.status)) {
         // Treasure not successfully minted. Proceed to mint!
-        logger.debug(`pendingPurchases: ${mintPurchase.id}`)
+        logger.debug(`Pending Purchase: #${mintPurchase.id}`)
         return mintTreasureAndUpdatePurchase({ mintPurchase })
       }
       return mintPurchase
     })
   )
+  console.log(pendingPurchases)
   return pendingPurchases
 }

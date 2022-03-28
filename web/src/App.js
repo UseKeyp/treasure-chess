@@ -8,6 +8,7 @@ import LandingModal from 'src/components/LandingModal'
 import { logIn } from 'src/utils/auth/client'
 import FatalErrorPage from 'src/pages/FatalErrorPage'
 import Routes from 'src/Routes'
+import './i18next.js'
 
 import './scaffold.css'
 import './index.scss'
@@ -40,15 +41,15 @@ const SentryInjector = () => {
   const { currentUser } = useAuth
   try {
     Sentry.init({
-      dsn: 'https://0723d14bc0b94064902f01f77a915392@o1016103.ingest.sentry.io/5981718',
-      // ENVIRONMENT is coming from env
-      beforeSend(event) {
-        // Check if it is an exception, and if so, show the report dialog
-        // if (event.exception) {
-        //   Sentry.showReportDialog({ eventId: event.event_id })
-        // }
-        return event
-      },
+      dsn: process.env.SENTRY_DSN,
+      environment: process.env.SENTRY_ENVIRONMENT,
+      // beforeSend(event) {
+      // Check if it is an exception, and if so, show the report dialog
+      // if (event.exception) {
+      //   Sentry.showReportDialog({ eventId: event.event_id })
+      // }
+      //   return event
+      // },
     })
   } catch (e) {
     /* eslint-disable-next-line no-console */

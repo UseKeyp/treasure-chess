@@ -1,5 +1,4 @@
 import { MetaTags } from '@redwoodjs/web'
-
 import TreasureCell from 'src/components/Treasure/TreasureCell/TreasureCell'
 
 const TreasurePage = ({ tokenId }) => {

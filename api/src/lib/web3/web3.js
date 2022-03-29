@@ -4,6 +4,7 @@ import Sentry from 'src/lib/sentry'
 import { fetchMember } from 'src/lib/members'
 import { fetchGame } from 'src/lib/games'
 import { pinTreasure } from 'src/lib/pinata/pinata'
+import { formatUnits } from '@ethersproject/units'
 
 import { mint } from 'src/lib/web3/treasure/treasure'
 import { web3Provider } from 'src/lib/web3/helpers'
@@ -144,7 +145,7 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
     } catch (error) {
       return mintFailGracefully({ mintPurchase, errorMessage: error.message })
     }
-
+    logger.debug(formatUnits(tx.gasLimit, 'gwei'))
     return await db.mintPurchase.update({
       where: { id: mintPurchase.id },
       data: {
@@ -152,9 +153,11 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
           create: {
             id: tx.hash,
             status: SUBMITTED,
-            gasLimit: Number(tx.gasLimit?.toString()),
-            maxPriorityFeePerGas: Number(tx.maxPriorityFeePerGas?.toString()),
-            maxFeePerGas: Number(tx.maxFeePerGas?.toString()),
+            gasLimit: Number(formatUnits(tx.gasLimit, 'wei')),
+            maxPriorityFeePerGas: Number(
+              formatUnits(tx.maxPriorityFeePerGas, 'gwei')
+            ),
+            maxFeePerGas: Number(formatUnits(tx.maxFeePerGas, 'gwei')),
           },
         },
       },

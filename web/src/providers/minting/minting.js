@@ -92,7 +92,10 @@ const MintingProvider = ({ children }) => {
         if (!last.map((item) => item.id).includes(purchase.id))
           return toastPurchase(purchase)
         const lastPurchase = last.find((item) => item.id === purchase.id)
-        if (lastPurchase.status !== purchase.status) {
+        if (
+          lastPurchase.status !== purchase.status ||
+          lastPurchase.tx.id !== purchase.tx.id
+        ) {
           toastPurchase(purchase)
           if (purchase.status === COMPLETE) {
             setState({

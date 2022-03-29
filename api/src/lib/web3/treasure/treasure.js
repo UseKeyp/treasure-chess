@@ -1,5 +1,6 @@
 const treasureArtifact = require('@treasure-chess/treasure-contracts/artifacts/contracts/Treasure.sol/Treasure.json')
 import { Contract } from '@ethersproject/contracts'
+import { parseUnits } from '@ethersproject/units'
 
 import achievementsList from '@treasure-chess/chess-achievements/src/achievementsList'
 
@@ -56,12 +57,9 @@ export const mint = async ({
         chievScore[2], // uint16 _achievement3
         treasure.cardColor === 'black', // bool _color);
         {
-          ...(gasPrice && {
-            maxPriorityFeePerGas: gasPrice,
-            maxFeePerGas: gasPrice,
-            // gasPrice,
-            gasLimit: 300000,
-          }),
+          maxPriorityFeePerGas: parseUnits('2', 'gwei'),
+          maxFeePerGas: parseUnits('10', 'gwei'),
+          gasLimit: 300000,
         }
       )
     } catch (e) {

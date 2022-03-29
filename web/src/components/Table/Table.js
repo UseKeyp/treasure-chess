@@ -16,8 +16,7 @@ const Table = ({
   data,
 }) => {
   const rows = data?.map((row, i) => {
-    // console.log(typeof row)
-    if (typeof row === 'object') return row
+    if (React.isValidElement(row)) return row
     const cells = row.map((item) => {
       if (typeof item === 'string') {
         return <Cell>{item}</Cell>
@@ -34,7 +33,6 @@ const Table = ({
           </a>
         )
     })
-    return null
     return (
       <div
         className="table-row"

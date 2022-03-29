@@ -20,13 +20,22 @@ const getMintPurchaseData = async () => {
     where: { paymentType: 'MINTCREDIT' },
   })
   const PENDING = await db.mintPurchase.count({
-    where: { status: 'UNSUBMITTED' },
+    where: { status: 'PENDING' },
+  })
+  const COMPLETE = await db.mintPurchase.count({
+    where: { status: 'COMPLETE' },
   })
   const FAILED = await db.mintPurchase.count({
     where: { status: 'FAILED' },
   })
-  const COMPLETE = await db.mintPurchase.count({
-    where: { status: 'COMPLETE' },
+  const TX_SUBMITTED = await db.mintPurchase.count({
+    where: { transaction: { status: 'SUBMITTED' } },
+  })
+  const TX_COMPLETE = await db.mintPurchase.count({
+    where: { transaction: { status: 'COMPLETE' } },
+  })
+  const TX_FAILED = await db.mintPurchase.count({
+    where: { transaction: { status: 'FAILED' } },
   })
 
   return {
@@ -39,15 +48,19 @@ const getMintPurchaseData = async () => {
         COMPLETE: WYRE_ORDER_COMPLETE,
         RESERVATION: WYRE_ORDER_RESERVATION,
       },
+      status: {
+        COMPLETE,
+        PENDING,
+        FAILED,
+      },
       paymentType: {
         WYRE,
         MINTCREDIT,
       },
       txStatus: {
-        UNSUBMITTED,
-        SUBMITTED,
-        COMPLETE,
-        FAILED,
+        SUBMITTED: TX_SUBMITTED,
+        COMPLETE: TX_COMPLETE,
+        FAILED: TX_FAILED,
       },
     },
   }

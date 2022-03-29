@@ -7,7 +7,6 @@ const HEIGHT = 300
 const WIDTH = 500
 
 const ChainData = ({ chainData, isLoading, isError }) => {
-  console.log(chainData)
   if (isLoading)
     return <Table title={TITLE} isLoading height={HEIGHT} width={WIDTH} />
   else if (isError)

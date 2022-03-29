@@ -1,5 +1,4 @@
 import fetch from 'cross-fetch'
-import { logger } from 'src/lib/logger'
 
 export const fetchChessMember = (username) => {
   try {

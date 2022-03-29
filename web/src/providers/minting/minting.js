@@ -77,7 +77,6 @@ const MintingProvider = ({ children }) => {
       pendingMintPurchases: pendingMintPurchasesPoll,
     } = {}) => {
       const last = state.pendingMintPurchases
-      console.log(pendingMintPurchasesPoll[0])
       const current = pendingMintPurchasesPoll
       if (current === last) return
       if (current && !current.length)

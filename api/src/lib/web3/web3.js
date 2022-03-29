@@ -41,7 +41,7 @@ ${errorMessage.substring(0, 2000)}`,
   Sentry.captureException(errorMessage)
 
   // Apply mint credits to the account
-  const member = await db.member.update({
+  await db.member.update({
     where: { id: mintPurchase.member.id },
     data: { mintCredits: { increment: 1 } },
   })
@@ -107,11 +107,16 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
       if (status === SUBMITTED)
         if (!isOlderThanResubmitTimeout(mintPurchase.transaction.updatedAt))
           return mintPurchase
-      if (status === FAILED)
+      if (status === FAILED) {
+        await db.transaction.update({
+          where: { id: tx.hash },
+          data: { status: FAILED },
+        })
         return mintFailGracefully({
           mintPurchase,
           errorMessage: 'Transaction failed',
         })
+      }
       // Taking >10 minutes to confirm, or haven't submitted yet
     }
 

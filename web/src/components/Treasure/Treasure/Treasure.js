@@ -10,7 +10,6 @@ const Treasure = ({ treasure, isLoading }) => {
   const getUsernames = (players) => Object.values(players).toString()
   // const currentMarketSale = treasure.marketSales ? treasure.marketSales[0] : {}
   // <ItemSaleInteraction tokenId={tokenId} />
-  console.log(treasure)
   return (
     <div>
       <div className="grid md:grid-cols-3 grid-cols-1 gap-10">

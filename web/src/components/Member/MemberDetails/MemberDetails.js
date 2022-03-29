@@ -32,10 +32,12 @@ const TwitchLink = ({ isProfile, userName }) => {
   }
   if (isProfile) {
     return (
-      <div className="ml-2 flex">
-        <TwitchIcon color="#ABB6B9" />
-        <p className="ml-1">Connect</p>
-      </div>
+      <Button className="ml-2">
+        <div className="flex flex-row">
+          <TwitchIcon color="#ABB6B9" />
+          <p className="ml-1">Connect</p>
+        </div>
+      </Button>
     )
   }
   return null
@@ -61,7 +63,7 @@ const MemberDetails = ({ member, isProfile }) => {
               {member.username}
             </a>
           </h3>
-          <div className="flex mt-2 w-full content-center item-center">
+          <div className="mt-2 w-full content-center member-details--member-content">
             {isProfile ? (
               <div className="flex">
                 <p className="mr-2">{trimAddress(member.address)}</p>
@@ -80,7 +82,7 @@ const MemberDetails = ({ member, isProfile }) => {
               </Button>
             )}
           </div>
-          <div className="mt-2 flex items-center">
+          <div className="mt-2 member-details--member-content">
             {member.masterTitle && <p>{member.masterTitle}</p>}
             <img
               alt={`Flag of ${member.country}`}
@@ -102,7 +104,7 @@ const MemberDetails = ({ member, isProfile }) => {
               onClick={deposit}
               variant="blue"
               size="small"
-              className="w-40"
+              className="w-32"
             >
               Deposit
             </Button>
@@ -111,7 +113,7 @@ const MemberDetails = ({ member, isProfile }) => {
               variant="green"
               // textColor="black"
               size="small"
-              className="w-40"
+              className="w-32"
             >
               Withdraw
             </Button>

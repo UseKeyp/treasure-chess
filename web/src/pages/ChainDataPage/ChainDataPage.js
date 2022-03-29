@@ -1,5 +1,5 @@
 import { MetaTags } from '@redwoodjs/web'
-import ChainDataCell from 'src/components/ChainDataCell'
+import ChainDataCell from 'src/components/ChainData/ChainDataCell'
 
 const ChainDataPage = () => {
   return (

@@ -7,10 +7,10 @@ import { getChainData } from 'src/lib/chainData'
 // per active user (minted or used the marketplace)
 const getMintPurchaseData = async () => {
   const total = await db.mintPurchase.count()
-  const RESERVATION = await db.mintPurchase.count({
+  const WYRE_ORDER_RESERVATION = await db.mintPurchase.count({
     where: { orderStatus: 'RESERVATION' },
   })
-  const COMPLETE = await db.mintPurchase.count({
+  const WYRE_ORDER_COMPLETE = await db.mintPurchase.count({
     where: { orderStatus: 'COMPLETE' },
   })
   const WYRE = await db.mintPurchase.count({
@@ -19,17 +19,23 @@ const getMintPurchaseData = async () => {
   const MINTCREDIT = await db.mintPurchase.count({
     where: { paymentType: 'MINTCREDIT' },
   })
-  const UNSUBMITTED = await db.mintPurchase.count({
-    where: { txStatus: 'UNSUBMITTED' },
+  const PENDING = await db.mintPurchase.count({
+    where: { status: 'PENDING' },
   })
-  const SUBMITTED = await db.mintPurchase.count({
-    where: { txStatus: 'SUBMITTED' },
-  })
-  const completeTx = await db.mintPurchase.count({
-    where: { txStatus: 'COMPLETE' },
+  const COMPLETE = await db.mintPurchase.count({
+    where: { status: 'COMPLETE' },
   })
   const FAILED = await db.mintPurchase.count({
-    where: { txStatus: 'FAILED' },
+    where: { status: 'FAILED' },
+  })
+  const TX_SUBMITTED = await db.mintPurchase.count({
+    where: { transaction: { status: 'SUBMITTED' } },
+  })
+  const TX_COMPLETE = await db.mintPurchase.count({
+    where: { transaction: { status: 'COMPLETE' } },
+  })
+  const TX_FAILED = await db.mintPurchase.count({
+    where: { transaction: { status: 'FAILED' } },
   })
 
   return {
@@ -39,18 +45,22 @@ const getMintPurchaseData = async () => {
     count: {
       total,
       orderStatus: {
+        COMPLETE: WYRE_ORDER_COMPLETE,
+        RESERVATION: WYRE_ORDER_RESERVATION,
+      },
+      status: {
         COMPLETE,
-        RESERVATION,
+        PENDING,
+        FAILED,
       },
       paymentType: {
         WYRE,
         MINTCREDIT,
       },
       txStatus: {
-        UNSUBMITTED,
-        SUBMITTED,
-        COMPLETE: completeTx,
-        FAILED,
+        SUBMITTED: TX_SUBMITTED,
+        COMPLETE: TX_COMPLETE,
+        FAILED: TX_FAILED,
       },
     },
   }

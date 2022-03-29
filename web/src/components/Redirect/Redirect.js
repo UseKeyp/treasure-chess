@@ -1,45 +1,88 @@
 import { useMutation } from '@apollo/client'
 
-import { Link, navigate, routes, useParams } from '@redwoodjs/router'
+import { navigate, routes, useParams } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
 import { getRedirectTo } from 'src/utils/auth/helpers'
-import globalConfig from 'src/global.config.js'
 
-import DefaultLayout from 'src/layouts/DefaultLayout'
 import Loader from 'src/components/Loader'
 import Icon from 'src/components/Icon'
 import Button from 'src/components/Button'
+import SiteFooter from 'src/components/SiteFooter'
 
 import { OAUTH_CODE_GRANT_MUTATION } from './graphql'
 
-const Redirect = ({ type }) => {
-  const [errorMessage, setErrorMessage] = React.useState()
-  const [orderSubmitted, setOrderSubmitted] = React.useState()
-  const [successMessage, setSuccessMessage] = React.useState()
-  const { code, state, error } = useParams()
-  const { logIn } = useAuth()
+const Redirect = ({ type, error: wyreError }) => {
+  const [state, setState] = React.useState({ isLoading: true })
+
+  const { code, state: grantState } = useParams()
+  const { reauthenticate } = useAuth()
+
   const [codeGrant] = useMutation(OAUTH_CODE_GRANT_MUTATION)
 
   // ###############  Chess.com  ################
   const submitLoginCodeGrant = async () => {
-    if (!code || !state) return setErrorMessage('Invalid redirect parameters')
+    const errorIcon = (
+      <div className="flex align-center bg-black p-4 rounded-lg border-2 border-red">
+        <Icon name="chess_com" size="29" />
+      </div>
+    )
+    const loginCallToAction = (
+      <Button
+        to={routes.login()}
+        className="text-s mt-6"
+        size="large"
+        color="green"
+      >
+        Try again
+      </Button>
+    )
+    if (!code || !grantState)
+      return setState({
+        isLoading: false,
+        errorMessage: 'Invalid redirect parameters',
+        callToAction: loginCallToAction,
+        errorIcon,
+      })
     /* eslint-disable-next-line no-undef */
     const response = await fetch(global.RWJS_API_DBAUTH_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ code, state, method: 'login' }),
+      body: JSON.stringify({ code, state: grantState, method: 'login' }),
     }).then((res) => {
       return res.json()
     })
     if (response.error || !response)
-      return setErrorMessage(response.error || 'Something went wrong')
-    if (response.id) navigate(getRedirectTo() || '/')
+      return setState({
+        isLoading: false,
+        errorMessage: response.error || 'Something went wrong',
+        callToAction: loginCallToAction,
+        errorIcon,
+      })
+    if (response.id) {
+      await reauthenticate()
+      navigate(getRedirectTo() || '/')
+    }
   }
 
   // ###############  General oAuth  ################
   const submitCodeGrant = async () => {
+    const errorIcon = (
+      <div className="flex align-center bg-black p-4 rounded-lg border-2 border-red">
+        <Icon name={type} size="29" height="29" color="white" />
+      </div>
+    )
+    const successIcon = (
+      <div className="flex align-center bg-black p-4 rounded-lg border-2 border-green">
+        <Icon name={type} size="29" height="29" color="white" />
+      </div>
+    )
     try {
-      if (!code || !state) return setErrorMessage('Invalid redirect parameters')
+      if (!code || !grantState)
+        return setState({
+          isLoading: false,
+          errorMessage: 'Invalid redirect parameters',
+          errorIcon,
+        })
       /* eslint-disable-next-line no-undef */
       const {
         data: { codeGrant: codeGrantData },
@@ -47,24 +90,52 @@ const Redirect = ({ type }) => {
         variables: {
           type,
           code,
-          state,
+          state: grantState,
         },
         fetchPolicy: 'network-only',
       })
       if (codeGrantData.status === 'SUCCESS') {
-        setSuccessMessage('Connection complete')
+        setState({
+          isLoading: false,
+          successMessage: 'Great - connection complete!',
+          successIcon,
+        })
       } else {
-        setErrorMessage('Something went wrong')
+        setState({
+          isLoading: false,
+          errorMessage: 'Something went wrong',
+          errorIcon,
+        })
       }
     } catch (error) {
-      setErrorMessage(error.message)
+      setState({ isLoading: false, errorMessage: error.message, errorIcon })
     }
   }
 
   // ###############  Wyre  #####################
   const completeWyreOrder = async () => {
-    if (error) return setErrorMessage('Unknown Wyre Error')
-    setOrderSubmitted(true)
+    const errorIcon = (
+      <div className="flex align-center bg-black p-4 rounded-lg border-2 border-red">
+        <Icon name="wyre" size="29" />
+      </div>
+    )
+    const successIcon = (
+      <div className="flex align-center bg-black p-4 rounded-lg border-2 border-green">
+        <Icon name="wyre" size="29" color="green" />
+      </div>
+    )
+    if (wyreError)
+      return setState({
+        isLoading: false,
+        errorMessage: 'Wyre checkout failed',
+        errorIcon,
+      })
+    setState({
+      isLoading: false,
+      orderSubmitted: true,
+      successIcon,
+      successMessage: 'Great - payment complete!',
+    })
   }
 
   React.useEffect(() => {
@@ -76,86 +147,48 @@ const Redirect = ({ type }) => {
       submitCodeGrant()
     }
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
-  }, [code, state, type])
+  }, [code, grantState, type])
 
-  if (errorMessage)
+  let contents = null
+  if (state.isLoading)
     return (
-      <DefaultLayout>
-        <div className="flex justify-center">
-          <div className="redirect-error-container">
-            <h1 className="text-2xl tracking-tight font-extrabold text-gray-900 sm:text-3xl md:text-4xl">
-              <span className="block xl:inline">
-                <span role="img" aria-label="cloud_with_lightning_and_rain">
-                  ⛈️
-                </span>{' '}
-                Redirect error
-              </span>
-            </h1>
-            {typeof errorMessage === 'string' ? (
-              <h3 className="mt-8 font-bold text-[#FFBB0D]">
-                {errorMessage.substring(0, 200)}
-              </h3>
-            ) : null}
-            <h3 className="mt-8 text-center">Login using your Chess account</h3>
-            <div className="login-portal-container--button-wrapper">
-              <Button
-                onClick={() => logIn({ redirectTo: routes.profile() })}
-                variant="green"
-                size="small"
-              >
-                <Icon size="30" name="chess_com" className="mr-4" />
-              </Button>
-            </div>
-
-            <h4>
-              By continuing you acknowledge that you have read, understand, and
-              agree to the
-              <a href={globalConfig.TOC_URL}>
-                <span className="text-blue"> Terms of Service </span>
-              </a>
-              and
-              <a href={globalConfig.PRIVACY_POLICY_URL}>
-                <span className="text-blue"> Privacy Policy</span>
-              </a>
-              .
-            </h4>
-          </div>
-        </div>
-      </DefaultLayout>
-    )
-  if (orderSubmitted)
-    return (
-      <div className="min-w-screen min-h-screen ">
-        <div className="mt-16 text-center justify-center">
-          <div className="flex justify-center">
-            <Icon name="checkmark" width="3rem" height="3rem" color="green" />
-            <h1 className="text-5xl ml-4 font-extrabold">Payment complete!</h1>
-          </div>
-          <p className="text-s m-4">You can close this page</p>
-          <Link className="text-s mt-4" to={routes.profile()}>
-            (Go to my Profile)
-          </Link>
-        </div>
+      <div className="min-w-full min-h-screen flex items-center justify-center">
+        <Loader />
       </div>
     )
-  if (successMessage)
-    return (
-      <div className="min-w-screen min-h-screen ">
-        <div className="mt-16 text-center justify-center">
-          <div className="flex justify-center">
-            <Icon name="checkmark" width="3rem" height="3rem" color="green" />
-            <h1 className="text-5xl ml-4 font-extrabold">Success!</h1>
-          </div>
-          <p className="text-s m-4">{successMessage}</p>
-          <Link className="text-s mt-4" to={routes.profile()}>
-            (Go to my Profile)
-          </Link>
-        </div>
-      </div>
+
+  if (state.errorMessage) {
+    contents = (
+      <>
+        {state.errorIcon}
+        <h2 className="mt-6 tracking-tight">Oops - we had an issue</h2>
+        {typeof state.errorMessage === 'string' ? (
+          <h3 className="mt-8 font-bold text-[#FFBB0D]">
+            {state.errorMessage.substring(0, 200)}
+          </h3>
+        ) : null}
+        {state.callToAction || <p className="mt-8 ">You can close this page</p>}
+      </>
     )
+  } else if (state.successMessage) {
+    contents = (
+      <>
+        {state.successIcon}
+        <h2 className="mt-6 tracking-tight">{state.successMessage}</h2>
+        <p className="mt-8 ">You can close this page</p>
+        {state.callToAction}
+      </>
+    )
+  }
   return (
-    <div className="min-w-full min-h-screen flex items-center justify-center">
-      <Loader />
+    <div className="flex flex-col min-h-screen">
+      <div className="flex flex-grow flex-col w-full justify-center align-center items-center">
+        <div className="redirect-container w-80 sm:w-96">
+          <Icon name="treasure_chess_full" height="35px" color="#fff" />
+          <div className="redirect-contents w-full">{contents}</div>
+        </div>
+      </div>
+      <SiteFooter className="fixed inset-x-0 bottom-0 mx-4" />
     </div>
   )
 }

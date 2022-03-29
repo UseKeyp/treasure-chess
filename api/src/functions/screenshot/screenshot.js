@@ -5,7 +5,7 @@ import { logger } from 'src/lib/logger'
 import Sentry from 'src/lib/sentry'
 
 export const handler = async (event, _context) => {
-  logger.debug('Invoked screenshot function')
+  logger.debug('Invoked /screenshot')
   let browser = null
   try {
     const { url } = event.queryStringParameters

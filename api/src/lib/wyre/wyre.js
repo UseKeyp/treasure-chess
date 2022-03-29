@@ -14,6 +14,9 @@ const API_URL_V2 = isProduction
   : 'https://api.testwyre.com/v2'
 const WYRE_WEBHOOK_URL = process.env.APP_DOMAIN + '/api/wyre'
 
+const WYRE_REDIRECT_URI = `${process.env.APP_DOMAIN}/redirect/wyre`
+const WYRE_REDIRECT_URI_ERROR = `${process.env.APP_DOMAIN}/redirect/wyre/error`
+
 const WYRE_TOKEN_SYMBOL = 'MUSDC'
 
 const signature = (url, data) => {
@@ -90,7 +93,7 @@ export const createMintReservation = async ({
       title,
     })
     const url = `${API_URL}/orders/reserve`
-    const response = await fetchWyre(url, {
+    const data = {
       sourceAmount: process.env.WYRE_MINT_USD_SOURCE_AMOUNT,
       paymentMethod: 'debit-card',
       amountIncludeFees: true,
@@ -98,12 +101,15 @@ export const createMintReservation = async ({
       destCurrency: 'USD',
       referenceId,
       hideTrackBtn: true,
-      redirectUrl: `${process.env.APP_DOMAIN}/redirect/wyre`,
-      failureRedirectUrl: `${process.env.APP_DOMAIN}/redirect/wyre?error=true`,
+      redirectUrl: WYRE_REDIRECT_URI,
+      failureRedirectUrl: WYRE_REDIRECT_URI_ERROR,
       referrerAccountId: process.env.WYRE_ACCOUNT_ID_TREASURE,
       dest: `account:${process.env.WYRE_ACCOUNT_ID_TREASURE}`,
       country: 'US',
-    })
+    }
+    const response = await fetchWyre(url, data)
+    logger.debug({ custom: data }, 'createMintReservation')
+    logger.debug(`checkoutUrl: ${response.url}`)
     return response
   } catch (e) {
     logger.error(e)
@@ -114,17 +120,20 @@ export const createMintReservation = async ({
 export const createDepositReservation = async (destinationAddress) => {
   try {
     const url = `${API_URL}/orders/reserve`
-    const response = await fetchWyre(url, {
+    const data = {
       paymentMethod: 'debit-card',
       destCurrency: WYRE_TOKEN_SYMBOL,
       hideTrackBtn: true,
-      redirectUrl: `${process.env.APP_DOMAIN}/redirect/wyre`,
-      failureRedirectUrl: `${process.env.APP_DOMAIN}/redirect/wyre?error=true`,
+      redirectUrl: WYRE_REDIRECT_URI,
+      failureRedirectUrl: WYRE_REDIRECT_URI_ERROR,
       referrerAccountId: process.env.WYRE_ACCOUNT_ID_TREASURE,
       dest: `matic:${destinationAddress}`,
       lockFields: ['destCurrency', 'dest', 'paymentMethod'],
-    })
+    }
+    const response = await fetchWyre(url, data)
+    logger.debug({ custom: data }, 'createDepositReservation')
     if (!response.url) throw 'Error'
+    logger.debug(`checkoutUrl: ${response.url}`)
     return response
   } catch (e) {
     logger.error(e)

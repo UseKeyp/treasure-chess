@@ -29,11 +29,11 @@ const Profile = () => {
       </div>
       <h1 className="mt-8">Treasures Owned</h1>
       <div className="flex mt-4">
-        <TreasuresFetcher owner={currentUser?.username} />
+        <TreasuresFetcher owner={currentUser?.username} sort="Most Rare" />
       </div>
       <h1 className="mt-8">Treasures Played</h1>
       <div className="flex mt-4">
-        <TreasuresFetcher username={currentUser?.username} />
+        <TreasuresFetcher username={currentUser?.username} sort="Most Rare" />
       </div>
     </div>
   )

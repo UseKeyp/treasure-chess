@@ -125,17 +125,15 @@ export const pinTreasure = async ({ treasure, tcn }) => {
     const tokenUri = await pinJson(stringifiedUriData)
     /* eslint-disable no-console */
     logger.info({
-      animation_url:
-        'https://chess.mypinata.cloud/ipfs/' +
-        animation_url.split('ipfs://')[1] +
-        '?static=true',
-    })
-    logger.info({
-      image: 'https://chess.mypinata.cloud/ipfs/' + image.split('ipfs://')[1],
-    })
-    logger.info({
-      tokenUri:
-        'https://chess.mypinata.cloud/ipfs/' + tokenUri.split('ipfs://')[1],
+      custom: {
+        animation_url:
+          'https://chess.mypinata.cloud/ipfs/' +
+          animation_url.split('ipfs://')[1] +
+          '?static=true',
+        image: 'https://chess.mypinata.cloud/ipfs/' + image.split('ipfs://')[1],
+        tokenUri:
+          'https://chess.mypinata.cloud/ipfs/' + tokenUri.split('ipfs://')[1],
+      },
     })
     /* eslint-enable no-console */
 

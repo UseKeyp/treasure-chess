@@ -20,6 +20,9 @@ export const schema = gql`
     externalUrl: String
     opening: Opening!
     cardColor: String!
+    achievements: [String!]
+    achievementScore: Int
+    rarity: Rarity
     tokenId: Int
     title: String
   }

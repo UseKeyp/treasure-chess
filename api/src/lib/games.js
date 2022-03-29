@@ -120,11 +120,7 @@ export const getGamesWithArguments = async ({ username, filter }) => {
   const games = await fetchChessGames({ username, year, month })
   if (!games?.length) return []
 
-  const sortedGames = games
-    .sort((a, b) => b.end_time - a.end_time)
-    .slice((page - 1) * 50, page * 50)
-
-  const filteredGames = sortedGames.filter((game) => {
+  const filteredGames = games.filter((game) => {
     if (
       filterObj.username &&
       ![game.black.username, game.white.username].includes(filterObj.username)
@@ -143,8 +139,11 @@ export const getGamesWithArguments = async ({ username, filter }) => {
     }
     return true
   })
+  const sortedGames = filteredGames
+    .sort((a, b) => b.end_time - a.end_time)
+    .slice((page - 1) * 50, page * 50)
 
   return Promise.all(
-    filteredGames.map((game) => getFullGameDetails({ game, username }))
+    sortedGames.map((game) => getFullGameDetails({ game, username }))
   )
 }

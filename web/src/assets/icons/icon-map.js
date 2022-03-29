@@ -6,7 +6,6 @@ import { ReactComponent as Play } from './play.svg'
 import { ReactComponent as Create } from './create.svg'
 import { ReactComponent as Collect } from './collect.svg'
 import { ReactComponent as Share } from './share.svg'
-import { ReactComponent as CloseX } from './close-x.svg'
 import { ReactComponent as Github } from './github.svg'
 import { ReactComponent as Help } from './help.svg'
 
@@ -538,6 +537,22 @@ const Twitch = ({ color, ...rest }) => (
         fill={color}
       ></path>
     </g>
+  </svg>
+)
+const CloseX = ({ width, color = '#fff', ...rest }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={width}
+    viewBox="-6 -6 20 20"
+    {...rest}
+  >
+    <path
+      fill={color}
+      stroke={color}
+      strokeLinecap="round"
+      strokeWidth="1.5"
+      d="m0 0 9,9 M0 9 9,0"
+    />
   </svg>
 )
 

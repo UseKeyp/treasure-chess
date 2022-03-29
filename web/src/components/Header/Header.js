@@ -72,7 +72,7 @@ const MobileNav = () => {
           <ul className="h-full relative grid place-items-center">
             <li className={navItemClasses}>
               <Button to={routes.home()}>
-                <Icon name="treasure_chess_full_white" />
+                <Icon name="treasure_chess_full" height="35px" color="#fff" />
                 <span className="sr-only">home</span>
               </Button>
             </li>

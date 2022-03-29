@@ -57,8 +57,8 @@ export const mint = async ({
         chievScore[2], // uint16 _achievement3
         treasure.cardColor === 'black', // bool _color);
         {
-          maxPriorityFeePerGas: parseUnits('2', 'gwei'),
-          maxFeePerGas: parseUnits('10', 'gwei'),
+          maxPriorityFeePerGas: parseUnits('10', 'gwei'),
+          maxFeePerGas: parseUnits('150', 'gwei'),
           gasLimit: 300000,
         }
       )

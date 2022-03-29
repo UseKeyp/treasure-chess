@@ -94,7 +94,7 @@ const MintingProvider = ({ children }) => {
         const lastPurchase = last.find((item) => item.id === purchase.id)
         if (
           lastPurchase.status !== purchase.status ||
-          lastPurchase?.tx.id !== purchase?.tx.id
+          lastPurchase?.tx?.id !== purchase?.tx?.id
         ) {
           toastPurchase(purchase)
           if (purchase.status === COMPLETE) {

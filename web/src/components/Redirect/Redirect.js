@@ -14,7 +14,7 @@ import { OAUTH_CODE_GRANT_MUTATION } from './graphql'
 const Redirect = ({ type, error: wyreError }) => {
   const [state, setState] = React.useState({ isLoading: true })
 
-  const { code, state: grantState, error } = useParams()
+  const { code, state: grantState } = useParams()
   const { reauthenticate } = useAuth()
 
   const [codeGrant] = useMutation(OAUTH_CODE_GRANT_MUTATION)
@@ -183,9 +183,9 @@ const Redirect = ({ type, error: wyreError }) => {
   return (
     <div className="flex flex-col min-h-screen">
       <div className="flex flex-grow flex-col w-full justify-center align-center items-center">
-        <div className="redirect-container">
+        <div className="redirect-container w-80 sm:w-96">
           <Icon name="treasure_chess_full" height="35px" color="#fff" />
-          <div className="redirect-contents">{contents}</div>
+          <div className="redirect-contents w-full">{contents}</div>
         </div>
       </div>
       <SiteFooter className="fixed inset-x-0 bottom-0 mx-4" />

@@ -52,7 +52,6 @@ export const fetchRatingDelta = async (id) => {
       },
     }
   ).then((res) => {
-    logger.debug('CHESS_API_ACCESS_TOKEN', process.env.CHESS_API_ACCESS_TOKEN)
     return res.json()
   })
   return {

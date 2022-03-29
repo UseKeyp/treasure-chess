@@ -1,6 +1,6 @@
 import Button from 'src/components/Button'
 
-const Pagination = ({ page, onChangePage }) => {
+const Pagination = ({ page, count, perPage, onChangePage }) => {
   const items = []
   const addButton = ({ text, page }) =>
     items.push(
@@ -9,7 +9,7 @@ const Pagination = ({ page, onChangePage }) => {
       </Button>
     )
 
-  // totalPages = Math.ceil(count / perPage)
+  const totalPages = Math.ceil(count / perPage)
 
   if (page > 2) addButton({ text: '<<', page: 1 })
   if (page > 1) addButton({ text: '<', page: page - 1 })
@@ -19,7 +19,7 @@ const Pagination = ({ page, onChangePage }) => {
     </div>
   )
   if (page) addButton({ text: '>', page: page + 1 })
-  // if (page < totalPages - 5) addButton({ text: '>>', page: page + 5 })
+  if (page < totalPages - 5) addButton({ text: '>>', page: page + 5 })
   return <div className="text-lg font-semibold flex">{items}</div>
 }
 

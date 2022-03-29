@@ -20,6 +20,7 @@ export const adminSign = async (unsigned) =>
 export const adminSendTransaction = async (unsigned) => {
   validateConfig(adminWallet)
   try {
+    logger.debug({ custom: web3Provider }, 'web3Provider')
     const adminWalletWithProvider = adminWallet.connect(web3Provider)
     const nonce = await web3Provider.getTransactionCount(adminWallet.address)
     logger.debug(`Admin wallet transactionCount: ${nonce}`)
@@ -29,6 +30,6 @@ export const adminSendTransaction = async (unsigned) => {
     })
   } catch (e) {
     logger.error(e)
-    throw new Error('adminSendTransaction() ', e)
+    throw new Error(`adminSendTransaction() ${e}`)
   }
 }

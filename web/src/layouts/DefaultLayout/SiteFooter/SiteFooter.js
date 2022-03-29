@@ -3,7 +3,6 @@ import globalConfig from 'src/global.config.js'
 
 const SiteFooter = () => {
   const currentYear = new Date().getFullYear()
-  console.log(process.env.VERSION)
   return (
     <div className="w-full flex items-center justify-center">
       <div className="max-w-7xl flex-1 flex flex-col items-center justify-between py-12 px-4 text-sm md:flex-row">

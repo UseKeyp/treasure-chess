@@ -19,15 +19,19 @@ const validate = ({ context, directiveArgs }) => {
    */
 
   // currentUser is only available when auth is setup.
-  logger.debug(
-    { currentUser: context.currentUser },
-    'currentUser in rateLimit directive'
-  )
+  logger.debug({
+    custom: {
+      currentUser: context.currentUser,
+      message: 'currentUser in rateLimit directive',
+    },
+  })
 
   // You can also modify your directive to take arguments
   // and use the directiveArgs object provided to this function to get values
   // See documentation here: https://redwoodjs.com/docs/directives
-  logger.debug(directiveArgs, 'directiveArgs in rateLimit directive')
+  logger.debug({
+    custom: { directiveArgs, message: 'directiveArgs in rateLimit directive' },
+  })
 
   throw new Error('Implementation missing for rateLimit')
 }

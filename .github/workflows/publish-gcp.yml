@@ -64,7 +64,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.PAT_GITHUB }}
         run: |
-          VERSION=v$(echo jq -r .version lerna.json)
+          VERSION=${{ steps.get_variables.outputs.BRANCH }}
           if [ ${{ github.event.inputs.image_tag_prefix }} ] ;  then
             VERSION=${{ steps.get_variables.outputs.BRANCH }}-$(echo $GITHUB_SHA | cut -c 1-7)
           fi

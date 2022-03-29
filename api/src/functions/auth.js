@@ -58,8 +58,6 @@ export const handler = async (event, context) => {
         reusedPassword: 'You must choose a new password',
       },
     },
-    // Causes cookies not to be set properly, since
-    // Subsequent getCurrentUser requests overwrite them?
     cookie: {
       HttpOnly: true,
       Path: '/',

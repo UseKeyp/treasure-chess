@@ -5,7 +5,7 @@ import Icon from 'src/components/Icon/Icon'
 import MintForm from 'src/components/Game/Games/components/MintForm'
 import LoadingDots from 'src/components/LoadingDots'
 import { useMinting } from 'src/providers/minting'
-
+import { getRarityColor } from '@treasure-chess/treasure-html'
 import { formatDate } from 'src/utils/helpers'
 
 import {
@@ -25,7 +25,15 @@ const ListItem = ({
   onSubmit,
   isExpanded,
 }) => {
-  const { white: player1, black: player2, endTime, id, tokenId, title } = game
+  const {
+    white: player1,
+    black: player2,
+    endTime,
+    id,
+    tokenId,
+    title,
+    achievementScore,
+  } = game
   const date = formatDate(endTime)
   const { clearMintError, mintStatus, mintError, mintLoading } = useMinting()
 
@@ -82,6 +90,11 @@ const ListItem = ({
         />
       )
   }
+  let rarityColor
+  if (achievementScore) {
+    rarityColor = getRarityColor(achievementScore)
+    if (rarityColor === '#8a8886') rarityColor = '#ffffff'
+  }
   return (
     <div
       className="games-history-list__item"
@@ -90,10 +103,13 @@ const ListItem = ({
       tabIndex={0}
       onKeyDown={() => {}}
     >
-      {title && (
-        <P pb={8} fontWeight={700} fontSize={16}>
-          {title}
-        </P>
+      {tokenId && (
+        <div className="flex space-x-2 pb-3 pt-1 w-full ">
+          <Icon name="treasure_chess" color={rarityColor} height="16px" />
+          <P fontWeight={700} fontSize={16} color={rarityColor}>
+            {title}
+          </P>
+        </div>
       )}
       <div className="games-history-list__top-half">
         <div className="games-history-list__players w-[60%]">
@@ -125,11 +141,6 @@ const ListItem = ({
           <P pb={3} fontSize={12} color={mainColor} fontWeight={600}>
             {date}
           </P>
-          {tokenId && (
-            <P fontSize={12} color={'#FFBB0D'} fontWeight={400}>
-              Minted
-            </P>
-          )}
         </div>
       </div>
       {bottomHalf()}

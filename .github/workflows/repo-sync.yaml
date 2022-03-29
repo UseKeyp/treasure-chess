@@ -2,7 +2,7 @@ name: Repo sync w/ @treasure-chess
 
 on:
   push:
-    branches: [main]
+    branches: [main, staging]
   workflow_dispatch:
 env:
   SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
@@ -13,5 +13,4 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: git-sync-main
-        run: |
-          tasks/clean-and-sync-repo.sh
+        run: tasks/clean-and-sync-repo.sh ${{ github.ref_name }}

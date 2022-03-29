@@ -18,6 +18,13 @@ export const isExpired = (expiration) => {
   return new Date(expiration) > new Date()
 }
 
+export const isOlderThanResubmitTimeout = (date) => {
+  // var TEN_MIN = 10 * 60 * 1000
+  var TWO_HOURS = 2 * 60 * 60 * 1000
+  // var TEN_MIN = 0.2 * 60 * 1000
+  return new Date() - new Date(date) > TWO_HOURS
+}
+
 export const checkProfanity = (string) => {
   if (profanityFilter.isProfane(string))
     throw new EnvelopError('String contains profanity')

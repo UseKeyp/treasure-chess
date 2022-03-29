@@ -8,6 +8,7 @@ const Routes = () => {
     <Router>
       <Route path="/restricted" page={RestrictedPage} name="restricted" />
       <Route path="/redirect/{type}" page={RedirectPage} name="redirect" />
+      <Route path="/redirect/{type}/{error}" page={RedirectPage} name="redirect" />
       <Set wrap={DefaultLayout}>
         <Route path="/" page={HomePage} name="home" />
         <Route path="/about" page={FaqPage} name="faq" />

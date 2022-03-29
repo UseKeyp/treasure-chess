@@ -1,6 +1,6 @@
 import Header from 'src/components/Header'
 
-import SiteFooter from './SiteFooter'
+import SiteFooter from 'src/components/SiteFooter'
 
 const DefaultLayout = ({ children }) => {
   return (

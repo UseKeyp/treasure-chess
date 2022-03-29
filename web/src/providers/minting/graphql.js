@@ -6,12 +6,15 @@ export const PENDING_MINT_PURCHASES_QUERY = gql`
         tokenId
       }
       orderStatus
+      status
       paymentType
       gameId
       gameEndTime
       title
-      txHash
-      txStatus
+      transaction {
+        id
+        status
+      }
     }
   }
 `
@@ -38,8 +41,7 @@ export const MINT_WITH_CREDIT_MUTATION = gql`
       gameId
       gameEndTime
       title
-      txHash
-      txStatus
+      status
     }
   }
 `

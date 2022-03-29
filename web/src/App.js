@@ -8,6 +8,7 @@ import LandingModal from 'src/components/LandingModal'
 import { logIn } from 'src/utils/auth/client'
 import FatalErrorPage from 'src/pages/FatalErrorPage'
 import Routes from 'src/Routes'
+import './i18next.js'
 
 import './scaffold.css'
 import './index.scss'

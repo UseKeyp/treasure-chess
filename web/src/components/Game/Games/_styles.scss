@@ -8,8 +8,9 @@
   transition: all 0.2s ease;
   &__heading {
     display: flex;
-    align-content: flex-end;
-    margin-bottom: 1rem;
+    align-content: space-between;
+    width: 100%;
+    // margin-bottom: 1rem;
   }
   &__items {
     overflow: auto;

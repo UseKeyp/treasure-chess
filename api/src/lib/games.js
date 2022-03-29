@@ -11,7 +11,8 @@ import {
 import { parseGameFromChessDotCom } from 'src/lib/chessCom/gameParsing'
 import { getGifUrl } from 'src/lib/chessCom/gifGetter'
 import { getBoardLayout } from 'src/lib/helpers'
-import filters from '@treasure-chess/treasure-filters'
+import { logger } from 'src/lib/logger'
+import filters, { GAMES_PER_PAGE } from '@treasure-chess/treasure-filters'
 
 const getRarity = (score) => {
   if (score < 6) return filters.rarityList[0]
@@ -105,20 +106,21 @@ export const fetchGame = async ({
   return parseGameFromChessDotCom(game)
 }
 
-export const getGamesWithArguments = async ({ username, filter }) => {
+export const getGamesWithFilter = async ({ username, filter, page = 0 }) => {
   const filterParams = new URLSearchParams(filter)
   let filterObj = {}
   // Convert text names to values
   for (var pair of filterParams.entries()) {
     filterObj[pair[0]] = pair[1]
   }
-  const year = filterObj.year || new Date().getFullYear()
-  const month = filterObj.month || 0
-  const page = filterObj.page || 0
+  const now = new Date()
+  const year = filterObj.year || now.getFullYear()
+  const month = filterObj.month || now.getMonth()
   // const month = filterObj.month === 'Any' ? null : filterObj.month || 0
   // const day = filterObj.day === 'Any' ? null : filterObj.day
   const games = await fetchChessGames({ username, year, month })
-  if (!games?.length) return []
+  logger.debug(`totalGames: ${games?.length}`)
+  if (!games?.length) return { count: 0, games: [] }
 
   const filteredGames = games.filter((game) => {
     if (
@@ -139,11 +141,18 @@ export const getGamesWithArguments = async ({ username, filter }) => {
     }
     return true
   })
+  logger.debug(`filteredGames: ${filteredGames.length}`)
+  const count = filteredGames.length
   const sortedGames = filteredGames
     .sort((a, b) => b.end_time - a.end_time)
-    .slice((page - 1) * 50, page * 50)
+    .slice(page * GAMES_PER_PAGE, (page + 1) * GAMES_PER_PAGE)
 
-  return Promise.all(
+  const fullGames = await Promise.all(
     sortedGames.map((game) => getFullGameDetails({ game, username }))
   )
+  logger.debug(`fullGames: ${fullGames.length}`)
+  return {
+    games: fullGames,
+    count,
+  }
 }

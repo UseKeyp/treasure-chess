@@ -5,6 +5,9 @@ import Table from 'src/components/Table'
 
 import { getOutcomeText } from 'src/utils/helpers'
 import { useMinting } from 'src/providers/minting'
+import Pagination from 'src/components/Pagination/Pagination'
+import { GAMES_PER_PAGE } from '@treasure-chess/treasure-filters'
+import LoadingDots from 'src/components/LoadingDots'
 
 import { GamesContext } from 'src/providers/games'
 
@@ -12,12 +15,12 @@ import ListItem from './components/ListItem/ListItem'
 
 const TITLE = 'Games'
 
-const Games = ({ games, isLoading, error }) => {
+const Games = ({ games, count, isLoading, error }) => {
   const { currentUser } = useAuth()
   const { mint, cancelMint } = useMinting()
 
   const [gamesContext, setGamesContext] = React.useContext(GamesContext)
-  const { activeGame } = gamesContext
+  const { activeGame, page } = gamesContext
 
   const onSubmitMint = (title) => {
     mint({
@@ -48,6 +51,10 @@ const Games = ({ games, isLoading, error }) => {
     })
   }
 
+  const onChangePage = (pageNumber) => {
+    setGamesContext({ ...gamesContext, page: pageNumber - 1 })
+  }
+
   const getItems = () =>
     games?.map((game) => {
       const outcome = getOutcomeText({
@@ -72,16 +79,23 @@ const Games = ({ games, isLoading, error }) => {
     setGamesContext({ ...gamesContext, gameTitle: '' })
     /* eslint-disable react-hooks/exhaustive-deps */
   }, [])
-
   return (
     <div className=" max-w-[530px]">
       <Table
         title={
-          <div className="games-history-list__heading flex items-center">
-            <H3 mr={10}>{TITLE}</H3>
-            <P fontSize={12} color="grey">
-              {games?.length || 0} Games
-            </P>
+          <div className="games-history-list__heading flex justify-between items-center h-8">
+            <div className="flex space-x-2">
+              {count !== undefined ? <h3>{count}</h3> : <LoadingDots />}
+              <h3>Games</h3>
+            </div>
+            <div>
+              <Pagination
+                count={count}
+                page={page + 1 || 1}
+                perPage={GAMES_PER_PAGE}
+                onChangePage={onChangePage}
+              />
+            </div>
           </div>
         }
         // rowHeight={80}

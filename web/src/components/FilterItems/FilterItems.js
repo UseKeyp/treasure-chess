@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
-import Pagination from '../Pagination/Pagination'
 import { Span } from 'src/components/Typography'
 import Dropdown from 'src/components/Dropdown'
 import FilterCheckbox from 'src/components/FilterCheckbox'
@@ -45,19 +44,12 @@ const FilterItems = ({ onChange }) => {
   const [username, setUsername] = useState('')
   const [page, setPage] = useState(0)
 
-  const onChangePage = (pageParam) => {
-    setPage(pageParam)
-  }
-
   const transparentWhite = 'rgba(255, 255, 255, 0.6)'
   const CategoryWrap = ({ children }) => (
     <Span fontSize={11} fontWeight="bold" color={transparentWhite}>
       <h4>{children}</h4>
     </Span>
   )
-  useEffect(() => {
-    setPage(1)
-  }, [month, year, username])
 
   useEffect(() => {
     onChange({
@@ -73,7 +65,7 @@ const FilterItems = ({ onChange }) => {
 
   return (
     <div className="filter-items w-full">
-      <div className="grid md:grid-cols-4 grid-cols-1 gap-2 md:gap-4">
+      <div className="grid md:grid-cols-3 grid-cols-1 gap-2 md:gap-4">
         <div className="grid grid-cols-2 gap-4">
           <Dropdown
             category={<CategoryWrap>Month</CategoryWrap>}
@@ -106,23 +98,6 @@ const FilterItems = ({ onChange }) => {
           queryFilter={outcome}
           category="Your Outcome"
         />
-        <div className="flex flex-col">
-          <h4
-            fontSize={11}
-            fontWeight="bold"
-            color={transparentWhite}
-            mt="1rem"
-            className="mb-2"
-          >
-            Page
-          </h4>
-          <Pagination
-            // count={300}
-            page={page}
-            // perPage={50}
-            onChangePage={onChangePage}
-          />
-        </div>
       </div>
     </div>
   )

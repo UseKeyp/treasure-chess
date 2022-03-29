@@ -27,7 +27,13 @@ export const schema = gql`
     title: String
   }
 
+  type GamesWithFilterResponse {
+    games: [Game!]!
+    count: Int!
+  }
+
   type Query {
-    games(filter: String): [Game!]! @requireAuth
+    gamesWithFilter(filter: String, page: Int): GamesWithFilterResponse!
+      @requireAuth
   }
 `

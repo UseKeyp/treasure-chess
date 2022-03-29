@@ -90,10 +90,15 @@ const ListItem = ({
       tabIndex={0}
       onKeyDown={() => {}}
     >
-      {title && (
-        <P pb={8} fontWeight={700} fontSize={16}>
-          {title}
-        </P>
+      {tokenId && (
+        <div className="flex align-end space-between  ">
+          <P pb={8} fontWeight={700} fontSize={16}>
+            {title}
+          </P>
+          <P fontSize={12} color={'grey'} fontWeight={400}>
+            Minted
+          </P>
+        </div>
       )}
       <div className="games-history-list__top-half">
         <div className="games-history-list__players w-[60%]">
@@ -125,11 +130,6 @@ const ListItem = ({
           <P pb={3} fontSize={12} color={mainColor} fontWeight={600}>
             {date}
           </P>
-          {tokenId && (
-            <P fontSize={12} color={'#FFBB0D'} fontWeight={400}>
-              Minted
-            </P>
-          )}
         </div>
       </div>
       {bottomHalf()}

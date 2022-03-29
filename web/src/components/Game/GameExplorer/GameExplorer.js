@@ -38,6 +38,7 @@ const GameExplorer = () => {
           game={activeGame}
           isMinting={mintStatus === MINT_STATUS_MINTING}
           title={gameTitle}
+          showGif={activeGame?.tokenId}
         />
       </div>
     </div>

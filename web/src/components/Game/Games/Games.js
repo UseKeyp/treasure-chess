@@ -74,7 +74,7 @@ const Games = ({ games, isLoading, error }) => {
   }, [])
 
   return (
-    <div className="h-[550px] max-w-[530px]">
+    <div className=" max-w-[530px]">
       <Table
         title={
           <div className="games-history-list__heading flex items-center">

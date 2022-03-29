@@ -23,6 +23,9 @@ export const QUERY = gql`
       outcome
       termination
       externalUrl
+      achievements
+      achievementScore
+      rarity
       cardColor
       ruleVariant
       termination

@@ -12,13 +12,14 @@ import { generateTreasureData } from 'src/lib/treasures'
 import { sendDiscordAlert } from 'src/lib/discord/discord'
 
 import { logger } from 'src/lib/logger'
-import { isProduction, isOlderThanTenMinutes } from 'src/lib/helpers'
+import { isProduction, isOlderThanResubmitTimeout } from 'src/lib/helpers'
 
 const SUBMITTED = 'SUBMITTED'
 const COMPLETE = 'COMPLETE'
 const FAILED = 'FAILED'
 
 const MINIMUM_CONFIRMATIONS = isProduction ? 15 : 1
+const MAX_RESUBMIT_ATTEMPTS = 0
 
 const mintFailGracefully = async ({ mintPurchase, errorMessage }) => {
   await sendDiscordAlert({
@@ -85,10 +86,12 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
         // YAY! Create the treasure in the database
         // TODO: optimize by combining these two db calls
         // Stop, don't mint again
+        logger.debug('Mint transaction complete!')
         const purchase = await db.mintPurchase.update({
           where: { id: mintPurchase.id },
           data: {
-            transaction: { status: COMPLETE },
+            status: COMPLETE,
+            transaction: { update: { status: COMPLETE } },
             treasure: {
               create: {
                 ...treasureData,
@@ -102,25 +105,18 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
         return purchase
       }
       if (status === SUBMITTED)
-        if (!isOlderThanTenMinutes(mintPurchase.transaction.updatedAt))
+        if (!isOlderThanResubmitTimeout(mintPurchase.transaction.updatedAt))
           return mintPurchase
-
-      // Status is FAILED, or is taking >10 minutes to confirm, then submit new tx
+      if (status === FAILED)
+        return mintFailGracefully({
+          mintPurchase,
+          errorMessage: 'Transaction failed',
+        })
+      // Taking >10 minutes to confirm, or haven't submitted yet
     }
 
     if (game.tokenId)
       throw `Treasure tokenId:${game.tokenId} already minted and in the database`
-    let tx
-    // Validate if we should try to resubmit
-    const MAX_RESUBMIT_ATTEMPTS = 5
-    if (mintPurchase?.staleTransactions.length >= MAX_RESUBMIT_ATTEMPTS) {
-      const MAX_RESUBMIT_ATTEMPTS_MESSAGE = `${MAX_RESUBMIT_ATTEMPTS} attempts reached... minting FAILED`
-      logger.info(MAX_RESUBMIT_ATTEMPTS_MESSAGE)
-      return mintFailGracefully({
-        mintPurchase,
-        errorMessage: MAX_RESUBMIT_ATTEMPTS_MESSAGE,
-      })
-    }
 
     // Move existing transaction to staleTransactions
     if (mintPurchase.transaction) {
@@ -132,7 +128,17 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
         },
       })
     }
+    // Validate if we should try to resubmit
+    if (mintPurchase?.staleTransactions.length > MAX_RESUBMIT_ATTEMPTS) {
+      const MAX_RESUBMIT_ATTEMPTS_MESSAGE = `${MAX_RESUBMIT_ATTEMPTS} attempts reached... minting FAILED`
+      logger.info(MAX_RESUBMIT_ATTEMPTS_MESSAGE)
+      return mintFailGracefully({
+        mintPurchase,
+        errorMessage: MAX_RESUBMIT_ATTEMPTS_MESSAGE,
+      })
+    }
 
+    let tx
     try {
       tx = await mint({
         treasure: treasureData,

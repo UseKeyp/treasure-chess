@@ -6,10 +6,11 @@ import TreasureSale from '../TreasureSale/TreasureSale'
 import TreasuresFetcher from 'src/components/Treasure/TreasuresFetcher'
 
 const Treasure = ({ treasure, isLoading }) => {
-  const players = [treasure.white.username, treasure.black.username]
+  const players = [treasure?.white.username, treasure?.black.username]
   const getUsernames = (players) => Object.values(players).toString()
   // const currentMarketSale = treasure.marketSales ? treasure.marketSales[0] : {}
   // <ItemSaleInteraction tokenId={tokenId} />
+  console.log(treasure)
   return (
     <div className="grid md:grid-cols-3 grid-cols-1 gap-10">
       <div className="flex justify-center">

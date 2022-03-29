@@ -104,9 +104,12 @@ const ListItem = ({
       onKeyDown={() => {}}
     >
       {tokenId && (
-        <P pb={8} fontWeight={700} fontSize={16} color={rarityColor}>
-          {title}
-        </P>
+        <div className="flex space-x-2 pb-3 pt-1 w-full ">
+          <Icon name="treasure_chess" color={rarityColor} height="16px" />
+          <P fontWeight={700} fontSize={16} color={rarityColor}>
+            {title}
+          </P>
+        </div>
       )}
       <div className="games-history-list__top-half">
         <div className="games-history-list__players w-[60%]">

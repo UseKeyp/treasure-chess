@@ -6,12 +6,6 @@
   // height: 500px;
   min-height: 478px;
   transition: all 0.2s ease;
-  &__heading {
-    display: flex;
-    align-content: space-between;
-    width: 100%;
-    // margin-bottom: 1rem;
-  }
   &__items {
     overflow: auto;
     max-height: 91%;

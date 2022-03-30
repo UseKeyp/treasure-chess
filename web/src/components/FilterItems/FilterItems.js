@@ -42,7 +42,6 @@ const FilterItems = ({ onChange }) => {
   const [year, setYear] = useState(yearsList[0])
   const [outcome, setOutcome] = useState('Any')
   const [username, setUsername] = useState('')
-  const [page, setPage] = useState(0)
 
   const transparentWhite = 'rgba(255, 255, 255, 0.6)'
   const CategoryWrap = ({ children }) => (
@@ -58,10 +57,9 @@ const FilterItems = ({ onChange }) => {
       ...(year && { year }),
       ...(username && { username }),
       ...(outcome && { outcome: outcome.toLowerCase() }),
-      ...(page && { page }),
     })
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
-  }, [month, year, username, outcome, page])
+  }, [month, year, username, outcome])
 
   return (
     <div className="filter-items w-full">

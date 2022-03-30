@@ -6,13 +6,16 @@ import { formatDate } from 'src/utils/helpers'
 
 const TreasureSales = ({ treasure, isLoading }) => {
   let list = []
-  treasure?.marketSales.map((sale) => {
+  treasure?.marketSales.map((sale, i) => {
     const { status, amount, updatedAt, buyer } = sale
     if (status === 'SOLD') {
       list.push([
         formatDate(updatedAt),
         `$${amount}`,
-        <MemberLink usernameOrAddress={buyer?.username} />,
+        <MemberLink
+          key={buyer.username + i}
+          usernameOrAddress={buyer?.username}
+        />,
       ])
     }
   })

@@ -1,12 +1,12 @@
 import React from 'react'
 
 import { P } from 'src/components/Typography'
-import Icon from 'src/components/Icon/Icon'
 import MintForm from 'src/components/Game/Games/components/MintForm'
 import LoadingDots from 'src/components/LoadingDots'
 import { useMinting } from 'src/providers/minting'
-import { getRarityColor } from '@treasure-chess/treasure-html'
 import { formatDate } from 'src/utils/helpers'
+import TreasureLink from 'src/components/TreasureLink'
+import Icon from 'src/components/Icon'
 
 import {
   MINT_STATUS_ADDING_FUNDS,
@@ -90,11 +90,7 @@ const ListItem = ({
         />
       )
   }
-  let rarityColor
-  if (achievementScore) {
-    rarityColor = getRarityColor(achievementScore)
-    if (rarityColor === '#8a8886') rarityColor = '#ffffff'
-  }
+
   return (
     <div
       className="games-history-list__item"
@@ -104,11 +100,8 @@ const ListItem = ({
       onKeyDown={() => {}}
     >
       {tokenId && (
-        <div className="flex space-x-2 pb-3 pt-1 w-full ">
-          <Icon name="treasure_chess" color={rarityColor} height="16px" />
-          <P fontWeight={700} fontSize={16} color={rarityColor}>
-            {title}
-          </P>
+        <div className="mb-2 mt-1">
+          <TreasureLink treasure={game} />
         </div>
       )}
       <div className="games-history-list__top-half">

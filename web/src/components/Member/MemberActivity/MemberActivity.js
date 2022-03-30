@@ -1,35 +1,36 @@
 // import MiniButton from 'src/components/MiniButton'
 import Table from 'src/components/Table/Table'
+import { formatDate } from 'src/utils/helpers'
+import Icon from 'src/components/Icon/Icon'
+import { getRarityColor } from '@treasure-chess/treasure-html'
+import TreasureLink from 'src/components/TreasureLink'
 
-const TITLE = 'Transaction History'
+const TITLE = 'Activity'
 
-const MemberActivity = ({ _activity, isLoading }) => {
-  // const handleClick = (e) => {
-  //   // TODO: trigger action
-  //   /* eslint-disable-next-line no-console */
-  //   console.log(e)
-  // }
-  /* eslint-disable-next-line no-console */
-  const activityRows = []
-  // activity.map((item) => {
-  //   // TODO: Implement real activities
-  //   return {
-  //     ...item,
-  //     Activity: 'Your bid on item 123456789 was accepted!',
-  //     Date: 'April, 20 2020',
-  //     Action: (
-  //       <MiniButton variant="green" onClick={(e) => handleClick(e)}>
-  //         View
-  //       </MiniButton>
-  //     ),
-  //   }
-  // })
-  if (isLoading) return <Table title={TITLE} isLoading height={250} />
+const MemberActivity = ({ member, isLoading }) => {
+  const list = []
+  if (!member || isLoading)
+    return <Table title={TITLE} isLoading height={250} />
+  member.treasuresMinted.map((treasure) => {
+    list.push([
+      formatDate(treasure.createdAt),
+      'Minted',
+      <TreasureLink treasure={treasure} />,
+    ])
+  })
+  member.treasuresWon.map((treasure) => {
+    list.push([
+      'Bought',
+      // formatDate(treasure.createdAt),
+      <TreasureLink treasure={treasure} />,
+    ])
+  })
+
   return (
     <div>
       <Table
         title={TITLE}
-        data={activityRows}
+        data={list}
         colProportions={[4, 1, 1]}
         height={250}
       />

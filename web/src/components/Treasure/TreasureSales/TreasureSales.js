@@ -13,7 +13,7 @@ const statusToText = {
   DELISTED: 'Unlisted',
 }
 
-const TreasureSale = ({ treasure, isLoading }) => {
+const TreasureSales = ({ treasure, isLoading }) => {
   let list = []
   treasure?.marketSales.map((sale) => {
     const { status, amount } = sale
@@ -24,21 +24,7 @@ const TreasureSale = ({ treasure, isLoading }) => {
         <MemberLink usernameOrAddress={sale?.buyer?.username} />,
       ])
     }
-    //
-    // if (sale.unlistTx)
-    //   list.push(['Unlisted', sale.unlistTx.updatedAt, `$${sale.amount}`])
-    //
-    // if (sale.listTx)
-    //   list.push(['Listed', sale.listTx.updatedAt, `$${sale.amount}`])
   })
-  // treasure &&
-  //   list.push([
-  //     'Minted',
-  //     treasure.createdAt,
-  //     <>
-  //       by <MemberLink usernameOrAddress={treasure.minter.username} />
-  //     </>,
-  //   ])
 
   return (
     <div>
@@ -47,4 +33,4 @@ const TreasureSale = ({ treasure, isLoading }) => {
   )
 }
 
-export default TreasureSale
+export default TreasureSales

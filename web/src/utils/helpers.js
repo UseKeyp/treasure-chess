@@ -61,6 +61,7 @@ export const debounce = (func, delay) => {
 }
 
 export const formatDate = (rawString) => {
+  if (!rawString) return null
   const date = new Date(rawString)
   let options = { month: 'short' }
   const month = new Intl.DateTimeFormat('en-US', options).format(date)

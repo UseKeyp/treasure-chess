@@ -19,7 +19,7 @@ const Profile = () => {
             <MemberDetails member={currentUser} isProfile />
           </div>
           <div>
-            <MemberActivityCell address={currentUser?.address} />
+            <MemberActivityCell usernameOrAddress={currentUser?.username} />
           </div>
         </div>
       </div>
@@ -27,11 +27,11 @@ const Profile = () => {
       <div className="mt-4">
         <GameExplorer />
       </div>
-      <h1 className="mt-8">Treasures Owned</h1>
+      <h1 className="mt-16">Treasures Owned</h1>
       <div className="flex mt-4">
         <TreasuresFetcher owner={currentUser?.username} sort="Most Rare" />
       </div>
-      <h1 className="mt-8">Treasures Played</h1>
+      <h1 className="mt-16">Treasures Played</h1>
       <div className="flex mt-4">
         <TreasuresFetcher username={currentUser?.username} sort="Most Rare" />
       </div>

@@ -11,7 +11,6 @@ export const schema = gql`
     imageSrc: String
     country: String
     masterTitle: MasterTitle
-    activity: JSON
     twitchUsername: String
   }
 
@@ -27,7 +26,6 @@ export const schema = gql`
     imageSrc: String
     country: String
     masterTitle: String
-    activity: JSON
   }
 
   type MemberBalance {

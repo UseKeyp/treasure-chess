@@ -19,7 +19,6 @@ export const treasure = ({ tokenId }) => {
       owner: true,
       marketSales: {
         orderBy: { updatedAt: 'desc' },
-        // take: 1,
       },
     },
   })

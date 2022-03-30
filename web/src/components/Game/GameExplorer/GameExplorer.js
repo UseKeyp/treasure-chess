@@ -11,10 +11,9 @@ import {
 } from 'src/providers/minting/constants'
 
 const GameExplorer = () => {
-  const [context] = React.useContext(GamesContext)
+  const [gamesContext, setGamesContext] = React.useContext(GamesContext)
   const { mintStatus } = useMinting()
-  const { activeGame, gameTitle } = context
-  const [filter, setFilter] = React.useState()
+  const { activeGame, gameTitle, filter, page } = gamesContext
 
   const isMinting = [MINT_STATUS_ADDING_FUNDS, MINT_STATUS_MINTING].includes(
     mintStatus
@@ -25,7 +24,12 @@ const GameExplorer = () => {
     if (isMinting) return
     const filterParams = new URLSearchParams(newFilter)
     filterParams.sort()
-    setFilter(filterParams.toString())
+    setGamesContext({
+      ...gamesContext,
+      page: undefined,
+      count: undefined,
+      filter: filterParams.toString(),
+    })
   }
   return (
     <div className="w-full">
@@ -33,7 +37,7 @@ const GameExplorer = () => {
         <FilterItems onChange={onChangeFilter} />
       </div>
       <div className="grid md:grid-cols-2 grid-cols-1 gap-6 w-full">
-        <GamesCell filter={filter} />
+        <GamesCell filter={filter} page={page} />
         <GameCard
           game={activeGame}
           isMinting={mintStatus === MINT_STATUS_MINTING}

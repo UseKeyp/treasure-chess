@@ -36,6 +36,7 @@ export const schema = gql`
   type Query {
     members: [Member!]! @skipAuth
     member(usernameOrAddress: String!): Member @skipAuth
+    memberWithActivity(usernameOrAddress: String!): Member @skipAuth
     usernames(query: String!): [String]! @skipAuth
     profile: Profile! @requireAuth
     memberBalance: MemberBalance! @requireAuth

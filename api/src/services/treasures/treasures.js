@@ -53,4 +53,6 @@ export const Treasure = {
     db.treasure.findUnique({ where: { id: root.id } }).minter(),
   owner: (_obj, { root }) =>
     db.treasure.findUnique({ where: { id: root.id } }).owner(),
+  marketSales: (_obj, { root }) =>
+    db.treasure.findUnique({ where: { id: root.id } }).marketSales(),
 }

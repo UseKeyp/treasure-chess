@@ -19,11 +19,17 @@ const MemberActivity = ({ member, isLoading }) => {
     ])
   })
   member.treasuresWon.map((treasure) => {
-    list.push([
-      'Bought',
-      // formatDate(treasure.createdAt),
-      <TreasureLink treasure={treasure} />,
-    ])
+    treasure.marketSales.map((marketSale) => {
+      if (
+        marketSale.status === 'SOLD' &&
+        marketSale.buyer?.username === member.username
+      )
+        list.push([
+          formatDate(marketSale.updatedAt),
+          'Bought',
+          <TreasureLink treasure={treasure} />,
+        ])
+    })
   })
 
   return (

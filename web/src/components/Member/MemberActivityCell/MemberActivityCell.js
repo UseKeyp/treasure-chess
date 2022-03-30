@@ -3,19 +3,29 @@ import MemberActivity from 'src/components/Member/MemberActivity'
 export const QUERY = gql`
   query FindMemberActivityQuery($usernameOrAddress: String!) {
     member(usernameOrAddress: $usernameOrAddress) {
+      id
+      username
       treasuresMinted {
-        createdAt
         id
+        createdAt
         title
         tokenId
         achievementScore
       }
       treasuresWon {
-        createdAt
-        tokenId
         id
         title
+        tokenId
         achievementScore
+        marketSales {
+          id
+          status
+          updatedAt
+          buyer {
+            id
+            username
+          }
+        }
       }
     }
   }

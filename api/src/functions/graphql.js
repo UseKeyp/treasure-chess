@@ -43,7 +43,7 @@ export const handler = createGraphQLHandler({
   ],
   depthLimitOptions: {
     // https://www.envelop.dev/plugins/use-depth-limit
-    maxDepth: 3,
+    maxDepth: 4,
     ignore: [],
   },
   onException: () => {

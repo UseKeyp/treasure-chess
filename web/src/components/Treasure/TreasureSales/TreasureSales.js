@@ -25,7 +25,7 @@ const TreasureSales = ({ treasure, isLoading }) => {
       ])
     }
   })
-
+  console.log(isLoading)
   return (
     <div>
       <Table title={TITLE} isLoading={isLoading} height={150} data={list} />

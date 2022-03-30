@@ -1,5 +1,5 @@
 import { createGraphQLHandler } from '@redwoodjs/graphql-server'
-// import { useSentry } from '@envelop/sentry'
+import { useSentry } from '@envelop/sentry'
 /* eslint-disable-next-line no-unused-vars */
 import Sentry from 'src/lib/sentry'
 
@@ -46,7 +46,8 @@ export const handler = createGraphQLHandler({
     maxDepth: 4,
     ignore: [],
   },
-  onException: () => {
+  onException: (e) => {
+    Sentry.captureException(e)
     // Disconnect from your database with an unhandled exception.
     db.$disconnect()
   },

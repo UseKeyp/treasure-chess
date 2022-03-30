@@ -71,7 +71,8 @@ export const transferUsdc = async ({ to, amount }) => {
       to,
       amountBn,
       {
-        gasPrice: DEFAULT_GAS_PRICE,
+        maxPriorityFeePerGas: DEFAULT_GAS_MAX_PRIORITY_FEE_PER_GAS,
+        maxFeePerGas: DEFAULT_GAS_MAX_FEE_PER_GAS,
       }
     )
     const tx = await memberSendTransaction({

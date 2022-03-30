@@ -5,7 +5,10 @@ import { sendDiscordAlert } from 'src/lib/discord/discord'
 import { getExplorerBaseUrlFromName } from '@treasure-chess/web3-helpers'
 import { logger } from 'src/lib/logger'
 import Sentry from 'src/lib/sentry'
-import { DEFAULT_GAS_PRICE } from 'src/lib/web3/helpers'
+import {
+  DEFAULT_GAS_MAX_PRIORITY_FEE_PER_GAS,
+  DEFAULT_GAS_MAX_FEE_PER_GAS,
+} from 'src/lib/web3/helpers'
 
 const MINIMUM_GAS_THRESHOLD = '0.0075' // Units of Ether
 const DEFAULT_DROP_AMOUNT = '0.025' // Units of Ether
@@ -27,7 +30,8 @@ const airdropGasTransaction = async ({ address, amount }) => {
     const tx = {
       to: address,
       value: parseEther(amount),
-      gasPrice: DEFAULT_GAS_PRICE,
+      maxPriorityFeePerGas: DEFAULT_GAS_MAX_PRIORITY_FEE_PER_GAS,
+      maxFeePerGas: DEFAULT_GAS_MAX_FEE_PER_GAS,
     }
     validateConfig(payerWallet)
     const payerWalletWithProvider = await payerWallet.connect(web3Provider)

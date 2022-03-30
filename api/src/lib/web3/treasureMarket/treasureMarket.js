@@ -61,7 +61,10 @@ export const checkAndSetMarketApprovals = async ({ member }) => {
       const unsignedTx = await tokenContract.populateTransaction.approve(
         process.env.CONTRACT_ADDRESS_TREASURE_MARKET,
         ONE_BILLION_BN,
-        { gasPrice: DEFAULT_GAS_PRICE }
+        {
+          maxPriorityFeePerGas: DEFAULT_GAS_MAX_PRIORITY_FEE_PER_GAS,
+          maxFeePerGas: DEFAULT_GAS_MAX_FEE_PER_GAS,
+        }
       )
       tokenApprovalTx = await memberSendTransaction({
         memberId: member.id,

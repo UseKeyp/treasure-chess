@@ -2,7 +2,7 @@ import { Link } from '@redwoodjs/router'
 import { RowsSkeleton } from 'src/components/LoadingSkeleton/LoadingSkeleton'
 
 const Cell = ({ children }) => {
-  return <div className="p-3">{children}</div>
+  return <div className="">{children}</div>
 }
 
 const Table = ({
@@ -18,8 +18,10 @@ const Table = ({
   const rows = data?.map((row, i) => {
     if (React.isValidElement(row)) return row
     const cells = row.map((item) => {
-      if (typeof item === 'string') {
+      if (['string', 'number'].includes(typeof item)) {
         return <Cell>{item}</Cell>
+      } else if (React.isValidElement(item)) {
+        return item
       } else if (item.to) {
         return (
           <Link className="row-button" to={item.to}>
@@ -35,7 +37,7 @@ const Table = ({
     })
     return (
       <div
-        className="table-row"
+        className="flex table-row justify-between p-3"
         style={{ maxWidth: rowWidth, maxHeight: rowHeight }}
         key={i}
       >
@@ -55,7 +57,7 @@ const Table = ({
   return (
     <div className="table-wrapper" style={{ height, width }}>
       <h1 className="table-header">{title}</h1>
-      <div className="table-component flex-col">{contents}</div>
+      <div className="table-component flex-col ">{contents}</div>
     </div>
   )
 }

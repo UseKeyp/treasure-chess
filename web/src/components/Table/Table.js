@@ -17,7 +17,7 @@ const Table = ({
 }) => {
   const rows = data?.map((row, i) => {
     if (React.isValidElement(row)) return row
-    const cells = row.map((item) => {
+    const cells = row.map((item, j) => {
       if (item?.to) {
         return (
           <Link className="row-button" to={item.to}>
@@ -31,7 +31,7 @@ const Table = ({
           </a>
         )
       }
-      return <Cell>{item}</Cell>
+      return <Cell key={j}>{item}</Cell>
     })
     return (
       <div className="flex table-row justify-between p-3" key={i}>

@@ -11,9 +11,8 @@ const TreasureLink = ({ treasure }) => {
   const title = trimString(treasure.title, 8)
   return (
     <Link
-      className="font-bold"
       to={routes.treasure({ tokenId: treasure.tokenId })}
-      className="flex space-x-2  align-center items-center w-32"
+      className="flex space-x-2 font-bold align-center items-center w-32"
     >
       <Icon name="treasure_chess" color={rarityColor} height="16px" />
       <P fontWeight={700} fontSize={16} color={rarityColor}>

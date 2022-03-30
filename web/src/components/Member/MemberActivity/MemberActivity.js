@@ -1,8 +1,6 @@
 // import MiniButton from 'src/components/MiniButton'
 import Table from 'src/components/Table/Table'
 import { formatDate } from 'src/utils/helpers'
-import Icon from 'src/components/Icon/Icon'
-import { getRarityColor } from '@treasure-chess/treasure-html'
 import TreasureLink from 'src/components/TreasureLink'
 
 const TITLE = 'Activity'
@@ -15,7 +13,8 @@ const MemberActivity = ({ member, isLoading }) => {
     list.push([
       formatDate(treasure.createdAt),
       'Minted',
-      <TreasureLink treasure={treasure} />,
+      <TreasureLink key={treasure.id} treasure={treasure} />,
+      treasure.createdAt,
     ])
   })
   member.treasuresWon.map((treasure) => {
@@ -27,16 +26,20 @@ const MemberActivity = ({ member, isLoading }) => {
         list.push([
           formatDate(marketSale.updatedAt),
           'Bought',
-          <TreasureLink treasure={treasure} />,
+          <TreasureLink key={marketSale.updatedAt} treasure={treasure} />,
+          marketSale.updatedAt,
         ])
     })
   })
+
+  const sorted = list.sort((a, b) => a[3] < b[3])
+  const parsed = sorted.map((item) => item.slice(0, 3))
 
   return (
     <div>
       <Table
         title={TITLE}
-        data={list}
+        data={parsed}
         colProportions={[4, 1, 1]}
         height={250}
       />

@@ -25,15 +25,7 @@ const ListItem = ({
   onSubmit,
   isExpanded,
 }) => {
-  const {
-    white: player1,
-    black: player2,
-    endTime,
-    id,
-    tokenId,
-    title,
-    achievementScore,
-  } = game
+  const { white: player1, black: player2, endTime, id, tokenId } = game
   const date = formatDate(endTime)
   const { clearMintError, mintStatus, mintError, mintLoading } = useMinting()
 

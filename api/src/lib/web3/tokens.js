@@ -1,4 +1,8 @@
-import { web3Provider, DEFAULT_GAS_PRICE } from 'src/lib/web3/helpers'
+import {
+  web3Provider,
+  DEFAULT_GAS_MAX_PRIORITY_FEE_PER_GAS,
+  DEFAULT_GAS_MAX_FEE_PER_GAS,
+} from 'src/lib/web3/helpers'
 import { Contract } from '@ethersproject/contracts'
 import { formatUnits, parseUnits } from '@ethersproject/units'
 import { EnvelopError } from '@envelop/core'

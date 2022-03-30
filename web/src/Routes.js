@@ -1,5 +1,4 @@
 import { Set, Router, Route, Private } from '@redwoodjs/router'
-import MembersLayout from 'src/layouts/MembersLayout'
 import TreasuresLayout from 'src/layouts/TreasuresLayout'
 import DefaultLayout from 'src/layouts/DefaultLayout'
 

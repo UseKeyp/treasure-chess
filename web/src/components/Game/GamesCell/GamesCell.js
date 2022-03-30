@@ -46,10 +46,10 @@ export const QUERY = gql`
 
 export const Loading = () => <Games isLoading />
 
-export const Empty = () => <Games games={[]} />
+export const Empty = () => <Games games={[]} count={0} />
 
 export const Failure = () => <Games error />
 
-export const Success = ({ gamesWithFilter: { games, count } }) => {
-  return <Games games={games} count={count} />
+export const Success = ({ gamesWithFilter: { games, count }, page }) => {
+  return <Games games={games} count={count} page={page} />
 }

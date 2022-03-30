@@ -146,7 +146,9 @@ export const getGamesWithFilter = async ({ username, filter, page = 0 }) => {
   const sortedGames = filteredGames
     .sort((a, b) => b.end_time - a.end_time)
     .slice(page * GAMES_PER_PAGE, (page + 1) * GAMES_PER_PAGE)
-
+  logger.debug(
+    `slice params ${page * GAMES_PER_PAGE}, ${(page + 1) * GAMES_PER_PAGE}`
+  )
   const fullGames = await Promise.all(
     sortedGames.map((game) => getFullGameDetails({ game, username }))
   )

@@ -24,7 +24,12 @@ const GameExplorer = () => {
     if (isMinting) return
     const filterParams = new URLSearchParams(newFilter)
     filterParams.sort()
-    setGamesContext({ ...gamesContext, filter: filterParams.toString() })
+    setGamesContext({
+      ...gamesContext,
+      page: undefined,
+      count: undefined,
+      filter: filterParams.toString(),
+    })
   }
   return (
     <div className="w-full">

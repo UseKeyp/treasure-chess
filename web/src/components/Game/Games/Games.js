@@ -15,12 +15,12 @@ import ListItem from './components/ListItem/ListItem'
 
 const TITLE = 'Games'
 
-const Games = ({ games, count, isLoading, error }) => {
+const Games = ({ games, count: queryCount, isLoading, error }) => {
   const { currentUser } = useAuth()
   const { mint, cancelMint } = useMinting()
 
   const [gamesContext, setGamesContext] = React.useContext(GamesContext)
-  const { activeGame, page } = gamesContext
+  const { activeGame, page, count } = gamesContext
 
   const onSubmitMint = (title) => {
     mint({
@@ -79,6 +79,11 @@ const Games = ({ games, count, isLoading, error }) => {
     setGamesContext({ ...gamesContext, gameTitle: '' })
     /* eslint-disable react-hooks/exhaustive-deps */
   }, [])
+  React.useEffect(() => {
+    if (queryCount !== undefined && queryCount !== count)
+      setGamesContext({ ...gamesContext, count: queryCount })
+  }, [queryCount])
+
   return (
     <div className=" max-w-[530px]">
       <Table
@@ -94,6 +99,7 @@ const Games = ({ games, count, isLoading, error }) => {
                 page={page + 1 || 1}
                 perPage={GAMES_PER_PAGE}
                 onChangePage={onChangePage}
+                isLoading={count === undefined}
               />
             </div>
           </div>

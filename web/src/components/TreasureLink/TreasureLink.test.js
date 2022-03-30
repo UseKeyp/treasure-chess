@@ -1,11 +1,11 @@
 import { render } from '@redwoodjs/testing'
 
-import TreasureNftDetails from './TreasureNftDetails'
+import TreasureLink from './TreasureLink'
 
-describe('TreasureNftDetails', () => {
+describe('TreasureLink', () => {
   it('renders successfully', () => {
     expect(() => {
-      render(<TreasureNftDetails />)
+      render(<TreasureLink />)
     }).not.toThrow()
   })
 })

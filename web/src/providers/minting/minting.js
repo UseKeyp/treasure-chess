@@ -22,7 +22,7 @@ import {
   SUBMITTED,
   COMPLETE,
   RESERVATION,
-  UNSUBMITTED,
+  PENDING,
 } from 'src/providers/minting/constants'
 
 const MintingContext = React.createContext({
@@ -53,21 +53,22 @@ const MintingProvider = ({ children }) => {
     // TODO: Add more data to toasts (links, etc.)
     if (purchase.orderStatus === RESERVATION)
       return toast.loading('Waiting for Wyre', { id: purchase.id })
-    if (purchase.txStatus === SUBMITTED)
+    if (purchase.transaction?.status === SUBMITTED)
       return toast.loading(<MintingToast mintPurchase={purchase} />, {
         id: purchase.id,
       })
-    if (purchase.txStatus === COMPLETE)
+    if (purchase.status === COMPLETE)
       return toast.success('Success!', { id: purchase.id })
-    if (purchase.txStatus === FAILED)
-      return toast.error('Minting Failed!', { id: purchase.id })
-    if (purchase.txStatus === UNSUBMITTED) {
+    if (purchase.status === FAILED)
+      return toast.error(<MintingToast mintPurchase={purchase} />, {
+        id: purchase.id,
+      })
+    if (purchase.status === PENDING) {
       if (purchase.paymentType === WYRE)
         toast.success('Wyre checkout successful!')
       toast.loading('Preparing to Mint', { id: purchase.id })
     }
   }
-
   useQuery(PENDING_MINT_PURCHASES_QUERY, {
     pollInterval: 5000,
     skip: !state.shouldPoll,
@@ -90,9 +91,12 @@ const MintingProvider = ({ children }) => {
         if (!last.map((item) => item.id).includes(purchase.id))
           return toastPurchase(purchase)
         const lastPurchase = last.find((item) => item.id === purchase.id)
-        if (lastPurchase.txStatus !== purchase.txStatus) {
+        if (
+          lastPurchase.status !== purchase.status ||
+          lastPurchase?.tx.id !== purchase?.tx.id
+        ) {
           toastPurchase(purchase)
-          if (purchase.txStatus === COMPLETE) {
+          if (purchase.status === COMPLETE) {
             setState({
               ...state,
               successfulMintPurchase: purchase,
@@ -101,16 +105,18 @@ const MintingProvider = ({ children }) => {
               mintStatus: MINT_STATUS_SUCCESS,
             })
             toggleModalSuccess()
-          } else if (purchase.txStatus === FAILED) {
+          } else if (purchase.status === FAILED) {
             setState({
               ...state,
               shouldPoll: false,
               mintStatus: null,
+              mintError: 'Mint failed. Please try again.',
             })
           } else if (purchase.orderStatus === COMPLETE) {
             setState({
               ...state,
               mintStatus: MINT_STATUS_MINTING,
+              mintError: false,
             })
           }
         }
@@ -129,7 +135,7 @@ const MintingProvider = ({ children }) => {
   const onPageLoad = async () => {
     const { data: { pendingMintPurchases } = {} } =
       await pendingMintPurchasesLazyQuery()
-    if (!pendingMintPurchases) return
+    if (!pendingMintPurchases.length) return
     pendingMintPurchases.map((purchase) => toastPurchase(purchase))
     setState({ ...state, pendingMintPurchases, shouldPoll: true })
   }

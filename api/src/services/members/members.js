@@ -1,5 +1,6 @@
 import { db } from 'src/lib/db'
 import { fetchMember } from 'src/lib/members'
+// import { logger } from 'src/lib/logger'
 import { getUsdcBalance as getUsdcBal } from 'src/lib/web3/tokens.js'
 
 export const members = () => {

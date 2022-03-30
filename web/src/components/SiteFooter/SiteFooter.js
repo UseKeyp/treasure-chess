@@ -3,7 +3,6 @@ import globalConfig from 'src/global.config.js'
 
 const SiteFooter = () => {
   const currentYear = new Date().getFullYear()
-
   return (
     <div className="w-full flex items-center justify-center">
       <div className="max-w-7xl flex-1 flex flex-col items-center justify-between py-12 px-4 text-sm md:flex-row">
@@ -39,7 +38,8 @@ const SiteFooter = () => {
             <Icon name="chess_com" height="25" />
             <span className="sr-only">Chess.com</span>
           </a>
-          <div>© Nifty Chess, Inc. {currentYear}</div>
+          <div className="mr-4">© Nifty Chess, Inc. {currentYear}</div>
+          <div>{process.env.VERSION}</div>
         </div>
       </div>
     </div>

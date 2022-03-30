@@ -4,7 +4,11 @@ import { Contract } from '@ethersproject/contracts'
 import achievementsList from '@treasure-chess/chess-achievements/src/achievementsList'
 
 import { adminSendTransaction } from 'src/lib/web3/admin'
-import { web3Provider, DEFAULT_GAS_PRICE } from 'src/lib/web3/helpers'
+import {
+  web3Provider,
+  DEFAULT_GAS_MAX_PRIORITY_FEE_PER_GAS,
+  DEFAULT_GAS_MAX_FEE_PER_GAS,
+} from 'src/lib/web3/helpers'
 import { logger } from 'src/lib/logger'
 
 const treasureAbi = treasureArtifact.abi
@@ -22,12 +26,18 @@ export const getTreasureContract = () => {
   }
 }
 
-export const mint = async ({ treasure, tokenUri, minterAddress }) => {
+export const mint = async ({
+  treasure,
+  tokenUri,
+  minterAddress,
+  // gasMultiplier = 1,
+}) => {
   try {
     if (!minterAddress) throw 'No minterAddress provided'
     if (!tokenUri) throw 'No tokenUri provided'
     if (!treasure) throw 'No treasure provided'
-
+    // if (gasMultiplier > 1.25)
+    //   throw `Gas multiplier cannot be higher than 1.25, value is ${gasMultiplier}`
     const treasureContract = getTreasureContract()
 
     // Lookup the number of each achievement
@@ -36,19 +46,28 @@ export const mint = async ({ treasure, tokenUri, minterAddress }) => {
       const match = achievementsList.find((item) => item.name == chiev)
       if (match) chievScore[index] = match.number
     })
-
-    const unsignedTx = await treasureContract.populateTransaction.mint(
-      minterAddress, // address player
-      tokenUri, // string memory tokenURI
-      treasure.id, //bytes32 moveHash
-      treasure.achievementScore, // uint8 _level
-      chievScore[0], // uint16 _achievement1
-      chievScore[1], // uint16 _achievement2
-      chievScore[2], // uint16 _achievement3
-      treasure.cardColor === 'black', // bool _color);
-      { gasPrice: DEFAULT_GAS_PRICE }
-    )
+    let unsignedTx
+    try {
+      unsignedTx = await treasureContract.populateTransaction.mint(
+        minterAddress, // address player
+        tokenUri, // string memory tokenURI
+        treasure.id, //bytes32 moveHash
+        treasure.achievementScore, // uint8 _level
+        chievScore[0], // uint16 _achievement1
+        chievScore[1], // uint16 _achievement2
+        chievScore[2], // uint16 _achievement3
+        treasure.cardColor === 'black', // bool _color);
+        {
+          maxPriorityFeePerGas: DEFAULT_GAS_MAX_PRIORITY_FEE_PER_GAS,
+          maxFeePerGas: DEFAULT_GAS_MAX_FEE_PER_GAS,
+        }
+      )
+    } catch (e) {
+      logger.error(e)
+    }
+    logger.debug({ custom: { ...unsignedTx } }, 'unsignedTx')
     const tx = await adminSendTransaction(unsignedTx)
+    logger.debug({ custom: { ...tx } }, 'tx')
     return tx
   } catch (e) {
     throw new Error(`mint() ${e}`)

@@ -262,6 +262,11 @@ const MarketProvider = ({ children }) => {
     toggleModalConfirm()
   }
   const buy = () => {
+    if (!currentUser)
+      return setState({
+        ...state,
+        actionError: 'You must be logged in to do that.',
+      })
     setState({
       ...state,
       actionData: {

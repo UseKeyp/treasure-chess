@@ -93,6 +93,7 @@ const MintingProvider = ({ children }) => {
         const lastPurchase = last.find((item) => item.id === purchase.id)
         if (
           lastPurchase.status !== purchase.status ||
+          (!lastPurchase.tx && purcahse?.tx.id) || // Handle when previous has no purchase
           lastPurchase?.tx.id !== purchase?.tx.id
         ) {
           toastPurchase(purchase)
@@ -139,14 +140,15 @@ const MintingProvider = ({ children }) => {
     pendingMintPurchases.map((purchase) => toastPurchase(purchase))
     setState({ ...state, pendingMintPurchases, shouldPoll: true })
   }
-
+  console.log(state)
   const mint = async ({ title, gameId, endTime }) => {
-    await setState({
+    setState({
       ...state,
       mintStatus: MINT_STATUS_MINTING,
       mintLoading: true,
       mintError: false,
     })
+    return console.log('Minted')
     if (mintCreditBalance < 1) {
       try {
         const { data: { mintCheckoutUrl } = {} } =

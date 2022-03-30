@@ -23,14 +23,12 @@ const MintForm = ({
     onChangeTitle(e.target.value)
   }
 
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter') handleSubmit(e)
-  }
-
   const handleSubmit = () => {
-    setErrorText('')
+    console.log(inputValue)
     const error = validateTitle(inputValue)
+    console.log(error)
     if (error) return setErrorText(error)
+    setErrorText('')
     onSubmit(inputValue)
   }
 
@@ -46,9 +44,9 @@ const MintForm = ({
     return ''
   }
 
-  React.useEffect(() => {
-    setInputValue('')
-  }, [])
+  // React.useEffect(() => {
+  //   setInputValue('')
+  // }, [])
 
   React.useEffect(() => {
     setErrorText(queryErrorText)
@@ -62,9 +60,8 @@ const MintForm = ({
           value={inputValue}
           placeholder="Game Title"
           className="games-history-list__input"
-          onClick={(e) => e.stopPropagation()}
+          // onClick={(e) => e.stopPropagation()}
           onChange={handleChange}
-          onKeyDown={handleKeyDown}
         />
         <Button
           disabled={mintLoading}

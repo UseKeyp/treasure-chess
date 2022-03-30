@@ -19,12 +19,11 @@ export const treasure = ({ tokenId }) => {
       owner: true,
       marketSales: {
         orderBy: { updatedAt: 'desc' },
-        take: 1,
+        // take: 1,
       },
     },
   })
 }
-
 // Used to get the latest market sale, without slowing down the normal query
 export const treasureWithMarketSales = async ({ tokenId }) => {
   let id

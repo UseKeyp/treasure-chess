@@ -15,7 +15,7 @@ const API_URL_V2 = isProduction
 const WYRE_WEBHOOK_URL = process.env.APP_DOMAIN + '/api/wyre'
 
 const WYRE_REDIRECT_URI = `${process.env.APP_DOMAIN}/redirect/wyre`
-const WYRE_REDIRECT_URI_ERROR = `${process.env.APP_DOMAIN}/redirect/wyre/error`
+const WYRE_REDIRECT_URI_ERROR = `${process.env.APP_DOMAIN}/redirect/wyre?error=true`
 
 const WYRE_TOKEN_SYMBOL = 'MUSDC'
 

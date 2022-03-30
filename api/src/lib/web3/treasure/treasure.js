@@ -5,7 +5,11 @@ import { parseUnits } from '@ethersproject/units'
 import achievementsList from '@treasure-chess/chess-achievements/src/achievementsList'
 
 import { adminSendTransaction } from 'src/lib/web3/admin'
-import { web3Provider, DEFAULT_GAS_PRICE } from 'src/lib/web3/helpers'
+import {
+  web3Provider,
+  DEFAULT_GAS_MAX_PRIORITY_FEE_PER_GAS,
+  DEFAULT_GAS_MAX_FEE_PER_GAS,
+} from 'src/lib/web3/helpers'
 import { logger } from 'src/lib/logger'
 
 const treasureAbi = treasureArtifact.abi
@@ -57,9 +61,8 @@ export const mint = async ({
         chievScore[2], // uint16 _achievement3
         treasure.cardColor === 'black', // bool _color);
         {
-          maxPriorityFeePerGas: parseUnits('2', 'gwei'),
-          maxFeePerGas: parseUnits('10', 'gwei'),
-          // gasLimit: 300000,
+          maxPriorityFeePerGas: DEFAULT_GAS_MAX_PRIORITY_FEE_PER_GAS,
+          maxFeePerGas: DEFAULT_GAS_MAX_FEE_PER_GAS,
         }
       )
     } catch (e) {

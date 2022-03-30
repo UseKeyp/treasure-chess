@@ -11,10 +11,10 @@ import SiteFooter from 'src/components/SiteFooter'
 
 import { OAUTH_CODE_GRANT_MUTATION } from './graphql'
 
-const Redirect = ({ type, error: wyreError }) => {
+const Redirect = ({ type }) => {
   const [state, setState] = React.useState({ isLoading: true })
 
-  const { code, state: grantState } = useParams()
+  const { code, state: grantState, orderId, error } = useParams()
   const { reauthenticate } = useAuth()
 
   const [codeGrant] = useMutation(OAUTH_CODE_GRANT_MUTATION)
@@ -124,7 +124,7 @@ const Redirect = ({ type, error: wyreError }) => {
         <Icon name="wyre" size="29" color="green" />
       </div>
     )
-    if (wyreError)
+    if (!orderId || error)
       return setState({
         isLoading: false,
         errorMessage: 'Wyre checkout failed',
@@ -161,7 +161,7 @@ const Redirect = ({ type, error: wyreError }) => {
     contents = (
       <>
         {state.errorIcon}
-        <h2 className="mt-6 tracking-tight">Oops - we had an issue</h2>
+        <h2 className="mt-6 tracking-tight">Oops - there was an issue</h2>
         {typeof state.errorMessage === 'string' ? (
           <h3 className="mt-8 font-bold text-[#FFBB0D]">
             {state.errorMessage.substring(0, 200)}

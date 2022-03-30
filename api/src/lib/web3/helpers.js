@@ -4,9 +4,8 @@ import { parseUnits } from '@ethersproject/units'
 // import { isProduction } from 'src/lib/helpers'
 
 const CHAIN_ID = getIdFromNetworkName(process.env.ETHEREUM_NETWORK_NAME)
-// export const DEFAULT_GAS_PRICE = isProduction && parseUnits('80', 'gwei')
-export const DEFAULT_GAS_PRICE = parseUnits('190', 'gwei')
-// export const DEFAULT_GAS_PRICE = undefined
+export const DEFAULT_GAS_MAX_PRIORITY_FEE_PER_GAS = parseUnits('2', 'gwei')
+export const DEFAULT_GAS_MAX_FEE_PER_GAS = parseUnits('10', 'gwei')
 
 export const getProviderByChainId = (chainId) => {
   try {

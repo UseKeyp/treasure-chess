@@ -83,7 +83,11 @@ const MemberDetails = ({ member, isProfile }) => {
             )}
           </div>
           <div className="mt-2 member-details--member-content">
-            {member.masterTitle && <p>{member.masterTitle}</p>}
+            <div className="bg-red px-[8px] py-[5px] rounded-[2.5px] mr-1">
+              {member.masterTitle && (
+                <p className="font-bold">{member.masterTitle}</p>
+              )}
+            </div>
             <img
               alt={`Flag of ${member.country}`}
               src={getFlagBase64(member.country)}
@@ -93,41 +97,41 @@ const MemberDetails = ({ member, isProfile }) => {
               isProfile={isProfile}
             />
           </div>
-        </div>
 
-        {isProfile && (
-          <div className="member-details--funds-actions">
-            <h4>
-              <MemberBalance />
-            </h4>
-            <Button
-              onClick={deposit}
-              variant="blue"
-              size="small"
-              className="w-32"
-            >
-              Deposit
-            </Button>
-            <Button
-              onClick={withdraw}
-              variant="green"
-              // textColor="black"
-              size="small"
-              className="w-32"
-            >
-              Withdraw
-            </Button>
-            <p className="mt-2">
-              <a
-                href={globalConfig.HOW_TO_BUY_URL}
-                target="_blank"
-                rel="noopener noreferrer"
+          {isProfile && (
+            <div className="member-details--funds-actions">
+              <h4>
+                <MemberBalance />
+              </h4>
+              <Button
+                onClick={deposit}
+                variant="blue"
+                size="small"
+                className="w-32"
               >
-                How to buy and FAQ
-              </a>
-            </p>
-          </div>
-        )}
+                Deposit
+              </Button>
+              <Button
+                onClick={withdraw}
+                variant="green"
+                // textColor="black"
+                size="small"
+                className="w-32"
+              >
+                Withdraw
+              </Button>
+              <p className="mt-2">
+                <a
+                  href={globalConfig.HOW_TO_BUY_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  How to buy and FAQ
+                </a>
+              </p>
+            </div>
+          )}
+        </div>
       </div>
     </section>
   )

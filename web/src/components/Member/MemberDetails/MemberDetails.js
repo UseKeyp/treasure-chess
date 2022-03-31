@@ -1,5 +1,6 @@
 import Avatar from 'src/components/Avatar'
 import Button from 'src/components/Button/Button'
+import { Link, routes } from '@redwoodjs/router'
 import Icon, { TwitchIcon } from 'src/components/Icon'
 
 import MemberBalance from 'src/components/Member/MemberBalance'
@@ -93,6 +94,17 @@ const MemberDetails = ({ member, isProfile }) => {
               isProfile={isProfile}
             />
           </div>
+          {isProfile && (
+            <div className="mt-2 member-details--member-content">
+              <p>
+                <Link
+                  to={routes.member({ usernameOrAddress: member.username })}
+                >
+                  View public profile
+                </Link>
+              </p>
+            </div>
+          )}
         </div>
 
         {isProfile && (

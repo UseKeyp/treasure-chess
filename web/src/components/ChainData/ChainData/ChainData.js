@@ -19,8 +19,14 @@ const ChainData = ({ chainData, isLoading, isError }) => {
       />
     )
   else {
-    const { networkName, treasureAddress, marketAddress, totalSupply } =
-      chainData
+    const {
+      networkName,
+      treasureAddress,
+      marketAddress,
+      totalSupply,
+      environment,
+      nodeEnvironment,
+    } = chainData
     const rows = [
       ['Network', networkName],
       [
@@ -41,7 +47,17 @@ const ChainData = ({ chainData, isLoading, isError }) => {
       ],
       ['Total supply', totalSupply],
     ]
-    return <Table title={TITLE} data={rows} height={HEIGHT} width={WIDTH} />
+    return (
+      <>
+        <Table title={TITLE} data={rows} height={HEIGHT} width={WIDTH} />
+        <p className="mt-4 text-greyLight">
+          Environment: api {environment}, web {process.env.ENVIRONMENT}
+        </p>
+        <p className="text-greyLight">
+          Node environment: api {nodeEnvironment}, web {process.env.NODE_ENV}
+        </p>
+      </>
+    )
   }
 }
 export default ChainData

@@ -4,6 +4,8 @@ export const schema = gql`
     treasureAddress: String!
     marketAddress: String!
     totalSupply: String!
+    environment: String
+    nodeEnvironment: String
   }
 
   type Query {

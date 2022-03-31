@@ -9,7 +9,7 @@ const MemberActivity = ({ member, isLoading }) => {
   const list = []
   if (!member || isLoading)
     return <Table title={TITLE} isLoading height={250} />
-  member.treasuresMinted.map((treasure) => {
+  member?.treasuresMinted?.map((treasure) => {
     list.push([
       formatDate(treasure.createdAt),
       'Minted',
@@ -17,8 +17,8 @@ const MemberActivity = ({ member, isLoading }) => {
       treasure.createdAt,
     ])
   })
-  member.treasuresWon.map((treasure) => {
-    treasure.marketSales.map((marketSale) => {
+  member?.treasuresWon?.map((treasure) => {
+    treasure.marketSales?.map((marketSale) => {
       if (
         marketSale.status === 'SOLD' &&
         marketSale.buyer?.username === member.username

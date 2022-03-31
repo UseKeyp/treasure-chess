@@ -39,7 +39,7 @@
     "react-dom": "^17.0.2"
   },
   "devDependencies": {
-    "@redwoodjs/cli": "^1.0.0-rc.6",
+    "@redwoodjs/cli": "^0.50.0",
     "dotenv": "^10.0.0",
     "prisma": "^3.6.0",
     "puppeteer": "^13.2.0"

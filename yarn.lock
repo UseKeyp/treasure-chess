@@ -3787,13 +3787,6 @@
   dependencies:
     "@prisma/engines-version" "3.11.0-48.b371888aaf8f51357c7457d836b86d12da91658b"
 
-"@prisma/client@3.11.1":
-  version "3.11.1"
-  resolved "https://registry.npmjs.org/@prisma/client/-/client-3.11.1.tgz#bde6dec71ae133d04ce1c6658e3d76627a3c6dc7"
-  integrity sha512-B3C7zQG4HbjJzUr2Zg9UVkBJutbqq9/uqkl1S138+keZCubJrwizx3RuIvGwI+s+pm3qbsyNqXiZgL3Ir0fSng==
-  dependencies:
-    "@prisma/engines-version" "3.11.1-1.1a2506facaf1a4727b7c26850735e88ec779dee9"
-
 "@prisma/debug@3.10.0":
   version "3.10.0"
   resolved "https://registry.npmjs.org/@prisma/debug/-/debug-3.10.0.tgz#7ba5be41b60f48b7822685437c588c8d178f30d7"
@@ -3807,15 +3800,6 @@
   version "3.11.0"
   resolved "https://registry.npmjs.org/@prisma/debug/-/debug-3.11.0.tgz#c4e2fadd617a82f54622aad93472dfd2c01b6808"
   integrity sha512-hbOU50++HdE0Xdt0FenrVvCteTvRg8EHNGKkxa1jWIB8O2o0bkm5igOlhfYGkvHZ3H1GK35oZp7rllMVeMM4ig==
-  dependencies:
-    "@types/debug" "4.1.7"
-    ms "2.1.3"
-    strip-ansi "6.0.1"
-
-"@prisma/debug@3.11.1":
-  version "3.11.1"
-  resolved "https://registry.npmjs.org/@prisma/debug/-/debug-3.11.1.tgz#84974207ae3f411ab044a309cf98e3d0557e2c40"
-  integrity sha512-2Dc6Cqc1w2TAnTExd8oK9ydxT2LEpDycOCSrW5mGrLVcTpMnd6icp4GhRGGDb8yvRtDvuyXTPe3E1Fffjce6yQ==
   dependencies:
     "@types/debug" "4.1.7"
     ms "2.1.3"
@@ -3840,34 +3824,10 @@
     terminal-link "2.1.1"
     undici "3.3.6"
 
-"@prisma/engine-core@3.11.1":
-  version "3.11.1"
-  resolved "https://registry.npmjs.org/@prisma/engine-core/-/engine-core-3.11.1.tgz#9e54f424e6173afd163ce67cf643258be66d9afe"
-  integrity sha512-Ib8V/v+ryNL+xybcm3KrCZlAHWBcy4ItFdzkPIiRGigIhC1+LslsN23sQqwiqTmVxp8S/GwHTDpMqNopyePDjQ==
-  dependencies:
-    "@prisma/debug" "3.11.1"
-    "@prisma/engines" "3.11.1-1.1a2506facaf1a4727b7c26850735e88ec779dee9"
-    "@prisma/generator-helper" "3.11.1"
-    "@prisma/get-platform" "3.11.1-1.1a2506facaf1a4727b7c26850735e88ec779dee9"
-    chalk "4.1.2"
-    execa "5.1.1"
-    get-stream "6.0.1"
-    indent-string "4.0.0"
-    new-github-issue-url "0.2.1"
-    p-retry "4.6.1"
-    strip-ansi "6.0.1"
-    terminal-link "2.1.1"
-    undici "3.3.6"
-
 "@prisma/engines-version@3.11.0-48.b371888aaf8f51357c7457d836b86d12da91658b":
   version "3.11.0-48.b371888aaf8f51357c7457d836b86d12da91658b"
   resolved "https://registry.npmjs.org/@prisma/engines-version/-/engines-version-3.11.0-48.b371888aaf8f51357c7457d836b86d12da91658b.tgz#808ab9636184e4a0b2bf79016d6ed72c4a1ed54f"
   integrity sha512-bhMW1XybXZyqCf+9QqjP7Oi7xgVHcISVyOZNMm51qeZsy12M1RtHaCcXUFeMMV0JOCZZuPFVr3+0KVpQqK35CQ==
-
-"@prisma/engines-version@3.11.1-1.1a2506facaf1a4727b7c26850735e88ec779dee9":
-  version "3.11.1-1.1a2506facaf1a4727b7c26850735e88ec779dee9"
-  resolved "https://registry.npmjs.org/@prisma/engines-version/-/engines-version-3.11.1-1.1a2506facaf1a4727b7c26850735e88ec779dee9.tgz#81a1835b495ad287ad7824dbd62f74e9eee90fb9"
-  integrity sha512-HkcsDniA4iNb/gi0iuyOJNAM7nD/LwQ0uJm15v360O5dee3TM4lWdSQiTYBMK6FF68ACUItmzSur7oYuUZ2zkQ==
 
 "@prisma/engines@3.11.0-48.b371888aaf8f51357c7457d836b86d12da91658b":
   version "3.11.0-48.b371888aaf8f51357c7457d836b86d12da91658b"
@@ -3902,29 +3862,6 @@
     temp-dir "2.0.0"
     tempy "1.0.1"
 
-"@prisma/fetch-engine@3.11.1-1.1a2506facaf1a4727b7c26850735e88ec779dee9":
-  version "3.11.1-1.1a2506facaf1a4727b7c26850735e88ec779dee9"
-  resolved "https://registry.npmjs.org/@prisma/fetch-engine/-/fetch-engine-3.11.1-1.1a2506facaf1a4727b7c26850735e88ec779dee9.tgz#024e4ddff07ee4b49ae0b9c4410686453dd907ba"
-  integrity sha512-gGwtYyw1VdNhu7HuKM4sWbZzVgXXivvp2EQ+9XEcW3zEuY/uAVPN/Nqwldx7BIf49PtN+z8QrOU9Yu2tisgv/A==
-  dependencies:
-    "@prisma/debug" "3.11.0"
-    "@prisma/get-platform" "3.11.1-1.1a2506facaf1a4727b7c26850735e88ec779dee9"
-    chalk "4.1.2"
-    execa "5.1.1"
-    find-cache-dir "3.3.2"
-    hasha "5.2.2"
-    http-proxy-agent "5.0.0"
-    https-proxy-agent "5.0.0"
-    make-dir "3.1.0"
-    node-fetch "2.6.7"
-    p-filter "2.1.0"
-    p-map "4.0.0"
-    p-retry "4.6.1"
-    progress "2.0.3"
-    rimraf "3.0.2"
-    temp-dir "2.0.0"
-    tempy "1.0.1"
-
 "@prisma/generator-helper@3.11.0":
   version "3.11.0"
   resolved "https://registry.npmjs.org/@prisma/generator-helper/-/generator-helper-3.11.0.tgz#56bf4992aab40b90083c083741113270dc7eac98"
@@ -3935,29 +3872,12 @@
     chalk "4.1.2"
     cross-spawn "7.0.3"
 
-"@prisma/generator-helper@3.11.1":
-  version "3.11.1"
-  resolved "https://registry.npmjs.org/@prisma/generator-helper/-/generator-helper-3.11.1.tgz#e241dd1c315697f4432c372ac39afb129754f1a3"
-  integrity sha512-1+352ul+M+imQkr+gII346JzXwxsYxyN4XzuJyw+/mLmjH+4g76/W6BokhVhAwBuXiUZ0kexGTe7kB3az3Cc5Q==
-  dependencies:
-    "@prisma/debug" "3.11.1"
-    "@types/cross-spawn" "6.0.2"
-    chalk "4.1.2"
-    cross-spawn "7.0.3"
-
 "@prisma/get-platform@3.11.0-48.b371888aaf8f51357c7457d836b86d12da91658b":
   version "3.11.0-48.b371888aaf8f51357c7457d836b86d12da91658b"
   resolved "https://registry.npmjs.org/@prisma/get-platform/-/get-platform-3.11.0-48.b371888aaf8f51357c7457d836b86d12da91658b.tgz#4bf890d81cba0b06a11cfda579318fd7f0eabbe5"
   integrity sha512-+CpsuTYo9ng8P2e2RV8S9x+sAGQsxun1mXk22KKkIAxYrq2EbEnpQIqyGCfbO9SOdf/8CjE7PtH1EYwPAFaLkQ==
   dependencies:
     "@prisma/debug" "3.10.0"
-
-"@prisma/get-platform@3.11.1-1.1a2506facaf1a4727b7c26850735e88ec779dee9":
-  version "3.11.1-1.1a2506facaf1a4727b7c26850735e88ec779dee9"
-  resolved "https://registry.npmjs.org/@prisma/get-platform/-/get-platform-3.11.1-1.1a2506facaf1a4727b7c26850735e88ec779dee9.tgz#190aa7cda421a17b7b29d93a57c122a2fc9be82d"
-  integrity sha512-q6ImWCxgi2KniuSVi0C0uhL5SkvkF/T0GNVjVwBai8/7LWRFsR3ZxKL6Wod+dZo2fXDWOgEgqdtTBCwWHqdgbw==
-  dependencies:
-    "@prisma/debug" "3.11.0"
 
 "@prisma/sdk@3.11.0":
   version "3.11.0"
@@ -3970,50 +3890,6 @@
     "@prisma/fetch-engine" "3.11.0-48.b371888aaf8f51357c7457d836b86d12da91658b"
     "@prisma/generator-helper" "3.11.0"
     "@prisma/get-platform" "3.11.0-48.b371888aaf8f51357c7457d836b86d12da91658b"
-    "@timsuchanek/copy" "1.4.5"
-    archiver "5.3.0"
-    arg "5.0.1"
-    chalk "4.1.2"
-    checkpoint-client "1.1.21"
-    cli-truncate "2.1.0"
-    dotenv "16.0.0"
-    escape-string-regexp "4.0.0"
-    execa "5.1.1"
-    find-up "5.0.0"
-    fs-jetpack "4.3.1"
-    global-dirs "3.0.0"
-    globby "11.1.0"
-    has-yarn "2.1.0"
-    is-ci "3.0.1"
-    make-dir "3.1.0"
-    node-fetch "2.6.7"
-    p-map "4.0.0"
-    read-pkg-up "7.0.1"
-    replace-string "3.1.0"
-    resolve "1.22.0"
-    rimraf "3.0.2"
-    shell-quote "1.7.3"
-    string-width "4.2.3"
-    strip-ansi "6.0.1"
-    strip-indent "3.0.0"
-    tar "6.1.11"
-    temp-dir "2.0.0"
-    temp-write "4.0.0"
-    tempy "1.0.1"
-    terminal-link "2.1.1"
-    tmp "0.2.1"
-
-"@prisma/sdk@3.11.1":
-  version "3.11.1"
-  resolved "https://registry.npmjs.org/@prisma/sdk/-/sdk-3.11.1.tgz#3a947326c5196a25b5f28712bde0e34d181c20cc"
-  integrity sha512-pKUsf2HOX6b/grymMs1SsiM+aiBqiQk0qqmp1HcSzSDHSfzn91chkT/4MHmMrQcQuz6bZTErl0AKe63CvgJylg==
-  dependencies:
-    "@prisma/debug" "3.11.1"
-    "@prisma/engine-core" "3.11.1"
-    "@prisma/engines" "3.11.1-1.1a2506facaf1a4727b7c26850735e88ec779dee9"
-    "@prisma/fetch-engine" "3.11.1-1.1a2506facaf1a4727b7c26850735e88ec779dee9"
-    "@prisma/generator-helper" "3.11.1"
-    "@prisma/get-platform" "3.11.1-1.1a2506facaf1a4727b7c26850735e88ec779dee9"
     "@timsuchanek/copy" "1.4.5"
     archiver "5.3.0"
     arg "5.0.1"
@@ -4149,10 +4025,10 @@
     "@react-spring/shared" "~9.4.4"
     "@react-spring/types" "~9.4.4"
 
-"@redwoodjs/api-server@1.0.0-rc.final.2":
-  version "1.0.0-rc.final.2"
-  resolved "https://registry.npmjs.org/@redwoodjs/api-server/-/api-server-1.0.0-rc.final.2.tgz#6eee2be6a8f6fb63a146973656fa5898d487ff8b"
-  integrity sha512-ur3nYRiV0JJ80IOC9D3tA4LYRTi/wcgqldbvX/N39QsWlz2Ku6iZlvD9EMxKtzQctAXWkHgBNuErYjGVd/5p3Q==
+"@redwoodjs/api-server@0.50.0":
+  version "0.50.0"
+  resolved "https://registry.npmjs.org/@redwoodjs/api-server/-/api-server-0.50.0.tgz#600a777bb8a5d7c27d83e0fcdfdec2643e4329cd"
+  integrity sha512-HjzzWAlVxAf6k4oW5I1eoTVtfsZBIEKwzmLOk484Z/wajl1t+HRwyHa7N5doiY6tEKSuwo3y7CX16TmtTwejiA==
   dependencies:
     "@babel/plugin-transform-runtime" "7.16.7"
     ansi-colors "4.1.1"
@@ -4189,40 +4065,22 @@
     title-case "3.0.3"
     uuid "8.3.2"
 
-"@redwoodjs/api@1.0.0-rc.final.2":
-  version "1.0.0-rc.final.2"
-  resolved "https://registry.npmjs.org/@redwoodjs/api/-/api-1.0.0-rc.final.2.tgz#bee7bf3d9c8423a994ef04dafef4d768868c0967"
-  integrity sha512-bmaSlEhaeVS2N4yp7nEWzfQswFChWmdCWUTUH9rVjPOd26Fu4daDwOjveZ/+8A2BTz/f0aiw9TwS3nMQTjw2Pg==
-  dependencies:
-    "@babel/runtime-corejs3" "7.16.7"
-    "@prisma/client" "3.11.1"
-    cross-undici-fetch "0.1.27"
-    crypto-js "4.1.1"
-    humanize-string "2.1.0"
-    jsonwebtoken "8.5.1"
-    jwks-rsa "2.0.5"
-    md5 "2.3.0"
-    pascalcase "1.0.0"
-    pino "7.9.2"
-    title-case "3.0.3"
-    uuid "8.3.2"
+"@redwoodjs/auth@0.50.0", "@redwoodjs/auth@^0.50.0":
+  version "0.50.0"
+  resolved "https://registry.npmjs.org/@redwoodjs/auth/-/auth-0.50.0.tgz#49a18f4b7ee8b0025639a2f03b20cda57bb47a26"
+  integrity sha512-hm31Jx4kQdIEJLVol+HLcm6B9fDG7NvjuPHVnX5B0dO0TGYdtqiYDOoMkhFrpwKkE5iS7OX5LU4WG7LHtI1pGw==
 
-"@redwoodjs/auth@1.0.0-rc.final.2", "@redwoodjs/auth@^1.0.0-rc.6":
-  version "1.0.0-rc.final.2"
-  resolved "https://registry.npmjs.org/@redwoodjs/auth/-/auth-1.0.0-rc.final.2.tgz#a5ec42b33e19b856f163730bcb600a026f0887b9"
-  integrity sha512-5qupt8mmFPdOanewexZfCRXVxmB5huSJitLaCFV0MK1xYjSYB+hDqr6x27UZZrMiXAjMTzkhdD4iHFAVILBvIA==
-
-"@redwoodjs/cli@1.0.0-rc.final.2", "@redwoodjs/cli@^1.0.0-rc.6":
-  version "1.0.0-rc.final.2"
-  resolved "https://registry.npmjs.org/@redwoodjs/cli/-/cli-1.0.0-rc.final.2.tgz#ea16532c092887f64f2f12f93693eeff9beb90e4"
-  integrity sha512-8g+fw0RYlOWGw/r1ueu70yRTgMPmsqdIZLvvYWQRwJqNeicPmnYaKZ9Qn3JKXl3xoXk2lsoYupbPzNRkofnYCQ==
+"@redwoodjs/cli@0.50.0", "@redwoodjs/cli@^0.50.0":
+  version "0.50.0"
+  resolved "https://registry.npmjs.org/@redwoodjs/cli/-/cli-0.50.0.tgz#363be1d5f791af4e473216a5414c4cb4b8afdcc4"
+  integrity sha512-DaEayAi/uUwVA42zqjSNFaw4rZTsLThfO+Gzm08slsIRNT1gDqwmBjvJ2qhZvy8ioTCjQUzpxvzcCd1+SNvhXA==
   dependencies:
     "@prisma/sdk" "3.11.0"
-    "@redwoodjs/api-server" "1.0.0-rc.final.2"
-    "@redwoodjs/internal" "1.0.0-rc.final.2"
-    "@redwoodjs/prerender" "1.0.0-rc.final.2"
-    "@redwoodjs/structure" "1.0.0-rc.final.2"
-    "@redwoodjs/telemetry" "1.0.0-rc.final.2"
+    "@redwoodjs/api-server" "0.50.0"
+    "@redwoodjs/internal" "0.50.0"
+    "@redwoodjs/prerender" "0.50.0"
+    "@redwoodjs/structure" "0.50.0"
+    "@redwoodjs/telemetry" "0.50.0"
     boxen "5.1.2"
     camelcase "6.3.0"
     chalk "4.1.2"
@@ -4246,17 +4104,17 @@
     pascalcase "1.0.0"
     pluralize "8.0.0"
     prettier "2.5.1"
-    prisma "3.11.1"
+    prisma "3.11.0"
     prompts "2.4.2"
     rimraf "3.0.2"
     secure-random-password "0.2.3"
     terminal-link "2.1.1"
     yargs "16.2.0"
 
-"@redwoodjs/core@^1.0.0-rc.6":
-  version "1.0.0-rc.final.2"
-  resolved "https://registry.npmjs.org/@redwoodjs/core/-/core-1.0.0-rc.final.2.tgz#cb09b3da2d9c6021b059e069a867c6c7aa286489"
-  integrity sha512-I6uxuL47BgVy3QbiiliWLe7bOnBZ/C9mwqvnDA+1jzkCDFCBk267jvUlfmcvS53mpQqCisyTd3jIW/0jAiPMnQ==
+"@redwoodjs/core@^0.50.0":
+  version "0.50.0"
+  resolved "https://registry.npmjs.org/@redwoodjs/core/-/core-0.50.0.tgz#1c43d5bcd23fbd82355df27025cda1a7a766abee"
+  integrity sha512-q1A+CWro3k8MRW8zxQdAkpVOZHuJMAIh3BTMo+BWdslDvMiRGH21q1/FIvBq5i9EU2TxEGdsAMz62uP8t54PZg==
   dependencies:
     "@babel/cli" "7.16.7"
     "@babel/core" "7.16.7"
@@ -4272,10 +4130,10 @@
     "@babel/preset-typescript" "7.16.7"
     "@babel/runtime-corejs3" "7.16.7"
     "@pmmmwh/react-refresh-webpack-plugin" "0.5.4"
-    "@redwoodjs/cli" "1.0.0-rc.final.2"
-    "@redwoodjs/eslint-config" "1.0.0-rc.final.2"
-    "@redwoodjs/internal" "1.0.0-rc.final.2"
-    "@redwoodjs/testing" "1.0.0-rc.final.2"
+    "@redwoodjs/cli" "0.50.0"
+    "@redwoodjs/eslint-config" "0.50.0"
+    "@redwoodjs/internal" "0.50.0"
+    "@redwoodjs/testing" "0.50.0"
     babel-loader "8.2.3"
     babel-plugin-auto-import "1.1.0"
     babel-plugin-graphql-tag "3.3.0"
@@ -4312,15 +4170,15 @@
     webpack-merge "5.8.0"
     webpack-retry-chunk-load-plugin "3.0.0"
 
-"@redwoodjs/eslint-config@1.0.0-rc.final.2":
-  version "1.0.0-rc.final.2"
-  resolved "https://registry.npmjs.org/@redwoodjs/eslint-config/-/eslint-config-1.0.0-rc.final.2.tgz#406e96ff23234343af305e0c462840366947a207"
-  integrity sha512-mNhZZiU19/pcO2FVUqoJfGcOnC9z7uVyBY2AOs6fJEyuUHyLVgxD01rWYl93Fal/ecQWtjBxCoXpm9yLB7trHQ==
+"@redwoodjs/eslint-config@0.50.0":
+  version "0.50.0"
+  resolved "https://registry.npmjs.org/@redwoodjs/eslint-config/-/eslint-config-0.50.0.tgz#a8cb7bf6ca13c96866dceb056fc7ecd4deb089a1"
+  integrity sha512-KM79qblXq+/0VL+Dfjm1VOyi9LHWTi/pTjgAbr/Iu9CyKnvl9bgGhytLCf8gBwnr+XoZX9RhAxLBPZrGIZD1yA==
   dependencies:
     "@babel/core" "7.16.7"
     "@babel/eslint-parser" "7.16.5"
     "@babel/eslint-plugin" "7.16.5"
-    "@redwoodjs/internal" "1.0.0-rc.final.2"
+    "@redwoodjs/internal" "0.50.0"
     "@typescript-eslint/eslint-plugin" "5.16.0"
     "@typescript-eslint/parser" "5.16.0"
     eslint "8.11.0"
@@ -4335,41 +4193,16 @@
     eslint-plugin-react-hooks "4.3.0"
     prettier "2.5.1"
 
-"@redwoodjs/forms@^1.0.0-rc.6":
-  version "1.0.0-rc.final.2"
-  resolved "https://registry.npmjs.org/@redwoodjs/forms/-/forms-1.0.0-rc.final.2.tgz#623581bf88cb4ff9cbf7a060340f61ed5dc3b7f3"
-  integrity sha512-z9bPifxTCaTRFCuP43XWz+8rSrBTTQWTXO0qxDLEyU08miw/xoUIymnXjSh125b1KAv5ar5FxPkAvh1fOdjUvw==
+"@redwoodjs/forms@^0.50.0":
+  version "0.50.0"
+  resolved "https://registry.npmjs.org/@redwoodjs/forms/-/forms-0.50.0.tgz#46fc88fb002e2962cbe01023621145105f0a7a87"
+  integrity sha512-i2ldb1DhtiV0rkBdQPzQfpocIsYUq31saZ2jVGKIzPUwmcx8RwZHe6AtUrsFRKhBoc0+C3cZ/9dKIERbl7lkmQ==
   dependencies:
     "@babel/runtime-corejs3" "7.16.7"
     pascalcase "1.0.0"
     react-hook-form "7.28.1"
 
-"@redwoodjs/graphql-server@1.0.0-rc.final.2":
-  version "1.0.0-rc.final.2"
-  resolved "https://registry.npmjs.org/@redwoodjs/graphql-server/-/graphql-server-1.0.0-rc.final.2.tgz#0c6ea16b1150bc4f5736ba5ae1f25787a47d4075"
-  integrity sha512-jh+IQTOuHkvbRxcu8wAM7DMTwBmQ5POFFQr11Jg4ybotolOu8O2wWrxXuePYmRoE4Rr13AWFLMa81zxkj80xFg==
-  dependencies:
-    "@envelop/depth-limit" "1.3.0"
-    "@envelop/disable-introspection" "3.1.0"
-    "@envelop/filter-operation-type" "3.1.0"
-    "@envelop/parser-cache" "4.1.0"
-    "@envelop/validation-cache" "4.1.0"
-    "@graphql-tools/merge" "8.2.6"
-    "@graphql-tools/schema" "8.3.5"
-    "@graphql-tools/utils" "8.6.5"
-    "@graphql-yoga/common" "0.1.0-beta.6"
-    "@prisma/client" "3.11.1"
-    "@redwoodjs/api" "1.0.0-rc.final.2"
-    core-js "3.21.1"
-    cross-undici-fetch "0.1.27"
-    graphql "16.3.0"
-    graphql-scalars "1.16.0"
-    graphql-tag "2.12.6"
-    lodash.merge "4.6.2"
-    lodash.omitby "4.6.0"
-    uuid "8.3.2"
-
-"@redwoodjs/graphql-server@^0.50.0":
+"@redwoodjs/graphql-server@0.50.0", "@redwoodjs/graphql-server@^0.50.0":
   version "0.50.0"
   resolved "https://registry.npmjs.org/@redwoodjs/graphql-server/-/graphql-server-0.50.0.tgz#34a48ae0c1fc0e262f93869a88808b1620f3a84b"
   integrity sha512-svC4YJMXalBtUAPYYluPCBpdrlBeg+1yVA/9AVvG6irY4ut6xQH/3lwu5SH9sMjMavv3QP0NwLv5v6M+Lu9oWw==
@@ -4394,10 +4227,10 @@
     lodash.omitby "4.6.0"
     uuid "8.3.2"
 
-"@redwoodjs/internal@1.0.0-rc.final.2":
-  version "1.0.0-rc.final.2"
-  resolved "https://registry.npmjs.org/@redwoodjs/internal/-/internal-1.0.0-rc.final.2.tgz#f4ebf7b6e0a9833feaa6d7bb6654e8644de5fda7"
-  integrity sha512-DPx/3tOV6xKauDVfjnVDpFLVEuJP4alFnKbgq+mHg+5ODlAITEzVDeZJKZgajzhzpxwVgG7d4pdDb1TRCfyjrA==
+"@redwoodjs/internal@0.50.0":
+  version "0.50.0"
+  resolved "https://registry.npmjs.org/@redwoodjs/internal/-/internal-0.50.0.tgz#3fa9a889ee5545b1ca2c32c6e5db4f574114a40f"
+  integrity sha512-uDNSa98spc3os2VKCY2KKrwZnA5Wn69T2BqybAbXFUXxm02JfzdbRtME95vJe/DArIguHzL462dTvTQl7/Z+iw==
   dependencies:
     "@babel/parser" "7.16.7"
     "@babel/plugin-transform-typescript" "7.16.7"
@@ -4411,7 +4244,7 @@
     "@graphql-codegen/typescript-operations" "2.3.5"
     "@graphql-codegen/typescript-react-apollo" "3.2.11"
     "@graphql-codegen/typescript-resolvers" "2.6.1"
-    "@redwoodjs/graphql-server" "1.0.0-rc.final.2"
+    "@redwoodjs/graphql-server" "0.50.0"
     babel-plugin-graphql-tag "3.3.0"
     babel-plugin-polyfill-corejs3 "0.5.0"
     chalk "4.1.2"
@@ -4430,38 +4263,38 @@
     systeminformation "5.11.9"
     toml "3.0.0"
 
-"@redwoodjs/prerender@1.0.0-rc.final.2":
-  version "1.0.0-rc.final.2"
-  resolved "https://registry.npmjs.org/@redwoodjs/prerender/-/prerender-1.0.0-rc.final.2.tgz#2b570b87adec3485823223be70f15c52fdfd95f9"
-  integrity sha512-Xxpv0wlNbbmkPseBUvKYglIVVHIhnUNbs2M/BSHq+X/vKxfVVNiW7rocYdGMsJEXxW1WXZVmEeTmzxJ7EnT8YQ==
+"@redwoodjs/prerender@0.50.0":
+  version "0.50.0"
+  resolved "https://registry.npmjs.org/@redwoodjs/prerender/-/prerender-0.50.0.tgz#f2fc510d775522892752f3eba0027365754f4714"
+  integrity sha512-ISYMdYnnF3AIntBnEuWEkKjh+YZijAkk7IIIv/hMsbJCjC14SXy8VELl3364Zc/xtHncWf+HTiRCPZjR7A+UZQ==
   dependencies:
-    "@redwoodjs/auth" "1.0.0-rc.final.2"
-    "@redwoodjs/internal" "1.0.0-rc.final.2"
-    "@redwoodjs/router" "1.0.0-rc.final.2"
-    "@redwoodjs/structure" "1.0.0-rc.final.2"
-    "@redwoodjs/web" "1.0.0-rc.final.2"
+    "@redwoodjs/auth" "0.50.0"
+    "@redwoodjs/internal" "0.50.0"
+    "@redwoodjs/router" "0.50.0"
+    "@redwoodjs/structure" "0.50.0"
+    "@redwoodjs/web" "0.50.0"
     babel-plugin-ignore-html-and-css-imports "0.1.0"
     cheerio "1.0.0-rc.10"
     cross-undici-fetch "0.1.27"
     mime-types "2.1.35"
 
-"@redwoodjs/router@1.0.0-rc.final.2", "@redwoodjs/router@^1.0.0-rc.6":
-  version "1.0.0-rc.final.2"
-  resolved "https://registry.npmjs.org/@redwoodjs/router/-/router-1.0.0-rc.final.2.tgz#7d0b0e3c70a8e62fcdaac6dee44a4bfa807ba630"
-  integrity sha512-MfTFxgvfEN0VoRuFIZsyoNN9AjBx29dhusco6iVFD6JkuadUYAE/MnsUDsNVmdXNKp5+Bbp3YKefbjxciFiBTA==
+"@redwoodjs/router@0.50.0", "@redwoodjs/router@^0.50.0":
+  version "0.50.0"
+  resolved "https://registry.npmjs.org/@redwoodjs/router/-/router-0.50.0.tgz#65c8bac04869fe20dc220db596908ed4f0864e3d"
+  integrity sha512-aValmE3kUcrbS8exZ0Qn1EgxvscQcl9kxadIE+ZPEUNJo3Cls9UZuWyTwbAKKgUIlXfnFQRrhJrcdsFMbJBOqw==
   dependencies:
     "@reach/skip-nav" "0.16.0"
-    "@redwoodjs/auth" "1.0.0-rc.final.2"
+    "@redwoodjs/auth" "0.50.0"
     core-js "3.21.1"
     lodash.isequal "4.5.0"
 
-"@redwoodjs/structure@1.0.0-rc.final.2":
-  version "1.0.0-rc.final.2"
-  resolved "https://registry.npmjs.org/@redwoodjs/structure/-/structure-1.0.0-rc.final.2.tgz#6b2b96cd05f4bb60e361f1c3c016d5b36029a167"
-  integrity sha512-zFxkrOazAog7Lsx0EwX9SaQ11h/pOitsr31AkcXL5QM2aURBIxiumAy+jcij1m45csNbT3l5YcpmKTkePgUPAA==
+"@redwoodjs/structure@0.50.0":
+  version "0.50.0"
+  resolved "https://registry.npmjs.org/@redwoodjs/structure/-/structure-0.50.0.tgz#d550798f1dd7c7a334f0269ea85344af192d2cdb"
+  integrity sha512-VTKFq2oW5k1ggs0cKOA8ovuHqaePDzDw2x/iNt52NoQtzE7RzYPD6d6SYL0GdmnOrMfCLZP/RaKH4fpxqg8RDw==
   dependencies:
-    "@prisma/sdk" "3.11.1"
-    "@redwoodjs/internal" "1.0.0-rc.final.2"
+    "@prisma/sdk" "3.11.0"
+    "@redwoodjs/internal" "0.50.0"
     "@types/line-column" "1.0.0"
     camelcase "6.3.0"
     deepmerge "4.2.2"
@@ -4482,14 +4315,14 @@
     vscode-languageserver-types "3.16.0"
     yargs-parser "21.0.1"
 
-"@redwoodjs/telemetry@1.0.0-rc.final.2":
-  version "1.0.0-rc.final.2"
-  resolved "https://registry.npmjs.org/@redwoodjs/telemetry/-/telemetry-1.0.0-rc.final.2.tgz#ef15df626b8e7ad71d7ec794d791d1f060e1095c"
-  integrity sha512-0s0mvspzK6F8T/BYlou/Cd9kforFPVLyBDeWrBAit9M1QeOcJosF3N6796MsM0rD+OLTBWlKY4XrpCef3qU5Kg==
+"@redwoodjs/telemetry@0.50.0":
+  version "0.50.0"
+  resolved "https://registry.npmjs.org/@redwoodjs/telemetry/-/telemetry-0.50.0.tgz#77c396092dd292ecc7707e02891f5075823fbe40"
+  integrity sha512-999zyvIVGmLlEX2DoM/0kJ/jNCcQZEmVP5F3OvMCwHtk+6HStIqfutbqneaBR8ttuDMlU+F8erQGlC3ptNrvtQ==
   dependencies:
     "@babel/runtime-corejs3" "7.16.7"
-    "@redwoodjs/internal" "1.0.0-rc.final.2"
-    "@redwoodjs/structure" "1.0.0-rc.final.2"
+    "@redwoodjs/internal" "0.50.0"
+    "@redwoodjs/structure" "0.50.0"
     ci-info "3.3.0"
     cross-undici-fetch "0.1.27"
     envinfo "7.8.1"
@@ -4497,16 +4330,16 @@
     uuid "8.3.2"
     yargs "16.2.0"
 
-"@redwoodjs/testing@1.0.0-rc.final.2":
-  version "1.0.0-rc.final.2"
-  resolved "https://registry.npmjs.org/@redwoodjs/testing/-/testing-1.0.0-rc.final.2.tgz#9ff5a98b12c8da44142ed972897548e8e406a6a1"
-  integrity sha512-dluwvxjBY665KBQYg/9WZMfSXlV1OMnpBDzKteJXY5vwwC787iLnQ1OhXwIEW+GzaLghj08n4Cnj2dmCbMYGAQ==
+"@redwoodjs/testing@0.50.0":
+  version "0.50.0"
+  resolved "https://registry.npmjs.org/@redwoodjs/testing/-/testing-0.50.0.tgz#fa31af22e2e50140400c519d4ccdd051046c425a"
+  integrity sha512-kGXPIxP7xmV+vuSK6eGXp+Nf4bbUUHsf6KUEck7NS8zLcGdu1gP0xC4grdNM6+N1AZDSKGdptqwwzsYXH8zlOg==
   dependencies:
-    "@redwoodjs/auth" "1.0.0-rc.final.2"
-    "@redwoodjs/graphql-server" "1.0.0-rc.final.2"
-    "@redwoodjs/internal" "1.0.0-rc.final.2"
-    "@redwoodjs/router" "1.0.0-rc.final.2"
-    "@redwoodjs/web" "1.0.0-rc.final.2"
+    "@redwoodjs/auth" "0.50.0"
+    "@redwoodjs/graphql-server" "0.50.0"
+    "@redwoodjs/internal" "0.50.0"
+    "@redwoodjs/router" "0.50.0"
+    "@redwoodjs/web" "0.50.0"
     "@storybook/addon-a11y" "6.4.19"
     "@storybook/builder-webpack5" "6.4.19"
     "@storybook/manager-webpack5" "6.4.19"
@@ -4529,14 +4362,14 @@
     ts-toolbelt "9.6.0"
     whatwg-fetch "3.6.2"
 
-"@redwoodjs/web@1.0.0-rc.final.2", "@redwoodjs/web@^1.0.0-rc.6":
-  version "1.0.0-rc.final.2"
-  resolved "https://registry.npmjs.org/@redwoodjs/web/-/web-1.0.0-rc.final.2.tgz#bbfe8af36cc051f6e4408c53354fd4fcc046c049"
-  integrity sha512-CxfvpPpVE4JJmx/AJ45MNTFFbN0ESh9s8/f9EC2MTC1LhRtE0tsGOOYYYx38REUahcfekPqXiydeYmCoY+fhZw==
+"@redwoodjs/web@0.50.0", "@redwoodjs/web@^0.50.0":
+  version "0.50.0"
+  resolved "https://registry.npmjs.org/@redwoodjs/web/-/web-0.50.0.tgz#6472fae08b38569cc87dd6109a536ad920977089"
+  integrity sha512-QG7Mr5pji/io0Qa/bu9IEPfBf+y6gIfveM5OhtjkWyaRAj88wCPjIYDW4pYKPzP9+g37/KkCbekDoWrE/5566Q==
   dependencies:
     "@apollo/client" "3.5.10"
     "@babel/runtime-corejs3" "7.16.7"
-    "@redwoodjs/auth" "1.0.0-rc.final.2"
+    "@redwoodjs/auth" "0.50.0"
     graphql "16.3.0"
     graphql-tag "2.12.6"
     react-helmet-async "1.2.3"
@@ -18626,7 +18459,14 @@ printj@~1.3.1:
   resolved "https://registry.npmjs.org/printj/-/printj-1.3.1.tgz#9af6b1d55647a1587ac44f4c1654a4b95b8e12cb"
   integrity sha512-GA3TdL8szPK4AQ2YnOe/b+Y1jUFwmmGMMK/qbY7VcE3Z7FU8JstbKiKRzO6CIiAKPhTO8m01NoQ0V5f3jc4OGg==
 
-prisma@3.11.1, prisma@^3.6.0:
+prisma@3.11.0:
+  version "3.11.0"
+  resolved "https://registry.npmjs.org/prisma/-/prisma-3.11.0.tgz#0e384e9d36785711b579fda60117a2d41f79c72c"
+  integrity sha512-8SdsLPhKR3mOfoo2o73h9mNn3v5kA/RqGA26Sv6qDS78Eh2uepPqt5e8/nwj5EOblYm5HEGuitaXQrOCLb6uTw==
+  dependencies:
+    "@prisma/engines" "3.11.0-48.b371888aaf8f51357c7457d836b86d12da91658b"
+
+prisma@^3.6.0:
   version "3.11.1"
   resolved "https://registry.npmjs.org/prisma/-/prisma-3.11.1.tgz#fff9c0bcf83cb30c2e1d650882d5eb3c5565e028"
   integrity sha512-aYn8bQwt1xwR2oSsVNHT4PXU7EhsThIwmpNB/MNUaaMx5OPLTro6VdNJe/sJssXFLxhamfWeMjwmpXjljo6xkg==
@@ -21305,7 +21145,7 @@ tapable@^2.0.0, tapable@^2.1.1, tapable@^2.2.0:
   resolved "https://registry.npmjs.org/tapable/-/tapable-2.2.1.tgz#1967a73ef4060a82f12ab96af86d52fdb76eeca0"
   integrity sha512-GNzQvQTOIP6RyTfE2Qxb8ZVlNmw0n88vp1szwWRimP02mnTsx3Wtn5qRdqY9w2XduFNUgvOwhNnQsjwCp+kqaQ==
 
-tar-fs@*, tar-fs@2.1.1, tar-fs@^2.0.0, tar-fs@^2.1.1:
+tar-fs@2.1.1, tar-fs@^2.0.0, tar-fs@^2.1.1:
   version "2.1.1"
   resolved "https://registry.npmjs.org/tar-fs/-/tar-fs-2.1.1.tgz#489a15ab85f1f0befabb370b7de4f9eb5cbe8784"
   integrity sha512-V0r2Y9scmbDRLCNex/+hYzvp/zyYjvFbHPNgVTKfQvVrb6guiE/fxP+XblDNR011utopbkex2nM4dHNV6GDsng==

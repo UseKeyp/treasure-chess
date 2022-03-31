@@ -5,7 +5,7 @@ import * as Tracing from '@sentry/tracing'
 Sentry.init({
   dsn: process.env.SENTRY_DSN,
   tracesSampleRate: 0.5,
-  environment: process.env.SENTRY_ENVIRONMENT,
+  environment: process.env.ENVIRONMENT,
 })
 
 export default Sentry

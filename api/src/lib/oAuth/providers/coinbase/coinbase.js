@@ -6,12 +6,14 @@ import { AuthenticationError } from '@redwoodjs/graphql-server'
 import { encodeBody, getExpiration } from 'src/lib/oAuth/helpers'
 
 export const COINBASE = 'COINBASE'
-export const COINBASE_OAUTH_URL = 'https://www.coinbase.com/oauth'
+export const COINBASE_OAUTH_URL_AUTHORIZE =
+  'https://www.coinbase.com/oauth/auth'
 
+const COINBASE_OAUTH_URL_TOKEN = 'https://www.coinbase.com/oauth/token'
 const COINBASE_SCOPE =
   'wallet:accounts:read,wallet:addresses:read,wallet:user:email'
 const COINBASE_REDIRECT_URI = process.env.APP_DOMAIN + '/redirect/coinbase'
-export const coinbaseParams = {
+const params = {
   client_id: process.env.COINBASE_CLIENT_ID,
   scope: COINBASE_SCOPE,
   redirect_uri: COINBASE_REDIRECT_URI,
@@ -19,7 +21,7 @@ export const coinbaseParams = {
   account_currency: 'ETH',
 }
 
-export const getCoinbaseAccessTokenFromCode = async (code, { memberId }) => {
+export const onSubmitCode = async (code, { memberId }) => {
   try {
     const body = {
       grant_type: 'authorization_code',
@@ -29,7 +31,7 @@ export const getCoinbaseAccessTokenFromCode = async (code, { memberId }) => {
       code,
     }
     const encodedBody = encodeBody(body)
-    const response = await fetch(COINBASE_OAUTH_URL + '/token', {
+    const response = await fetch(COINBASE_OAUTH_URL_TOKEN, {
       method: 'post',
       body: encodedBody,
       headers: {
@@ -61,11 +63,7 @@ export const getCoinbaseAccessTokenFromCode = async (code, { memberId }) => {
   }
 }
 
-export const handleCoinbaseLogin = async ({
-  accessToken,
-  refreshToken,
-  userId,
-}) => {
+export const onLogin = async ({ accessToken, refreshToken, userId }) => {
   try {
     const userDetails = await fetch('https://api.coinbase.com/v2/user', {
       headers: { Authorization: `Bearer ${accessToken}` },
@@ -107,4 +105,11 @@ export const handleCoinbaseLogin = async ({
     Sentry.captureException(e)
     throw new AuthenticationError(e)
   }
+}
+
+export const coinbaseProvider = {
+  urlAuthorize: COINBASE_OAUTH_URL_AUTHORIZE,
+  params,
+  onSubmitCode,
+  onLogin,
 }

@@ -1,33 +1,34 @@
-import {
-  COINBASE,
-  COINBASE_OAUTH_URL_AUTHORIZE,
-  coinbaseParams,
-  getCoinbaseAccessTokenFromCode,
-  handleCoinbaseLogin,
-} from './coinbase'
-import {
-  WYRE,
-  WYRE_OAUTH_URL_AUTHORIZE,
-  wyreParams,
-  getWyreAccessTokenFromCode,
-  handleWyreLogin,
-} from './coinbase'
+import { CHESS, provider as chessProvider } from './chess'
+import { handleChessLogin } from './chess/login'
+import { COINBASE, provider as coinbaseProvider } from './coinbase'
+// import {
+//   PLAID,
+// provider as plaidProvider
+// } from './plaid'
+// import {
+//   WYRE,
+//   provider as wyreProvider
+// } from './wyre'
+// import {
+//   TWITCH,
+//   provider as twitchProvider
+// } from './twitch'
 
 export const providers = {
-  [COINBASE]: {
-    urlAuthorize: COINBASE_OAUTH_URL_AUTHORIZE,
-    params: coinbaseParams,
-    onSubmitCode: getCoinbaseAccessTokenFromCode,
-    onLogin: handleCoinbaseLogin,
+  [CHESS]: {
+    ...chessProvider,
+    onLogin: handleChessLogin,
   },
-  [WYRE]: {
-    urlAuthorize: WYRE_OAUTH_URL_AUTHORIZE,
-    params: wyreParams,
-    onSubmitCode: getWyreAccessTokenFromCode,
-    onLogin: handleWyreLogin,
-  },
+  [COINBASE]: coinbaseProvider,
+  // [PLAID]: plaidProvider,
+  // [WYRE]:wyreProvider,
+  // [TWITCH]: twitchProvider,
 }
 
 export const types = {
   COINBASE,
+  CHESS,
+  // WYRE,
+  // TWITCH,
+  // PLAID,
 }

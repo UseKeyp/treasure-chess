@@ -1,0 +1,108 @@
+import fetch from 'cross-fetch'
+import { db } from 'src/lib/db'
+import Sentry from 'src/lib/sentry'
+import { AuthenticationError } from '@redwoodjs/graphql-server'
+
+import { encodeBody, getExpiration } from 'src/lib/oAuth/helpers'
+
+export const TWITCH = 'TWITCH'
+export const TWITCH_OAUTH_URL = 'https://www.coinbase.com/oauth'
+
+const TWITCH_SCOPE =
+  'wallet:accounts:read,wallet:addresses:read,wallet:user:email'
+const TWITCH_REDIRECT_URI = process.env.APP_DOMAIN + '/redirect/coinbase'
+export const coinbaseParams = {
+  client_id: process.env.TWITCH_CLIENT_ID,
+  scope: TWITCH_SCOPE,
+  redirect_uri: TWITCH_REDIRECT_URI,
+}
+
+export const getTwitchAccessTokenFromCode = async (code, { memberId }) => {
+  try {
+    const body = {
+      grant_type: 'authorization_code',
+      client_id: process.env.TWITCH_CLIENT_ID,
+      client_secret: process.env.TWITCH_CLIENT_SECRET,
+      redirect_uri: TWITCH_REDIRECT_URI,
+      code,
+    }
+    const encodedBody = encodeBody(body)
+    const response = await fetch(TWITCH_OAUTH_URL + '/token', {
+      method: 'post',
+      body: encodedBody,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    }).then((res) => {
+      if (res.status != 200)
+        throw `Twitch API failed for /token. ${res.status} - ${res.statusText}`
+      return res.json()
+    })
+    if (response.error)
+      throw `${response.error} - ${response.hint}. ${response.message}`
+
+    const {
+      access_token: accessToken,
+      refresh_token: refreshToken,
+      expires_in: expiration,
+    } = response
+
+    if (!refreshToken) throw 'Failed to get refresh_token from Twitch'
+    return {
+      accessToken,
+      accessTokenExpiration: getExpiration(expiration),
+      refreshToken,
+      userId,
+    }
+  } catch (e) {
+    throw `getTwitchAccessTokenFromCode() ${e}`
+  }
+}
+
+export const handleTwitchLogin = async ({
+  accessToken,
+  refreshToken,
+  userId,
+}) => {
+  try {
+    const userDetails = await fetch('https://api.coinbase.com/v2/user', {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    }).then((res) => {
+      if (res.status != 200)
+        throw 'Twitch authorization failed, or secret invalid'
+      return res.json()
+    })
+    const accounts = await fetch(`https://api.coinbase.com/v2/accounts`, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    }).then((res) => {
+      if (res.status != 200)
+        throw 'Twitch authorization failed, or secret invalid'
+      return res.json()
+    })
+    const ethAccount = accounts.data.find(
+      (account) => account.currency === 'ETH'
+    )
+    const addresses = await fetch(
+      `https://api.coinbase.com/v2/accounts/${ethAccount.id}/addresses`,
+      { headers: { Authorization: `Bearer ${accessToken}` } }
+    ).then((res) => {
+      if (res.status != 200)
+        throw 'Twitch authorization failed, or secret invalid'
+      return res.json()
+    })
+    const address = addresses.data[0].address
+    await db.ramp.create({
+      data: {
+        address,
+        email: userDetails.data.email,
+        type: TWITCH,
+        accessToken,
+        refreshToken,
+        member: { connect: { id: memberId } },
+      },
+    })
+  } catch (e) {
+    Sentry.captureException(e)
+    throw new AuthenticationError(e)
+  }
+}

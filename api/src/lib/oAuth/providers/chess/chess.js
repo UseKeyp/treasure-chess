@@ -6,11 +6,14 @@ import { decode as decodeJwt } from 'jsonwebtoken'
 import { logger } from 'src/lib/logger'
 import { encodeBody, getExpiration } from 'src/lib/oAuth/helpers'
 
-export const CHESS = 'chess'
+export const CHESS = 'CHESS'
+export const CHESS_OAUTH_URL_AUTHORIZE = 'https://oauth.chess.com'
+
+const CHESS_OAUTH_URL_TOKEN = 'https://oauth.chess.com/token'
 const CHESS_SCOPE = 'openid profile'
-export const CHESS_OAUTH_URL = 'https://oauth.chess.com'
 const CHESS_REDIRECT_URI = process.env.APP_DOMAIN + '/redirect/chess'
-export const chessParams = {
+
+const params = {
   client_id: process.env.CHESS_CLIENT_ID,
   scope: CHESS_SCOPE,
   redirect_uri: CHESS_REDIRECT_URI,
@@ -23,10 +26,7 @@ export const getChessBasicAuth = () =>
       process.env.CHESS_BASIC_AUTH_PASSWORD
   ).toString('base64')
 
-export const getChessAccessTokenFromCode = async (
-  code,
-  { codeVerifier, memberId }
-) => {
+const onSubmitCode = async (code, { codeVerifier, memberId }) => {
   try {
     const body = {
       grant_type: 'authorization_code',
@@ -37,7 +37,7 @@ export const getChessAccessTokenFromCode = async (
       code_verifier: codeVerifier,
     }
     const encodedBody = encodeBody(body)
-    const response = await fetch(CHESS_OAUTH_URL + '/token', {
+    const response = await fetch(CHESS_OAUTH_URL_TOKEN, {
       method: 'post',
       body: encodedBody,
       headers: {
@@ -93,7 +93,7 @@ export const refreshChessTokens = async (refreshToken) => {
       scope: CHESS_SCOPE,
     }
     const encodedBody = encodeBody(body)
-    const response = await fetch(CHESS_OAUTH_URL + '/token', {
+    const response = await fetch(CHESS_OAUTH_URL_TOKEN, {
       method: 'post',
       body: encodedBody,
       headers: {
@@ -127,4 +127,10 @@ export const refreshChessTokens = async (refreshToken) => {
   } catch (e) {
     throw `refreshChessTokens() ${e}`
   }
+}
+
+export const provider = {
+  urlAuthorize: CHESS_OAUTH_URL_AUTHORIZE,
+  params,
+  onSubmitCode,
 }

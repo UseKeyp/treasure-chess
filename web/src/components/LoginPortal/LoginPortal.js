@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useAuth } from '@redwoodjs/auth'
 import { routes, navigate, useParams } from '@redwoodjs/router'
+import { useToast } from 'src/providers/toast'
 
 import Icon from 'src/components/Icon'
 import Button from 'src/components/Button'
@@ -8,11 +9,21 @@ import Button from 'src/components/Button'
 import globalConfig from 'src/global.config.js'
 
 const LoginPortal = () => {
-  const { logIn, isAuthenticated, reauthenticate } = useAuth()
+  const { signUp, isAuthenticated, reauthenticate } = useAuth()
   const { error, redirectTo } = useParams()
+  const { toast } = useToast()
   const [errorText, setErrorText] = React.useState('')
   const getErrorText = (error) => {
     if (error === 'expired') return `Session expired, please log in again.`
+  }
+
+  const onSubmitSignUp = async (type) => {
+    const response = await signUp({ type })
+    if (response.url) {
+      window.location = response.url
+    } else {
+      toast.error('Something went wrong')
+    }
   }
 
   useEffect(() => {
@@ -42,7 +53,7 @@ const LoginPortal = () => {
         </h3>
         <div className="login-portal-container--button-wrapper">
           <Button
-            onClick={() => logIn({ redirectTo: routes.profile() })}
+            onClick={() => onSubmitSignUp('CHESS')}
             variant="green"
             size="small"
           >

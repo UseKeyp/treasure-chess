@@ -5,6 +5,7 @@ import { DbAuthHandler } from '@redwoodjs/api'
 import { InputError } from '@redwoodjs/graphql-server'
 
 import { db } from 'src/lib/db'
+import { logger } from 'src/lib/logger'
 import { oAuthUrl, validateCodeGrant } from 'src/lib/oAuth'
 import { providers } from 'src/lib/oAuth/providers'
 import { validateLoginRequest } from 'src/lib/auth/validation'
@@ -100,6 +101,7 @@ export const handler = async (event, context) => {
 
   authHandler.signup = async () => {
     const { type } = authHandler.params
+    logger.debug(`authHandler.signup type: ${type}`)
     validateLoginRequest({ type })
     const { url } = await oAuthUrl(type)
     return [JSON.stringify({ url }), {}, { statusCode: 201 }]

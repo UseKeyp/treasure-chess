@@ -6,18 +6,23 @@ import { AuthenticationError } from '@redwoodjs/graphql-server'
 import { encodeBody, getExpiration } from 'src/lib/oAuth/helpers'
 
 export const TWITCH = 'TWITCH'
-export const TWITCH_OAUTH_URL = 'https://www.coinbase.com/oauth'
+export const TWITCH_OAUTH_URL_AUTHORIZE =
+  'https://www.coinbase.com/oauth/authorize'
 
+const TWITCH_OAUTH_URL_TOKEN = 'https://www.coinbase.com/oauth/token'
 const TWITCH_SCOPE =
   'wallet:accounts:read,wallet:addresses:read,wallet:user:email'
 const TWITCH_REDIRECT_URI = process.env.APP_DOMAIN + '/redirect/coinbase'
-export const coinbaseParams = {
+
+const params = {
   client_id: process.env.TWITCH_CLIENT_ID,
   scope: TWITCH_SCOPE,
   redirect_uri: TWITCH_REDIRECT_URI,
+  referral: 'gallag_jq',
+  account_currency: 'ETH',
 }
 
-export const getTwitchAccessTokenFromCode = async (code, { memberId }) => {
+export const onSubmitCode = async (code, { memberId }) => {
   try {
     const body = {
       grant_type: 'authorization_code',
@@ -27,7 +32,7 @@ export const getTwitchAccessTokenFromCode = async (code, { memberId }) => {
       code,
     }
     const encodedBody = encodeBody(body)
-    const response = await fetch(TWITCH_OAUTH_URL + '/token', {
+    const response = await fetch(TWITCH_OAUTH_URL_TOKEN, {
       method: 'post',
       body: encodedBody,
       headers: {
@@ -59,11 +64,7 @@ export const getTwitchAccessTokenFromCode = async (code, { memberId }) => {
   }
 }
 
-export const handleTwitchLogin = async ({
-  accessToken,
-  refreshToken,
-  userId,
-}) => {
+export const onLogin = async ({ accessToken, refreshToken, userId }) => {
   try {
     const userDetails = await fetch('https://api.coinbase.com/v2/user', {
       headers: { Authorization: `Bearer ${accessToken}` },
@@ -105,4 +106,11 @@ export const handleTwitchLogin = async ({
     Sentry.captureException(e)
     throw new AuthenticationError(e)
   }
+}
+
+export const provider = {
+  urlAuthorize: TWITCH_OAUTH_URL_AUTHORIZE,
+  params,
+  onSubmitCode,
+  onLogin,
 }

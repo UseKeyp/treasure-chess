@@ -1,7 +1,7 @@
 import { oAuthUrl as getOAuthUrl, validateCodeGrant } from 'src/lib/oAuth'
 import { providers, types } from 'src/lib/oAuth/providers'
 
-import { handlePlaidConnection } from 'src/lib/oAuth/providers/wyre'
+import { handlePlaidConnection } from 'src/lib/oAuth/providers/plaid'
 
 export const oAuthUrl = ({ type }) => getOAuthUrl(type)
 

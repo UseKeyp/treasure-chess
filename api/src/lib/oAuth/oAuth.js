@@ -7,11 +7,19 @@ import { db } from 'src/lib/db'
 
 import { providers, types } from 'src/lib/oAuth/providers'
 import { logger } from 'src/lib/logger'
+import { createPlaidLink, PLAID } from 'src/lib/oAuth/providers/plaid'
 
 export const oAuthUrl = async (type) => {
   try {
     if (!Object.values(types).includes(type))
       throw `OAuth Provider ${type} is not enabled.`
+    if (type === types[PLAID]) {
+      const plaidLink = await createPlaidLink()
+      return {
+        text: plaidLink,
+        type: 'code',
+      }
+    }
     const { params, urlAuthorize } = providers[type]
     const url = new URL(urlAuthorize)
     const pkce = pkceChallenge()

@@ -15,9 +15,6 @@ import { AuthenticationError } from '@redwoodjs/graphql-server'
 import { encodeBody, getExpiration } from 'src/lib/oAuth/helpers'
 
 export const PLAID = 'PLAID'
-export const PLAID_OAUTH_URL_AUTHORIZE =
-  'https://www.coinbase.com/oauth/authorize'
-const PLAID_OAUTH_URL_TOKEN = 'https://www.coinbase.com/oauth/token'
 const PLAID_SCOPE =
   'wallet:accounts:read,wallet:addresses:read,wallet:user:email'
 const PLAID_REDIRECT_URI = process.env.APP_DOMAIN + '/redirect/plaid'
@@ -60,7 +57,7 @@ export const createPlaidLink = async () => {
     if (!createTokenResponse?.data?.link_token) throw 'No link token returned'
     return createTokenResponse.data.link_token
   } catch (e) {
-    throw `createPlaidLink() ${e}`
+    throw `Something went wrong`
   }
 }
 
@@ -164,11 +161,4 @@ export const getSandboxPublicToken = async () => {
     /* eslint-disable-next-line no-console */
     console.log(e)
   }
-}
-
-export const provider = {
-  urlAuthorize: PLAID_OAUTH_URL_AUTHORIZE,
-  params,
-  onSubmitCode,
-  onLogin,
 }

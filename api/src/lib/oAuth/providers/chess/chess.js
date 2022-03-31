@@ -8,7 +8,7 @@ import { encodeBody, getExpiration } from 'src/lib/oAuth/helpers'
 
 export const CHESS = 'chess'
 const CHESS_SCOPE = 'openid profile'
-export const CHESS_OAUTH_URL = process.env.CHESS_OAUTH_URL
+export const CHESS_OAUTH_URL = 'https://oauth.chess.com'
 const CHESS_REDIRECT_URI = process.env.APP_DOMAIN + '/redirect/chess'
 export const chessParams = {
   client_id: process.env.CHESS_CLIENT_ID,
@@ -37,7 +37,7 @@ export const getChessAccessTokenFromCode = async (
       code_verifier: codeVerifier,
     }
     const encodedBody = encodeBody(body)
-    const response = await fetch(process.env.CHESS_OAUTH_URL + '/token', {
+    const response = await fetch(CHESS_OAUTH_URL + '/token', {
       method: 'post',
       body: encodedBody,
       headers: {
@@ -93,7 +93,7 @@ export const refreshChessTokens = async (refreshToken) => {
       scope: CHESS_SCOPE,
     }
     const encodedBody = encodeBody(body)
-    const response = await fetch(process.env.CHESS_OAUTH_URL + '/token', {
+    const response = await fetch(CHESS_OAUTH_URL + '/token', {
       method: 'post',
       body: encodedBody,
       headers: {

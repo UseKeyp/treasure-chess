@@ -4,8 +4,8 @@ import Sentry from 'src/lib/sentry'
 import { AuthenticationError } from '@redwoodjs/graphql-server'
 
 import { encodeBody, getExpiration } from 'src/lib/oAuth/helpers'
-import { logger } from 'src/lib/logger'
-export const COINBASE = 'coinbase'
+
+export const COINBASE = 'COINBASE'
 export const COINBASE_OAUTH_URL = 'https://www.coinbase.com/oauth'
 
 const COINBASE_SCOPE =
@@ -29,7 +29,6 @@ export const getCoinbaseAccessTokenFromCode = async (code, { memberId }) => {
       code,
     }
     const encodedBody = encodeBody(body)
-    logger.debug({ custom: encodedBody.split('&') })
     const response = await fetch(COINBASE_OAUTH_URL + '/token', {
       method: 'post',
       body: encodedBody,
@@ -37,7 +36,6 @@ export const getCoinbaseAccessTokenFromCode = async (code, { memberId }) => {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
     }).then((res) => {
-      logger.debug({ custom: res })
       if (res.status != 200)
         throw `Coinbase API failed for /token. ${res.status} - ${res.statusText}`
       return res.json()
@@ -56,7 +54,7 @@ export const getCoinbaseAccessTokenFromCode = async (code, { memberId }) => {
       accessToken,
       accessTokenExpiration: getExpiration(expiration),
       refreshToken,
-      memberId,
+      userId,
     }
   } catch (e) {
     throw `getCoinbaseAccessTokenFromCode() ${e}`
@@ -66,7 +64,7 @@ export const getCoinbaseAccessTokenFromCode = async (code, { memberId }) => {
 export const handleCoinbaseLogin = async ({
   accessToken,
   refreshToken,
-  memberId,
+  userId,
 }) => {
   try {
     const userDetails = await fetch('https://api.coinbase.com/v2/user', {
@@ -99,7 +97,7 @@ export const handleCoinbaseLogin = async ({
       data: {
         address,
         email: userDetails.data.email,
-        type: 'COINBASE',
+        type: COINBASE,
         accessToken,
         refreshToken,
         member: { connect: { id: memberId } },

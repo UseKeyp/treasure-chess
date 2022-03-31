@@ -5,8 +5,10 @@ import { DbAuthHandler } from '@redwoodjs/api'
 import { InputError } from '@redwoodjs/graphql-server'
 
 import { db } from 'src/lib/db'
-import { validateCodeGrant } from 'src/lib/oAuth'
-import { handleChessLogin } from 'src/lib/oAuth/chess/login'
+import { oAuthUrl, validateCodeGrant } from 'src/lib/oAuth'
+import { providers } from 'src/lib/oAuth/providers'
+import { validateLoginRequest } from 'src/lib/auth/validation'
+import { handleChessLogin } from 'src/lib/oAuth/providers/chess/login'
 import { isProduction, corsOrigin } from 'src/lib/helpers'
 
 export const handler = async (event, context) => {
@@ -69,15 +71,16 @@ export const handler = async (event, context) => {
 
   authHandler.login = async () => {
     const { code, state } = authHandler.params
+    validateLoginRequest({ type })
     if (!code || !state)
       throw new InputError('logIn() Code or state not provided.')
 
     const { refreshToken, decoded } = await validateCodeGrant({
       state,
       code,
-      type: 'chess',
+      type,
     })
-    const user = await handleChessLogin({ refreshToken, decoded })
+    const user = await providers[type].onLogin({ refreshToken, decoded })
     const sessionData = { id: user[authHandler.options.authFields.id] }
 
     // TODO: this needs to go into graphql somewhere so that each request makes
@@ -93,6 +96,13 @@ export const handler = async (event, context) => {
       },
     ]
     return response
+  }
+
+  authHandler.signup = async () => {
+    const { type } = authHandler.params
+    validateLoginRequest({ type })
+    const { url } = await oAuthUrl(type)
+    return [JSON.stringify({ url }), {}, { statusCode: 201 }]
   }
 
   return await authHandler.invoke()

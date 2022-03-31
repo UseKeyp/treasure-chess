@@ -8,8 +8,9 @@ import { FilterProvider } from './filters'
 import { RestrictedProvider } from './restricted'
 import { MarketProvider } from './market'
 import { RampProvider } from './ramp'
-import { LocaleProvider } from './locale/locale'
-import { OAuthProvider } from './oAuth/oAuth'
+import { LocaleProvider } from './locale'
+import { OAuthProvider } from './oAuth'
+import { RedirectionProvider } from './redirection'
 
 const AllContextProviders = ({ children }) => {
   // Add additional context providers here
@@ -19,22 +20,24 @@ const AllContextProviders = ({ children }) => {
     <RestrictedProvider>
       <LocaleProvider>
         <ThemeContextProvider>
-          <FilterProvider>
-            <ToastProvider>
-              <GamesContextProvider>
-                <TokenSessionProvider />
-                <OAuthProvider>
-                  <RampProvider>
-                    <WalletProvider>
-                      <MintingProvider>
-                        <MarketProvider>{children}</MarketProvider>
-                      </MintingProvider>
-                    </WalletProvider>
-                  </RampProvider>
-                </OAuthProvider>
-              </GamesContextProvider>
-            </ToastProvider>
-          </FilterProvider>
+          <RedirectionProvider>
+            <FilterProvider>
+              <ToastProvider>
+                <GamesContextProvider>
+                  <TokenSessionProvider />
+                  <OAuthProvider>
+                    <RampProvider>
+                      <WalletProvider>
+                        <MintingProvider>
+                          <MarketProvider>{children}</MarketProvider>
+                        </MintingProvider>
+                      </WalletProvider>
+                    </RampProvider>
+                  </OAuthProvider>
+                </GamesContextProvider>
+              </ToastProvider>
+            </FilterProvider>
+          </RedirectionProvider>
         </ThemeContextProvider>
       </LocaleProvider>
     </RestrictedProvider>

@@ -14,8 +14,8 @@ import {
 import { db } from 'src/lib/db'
 import Sentry from 'src/lib/sentry'
 
-export const WYRE = 'wyre'
-export const PLAID = 'plaid'
+export const WYRE = 'WYRE'
+export const PLAID = 'PLAID'
 
 const PLAID_WEBHOOK_URL = isProduction
   ? 'https://treasure.chess.com/api/plaid'
@@ -124,7 +124,7 @@ export const handlePlaidConnection = async ({ code, accountId }) => {
         verificationStatus: verification_status,
         isoCurrencyCode: iso_currency_code,
         paymentMethodId: paymentMethod.id,
-        type: 'WYRE',
+        type: WYRE,
         member: { connect: { id: context.currentUser.id } },
       },
     })

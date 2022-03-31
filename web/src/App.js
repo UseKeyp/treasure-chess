@@ -42,7 +42,7 @@ const SentryInjector = () => {
   try {
     Sentry.init({
       dsn: process.env.SENTRY_DSN,
-      environment: process.env.SENTRY_ENVIRONMENT,
+      environment: process.env.ENVIRONMENT,
       // beforeSend(event) {
       // Check if it is an exception, and if so, show the report dialog
       // if (event.exception) {

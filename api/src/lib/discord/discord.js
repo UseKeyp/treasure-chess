@@ -19,8 +19,8 @@ const CHANNELS_PROD = {
 const getChannelId = (channel) => {
   let id = CHANNELS_DEV[channel]
   // Sandbox shares with dev
-  if (process.env.NODE_ENV === 'staging') id = CHANNELS_STAGING[channel]
-  if (process.env.NODE_ENV === 'prod') id = CHANNELS_PROD[channel]
+  if (process.env.ENVIRONMENT === 'staging') id = CHANNELS_STAGING[channel]
+  if (process.env.ENVIRONMENT === 'prod') id = CHANNELS_PROD[channel]
   return id
 }
 

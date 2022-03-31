@@ -3,7 +3,6 @@ import { navigate } from '@redwoodjs/router'
 const LOCAL_BASIC_AUTH_KEY = 'basic_auth'
 
 const passedBasicAuth = () => {
-  // if (!['development', 'dev', 'sandbox'].includes(process.env.NODE_ENV)) return true
   if (!process.env.BASIC_AUTH_PASSWORD) return true
   return (
     localStorage.getItem(LOCAL_BASIC_AUTH_KEY) ===

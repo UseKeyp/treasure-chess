@@ -3,9 +3,8 @@ import MemberActivityCell from 'src/components/Member/MemberActivityCell'
 import TreasuresFetcher from 'src/components/Treasure/TreasuresFetcher'
 
 const Member = ({ member, isLoading }) => {
-  // const twitchSrc = `https://player.twitch.tv/?channel=${member.twitchUsername}&parent=localhost`
-  const twitchSrc = `https://player.twitch.tv/?channel=dallas&muted=true&parent=https://0.0.0.0:8910`
-  console.log(twitchSrc)
+  const twitchSrc = `https://player.twitch.tv/?channel=${member.twitchUsername}&parent=${process.env.APP_DOMAIN}&muted=true&autoplay=true`
+  // const twitchSrc = `https://player.twitch.tv/?channel=jpegjames&parent=localhost&muted=true&autoplay=true`
   return (
     <div className="max-width-container">
       <div className="grid grid-rows-1">
@@ -15,7 +14,16 @@ const Member = ({ member, isLoading }) => {
         </div>
       </div>
       {member.twitchUsername && (
-        <iframe src={twitchSrc} allowfullscreen></iframe>
+        <div className="grid md:grid-cols-2 grid-cols-1 gap-10">
+          <div className="mt-4 px-2 flex justify-center bg-black rounded-xl border-4 border-[#5A3E85]">
+            <iframe
+              src={twitchSrc}
+              allowfullscreen
+              width={400}
+              height={300}
+            ></iframe>
+          </div>
+        </div>
       )}
 
       <h1 className="mt-16">Treasures Owned</h1>

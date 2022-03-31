@@ -7,7 +7,7 @@
 
 [web]
   port = 8910
-  host = "0.0.0.0"
+  # host = "0.0.0.0"
   title = "Treasure Chess"
   # apiProxyPort = 8911
   apiUrl = "${REDWOOD_API_URL:/api}"

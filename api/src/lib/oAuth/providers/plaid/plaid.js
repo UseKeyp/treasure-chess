@@ -1,4 +1,70 @@
-export const handlePlaidConnection = async ({ code, accountId }) => {
+import {
+  Configuration,
+  PlaidApi,
+  PlaidEnvironments,
+  Products,
+  CountryCode,
+} from 'plaid'
+
+import { isProduction } from 'src/lib/helpers'
+
+import { db } from 'src/lib/db'
+import Sentry from 'src/lib/sentry'
+import { AuthenticationError } from '@redwoodjs/graphql-server'
+
+import { encodeBody, getExpiration } from 'src/lib/oAuth/helpers'
+
+export const PLAID = 'PLAID'
+export const PLAID_OAUTH_URL_AUTHORIZE =
+  'https://www.coinbase.com/oauth/authorize'
+const PLAID_OAUTH_URL_TOKEN = 'https://www.coinbase.com/oauth/token'
+const PLAID_SCOPE =
+  'wallet:accounts:read,wallet:addresses:read,wallet:user:email'
+const PLAID_REDIRECT_URI = process.env.APP_DOMAIN + '/redirect/plaid'
+
+const PLAID_WEBHOOK_URL = isProduction
+  ? 'https://treasure.chess.com/api/plaid'
+  : 'https://tc-checkout-dev.ngrok.io/api/plaid'
+
+const getEnvironment = () => {
+  if (process.env.NODE_ENV === 'staging') return 'development'
+  // TODO: Change to production
+  else if (process.env.NODE_ENV === 'prod') return 'development'
+  return 'sandbox'
+}
+const configuration = new Configuration({
+  basePath: PlaidEnvironments[getEnvironment()],
+  baseOptions: {
+    headers: {
+      'PLAID-CLIENT-ID': process.env.PLAID_CLIENT_ID,
+      'PLAID-SECRET': process.env.PLAID_CLIENT_SECRET,
+      'Plaid-Version': '2020-09-14',
+    },
+  },
+})
+const client = new PlaidApi(configuration)
+const PRODUCTS_SCOPE = [Products.Auth]
+
+export const createPlaidLink = async () => {
+  try {
+    const request = {
+      user: { client_user_id: context.currentUser.id },
+      client_name: 'Treasure Chess',
+      products: PRODUCTS_SCOPE,
+      language: 'en', // TODO get from user's account
+      webhook: PLAID_WEBHOOK_URL,
+      redirect_uri: PLAID_REDIRECT_URI,
+      country_codes: [CountryCode.Us], // TODO: How do we know this?
+    }
+    const createTokenResponse = await client.linkTokenCreate(request)
+    if (!createTokenResponse?.data?.link_token) throw 'No link token returned'
+    return createTokenResponse.data.link_token
+  } catch (e) {
+    throw `createPlaidLink() ${e}`
+  }
+}
+
+export const onSubmitCode = async ({ code, accountId }) => {
   try {
     /* eslint-disable camelcase*/
     const tokenResponse = await client.itemPublicTokenExchange({
@@ -98,4 +164,11 @@ export const getSandboxPublicToken = async () => {
     /* eslint-disable-next-line no-console */
     console.log(e)
   }
+}
+
+export const provider = {
+  urlAuthorize: PLAID_OAUTH_URL_AUTHORIZE,
+  params,
+  onSubmitCode,
+  onLogin,
 }

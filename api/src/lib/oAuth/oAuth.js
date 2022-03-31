@@ -30,7 +30,7 @@ export const oAuthUrl = async (type) => {
         state,
         codeVerifier: pkce.code_verifier,
         codeChallenge: pkce.code_challenge,
-        ...(userId && { user: { connect: { id: userId } } }),
+        ...(userId && { member: { connect: { id: userId } } }),
       },
     })
 
@@ -68,7 +68,7 @@ export const validateCodeGrant = async ({ state, code, type }) => {
       throw 'Sorry, authentication must be completed within 10 minutes.'
 
     const { onSubmitCode } = providers[type]
-    return onSubmitCode(code, oAuth)
+    return onSubmitCode && onSubmitCode(code, oAuth)
   } catch (e) {
     /* eslint-disable no-console */
     console.log(e)

@@ -25,13 +25,14 @@ const OAuthProvider = ({ children }) => {
     try {
       if (!type) throw 'No type provided'
       setState({ isLoading: true })
-      const { data } = await oAuthUrlQuery({
+      const { data, error } = await oAuthUrlQuery({
         variables: { type },
       })
+      if (error) throw error
       setState({})
       return data.oAuthUrl
-    } catch {
-      const errorMessage = `Error fetching ${type} link`
+    } catch (e) {
+      const errorMessage = `Error fetching ${type} link. ${e?.message}`
       toast.error(errorMessage)
       return setState({ error: errorMessage, isLoading: false })
     }

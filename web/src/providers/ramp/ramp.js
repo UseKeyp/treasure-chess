@@ -12,7 +12,7 @@ import {
   RAMP_WITHDRAW_MUTATION,
 } from './graphql'
 
-const PLAID = 'plaid'
+const PLAID = 'PLAID'
 const COINBASE = 'COINBASE'
 const WYRE = 'WYRE'
 
@@ -88,7 +88,7 @@ const RampProvider = ({ children }) => {
 
   const connectCoinbase = async () => {
     setCoinbase({ isLoading: true, error: null, ...coinbase })
-    const oAuthUrl = await getOAuthUrl('coinbase')
+    const oAuthUrl = await getOAuthUrl(COINBASE)
     if (errorOAuth)
       return setWyre({ isLoading: false, error: errorOAuth, ...coinbase })
     setCoinbase({ isLoading: false, ...coinbase })

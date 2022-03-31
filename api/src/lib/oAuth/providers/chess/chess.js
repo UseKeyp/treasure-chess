@@ -7,7 +7,7 @@ import { logger } from 'src/lib/logger'
 import { encodeBody, getExpiration } from 'src/lib/oAuth/helpers'
 
 export const CHESS = 'CHESS'
-export const CHESS_OAUTH_URL_AUTHORIZE = 'https://oauth.chess.com'
+export const CHESS_OAUTH_URL_AUTHORIZE = 'https://oauth.chess.com/authorize'
 
 const CHESS_OAUTH_URL_TOKEN = 'https://oauth.chess.com/token'
 const CHESS_SCOPE = 'openid profile'

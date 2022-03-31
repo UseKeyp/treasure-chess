@@ -7,7 +7,7 @@ import { encodeBody, getExpiration } from 'src/lib/oAuth/helpers'
 
 export const COINBASE = 'COINBASE'
 export const COINBASE_OAUTH_URL_AUTHORIZE =
-  'https://www.coinbase.com/oauth/auth'
+  'https://www.coinbase.com/oauth/authorize'
 
 const COINBASE_OAUTH_URL_TOKEN = 'https://www.coinbase.com/oauth/token'
 const COINBASE_SCOPE =

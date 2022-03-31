@@ -71,7 +71,7 @@ export const handler = async (event, context) => {
   })
 
   authHandler.login = async () => {
-    const { code, state } = authHandler.params
+    const { code, state, type } = authHandler.params
     validateLoginRequest({ type })
     if (!code || !state)
       throw new InputError('logIn() Code or state not provided.')

@@ -32,7 +32,7 @@ const RedirectionProvider = ({ children }) => {
     const response = await logIn({
       code,
       state: grantState,
-      type: type.toUppercase(),
+      type: type.toUpperCase(),
       method: 'login',
     })
     if (response.error || !response)
@@ -105,6 +105,7 @@ const RedirectionProvider = ({ children }) => {
         errorMessage: 'Something went wrong',
       })
     if (!type) return
+    console.log(type)
     if (APPROVED_LOGIN_PROVIDERS.includes(type.toUpperCase()))
       return submitLoginCodeGrant()
     if (type === 'wyre') return completeWyreOrder()

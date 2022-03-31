@@ -87,7 +87,10 @@ const ListItem = ({
     <div
       className="games-history-list__item"
       role="button"
-      onClick={handleSelectRow}
+      onClick={(e) => {
+        if (['submit', 'text'].includes(e.target.type)) return
+        handleSelectRow()
+      }}
       tabIndex={0}
       onKeyDown={() => {}}
     >

@@ -28,6 +28,7 @@ const Games = ({ games, count: queryCount, isLoading, error }) => {
   }
 
   const onChangeTitle = (title) => {
+    'title change!'
     setGamesContext({ ...gamesContext, gameTitle: title })
   }
 

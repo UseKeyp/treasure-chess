@@ -140,7 +140,6 @@ const MintingProvider = ({ children }) => {
     pendingMintPurchases.map((purchase) => toastPurchase(purchase))
     setState({ ...state, pendingMintPurchases, shouldPoll: true })
   }
-  console.log(state)
   const mint = async ({ title, gameId, endTime }) => {
     setState({
       ...state,
@@ -148,7 +147,6 @@ const MintingProvider = ({ children }) => {
       mintLoading: true,
       mintError: false,
     })
-    return console.log('Minted')
     if (mintCreditBalance < 1) {
       try {
         const { data: { mintCheckoutUrl } = {} } =

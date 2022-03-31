@@ -24,7 +24,6 @@ const MintForm = ({
   }
 
   const handleSubmit = () => {
-    console.log(inputValue)
     const error = validateTitle(inputValue)
     console.log(error)
     if (error) return setErrorText(error)
@@ -60,13 +59,12 @@ const MintForm = ({
           value={inputValue}
           placeholder="Game Title"
           className="games-history-list__input"
-          // onClick={(e) => e.stopPropagation()}
           onChange={handleChange}
         />
         <Button
+          onClick={handleSubmit}
           disabled={mintLoading}
           variant={mintLoading ? 'grey' : 'green'}
-          onClick={handleSubmit}
         >
           {mintLoading ? <LoadingDots /> : 'Mint'}
         </Button>

@@ -19,16 +19,12 @@ const RedirectionProvider = ({ children }) => {
   const code = url.searchParams.get('code')
   const grantState = url.searchParams.get('state')
   const error = url.searchParams.get('error')
+  const error_description = url.searchParams.get('error_description')
   const orderId = url.searchParams.get('orderId')
   const type = url.pathname.split('/redirect/')[1]
 
   // ###############  Login  ################
   const submitLoginCodeGrant = async () => {
-    if (!code || !grantState || !type)
-      return setState({
-        isLoading: false,
-        errorMessage: 'Invalid redirect parameters',
-      })
     const response = await logIn({
       code,
       state: grantState,
@@ -49,21 +45,10 @@ const RedirectionProvider = ({ children }) => {
   // ###############  General oAuth  ################
   const submitCodeGrant = async () => {
     try {
-      if (!code || !grantState)
-        return setState({
-          isLoading: false,
-          errorMessage: 'Invalid redirect parameters',
-        })
-      /* eslint-disable-next-line no-undef */
       const {
         data: { codeGrant: codeGrantData },
       } = await codeGrant({
-        variables: {
-          type,
-          code,
-          state: grantState,
-        },
-        fetchPolicy: 'network-only',
+        variables: { type: type.toUpperCase(), code, state: grantState },
       })
       if (codeGrantData.status === 'SUCCESS') {
         setState({
@@ -71,16 +56,10 @@ const RedirectionProvider = ({ children }) => {
           successMessage: 'Great - connection complete!',
         })
       } else {
-        setState({
-          isLoading: false,
-          errorMessage: 'Something went wrong',
-        })
+        setState({ isLoading: false, errorMessage: 'Something went wrong' })
       }
     } catch (error) {
-      setState({
-        isLoading: false,
-        errorMessage: error.message,
-      })
+      setState({ isLoading: false, errorMessage: error.message })
     }
   }
 
@@ -102,16 +81,19 @@ const RedirectionProvider = ({ children }) => {
     if (error)
       return setState({
         isLoading: false,
-        errorMessage: 'Something went wrong',
+        errorMessage: error_description || 'Something went wrong',
       })
-    if (!type) return
-    console.log(type)
+    if (!code || !grantState)
+      return setState({
+        isLoading: false,
+        errorMessage: 'Invalid redirect parameters',
+      })
     if (APPROVED_LOGIN_PROVIDERS.includes(type.toUpperCase()))
       return submitLoginCodeGrant()
     if (type === 'wyre') return completeWyreOrder()
     submitCodeGrant()
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
-  }, [code, grantState, type])
+  }, [code, grantState])
 
   return (
     <RedirectionContext.Provider value={state}>

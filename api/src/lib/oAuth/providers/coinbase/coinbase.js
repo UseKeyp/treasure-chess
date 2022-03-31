@@ -64,7 +64,7 @@ export const onSubmitCode = async (code, { memberId }) => {
   }
 }
 
-export const onLogin = async ({ accessToken, refreshToken, userId }) => {
+export const onConnected = async ({ accessToken, refreshToken, userId }) => {
   try {
     const userDetails = await fetch('https://api.coinbase.com/v2/user', {
       headers: { Authorization: `Bearer ${accessToken}` },
@@ -112,5 +112,5 @@ export const provider = {
   urlAuthorize: COINBASE_OAUTH_URL_AUTHORIZE,
   params,
   onSubmitCode,
-  onLogin,
+  onConnected,
 }

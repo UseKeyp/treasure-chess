@@ -1,5 +1,7 @@
 import fetch from 'cross-fetch'
 import { db } from 'src/lib/db'
+import { logger } from 'src/lib/logger'
+import { isDevelopment } from 'src/lib/helpers'
 import Sentry from 'src/lib/sentry'
 import { AuthenticationError } from '@redwoodjs/graphql-server'
 
@@ -7,19 +9,19 @@ import { encodeBody, getExpiration } from 'src/lib/oAuth/helpers'
 
 export const TWITCH = 'TWITCH'
 export const TWITCH_OAUTH_URL_AUTHORIZE =
-  'https://www.coinbase.com/oauth/authorize'
+  'https://id.twitch.tv/oauth2/authorize'
 
-const TWITCH_OAUTH_URL_TOKEN = 'https://www.coinbase.com/oauth/token'
-const TWITCH_SCOPE =
-  'wallet:accounts:read,wallet:addresses:read,wallet:user:email'
-const TWITCH_REDIRECT_URI = process.env.APP_DOMAIN + '/redirect/coinbase'
+const TWITCH_OAUTH_URL_TOKEN = 'https://id.twitch.tv/oauth2/token'
+const TWITCH_SCOPE = 'user:read:email'
+const TWITCH_REDIRECT_URI = isDevelopment
+  ? 'http://localhost:8910/redirect/twitch'
+  : process.env.APP_DOMAIN + '/redirect/twitch'
 
 const params = {
   client_id: process.env.TWITCH_CLIENT_ID,
   scope: TWITCH_SCOPE,
   redirect_uri: TWITCH_REDIRECT_URI,
-  referral: 'gallag_jq',
-  account_currency: 'ETH',
+  force_verify: true,
 }
 
 export const onSubmitCode = async (code, { memberId }) => {
@@ -45,7 +47,7 @@ export const onSubmitCode = async (code, { memberId }) => {
     })
     if (response.error)
       throw `${response.error} - ${response.hint}. ${response.message}`
-
+    logger.debug({ custom: response }, 'Twitch submitCodeGrant')
     const {
       access_token: accessToken,
       refresh_token: refreshToken,
@@ -64,42 +66,27 @@ export const onSubmitCode = async (code, { memberId }) => {
   }
 }
 
-export const onLogin = async ({ accessToken, refreshToken, userId }) => {
+export const onConnected = async ({ accessToken, refreshToken, userId }) => {
   try {
-    const userDetails = await fetch('https://api.coinbase.com/v2/user', {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    }).then((res) => {
-      if (res.status != 200)
-        throw 'Twitch authorization failed, or secret invalid'
-      return res.json()
-    })
-    const accounts = await fetch(`https://api.coinbase.com/v2/accounts`, {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    }).then((res) => {
-      if (res.status != 200)
-        throw 'Twitch authorization failed, or secret invalid'
-      return res.json()
-    })
-    const ethAccount = accounts.data.find(
-      (account) => account.currency === 'ETH'
-    )
-    const addresses = await fetch(
-      `https://api.coinbase.com/v2/accounts/${ethAccount.id}/addresses`,
-      { headers: { Authorization: `Bearer ${accessToken}` } }
+    const userDetails = await fetch(
+      `https://api.twitch.tv/helix/users?id=${userId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Client-Id': process.env.TWITCH_CLIENT_ID,
+        },
+      }
     ).then((res) => {
       if (res.status != 200)
         throw 'Twitch authorization failed, or secret invalid'
       return res.json()
     })
-    const address = addresses.data[0].address
-    await db.ramp.create({
+    logger.debug({ custom: userDetails }, 'Twitch user details')
+    const twitchUsername = null
+    await db.member.update({
+      where: { id: context.currentUser.id },
       data: {
-        address,
-        email: userDetails.data.email,
-        type: TWITCH,
-        accessToken,
-        refreshToken,
-        member: { connect: { id: memberId } },
+        twitchUsername: userDetails.display_name,
       },
     })
   } catch (e) {
@@ -112,5 +99,5 @@ export const provider = {
   urlAuthorize: TWITCH_OAUTH_URL_AUTHORIZE,
   params,
   onSubmitCode,
-  onLogin,
+  onConnected,
 }

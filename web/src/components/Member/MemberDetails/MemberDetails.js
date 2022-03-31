@@ -13,11 +13,11 @@ import { useWallet } from 'src/providers/wallet'
 
 import { trimAddress } from 'src/utils/helpers'
 
-const TwitchLink = ({ isProfile, userName }) => {
+const TwitchLink = ({ isProfile, username }) => {
   const { getOAuthUrl, isLoading } = useOAuth()
 
   const onConnectTwitch = async () => {
-    const oAuthUrl = await getOAuthUrl('twitch')
+    const oAuthUrl = await getOAuthUrl('TWITCH')
     if (oAuthUrl)
       window.open(
         oAuthUrl.url,
@@ -26,34 +26,28 @@ const TwitchLink = ({ isProfile, userName }) => {
       )
   }
 
-  if (userName) {
+  if (isProfile) {
+    return (
+      <Button disabled={isLoading} onClick={onConnectTwitch} className="ml-2">
+        <div className="flex flex-row">
+          <TwitchIcon color={username ? undefined : '#ABB6B9'} />
+          <p className="ml-1">{username ? 'Edit' : 'Connect'}</p>
+        </div>
+      </Button>
+    )
+  }
+  if (username)
     return (
       <div className="ml-2 flex">
         <a
-          href={`https://www.twitch.tv/${userName}`}
+          href={`https://www.twitch.tv/${username}`}
           target="_blank"
           rel="noreferrer"
         >
           <TwitchIcon />
         </a>
-        {isProfile && (
-          <a href="/" className="ml-1 text-xs">
-            Edit
-          </a>
-        )}
       </div>
     )
-  }
-  if (isProfile) {
-    return (
-      <Button disabled={isLoading} onClick={onConnectTwitch} className="ml-2">
-        <div className="flex flex-row">
-          <TwitchIcon color="#ABB6B9" />
-          <p className="ml-1">Connect</p>
-        </div>
-      </Button>
-    )
-  }
   return null
 }
 
@@ -103,7 +97,7 @@ const MemberDetails = ({ member, isProfile }) => {
               src={getFlagBase64(member.country)}
             />
             <TwitchLink
-              userName={member.twitchUsername}
+              username={member.twitchUsername}
               isProfile={isProfile}
             />
           </div>

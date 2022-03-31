@@ -5,7 +5,7 @@ import { PLAID } from './plaid'
 import { TWITCH, provider as twitchProvider } from './twitch'
 
 export const providers = {
-  [CHESS]: { ...chessProvider, onLogin: handleChessLogin },
+  [CHESS]: { ...chessProvider, onConnected: handleChessLogin },
   [COINBASE]: coinbaseProvider,
   [TWITCH]: twitchProvider,
 }

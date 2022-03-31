@@ -5,6 +5,7 @@ import { db } from 'src/lib/db'
 import { fetchMember } from 'src/lib/members'
 import { getTorusPublicAddress } from 'src/lib/torus/torus'
 import { logger } from 'src/lib/logger'
+
 export const handleChessLogin = async ({ refreshToken, decoded }) => {
   try {
     // Create member if needed, and get current avatar

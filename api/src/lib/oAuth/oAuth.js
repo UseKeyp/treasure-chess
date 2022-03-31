@@ -58,7 +58,7 @@ export const oAuthUrl = async (type) => {
   }
 }
 
-export const validateCodeGrant = async ({ state, code, type }) => {
+export const processCodeGrant = async ({ state, code, type }) => {
   try {
     if (!Object.values(types).includes(type))
       throw `OAuth Provider "${type}" is not enabled.`
@@ -76,7 +76,7 @@ export const validateCodeGrant = async ({ state, code, type }) => {
       throw 'Sorry, authentication must be completed within 10 minutes.'
 
     const { onSubmitCode } = providers[type]
-    return onSubmitCode && onSubmitCode(code, oAuth)
+    return onSubmitCode(code, oAuth)
   } catch (e) {
     /* eslint-disable no-console */
     console.log(e)

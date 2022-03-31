@@ -34,20 +34,19 @@ export const handler = createGraphQLHandler({
     //   identifyFn,
     //   // store: new RedisStore(redis.createClient())
     // }),
-    useSentry({
-      includeRawResult: false, // set to `true` in order to include the execution result in the metadata collected
-      includeResolverArgs: false, // set to `true` in order to include the args passed to resolvers
-      includeExecuteVariables: false, // set to `true` in order to include the operation variables values
-      // appendTags: (args) => { return { ... }} // if you wish to add custom "tags" to the Sentry transaction created per operation
-    }),
+    // useSentry({
+    //   includeRawResult: false, // set to `true` in order to include the execution result in the metadata collected
+    //   includeResolverArgs: false, // set to `true` in order to include the args passed to resolvers
+    //   includeExecuteVariables: false, // set to `true` in order to include the operation variables values
+    //   // appendTags: (args) => { return { ... }} // if you wish to add custom "tags" to the Sentry transaction created per operation
+    // }),
   ],
   depthLimitOptions: {
     // https://www.envelop.dev/plugins/use-depth-limit
     maxDepth: 4,
     ignore: [],
   },
-  onException: (e) => {
-    Sentry.captureException(e)
+  onException: () => {
     // Disconnect from your database with an unhandled exception.
     db.$disconnect()
   },

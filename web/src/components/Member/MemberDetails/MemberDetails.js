@@ -2,6 +2,7 @@ import Avatar from 'src/components/Avatar'
 import Button from 'src/components/Button/Button'
 import { Link, routes } from '@redwoodjs/router'
 import Icon, { TwitchIcon } from 'src/components/Icon'
+import { useOAuth } from 'src/providers/oAuth'
 
 import MemberBalance from 'src/components/Member/MemberBalance'
 
@@ -13,6 +14,18 @@ import { useWallet } from 'src/providers/wallet'
 import { trimAddress } from 'src/utils/helpers'
 
 const TwitchLink = ({ isProfile, userName }) => {
+  const { getOAuthUrl, isLoading } = useOAuth()
+
+  const onConnectTwitch = async () => {
+    const oAuthUrl = await getOAuthUrl('twitch')
+    if (oAuthUrl)
+      window.open(
+        oAuthUrl.url,
+        'Twitch - Connect',
+        'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
+      )
+  }
+
   if (userName) {
     return (
       <div className="ml-2 flex">
@@ -24,7 +37,7 @@ const TwitchLink = ({ isProfile, userName }) => {
           <TwitchIcon />
         </a>
         {isProfile && (
-          <a href="/#" className="ml-1 text-xs">
+          <a href="/" className="ml-1 text-xs">
             Edit
           </a>
         )}
@@ -33,7 +46,7 @@ const TwitchLink = ({ isProfile, userName }) => {
   }
   if (isProfile) {
     return (
-      <Button className="ml-2">
+      <Button disabled={isLoading} onClick={onConnectTwitch} className="ml-2">
         <div className="flex flex-row">
           <TwitchIcon color="#ABB6B9" />
           <p className="ml-1">Connect</p>

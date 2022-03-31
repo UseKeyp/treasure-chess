@@ -2,6 +2,7 @@ import { useQuery, useLazyQuery, useMutation } from '@apollo/client'
 import { useAuth } from '@redwoodjs/auth'
 import { useToast } from 'src/providers/toast'
 import { TxToast } from 'src/providers/market/toasts'
+import { useOAuth } from 'src/providers/oAuth'
 
 import {
   MEMBER_RAMPS_QUERY,
@@ -22,6 +23,12 @@ const RampContext = React.createContext({
 const RampProvider = ({ children }) => {
   const { isAuthenticated } = useAuth()
   const { toast } = useToast()
+  const {
+    getOAuthUrl,
+    isLoading: isLoadingOAuth,
+    error: errorOAuth,
+  } = useOAuth()
+
   const [shouldPoll, setShouldPoll] = React.useState(true)
   const [coinbase, setCoinbase] = React.useState({
     isLoading: false,
@@ -65,9 +72,6 @@ const RampProvider = ({ children }) => {
   const [wyreDepositUrlQuery] = useLazyQuery(WYRE_DEPOSIT_URL_QUERY, {
     fetchPolicy: 'network-only',
   })
-  const [oAuthUrlQuery] = useLazyQuery(OAUTH_URL_QUERY, {
-    fetchPolicy: 'network-only',
-  })
   const [connectPlaidMutation] = useMutation(CONNECT_PLAID_MUTATION)
   const [rampWithdrawMutation] = useMutation(RAMP_WITHDRAW_MUTATION)
 
@@ -84,9 +88,9 @@ const RampProvider = ({ children }) => {
 
   const connectCoinbase = async () => {
     setCoinbase({ isLoading: true, error: null, ...coinbase })
-    const { data: { oAuthUrl } = {} } = await oAuthUrlQuery({
-      variables: { type: 'coinbase' },
-    })
+    const oAuthUrl = await getOAuthUrl('coinbase')
+    if (errorOAuth)
+      return setWyre({ isLoading: false, error: errorOAuth, ...coinbase })
     setCoinbase({ isLoading: false, ...coinbase })
     setShouldPoll(true)
     window.open(
@@ -98,9 +102,9 @@ const RampProvider = ({ children }) => {
 
   const connectWyre = async () => {
     setWyre({ isLoading: true, error: null, ...wyre })
-    const { data: { oAuthUrl } = {} } = await oAuthUrlQuery({
-      variables: { type: PLAID },
-    })
+    const oAuthUrl = await getOAuthUrl(PLAID)
+    if (errorOAuth)
+      return setWyre({ isLoading: false, error: errorOAuth, ...wyre })
     setWyre({ isLoading: false, ...wyre })
     /* eslint-disable-next-line no-undef */
     var linkHandler = Plaid.create({

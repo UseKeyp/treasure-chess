@@ -93,7 +93,7 @@ const MintingProvider = ({ children }) => {
         const lastPurchase = last.find((item) => item.id === purchase.id)
         if (
           lastPurchase.status !== purchase.status ||
-          (!lastPurchase.tx && purcahse?.tx.id) || // Handle when previous has no purchase
+          (!lastPurchase.tx && purchase?.tx.id) || // Handle when previous has no purchase
           lastPurchase?.tx.id !== purchase?.tx.id
         ) {
           toastPurchase(purchase)

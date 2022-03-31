@@ -1,5 +1,4 @@
 import fetch from 'node-fetch'
-import { logger } from 'src/lib/logger'
 import Sentry from 'src/lib/sentry'
 
 const DISCORD_API_URL = 'https://discord.com/api/v9'

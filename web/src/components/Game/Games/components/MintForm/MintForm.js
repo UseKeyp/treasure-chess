@@ -25,7 +25,6 @@ const MintForm = ({
 
   const handleSubmit = () => {
     const error = validateTitle(inputValue)
-    console.log(error)
     if (error) return setErrorText(error)
     setErrorText('')
     onSubmit(inputValue)

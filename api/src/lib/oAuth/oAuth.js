@@ -76,7 +76,7 @@ export const processCodeGrant = async ({ state, code, type }) => {
       throw 'Sorry, authentication must be completed within 10 minutes.'
 
     const { onSubmitCode } = providers[type]
-    return onSubmitCode(code, oAuth)
+    return onSubmitCode(code, { memberId: oAuth.memberId })
   } catch (e) {
     /* eslint-disable no-console */
     console.log(e)

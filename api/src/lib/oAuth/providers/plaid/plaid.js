@@ -5,17 +5,19 @@ import {
   Products,
   CountryCode,
 } from 'plaid'
-
-import { isProduction } from 'src/lib/helpers'
-
-import { db } from 'src/lib/db'
 import Sentry from 'src/lib/sentry'
 
-import { encodeBody, getExpiration } from 'src/lib/oAuth/helpers'
+import {
+  createPaymentMethodFromPlaid,
+  attachBlockchainPaymentMethod,
+} from 'src/lib/wyre'
+import { db } from 'src/lib/db'
+import { isProduction } from 'src/lib/helpers'
 
 export const PLAID = 'PLAID'
-const PLAID_SCOPE =
-  'wallet:accounts:read,wallet:addresses:read,wallet:user:email'
+export const WYRE = 'WYRE'
+
+const PLAID_SCOPE = [Products.Auth]
 const PLAID_REDIRECT_URI = process.env.APP_DOMAIN + '/redirect/plaid'
 
 const PLAID_WEBHOOK_URL = isProduction
@@ -39,14 +41,13 @@ const configuration = new Configuration({
   },
 })
 const client = new PlaidApi(configuration)
-const PRODUCTS_SCOPE = [Products.Auth]
 
 export const createPlaidLink = async () => {
   try {
     const request = {
       user: { client_user_id: context.currentUser.id },
       client_name: 'Treasure Chess',
-      products: PRODUCTS_SCOPE,
+      products: PLAID_SCOPE,
       language: 'en', // TODO get from user's account
       webhook: PLAID_WEBHOOK_URL,
       redirect_uri: PLAID_REDIRECT_URI,
@@ -144,12 +145,13 @@ const onConnected = async ({ accessToken, accountId }) => {
 }
 
 export const provider = { onSubmitCode, onConnected }
+
 // Used for testing purposes only in "sandbox" environment
-const getSandboxPublicToken = async () => {
+export const getSandboxPublicToken = async () => {
   try {
     const publicTokenRequest = {
       institution_id: 'ins_132241',
-      initial_products: PRODUCTS_SCOPE,
+      initial_products: PLAID_SCOPE,
     }
     const publicTokenResponse = await client.sandboxPublicTokenCreate(
       publicTokenRequest

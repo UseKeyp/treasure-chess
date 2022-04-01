@@ -1,19 +1,13 @@
 import { useLazyQuery, useMutation } from '@apollo/client'
-import { useAuth } from '@redwoodjs/auth'
 import { useToast } from 'src/providers/toast'
 
 import { OAUTH_URL_QUERY, OAUTH_CODE_GRANT_MUTATION } from './graphql'
-
-const PLAID = 'plaid'
-const COINBASE = 'COINBASE'
-const WYRE = 'WYRE'
 
 const OAuthContext = React.createContext({
   isLoading: true,
 })
 
 const OAuthProvider = ({ children }) => {
-  const { isAuthenticated } = useAuth()
   const { toast } = useToast()
   const [state, setState] = React.useState({})
 
@@ -41,7 +35,7 @@ const OAuthProvider = ({ children }) => {
 
   const submitCodeGrant = async ({ code, grantState, type, accountId }) => {
     try {
-      const { data, error } = await codeGrantMutation({
+      const { data } = await codeGrantMutation({
         variables: {
           type: type.toUpperCase(),
           code,

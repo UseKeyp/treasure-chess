@@ -21,12 +21,7 @@ const RampContext = React.createContext({
 const RampProvider = ({ children }) => {
   const { isAuthenticated } = useAuth()
   const { toast } = useToast()
-  const {
-    getOAuthUrl,
-    submitCodeGrant,
-    isLoading: isLoadingOAuth,
-    error: errorOAuth,
-  } = useOAuth()
+  const { getOAuthUrl, submitCodeGrant, error: errorOAuth } = useOAuth()
 
   const [shouldPoll, setShouldPoll] = React.useState(true)
   const [coinbase, setCoinbase] = React.useState({
@@ -118,7 +113,6 @@ const RampProvider = ({ children }) => {
           })
           if (errorOAuth)
             return setWyre({ isLoading: false, error: errorOAuth, ...wyre })
-          console.log(codeGrant)
           const { ramp: wyreRamp } = data
           setWyre({
             ...wyre,

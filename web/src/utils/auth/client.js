@@ -1,4 +1,5 @@
 import { toast } from '@redwoodjs/web/toast'
+import { getErrorResponse } from 'src/lib/auth/helpers'
 
 export const logIn = async (attributes) => {
   try {

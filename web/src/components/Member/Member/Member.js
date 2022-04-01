@@ -4,6 +4,7 @@ import TreasuresFetcher from 'src/components/Treasure/TreasuresFetcher'
 
 const Member = ({ member, isLoading }) => {
   const twitchSrc = `https://player.twitch.tv/?channel=${member.twitchUsername}&parent=${process.env.APP_DOMAIN}&muted=true&autoplay=true`
+  // To test locally, uncomment and use domain "localhost"
   // const twitchSrc = `https://player.twitch.tv/?channel=jpegjames&parent=localhost&muted=true&autoplay=true`
   return (
     <div className="max-width-container">
@@ -17,8 +18,9 @@ const Member = ({ member, isLoading }) => {
         <div className="grid md:grid-cols-2 grid-cols-1 gap-10">
           <div className="mt-4 px-2 flex justify-center bg-black rounded-xl border-4 border-[#5A3E85]">
             <iframe
+              title={`Twitch stream for ${member.twitchUsername}`}
               src={twitchSrc}
-              allowfullscreen
+              allowFullScreen
               width={400}
               height={300}
             ></iframe>

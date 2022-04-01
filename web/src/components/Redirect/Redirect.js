@@ -1,4 +1,4 @@
-import { Link, routes } from '@redwoodjs/router'
+import { routes } from '@redwoodjs/router'
 import { useRedirection } from 'src/providers/redirection'
 
 import Loader from 'src/components/Loader'
@@ -8,12 +8,6 @@ import SiteFooter from 'src/components/SiteFooter'
 
 const Redirect = ({ type }) => {
   const { errorMessage, successMessage, isLoading } = useRedirection()
-
-  const wyreErrorIcon = (
-    <div className="flex align-center bg-black p-4 rounded-lg border-2 border-red">
-      <Icon name="wyre" size="29" />
-    </div>
-  )
 
   let contents = null
   if (isLoading)

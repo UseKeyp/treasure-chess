@@ -9,16 +9,13 @@ const RedirectionProvider = ({ children }) => {
   const [state, setState] = React.useState({ isLoading: true })
 
   const { logIn, reauthenticate } = useAuth()
-  const {
-    submitCodeGrant,
-    isLoading: isLoadingOAuth,
-    error: errorOAuth,
-  } = useOAuth()
+  const { submitCodeGrant } = useOAuth()
 
   const url = new URL(window.location.href)
   const code = url.searchParams.get('code')
   const grantState = url.searchParams.get('state')
   const error = url.searchParams.get('error')
+  /* eslint-disable camelcase */
   const error_description = url.searchParams.get('error_description')
   const orderId = url.searchParams.get('orderId')
   const type = url.pathname.split('/redirect/')[1]

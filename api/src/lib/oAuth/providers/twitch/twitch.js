@@ -66,7 +66,7 @@ export const onSubmitCode = async (code, { memberId }) => {
   }
 }
 
-export const onConnected = async ({ accessToken, refreshToken, memberId }) => {
+export const onConnected = async ({ accessToken, memberId }) => {
   try {
     const usersList = await fetch(`https://api.twitch.tv/helix/users`, {
       headers: {
@@ -79,7 +79,6 @@ export const onConnected = async ({ accessToken, refreshToken, memberId }) => {
       return res.json()
     })
     logger.debug({ custom: usersList }, 'Twitch user details')
-    const twitchUsername = null
     await db.member.update({
       where: { id: memberId },
       data: { twitchUsername: usersList.data[0].login },

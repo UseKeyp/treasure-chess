@@ -56,14 +56,14 @@ export const onSubmitCode = async (code, { memberId }) => {
       accessToken,
       accessTokenExpiration: getExpiration(expiration),
       refreshToken,
-      userId,
+      memberId,
     }
   } catch (e) {
     throw `onSubmitCode() ${e}`
   }
 }
 
-export const onConnected = async ({ accessToken, refreshToken, userId }) => {
+export const onConnected = async ({ accessToken, refreshToken, memberId }) => {
   try {
     const userDetails = await fetch('https://api.coinbase.com/v2/user', {
       headers: { Authorization: `Bearer ${accessToken}` },

@@ -13,7 +13,6 @@ export const schema = gql`
   type Mutation {
     rampWithdraw(type: String, amount: String!): Transaction! @requireAuth
   }
-
   enum RampType {
     WYRE
     COINBASE

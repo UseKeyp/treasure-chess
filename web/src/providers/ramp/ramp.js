@@ -2,16 +2,15 @@ import { useQuery, useLazyQuery, useMutation } from '@apollo/client'
 import { useAuth } from '@redwoodjs/auth'
 import { useToast } from 'src/providers/toast'
 import { TxToast } from 'src/providers/market/toasts'
+import { useOAuth } from 'src/providers/oAuth'
 
 import {
   MEMBER_RAMPS_QUERY,
   WYRE_DEPOSIT_URL_QUERY,
-  OAUTH_URL_QUERY,
-  CONNECT_PLAID_MUTATION,
   RAMP_WITHDRAW_MUTATION,
 } from './graphql'
 
-const PLAID = 'plaid'
+const PLAID = 'PLAID'
 const COINBASE = 'COINBASE'
 const WYRE = 'WYRE'
 
@@ -22,6 +21,8 @@ const RampContext = React.createContext({
 const RampProvider = ({ children }) => {
   const { isAuthenticated } = useAuth()
   const { toast } = useToast()
+  const { getOAuthUrl, submitCodeGrant, error: errorOAuth } = useOAuth()
+
   const [shouldPoll, setShouldPoll] = React.useState(true)
   const [coinbase, setCoinbase] = React.useState({
     isLoading: false,
@@ -65,10 +66,6 @@ const RampProvider = ({ children }) => {
   const [wyreDepositUrlQuery] = useLazyQuery(WYRE_DEPOSIT_URL_QUERY, {
     fetchPolicy: 'network-only',
   })
-  const [oAuthUrlQuery] = useLazyQuery(OAUTH_URL_QUERY, {
-    fetchPolicy: 'network-only',
-  })
-  const [connectPlaidMutation] = useMutation(CONNECT_PLAID_MUTATION)
   const [rampWithdrawMutation] = useMutation(RAMP_WITHDRAW_MUTATION)
 
   const depositWyre = async () => {
@@ -84,9 +81,9 @@ const RampProvider = ({ children }) => {
 
   const connectCoinbase = async () => {
     setCoinbase({ isLoading: true, error: null, ...coinbase })
-    const { data: { oAuthUrl } = {} } = await oAuthUrlQuery({
-      variables: { type: 'coinbase' },
-    })
+    const oAuthUrl = await getOAuthUrl(COINBASE)
+    if (errorOAuth)
+      return setWyre({ isLoading: false, error: errorOAuth, ...coinbase })
     setCoinbase({ isLoading: false, ...coinbase })
     setShouldPoll(true)
     window.open(
@@ -98,9 +95,9 @@ const RampProvider = ({ children }) => {
 
   const connectWyre = async () => {
     setWyre({ isLoading: true, error: null, ...wyre })
-    const { data: { oAuthUrl } = {} } = await oAuthUrlQuery({
-      variables: { type: PLAID },
-    })
+    const oAuthUrl = await getOAuthUrl(PLAID)
+    if (errorOAuth)
+      return setWyre({ isLoading: false, error: errorOAuth, ...wyre })
     setWyre({ isLoading: false, ...wyre })
     /* eslint-disable-next-line no-undef */
     var linkHandler = Plaid.create({
@@ -109,11 +106,14 @@ const RampProvider = ({ children }) => {
       onSuccess: async (public_token, metadata) => {
         const accountId = metadata.accounts[0].id
         try {
-          const {
-            data: { wyreRamp = {} },
-          } = await connectPlaidMutation({
-            variables: { code: public_token, accountId },
+          const { data } = await submitCodeGrant({
+            code: public_token,
+            accountId,
+            type: PLAID,
           })
+          if (errorOAuth)
+            return setWyre({ isLoading: false, error: errorOAuth, ...wyre })
+          const { ramp: wyreRamp } = data
           setWyre({
             ...wyre,
             isLoading: false,

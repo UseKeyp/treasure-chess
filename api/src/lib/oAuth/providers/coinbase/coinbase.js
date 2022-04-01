@@ -1,17 +1,19 @@
 import fetch from 'cross-fetch'
 import { db } from 'src/lib/db'
 import Sentry from 'src/lib/sentry'
-import { AuthenticationError } from '@redwoodjs/graphql-server'
 
 import { encodeBody, getExpiration } from 'src/lib/oAuth/helpers'
-import { logger } from 'src/lib/logger'
-export const COINBASE = 'coinbase'
-export const COINBASE_OAUTH_URL = 'https://www.coinbase.com/oauth'
 
+export const COINBASE = 'COINBASE'
+export const COINBASE_OAUTH_URL_AUTHORIZE =
+  'https://www.coinbase.com/oauth/authorize'
+
+const COINBASE_OAUTH_URL_TOKEN = 'https://www.coinbase.com/oauth/token'
 const COINBASE_SCOPE =
   'wallet:accounts:read,wallet:addresses:read,wallet:user:email'
 const COINBASE_REDIRECT_URI = process.env.APP_DOMAIN + '/redirect/coinbase'
-export const coinbaseParams = {
+
+const params = {
   client_id: process.env.COINBASE_CLIENT_ID,
   scope: COINBASE_SCOPE,
   redirect_uri: COINBASE_REDIRECT_URI,
@@ -19,7 +21,7 @@ export const coinbaseParams = {
   account_currency: 'ETH',
 }
 
-export const getCoinbaseAccessTokenFromCode = async (code, { memberId }) => {
+export const onSubmitCode = async (code, { memberId }) => {
   try {
     const body = {
       grant_type: 'authorization_code',
@@ -29,15 +31,13 @@ export const getCoinbaseAccessTokenFromCode = async (code, { memberId }) => {
       code,
     }
     const encodedBody = encodeBody(body)
-    logger.debug({ custom: encodedBody.split('&') })
-    const response = await fetch(COINBASE_OAUTH_URL + '/token', {
+    const response = await fetch(COINBASE_OAUTH_URL_TOKEN, {
       method: 'post',
       body: encodedBody,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
     }).then((res) => {
-      logger.debug({ custom: res })
       if (res.status != 200)
         throw `Coinbase API failed for /token. ${res.status} - ${res.statusText}`
       return res.json()
@@ -59,15 +59,11 @@ export const getCoinbaseAccessTokenFromCode = async (code, { memberId }) => {
       memberId,
     }
   } catch (e) {
-    throw `getCoinbaseAccessTokenFromCode() ${e}`
+    throw `onSubmitCode() ${e}`
   }
 }
 
-export const handleCoinbaseLogin = async ({
-  accessToken,
-  refreshToken,
-  memberId,
-}) => {
+export const onConnected = async ({ accessToken, refreshToken, memberId }) => {
   try {
     const userDetails = await fetch('https://api.coinbase.com/v2/user', {
       headers: { Authorization: `Bearer ${accessToken}` },
@@ -99,14 +95,24 @@ export const handleCoinbaseLogin = async ({
       data: {
         address,
         email: userDetails.data.email,
-        type: 'COINBASE',
+        type: COINBASE,
         accessToken,
         refreshToken,
         member: { connect: { id: memberId } },
       },
     })
+    return {
+      status: 'SUCCESS',
+    }
   } catch (e) {
     Sentry.captureException(e)
-    throw new AuthenticationError(e)
+    throw `onConnected() ${e}`
   }
+}
+
+export const provider = {
+  urlAuthorize: COINBASE_OAUTH_URL_AUTHORIZE,
+  params,
+  onSubmitCode,
+  onConnected,
 }

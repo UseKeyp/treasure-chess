@@ -1,6 +1,8 @@
 import Avatar from 'src/components/Avatar'
 import Button from 'src/components/Button/Button'
+import { Link, routes } from '@redwoodjs/router'
 import Icon, { TwitchIcon } from 'src/components/Icon'
+import { useOAuth } from 'src/providers/oAuth'
 
 import MemberBalance from 'src/components/Member/MemberBalance'
 
@@ -11,35 +13,41 @@ import { useWallet } from 'src/providers/wallet'
 
 import { trimAddress } from 'src/utils/helpers'
 
-const TwitchLink = ({ isProfile, userName }) => {
-  if (userName) {
+const TwitchLink = ({ isProfile, username }) => {
+  const { getOAuthUrl, isLoading } = useOAuth()
+
+  const onConnectTwitch = async () => {
+    const oAuthUrl = await getOAuthUrl('TWITCH')
+    if (oAuthUrl)
+      window.open(
+        oAuthUrl.url,
+        'Twitch - Connect',
+        'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
+      )
+  }
+
+  if (isProfile) {
+    return (
+      <Button disabled={isLoading} onClick={onConnectTwitch} className="ml-2">
+        <div className="flex flex-row">
+          <TwitchIcon color={username ? undefined : '#ABB6B9'} />
+          <p className="ml-1">{username ? 'Update' : 'Connect'}</p>
+        </div>
+      </Button>
+    )
+  }
+  if (username)
     return (
       <div className="ml-2 flex">
         <a
-          href={`https://www.twitch.tv/${userName}`}
+          href={`https://www.twitch.tv/${username}`}
           target="_blank"
           rel="noreferrer"
         >
           <TwitchIcon />
         </a>
-        {isProfile && (
-          <a href="/#" className="ml-1 text-xs">
-            Edit
-          </a>
-        )}
       </div>
     )
-  }
-  if (isProfile) {
-    return (
-      <Button className="ml-2">
-        <div className="flex flex-row">
-          <TwitchIcon color="#ABB6B9" />
-          <p className="ml-1">Connect</p>
-        </div>
-      </Button>
-    )
-  }
   return null
 }
 
@@ -89,10 +97,21 @@ const MemberDetails = ({ member, isProfile }) => {
               src={getFlagBase64(member.country)}
             />
             <TwitchLink
-              userName={member.twitchUsername}
+              username={member.twitchUsername}
               isProfile={isProfile}
             />
           </div>
+          {isProfile && (
+            <div className="mt-2 member-details--member-content">
+              <p>
+                <Link
+                  to={routes.member({ usernameOrAddress: member.username })}
+                >
+                  View public profile
+                </Link>
+              </p>
+            </div>
+          )}
         </div>
 
         {isProfile && (

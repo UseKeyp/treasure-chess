@@ -8,7 +8,9 @@ import { FilterProvider } from './filters'
 import { RestrictedProvider } from './restricted'
 import { MarketProvider } from './market'
 import { RampProvider } from './ramp'
-import { LocaleProvider } from './locale/locale'
+import { LocaleProvider } from './locale'
+import { OAuthProvider } from './oAuth'
+import { RedirectionProvider } from './redirection'
 
 const AllContextProviders = ({ children }) => {
   // Add additional context providers here
@@ -20,16 +22,20 @@ const AllContextProviders = ({ children }) => {
         <ThemeContextProvider>
           <FilterProvider>
             <ToastProvider>
-              <GamesContextProvider>
-                <TokenSessionProvider />
-                <RampProvider>
-                  <WalletProvider>
-                    <MintingProvider>
-                      <MarketProvider>{children}</MarketProvider>
-                    </MintingProvider>
-                  </WalletProvider>
-                </RampProvider>
-              </GamesContextProvider>
+              <TokenSessionProvider />
+              <OAuthProvider>
+                <RedirectionProvider>
+                  <RampProvider>
+                    <WalletProvider>
+                      <GamesContextProvider>
+                        <MintingProvider>
+                          <MarketProvider>{children}</MarketProvider>
+                        </MintingProvider>
+                      </GamesContextProvider>
+                    </WalletProvider>
+                  </RampProvider>
+                </RedirectionProvider>
+              </OAuthProvider>
             </ToastProvider>
           </FilterProvider>
         </ThemeContextProvider>

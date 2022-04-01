@@ -5,24 +5,24 @@ import {
   Products,
   CountryCode,
 } from 'plaid'
+import Sentry from 'src/lib/sentry'
 
-import { isProduction } from 'src/lib/helpers'
 import {
   createPaymentMethodFromPlaid,
   attachBlockchainPaymentMethod,
 } from 'src/lib/wyre'
 import { db } from 'src/lib/db'
-import Sentry from 'src/lib/sentry'
+import { isProduction } from 'src/lib/helpers'
 
-export const WYRE = 'wyre'
-export const PLAID = 'plaid'
+export const PLAID = 'PLAID'
+export const WYRE = 'WYRE'
+
+const PLAID_SCOPE = [Products.Auth]
+const PLAID_REDIRECT_URI = process.env.APP_DOMAIN + '/redirect/plaid'
 
 const PLAID_WEBHOOK_URL = isProduction
   ? 'https://treasure.chess.com/api/plaid'
   : 'https://tc-checkout-dev.ngrok.io/api/plaid'
-const PLAID_REDIRECT_URI = isProduction
-  ? process.env.APP_DOMAIN + '/redirect/coinbase'
-  : 'https://0.0.0.0:8910/redirect/plaid'
 
 const getEnvironment = () => {
   if (process.env.NODE_ENV === 'staging') return 'development'
@@ -30,7 +30,6 @@ const getEnvironment = () => {
   else if (process.env.NODE_ENV === 'prod') return 'development'
   return 'sandbox'
 }
-
 const configuration = new Configuration({
   basePath: PlaidEnvironments[getEnvironment()],
   baseOptions: {
@@ -43,14 +42,12 @@ const configuration = new Configuration({
 })
 const client = new PlaidApi(configuration)
 
-const PRODUCTS_SCOPE = [Products.Auth]
-
 export const createPlaidLink = async () => {
   try {
     const request = {
       user: { client_user_id: context.currentUser.id },
       client_name: 'Treasure Chess',
-      products: PRODUCTS_SCOPE,
+      products: PLAID_SCOPE,
       language: 'en', // TODO get from user's account
       webhook: PLAID_WEBHOOK_URL,
       redirect_uri: PLAID_REDIRECT_URI,
@@ -60,17 +57,29 @@ export const createPlaidLink = async () => {
     if (!createTokenResponse?.data?.link_token) throw 'No link token returned'
     return createTokenResponse.data.link_token
   } catch (e) {
-    throw `createPlaidLink() ${e}`
+    throw `Something went wrong`
   }
 }
 
-export const handlePlaidConnection = async ({ code, accountId }) => {
+const onSubmitCode = async ({ code, accountId }) => {
   try {
     /* eslint-disable camelcase*/
     const tokenResponse = await client.itemPublicTokenExchange({
       public_token: code,
     })
     const accessToken = tokenResponse.data.access_token
+    return {
+      accessToken,
+      accountId,
+    }
+  } catch (e) {
+    Sentry.captureException(e)
+    throw `onSubmitCode() ${e}`
+  }
+}
+
+const onConnected = async ({ accessToken, accountId }) => {
+  try {
     const request = {
       access_token: accessToken,
       account_id: accountId,
@@ -124,24 +133,25 @@ export const handlePlaidConnection = async ({ code, accountId }) => {
         verificationStatus: verification_status,
         isoCurrencyCode: iso_currency_code,
         paymentMethodId: paymentMethod.id,
-        type: 'WYRE',
+        type: WYRE,
         member: { connect: { id: context.currentUser.id } },
       },
     })
-    return ramp
+    return { status: 'SUCCESS', ramp }
   } catch (e) {
-    /* eslint-enable no-console */
     Sentry.captureException(e)
-    throw e
+    throw `onConnected() ${e}`
   }
 }
+
+export const provider = { onSubmitCode, onConnected }
 
 // Used for testing purposes only in "sandbox" environment
 export const getSandboxPublicToken = async () => {
   try {
     const publicTokenRequest = {
       institution_id: 'ins_132241',
-      initial_products: PRODUCTS_SCOPE,
+      initial_products: PLAID_SCOPE,
     }
     const publicTokenResponse = await client.sandboxPublicTokenCreate(
       publicTokenRequest

@@ -1,28 +1,22 @@
-import { oAuthUrl as getOAuthUrl, validateCodeGrant } from 'src/lib/oAuth'
-import { CHESS } from 'src/lib/oAuth/chess'
-import { handleCoinbaseLogin, COINBASE } from 'src/lib/oAuth/coinbase'
-import { handlePlaidConnection } from 'src/lib/oAuth/wyre'
+import { logger } from 'src/lib/logger'
+import Sentry from 'src/lib/sentry'
+import { AuthenticationError } from '@redwoodjs/graphql-server'
 
-export const chessLoginUrl = () => getOAuthUrl(CHESS)
+import { oAuthUrl as getOAuthUrl, processCodeGrant } from 'src/lib/oAuth'
+import { types, providers } from 'src/lib/oAuth/providers'
 
 export const oAuthUrl = ({ type }) => getOAuthUrl(type)
 
-export const connectPlaid = ({ code, accountId }) =>
-  handlePlaidConnection({ code, accountId })
-
-export const codeGrant = async ({ type, code, state }) => {
-  // WARNING: Don't return any sensitive user data here
-  const tokens = await validateCodeGrant({
-    code,
-    state,
-    type,
-  })
-  if (type === COINBASE) {
-    await handleCoinbaseLogin(tokens)
-    return {
-      action: 'close',
-      text: 'Successfully connected to Coinbase',
-      status: 'SUCCESS',
-    }
+export const codeGrant = async (args) => {
+  try {
+    const { type } = args
+    // WARNING: Don't return any sensitive user data here
+    logger.debug(`code grant - ${type}`)
+    if (!types.includes(type)) throw `Unknown OAuth Provider - ${type}`
+    const tokens = await processCodeGrant(args)
+    return providers[type].onConnected(tokens)
+  } catch (e) {
+    Sentry.captureException(e)
+    throw new AuthenticationError(e)
   }
 }

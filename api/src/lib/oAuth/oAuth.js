@@ -55,7 +55,8 @@ export const processCodeGrant = async ({ state, code, type, accountId }) => {
     logger.debug(`code grant - ${type}`)
     if (!types.includes(type)) throw `Unknown OAuth Provider - ${type}`
     const tokens = await submitCodeGrant({ state, code, type, accountId })
-    return providers[type].onConnected(tokens)
+    logger.debug({ custom: tokens }, 'onSubmitCode() response')
+    return await providers[type].onConnected(tokens)
   } catch (e) {
     logger.error(e)
     Sentry.captureException(e)
@@ -82,5 +83,5 @@ const submitCodeGrant = async ({ state, code, type, accountId }) => {
   if (new Date() - new Date(oAuth.createdAt) > 10 * 60 * 1000)
     throw 'Sorry, authentication must be completed within 10 minutes.'
 
-  return onSubmitCode(code, oAuth)
+  return await onSubmitCode(code, oAuth)
 }

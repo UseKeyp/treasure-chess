@@ -9,7 +9,7 @@ dotenv.config()
 
 const arg = process.argv[2]
 let environment = arg ? arg : process.env.ENVIRONMENT
-if (environment === 'local') environment = 'dev'
+if (!environment || environment === 'local') environment = 'dev'
 
 const setupEnvironment = () => {
   const encrypted = require(path.join(

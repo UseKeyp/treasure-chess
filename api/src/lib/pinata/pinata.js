@@ -20,12 +20,12 @@ const API_DOMAIN = isProduction
   : `${process.env.APP_DOMAIN}/api`
 
 const fetchScreenshotBase64Buffer = async (_url) => {
-  // const target = `${API_DOMAIN}/screenshot?url=${url}`
-  // const result = await fetch(target)
-  // if (result.status !== 200) throw "Couldn't get card snapshot"
-  // const buffer = await result.buffer()
-  // return buffer
-  return Buffer.from(placeholderImage, 'base64')
+  const target = `${API_DOMAIN}/screenshot?url=${url}`
+  const result = await fetch(target)
+  if (result.status !== 200) throw "Couldn't get card snapshot"
+  const buffer = await result.buffer()
+  return buffer
+  // return Buffer.from(placeholderImage, 'base64')
 }
 const fetchBoardBase64Buffer = async ({ boardLayout, playerColor }) => {
   const result = await fetch(`${API_DOMAIN}/image`, {

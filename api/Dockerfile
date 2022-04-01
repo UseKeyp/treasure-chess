@@ -55,6 +55,9 @@ COPY --from=build /app/yarn.lock /app/api/yarn.lock
 COPY --from=build /app/redwood.toml /app/redwood.toml
 
 RUN yarn --cwd "api" --frozen-lockfile install
+RUN ["apt-get", "update"]
+RUN ["apt-get", "-y", "install", "nano"]
+RUN ["apt", "install", "-y", "libnss3"]
 
 # Expose RedwoodJS api port
 EXPOSE 8911

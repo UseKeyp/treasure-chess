@@ -1,26 +1,22 @@
-import { oAuthUrl as getOAuthUrl, processCodeGrant } from 'src/lib/oAuth'
-import { providers, types } from 'src/lib/oAuth/providers'
+import { logger } from 'src/lib/logger'
+import Sentry from 'src/lib/sentry'
+import { AuthenticationError } from '@redwoodjs/graphql-server'
 
-import { handlePlaidConnection } from 'src/lib/oAuth/providers/plaid'
+import { oAuthUrl as getOAuthUrl, processCodeGrant } from 'src/lib/oAuth'
+import { types, providers } from 'src/lib/oAuth/providers'
 
 export const oAuthUrl = ({ type }) => getOAuthUrl(type)
 
-export const connectPlaid = handlePlaidConnection
-
-export const codeGrant = async ({ type, code, state }) => {
-  // WARNING: Don't return any sensitive user data here
-  logger.debug(`code grant - ${type}`)
-  return {
-    action: '',
-    text: '',
-    status: '',
+export const codeGrant = async (args) => {
+  try {
+    const { type } = args
+    // WARNING: Don't return any sensitive user data here
+    logger.debug(`code grant - ${type}`)
+    if (!types.includes(type)) throw `Unknown OAuth Provider - ${type}`
+    const tokens = await processCodeGrant(args)
+    return providers[type].onConnected(tokens)
+  } catch (e) {
+    Sentry.captureException(e)
+    throw new AuthenticationError(e)
   }
-  // if (!types.includes(type)) throw `Unknown OAuth Provider - ${type}`
-  // const tokens = await processCodeGrant({
-  //   code,
-  //   state,
-  //   type,
-  // })
-  // const { onConnected } = providers[type]
-  // return onConnected(tokens)
 }

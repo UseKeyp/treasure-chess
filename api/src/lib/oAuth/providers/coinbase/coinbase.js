@@ -1,7 +1,6 @@
 import fetch from 'cross-fetch'
 import { db } from 'src/lib/db'
 import Sentry from 'src/lib/sentry'
-import { AuthenticationError } from '@redwoodjs/graphql-server'
 
 import { encodeBody, getExpiration } from 'src/lib/oAuth/helpers'
 
@@ -60,7 +59,7 @@ export const onSubmitCode = async (code, { memberId }) => {
       userId,
     }
   } catch (e) {
-    throw `getCoinbaseAccessTokenFromCode() ${e}`
+    throw `onSubmitCode() ${e}`
   }
 }
 
@@ -102,9 +101,12 @@ export const onConnected = async ({ accessToken, refreshToken, userId }) => {
         member: { connect: { id: memberId } },
       },
     })
+    return {
+      status: 'SUCCESS',
+    }
   } catch (e) {
     Sentry.captureException(e)
-    throw new AuthenticationError(e)
+    throw `onConnected() ${e}`
   }
 }
 

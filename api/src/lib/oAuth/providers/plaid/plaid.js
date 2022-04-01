@@ -10,7 +10,6 @@ import { isProduction } from 'src/lib/helpers'
 
 import { db } from 'src/lib/db'
 import Sentry from 'src/lib/sentry'
-import { AuthenticationError } from '@redwoodjs/graphql-server'
 
 import { encodeBody, getExpiration } from 'src/lib/oAuth/helpers'
 
@@ -61,13 +60,25 @@ export const createPlaidLink = async () => {
   }
 }
 
-export const onSubmitCode = async ({ code, accountId }) => {
+const onSubmitCode = async ({ code, accountId }) => {
   try {
     /* eslint-disable camelcase*/
     const tokenResponse = await client.itemPublicTokenExchange({
       public_token: code,
     })
     const accessToken = tokenResponse.data.access_token
+    return {
+      accessToken,
+      accountId,
+    }
+  } catch (e) {
+    Sentry.captureException(e)
+    throw `onSubmitCode() ${e}`
+  }
+}
+
+const onConnected = async ({ accessToken, accountId }) => {
+  try {
     const request = {
       access_token: accessToken,
       account_id: accountId,
@@ -125,16 +136,16 @@ export const onSubmitCode = async ({ code, accountId }) => {
         member: { connect: { id: context.currentUser.id } },
       },
     })
-    return ramp
+    return { status: 'SUCCESS', ramp }
   } catch (e) {
-    /* eslint-enable no-console */
     Sentry.captureException(e)
-    throw e
+    throw `onConnected() ${e}`
   }
 }
 
+export const provider = { onSubmitCode, onConnected }
 // Used for testing purposes only in "sandbox" environment
-export const getSandboxPublicToken = async () => {
+const getSandboxPublicToken = async () => {
   try {
     const publicTokenRequest = {
       institution_id: 'ins_132241',

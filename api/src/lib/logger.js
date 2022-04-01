@@ -1,4 +1,5 @@
 import { createLogger, redactionsList } from '@redwoodjs/api/logger'
+import { isProduction } from 'src/lib/helpers'
 /**
  * Creates a logger with RedwoodLoggerOptions
  *
@@ -16,8 +17,7 @@ import { createLogger, redactionsList } from '@redwoodjs/api/logger'
 export const logger = createLogger({
   options: {
     redact: [...redactionsList, 'member.refreshToken'],
-    // level: isProduction ? 'warn' : 'trace'  // These are the redwoodJS defaults
-    // },
+    level: isProduction ? 'warn' : 'trace', // These are the redwoodJS defaults
     // showConfig: !isProduction, // Helpful for debugging
   },
 })

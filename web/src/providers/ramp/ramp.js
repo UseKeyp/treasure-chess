@@ -7,8 +7,6 @@ import { useOAuth } from 'src/providers/oAuth'
 import {
   MEMBER_RAMPS_QUERY,
   WYRE_DEPOSIT_URL_QUERY,
-  OAUTH_URL_QUERY,
-  CONNECT_PLAID_MUTATION,
   RAMP_WITHDRAW_MUTATION,
 } from './graphql'
 
@@ -25,6 +23,7 @@ const RampProvider = ({ children }) => {
   const { toast } = useToast()
   const {
     getOAuthUrl,
+    submitCodeGrant,
     isLoading: isLoadingOAuth,
     error: errorOAuth,
   } = useOAuth()
@@ -72,7 +71,6 @@ const RampProvider = ({ children }) => {
   const [wyreDepositUrlQuery] = useLazyQuery(WYRE_DEPOSIT_URL_QUERY, {
     fetchPolicy: 'network-only',
   })
-  const [connectPlaidMutation] = useMutation(CONNECT_PLAID_MUTATION)
   const [rampWithdrawMutation] = useMutation(RAMP_WITHDRAW_MUTATION)
 
   const depositWyre = async () => {
@@ -113,11 +111,15 @@ const RampProvider = ({ children }) => {
       onSuccess: async (public_token, metadata) => {
         const accountId = metadata.accounts[0].id
         try {
-          const {
-            data: { wyreRamp = {} },
-          } = await connectPlaidMutation({
-            variables: { code: public_token, accountId },
+          const { data } = await submitCodeGrant({
+            code: public_token,
+            accountId,
+            type: PLAID,
           })
+          if (errorOAuth)
+            return setWyre({ isLoading: false, error: errorOAuth, ...wyre })
+          console.log(codeGrant)
+          const { ramp: wyreRamp } = data
           setWyre({
             ...wyre,
             isLoading: false,

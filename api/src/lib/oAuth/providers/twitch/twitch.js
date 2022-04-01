@@ -3,7 +3,6 @@ import { db } from 'src/lib/db'
 import { logger } from 'src/lib/logger'
 import { isDevelopment } from 'src/lib/helpers'
 import Sentry from 'src/lib/sentry'
-import { AuthenticationError } from '@redwoodjs/graphql-server'
 
 import { encodeBody, getExpiration } from 'src/lib/oAuth/helpers'
 
@@ -59,39 +58,36 @@ export const onSubmitCode = async (code, { memberId }) => {
       accessToken,
       accessTokenExpiration: getExpiration(expiration),
       refreshToken,
-      userId,
+      memberId,
     }
   } catch (e) {
-    throw `getTwitchAccessTokenFromCode() ${e}`
+    Sentry.captureException(e)
+    throw `onSubmitCode() ${e}`
   }
 }
 
-export const onConnected = async ({ accessToken, refreshToken, userId }) => {
+export const onConnected = async ({ accessToken, refreshToken, memberId }) => {
   try {
-    const userDetails = await fetch(
-      `https://api.twitch.tv/helix/users?id=${userId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          'Client-Id': process.env.TWITCH_CLIENT_ID,
-        },
-      }
-    ).then((res) => {
+    const usersList = await fetch(`https://api.twitch.tv/helix/users`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Client-Id': process.env.TWITCH_CLIENT_ID,
+      },
+    }).then((res) => {
       if (res.status != 200)
         throw 'Twitch authorization failed, or secret invalid'
       return res.json()
     })
-    logger.debug({ custom: userDetails }, 'Twitch user details')
+    logger.debug({ custom: usersList }, 'Twitch user details')
     const twitchUsername = null
     await db.member.update({
-      where: { id: context.currentUser.id },
-      data: {
-        twitchUsername: userDetails.display_name,
-      },
+      where: { id: memberId },
+      data: { twitchUsername: usersList.data[0].login },
     })
+    return { status: 'SUCCESS' }
   } catch (e) {
     Sentry.captureException(e)
-    throw new AuthenticationError(e)
+    throw `onConnected() ${e}`
   }
 }
 

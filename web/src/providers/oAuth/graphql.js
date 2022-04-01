@@ -7,3 +7,25 @@ export const OAUTH_URL_QUERY = gql`
     }
   }
 `
+
+export const OAUTH_CODE_GRANT_MUTATION = gql`
+  mutation codeGrant(
+    $type: String!
+    $code: String!
+    $state: String
+    $accountId: String
+  ) {
+    codeGrant(type: $type, state: $state, code: $code, accountId: $accountId) {
+      action
+      text
+      status
+      ramp {
+        id
+        address
+        accountNickname
+        isoCurrencyCode
+        type
+      }
+    }
+  }
+`

@@ -25,17 +25,6 @@ export const OAUTH_URL_QUERY = gql`
     }
   }
 `
-export const CONNECT_PLAID_MUTATION = gql`
-  mutation connectPlaidQuery($code: String!, $accountId: String!) {
-    connectPlaid(code: $code, accountId: $accountId) {
-      id
-      address
-      accountNickname
-      isoCurrencyCode
-      type
-    }
-  }
-`
 
 export const RAMP_WITHDRAW_MUTATION = gql`
   mutation rampWithdrawMutation($type: String!, $amount: String!) {

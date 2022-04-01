@@ -20,24 +20,24 @@ const AllContextProviders = ({ children }) => {
     <RestrictedProvider>
       <LocaleProvider>
         <ThemeContextProvider>
-          <RedirectionProvider>
-            <FilterProvider>
-              <ToastProvider>
-                <GamesContextProvider>
-                  <TokenSessionProvider />
-                  <OAuthProvider>
-                    <RampProvider>
-                      <WalletProvider>
+          <FilterProvider>
+            <ToastProvider>
+              <TokenSessionProvider />
+              <OAuthProvider>
+                <RedirectionProvider>
+                  <RampProvider>
+                    <WalletProvider>
+                      <GamesContextProvider>
                         <MintingProvider>
                           <MarketProvider>{children}</MarketProvider>
                         </MintingProvider>
-                      </WalletProvider>
-                    </RampProvider>
-                  </OAuthProvider>
-                </GamesContextProvider>
-              </ToastProvider>
-            </FilterProvider>
-          </RedirectionProvider>
+                      </GamesContextProvider>
+                    </WalletProvider>
+                  </RampProvider>
+                </RedirectionProvider>
+              </OAuthProvider>
+            </ToastProvider>
+          </FilterProvider>
         </ThemeContextProvider>
       </LocaleProvider>
     </RestrictedProvider>

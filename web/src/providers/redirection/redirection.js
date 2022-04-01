@@ -1,10 +1,7 @@
-import { useMutation } from '@apollo/client'
-
 import { navigate } from '@redwoodjs/router'
 import { getRedirectTo, APPROVED_LOGIN_PROVIDERS } from 'src/utils/auth/helpers'
 import { useAuth } from '@redwoodjs/auth'
-
-import { OAUTH_CODE_GRANT_MUTATION } from './graphql'
+import { useOAuth } from 'src/providers/oAuth'
 
 const RedirectionContext = React.createContext({})
 
@@ -12,8 +9,11 @@ const RedirectionProvider = ({ children }) => {
   const [state, setState] = React.useState({ isLoading: true })
 
   const { logIn, reauthenticate } = useAuth()
-
-  const [codeGrant] = useMutation(OAUTH_CODE_GRANT_MUTATION)
+  const {
+    submitCodeGrant,
+    isLoading: isLoadingOAuth,
+    error: errorOAuth,
+  } = useOAuth()
 
   const url = new URL(window.location.href)
   const code = url.searchParams.get('code')
@@ -23,7 +23,6 @@ const RedirectionProvider = ({ children }) => {
   const orderId = url.searchParams.get('orderId')
   const type = url.pathname.split('/redirect/')[1]
 
-  // ###############  Login  ################
   const submitLoginCodeGrant = async () => {
     const response = await logIn({
       code,
@@ -42,28 +41,14 @@ const RedirectionProvider = ({ children }) => {
     }
   }
 
-  // ###############  General oAuth  ################
-  const submitCodeGrant = async () => {
-    try {
-      const {
-        data: { codeGrant: codeGrantData },
-      } = await codeGrant({
-        variables: { type: type.toUpperCase(), code, state: grantState },
-      })
-      if (codeGrantData.status === 'SUCCESS') {
-        setState({
-          isLoading: false,
-          successMessage: 'Great - connection complete!',
-        })
-      } else {
-        setState({ isLoading: false, errorMessage: 'Something went wrong' })
-      }
-    } catch (error) {
-      setState({ isLoading: false, errorMessage: error.message })
-    }
+  const completeOAuth = async () => {
+    const { error: codeGrantError, successMessage: successMessageCodeGrant } =
+      await submitCodeGrant({ code, grantState, type })
+    if (codeGrantError)
+      return setState({ errorMessage: codeGrantError, isLoading: false })
+    setState({ successMessage: successMessageCodeGrant, isLoading: false })
   }
 
-  // ###############  Wyre  #####################
   const completeWyreOrder = async () => {
     if (!orderId || error)
       return setState({
@@ -91,7 +76,7 @@ const RedirectionProvider = ({ children }) => {
     if (APPROVED_LOGIN_PROVIDERS.includes(type.toUpperCase()))
       return submitLoginCodeGrant()
     if (type === 'wyre') return completeWyreOrder()
-    submitCodeGrant()
+    completeOAuth()
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [code, grantState])
 

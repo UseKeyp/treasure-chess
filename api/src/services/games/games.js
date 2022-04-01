@@ -20,4 +20,4 @@ export const game = async ({
   return getFullGameDetails({ username: context.currentUser.username, game })
 }
 
-export const Treasure = {}
+export const Game = {}

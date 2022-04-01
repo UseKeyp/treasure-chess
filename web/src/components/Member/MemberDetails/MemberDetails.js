@@ -31,7 +31,7 @@ const TwitchLink = ({ isProfile, username }) => {
       <Button disabled={isLoading} onClick={onConnectTwitch} className="ml-2">
         <div className="flex flex-row">
           <TwitchIcon color={username ? undefined : '#ABB6B9'} />
-          <p className="ml-1">{username ? 'Edit' : 'Connect'}</p>
+          <p className="ml-1">{username ? 'Update' : 'Connect'}</p>
         </div>
       </Button>
     )

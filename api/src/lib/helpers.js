@@ -10,9 +10,10 @@ export const isHexAddress = (address) => {
 }
 
 export const isDevelopment =
-  process.env.NODE_ENV === 'development' || process.env.NODE_ENV == null
+  ['local', 'dev', 'sandbox'].includes(process.env.ENVIRONMENT) ||
+  process.env.NODE_ENV == null
 
-export const isProduction = ['staging', 'prod'].includes(process.env.NODE_ENV)
+export const isProduction = !isDevelopment
 
 export const isExpired = (expiration) => {
   return new Date(expiration) > new Date()
@@ -60,6 +61,4 @@ export const getBoardLayout = (pgn) => {
   return boardLayout
 }
 
-export const corsOrigin = isProduction
-  ? `https://${process.env.APP_DOMAIN}`
-  : `http://${process.env.APP_DOMAIN}`
+export const corsOrigin = process.env.APP_DOMAIN

@@ -2,7 +2,6 @@ import themeConfig from '../../config/tailwind.config'
 import config from 'src/global.config'
 
 export const isBrowser = typeof window !== 'undefined'
-export const isProduction = process.env.NODE_ENV === 'production'
 export const isMobile =
   isBrowser && window.matchMedia('(max-width: 767px)').matches
 

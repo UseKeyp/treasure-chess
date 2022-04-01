@@ -9,6 +9,7 @@ export const QUERY = gql`
       imageSrc
       country
       masterTitle
+      twitchUsername
       treasuresPlayedWhite {
         id
         endTime

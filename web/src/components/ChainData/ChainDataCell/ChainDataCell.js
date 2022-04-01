@@ -7,6 +7,8 @@ export const QUERY = gql`
       treasureAddress
       marketAddress
       totalSupply
+      environment
+      nodeEnvironment
     }
   }
 `

@@ -5,72 +5,85 @@ import {
   Products,
   CountryCode,
 } from 'plaid'
+import Sentry from 'src/lib/sentry'
+import { logger } from 'src/lib/logger'
 
-import { isProduction } from 'src/lib/helpers'
 import {
   createPaymentMethodFromPlaid,
   attachBlockchainPaymentMethod,
 } from 'src/lib/wyre'
 import { db } from 'src/lib/db'
-import Sentry from 'src/lib/sentry'
+import { isProduction } from 'src/lib/helpers'
 
-export const WYRE = 'wyre'
-export const PLAID = 'plaid'
+export const PLAID = 'PLAID'
+export const WYRE = 'WYRE'
+
+const PLAID_SCOPE = [Products.Auth, Products.Identity]
+const PLAID_REDIRECT_URI = isProduction
+  ? process.env.APP_DOMAIN + '/redirect/plaid'
+  : 'https://0.0.0.0:8910/redirect/plaid'
 
 const PLAID_WEBHOOK_URL = isProduction
   ? 'https://treasure.chess.com/api/plaid'
   : 'https://tc-checkout-dev.ngrok.io/api/plaid'
-const PLAID_REDIRECT_URI = isProduction
-  ? process.env.APP_DOMAIN + '/redirect/coinbase'
-  : 'https://0.0.0.0:8910/redirect/plaid'
 
 const getEnvironment = () => {
-  if (process.env.NODE_ENV === 'staging') return 'development'
-  // TODO: Change to production
-  else if (process.env.NODE_ENV === 'prod') return 'development'
+  if (process.env.ENVIRONMENT === 'staging') return 'development'
+  else if (process.env.ENVIRONMENT === 'prod') return 'production'
   return 'sandbox'
 }
-
 const configuration = new Configuration({
   basePath: PlaidEnvironments[getEnvironment()],
   baseOptions: {
     headers: {
       'PLAID-CLIENT-ID': process.env.PLAID_CLIENT_ID,
       'PLAID-SECRET': process.env.PLAID_CLIENT_SECRET,
-      'Plaid-Version': '2020-09-14',
     },
   },
 })
 const client = new PlaidApi(configuration)
-
-const PRODUCTS_SCOPE = [Products.Auth]
 
 export const createPlaidLink = async () => {
   try {
     const request = {
       user: { client_user_id: context.currentUser.id },
       client_name: 'Treasure Chess',
-      products: PRODUCTS_SCOPE,
+      products: PLAID_SCOPE,
       language: 'en', // TODO get from user's account
       webhook: PLAID_WEBHOOK_URL,
       redirect_uri: PLAID_REDIRECT_URI,
       country_codes: [CountryCode.Us], // TODO: How do we know this?
     }
-    const createTokenResponse = await client.linkTokenCreate(request)
-    if (!createTokenResponse?.data?.link_token) throw 'No link token returned'
-    return createTokenResponse.data.link_token
+    logger.debug({ custom: request }, 'createPlaidLink request')
+    const response = await client.linkTokenCreate(request)
+    logger.debug({ custom: response.data }, 'createPlaidLink response')
+    const token = response?.data?.link_token
+    if (response.status !== 200 || !token) throw 'No link token returned'
+    return { text: token, type: 'code' }
   } catch (e) {
+    logger.error(e)
+    Sentry.captureException(e)
     throw `createPlaidLink() ${e}`
   }
 }
 
-export const handlePlaidConnection = async ({ code, accountId }) => {
+const onSubmitCode = async (code, { accountId }) => {
   try {
     /* eslint-disable camelcase*/
     const tokenResponse = await client.itemPublicTokenExchange({
       public_token: code,
     })
     const accessToken = tokenResponse.data.access_token
+    return onConnected({ accessToken, accountId })
+  } catch (e) {
+    logger.error(e)
+    Sentry.captureException(e)
+    throw `onSubmitCode() ${e}`
+  }
+}
+
+const onConnected = async ({ accessToken, accountId }) => {
+  try {
     const request = {
       access_token: accessToken,
       account_id: accountId,
@@ -124,24 +137,25 @@ export const handlePlaidConnection = async ({ code, accountId }) => {
         verificationStatus: verification_status,
         isoCurrencyCode: iso_currency_code,
         paymentMethodId: paymentMethod.id,
-        type: 'WYRE',
+        type: WYRE,
         member: { connect: { id: context.currentUser.id } },
       },
     })
-    return ramp
+    return { status: 'SUCCESS', ramp }
   } catch (e) {
-    /* eslint-enable no-console */
     Sentry.captureException(e)
-    throw e
+    throw `onConnected() ${e}`
   }
 }
+
+export const provider = { onSubmitCode, onConnected }
 
 // Used for testing purposes only in "sandbox" environment
 export const getSandboxPublicToken = async () => {
   try {
     const publicTokenRequest = {
       institution_id: 'ins_132241',
-      initial_products: PRODUCTS_SCOPE,
+      initial_products: PLAID_SCOPE,
     }
     const publicTokenResponse = await client.sandboxPublicTokenCreate(
       publicTokenRequest

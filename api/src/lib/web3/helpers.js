@@ -1,7 +1,6 @@
 import { JsonRpcProvider, InfuraProvider } from '@ethersproject/providers'
 const { getIdFromNetworkName } = require('@treasure-chess/web3-helpers')
 import { parseUnits } from '@ethersproject/units'
-// import { isProduction } from 'src/lib/helpers'
 
 const CHAIN_ID = getIdFromNetworkName(process.env.ETHEREUM_NETWORK_NAME)
 export const DEFAULT_GAS_MAX_PRIORITY_FEE_PER_GAS = parseUnits('2', 'gwei')

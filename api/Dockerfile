@@ -4,9 +4,9 @@ FROM node:14 as base
 
 WORKDIR /app
 
-ARG NODE_ENV
+ARG ENVIRONMENT
 
-ENV NODE_ENV=$NODE_ENV
+ENV ENVIRONMENT=$ENVIRONMENT
 
 COPY package.json package.json
 COPY yarn.lock yarn.lock

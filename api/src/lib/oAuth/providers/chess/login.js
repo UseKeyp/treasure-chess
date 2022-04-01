@@ -5,7 +5,8 @@ import { db } from 'src/lib/db'
 import { fetchMember } from 'src/lib/members'
 import { getTorusPublicAddress } from 'src/lib/torus/torus'
 import { logger } from 'src/lib/logger'
-export const handleChessLogin = async ({ refreshToken, decoded }) => {
+
+export const onConnected = async ({ refreshToken, decoded }) => {
   try {
     // Create member if needed, and get current avatar
     const member = await fetchMember(decoded.preferred_username, true)
@@ -43,8 +44,7 @@ export const handleChessLogin = async ({ refreshToken, decoded }) => {
     }
     return member
   } catch (e) {
-    logger.error(e)
     Sentry.captureException(e)
-    throw new AuthenticationError()
+    throw `onConnected() ${e}`
   }
 }

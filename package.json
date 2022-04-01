@@ -19,7 +19,7 @@
   "devDependencies": {
     "@ethersproject/wallet": "^5.5.0",
     "@netlify/zip-it-and-ship-it": "^4.23.0",
-    "@redwoodjs/core": "^1.0.0-rc.6",
+    "@redwoodjs/core": "^0.50.0",
     "babel-loader": "^8.2.3",
     "chromatic": "^5.9.2",
     "lerna": "^4.0.0",

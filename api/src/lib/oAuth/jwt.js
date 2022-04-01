@@ -5,14 +5,15 @@ import { AuthenticationError } from '@redwoodjs/graphql-server'
 
 import { db } from 'src/lib/db'
 import productionJwks from 'src/lib/oAuth/jwks'
-import { getChessBasicAuth, refreshChessTokens } from 'src/lib/oAuth/chess'
-import { logger } from 'src/lib/logger'
-
-const API_URL = process.env.CHESS_OAUTH_URL
+import {
+  getChessBasicAuth,
+  refreshChessTokens,
+  CHESS_OAUTH_URL,
+} from 'src/lib/oAuth/providers/chess'
 
 const getKey = async (header) => {
   const client = jwksClient({
-    jwksUri: `${API_URL}/certs`,
+    jwksUri: `${CHESS_OAUTH_URL}/certs`,
     requestHeaders: {
       Authorization: `Basic ${getChessBasicAuth()}`,
     },
@@ -53,13 +54,13 @@ export const verifyChessJwt = async (jwt) => {
 
 export const getNewIdToken = async (userId) => {
   try {
-    const { refreshToken } = await db.member.findUnique({
+    const { refreshToken } = await db.user.findUnique({
       where: { id: userId },
     })
     const { refreshToken: newRefreshToken, idToken } = await refreshChessTokens(
       refreshToken
     )
-    await db.member.update({
+    await db.user.update({
       where: { id: userId },
       data: {
         refreshToken: newRefreshToken,
@@ -68,7 +69,7 @@ export const getNewIdToken = async (userId) => {
     return idToken
   } catch (e) {
     /* eslint-disable-next-line no-console */
-    logger.error(e)
+    console.log(e)
     throw new AuthenticationError('getNewIdToken() Unable to refresh session')
   }
 }

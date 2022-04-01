@@ -3,9 +3,6 @@ import { useAuth } from '@redwoodjs/auth'
 import { routes, navigate, useParams } from '@redwoodjs/router'
 import { useToast } from 'src/providers/toast'
 
-import Icon from 'src/components/Icon'
-import Button from 'src/components/Button'
-
 import globalConfig from 'src/global.config.js'
 
 const LoginPortal = () => {
@@ -54,10 +51,10 @@ const LoginPortal = () => {
             onClick={() => onSubmitSignUp('CHESS')}
             variant="white"
             textColor="black"
-            className="login-button bg-white"
+            className="login-button"
             size="small"
           >
-            <div className="flex justify-center align-center m-1">
+            <div className="flex justify-center align-center items-center m-1">
               <img src="/icons/chess.png" alt="chess" className="icon-logo" />
               <span>Sign in with Chess</span>
             </div>

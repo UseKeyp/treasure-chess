@@ -69,12 +69,6 @@ const onSubmitCode = async (code, { codeVerifier, memberId }) => {
     if (!response.id_token) throw 'Failed to get id_token from Chess.com'
     const decoded = await decodeJwt(idToken)
 
-    logger.debug(`onSubmitCode decoded keys ${Object.keys(decoded).toString()}`)
-    logger.debug(`onSubmitCode decoded type ${typeof decoded}`)
-    const { preferred_username, user_id } = decoded
-    logger.debug(`onSubmitCode preferred_username ${preferred_username}`)
-    logger.debug({ custom: decoded }, 'onSubmitCode decoded')
-
     if (new Date() - new Date(decoded.iat * 1000) > 60 * 1000)
       throw 'Chess.com token was not issued recently. It must be <1 minute old.'
     return {

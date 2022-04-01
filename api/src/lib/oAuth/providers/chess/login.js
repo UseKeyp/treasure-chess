@@ -9,11 +9,9 @@ import { logger } from 'src/lib/logger'
 export const onConnected = async ({ refreshToken, decoded }) => {
   try {
     if (!decoded) return null
-    logger.debug(`decoded keys ${Object.keys(decoded).toString()}`)
-    logger.debug(`decoded type ${typeof decoded}`)
+    /* eslint-disable camelcase */
     const { preferred_username, user_id } = decoded
-    logger.debug(`preferred_username ${preferred_username}`)
-    logger.debug({ custom: decoded }, 'decoded')
+    logger.debug({ custom: decoded }, 'onConnected() decoded')
     // Create member if needed, and get current avatar
     const member = await fetchMember(preferred_username, true)
     if (member.banned) {

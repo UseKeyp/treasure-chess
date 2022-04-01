@@ -6,12 +6,13 @@ import { InputError } from '@redwoodjs/graphql-server'
 
 import { db } from 'src/lib/db'
 import { logger } from 'src/lib/logger'
-import { oAuthUrl, processCodeGrant } from 'src/lib/oAuth'
+import { oAuthUrl, submitCodeGrant } from 'src/lib/oAuth'
 import { providers } from 'src/lib/oAuth/providers'
 import { validateLoginRequest } from 'src/lib/auth/validation'
 import { isProduction, corsOrigin } from 'src/lib/helpers'
 
 export const handler = async (event, context) => {
+  logger.debug('Invoked /auth ')
   const authHandler = new DbAuthHandler(event, context, {
     db: db,
     cors: {
@@ -75,12 +76,12 @@ export const handler = async (event, context) => {
     if (!code || !state)
       throw new InputError('logIn() Code or state not provided.')
 
-    const { refreshToken, decoded } = await processCodeGrant({
+    const tokens = await submitCodeGrant({
       state,
       code,
       type,
     })
-    const user = await providers[type].onConnected({ refreshToken, decoded })
+    const user = await providers[type].onConnected(tokens)
     const sessionData = { id: user[authHandler.options.authFields.id] }
 
     // TODO: this needs to go into graphql somewhere so that each request makes

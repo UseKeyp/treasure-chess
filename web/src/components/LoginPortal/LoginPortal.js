@@ -54,7 +54,7 @@ const LoginPortal = () => {
             onClick={() => onSubmitSignUp('CHESS')}
             variant="white"
             textColor="black"
-            className="login-button"
+            className="login-button bg-white"
             size="small"
           >
             <div className="flex justify-center align-center m-1">

@@ -56,7 +56,7 @@ export const processCodeGrant = async ({ state, code, type, accountId }) => {
     if (!types.includes(type)) throw `Unknown OAuth Provider - ${type}`
     const tokens = await submitCodeGrant({ state, code, type, accountId })
     logger.debug({ custom: tokens }, 'onSubmitCode() response')
-    return await providers[type].onConnected(tokens)
+    return providers[type].onConnected(tokens)
   } catch (e) {
     logger.error(e)
     Sentry.captureException(e)
@@ -64,7 +64,7 @@ export const processCodeGrant = async ({ state, code, type, accountId }) => {
   }
 }
 
-const submitCodeGrant = async ({ state, code, type, accountId }) => {
+export const submitCodeGrant = async ({ state, code, type, accountId }) => {
   if (!Object.values(types).includes(type))
     throw `OAuth Provider "${type}" is not enabled.`
   const { onSubmitCode } = providers[type]
@@ -83,5 +83,5 @@ const submitCodeGrant = async ({ state, code, type, accountId }) => {
   if (new Date() - new Date(oAuth.createdAt) > 10 * 60 * 1000)
     throw 'Sorry, authentication must be completed within 10 minutes.'
 
-  return await onSubmitCode(code, oAuth)
+  return onSubmitCode(code, oAuth)
 }

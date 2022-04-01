@@ -8,7 +8,7 @@ import { logger } from 'src/lib/logger'
 
 export const onConnected = async ({ refreshToken, decoded }) => {
   try {
-    if (!decoded) throw 'no decoded'
+    if (!decoded) return null
     logger.debug(`decoded keys ${Object.keys(decoded).toString()}`)
     logger.debug(`decoded type ${typeof decoded}`)
     const { preferred_username, user_id } = decoded

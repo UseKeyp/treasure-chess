@@ -26,6 +26,7 @@ export const fetchMember = async (
     // Not in our db, but we have username. Or, we want extra data from chess.com
     if ((!member && username) || includeChessData) {
       chessData = await fetchChessMember(username)
+      if (!chessData.username) return null
       let country = 'US'
       try {
         country = chessData.country.split('country/')[1]
@@ -51,12 +52,8 @@ export const fetchMember = async (
         } catch (e) {
           // Fixes race condition for creating members
           logger.debug(`Attempts: ${attempts}`)
-          if (attempts > 10) return null
-          member = await fetchMember(
-            usernameOrAddress,
-            includeChessData,
-            attempts + 1
-          )
+          if (attempts > 5) throw 'Error fetching member'
+          return fetchMember(usernameOrAddress, includeChessData, attempts + 1)
         }
       }
       return {
@@ -85,7 +82,8 @@ export const fetchMember = async (
       refreshToken: 'REDACTED',
     }
   } catch (e) {
+    logger.error(e)
     Sentry.captureException(e)
-    throw new Error(`fetchMember() ${e}`)
+    throw `fetchMember() ${e}`
   }
 }

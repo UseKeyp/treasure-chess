@@ -74,6 +74,7 @@ const RedirectionProvider = ({ children }) => {
   }
 
   React.useEffect(() => {
+    if (!isBrowser) return
     if (!url.pathname.includes('/redirect')) return
     if (error)
       return setState({

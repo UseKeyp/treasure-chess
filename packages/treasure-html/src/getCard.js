@@ -150,7 +150,7 @@ const getCardHtml = async ({ treasure, gifBase64, gifUrl, staticBase64 }) => {
       'href',
       `${APP_DOMAIN}/members/${bottomUser.username}`
     )
-    isApp && updateTag('bottom-username-anchor', 'target', '_self')
+    isApp && updateTag('top-username-anchor', 'target', '_self')
     isApp && updateTag('bottom-username-anchor', 'target', '_self')
     if (!bottomUser.masterTitle)
       updateStyle('bottom-masterTitle', 'background-color', null)
@@ -201,6 +201,7 @@ const getCardHtml = async ({ treasure, gifBase64, gifUrl, staticBase64 }) => {
       `${APP_DOMAIN}/treasures/${treasure.tokenId || treasure.id}`
     )
     isApp && updateTag('game-anchor', 'target', '_self')
+    !treasure.tokenId && updateStyle('game-anchor', 'pointer-events', 'none')
 
     if (treasure.achievements) {
       // Achievements

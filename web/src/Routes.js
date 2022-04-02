@@ -11,7 +11,7 @@ const Routes = () => {
       <Set wrap={DefaultLayout}>
         <Route path="/" page={HomePage} name="home" />
         <Route path="/about" page={FaqPage} name="faq" />
-        <Route path="/login" page={LoginPage} name="login" />
+        <Route path="/signin" page={SignInPage} name="signin" />
         <Route notfound page={NotFoundPage} />
         <Route path="/members/{usernameOrAddress}" page={MemberMemberPage} name="member" />
         <Private unauthenticated="login">
@@ -22,7 +22,6 @@ const Routes = () => {
           <Route path="/treasures" page={TreasureTreasuresPage} name="treasures" />
         </Set>
         <Route path="/chain-data" page={ChainDataPage} name="chainData" />
-        <Route path="/wallet" page={WalletPage} name="wallet" />
       </Set>
     </Router>
   )

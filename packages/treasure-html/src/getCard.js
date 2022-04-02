@@ -115,21 +115,18 @@ const getCardHtml = async ({ treasure, gifBase64, gifUrl, staticBase64 }) => {
       updateStyle('date', 'color', 'white')
     }
 
-    // Header
+    // Header + SEO
     updateContent('title', treasure.title)
     updateContent('page-title', treasure.title)
     updateTag('og:title', 'content', treasure.title)
-    updateTag('twitter:title', 'content', treasure.title)
-    updateTag('twitter:image', 'content', `${APP_DOMAIN}/seo.png`)
     const description = getDescription(treasure)
-    updateTag('twitter:description', 'content', description)
     updateTag('og:description', 'content', description)
-    updateTag('description', 'content', description)
     updateTag(
       'og:url',
       'content',
       `${APP_DOMAIN}/treasures/${treasure.tokenId || treasure.id}`
     )
+    updateTag('og:image', 'content', `${APP_DOMAIN}/seo.png`)
     updateContent('termination', treasure.termination)
     const rarityColor = getRarityColor(treasure.achievementScore)
     updateStyle('banner', 'background-color', rarityColor)

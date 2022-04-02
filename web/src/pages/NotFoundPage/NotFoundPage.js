@@ -1,4 +1,4 @@
-import { Head } from '@redwoodjs/web'
+import { MetaTags } from '@redwoodjs/web'
 import { routes } from '@redwoodjs/router'
 
 import Button from 'src/components/Button/Button'
@@ -6,9 +6,7 @@ import Icon from 'src/components/Icon/Icon'
 
 export default () => (
   <>
-    <Head>
-      <title>Treasure Chess | Page Not Found!</title>
-    </Head>
+    <MetaTags title="No Go" description="Page not found" />
     <main className="not-found">
       <section className="not-found--container">
         <div className="not-found--img">

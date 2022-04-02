@@ -4,7 +4,11 @@ import { isHexAddress } from 'src/lib/helpers'
 import { fetchChessMember } from 'src/lib/chessCom/chessCom'
 import { logger } from 'src/lib/logger'
 
-export const fetchMember = async (usernameOrAddress, includeChessData) => {
+export const fetchMember = async (
+  usernameOrAddress,
+  includeChessData,
+  attempts = 0
+) => {
   try {
     let member
     let chessData
@@ -46,7 +50,13 @@ export const fetchMember = async (usernameOrAddress, includeChessData) => {
           })
         } catch (e) {
           // Fixes race condition for creating members
-          member = await fetchMember(usernameOrAddress, includeChessData)
+          logger.debug(`Attempts: ${attempts}`)
+          if (attempts > 10) return null
+          member = await fetchMember(
+            usernameOrAddress,
+            includeChessData,
+            attempts + 1
+          )
         }
       }
       return {

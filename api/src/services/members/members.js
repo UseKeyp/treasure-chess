@@ -3,10 +3,6 @@ import { fetchMember } from 'src/lib/members'
 // import { logger } from 'src/lib/logger'
 import { getUsdcBalance as getUsdcBal } from 'src/lib/web3/tokens.js'
 
-export const members = () => {
-  return db.member.findMany()
-}
-
 export const member = ({ usernameOrAddress }) => {
   return fetchMember(usernameOrAddress)
 }

@@ -2,7 +2,7 @@ version: '3'
 services:
   api:
     # image: pi0neerpat/treasure-chess-redwood-api
-    image: ghcr.io/pi0neerpat/treasure-chess-api:staging-d8b7450
+    image: ghcr.io/pi0neerpat/treasure-chess-api:staging-1a46a55
     # restart: always
     ports:
       - '8911:8911' # http
@@ -16,7 +16,7 @@ services:
 
   web:
     # image: pi0neerpat/treasure-chess-redwood-web
-    image: ghcr.io/pi0neerpat/treasure-chess-web:staging-d8b7450
+    image: ghcr.io/pi0neerpat/treasure-chess-web:staging-1a46a55
     # restart: always
     ports:
       - '8910:8910' # http

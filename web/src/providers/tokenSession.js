@@ -9,7 +9,7 @@ const TokenSessionProvider = () => {
     // if (!currentUser && userMetadata) {
     //   const redirectTo = window.location.pathname
     //   navigate(
-    //     routes.login({
+    //     routes.signin({
     //       error: 'expired',
     //       ...(redirectTo !== '/' && { redirectTo }),
     //     })

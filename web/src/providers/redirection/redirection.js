@@ -12,21 +12,24 @@ const RedirectionProvider = ({ children }) => {
   const { logIn, reauthenticate } = useAuth()
   const { submitCodeGrant } = useOAuth()
 
-  if (!isBrowser)
-    return (
-      <RedirectionContext.Provider value={state}>
-        {children}
-      </RedirectionContext.Provider>
-    )
-
-  const url = new URL(window.location.href) // Support prerender
-  const code = url.searchParams.get('code')
-  const grantState = url.searchParams.get('state')
-  const error = url.searchParams.get('error')
+  let url
+  let code
+  let grantState
   /* eslint-disable camelcase */
-  const error_description = url.searchParams.get('error_description')
-  const orderId = url.searchParams.get('orderId')
-  const type = url.pathname.split('/redirect/')[1]
+  let error_description
+  let error
+  let orderId
+  let type
+
+  if (isBrowser) {
+    url = new URL(window.location.href) // Support prerender
+    code = url.searchParams.get('code')
+    grantState = url.searchParams.get('state')
+    error = url.searchParams.get('error')
+    error_description = url.searchParams.get('error_description')
+    orderId = url.searchParams.get('orderId')
+    type = url.pathname.split('/redirect/')[1]
+  }
 
   const submitLoginCodeGrant = async () => {
     const response = await logIn({

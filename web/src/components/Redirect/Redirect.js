@@ -57,7 +57,7 @@ const Redirect = ({ type }) => {
             >
               <Icon name={iconName} size="29" height="29" color="white" />
             </div>
-            <h2 className="mt-6 tracking-tight">
+            <div className="mt-6 tracking-tight">
               {successMessage}
               {typeof errorMessage === 'string' ? (
                 <>
@@ -69,7 +69,7 @@ const Redirect = ({ type }) => {
                   </h3>
                 </>
               ) : null}
-            </h2>
+            </div>
             {callToAction || <p className="mt-8 ">You can close this page</p>}
           </div>
         </div>

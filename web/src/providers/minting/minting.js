@@ -1,5 +1,6 @@
 import { useLazyQuery, useQuery, useMutation } from '@apollo/client'
 import { useAuth } from '@redwoodjs/auth'
+import { isBrowser } from '@redwoodjs/prerender/browserUtils'
 
 import { useWallet } from 'src/providers/wallet'
 import { useToast } from 'src/providers/toast'
@@ -159,11 +160,12 @@ const MintingProvider = ({ children }) => {
           shouldPoll: true,
           mintLoading: false,
         })
-        window.open(
-          mintCheckoutUrl,
-          'Treasure Chess Checkout',
-          'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
-        )
+        if (isBrowser)
+          window.open(
+            mintCheckoutUrl,
+            'Treasure Chess Checkout',
+            'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
+          )
       } catch (error) {
         setState({
           ...state,

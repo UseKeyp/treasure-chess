@@ -2,6 +2,7 @@ import { navigate } from '@redwoodjs/router'
 import { getRedirectTo, APPROVED_LOGIN_PROVIDERS } from 'src/utils/auth/helpers'
 import { useAuth } from '@redwoodjs/auth'
 import { useOAuth } from 'src/providers/oAuth'
+import { isBrowser } from '@redwoodjs/prerender/browserUtils'
 
 const RedirectionContext = React.createContext({})
 
@@ -11,7 +12,14 @@ const RedirectionProvider = ({ children }) => {
   const { logIn, reauthenticate } = useAuth()
   const { submitCodeGrant } = useOAuth()
 
-  const url = new URL(window.location.href)
+  if (!isBrowser)
+    return (
+      <RedirectionContext.Provider value={state}>
+        {children}
+      </RedirectionContext.Provider>
+    )
+
+  const url = new URL(window.location.href) // Support prerender
   const code = url.searchParams.get('code')
   const grantState = url.searchParams.get('state')
   const error = url.searchParams.get('error')

@@ -1,10 +1,13 @@
 import { useAuth } from '@redwoodjs/auth'
 // import { useMutation } from '@redwoodjs/web'
 // import { USER_LOCALE_MUTATION } from './graphql'
+import { isBrowser } from '@redwoodjs/prerender/browserUtils'
 
 const LocaleContext = React.createContext({})
 const LOCALE_LOCAL_KEY = 'i18nextLng'
+
 const getLocaleCode = () => {
+  if (!isBrowser) return // Support prerender
   return localStorage.getItem(LOCALE_LOCAL_KEY)
 }
 

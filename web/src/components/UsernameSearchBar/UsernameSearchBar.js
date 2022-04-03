@@ -59,7 +59,7 @@ const UsernameSearchBar = ({ setValue: setParentValue }) => {
 
   React.useEffect(() => {
     debounceUpdate()
-  }, [value, debounceUpdate])
+  }, [value])
 
   const onSelectUsername = (option) => {
     setIsValueFromSelector(true)

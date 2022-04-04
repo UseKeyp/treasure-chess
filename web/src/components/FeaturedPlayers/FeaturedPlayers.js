@@ -8,28 +8,58 @@ const FeaturedPlayers = () => {
   const playerIcons = featuredPlayers?.map((player, i) => {
     const flagImageSrc = getFlagBase64(player.country)
 
-    return (
-      <Link
-        to={routes.treasures({ username: player.username })}
-        key={i}
-        className="hover:no-underline cursor-pointer"
-      >
-        <div className=" max-w-[136px] max-h-[170px] p-2 block rounded-xl bg-chessBlack-300 shadow-sm ">
-          <img className="w-[120px] rounded-lg" src={player.imageSrc} alt="" />
+    if (player.masterTitle === '') {
+      return (
+        <Link
+          to={routes.treasures({ username: player.username })}
+          key={i}
+          className="hover:no-underline cursor-pointer"
+        >
+          <div className=" max-w-[136px] max-h-[170px] p-2 block rounded-xl bg-chessBlack-300 shadow-sm ">
+            <img
+              className="w-[120px] rounded-lg"
+              src={player.imageSrc}
+              alt=""
+            />
 
-          <h3 className="text-[12px] font-bold lg:whitespace-nowrap ">
-            {player.name}
-          </h3>
-          <div className="flex items-center">
-            <img className="h-3 mr-1" src={flagImageSrc} alt="" />
-            <p className="mr-1 text-[10px]">{player.rating}</p>
-            <p className="bg-red py-0.5 px-[0.15rem] leading-none rounded-sm font-bold text-[7px] font-sans">
-              {player.masterTitle}
-            </p>
+            <h3 className="text-[12px] font-bold lg:whitespace-nowrap ">
+              {player.name}
+            </h3>
+            <div className="flex items-center">
+              <img className="h-3 mr-1" src={flagImageSrc} alt="" />
+              <p className="mr-1 text-[10px]">{player.rating}</p>
+            </div>
           </div>
-        </div>
-      </Link>
-    )
+        </Link>
+      )
+    } else {
+      return (
+        <Link
+          to={routes.treasures({ username: player.username })}
+          key={i}
+          className="hover:no-underline cursor-pointer"
+        >
+          <div className=" max-w-[136px] max-h-[170px] p-2 block rounded-xl bg-chessBlack-300 shadow-sm ">
+            <img
+              className="w-[120px] rounded-lg"
+              src={player.imageSrc}
+              alt=""
+            />
+
+            <h3 className="text-[12px] font-bold lg:whitespace-nowrap ">
+              {player.name}
+            </h3>
+            <div className="flex items-center">
+              <img className="h-3 mr-1" src={flagImageSrc} alt="" />
+              <p className="mr-1 text-[10px]">{player.rating}</p>
+              <p className="bg-red py-0.5 px-[0.15rem] leading-none rounded-sm font-bold text-[7px] font-sans">
+                {player.masterTitle}
+              </p>
+            </div>
+          </div>
+        </Link>
+      )
+    }
   })
 
   return (

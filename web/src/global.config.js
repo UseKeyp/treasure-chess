@@ -20,7 +20,7 @@ export const featuredPlayers = [
     rating: 2865,
     imageSrc:
       'https://images.chesscomfiles.com/uploads/v1/master_player/3b0ddf4e-bd82-11e8-9421-af517c2ebfed.3ea0e292.160x160o.bcc8fdc32021@2x.jpeg',
-    masterTitle: 'GM',
+    masterTitle: '',
     country: 'NO',
     username: 'MagnusCarlsen',
   },

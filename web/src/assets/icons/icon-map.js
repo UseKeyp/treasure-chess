@@ -1,6 +1,7 @@
 import { ReactComponent as Wyre } from './wyre.svg'
 import { ReactComponent as Facebook } from './facebook.svg'
 import { ReactComponent as Twitter } from './twitter.svg'
+import { ReactComponent as Twitter_white } from './twitter_white.svg'
 import { ReactComponent as Search } from './search.svg'
 import { ReactComponent as Play } from './play.svg'
 import { ReactComponent as Create } from './create.svg'
@@ -598,6 +599,7 @@ export default {
   chess_com: ChessCom,
   discord: Discord,
   twitter: Twitter,
+  twitter_white: Twitter_white,
   facebook: Facebook,
   arrow_up: ArrowUp,
   search: Search,

@@ -48,6 +48,10 @@
     @apply bg-orange;
   }
 
+  &[data-variant='white'] {
+    @apply bg-white;
+  }
+
   &[data-variant='black'] {
     @apply bg-chessBlack-200;
   }

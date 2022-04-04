@@ -51,10 +51,16 @@ docker build . -t pi0neerpat/treasure-chess-redwood-both-main \
 --build-arg RUNTIME_ENV=local
 ```
 
-Explore image contents:
+Explore
 
 ```bash
-docker run --rm -it --entrypoint=/bin/bash <image>
+# Container
+docker exec -u 0 -it <containerId> /bin/bash
+apt-get update
+apt-get install nano
+
+# Image (read-only?)
+docker run --rm -it --entrypoint=/bin/bash <imageId>
 ```
 
 Run an image locally:
@@ -99,4 +105,8 @@ docker kill $(docker ps -q)
 docker rm --force $(docker ps -a -q)
 
 sudo /etc/init.d/docker restart
+
+# Potential fix for this problem
+sudo aa-remove-unknown
+https://javahowtos.com/guides/124-docker/414-solved-cannot-kill-docker-container-permission-denied.html
 ```

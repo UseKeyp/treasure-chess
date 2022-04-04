@@ -127,14 +127,24 @@ const VendorConnection = ({ ramp, amount, isLoading, disabled }) => {
   let status
   if (ramp.address)
     status = (
-      <>
-        <h4>
-          <i>Connected to {trimAddress(ramp.address)}</i>
-        </h4>
-        <h4>
-          <i>{ramp.accountNickname}</i>
-        </h4>
-      </>
+      <div className="flex align-center">
+        <div>
+          <h4>
+            <i>Connected to {trimAddress(ramp.address)}</i>
+          </h4>
+          <h4>
+            <i>{ramp.accountNickname}</i>
+          </h4>
+        </div>
+        <div className="flex ml-4 align-center">
+          <Button onClick={ramp.onConnect} disabled={isLoading}>
+            <div className="flex flex-row items-center">
+              <Icon name="circle_arrow" height="13" color="white" />
+              <p className="ml-2">Update</p>
+            </div>
+          </Button>
+        </div>
+      </div>
     )
   const icon =
     ramp.type === 'COINBASE' ? (

@@ -3,7 +3,6 @@ import { useAuth } from '@redwoodjs/auth'
 import { routes, navigate, useParams } from '@redwoodjs/router'
 import { useToast } from 'src/providers/toast'
 
-import Icon from 'src/components/Icon'
 import Button from 'src/components/Button'
 
 import globalConfig from 'src/global.config.js'
@@ -44,20 +43,23 @@ const LoginPortal = () => {
 
   return (
     <div className="flex justify-center">
-      <div className="login-portal-container">
+      <div className="login-portal-container w-80 sm:w-96">
         <h1 className="text-2xl tracking-tight font-extrabold text-gray-900 sm:text-3xl md:text-4xl">
-          <span className="block xl:inline">Login</span>
+          <span className="block xl:inline">Sign In</span>
         </h1>
-        <h3 className="mt-8 text-center">
-          Create a Treasure Chess wallet using your Chess account
-        </h3>
+        <h3 className="mt-8 text-center">Create a Treasure Chess wallet</h3>
         <div className="login-portal-container--button-wrapper">
           <Button
             onClick={() => onSubmitSignUp('CHESS')}
-            variant="green"
+            variant="white"
+            textColor="black"
+            className="login-button"
             size="small"
           >
-            <Icon size="30" name="chess_com" className="mr-4" />
+            <div className="flex justify-center align-center items-center m-1">
+              <img src="/icons/chess.png" alt="chess" className="icon-logo" />
+              <span>Sign in with Chess</span>
+            </div>
           </Button>
         </div>
         {errorText && <div className="mt-8 rw-cell-error">{errorText}</div>}

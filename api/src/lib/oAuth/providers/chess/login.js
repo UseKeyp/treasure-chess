@@ -8,13 +8,16 @@ import { logger } from 'src/lib/logger'
 
 export const onConnected = async ({ refreshToken, decoded }) => {
   try {
+    if (!decoded) return null
+    /* eslint-disable camelcase */
+    const { preferred_username, user_id } = decoded
+    logger.debug({ custom: decoded }, 'onConnected() decoded')
     // Create member if needed, and get current avatar
-    const member = await fetchMember(decoded.preferred_username, true)
+    const member = await fetchMember(preferred_username, true)
     if (member.banned) {
       throw new AuthenticationError('user is banned')
     }
-    // TODO: Don't convert to string once type is changed in JWT (waiting on Chess.com)
-    if (decoded.user_id.toString() !== member.id)
+    if (user_id !== member.id)
       throw new AuthenticationError(
         `user_id in JWT doesn't match player_id from API`
       )
@@ -44,6 +47,7 @@ export const onConnected = async ({ refreshToken, decoded }) => {
     }
     return member
   } catch (e) {
+    logger.error(e)
     Sentry.captureException(e)
     throw `onConnected() ${e}`
   }

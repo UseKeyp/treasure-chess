@@ -52,7 +52,7 @@ const Redirect = ({ type }) => {
           <div className="redirect-contents w-full">
             <div
               className={`flex align-center bg-black p-4 rounded-lg border-2 border-${
-                errorMessage ? 'red' : 'green'
+                successMessage ? 'green' : 'red'
               }`}
             >
               <Icon name={iconName} size="29" height="29" color="white" />

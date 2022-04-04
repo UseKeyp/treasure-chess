@@ -47,7 +47,7 @@ const RedirectionProvider = ({ children }) => {
       await reauthenticate()
       setState({
         isLoading: false,
-        successMessage: "Great - You're logged in!",
+        successMessage: "Great - You're signed in!",
       })
       setTimeout(() => {
         navigate(getRedirectTo() || '/profile')

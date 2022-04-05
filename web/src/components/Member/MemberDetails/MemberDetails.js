@@ -91,7 +91,11 @@ const MemberDetails = ({ member, isProfile }) => {
             )}
           </div>
           <div className="mt-2 member-details--member-content">
-            {member.masterTitle && <p>{member.masterTitle}</p>}
+            {member.masterTitle && (
+              <div className="bg-red px-[8px] py-[5px] rounded-[3px] mr-1">
+                <p className="font-bold">{member.masterTitle}</p>
+              </div>
+            )}
             <img
               alt={`Flag of ${member.country}`}
               src={getFlagBase64(member.country)}

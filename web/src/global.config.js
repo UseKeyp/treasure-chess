@@ -6,7 +6,8 @@ const config = {
   ),
   CHESS_COM_BASE_URL: 'https://chess.com/',
   HOW_TO_BUY_URL: '', // Link to docs on buying USDC
-  DISCORD_URL: '',
+  DISCORD_URL: 'https://discord.gg/DJD7AC4jtz',
+  TWITTER_URL: 'https://twitter.com/treasurechess_',
   GITHUB_URL: 'https://github.com/treasure-chess',
   BLOG_URL: '',
   TOC_URL: '/terms',

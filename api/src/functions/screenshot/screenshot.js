@@ -8,8 +8,8 @@ export const handler = async (event, _context) => {
   logger.debug('Invoked /screenshot')
   let browser = null
   try {
-    const { url } = event.queryStringParameters
-    if (!url.match(/https:\/\/chess.mypinata.cloud\/ipfs/))
+    const { url, html } = event.queryStringParameters
+    if (url && !url.match(/https:\/\/chess.mypinata.cloud\/ipfs/))
       throw 'Only chess.mypinata.cloud is allowed'
     const browser = await playwright.chromium.launch({
       args: chromium.args,
@@ -20,10 +20,15 @@ export const handler = async (event, _context) => {
       deviceScaleFactor: 2,
       timeout: 60000, // 60 s
     })
-
     const page = await context.newPage()
-    await page.goto(url)
-    const buffer = await page.locator('body > div').screenshot()
+    if (html) {
+      logger.debug({ custom: html }, 'Screenshot html')
+      await page.setContent(html)
+    } else {
+      await page.goto(url)
+    }
+    const buffer = await page.screenshot()
+    // const buffer = await page.locator('body > div').screenshot()
     return {
       statusCode: 200,
       headers: {

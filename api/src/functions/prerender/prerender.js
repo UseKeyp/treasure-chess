@@ -5,8 +5,8 @@ import Sentry from 'src/lib/sentry'
 export const handler = async (event, _context) => {
   logger.debug('Invoked /prerender')
   try {
-    logger.debug({ custom: event })
-    logger.debug(Object.keys(event))
+    logger.debug({ custom: event }, 'event')
+    logger.debug({ custom: Object.keys(event) }, 'keys')
     const { url } = event.queryStringParameters
 
     return {

@@ -62,7 +62,13 @@ const getOrderedUsers = (treasure) => {
 // Pass gifBase64 to get the final HTML to pin to IPFS
 // OR pass gifUrl to fetch a smaller HTML file for the Frontend
 // gifUrl version should load faster, b/c it delays fetching the gif
-const getCardHtml = async ({ treasure, gifBase64, gifUrl, staticBase64 }) => {
+const getCardHtml = async ({
+  treasure,
+  gifBase64,
+  gifUrl,
+  staticBase64,
+  isPrerender,
+}) => {
   try {
     const doc = parser.parseFromString(card, 'text/html')
 
@@ -189,6 +195,17 @@ const getCardHtml = async ({ treasure, gifBase64, gifUrl, staticBase64 }) => {
     )
     // Don't show the border except for the final html used for screenshots
     if (!staticBase64) updateStyle('screenshot-container', 'padding', '0px')
+    if (isPrerender) {
+      updateStyle('container', 'width', '606px')
+      updateStyle('container', 'height', '303px')
+      updateStyle('top-member', 'margin-top', '40px')
+      updateStyle('bottom-member', 'margin-top', '26px')
+      updateStyle('achievements', 'margin-top', '26px')
+      updateStyle('game', 'margin', '42px 0 0 4px')
+      updateStyle('below-banner-container', 'margin', '0 0 0 282px')
+      updateStyle('footer', 'display', 'none')
+      updateTag('game-image', 'src', `data:image/png;base64,${staticBase64}`)
+    }
 
     updateTag(
       'game-anchor',

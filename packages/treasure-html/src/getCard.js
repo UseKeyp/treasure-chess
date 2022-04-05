@@ -201,10 +201,16 @@ const getCardHtml = async ({
       updateStyle('top-member', 'margin-top', '40px')
       updateStyle('bottom-member', 'margin-top', '26px')
       updateStyle('achievements', 'margin-top', '26px')
-      updateStyle('game', 'margin', '42px 0 0 4px')
-      updateStyle('below-banner-container', 'margin', '0 0 0 282px')
+      updateStyle('below-banner-container', 'margin', '-259px 0 0 282px')
       updateStyle('footer', 'display', 'none')
-      updateTag('game-image', 'src', `data:image/png;base64,${staticBase64}`)
+      updateStyle('game', 'display', 'none')
+      updateStyle('game-image', 'src', '')
+      updateStyle('game-prerender', 'display', 'flex')
+      updateTag(
+        'game-image-prerender',
+        'src',
+        `data:image/png;base64,${staticBase64}`
+      )
     }
 
     updateTag(

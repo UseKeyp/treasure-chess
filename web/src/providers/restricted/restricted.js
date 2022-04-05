@@ -1,13 +1,16 @@
 import { navigate } from '@redwoodjs/router'
+import { isBrowser } from '@redwoodjs/prerender/browserUtils'
 
 const LOCAL_BASIC_AUTH_KEY = 'basic_auth'
 
 const passedBasicAuth = () => {
   if (!process.env.BASIC_AUTH_PASSWORD) return true
-  return (
-    localStorage.getItem(LOCAL_BASIC_AUTH_KEY) ===
-    process.env.BASIC_AUTH_PASSWORD
-  )
+  if (isBrowser)
+    return (
+      localStorage.getItem(LOCAL_BASIC_AUTH_KEY) ===
+      process.env.BASIC_AUTH_PASSWORD
+    )
+  return false
 }
 
 const RestrictedContext = React.createContext({
@@ -24,9 +27,11 @@ const RestrictedProvider = ({ children }) => {
 
   const submitPassword = (password) => {
     if (password === process.env.BASIC_AUTH_PASSWORD) {
-      localStorage.setItem(LOCAL_BASIC_AUTH_KEY, password)
-      setState({ passed: true })
-      navigate('/')
+      if (isBrowser) {
+        localStorage.setItem(LOCAL_BASIC_AUTH_KEY, password)
+        setState({ passed: true })
+        navigate('/')
+      }
     } else {
       setState({ status: 'Incorrect password' })
     }

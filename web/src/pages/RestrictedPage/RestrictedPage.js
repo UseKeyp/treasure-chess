@@ -8,7 +8,7 @@ const RestrictedPage = () => {
   if (passed) navigate('/')
   return (
     <>
-      <MetaTags title="Restricted" description="Are you worthy?" />
+      <MetaTags title="Restricted" />
       <main className="not-found">
         <section className="not-found--container">
           <div className="not-found--img">

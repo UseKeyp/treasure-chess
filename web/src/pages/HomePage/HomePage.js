@@ -7,7 +7,7 @@ import HomePageHero from 'src/components/HomePageHero/HomePageHero'
 const HomePage = () => {
   return (
     <>
-      <MetaTags title="" />
+      <MetaTags title="Play, Create, Collect" />
       {/* TODO: remaining home page content */}
       <HomePageHero />
       <LandingPageBoxes />

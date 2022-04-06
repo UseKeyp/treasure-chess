@@ -5,8 +5,8 @@ const MemberPage = ({ usernameOrAddress }) => {
   return (
     <>
       <MetaTags
-        title={usernameOrAddress || 'Member'}
-        description="My Treasure Chess profile"
+        title={usernameOrAddress || 'Player'}
+        description="Check out this player's Treasures."
       />
       <MemberCell usernameOrAddress={usernameOrAddress} />
     </>

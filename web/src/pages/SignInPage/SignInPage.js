@@ -4,7 +4,7 @@ import { MetaTags } from '@redwoodjs/web'
 const SignInPage = () => {
   return (
     <>
-      <MetaTags title="Sign In" description="Create a Treasure Chess wallet" />
+      <MetaTags title="Sign In" description="Join to start collecting." />
       <LoginPortal />
     </>
   )

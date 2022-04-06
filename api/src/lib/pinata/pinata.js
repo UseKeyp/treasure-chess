@@ -154,11 +154,11 @@ export const pinTreasure = async ({ treasure, tcn }) => {
       prerenderImageBuffer,
       `${treasure.id}-prerender.png`
     )
-    const prerenderImageUrl = escape(
+    const prerenderImageSrc = escape(
       'https://chess.mypinata.cloud/ipfs/' + animation_url.split('ipfs://')[1]
     )
 
-    return { tokenUri, uriData: stringifiedUriData, prerenderImageUrl }
+    return { tokenUri, uriData: stringifiedUriData, prerenderImageSrc }
   } catch (e) {
     throw `pinTreasure() ${e}`
   }

@@ -39,7 +39,7 @@ describe('Screenshot function', () => {
     const result = await handler(httpEvent)
     console.log(result)
     const buffer = await result.body
-    console.log(buffer)
+    // console.log(buffer)
     fs.writeFile('deleteme.png', buffer, (e) => e && console.log(e))
 
     expect(result.statusCode).toBe(200)
@@ -52,19 +52,19 @@ describe('Screenshot function', () => {
     })
 
     const httpEvent = mockHttpEvent({
-      queryStringParameters: { html: htmlPrerender },
+      queryStringParameters: { html: html },
     })
 
     const result = await handler(httpEvent)
     console.log(result)
     const buffer = await result.body
-    console.log(buffer)
+    // console.log(buffer)
     fs.writeFile('card.deleteme.png', buffer, (e) => e && console.log(e))
 
     expect(result.statusCode).toBe(200)
   })
   it('Process Html prerender card', async () => {
-    const html = await getCardHtml({
+    const htmlPrerender = await getCardHtml({
       treasure,
       staticBase64: base64Image,
       isPrerender: true,

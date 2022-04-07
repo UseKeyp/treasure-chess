@@ -27,8 +27,7 @@ export const handler = async (event, _context) => {
     } else {
       await page.goto(url)
     }
-    const buffer = await page.screenshot()
-    // const buffer = await page.locator('body > div').screenshot()
+    const buffer = await page.locator('body > div').screenshot()
     return {
       statusCode: 200,
       headers: {
@@ -38,7 +37,7 @@ export const handler = async (event, _context) => {
     }
   } catch (error) {
     /* eslint-disable no-console */
-    logger.error(error, { custom: event })
+    // logger.error(error, { custom: event })
     /* eslint-enable no-console */
     Sentry.captureException(error)
     return {

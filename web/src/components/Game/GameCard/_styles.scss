@@ -19,11 +19,9 @@
   max-height: 492px;
   box-shadow: 0px 10px 30px -5px rgba(0, 0, 0, 0.3);
   will-change: transform;
-  pointer-events: none;
 }
 
 .mintedCardHtml {
-  pointer-events: visible;
   &:hover {
     box-shadow: 0px 30px 100px -10px rgba(0, 0, 0, 0.4);
   }

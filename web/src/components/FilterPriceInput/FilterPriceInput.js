@@ -1,5 +1,3 @@
-import styles from './FilterPriceInput.module.scss'
-
 const FilterPriceInput = (props) => {
   const moneyRegex = /^[0-9]*$/
 
@@ -24,11 +22,11 @@ const FilterPriceInput = (props) => {
   }
 
   return (
-    <div className={styles.filterPriceWrapper}>
+    <div className="filterPriceWrapper">
       $
       <input
         type="text"
-        className={`${styles.filterPriceInput}`}
+        className="filterPriceInput"
         value={props.value}
         onChange={(e) => handleChange(e)}
       />

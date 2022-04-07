@@ -2,7 +2,6 @@ import { GamesContextProvider } from 'src/providers/games'
 import { MintingProvider } from 'src/providers/minting'
 import { WalletProvider } from 'src/providers/wallet'
 import { ThemeContextProvider } from 'src/providers/theme'
-import { TokenSessionProvider } from 'src/providers/tokenSession'
 import { ToastProvider } from 'src/providers/toast'
 import { FilterProvider } from './filters'
 import { RestrictedProvider } from './restricted'
@@ -22,7 +21,6 @@ const AllContextProviders = ({ children }) => {
         <ThemeContextProvider>
           <FilterProvider>
             <ToastProvider>
-              <TokenSessionProvider />
               <OAuthProvider>
                 <RedirectionProvider>
                   <RampProvider>

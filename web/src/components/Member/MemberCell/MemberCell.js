@@ -34,6 +34,8 @@ export const QUERY = gql`
 
 export const Loading = () => <div>Loading...</div>
 
+export const Error = () => <div>Member not found</div>
+
 export const Empty = () => <div>Member not found</div>
 
 export const Success = ({ member }) => {

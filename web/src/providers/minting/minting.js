@@ -1,5 +1,6 @@
 import { useLazyQuery, useQuery, useMutation } from '@apollo/client'
 import { useAuth } from '@redwoodjs/auth'
+import { isBrowser } from '@redwoodjs/prerender/browserUtils'
 
 import { useWallet } from 'src/providers/wallet'
 import { useToast } from 'src/providers/toast'
@@ -93,8 +94,8 @@ const MintingProvider = ({ children }) => {
         const lastPurchase = last.find((item) => item.id === purchase.id)
         if (
           lastPurchase.status !== purchase.status ||
-          (!lastPurchase.tx && purchase?.tx.id) || // Handle when previous has no purchase
-          lastPurchase?.tx.id !== purchase?.tx.id
+          (!lastPurchase.tx && purchase?.tx?.id) || // Handle when previous has no purchase
+          lastPurchase?.tx?.id !== purchase?.tx?.id
         ) {
           toastPurchase(purchase)
           if (purchase.status === COMPLETE) {
@@ -159,11 +160,12 @@ const MintingProvider = ({ children }) => {
           shouldPoll: true,
           mintLoading: false,
         })
-        window.open(
-          mintCheckoutUrl,
-          'Treasure Chess Checkout',
-          'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
-        )
+        if (isBrowser)
+          window.open(
+            mintCheckoutUrl,
+            'Treasure Chess Checkout',
+            'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
+          )
       } catch (error) {
         setState({
           ...state,

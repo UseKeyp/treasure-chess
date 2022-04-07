@@ -39,9 +39,8 @@ const generateRandomMembers = (count, highestMemberId) => {
       const randomUsername = rug.generate()
       const randomAddress = EthersWallet.createRandom().address
       let masterTitle
-      if (Math.random() > 0.9) {
-        masterTitle = filters.titleList[randomInt(0, 2)]
-      }
+      const rand = Math.random()
+      if (rand > 0.5) masterTitle = filters.titleList[randomInt(0, 9)]
       return {
         id: (highestMemberId + index).toString(),
         username: randomUsername,

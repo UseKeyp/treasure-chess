@@ -1,4 +1,4 @@
-import filters from '@treasure-chess/treasure-filters'
+const filters = require('@treasure-chess/treasure-filters').default
 
 const countMoves = (moves) => {
   return Math.round(moves.trim().split(' ').length / 2)

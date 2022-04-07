@@ -17,7 +17,7 @@ const treasureBackgroundBase64 = require('./assets/treasureBackground')
 const serializer = new XMLSerializer()
 const parser = new DOMParser()
 
-const APP_DOMAIN = process.env.APP_DOMAIN
+const APP_DOMAIN = process.env.APP_DOMAIN || 'https://treasure.chess.com'
 
 const getOrderedUsers = (treasure) => {
   const { text: blackRatingDelta, color: blackRatingDeltaColor } =
@@ -28,8 +28,8 @@ const getOrderedUsers = (treasure) => {
     username: treasure.black.username,
     rating: treasure.blackRating,
     ratingDelta: blackRatingDelta,
-    ...(treasure.blackMasterTitle && {
-      masterTitle: treasure.blackMasterTitle,
+    ...(treasure.black.masterTitle && {
+      masterTitle: treasure.black.masterTitle,
     }),
     // // Not content, but rather "styles" and "src"
     ...(blackRatingDeltaColor && { ratingDeltaColor: blackRatingDeltaColor }),
@@ -41,8 +41,8 @@ const getOrderedUsers = (treasure) => {
     username: treasure.white.username,
     rating: treasure.whiteRating,
     ratingDelta: whiteRatingDelta,
-    ...(treasure.whiteMasterTitle && {
-      masterTitle: treasure.whiteMasterTitle,
+    ...(treasure.white.masterTitle && {
+      masterTitle: treasure.white.masterTitle,
     }),
     // // Not content, but rather "styles" and "src"
     ...(whiteRatingDeltaColor && { ratingDeltaColor: whiteRatingDeltaColor }),
@@ -62,7 +62,15 @@ const getOrderedUsers = (treasure) => {
 // Pass gifBase64 to get the final HTML to pin to IPFS
 // OR pass gifUrl to fetch a smaller HTML file for the Frontend
 // gifUrl version should load faster, b/c it delays fetching the gif
-const getCardHtml = async ({ treasure, gifBase64, gifUrl, staticBase64 }) => {
+const getCardHtml = async ({
+  treasure,
+  gifBase64,
+  gifUrl,
+  staticBase64,
+  isScreenshot,
+  isPrerender,
+  openGraphImageSrc,
+}) => {
   try {
     const doc = parser.parseFromString(card, 'text/html')
 
@@ -115,21 +123,17 @@ const getCardHtml = async ({ treasure, gifBase64, gifUrl, staticBase64 }) => {
       updateStyle('date', 'color', 'white')
     }
 
-    // Header
-    updateContent('title', treasure.title)
+    // Header + SEO
+    updateContent('title', treasure.title) // Card title text
     updateContent('page-title', treasure.title)
-    updateTag('og:title', 'content', treasure.title)
-    updateTag('twitter:title', 'content', treasure.title)
-    updateTag('twitter:image', 'content', `${APP_DOMAIN}/seo.png`)
     const description = getDescription(treasure)
-    updateTag('twitter:description', 'content', description)
     updateTag('og:description', 'content', description)
-    updateTag('description', 'content', description)
     updateTag(
       'og:url',
       'content',
       `${APP_DOMAIN}/treasures/${treasure.tokenId || treasure.id}`
     )
+    if (openGraphImageSrc) updateTag('og:image', 'src', openGraphImageSrc)
     updateContent('termination', treasure.termination)
     const rarityColor = getRarityColor(treasure.achievementScore)
     updateStyle('banner', 'background-color', rarityColor)
@@ -150,14 +154,14 @@ const getCardHtml = async ({ treasure, gifBase64, gifUrl, staticBase64 }) => {
       'href',
       `${APP_DOMAIN}/members/${bottomUser.username}`
     )
-    isApp && updateTag('bottom-username-anchor', 'target', '_self')
-    isApp && updateTag('bottom-username-anchor', 'target', '_self')
     if (!bottomUser.masterTitle)
-      updateStyle('bottom-masterTitle', 'background-color', null)
-    if (!topUser.masterTitle)
-      updateStyle('top-masterTitle', 'background-color', null)
+      updateStyle('bottom-masterTitle', 'display', 'none')
+    if (!topUser.masterTitle) updateStyle('top-masterTitle', 'display', 'none')
 
-    // The only async function here (this could break things)
+    // TODO: DELETE ME
+    updateContent(`bottom-masterTitle`, 'FM')
+
+    // The only async function here
     const topAvatarBase64 = await fetchImageAndEncodeBase64(topUser.imageSrc)
     const bottomAvatarBase64 = await fetchImageAndEncodeBase64(
       bottomUser.imageSrc
@@ -193,14 +197,38 @@ const getCardHtml = async ({ treasure, gifBase64, gifUrl, staticBase64 }) => {
       `data:image/png;base64,${staticBase64}`
     )
     // Don't show the border except for the final html used for screenshots
-    if (!staticBase64) updateStyle('screenshot-container', 'padding', '0px')
+    if (staticBase64) updateStyle('screenshot-container', 'padding', '8px')
+    if (isScreenshot)
+      updateTag('game-image', 'src', `data:image/png;base64,${staticBase64}`)
+    if (isPrerender) {
+      updateStyle('container', 'height', '266px')
+      updateStyle('screenshot-container', 'padding', '59px')
+      updateStyle('achievements', 'margin-top', '0')
+
+      // Re-order contents
+      updateStyle('achievements', 'order', '2')
+      updateStyle('bottom-member', 'order', '3')
+
+      // Hide stuff
+      updateStyle('footer', 'display', 'none')
+      updateStyle('game', 'display', 'none')
+
+      // Update image
+      updateStyle('game-image', 'src', '')
+      updateStyle('game-prerender', 'display', 'flex')
+      updateTag(
+        'game-image-prerender',
+        'src',
+        `data:image/png;base64,${staticBase64}`
+      )
+    }
 
     updateTag(
       'game-anchor',
       'href',
       `${APP_DOMAIN}/treasures/${treasure.tokenId || treasure.id}`
     )
-    isApp && updateTag('game-anchor', 'target', '_self')
+    !treasure.tokenId && updateStyle('game-anchor', 'pointer-events', 'none')
 
     if (treasure.achievements) {
       // Achievements

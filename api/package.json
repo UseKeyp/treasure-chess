@@ -11,8 +11,8 @@
     "@ethersproject/units": "^5.5.0",
     "@ethersproject/wallet": "^5.4.0",
     "@napi-rs/canvas": "^0.1.19",
-    "@redwoodjs/api": "^0.50.0",
-    "@redwoodjs/graphql-server": "^0.50.0",
+    "@redwoodjs/api": "^1.0.0",
+    "@redwoodjs/graphql-server": "^1.0.0",
     "@sentry/node": "6.18.1",
     "@sentry/tracing": "6.18.1",
     "@toruslabs/fetch-node-details": "^5.0.0",
@@ -39,7 +39,7 @@
     "react-dom": "^17.0.2"
   },
   "devDependencies": {
-    "@redwoodjs/cli": "^0.50.0",
+    "@redwoodjs/cli": "^1.0.0",
     "dotenv": "^10.0.0",
     "prisma": "^3.6.0",
     "puppeteer": "^13.2.0"

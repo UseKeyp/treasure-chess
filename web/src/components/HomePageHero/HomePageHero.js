@@ -30,7 +30,7 @@ const HomePageHero = () => {
           </Button>
         </div>
         <div
-          className="min-w-258px mt-2 mx-auto lg:mx-0 md:mt-0"
+          className="mt-2 mx-auto lg:mx-0 md:mt-0"
           dangerouslySetInnerHTML={{ __html: card }}
         />
       </div>

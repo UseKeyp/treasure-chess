@@ -1,5 +1,7 @@
 import { useQuery, useLazyQuery, useMutation } from '@apollo/client'
 import { useAuth } from '@redwoodjs/auth'
+import { isBrowser } from '@redwoodjs/prerender/browserUtils'
+
 import { useToast } from 'src/providers/toast'
 import { TxToast } from 'src/providers/market/toasts'
 import { useOAuth } from 'src/providers/oAuth'
@@ -72,11 +74,12 @@ const RampProvider = ({ children }) => {
 
   const depositWyre = async () => {
     const { data: { wyreDepositUrl } = {} } = await wyreDepositUrlQuery()
-    window.open(
-      wyreDepositUrl,
-      'Treasure Chess - Deposit',
-      'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
-    )
+    if (isBrowser)
+      window.open(
+        wyreDepositUrl,
+        'Treasure Chess - Deposit',
+        'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
+      )
     // TODO: Close the modal
     // toggleModalDep()
   }
@@ -88,11 +91,12 @@ const RampProvider = ({ children }) => {
       return setWyre({ isLoading: false, error: errorOAuth, ...coinbase })
     setCoinbase({ isLoading: false, ...coinbase })
     setShouldPoll(true)
-    window.open(
-      oAuthUrl.url,
-      'Coinbase - Connect',
-      'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
-    )
+    if (isBrowser)
+      window.open(
+        oAuthUrl.url,
+        'Coinbase - Connect',
+        'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
+      )
   }
 
   const connectWyre = async () => {

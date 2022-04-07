@@ -8,7 +8,7 @@ import { getAchievementNamesFromValues } from '@treasure-chess/treasure-filters'
 
 import { getDescription, getAttributes } from 'src/lib/pinata/helpers'
 import { getGifBase64 } from 'src/lib/chessCom/gifGetter'
-// import placeholderImage from './logo'
+import placeholderImage from './logo'
 
 const PINATA_API_URL = 'https://api.pinata.cloud'
 const PINATA_API_KEY = process.env.PINATA_API_KEY
@@ -19,13 +19,16 @@ const API_DOMAIN = isProduction
   ? 'http://treasure-chess-api:8080'
   : `${process.env.APP_DOMAIN}/api`
 
-const fetchScreenshotBase64Buffer = async (url) => {
-  const target = `${API_DOMAIN}/screenshot?url=${url}`
+const fetchScreenshotBase64Buffer = async ({ url, html }) => {
+  if (['dev', 'sandbox'].includes(process.env.ENVIRONMENT))
+    return Buffer.from(placeholderImage, 'base64')
+  let target = `${API_DOMAIN}/screenshot?url=${url}`
+  if (html) target = `${API_DOMAIN}/screenshot?html=${html}`
   const result = await fetch(target)
+  logger.debug({ custom: result }, 'fetchScreenshotBase64Buffer result')
   if (result.status !== 200) throw "Couldn't get card snapshot"
   const buffer = await result.buffer()
   return buffer
-  // return Buffer.from(placeholderImage, 'base64')
 }
 const fetchBoardBase64Buffer = async ({ boardLayout, playerColor }) => {
   const result = await fetch(`${API_DOMAIN}/image`, {
@@ -80,6 +83,9 @@ const pinJson = async (jsonString) => {
   return `ipfs://${response.IpfsHash}`
 }
 
+const ipfsUrlToPinata = (ipfsUrl) =>
+  'https://chess.mypinata.cloud/ipfs/' + ipfsUrl.split('ipfs://')[1]
+
 export const pinTreasure = async ({ treasure, tcn }) => {
   try {
     const { gifBase64 } = await getGifBase64({
@@ -89,29 +95,48 @@ export const pinTreasure = async ({ treasure, tcn }) => {
     const achievementNames = getAchievementNamesFromValues(
       treasure.achievements
     )
+    const attributes = getAttributes({ ...treasure, achievementNames })
 
+    // Image processing
     const boardBuffer = await fetchBoardBase64Buffer({
       boardLayout: JSON.parse(treasure.boardLayout),
       playerColor: treasure.winner,
     })
 
+    const htmlStringScreenshot = await getCardHtml({
+      treasure: { ...treasure, achievements: achievementNames },
+      gifBase64,
+      staticBase64: boardBuffer,
+      isPrerender: true,
+    })
+    const screenshotBuffer = await fetchScreenshotBase64Buffer({
+      html: htmlStringScreenshot,
+    })
+    const image = await pinFile(screenshotBuffer, `${treasure.id}.png`)
+
+    const htmlStringPrerender = await getCardHtml({
+      treasure: { ...treasure, achievements: achievementNames },
+      gifBase64,
+      staticBase64: boardBuffer,
+      isPrerender: true,
+    })
+    const prerenderImageBuffer = await fetchScreenshotBase64Buffer({
+      html: htmlStringPrerender,
+    })
+    const openGraphImageSrc = await pinFile(
+      prerenderImageBuffer,
+      `${treasure.id}-prerender.png`
+    )
+
     const htmlString = await getCardHtml({
       treasure: { ...treasure, achievements: achievementNames },
       gifBase64,
       staticBase64: boardBuffer,
+      openGraphImageSrc,
     })
+
     /* eslint-disable camelcase */
     const animation_url = await pinFile(htmlString, `${treasure.id}.html`)
-
-    const screenshotUrl = escape(
-      'https://chess.mypinata.cloud/ipfs/' +
-        animation_url.split('ipfs://')[1] +
-        '?static=true'
-    )
-    const screenshotBuffer = await fetchScreenshotBase64Buffer(screenshotUrl)
-
-    const image = await pinFile(screenshotBuffer, `${treasure.id}.png`)
-    const attributes = getAttributes({ ...treasure, achievementNames })
 
     const uriData = {
       description: getDescription({ opening: treasure.opening }), // TODO: Update copy for this
@@ -123,19 +148,14 @@ export const pinTreasure = async ({ treasure, tcn }) => {
     }
     const stringifiedUriData = JSON.stringify(uriData)
     const tokenUri = await pinJson(stringifiedUriData)
-    /* eslint-disable no-console */
+
     logger.info({
       custom: {
-        animation_url:
-          'https://chess.mypinata.cloud/ipfs/' +
-          animation_url.split('ipfs://')[1] +
-          '?static=true',
-        image: 'https://chess.mypinata.cloud/ipfs/' + image.split('ipfs://')[1],
-        tokenUri:
-          'https://chess.mypinata.cloud/ipfs/' + tokenUri.split('ipfs://')[1],
+        animation_url: ipfsUrlToPinata(animation_url),
+        image: ipfsUrlToPinata(image.split),
+        tokenUri: ipfsUrlToPinata(tokenUri),
       },
     })
-    /* eslint-enable no-console */
 
     return { tokenUri, uriData: stringifiedUriData }
   } catch (e) {

@@ -64,6 +64,7 @@ const RedirectionProvider = ({ children }) => {
   }
 
   const completeWyreOrder = async () => {
+    console.log('completeWyreOrder')
     if (!orderId || error)
       return setState({
         isLoading: false,
@@ -84,6 +85,7 @@ const RedirectionProvider = ({ children }) => {
         isLoading: false,
         errorMessage: error_description || 'Something went wrong',
       })
+    if (type === 'wyre') return completeWyreOrder()
     if (!code || !grantState)
       return setState({
         isLoading: false,
@@ -91,7 +93,6 @@ const RedirectionProvider = ({ children }) => {
       })
     if (APPROVED_LOGIN_PROVIDERS.includes(type.toUpperCase()))
       return submitLoginCodeGrant()
-    if (type === 'wyre') return completeWyreOrder()
     completeOAuth()
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [code, grantState])

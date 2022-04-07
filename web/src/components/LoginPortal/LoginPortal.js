@@ -47,7 +47,7 @@ const LoginPortal = () => {
         <h1 className="text-2xl tracking-tight font-extrabold text-gray-900 sm:text-3xl md:text-4xl">
           <span className="block xl:inline">Sign In</span>
         </h1>
-        <h3 className="mt-8 text-center">Create a Treasure Chess wallet</h3>
+        <h3 className="mt-8 text-center">Create a Treasure Chess account</h3>
         <div className="login-portal-container--button-wrapper">
           <Button
             onClick={() => onSubmitSignUp('CHESS')}

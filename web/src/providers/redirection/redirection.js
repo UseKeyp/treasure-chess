@@ -64,7 +64,6 @@ const RedirectionProvider = ({ children }) => {
   }
 
   const completeWyreOrder = async () => {
-    console.log('completeWyreOrder')
     if (!orderId || error)
       return setState({
         isLoading: false,

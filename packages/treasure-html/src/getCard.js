@@ -67,6 +67,7 @@ const getCardHtml = async ({
   gifBase64,
   gifUrl,
   staticBase64,
+  isScreenshot,
   isPrerender,
 }) => {
   try {
@@ -197,7 +198,8 @@ const getCardHtml = async ({
     )
     // Don't show the border except for the final html used for screenshots
     if (staticBase64) updateStyle('screenshot-container', 'padding', '8px')
-
+    if (isScreenshot)
+      updateTag('game-image', 'src', `data:image/png;base64,${staticBase64}`)
     if (isPrerender) {
       updateStyle('container', 'height', '266px')
       updateStyle('screenshot-container', 'padding', '59px')

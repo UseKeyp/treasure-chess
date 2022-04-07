@@ -22,7 +22,7 @@ export const handler = async (event, _context) => {
     })
     const page = await context.newPage()
     if (html) {
-      logger.debug({ custom: html }, 'Screenshot html')
+      // logger.debug({ custom: html }, 'Screenshot html')
       await page.setContent(html)
     } else {
       await page.goto(url)

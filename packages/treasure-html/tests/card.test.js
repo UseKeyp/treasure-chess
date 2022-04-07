@@ -32,5 +32,16 @@ const test = async () => {
     htmlPrerender,
     (e) => e && console.log(e)
   )
+  const htmlScreenshot = await getCardHtml({
+    treasure,
+    staticBase64: base64Image,
+    gifUrl,
+    isScreenshot: true,
+  })
+  fs.writeFile(
+    'screenshot.deleteme.html',
+    htmlScreenshot,
+    (e) => e && console.log(e)
+  )
 }
 test()

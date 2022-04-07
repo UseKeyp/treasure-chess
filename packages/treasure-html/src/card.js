@@ -15,7 +15,7 @@ const card = `<html>
   -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8" />
-    <link rel="icon" href="data:image/svg+xml,%3Csvg id='Layer_1' data-name='Layer 1' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 361.19 340.32'%0A%3E%3Cstyle%3E path %7B fill: black; %7D @media (prefers-color-scheme: dark) %7B path %7B fill: white; %7D %7D %3C/style%3E%3Cpath d='M0,316.26a24.06,24.06,0,0,0,24.06,24.06H46V155.77H0Z' /%3E%3Cpath d='M239.63,203.39c15.1,9.68,24,27.49,24,49.17,0,3.85-2.54,6.5-7,7s-35.68,1.62-76.27,1.62-71.5-1.27-75.88-1.62-7-3.12-7-7c0-21.68,8.52-39.49,23.62-49.17,26.32-16.65,31.74-36.78,32.91-47.62H68.47V340.32H292.72V155.77h-86C208.27,166.61,213.31,186.74,239.63,203.39Z' /%3E%3Cpath d='M315.19,155.77V340.32h21.94a24.06,24.06,0,0,0,24.06-24.06V155.77Z' /%3E%3Cpath d='M149.82,120.16A44.56,44.56,0,0,1,136.65,88.8c0-24,19.75-43.36,43.75-43.36S224.15,64.8,224.15,88.8A44.56,44.56,0,0,1,211,120.16L230.58,133H361.19V90.3c0-.85,0-1.7,0-2.55C359.88,38.73,319,0,269.93,0H91.3C42.25,0,1.32,38.71,0,87.73c0,.86,0,1.71,0,2.57V133H130.23Z' /%3E%3C/svg%3E" type="image/svg+xml" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill-rule='evenodd' clip-rule='evenodd' viewBox='0 0 128 112'%0A%3E%3Cstyle%3E path %7B fill: black; %7D @media (prefers-color-scheme: dark) %7B path %7B fill: white; %7D %7D %3C/style%3E%3Cpath d='M20 0C8.95431 0 0 8.9543 0 20V46H18H26H42.3287L35.8552 50H26V112H106V50H91.9931L85.3172 46H106H114H128V20C128 8.95431 119.046 0 108 0H94C105.046 0 114 8.95431 114 20V39H106V20C106 8.95431 97.0457 0 86 0H46C34.9543 0 26 8.95431 26 20V39H18V20C18 8.95431 26.9543 0 38 0H20ZM0 104V50H18V112H8C3.58172 112 0 108.418 0 104ZM120 112H114V50H128V104C128 108.418 124.418 112 120 112ZM77.1357 36.0679C77.1357 28.8331 71.2079 23 63.9957 23C56.792 23 50.8556 28.8331 50.8643 36.0679C50.8816 39.6113 52.305 43.0154 54.8132 45.5141L46.7417 50.5201C46.5247 51.887 47.384 55.3694 48.0349 56.24H56.0977C55.6291 59.5048 54.1189 65.573 46.2123 70.5877C41.6731 73.5043 39 78.876 39 85.4056C39 86.5635 39.7638 87.3644 41.1003 87.5125C42.4451 87.6604 51.8123 87.9998 64 88C63.9957 88 63.9913 88 63.987 88H64.013C64.0087 88 64.0043 88 64 88C76.1877 87.9998 85.5636 87.6604 86.8997 87.5125C88.2362 87.3644 89 86.5635 89 85.4056C89 78.8673 86.3269 73.5043 81.7877 70.5877C73.8811 65.573 72.3709 59.5048 71.9023 56.24H79.9651C80.6074 55.3781 81.4753 51.8957 81.2583 50.5201L73.1868 45.5141C75.695 43.0154 77.1184 39.62 77.1357 36.0679Z' /%3E%3C/svg%3E" type="image/svg+xml" />
     <title id="page-title">Treasure Chess</title>
     <meta id="og:title" property="og:title" content="Treasure Chess" />
     <meta id="og:description" property="og:description" content="A collectible game of chess" />
@@ -42,8 +42,8 @@ const card = `<html>
       <div id="game-prerender" style="display: none; justify-items:center; width: 274px; height: 274px; margin: 0 46px 0 0;">
           <img id="game-image-prerender" src="" style="width: 100%;  border-radius: 4px;" alt="Video of the game"/>
       </div>
-    	<div id="container" style="height: 500px; color:black; width: 266px; min-width: 266px; border-radius: 12px; background-color: #FFF8EE; display: flex; flex-direction: column; justify-items:center; padding: 4px; box-shadow: 0px 10px 30px -5px rgba(0, 0, 0, 0.3);">
-  			<div id="banner" style="width: 100%; background-color: #ABB6B9; border-radius: 8px 8px 2px 2px; display: flex; justify-content: space-between; align-items: center; min-height: 39px; box-sizing: border-box; padding: 0 8px">
+    	<div id="container" style="height: 485px; color:black; width: 266px; min-width: 266px; border-radius: 12px; background-color: #FFF8EE; display: flex; flex-direction: column; justify-items:center; padding: 4px; box-shadow: 0px 10px 30px -5px rgba(0, 0, 0, 0.3);">
+  			<div id="banner" style="width: 100%; background-color: #ABB6B9; border-radius: 8px 8px 2px 2px; display: flex; justify-content: space-between; align-items: center; height: 39px; box-sizing: border-box; padding: 0 8px">
     			<div style="display: flex;align-items: center; min-height: 39px;">
     				<div style="padding-right: 8px;">
               <svg height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -90,8 +90,8 @@ const card = `<html>
           </a>
   			</div>
 
-        <div id="below-banner-container" style="display: flex; flex-direction: column; padding: 0 3px; width: 258px; margin: 4px 0; justify-content: space-between; height: 100%;">
-    			<div id="top-member" style="order:1 ;width: 100%; display: flex; align-items: center; min-height: 40px; margin-top: 4px;">
+        <div id="below-banner-container" style="display: flex; flex-direction: column; padding: 0 3px; width: 258px; margin: 8px 0; justify-content: space-between; height: 100%;">
+    			<div id="top-member" style="order:1 ;width: 100%; display: flex; align-items: center; min-height: 40px;">
     				<div style="height: 40px; width: 40px;  margin-right: 8px;">
     					<img id="top-avatar" src="https://picsum.photos/40/40?grayscale" style="width: 100%; border-radius: 4px;" alt="Avatar image from chess.com"/>
     				</div>
@@ -107,13 +107,13 @@ const card = `<html>
               </div>
     				</div>
     			</div>
-          <div id="game" style="order:2; display: flex; justify-items:center; height: 258px; background-image: url(''); margin:4px 0px;">
-            <a id="game-anchor" href="" rel="noopener" style="display: inline-block; pointer-events: visible;">
+          <div id="game" style="order:2; display: flex; justify-items:center; height: 258px; background-image: url(''); margin: 2px 0;">
+            <a id="game-anchor" href="" rel="noopener" style="pointer-events: visible;">
               <img id="game-image" src="" style="width: 100%;  border-radius: 4px;" alt="Video of the game"/>
               <img id="game-image-static" style="display:none"  src="data:image/png;base64,R0lGODlhaAFoAaIAANrX1ZqYlqupp8bFwYOBf7y7t4mHhefl4yH5BAAAAAAALAAAAABoAWgBAAP/eLrc/jDKSau9OOvNu/9gKI5kaZ5oqq5s675wLM90bd94ru987//AoHBILBqPyKRyyWw6n9CodEqtWq/YrHbL7Xq/4LB4TC6bz+i0es1uu9/wuHxOr9vv+Lx+z+/7/4CBgoOEhYaHiImKi4yNjo+QkZKTlJWWl5iZmpucnZ6foKGio6SlpqeoqaqrrK2ur7AYALMDtQUDt7e1swCxvgC4BQUCwsXGx8IDs76qwMjP0MjKzKPO0dfYyb3UnADZ39kCAQPcmN7g6NcCBgHb5ZHW6fLSBQQEAu+QwfP8zwYEBsjlU3Sun0Fk/wgEGIioILZaynhJhHiwgIF/BtwxDLTv/1pEiSBBdpS3LmGBjYG+fQzJciK/AQIA/juJsk+2lS1z0uoXQOa9mnocQsOpU6dBjP/wAb2TrahTl/xKXvy5lE7Tp1hHohvQ8+LMqnK0HsNKVqg8r1MFgm0j1ljZrAdjerWncS0as8eIvmXZFh1ajHbV4DWmd2/IijBlTlUa2ExfYYadPvb7l4DaxmIGF4vstGIxuX8xk3nIWefkdH+Tig4zuXTO0+m6oiVQd7UW0q5ZeiYsde5C21xa5z68+1jqf7WBU9GsbTjU4sVk+1aeZXJhzrDnJT6enDqUq87jQTd2nKr3KcxvhRc/vlj53+elWA+f3SDX8pfjN0lfIHz7aP+gzcaYfvuB59p/AJZnAIFPnJZbfcUdhxyDTXzjGoQRlkcThUnwd51kCH4joUIcKsFff4ZhOJ50oZWIBGx7qdgei2h15+IPMJYVojw0pnWjEeB8KNGO8/T4T34/AoFOUbYQyaNiAiY5xImb8eUkT1DONaCUPlBJGEVXGmSkeVx2GeaZxo0IX5k9eIlmhu+x+YObb3om4T9ryqkDnXUa1FtleeqJA599RpWlloLyQGih6XB16FSBJlrDooxSNuKWktpQKZGPTrVhpjdsGmKAqVkGag4yioqNkT6eekOqqkZzp1c2uuoCpbEiQyqgtt6Aa67GsKpar5oCW9GfpX5KrAz/sBrr6Ky0LTupsX7Oiqe001KrnbDDYjtDs7HuWiqS3t6q7VnWklguDecGGYC13a4bA7iMwgTvP/LS8Gul95KZLwz01vlsurX+m8K+b26XLqYGuxDwmeKWV3DDKbT7TKeVMUxxCw87ifFsC27MrsX2fjwXuSK3gDCC9t4bb8oxAECMs8jeCRDMNnRcXMQjToyzCsZyW5myP8ecK1L9El200ZvyfOnSg/JrcsZQ57BykAW8O3WUVVuN5jpbc921DlfWDK89So+d86hIu4ynz2rP+1/bbh8Zt6Kjhi2hxnfLveO7dVeWUd/6Xjlw4FP5SzgLOq+qt4IoL07C1X49Xqri/5KP0LiliIMceeYbUC5Py53PhjnoGmw+utN1A/Q56hKIHpflI54OewSqHyS02/a8fvsBshe3u8v28P177nCWfnnaqCM/Ht3KQ/r7As6PZ3b0aN9efXsKR19qO6Bb7BHrpQPEPNTb73i494DCTTF74kczPOLZd53+mfPTD37R8MefDfvQIsD58nW/hF0PgPbY38aCF6v1AZBXImNgrPLXOXUt0H9iol3rjFcuCaoKcA8sDwfLhcF+QC+EX0lZCfmBwhH5zlsFrJMGW+e+ZcXwazOsWw2J5cF6kc97FozgCmOTw36NcF1D5FwLT/azG4ZpicfhXxLDUcSzRWpjU/QIBf/p90J5OZFIUEwN1Hr4ph9i74j/+uJ/7hPGqeywg1n0RxtfVrTN4eKOucCjHvPIxz36URc1s4cgB0nIQhqSLmNbDzACwMhGOvKRkIykJCP5PVv88ZJ91MX0ZHHITnryk4KEnu02uYIBVBGBaCRlCQBwSvYFUZW3aiUQUwlLEZhyjsS7Yi1RcEtcno2Wu/zAAHzZL10GswS9JKbNgHlMDphSlsp7ZTNPwBUQJkSZ05mmChwigG6C0B6+lKY2J0eYZAjDm4kLozjHKQLm4HEYgIPmVELGThNACBfdnGcI60lN7UTnhJ17Iz8n0Cx8ApR3Ah0o7nZ20LN1UaEVgA4+Z2j/KoiG4D8HhBYzLeoA2eFii6PkaAUkSMF1itQCzssfQBJ60uoFrqIn1UDZ9AbTmF6AjBbh3UZPilMzesWmGbgfTVlqUTS1boBAXQBOhTE/kyaVAQWk4FMpEFWaIhWoS2UqTXeq0BjSj6j1rBMXp/qArA5Df2R1QAx9OhuwTtOsDjRiWqknVuW59Zh9iiZXpxlD0pVurn3KaLquOtAbxpV39ExqobZItaR+8YF3nZ5ZyePKvaryi2yFVmRhN9nPtNKp7KwUY0dE2GCqMachjBZEO0vZ1BqzmU1bogC72jR50oqfrC3GYYH4WlXmNljqtGzfTuse2zKRr6LqXhg3u7Tf/xojs2gNpnN1O1rehRR1wKruBmtpLGzW9HjGMq7NHjo24upKvCManPaoZU1sMteL1NptG28GuulCA5uCe6+0zCsr/M6mtz+zLzSgi0L6xo2/Q9EuAtXbNQHLz78K0q+kEHwNCKdXwnqicIUtDLk6+o/AuCTvsjDIRg6TVogkVnBw3zdEE//SYA5Woovfg2H9aBgcIPZuQEg4xRz7t7RlivGTZkw84RLoxugici5r3BgkJ1nJ/fqunuLoWSgfNVFCfkl7rfxiOWUZS1xuHYD182UThvmlY/ZOmc18ZjEnac2GajOabwTnbaHXv9cFDpWhoWIr51k0e76vnMsH5LU42f8zd+awlIFz6GMl2sTxqXMGBx3NNC8l0EOhNBALvZFG20nT2GMyKiTtp0e7GLSXxvQzSgxqQq/G057pM6hFTQpV97fVZ8QMrB2NayDSGhSkto+sQY3qfOy6Ir1G4K87EexSJ5u3hra1oJ/ta7BIWxo+prb0lnLsg2gbsqm+NnW/XVmgNJvN5PYeUMRtHFMPetHcOHeR3P1uS7Oi23ZOdwiXXQl8D1nfCBRxKgAQAHYPG+DFbkU92EEMf6/aIvTuNb8l0RWAMNKcU9QawFs423yU6iIzO7ZBI57sP6simYJjOMadddaNzzex1PihxQMwMz72KRjiaKjLXTnxR2zZZuD/ZAfNu1nOd3rG6OgM+s7ny+lSRFPpQmdkN4le86h4k5EJIfnGTX4KlAMRIIMEKAjHXhmwh3Lp+E04KhZuYcW4He1hVi0zsg33us9G4KM4uN2X3nFm7P3vuWYGKwFP+Dkzw+uFT/ysqMF2xTv+Tj1XBN0fv/XIJ0LvlNc2vFfx88w7vu+w0Lnn/w76V4z+9FwXBQBOP/rUh2L1rM+82quh9dgrefaqr73tZ4z7UCB+96S39+t1D3xFw7wVvy/+3n9BfOXj+fisWH3zna9M14ei8dSvu9xjgfns337zrYjJ9L1f4NIzox7jJ78rGfwOgkNd/bguHlCG+X74yzmBlreE5aPqb38iC1KBhgY26dd/odQfeiaAA+h8oSQAeFcTJXN2/QdFg0Rz+dcMZxV2EYg9E8iAFQgLwJBzhJSB6XJ2BTcNp+IN+ZR1EEh+haRyJthBziAOWmNIj2d2ISh0DdeBkQYM+CSDiXNIogdlNgiEONhwL4g6tIBzV2dNoNSETviE79dIU6cLy8BTvAARTTIMwzB1XCiDkySFUzd0U1hzWAgSc3WGaJiGariGbNiGbviGcBiHcjiHdFiHdniHeJiHeriHfNiHfviHgBiIgjiIhFiIhniIiJiIiriIjNiIjviIkChSCQAAOw==" />
             </a>
           </div>
-    			<div id="bottom-member" style="order:3; width: 100%; display: flex; align-items: center; min-height: 40px; margin-top:0px;">
+    			<div id="bottom-member" style="order:3; width: 100%; display: flex; align-items: center; min-height: 40px;">
     				<div style="height: 40px; width: 40px; margin-right: 8px;">
     					<img id="bottom-avatar" src="https://picsum.photos/40/40?grayscale" style="width: 100%; border-radius: 4px;" alt="Avatar image from chess.com"/>
     				</div>
@@ -129,7 +129,7 @@ const card = `<html>
               </div>
     				</div>
     			</div>
-    			<div id="achievements" style="order:4; width: 100%; margin-top: 10px; display: grid; grid-template-columns: 2fr 1fr; align-items: center; row-gap: 5px; white-space: nowrap;">
+    			<div id="achievements" style="order:4; width: 100%;  margin-top:2px; display: grid;grid-template-columns: 2fr 1fr; align-items: center; row-gap: 5px; white-space: nowrap;">
     				<div style="width: 100%; display: flex; align-items: center; font-size: 13px;">
     					<div id="achievement-1-icon">
                 <svg width="6px" height="10px" viewBox="0 0 16 28" xmlns="http://www.w3.org/2000/svg">
@@ -192,10 +192,10 @@ const card = `<html>
     			</div>
     		</div>
   		</div>
-      <div id="footer" style="width: 95%; display: flex; justify-content: space-between;align-items: center; margin-top: auto; align-self: center;">
-      <a id="match-anchor" href="" target="_blank" rel="noopener" style="text-decoration: underline; font-size: 8px; color:black;">Match #000000</a>
-      <p id="edition" style="color: black;  opacity: 0.70;  font-size: 8px;">Single Edition</p>
-      <p id="date" style="color: black;  opacity: 0.70;  font-size: 8px;">Jan 1 1900</p>
+      <div id="footer" style="margin-bottom: 8px; height: 8px; width: 95%; display: flex; justify-content: space-between;align-items: center; align-self: center;">
+        <a id="match-anchor" href="" target="_blank" rel="noopener" style="text-decoration: underline; font-size: 8px; color:black;">Match #000000</a>
+        <p id="edition" style="color: black;  opacity: 0.70;  font-size: 8px;">Single Edition</p>
+        <p id="date" style="color: black;  opacity: 0.70;  font-size: 8px;">Jan 1 1900</p>
       </div>
 		</div>
 	</body>

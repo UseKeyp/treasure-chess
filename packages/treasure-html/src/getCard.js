@@ -28,8 +28,8 @@ const getOrderedUsers = (treasure) => {
     username: treasure.black.username,
     rating: treasure.blackRating,
     ratingDelta: blackRatingDelta,
-    ...(treasure.blackMasterTitle && {
-      masterTitle: treasure.blackMasterTitle,
+    ...(treasure.black.masterTitle && {
+      masterTitle: treasure.black.masterTitle,
     }),
     // // Not content, but rather "styles" and "src"
     ...(blackRatingDeltaColor && { ratingDeltaColor: blackRatingDeltaColor }),
@@ -41,8 +41,8 @@ const getOrderedUsers = (treasure) => {
     username: treasure.white.username,
     rating: treasure.whiteRating,
     ratingDelta: whiteRatingDelta,
-    ...(treasure.whiteMasterTitle && {
-      masterTitle: treasure.whiteMasterTitle,
+    ...(treasure.white.masterTitle && {
+      masterTitle: treasure.white.masterTitle,
     }),
     // // Not content, but rather "styles" and "src"
     ...(whiteRatingDeltaColor && { ratingDeltaColor: whiteRatingDeltaColor }),
@@ -154,11 +154,13 @@ const getCardHtml = async ({
       `${APP_DOMAIN}/members/${bottomUser.username}`
     )
     if (!bottomUser.masterTitle)
-      updateStyle('bottom-masterTitle', 'background-color', null)
-    if (!topUser.masterTitle)
-      updateStyle('top-masterTitle', 'background-color', null)
+      updateStyle('bottom-masterTitle', 'display', 'none')
+    if (!topUser.masterTitle) updateStyle('top-masterTitle', 'display', 'none')
 
-    // The only async function here (this could break things)
+    // TODO: DELETE ME
+    updateContent(`bottom-masterTitle`, 'FM')
+
+    // The only async function here
     const topAvatarBase64 = await fetchImageAndEncodeBase64(topUser.imageSrc)
     const bottomAvatarBase64 = await fetchImageAndEncodeBase64(
       bottomUser.imageSrc

@@ -83,7 +83,6 @@ model Treasure {
   // --------------- STATE --------------
   uriData          String
   tokenUri         String
-  prerenderImageSrc String?
   tokenId          Int?          @unique
   mintedAt         DateTime?
   title            String

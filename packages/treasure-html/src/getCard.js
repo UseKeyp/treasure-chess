@@ -69,6 +69,7 @@ const getCardHtml = async ({
   staticBase64,
   isScreenshot,
   isPrerender,
+  openGraphImageSrc,
 }) => {
   try {
     const doc = parser.parseFromString(card, 'text/html')
@@ -123,9 +124,8 @@ const getCardHtml = async ({
     }
 
     // Header + SEO
-    updateContent('title', treasure.title)
+    updateContent('title', treasure.title) // Card title text
     updateContent('page-title', treasure.title)
-    updateTag('og:title', 'content', treasure.title)
     const description = getDescription(treasure)
     updateTag('og:description', 'content', description)
     updateTag(
@@ -133,7 +133,7 @@ const getCardHtml = async ({
       'content',
       `${APP_DOMAIN}/treasures/${treasure.tokenId || treasure.id}`
     )
-    updateTag('og:image', 'content', `${APP_DOMAIN}/seo.png`)
+    if (openGraphImageSrc) updateTag('og:image', 'src', openGraphImageSrc)
     updateContent('termination', treasure.termination)
     const rarityColor = getRarityColor(treasure.achievementScore)
     updateStyle('banner', 'background-color', rarityColor)

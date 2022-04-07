@@ -102,4 +102,4 @@ export const getRatingText = (treasure, playerColor) => {
 }
 
 export const getDescription = (treasure) =>
-  `A chess game collectible. ${treasure.white.username} and ${treasure.black.username} played this game.`
+  `${treasure.white.username} and ${treasure.black.username}'s game from Chess.com is now a collectible.`

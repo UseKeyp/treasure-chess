@@ -71,7 +71,7 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
       minter: member,
     })
 
-    const { tokenUri, uriData, prerenderImageSrc } = await pinTreasure({
+    const { tokenUri, uriData } = await pinTreasure({
       treasure: {
         ...treasureData,
         black: { ...game.black }, // Inject the players manually
@@ -98,7 +98,6 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
                 tokenId,
                 uriData,
                 tokenUri,
-                prerenderImageSrc,
               },
             },
           },

@@ -84,7 +84,7 @@ const pinJson = async (jsonString) => {
 }
 
 const ipfsUrlToPinata = (ipfsUrl) =>
-  escape('https://chess.mypinata.cloud/ipfs/' + ipfsUrl.split('ipfs://')[1])
+  'https://chess.mypinata.cloud/ipfs/' + ipfsUrl.split('ipfs://')[1]
 
 export const pinTreasure = async ({ treasure, tcn }) => {
   try {
@@ -102,13 +102,6 @@ export const pinTreasure = async ({ treasure, tcn }) => {
       boardLayout: JSON.parse(treasure.boardLayout),
       playerColor: treasure.winner,
     })
-    const htmlString = await getCardHtml({
-      treasure: { ...treasure, achievements: achievementNames },
-      gifBase64,
-      staticBase64: boardBuffer,
-    })
-    /* eslint-disable camelcase */
-    const animation_url = await pinFile(htmlString, `${treasure.id}.html`)
 
     const htmlStringScreenshot = await getCardHtml({
       treasure: { ...treasure, achievements: achievementNames },
@@ -130,8 +123,20 @@ export const pinTreasure = async ({ treasure, tcn }) => {
     const prerenderImageBuffer = await fetchScreenshotBase64Buffer({
       html: htmlStringPrerender,
     })
-    await pinFile(prerenderImageBuffer, `${treasure.id}-prerender.png`)
-    const prerenderImageSrc = ipfsUrlToPinata(animation_url)
+    const openGraphImageSrc = await pinFile(
+      prerenderImageBuffer,
+      `${treasure.id}-prerender.png`
+    )
+
+    const htmlString = await getCardHtml({
+      treasure: { ...treasure, achievements: achievementNames },
+      gifBase64,
+      staticBase64: boardBuffer,
+      openGraphImageSrc,
+    })
+
+    /* eslint-disable camelcase */
+    const animation_url = await pinFile(htmlString, `${treasure.id}.html`)
 
     const uriData = {
       description: getDescription({ opening: treasure.opening }), // TODO: Update copy for this
@@ -149,11 +154,10 @@ export const pinTreasure = async ({ treasure, tcn }) => {
         animation_url: ipfsUrlToPinata(animation_url),
         image: ipfsUrlToPinata(image.split),
         tokenUri: ipfsUrlToPinata(tokenUri),
-        prerenderImageSrc,
       },
     })
 
-    return { tokenUri, uriData: stringifiedUriData, prerenderImageSrc }
+    return { tokenUri, uriData: stringifiedUriData }
   } catch (e) {
     throw `pinTreasure() ${e}`
   }

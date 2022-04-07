@@ -28,7 +28,7 @@ const LocaleProvider = ({ children }) => {
   }
 
   React.useEffect(() => {
-    if (!locale) return
+    if (!locale || !currentUser) return
     if (locale !== currentUser?.locale) {
       updateLocale()
     }

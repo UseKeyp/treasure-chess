@@ -387,6 +387,7 @@ const TreasureChess = ({ color = '#030314', height = 13 }) => (
     />
   </svg>
 )
+
 const TreasureChessFull = ({ color = '#ffffff', height = 13 }) => (
   <svg
     id="Layer_1"

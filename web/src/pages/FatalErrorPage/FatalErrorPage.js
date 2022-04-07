@@ -128,7 +128,6 @@ export default RedwoodDevFatalErrorPage ||
         dangerouslySetInnerHTML={{
           __html: `
               <div class="fatal-error-container">
-                <title>Oops | Treasure Chess</title>
                 <div class="header-container">
                   <a href="/">
                     <img src="/treasurechessfull-fatal-page.png" alt="TreasureChess.com" style="height: 35px"/>

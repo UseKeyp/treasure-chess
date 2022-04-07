@@ -17,7 +17,7 @@ const treasureBackgroundBase64 = require('./assets/treasureBackground')
 const serializer = new XMLSerializer()
 const parser = new DOMParser()
 
-const APP_DOMAIN = process.env.APP_DOMAIN
+const APP_DOMAIN = process.env.APP_DOMAIN || 'https://treasure.chess.com'
 
 const getOrderedUsers = (treasure) => {
   const { text: blackRatingDelta, color: blackRatingDeltaColor } =
@@ -194,16 +194,22 @@ const getCardHtml = async ({
       `data:image/png;base64,${staticBase64}`
     )
     // Don't show the border except for the final html used for screenshots
-    if (!staticBase64) updateStyle('screenshot-container', 'padding', '0px')
+    if (staticBase64) updateStyle('screenshot-container', 'padding', '8px')
+
     if (isPrerender) {
-      updateStyle('container', 'width', '606px')
-      updateStyle('container', 'height', '303px')
-      updateStyle('top-member', 'margin-top', '40px')
-      updateStyle('bottom-member', 'margin-top', '26px')
-      updateStyle('achievements', 'margin-top', '26px')
-      updateStyle('below-banner-container', 'margin', '-259px 0 0 282px')
+      updateStyle('container', 'height', '266px')
+      updateStyle('screenshot-container', 'padding', '59px')
+      updateStyle('achievements', 'margin-top', '0')
+
+      // Re-order contents
+      updateStyle('achievements', 'order', '2')
+      updateStyle('bottom-member', 'order', '3')
+
+      // Hide stuff
       updateStyle('footer', 'display', 'none')
       updateStyle('game', 'display', 'none')
+
+      // Update image
       updateStyle('game-image', 'src', '')
       updateStyle('game-prerender', 'display', 'flex')
       updateTag(

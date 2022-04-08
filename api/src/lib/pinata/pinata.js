@@ -19,20 +19,15 @@ const API_DOMAIN = isProduction
   ? 'http://treasure-chess-api:8080'
   : `${process.env.APP_DOMAIN}/api`
 
-const fetchScreenshotBase64Buffer = async ({ url, html }) => {
+const fetchScreenshotBase64Buffer = async (html) => {
   try {
     if (['dev', 'sandbox'].includes(process.env.ENVIRONMENT))
       return Buffer.from(placeholderImage, 'base64')
-    let result
-    if (html) {
-      result = await fetch(`${API_DOMAIN}/screenshot`, {
-        method: 'POST',
-        body: html,
-        'Content-Type': 'text/plain',
-      })
-    } else {
-      result = await fetch(`${API_DOMAIN}/screenshot?url=${url}`)
-    }
+    const result = await fetch(`${API_DOMAIN}/screenshot`, {
+      method: 'POST',
+      body: html,
+      'Content-Type': 'text/plain',
+    })
     logger.debug({ custom: result }, 'fetchScreenshotBase64Buffer result')
     if (result.status !== 200) throw "Couldn't get card snapshot"
     const buffer = await result.buffer()

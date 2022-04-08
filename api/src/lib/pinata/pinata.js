@@ -20,16 +20,28 @@ const API_DOMAIN = isProduction
   : `${process.env.APP_DOMAIN}/api`
 
 const fetchScreenshotBase64Buffer = async ({ url, html }) => {
-  if (['dev', 'sandbox'].includes(process.env.ENVIRONMENT))
-    return Buffer.from(placeholderImage, 'base64')
-  let target = `${API_DOMAIN}/screenshot?url=${url}`
-  if (html) target = `${API_DOMAIN}/screenshot?html=${html}`
-  const result = await fetch(target)
-  logger.debug({ custom: result }, 'fetchScreenshotBase64Buffer result')
-  if (result.status !== 200) throw "Couldn't get card snapshot"
-  const buffer = await result.buffer()
-  return buffer
+  try {
+    if (['dev', 'sandbox'].includes(process.env.ENVIRONMENT))
+      return Buffer.from(placeholderImage, 'base64')
+    let result
+    if (html) {
+      result = await fetch(`${API_DOMAIN}/screenshot`, {
+        method: 'POST',
+        body: html,
+        'Content-Type': 'text/plain',
+      })
+    } else {
+      result = await fetch(`${API_DOMAIN}/screenshot?url=${url}`)
+    }
+    logger.debug({ custom: result }, 'fetchScreenshotBase64Buffer result')
+    if (result.status !== 200) throw "Couldn't get card snapshot"
+    const buffer = await result.buffer()
+    return buffer
+  } catch (e) {
+    logger.error(e)
+  }
 }
+
 const fetchBoardBase64Buffer = async ({ boardLayout, playerColor }) => {
   const result = await fetch(`${API_DOMAIN}/image`, {
     method: 'POST',

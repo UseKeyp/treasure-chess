@@ -8,7 +8,8 @@ export const handler = async (event, _context) => {
   logger.debug('Invoked /screenshot')
   let browser = null
   try {
-    const { url, html } = event.queryStringParameters
+    const { url } = event.queryStringParameters
+    const html = event.body
     if (url && !url.match(/https:\/\/chess.mypinata.cloud\/ipfs/))
       throw 'Only chess.mypinata.cloud is allowed'
     const browser = await playwright.chromium.launch({

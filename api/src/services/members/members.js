@@ -32,7 +32,8 @@ export const userLocale = async ({ locale }) => {
       where: { id: context.currentUser.id },
       data: { locale: locale },
     })
-    return { status: 'SUCCESS' }
+    const member = await fetchMember(context.currentUser.username)
+    return member
   } catch (e) {
     throw `userLocale() ${e}`
   }

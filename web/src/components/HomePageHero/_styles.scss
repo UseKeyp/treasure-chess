@@ -1,49 +1,47 @@
-.treasureContainer{
+.treasureContainer {
   height: 500px;
   width: 736px;
   display: flex;
   margin: 50px auto;
 
-  @media screen and (max-width:768px){
+  @media screen and (max-width: 768px) {
     flex-direction: column;
-    width: 90%;
+    // width: 90%;
     height: 600px;
   }
-
 }
-.treasureText{
+.treasureText {
   height: 315px;
   width: 480px;
   background-color: theme('colors.chessBlack.200');
   border-radius: 12px 0px 0px 12px;
   align-self: center;
-  @media screen and (max-width:768px){
+  @media screen and (max-width: 768px) {
     width: 90%;
     border-radius: theme('spacing.4');
     height: 450px;
   }
-  @media screen and (max-width:480px){
-      padding: 0 5px;
-    }
-  h1{
+  @media screen and (max-width: 480px) {
+    padding: 0 5px;
+  }
+  h1 {
     color: theme('colors.green');
-    @media screen and (max-width:768px){
+    @media screen and (max-width: 768px) {
       text-align: center;
     }
-    @media screen and (max-width:480px){
+    @media screen and (max-width: 480px) {
       font-size: 24px;
     }
   }
-  h3{
-    @media screen and (max-width:768px){
+  h3 {
+    @media screen and (max-width: 768px) {
       text-align: center;
     }
   }
-  p{
+  p {
     color: theme('colors.grey');
-
   }
-  .treasureButton{
+  .treasureButton {
     width: 154px;
     height: 40px;
     padding-top: 8px;
@@ -53,11 +51,11 @@
     font-size: 20px;
     text-align: center;
     margin: 0 auto;
-    @media screen and (max-width:480px){
-        font-size: 18px;
-        height: 30px;
-        padding-top: 4px;
-        margin-bottom: 5px;
-      }
+    @media screen and (max-width: 480px) {
+      font-size: 18px;
+      height: 30px;
+      padding-top: 4px;
+      margin-bottom: 5px;
+    }
   }
 }

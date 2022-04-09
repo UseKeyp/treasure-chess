@@ -37,6 +37,7 @@ export const onConnected = async ({ refreshToken, decoded }) => {
     if (!member.address) {
       try {
         const publicAddress = await getTorusPublicAddress(member.id)
+        logger.debug(`getTorusPublicAddress - ${publicAddress}`)
         await db.member.update({
           where: { id: member.id },
           data: { address: publicAddress },

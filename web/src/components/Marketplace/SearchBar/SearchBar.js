@@ -1,4 +1,3 @@
-import styles from './SearchBar.module.scss'
 /**
  * This is a search bar
  * @param {*} value Pass a stateful variable as a value to control the state of the input
@@ -7,15 +6,15 @@ import styles from './SearchBar.module.scss'
  */
 const SearchBar = ({ value, changeHandler, placeholder }) => {
   return (
-    <div className={styles.searchBarContainer}>
+    <div className="searchBarContainer">
       <input
         type="text"
         placeholder={placeholder ? placeholder : 'Search Marketplace'}
-        className={styles.searchBar}
+        className="searchBar"
         value={value}
         onChange={(e) => changeHandler(e.target.value)}
       />
-      <div className={styles.iconWrap}></div>
+      <div className="iconWrap"></div>
     </div>
   )
 }

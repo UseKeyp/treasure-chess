@@ -1,5 +1,3 @@
-import styles from './FilterButton.module.scss'
-
 /**
  * This button is used to both Trigger and Filter searches
  * @param {String} label The label the button displays
@@ -11,14 +9,11 @@ const FilterButton = ({ label, clickFunction, isActive }) => {
   return (
     <>
       {isActive ? (
-        <button
-          className={`${styles.filterButton} ${styles.active}`}
-          onClick={() => clickFunction()}
-        >
+        <button className="filterButton active" onClick={() => clickFunction()}>
           {label}
         </button>
       ) : (
-        <button className={styles.filterButton} onClick={() => clickFunction()}>
+        <button className="filterButton" onClick={() => clickFunction()}>
           {label}
         </button>
       )}

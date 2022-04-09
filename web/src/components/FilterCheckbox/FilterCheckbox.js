@@ -1,5 +1,3 @@
-import styles from './FilterCheckbox.module.scss'
-
 const FilterCheckbox = (props) => {
   const setCurrentSelection = props.queryFilterFunction
   const currentSelection = props.queryFilter
@@ -15,9 +13,9 @@ const FilterCheckbox = (props) => {
   }
 
   return (
-    <div className={styles.checkBoxContainer}>
+    <div className="checkBoxContainer">
       <h4>{props.category}</h4>
-      <div className={styles.checkBoxWrapper}>
+      <div className="checkBoxWrapper">
         {options?.map((option, index) => {
           if (option === 'black') {
             return (
@@ -75,8 +73,8 @@ const FilterListItem = (props) => {
       <button
         className={
           props.isSelected
-            ? `${styles.filterListItem} ${styles.filterListItemSelected}`
-            : `${styles.filterListItem}`
+            ? `filterListItem filterListItemSelected`
+            : `filterListItem`
         }
         onClick={() => props.clickFunction(props.label)}
         onKeyDown={(e) => {
@@ -101,8 +99,8 @@ const BlackKingFilterListItem = (props) => {
       <button
         className={
           props.isSelected
-            ? `${styles.filterListItem} ${styles.filterListItemSelected}`
-            : `${styles.filterListItem}`
+            ? `filterListItem filterListItemSelected`
+            : `filterListItem`
         }
         onClick={() => props.clickFunction(props.label)}
         onKeyDown={(e) => {
@@ -127,8 +125,8 @@ const WhiteKingFilterListItem = (props) => {
       <button
         className={
           props.isSelected
-            ? `${styles.filterListItem} ${styles.filterListItemSelected}`
-            : `${styles.filterListItem}`
+            ? `filterListItem filterListItemSelected`
+            : `filterListItem`
         }
         onClick={() => props.clickFunction(props.label)}
         onKeyDown={(e) => {
@@ -153,8 +151,8 @@ const TwoKingFilterListItem = (props) => {
       <button
         className={
           props.isSelected
-            ? `${styles.filterListItem} ${styles.filterListItemSelected}`
-            : `${styles.filterListItem}`
+            ? `filterListItem filterListItemSelected`
+            : `filterListItem`
         }
         onClick={() => props.clickFunction(props.label)}
         onKeyDown={(e) => {

@@ -23,9 +23,11 @@ const FeaturedPlayers = () => {
           <div className="flex items-center">
             <img className="h-3 mr-1" src={flagImageSrc} alt="" />
             <p className="mr-1 text-[10px]">{player.rating}</p>
-            <p className="bg-red py-0.5 px-[0.15rem] leading-none rounded-sm font-bold text-[7px] font-sans">
-              {player.masterTitle}
-            </p>
+            {player.masterTitle === '' ? null : (
+              <p className="bg-red py-0.5 px-[0.15rem] leading-none rounded-sm font-bold text-[7px] font-sans">
+                {player.masterTitle}
+              </p>
+            )}
           </div>
         </div>
       </Link>

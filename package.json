@@ -11,7 +11,8 @@
     "build-storybook": "yarn rw storybook --build && cp web/public/mockServiceWorker.js web/public/storybook",
     "chromatic": "chromatic --project-token=cafed242b299 --storybook-build-dir web/public/storybook",
     "seed": "yarn rw exec seed",
-    "build-packages": "lerna exec --no-private -- yarn build"
+    "build-packages": "lerna exec --no-private -- yarn build",
+    "vercel-build": "yum install libuuid-devel libmount-devel zlib && cp /lib64/{libuuid,libmount,libblkid,libz}.so.1 node_modules/canvas/build/Release/ && rm -rf api/src/functions/screenshot && yarn build-packages && yarn rw deploy vercel"
   },
   "prisma": {
     "seed": "yarn rw exec seed"
@@ -19,9 +20,10 @@
   "devDependencies": {
     "@ethersproject/wallet": "^5.5.0",
     "@netlify/zip-it-and-ship-it": "^4.23.0",
-    "@redwoodjs/core": "^0.50.0",
+    "@redwoodjs/core": "^1.0.0",
     "babel-loader": "^8.2.3",
     "chromatic": "^5.9.2",
+    "eslint-plugin-prettier": "^4.0.0",
     "lerna": "^4.0.0",
     "random-username-generator": "^1.0.4",
     "sharp": "^0.29.3"

@@ -2,6 +2,7 @@ import { navigate } from '@redwoodjs/router'
 import { getRedirectTo, APPROVED_LOGIN_PROVIDERS } from 'src/utils/auth/helpers'
 import { useAuth } from '@redwoodjs/auth'
 import { useOAuth } from 'src/providers/oAuth'
+import { isBrowser } from '@redwoodjs/prerender/browserUtils'
 
 const RedirectionContext = React.createContext({})
 
@@ -11,14 +12,24 @@ const RedirectionProvider = ({ children }) => {
   const { logIn, reauthenticate } = useAuth()
   const { submitCodeGrant } = useOAuth()
 
-  const url = new URL(window.location.href)
-  const code = url.searchParams.get('code')
-  const grantState = url.searchParams.get('state')
-  const error = url.searchParams.get('error')
+  let url
+  let code
+  let grantState
   /* eslint-disable camelcase */
-  const error_description = url.searchParams.get('error_description')
-  const orderId = url.searchParams.get('orderId')
-  const type = url.pathname.split('/redirect/')[1]
+  let error_description
+  let error
+  let orderId
+  let type
+
+  if (isBrowser) {
+    url = new URL(window.location.href) // Support prerender
+    code = url.searchParams.get('code')
+    grantState = url.searchParams.get('state')
+    error = url.searchParams.get('error')
+    error_description = url.searchParams.get('error_description')
+    orderId = url.searchParams.get('orderId')
+    type = url.pathname.split('/redirect/')[1]
+  }
 
   const submitLoginCodeGrant = async () => {
     const response = await logIn({
@@ -36,7 +47,7 @@ const RedirectionProvider = ({ children }) => {
       await reauthenticate()
       setState({
         isLoading: false,
-        successMessage: "Great - You're logged in!",
+        successMessage: "Great - You're signed in!",
       })
       setTimeout(() => {
         navigate(getRedirectTo() || '/profile')
@@ -66,12 +77,14 @@ const RedirectionProvider = ({ children }) => {
   }
 
   React.useEffect(() => {
+    if (!isBrowser) return
     if (!url.pathname.includes('/redirect')) return
     if (error)
       return setState({
         isLoading: false,
         errorMessage: error_description || 'Something went wrong',
       })
+    if (type === 'wyre') return completeWyreOrder()
     if (!code || !grantState)
       return setState({
         isLoading: false,
@@ -79,7 +92,6 @@ const RedirectionProvider = ({ children }) => {
       })
     if (APPROVED_LOGIN_PROVIDERS.includes(type.toUpperCase()))
       return submitLoginCodeGrant()
-    if (type === 'wyre') return completeWyreOrder()
     completeOAuth()
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [code, grantState])

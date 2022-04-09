@@ -11,6 +11,7 @@ export const handler = async (event, _context) => {
     // let html
     // let url
     const html = event.body
+    logger.debug(html.substring(0, 100))
     if (!html) throw 'No html provided'
     // if (url && !url.match(/https:\/\/chess.mypinata.cloud\/ipfs/))
     //   throw 'Only chess.mypinata.cloud is allowed'
@@ -52,8 +53,6 @@ export const handler = async (event, _context) => {
       },
     }
   } finally {
-    if (browser) {
-      await browser.close()
-    }
+    if (browser) await browser.close()
   }
 }

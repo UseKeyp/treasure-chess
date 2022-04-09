@@ -116,7 +116,6 @@ export const pinTreasure = async ({ treasure, tcn }) => {
       treasure: { ...treasure, achievements: achievementNames },
       gifBase64,
       staticBase64: boardBuffer,
-      isPrerender: true,
     })
     const screenshotBuffer = await fetchScreenshotBase64Buffer(
       htmlStringScreenshot

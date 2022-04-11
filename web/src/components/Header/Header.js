@@ -218,6 +218,16 @@ const Header = () => {
             </div>
             <WalletBalance />
             <div className="ml-4">
+              <Button
+                onClick={logOut}
+                {...getTriggerProps({
+                  ref: triggerRef,
+                  className: 'trigger',
+                })}
+              >
+                <Icon name="logout" color="grey" />
+              </Button>
+              {/*
               <TooltipTrigger
                 placement="bottom"
                 trigger="hover"
@@ -228,16 +238,13 @@ const Header = () => {
                     {...getTriggerProps({
                       ref: triggerRef,
                       className: 'trigger',
-                      /* your props here */
                     })}
                   >
-                    {/* Click Me! */}
                     <Button
                       onClick={logOut}
                       {...getTriggerProps({
                         ref: triggerRef,
                         className: 'trigger',
-                        /* your props here */
                       })}
                     >
                       <Icon name="logout" color="grey" />
@@ -245,6 +252,7 @@ const Header = () => {
                   </span>
                 )}
               </TooltipTrigger>
+              */}
             </div>
           </div>
         ) : (

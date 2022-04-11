@@ -28,13 +28,14 @@ const fetchScreenshotBase64Buffer = async (html) => {
       body: html,
       'Content-Type': 'text/plain',
     })
-    // logger.debug({ custom: result }, 'fetchScreenshotBase64Buffer result')
+    logger.debug({ custom: result }, 'fetchScreenshotBase64Buffer result ')
     // if (result.status !== 200) throw "Couldn't get card snapshot"
     const buffer = await result.buffer()
     logger.debug(`typeof buffer ${typeof buffer}`)
     logger.debug(`buffer.length ${buffer.length}`)
     return buffer
   } catch (e) {
+    throw `fetchScreenshotBase64Buffer() ${e}`
     logger.error(e)
   }
 }

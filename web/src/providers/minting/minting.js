@@ -94,7 +94,7 @@ const MintingProvider = ({ children }) => {
         const lastPurchase = last.find((item) => item.id === purchase.id)
         if (
           lastPurchase.status !== purchase.status ||
-          (!lastPurchase.tx && purchase?.tx?.id) || // Handle when previous has no purchase
+          purchase?.tx?.id || // Handle when previous has no purchase
           lastPurchase?.tx?.id !== purchase?.tx?.id
         ) {
           toastPurchase(purchase)
@@ -135,8 +135,10 @@ const MintingProvider = ({ children }) => {
   const [mintWithCreditMutation] = useMutation(MINT_WITH_CREDIT_MUTATION)
 
   const onPageLoad = async () => {
+    console.log('Mint Provider onPageLoad')
     const { data: { pendingMintPurchases } = {} } =
       await pendingMintPurchasesLazyQuery()
+    console.log(pendingMintPurchases)
     if (!pendingMintPurchases.length) return
     pendingMintPurchases.map((purchase) => toastPurchase(purchase))
     setState({ ...state, pendingMintPurchases, shouldPoll: true })
@@ -223,6 +225,7 @@ const MintingProvider = ({ children }) => {
   return (
     <MintingContext.Provider
       value={{
+        ...state,
         mint,
         cancelMint,
         clearMintError,

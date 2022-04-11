@@ -19,7 +19,13 @@ export const handler = createGraphQLHandler({
   getCurrentUser,
   loggerConfig: {
     logger,
-    options: { tracing: false, operationName: false },
+    options: {
+      tracing: false,
+      operationName: true,
+      query: false,
+      data: false,
+      excludeOperations: ['gamesWithFilter'],
+    },
   },
   directives,
   sdls,

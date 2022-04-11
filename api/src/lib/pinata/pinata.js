@@ -19,17 +19,26 @@ const API_DOMAIN = isProduction
   ? 'http://treasure-chess-api:8080'
   : `${process.env.APP_DOMAIN}/api`
 
-const fetchScreenshotBase64Buffer = async ({ url, html }) => {
-  if (['dev', 'sandbox'].includes(process.env.ENVIRONMENT))
-    return Buffer.from(placeholderImage, 'base64')
-  let target = `${API_DOMAIN}/screenshot?url=${url}`
-  if (html) target = `${API_DOMAIN}/screenshot?html=${html}`
-  const result = await fetch(target)
-  logger.debug({ custom: result }, 'fetchScreenshotBase64Buffer result')
-  if (result.status !== 200) throw "Couldn't get card snapshot"
-  const buffer = await result.buffer()
-  return buffer
+const fetchScreenshotBase64Buffer = async (html) => {
+  try {
+    if (['dev', 'sandbox'].includes(process.env.ENVIRONMENT))
+      return Buffer.from(placeholderImage, 'base64')
+    const result = await fetch(`${API_DOMAIN}/screenshot`, {
+      method: 'POST',
+      body: html,
+      'Content-Type': 'text/plain',
+    })
+    // logger.debug({ custom: result }, 'fetchScreenshotBase64Buffer result')
+    // if (result.status !== 200) throw "Couldn't get card snapshot"
+    const buffer = await result.buffer()
+    logger.debug(`typeof buffer ${typeof buffer}`)
+    logger.debug(`buffer.length ${buffer.length}`)
+    return buffer
+  } catch (e) {
+    logger.error(e)
+  }
 }
+
 const fetchBoardBase64Buffer = async ({ boardLayout, playerColor }) => {
   const result = await fetch(`${API_DOMAIN}/image`, {
     method: 'POST',
@@ -107,11 +116,10 @@ export const pinTreasure = async ({ treasure, tcn }) => {
       treasure: { ...treasure, achievements: achievementNames },
       gifBase64,
       staticBase64: boardBuffer,
-      isPrerender: true,
     })
-    const screenshotBuffer = await fetchScreenshotBase64Buffer({
-      html: htmlStringScreenshot,
-    })
+    const screenshotBuffer = await fetchScreenshotBase64Buffer(
+      htmlStringScreenshot
+    )
     const image = await pinFile(screenshotBuffer, `${treasure.id}.png`)
 
     const htmlStringPrerender = await getCardHtml({
@@ -120,9 +128,9 @@ export const pinTreasure = async ({ treasure, tcn }) => {
       staticBase64: boardBuffer,
       isPrerender: true,
     })
-    const prerenderImageBuffer = await fetchScreenshotBase64Buffer({
-      html: htmlStringPrerender,
-    })
+    const prerenderImageBuffer = await fetchScreenshotBase64Buffer(
+      htmlStringPrerender
+    )
     const openGraphImageSrc = await pinFile(
       prerenderImageBuffer,
       `${treasure.id}-prerender.png`
@@ -132,7 +140,7 @@ export const pinTreasure = async ({ treasure, tcn }) => {
       treasure: { ...treasure, achievements: achievementNames },
       gifBase64,
       staticBase64: boardBuffer,
-      openGraphImageSrc,
+      openGraphImageSrc: ipfsUrlToPinata(openGraphImageSrc),
     })
 
     /* eslint-disable camelcase */
@@ -147,13 +155,17 @@ export const pinTreasure = async ({ treasure, tcn }) => {
       image,
     }
     const stringifiedUriData = JSON.stringify(uriData)
+    logger.debug({ custom: uriData }, 'uriData')
     const tokenUri = await pinJson(stringifiedUriData)
 
     logger.info({
       custom: {
-        animation_url: ipfsUrlToPinata(animation_url),
-        image: ipfsUrlToPinata(image.split),
-        tokenUri: ipfsUrlToPinata(tokenUri),
+        animation_url,
+        image,
+        tokenUri,
+        // animation_url: ipfsUrlToPinata(animation_url),
+        // image: ipfsUrlToPinata(image.split),
+        // tokenUri: ipfsUrlToPinata(tokenUri),
       },
     })
 

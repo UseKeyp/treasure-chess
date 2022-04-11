@@ -54,13 +54,13 @@ export const verifyChessJwt = async (jwt) => {
 
 export const getNewIdToken = async (userId) => {
   try {
-    const { refreshToken } = await db.user.findUnique({
+    const { refreshToken } = await db.member.findUnique({
       where: { id: userId },
     })
     const { refreshToken: newRefreshToken, idToken } = await refreshChessTokens(
       refreshToken
     )
-    await db.user.update({
+    await db.member.update({
       where: { id: userId },
       data: {
         refreshToken: newRefreshToken,

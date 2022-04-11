@@ -1,4 +1,6 @@
 import FaqSection from 'src/components/FaqSection/FaqSection'
+import { MetaTags } from '@redwoodjs/web'
+
 import about from './about'
 import faq from './faq'
 
@@ -36,6 +38,11 @@ const different = [
 const FaqPage = () => {
   return (
     <div style={{ maxWidth: '85%', margin: 'auto' }}>
+      <MetaTags title="About" />
+      <MetaTags
+        title="About"
+        description="The what, why, and how of Treasure Chess."
+      />
       <FaqSection title="About" questionList={[...different, ...about]} />
       <FaqSection title="FAQ's" questionList={faq} />
     </div>

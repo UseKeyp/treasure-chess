@@ -72,7 +72,7 @@ const MobileNav = () => {
           <ul className="h-full relative grid place-items-center">
             <li className={navItemClasses}>
               <Button to={routes.home()}>
-                <Icon name="treasure_chess_full_white" />
+                <Icon name="treasure_chess_full" height="35px" color="#fff" />
                 <span className="sr-only">home</span>
               </Button>
             </li>
@@ -101,8 +101,8 @@ const MobileNav = () => {
             </li>
             {!isLoggedIn ? (
               <li className={navItemClasses}>
-                <Button className={navAnchorClasses} to={routes.login()}>
-                  Log In
+                <Button className={navAnchorClasses} to={routes.signin()}>
+                  Sign In
                 </Button>
               </li>
             ) : (
@@ -178,7 +178,10 @@ const Header = () => {
           <div className="mr-4">
             <Button to={routes.faq()} size="large" isSelected={isOnAboutPage}>
               <div className="flex items-center">
-                <img src="/icons/HelpIcon.svg" alt="" className="mr-2" />
+                <div className="mr-2">
+                  {' '}
+                  <Icon name="help" size="small" />{' '}
+                </div>
                 About
               </div>
             </Button>
@@ -245,7 +248,7 @@ const Header = () => {
             </div>
           </div>
         ) : (
-          <Button to={routes.login()}>Log In</Button>
+          <Button to={routes.signin()}>Sign In</Button>
         )}
       </div>
     </div>

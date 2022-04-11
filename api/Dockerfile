@@ -4,9 +4,9 @@ FROM node:14 as base
 
 WORKDIR /app
 
-ARG NODE_ENV
+ARG ENVIRONMENT
 
-ENV NODE_ENV=$NODE_ENV
+ENV ENVIRONMENT=$ENVIRONMENT
 
 COPY package.json package.json
 COPY yarn.lock yarn.lock
@@ -55,6 +55,9 @@ COPY --from=build /app/yarn.lock /app/api/yarn.lock
 COPY --from=build /app/redwood.toml /app/redwood.toml
 
 RUN yarn --cwd "api" --frozen-lockfile install
+RUN ["apt-get", "update"]
+RUN ["apt-get", "-y", "install", "nano"]
+RUN ["apt", "install", "-y", "libnss3"]
 
 # Expose RedwoodJS api port
 EXPOSE 8911

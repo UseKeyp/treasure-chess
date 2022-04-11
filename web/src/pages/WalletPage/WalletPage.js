@@ -6,7 +6,7 @@ import WalletFormTransfer721 from 'src/components/Wallet/WalletFormTransfer721/W
 const WalletPage = () => {
   return (
     <>
-      <MetaTags title="Wallet" description="Wallet page" />
+      <MetaTags title="Wallet" description="Interact with your wallet" />
       <h1>WalletPage</h1>
       <div className="transfer-container">
         <Section>

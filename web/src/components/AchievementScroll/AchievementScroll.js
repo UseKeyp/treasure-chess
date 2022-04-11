@@ -1,5 +1,3 @@
-import styles from './AchievementScroll.module.scss'
-
 const AchievementScroll = (props) => {
   const [gradientTop, setGradientTop] = React.useState(false)
   const [gradientBottom, setGradientBottom] = React.useState(true)
@@ -28,12 +26,12 @@ const AchievementScroll = (props) => {
   const setCurrentAchievements = props.queryFilterFunction
 
   return (
-    <div className={styles.achievementScrollWrapper}>
+    <div className="achievementScrollWrapper">
       <div
         ref={scroll}
         id="achievements"
         onScroll={filterBarPosition}
-        className={styles.achievementScrollArea}
+        className="achievementScrollArea"
         data-extend-scroll-area={props.extendScrollArea || false}
         data-show-scrollbar={props.showScrollbar || false}
       >
@@ -42,8 +40,8 @@ const AchievementScroll = (props) => {
             <div
               className={
                 currentAchievements?.includes(cheeve.name)
-                  ? `${styles.achievementScrollItem} ${styles.activeScrollItem}`
-                  : styles.achievementScrollItem
+                  ? 'achievementScrollItem activeScrollItem'
+                  : 'achievementScrollItem'
               }
               key={`achievement-${index}`}
               onClick={() => setCurrentAchievements(cheeve.name)}
@@ -61,9 +59,9 @@ const AchievementScroll = (props) => {
           )
         })}
       </div>
-      <div className={gradientTop ? styles.topGradient : ''} />
+      <div className={gradientTop ? 'topGradient' : ''} />
       <div
-        className={gradientBottom ? styles.bottomGradient : ''}
+        className={gradientBottom ? 'bottomGradient' : ''}
         data-extend-scroll-area={props.extendScrollArea || false}
       />
     </div>

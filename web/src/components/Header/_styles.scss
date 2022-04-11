@@ -26,10 +26,12 @@
     }
     &__address {
       font-weight: light;
+      text-align: center;
       color: theme('colors.grey');
     }
     &__balance {
       font-weight: bold;
+      padding: 4px 0px;
       color: theme('colors.grey');
     }
     &__fund-wallet {

@@ -1,12 +1,12 @@
 import React from 'react'
 
 import { P } from 'src/components/Typography'
-import Icon from 'src/components/Icon/Icon'
 import MintForm from 'src/components/Game/Games/components/MintForm'
 import LoadingDots from 'src/components/LoadingDots'
 import { useMinting } from 'src/providers/minting'
-
 import { formatDate } from 'src/utils/helpers'
+import TreasureLink from 'src/components/TreasureLink'
+import Icon from 'src/components/Icon'
 
 import {
   MINT_STATUS_ADDING_FUNDS,
@@ -25,7 +25,7 @@ const ListItem = ({
   onSubmit,
   isExpanded,
 }) => {
-  const { white: player1, black: player2, endTime, id, tokenId, title } = game
+  const { white: player1, black: player2, endTime, id, tokenId } = game
   const date = formatDate(endTime)
   const { clearMintError, mintStatus, mintError, mintLoading } = useMinting()
 
@@ -82,18 +82,22 @@ const ListItem = ({
         />
       )
   }
+
   return (
     <div
       className="games-history-list__item"
       role="button"
-      onClick={handleSelectRow}
+      onClick={(e) => {
+        if (['submit', 'text'].includes(e.target.type)) return
+        handleSelectRow()
+      }}
       tabIndex={0}
       onKeyDown={() => {}}
     >
-      {title && (
-        <P pb={8} fontWeight={700} fontSize={16}>
-          {title}
-        </P>
+      {tokenId && (
+        <div className="mb-2 mt-1">
+          <TreasureLink treasure={game} />
+        </div>
       )}
       <div className="games-history-list__top-half">
         <div className="games-history-list__players w-[60%]">
@@ -125,11 +129,6 @@ const ListItem = ({
           <P pb={3} fontSize={12} color={mainColor} fontWeight={600}>
             {date}
           </P>
-          {tokenId && (
-            <P fontSize={12} color={'#FFBB0D'} fontWeight={400}>
-              Minted
-            </P>
-          )}
         </div>
       </div>
       {bottomHalf()}

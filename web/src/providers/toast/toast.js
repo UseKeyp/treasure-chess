@@ -39,6 +39,7 @@ const ToastProvider = ({ children }) => {
             fontSize: '14px',
           },
           success: { duration: 5000 },
+          error: { duration: 10000 },
         }}
       >
         {(t) => (

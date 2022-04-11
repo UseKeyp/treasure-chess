@@ -5,11 +5,14 @@ import { DbAuthHandler } from '@redwoodjs/api'
 import { InputError } from '@redwoodjs/graphql-server'
 
 import { db } from 'src/lib/db'
-import { validateCodeGrant } from 'src/lib/oAuth'
-import { handleChessLogin } from 'src/lib/oAuth/chess/login'
+import { logger } from 'src/lib/logger'
+import { oAuthUrl, submitCodeGrant } from 'src/lib/oAuth'
+import { providers } from 'src/lib/oAuth/providers'
+import { validateLoginRequest } from 'src/lib/auth/validation'
 import { isProduction, corsOrigin } from 'src/lib/helpers'
 
 export const handler = async (event, context) => {
+  logger.debug('Invoked /auth ')
   const authHandler = new DbAuthHandler(event, context, {
     db: db,
     cors: {
@@ -58,8 +61,6 @@ export const handler = async (event, context) => {
         reusedPassword: 'You must choose a new password',
       },
     },
-    // Causes cookies not to be set properly, since
-    // Subsequent getCurrentUser requests overwrite them?
     cookie: {
       HttpOnly: true,
       Path: '/',
@@ -70,16 +71,17 @@ export const handler = async (event, context) => {
   })
 
   authHandler.login = async () => {
-    const { code, state } = authHandler.params
+    const { code, state, type } = authHandler.params
+    validateLoginRequest({ type })
     if (!code || !state)
       throw new InputError('logIn() Code or state not provided.')
 
-    const { refreshToken, decoded } = await validateCodeGrant({
+    const tokens = await submitCodeGrant({
       state,
       code,
-      type: 'chess',
+      type,
     })
-    const user = await handleChessLogin({ refreshToken, decoded })
+    const user = await providers[type].onConnected(tokens)
     const sessionData = { id: user[authHandler.options.authFields.id] }
 
     // TODO: this needs to go into graphql somewhere so that each request makes
@@ -95,6 +97,19 @@ export const handler = async (event, context) => {
       },
     ]
     return response
+  }
+
+  authHandler.signup = async () => {
+    try {
+      const { type } = authHandler.params
+      logger.debug(`authHandler.signup type: ${type}`)
+      validateLoginRequest({ type })
+      const { url } = await oAuthUrl(type)
+      return [JSON.stringify({ url }), {}, { statusCode: 201 }]
+    } catch (e) {
+      logger.error(e)
+      return [JSON.stringify(e), {}, { statusCode: 500, error: e }]
+    }
   }
 
   return await authHandler.invoke()

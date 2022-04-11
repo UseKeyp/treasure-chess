@@ -1,5 +1,6 @@
 import { useLazyQuery, useQuery, useMutation } from '@apollo/client'
 import { useAuth } from '@redwoodjs/auth'
+import { isBrowser } from '@redwoodjs/prerender/browserUtils'
 import { useToast } from 'src/providers/toast'
 import { useModal } from 'src/hooks/useModal'
 import { ConfirmModal } from './modals'
@@ -37,7 +38,9 @@ const MarketProvider = ({ children }) => {
   const { currentUser, loading: authLoading } = useAuth()
   const { toast } = useToast()
   // TODO: Figure out a better way to do this. useLocation throws an error
-  const tokenId = window.location.toString().split('treasures/')[1]
+  const tokenId = isBrowser
+    ? window.location.toString().split('treasures/')[1]
+    : 1
   const { isVisible: isVisibleModalConfirm, toggleModal: toggleModalConfirm } =
     useModal()
 
@@ -262,6 +265,11 @@ const MarketProvider = ({ children }) => {
     toggleModalConfirm()
   }
   const buy = () => {
+    if (!currentUser)
+      return setState({
+        ...state,
+        actionError: 'You must be logged in to do that.',
+      })
     setState({
       ...state,
       actionData: {

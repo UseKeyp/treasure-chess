@@ -9,6 +9,7 @@ export const QUERY = gql`
       imageSrc
       country
       masterTitle
+      twitchUsername
       treasuresPlayedWhite {
         id
         endTime
@@ -32,6 +33,8 @@ export const QUERY = gql`
 `
 
 export const Loading = () => <div>Loading...</div>
+
+export const Error = () => <div>Member not found</div>
 
 export const Empty = () => <div>Member not found</div>
 

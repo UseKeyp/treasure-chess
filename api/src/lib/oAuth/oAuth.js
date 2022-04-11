@@ -3,93 +3,85 @@ import { v4 as uuidv4 } from 'uuid'
 import pkceChallenge from 'pkce-challenge'
 import Sentry from 'src/lib/sentry'
 
-import { logger } from 'src/lib/logger'
 import { db } from 'src/lib/db'
+import { logger } from 'src/lib/logger'
 
-import {
-  CHESS,
-  CHESS_OAUTH_URL,
-  chessParams,
-  getChessAccessTokenFromCode,
-} from 'src/lib/oAuth/chess'
-
-import {
-  COINBASE,
-  COINBASE_OAUTH_URL,
-  coinbaseParams,
-  getCoinbaseAccessTokenFromCode,
-} from 'src/lib/oAuth/coinbase'
-
-import { PLAID, createPlaidLink } from 'src/lib/oAuth/wyre'
+import { providers, types } from 'src/lib/oAuth/providers'
+import { createPlaidLink, PLAID } from 'src/lib/oAuth/providers/plaid'
 
 export const oAuthUrl = async (type) => {
-  let url
-  let params
-  const pkce = pkceChallenge()
-  if (type === CHESS) {
-    params = chessParams
-    url = new URL('authorize', CHESS_OAUTH_URL)
+  try {
+    if (!Object.values(types).includes(type))
+      throw `OAuth Provider ${type} is not enabled.`
+    if (type === PLAID) return createPlaidLink()
+
+    const { params, urlAuthorize } = providers[type]
+    const url = new URL(urlAuthorize)
+    const pkce = pkceChallenge()
     url.searchParams.set('code_challenge', pkce.code_challenge) // eg. 3uWDl1fX2ioAqf38eSOFlKnxVEl_VyfaYKG2GyLndKs
     url.searchParams.set('code_challenge_method', 'S256')
-  } else if (type === COINBASE) {
-    params = coinbaseParams
-    url = new URL(COINBASE_OAUTH_URL + '/authorize')
-  } else if (type === PLAID) {
-    const plaidLink = await createPlaidLink()
-    return {
-      text: plaidLink,
-      type: 'code',
-    }
-  }
-  Object.keys(params).map((key) => {
-    url.searchParams.set(key, params[key])
-  })
-  const state = uuidv4()
-  // For oAuth codeGrant, we sometimes need the member id
-  let memberId
-  if (context.currentUser?.id) memberId = context.currentUser?.id
+    Object.keys(params).map((key) => {
+      url.searchParams.set(key, params[key])
+    })
+    const state = uuidv4()
+    // For oAuth codeGrant, we sometimes need the user id
+    let userId
+    if (context.currentUser?.id) userId = context.currentUser?.id
 
-  await db.oAuth.create({
-    data: {
-      state,
-      codeVerifier: pkce.code_verifier,
-      codeChallenge: pkce.code_challenge,
-      ...(memberId && { member: { connect: { id: memberId } } }),
-    },
-  })
-  url.searchParams.set('response_type', 'code')
-  url.searchParams.set('state', state)
-  url.searchParams.set('prompt', 'none')
-  return {
-    text: 'success',
-    type: 'redirect',
-    url: url.href,
+    await db.oAuth.create({
+      data: {
+        state,
+        codeVerifier: pkce.code_verifier,
+        codeChallenge: pkce.code_challenge,
+        ...(userId && { member: { connect: { id: userId } } }),
+      },
+    })
+
+    url.searchParams.set('response_type', 'code')
+    url.searchParams.set('state', state)
+    return {
+      text: 'success',
+      type: 'redirect',
+      url: url.href,
+    }
+  } catch (e) {
+    Sentry.captureException(e)
+    throw new AuthenticationError(e)
   }
 }
 
-export const validateCodeGrant = async ({ state, code, type }) => {
+export const processCodeGrant = async ({ state, code, type, accountId }) => {
   try {
-    // Delete the OAuth Item
-    let oAuth
-    try {
-      oAuth = await db.oAuth.delete({ where: { state } })
-      if (!oAuth) throw 'state not valid'
-    } catch (e) {
-      throw 'Oauth state has expired. Please start over.'
-    }
-
-    // Check expiration
-    if (new Date() - new Date(oAuth.createdAt) > 10 * 60 * 1000)
-      throw 'Sorry, authentication must be completed within 10 minutes.'
-
-    if (type === CHESS) {
-      return getChessAccessTokenFromCode(code, oAuth)
-    } else if (type === COINBASE) {
-      return getCoinbaseAccessTokenFromCode(code, oAuth)
-    }
+    logger.debug(`code grant - ${type}`)
+    if (!types.includes(type)) throw `Unknown OAuth Provider - ${type}`
+    const tokens = await submitCodeGrant({ state, code, type, accountId })
+    logger.debug({ custom: tokens }, 'onSubmitCode() response')
+    return providers[type].onConnected(tokens)
   } catch (e) {
     logger.error(e)
     Sentry.captureException(e)
     throw new AuthenticationError(e)
   }
+}
+
+export const submitCodeGrant = async ({ state, code, type, accountId }) => {
+  if (!Object.values(types).includes(type))
+    throw `OAuth Provider "${type}" is not enabled.`
+  const { onSubmitCode } = providers[type]
+  if (type === PLAID) return onSubmitCode(code, { accountId })
+
+  // Delete the OAuth Item
+  let oAuth
+  try {
+    oAuth = await db.oAuth.delete({ where: { state } })
+    if (!oAuth) throw 'state not valid'
+  } catch (e) {
+    throw 'Oauth state has expired. Please start over.'
+  }
+
+  // Check expiration
+  if (new Date() - new Date(oAuth.createdAt) > 10 * 60 * 1000)
+    throw 'Sorry, authentication must be completed within 10 minutes.'
+
+  return onSubmitCode(code, oAuth)
 }

@@ -1,5 +1,5 @@
 import { useRestricted } from 'src/providers/restricted'
-import { Head } from '@redwoodjs/web'
+import { MetaTags } from '@redwoodjs/web'
 import { navigate } from '@redwoodjs/router'
 
 const RestrictedPage = () => {
@@ -8,9 +8,7 @@ const RestrictedPage = () => {
   if (passed) navigate('/')
   return (
     <>
-      <Head>
-        <title>Restricted!</title>
-      </Head>
+      <MetaTags title="Restricted" />
       <main className="not-found">
         <section className="not-found--container">
           <div className="not-found--img">

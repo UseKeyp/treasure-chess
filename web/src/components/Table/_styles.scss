@@ -18,10 +18,9 @@
 
 .table-row {
   display: flex;
-  flex-direction: row;
   margin-bottom: 1rem;
   align-items: center;
-  background: #312E2B;
+  background: #312e2b;
   border-radius: 12px;
 
   font-family: Montserrat;
@@ -29,23 +28,20 @@
   font-weight: 600;
   font-size: 12px;
   line-height: 15px;
-  color: #C4C4C4;
+  color: #c4c4c4;
 }
 
 .table-component {
-  // width: calc(100% - 26px);
   overflow-y: auto;
   overflow-x: hidden;
 }
 
 .row-button {
-  margin-left: auto;
-  margin-right: 0.75rem;
-  text-align: right;
+  text-align: left;
   font-family: Montserrat;
   font-style: normal;
   font-weight: 600;
   font-size: 12px;
   line-height: 15px;
-  color: #47A7FF;
+  color: #47a7ff;
 }

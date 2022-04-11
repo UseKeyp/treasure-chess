@@ -51,6 +51,8 @@ const MintingProvider = ({ children }) => {
   })
 
   const toastPurchase = (purchase) => {
+    // TODO: "Remove toasts"
+    return
     // TODO: Add more data to toasts (links, etc.)
     if (purchase.orderStatus === RESERVATION)
       return toast.loading('Waiting for Wyre', { id: purchase.id })
@@ -107,6 +109,8 @@ const MintingProvider = ({ children }) => {
               mintStatus: MINT_STATUS_SUCCESS,
             })
             toggleModalSuccess()
+            // TODO: Update selected game data
+            // TODO: Update MemberActivity data
           } else if (purchase.status === FAILED) {
             setState({
               ...state,

@@ -218,13 +218,7 @@ const Header = () => {
             </div>
             <WalletBalance />
             <div className="ml-4">
-              <Button
-                onClick={logOut}
-                {...getTriggerProps({
-                  ref: triggerRef,
-                  className: 'trigger',
-                })}
-              >
+              <Button onClick={logOut}>
                 <Icon name="logout" color="grey" />
               </Button>
               {/*

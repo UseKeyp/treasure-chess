@@ -9,8 +9,10 @@ import { trimString } from 'src/utils/helpers'
 
 const TITLE = 'Activity'
 
-const MemberActivity = ({ member, isLoading }) => {
-  const { pendingMintPurchases } = useMinting()
+import { MINT_STATUS_SUCCESS } from 'src/providers/minting/constants'
+
+const MemberActivity = ({ member, isLoading, refetch }) => {
+  const { pendingMintPurchases, mintStatus } = useMinting()
 
   const list = []
   if (!member || isLoading)
@@ -54,6 +56,13 @@ const MemberActivity = ({ member, isLoading }) => {
       ])
     })
   }
+
+  React.useEffect(() => {
+    if (mintStatus === MINT_STATUS_SUCCESS) {
+      console.log('trigger new query')
+      refetch()
+    }
+  }, [mintStatus, refetch])
 
   const parsed = sorted.map((item) => item.slice(0, 3))
 

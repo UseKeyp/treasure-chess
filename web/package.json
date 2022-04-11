@@ -37,7 +37,8 @@
     "react-infinite-scroll-component": "^6.1.0",
     "react-loading-skeleton": "^3.0.1",
     "react-scroll-to-top": "^1.0.8",
-    "react-spring": "^9.2.4"
+    "react-spring": "^9.2.4",
+    "storybook-addon-state": "^1.0.3"
   },
   "devDependencies": {
     "@ethersproject/wallet": "^5.5.0",

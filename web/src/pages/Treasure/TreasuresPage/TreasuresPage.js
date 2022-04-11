@@ -5,9 +5,13 @@ import SortingDropdown from 'src/components/SortingDropdown/SortingDropdown'
 import MobileMenu from 'src/components/MobileMenu/MobileMenu'
 
 import { useFilter } from 'src/providers/filters'
+import { useEffect, useState } from 'react'
 
 const TreasuresPage = () => {
   const { filter, sort, username, defaultParams } = useFilter()
+  const [collapsedTreasures, setCollapseTreasures] = useState(false)
+
+  useEffect(() => {}, [setCollapseTreasures])
 
   return (
     <div>
@@ -20,11 +24,16 @@ const TreasuresPage = () => {
           <div className="flex w-full justify-end relative mb-4">
             <SortingDropdown />
           </div>
-          <TreasuresFetcher
-            username={username}
-            filter={new URLSearchParams(filter).toString()}
-            sort={sort}
-          />
+
+          {!collapsedTreasures ? (
+            <TreasuresFetcher
+              username={username}
+              filter={new URLSearchParams(filter).toString()}
+              sort={sort}
+            />
+          ) : (
+            <></>
+          )}
         </div>
         <FilterBar defaultParams={defaultParams} hideOnMobile />
       </div>
@@ -35,6 +44,7 @@ const TreasuresPage = () => {
           triggerProps={{ variant: 'grey', fluid: true }}
           disableAutoClose
           title="Filter"
+          setCollapseTreasures={setCollapseTreasures}
         >
           <div className="w-full flex justify-center items-center">
             <FilterBar

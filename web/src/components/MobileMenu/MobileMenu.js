@@ -13,33 +13,42 @@ const MobileMenu = ({
   triggerProps,
   disableAutoClose,
   title,
+  setCollapseTreasures,
 }) => {
   const [showMenu, setShowMenu] = useState(isOpen)
   const childrenContainerRef = useRef(null)
+
+  const handleShowMenu = () => {
+    setCollapseTreasures(true)
+    setShowMenu(true)
+  }
+
+  const handleCloseMenu = () => {
+    setCollapseTreasures(false)
+    setShowMenu(false)
+  }
+  const handleCloseMenuCallback = useCallback(handleCloseMenu, [
+    setCollapseTreasures,
+  ])
 
   const handleChildrenClick = useCallback(() => {
     if (showMenu && !disableAutoClose) {
       childrenContainerRef.current.addEventListener('click', (e) => {
         const interactiveElements = ['a', 'button']
         if (interactiveElements.includes(e.target.tagName.toLowerCase())) {
-          setTimeout(() => setShowMenu(false), 250)
+          setTimeout(handleCloseMenuCallback, 250)
         }
       })
     }
-  }, [showMenu, disableAutoClose])
+  }, [handleCloseMenuCallback, disableAutoClose, showMenu])
 
   useEffect(() => {
     handleChildrenClick()
   }, [handleChildrenClick])
 
-  useEffect(() => {
-    document.body.style.overflow = 'hidden'
-    return () => (document.body.style.overflow = 'unset')
-  }, [])
-
   if (!showMenu) {
     return (
-      <Button onClick={() => setShowMenu(true)} {...triggerProps}>
+      <Button onClick={handleShowMenu} {...triggerProps}>
         {triggerContents}
       </Button>
     )
@@ -53,7 +62,7 @@ const MobileMenu = ({
         } items-center p-4 w-full`}
       >
         {title ? <div className="mobile-menu--title">{title}</div> : null}
-        <Button onClick={() => setShowMenu(false)} className="mr-2">
+        <Button onClick={handleCloseMenu} className="mr-2">
           <Icon name="close_x" />
         </Button>
       </div>
@@ -79,6 +88,7 @@ MobileMenu.propTypes = {
   disableAutoClose: PropTypes.bool,
   triggerProps: PropTypes.object,
   title: PropTypes.string,
+  setCollapseTreasures: () => {},
 }
 
 export default MobileMenu

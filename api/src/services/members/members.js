@@ -28,11 +28,10 @@ export const usernames = async ({ query }) => {
 
 export const userLocale = async ({ locale }) => {
   try {
-    await db.member.update({
+    const member = await db.member.update({
       where: { id: context.currentUser.id },
       data: { locale: locale },
     })
-    const member = await fetchMember(context.currentUser.username)
     return member
   } catch (e) {
     throw `userLocale() ${e}`

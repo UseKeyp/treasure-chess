@@ -20,7 +20,7 @@ const card = `<html>
     <meta id="og:title" property="og:title" content="Treasure Chess — Collectible" />
     <meta id="og:description" property="og:description" content="A collectible game of chess" />
     <meta id="og:url" property="og:url" content="https://treasure.chess.com"/>
-    <meta property="og:image" content="https://treasure.chess.com/seo.png" />
+    <meta id="og:image" property="og:image" content="https://treasure.chess.com/seo.png" />
     <meta property="og:type" content="article" />
     <meta name="keywords" content="treasure, chess, NFT, collectibe, chess.com">
     <meta name="author" content="Treasure Chess">

@@ -2,6 +2,7 @@ export const schema = gql`
   type Member {
     id: String!
     username: String!
+    locale: String
     address: String
     treasuresOwned: [Treasure]!
     treasuresMinted: [Treasure]!
@@ -38,6 +39,10 @@ export const schema = gql`
     usernames(query: String!): [String]! @skipAuth
     profile: Profile! @requireAuth
     memberBalance: MemberBalance! @requireAuth
+  }
+
+  type Mutation {
+    userLocale(locale: String!): Member! @requireAuth
   }
 
   enum MasterTitle {

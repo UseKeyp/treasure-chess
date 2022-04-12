@@ -3,9 +3,9 @@ import { useAuth } from '@redwoodjs/auth'
 import { isBrowser } from '@redwoodjs/prerender/browserUtils'
 
 import { useWallet } from 'src/providers/wallet'
-import { useToast } from 'src/providers/toast'
 import { useModal } from 'src/hooks/useModal'
-import { MintingToast } from './toasts'
+// import { useToast } from 'src/providers/toast'
+// import { MintingToast } from './toasts'
 import { CancelModal, SuccessModal } from './modals'
 
 import {
@@ -18,12 +18,12 @@ import {
   MINT_STATUS_ADDING_FUNDS,
   MINT_STATUS_MINTING,
   MINT_STATUS_SUCCESS,
-  WYRE,
   FAILED,
-  SUBMITTED,
   COMPLETE,
-  RESERVATION,
-  PENDING,
+  // SUBMITTED,
+  // WYRE,
+  // RESERVATION,
+  // PENDING,
 } from 'src/providers/minting/constants'
 
 const MintingContext = React.createContext({
@@ -36,7 +36,7 @@ const MintingContext = React.createContext({
 const MintingProvider = ({ children }) => {
   const { mintCreditBalance } = useWallet()
   const { isAuthenticated } = useAuth()
-  const { toast } = useToast()
+  // const { toast } = useToast()
   const { isVisible: isVisibleModalCancel, toggleModal: toggleModalCancel } =
     useModal()
   const { isVisible: isVisibleModalSuccess, toggleModal: toggleModalSuccess } =
@@ -50,25 +50,27 @@ const MintingProvider = ({ children }) => {
     mintLoading: false,
   })
 
-  const toastPurchase = (purchase) => {
+  const toastPurchase = (_purchase) => {
+    // TODO: "Remove toasts"
+    return
     // TODO: Add more data to toasts (links, etc.)
-    if (purchase.orderStatus === RESERVATION)
-      return toast.loading('Waiting for Wyre', { id: purchase.id })
-    if (purchase.transaction?.status === SUBMITTED)
-      return toast.loading(<MintingToast mintPurchase={purchase} />, {
-        id: purchase.id,
-      })
-    if (purchase.status === COMPLETE)
-      return toast.success('Success!', { id: purchase.id })
-    if (purchase.status === FAILED)
-      return toast.error(<MintingToast mintPurchase={purchase} />, {
-        id: purchase.id,
-      })
-    if (purchase.status === PENDING) {
-      if (purchase.paymentType === WYRE)
-        toast.success('Wyre checkout successful!')
-      toast.loading('Preparing to Mint', { id: purchase.id })
-    }
+    // if (purchase.orderStatus === RESERVATION)
+    //   return toast.loading('Waiting for Wyre', { id: purchase.id })
+    // if (purchase.transaction?.status === SUBMITTED)
+    //   return toast.loading(<MintingToast mintPurchase={purchase} />, {
+    //     id: purchase.id,
+    //   })
+    // if (purchase.status === COMPLETE)
+    //   return toast.success('Success!', { id: purchase.id })
+    // if (purchase.status === FAILED)
+    //   return toast.error(<MintingToast mintPurchase={purchase} />, {
+    //     id: purchase.id,
+    //   })
+    // if (purchase.status === PENDING) {
+    //   if (purchase.paymentType === WYRE)
+    //     toast.success('Wyre checkout successful!')
+    //   toast.loading('Preparing to Mint', { id: purchase.id })
+    // }
   }
   useQuery(PENDING_MINT_PURCHASES_QUERY, {
     pollInterval: 5000,
@@ -94,7 +96,7 @@ const MintingProvider = ({ children }) => {
         const lastPurchase = last.find((item) => item.id === purchase.id)
         if (
           lastPurchase.status !== purchase.status ||
-          (!lastPurchase.tx && purchase?.tx?.id) || // Handle when previous has no purchase
+          purchase?.tx?.id || // Handle when previous has no purchase
           lastPurchase?.tx?.id !== purchase?.tx?.id
         ) {
           toastPurchase(purchase)
@@ -107,6 +109,8 @@ const MintingProvider = ({ children }) => {
               mintStatus: MINT_STATUS_SUCCESS,
             })
             toggleModalSuccess()
+            // TODO: Update selected game data
+            // TODO: Update MemberActivity data
           } else if (purchase.status === FAILED) {
             setState({
               ...state,
@@ -223,6 +227,7 @@ const MintingProvider = ({ children }) => {
   return (
     <MintingContext.Provider
       value={{
+        ...state,
         mint,
         cancelMint,
         clearMintError,

@@ -20,7 +20,7 @@ const card = `<html>
     <meta id="og:title" property="og:title" content="Treasure Chess — Collectible" />
     <meta id="og:description" property="og:description" content="A collectible game of chess" />
     <meta id="og:url" property="og:url" content="https://treasure.chess.com"/>
-    <meta property="og:image" content="https://treasure.chess.com/seo.png" />
+    <meta id="og:image" property="og:image" content="https://treasure.chess.com/seo.png" />
     <meta property="og:type" content="article" />
     <meta name="keywords" content="treasure, chess, NFT, collectibe, chess.com">
     <meta name="author" content="Treasure Chess">
@@ -38,7 +38,7 @@ const card = `<html>
     </style>
 	</head>
 	<body style="font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; background-color:#47433F; display: flex; align-items: center;" >
-    <div id="screenshot-container" style="padding: 8px;display: flex;">
+    <div id="screenshot-container" style="padding: 0px;display: flex;">
       <div id="game-prerender" style="display: none; justify-items:center; width: 274px; height: 274px; margin: 0 46px 0 0;">
           <img id="game-image-prerender" src="" style="width: 100%;  border-radius: 4px;" alt="Video of the game"/>
       </div>

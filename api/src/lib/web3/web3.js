@@ -64,6 +64,7 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
       // Create new members if needed, treasureId, etc.
       includeTreasureData: true,
     })
+    if (!game) throw `No game found ${gameId} ${gameEndTime}`
 
     const treasureData = generateTreasureData({
       game,
@@ -175,7 +176,7 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
     })
     /* eslint-disable-next-line no-console */
   } catch (e) {
-    throw `mintTreasure() ${e}`
+    throw `mintTreasureAndUpdatePurchase() ${e}`
   }
 }
 

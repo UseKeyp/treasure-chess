@@ -26,6 +26,18 @@ export const usernames = async ({ query }) => {
   return members.map((member) => member.username)
 }
 
+export const userLocale = async ({ locale }) => {
+  try {
+    const member = await db.member.update({
+      where: { id: context.currentUser.id },
+      data: { locale: locale },
+    })
+    return member
+  } catch (e) {
+    throw `userLocale() ${e}`
+  }
+}
+
 export const memberBalance = async () => {
   const usdcBalance = await getUsdcBal(context.currentUser.address)
   return {
@@ -57,4 +69,6 @@ export const Member = {
     db.member.findUnique({ where: { id: root.id } }).treasuresPlayedBlack(),
   treasuresWon: (_obj, { root }) =>
     db.member.findUnique({ where: { id: root.id } }).treasuresWon(),
+  locale: (_obj, { root }) =>
+    db.member.findUnique({ where: { id: root.id } }).locale(),
 }

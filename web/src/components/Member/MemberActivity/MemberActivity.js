@@ -13,6 +13,10 @@ import { MINT_STATUS_SUCCESS } from 'src/providers/minting/constants'
 
 const MemberActivity = ({ member, isLoading, refetch }) => {
   const { pendingMintPurchases, mintStatus } = useMinting()
+  React.useEffect(() => {
+    if (mintStatus === MINT_STATUS_SUCCESS) return refetch()
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
+  }, [mintStatus, refetch])
 
   const list = []
   if (!member || isLoading)
@@ -59,11 +63,6 @@ const MemberActivity = ({ member, isLoading, refetch }) => {
       ])
     })
   }
-
-  React.useEffect(() => {
-    if (mintStatus === MINT_STATUS_SUCCESS) return refetch()
-    /* eslint-disable-next-line react-hooks/exhaustive-deps */
-  }, [mintStatus, refetch])
 
   const parsed = sorted.map((item) => item.slice(0, 3))
 

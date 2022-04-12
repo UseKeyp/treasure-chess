@@ -58,10 +58,7 @@ const MemberActivity = ({ member, isLoading, refetch }) => {
   }
 
   React.useEffect(() => {
-    if (mintStatus === MINT_STATUS_SUCCESS) {
-      console.log('trigger new query')
-      refetch()
-    }
+    if (mintStatus === MINT_STATUS_SUCCESS) refetch()
   }, [mintStatus, refetch])
 
   const parsed = sorted.map((item) => item.slice(0, 3))

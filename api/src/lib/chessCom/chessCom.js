@@ -1,4 +1,5 @@
 import fetch from 'cross-fetch'
+import { logger } from 'src/lib/logger'
 
 export const fetchChessMember = (username) => {
   try {
@@ -25,7 +26,7 @@ export const fetchChessGames = async ({ username, year, month }) => {
       },
     }
   ).then((res) => {
-    // logger.debug({ custom: res })
+    logger.debug({ custom: res }, 'fetchChessGames')
     return res.json()
   })
   // logger.debug({ custom: response })

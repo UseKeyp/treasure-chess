@@ -1,61 +1,56 @@
-.treasureContainer {
-  height: 500px;
-  width: 736px;
+.homePageWrapper {
   display: flex;
-  margin: 50px auto;
-
+  justify-content: center;
+  margin-top: 50px;
   @media screen and (max-width: 768px) {
-    flex-direction: column;
-    // width: 90%;
-    height: 600px;
+    margin-top: 30px;
   }
 }
-.treasureText {
+.homePageContent {
+  display: flex;
+  justify-content: center;
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+.leftContent {
   height: 315px;
   width: 480px;
+  display: flex;
+  flex-direction: column;
   background-color: theme('colors.chessBlack.200');
+  padding: 30px 32px;
   border-radius: 12px 0px 0px 12px;
   align-self: center;
+  justify-content: center;
+  align-items: center;
   @media screen and (max-width: 768px) {
-    width: 90%;
+    width: 100%;
     border-radius: theme('spacing.4');
-    height: 450px;
+    height: 400px;
   }
   @media screen and (max-width: 480px) {
-    padding: 0 5px;
   }
   h1 {
     color: theme('colors.green');
+    font-size: 40px;
+    line-height: 44px;
     @media screen and (max-width: 768px) {
       text-align: center;
-    }
-    @media screen and (max-width: 480px) {
-      font-size: 24px;
+      font-size: 32px;
+      line-height: 36px;
     }
   }
   h3 {
+    margin-top: 10px;
+    font-weight: 500;
     @media screen and (max-width: 768px) {
       text-align: center;
     }
   }
   p {
+    margin-top: 37px;
     color: theme('colors.grey');
-  }
-  .treasureButton {
-    width: 154px;
-    height: 40px;
-    padding-top: 8px;
-    background-color: theme('colors.greenLight');
-    font-style: normal;
-    font-weight: bold;
-    font-size: 20px;
     text-align: center;
-    margin: 0 auto;
-    @media screen and (max-width: 480px) {
-      font-size: 18px;
-      height: 30px;
-      padding-top: 4px;
-      margin-bottom: 5px;
-    }
   }
 }

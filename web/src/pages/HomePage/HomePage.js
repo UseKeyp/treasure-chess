@@ -10,7 +10,9 @@ const HomePage = () => {
       <MetaTags title="Play, Create, Collect" />
       {/* TODO: remaining home page content */}
       <HomePageHero />
-      <LandingPageBoxes />
+      <div className="mt-24">
+        <LandingPageBoxes />
+      </div>
       <FeaturedPlayers />
       <FaqSection />
     </>

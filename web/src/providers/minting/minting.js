@@ -3,9 +3,9 @@ import { useAuth } from '@redwoodjs/auth'
 import { isBrowser } from '@redwoodjs/prerender/browserUtils'
 
 import { useWallet } from 'src/providers/wallet'
-import { useToast } from 'src/providers/toast'
 import { useModal } from 'src/hooks/useModal'
-import { MintingToast } from './toasts'
+// import { useToast } from 'src/providers/toast'
+// import { MintingToast } from './toasts'
 import { CancelModal, SuccessModal } from './modals'
 
 import {
@@ -18,12 +18,12 @@ import {
   MINT_STATUS_ADDING_FUNDS,
   MINT_STATUS_MINTING,
   MINT_STATUS_SUCCESS,
-  WYRE,
   FAILED,
-  SUBMITTED,
   COMPLETE,
-  RESERVATION,
-  PENDING,
+  // SUBMITTED,
+  // WYRE,
+  // RESERVATION,
+  // PENDING,
 } from 'src/providers/minting/constants'
 
 const MintingContext = React.createContext({
@@ -36,7 +36,7 @@ const MintingContext = React.createContext({
 const MintingProvider = ({ children }) => {
   const { mintCreditBalance } = useWallet()
   const { isAuthenticated } = useAuth()
-  const { toast } = useToast()
+  // const { toast } = useToast()
   const { isVisible: isVisibleModalCancel, toggleModal: toggleModalCancel } =
     useModal()
   const { isVisible: isVisibleModalSuccess, toggleModal: toggleModalSuccess } =
@@ -50,7 +50,7 @@ const MintingProvider = ({ children }) => {
     mintLoading: false,
   })
 
-  const toastPurchase = (purchase) => {
+  const toastPurchase = (_purchase) => {
     // TODO: "Remove toasts"
     return
     // TODO: Add more data to toasts (links, etc.)

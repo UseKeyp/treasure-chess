@@ -61,8 +61,9 @@ const MemberActivity = ({ member, isLoading, refetch }) => {
   }
 
   React.useEffect(() => {
-    if (mintStatus === MINT_STATUS_SUCCESS) refetch()
-  }, [mintStatus])
+    if (mintStatus === MINT_STATUS_SUCCESS) return refetch()
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
+  }, [mintStatus, refetch])
 
   const parsed = sorted.map((item) => item.slice(0, 3))
 

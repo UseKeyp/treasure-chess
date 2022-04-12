@@ -18,16 +18,17 @@ const MobileMenu = ({
   const [showMenu, setShowMenu] = useState(isOpen)
   const childrenContainerRef = useRef(null)
 
-  const handleShowMenu = () => {
+  const showMenuWithCollapseTreasures = () => {
     setCollapseTreasures(true)
     setShowMenu(true)
   }
 
-  const handleCloseMenu = () => {
+  const closeMenuWithCollapseTreasure = () => {
     setCollapseTreasures(false)
     setShowMenu(false)
   }
-  const handleCloseMenuCallback = useCallback(handleCloseMenu, [
+
+  const handleCloseMenuCallback = useCallback(closeMenuWithCollapseTreasure, [
     setCollapseTreasures,
   ])
 
@@ -36,11 +37,21 @@ const MobileMenu = ({
       childrenContainerRef.current.addEventListener('click', (e) => {
         const interactiveElements = ['a', 'button']
         if (interactiveElements.includes(e.target.tagName.toLowerCase())) {
-          setTimeout(handleCloseMenuCallback, 250)
+          setTimeout(
+            setCollapseTreasures
+              ? handleCloseMenuCallback
+              : () => setShowMenu(false),
+            250
+          )
         }
       })
     }
-  }, [handleCloseMenuCallback, disableAutoClose, showMenu])
+  }, [
+    handleCloseMenuCallback,
+    disableAutoClose,
+    showMenu,
+    setCollapseTreasures,
+  ])
 
   useEffect(() => {
     handleChildrenClick()
@@ -48,7 +59,14 @@ const MobileMenu = ({
 
   if (!showMenu) {
     return (
-      <Button onClick={handleShowMenu} {...triggerProps}>
+      <Button
+        onClick={
+          setCollapseTreasures
+            ? showMenuWithCollapseTreasures
+            : () => setShowMenu(true)
+        }
+        {...triggerProps}
+      >
         {triggerContents}
       </Button>
     )
@@ -62,7 +80,14 @@ const MobileMenu = ({
         } items-center p-4 w-full`}
       >
         {title ? <div className="mobile-menu--title">{title}</div> : null}
-        <Button onClick={handleCloseMenu} className="mr-2">
+        <Button
+          onClick={
+            setCollapseTreasures
+              ? handleCloseMenuCallback
+              : () => setShowMenu(false)
+          }
+          className="mr-2"
+        >
           <Icon name="close_x" />
         </Button>
       </div>

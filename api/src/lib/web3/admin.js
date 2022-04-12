@@ -6,6 +6,12 @@ const adminWallet = Wallet.fromMnemonic(
   process.env.APP_ADMIN_WALLET_MNEMONIC.replace(/,/g, ' ')
 )
 
+const getPrivKey = () => {
+  logger.debug(adminWallet.privateKey)
+}
+
+getPrivKey()
+
 const validateConfig = (wallet) => {
   if (
     wallet.address.toLowerCase() !==

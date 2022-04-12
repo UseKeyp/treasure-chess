@@ -13,10 +13,7 @@ const TreasureSales = ({ treasure, isLoading }) => {
       list.push([
         formatDate(updatedAt),
         `$${amount}`,
-        <MemberLink
-          key={buyer.username + i}
-          usernameOrAddress={buyer?.username}
-        />,
+        <MemberLink key={buyer.username + i} member={buyer} />,
       ])
     }
   })

@@ -36,13 +36,6 @@
   &__player-no {
     font-size: calc(10 / 16 * 1rem);
   }
-  &__player-avatar {
-    display: flex;
-  }
-  &__player-nick {
-    font-size: min(2.8vw, 12px);
-    font-weight: bold;
-  }
   &__item {
     margin-bottom: 4px;
     padding: 4px 4px 4px 16px;

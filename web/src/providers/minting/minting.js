@@ -54,23 +54,23 @@ const MintingProvider = ({ children }) => {
     // TODO: "Remove toasts"
     return
     // TODO: Add more data to toasts (links, etc.)
-    if (purchase.orderStatus === RESERVATION)
-      return toast.loading('Waiting for Wyre', { id: purchase.id })
-    if (purchase.transaction?.status === SUBMITTED)
-      return toast.loading(<MintingToast mintPurchase={purchase} />, {
-        id: purchase.id,
-      })
-    if (purchase.status === COMPLETE)
-      return toast.success('Success!', { id: purchase.id })
-    if (purchase.status === FAILED)
-      return toast.error(<MintingToast mintPurchase={purchase} />, {
-        id: purchase.id,
-      })
-    if (purchase.status === PENDING) {
-      if (purchase.paymentType === WYRE)
-        toast.success('Wyre checkout successful!')
-      toast.loading('Preparing to Mint', { id: purchase.id })
-    }
+    // if (purchase.orderStatus === RESERVATION)
+    //   return toast.loading('Waiting for Wyre', { id: purchase.id })
+    // if (purchase.transaction?.status === SUBMITTED)
+    //   return toast.loading(<MintingToast mintPurchase={purchase} />, {
+    //     id: purchase.id,
+    //   })
+    // if (purchase.status === COMPLETE)
+    //   return toast.success('Success!', { id: purchase.id })
+    // if (purchase.status === FAILED)
+    //   return toast.error(<MintingToast mintPurchase={purchase} />, {
+    //     id: purchase.id,
+    //   })
+    // if (purchase.status === PENDING) {
+    //   if (purchase.paymentType === WYRE)
+    //     toast.success('Wyre checkout successful!')
+    //   toast.loading('Preparing to Mint', { id: purchase.id })
+    // }
   }
   useQuery(PENDING_MINT_PURCHASES_QUERY, {
     pollInterval: 5000,
@@ -139,10 +139,8 @@ const MintingProvider = ({ children }) => {
   const [mintWithCreditMutation] = useMutation(MINT_WITH_CREDIT_MUTATION)
 
   const onPageLoad = async () => {
-    console.log('Mint Provider onPageLoad')
     const { data: { pendingMintPurchases } = {} } =
       await pendingMintPurchasesLazyQuery()
-    console.log(pendingMintPurchases)
     if (!pendingMintPurchases.length) return
     pendingMintPurchases.map((purchase) => toastPurchase(purchase))
     setState({ ...state, pendingMintPurchases, shouldPoll: true })

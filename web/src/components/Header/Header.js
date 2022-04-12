@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from 'react'
-import TooltipTrigger from 'react-popper-tooltip'
+// import TooltipTrigger from 'react-popper-tooltip'
 import { routes, useLocation } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
 import { useWallet } from 'src/providers/wallet'
@@ -13,27 +13,27 @@ import MemberBalance from 'src/components/Member/MemberBalance'
 
 import { trimAddress } from 'src/utils/helpers'
 
-const Tooltip = ({
-  arrowRef,
-  tooltipRef,
-  getArrowProps,
-  getTooltipProps,
-  placement,
-}) => (
-  <div
-    {...getTooltipProps({
-      ref: tooltipRef,
-    })}
-  >
-    <div
-      {...getArrowProps({
-        ref: arrowRef,
-        'data-placement': placement,
-      })}
-    />
-    <h4 className={'header__tooltip'}>Log out</h4>
-  </div>
-)
+// const Tooltip = ({
+//   arrowRef,
+//   tooltipRef,
+//   getArrowProps,
+//   getTooltipProps,
+//   placement,
+// }) => (
+//   <div
+//     {...getTooltipProps({
+//       ref: tooltipRef,
+//     })}
+//   >
+//     <div
+//       {...getArrowProps({
+//         ref: arrowRef,
+//         'data-placement': placement,
+//       })}
+//     />
+//     <h4 className={'header__tooltip'}>Log out</h4>
+//   </div>
+// )
 
 const WalletBalance = () => {
   const { deposit } = useWallet()

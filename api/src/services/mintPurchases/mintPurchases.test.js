@@ -1,7 +1,6 @@
 import { mintWithCredit, pendingMintPurchases } from './mintPurchases'
 import { generateRandomTreasures } from '../../../../scripts/seed/helpers'
-import { db } from 'src/lib/db'
-import { FAILED, COMPLETE, PENDING } from 'src/lib/mintPurchases'
+import { PENDING } from 'src/lib/mintPurchases'
 
 jest.setTimeout(60000)
 
@@ -64,29 +63,28 @@ jest.mock('../../lib/treasures', () => ({
 }))
 
 describe('Minting', () => {
-  // scenario('mintWithCredit', async (scenario) => {
-  //   mockCurrentUser({
-  //     ...scenario.member.alice,
-  //     mintCredits: 1,
-  //   })
-  //   const game = generateRandomTreasures(1, 1, [
-  //     scenario.member.alice,
-  //     scenario.member.bob,
-  //   ])[0]
-  //
-  //   const { endTime, title } = game
-  //   const result = await mintWithCredit({
-  //     gameId: 'randomGameId',
-  //     endTime,
-  //     title,
-  //   })
-  //   // console.log(result)
-  //   expect(result.status).toBe(PENDING)
-  // })
+  scenario('mintWithCredit', async (scenario) => {
+    mockCurrentUser({
+      ...scenario.member.alice,
+      mintCredits: 1,
+    })
+    const game = generateRandomTreasures(1, 1, [
+      scenario.member.alice,
+      scenario.member.bob,
+    ])[0]
+
+    const { endTime, title } = game
+    const result = await mintWithCredit({
+      gameId: 'randomGameId',
+      endTime,
+      title,
+    })
+    // console.log(result)
+    expect(result.status).toBe(PENDING)
+  })
   scenario('pendingMintPurchases', async (scenario) => {
     mockCurrentUser(scenario.member.alice)
     const result = await pendingMintPurchases()
-    console.log(result)
     expect(result.status).toBe(scenario.mintPurchase.one.status)
   })
 })

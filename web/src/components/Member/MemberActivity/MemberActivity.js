@@ -46,11 +46,14 @@ const MemberActivity = ({ member, isLoading, refetch }) => {
     pendingMintPurchases.map((purchase) => {
       list.unshift([
         'Now',
-        <div className="flex space-x-2 font-bold align-center items-center w-32">
+        <div
+          key={purchase.id}
+          className="flex space-x-2 font-bold align-center items-center w-32"
+        >
           <LoadingDots />
           <div>Minting</div>
         </div>,
-        <P fontWeight={700} fontSize={16}>
+        <P key={purchase.id} fontWeight={700} fontSize={16}>
           {trimString(purchase.title, 10)}
         </P>,
       ])
@@ -59,7 +62,7 @@ const MemberActivity = ({ member, isLoading, refetch }) => {
 
   React.useEffect(() => {
     if (mintStatus === MINT_STATUS_SUCCESS) refetch()
-  }, [mintStatus, refetch])
+  }, [mintStatus])
 
   const parsed = sorted.map((item) => item.slice(0, 3))
 

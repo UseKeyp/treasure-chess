@@ -94,7 +94,7 @@ export const ConfettiExplosion = () => {
       startVelocity: 40,
     })
     makeShot(0.1, {
-      spread: 120,
+      spread: 90,
       startVelocity: 40,
       decay: 0.92,
       scalar: 1.2,

@@ -14,7 +14,7 @@ import { MINT_STATUS_SUCCESS } from 'src/providers/minting/constants'
 const MemberActivity = ({ member, isLoading, refetch }) => {
   const { pendingMintPurchases, mintStatus } = useMinting()
   React.useEffect(() => {
-    refetch()
+    refetch && refetch()
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [mintStatus, refetch, pendingMintPurchases])
 

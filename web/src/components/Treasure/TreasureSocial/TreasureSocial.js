@@ -81,7 +81,7 @@ const TreasureSocial = ({ treasure }) => {
               data-url={linkToShare}
               data-show-count="false"
             >
-              <Icon name="twitter" size={24} />
+              <Icon name="twitter" size={24} color="#abb6b9" />
             </a>
           </div>
         </div>

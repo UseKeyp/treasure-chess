@@ -9,8 +9,6 @@ import { trimString } from 'src/utils/helpers'
 
 const TITLE = 'Activity'
 
-import { MINT_STATUS_SUCCESS } from 'src/providers/minting/constants'
-
 const MemberActivity = ({ member, isLoading, refetch }) => {
   const { pendingMintPurchases, mintStatus } = useMinting()
   React.useEffect(() => {

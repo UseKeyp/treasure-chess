@@ -1,5 +1,5 @@
 import Avatar from 'src/components/Avatar'
-import { trimAddress, isHexAddress } from 'src/utils/helpers'
+import { trimAddress } from 'src/utils/helpers'
 import { routes, Link } from '@redwoodjs/router'
 
 const MemberLink = ({ member = {} }) => {

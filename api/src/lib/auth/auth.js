@@ -13,6 +13,7 @@ export const getCurrentUser = async (session) => {
       twitchUsername: true,
       address: true,
       imageSrc: true,
+      locale: true,
       mintCredits: true,
       country: true,
       banned: true,

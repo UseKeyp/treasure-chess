@@ -31,7 +31,10 @@ export const handler = async (event) => {
     }
     return {
       statusCode: 200,
-      headers: { 'Content-Type': 'image/jpeg' },
+      headers: {
+        'Content-Type': 'image/jpeg',
+        'Content-Length': buffer.byteLength.toString(),
+      },
       body: buffer,
     }
   } catch (e) {

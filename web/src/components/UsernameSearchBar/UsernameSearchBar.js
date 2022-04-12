@@ -21,7 +21,7 @@ const UsernameSearchBar = ({ setValue: setParentValue }) => {
 
   const [value, setValue] = useState(username)
 
-  const [_isValueFromSelector, setIsValueFromSelector] = useState(false)
+  const [isValueFromSelector, setIsValueFromSelector] = useState(false)
   const [dropdownOptions, setDropdownOptions] = useState([])
 
   const [fetchUsernames, { _loading, _error }] = useLazyQuery(USERNAME_QUERY, {
@@ -59,7 +59,8 @@ const UsernameSearchBar = ({ setValue: setParentValue }) => {
 
   React.useEffect(() => {
     debounceUpdate()
-  }, [value, debounceUpdate])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value, isValueFromSelector])
 
   const onSelectUsername = (option) => {
     setIsValueFromSelector(true)

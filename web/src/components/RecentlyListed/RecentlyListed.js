@@ -6,7 +6,7 @@ const RecentlyListed = () => {
   return (
     <>
       <div className="mx-auto max-w-[1080px] mt-16">
-        <HeadingBar text="Recently Listed">
+        <HeadingBar text="Newest Treasures">
           <AllTreasuresButton />
         </HeadingBar>
         <TreasuresFetcher sort="Newest First" />

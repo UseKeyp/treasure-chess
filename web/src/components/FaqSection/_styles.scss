@@ -5,7 +5,8 @@
     @media (max-width: 768px) {
       column-count: 1;
     }
-}
+  };
+
 
   .color-grey-light {
     color: #8A8886
@@ -24,6 +25,18 @@
     padding: 16px;
     page-break-inside: avoid;
     will-change: transform;
+    &[has-piece='true'] {
+      .piece {
+          background-image: url(assets/artifacts/chess-piece.svg);
+          background-repeat: no-repeat;
+          position: absolute;
+          top: -38px;
+          left: 80%;
+          width: 50px;
+          height: 50px;
+      };
+    };
+
   }
 
   .section-expand-button {

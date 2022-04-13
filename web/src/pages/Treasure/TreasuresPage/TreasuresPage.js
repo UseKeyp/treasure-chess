@@ -24,16 +24,13 @@ const TreasuresPage = () => {
           <div className="flex w-full justify-end relative mb-4">
             <SortingDropdown />
           </div>
-
-          {!collapsedTreasures ? (
-            <TreasuresFetcher
-              username={username}
-              filter={new URLSearchParams(filter).toString()}
-              sort={sort}
-            />
-          ) : (
-            <></>
-          )}
+          <TreasuresFetcher
+            collapsedTreasures={collapsedTreasures}
+            username={username}
+            filter={new URLSearchParams(filter).toString()}
+            sort={sort}
+          />
+          )
         </div>
         <FilterBar defaultParams={defaultParams} hideOnMobile />
       </div>

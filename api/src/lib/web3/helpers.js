@@ -1,7 +1,8 @@
 import { JsonRpcProvider, InfuraProvider } from '@ethersproject/providers'
 const { getIdFromNetworkName } = require('@treasure-chess/web3-helpers')
 import { parseUnits } from '@ethersproject/units'
-
+import fetch from 'cross-fetch'
+import { isProduction } from 'src/lib/helpers'
 const CHAIN_ID = getIdFromNetworkName(process.env.ETHEREUM_NETWORK_NAME)
 export const DEFAULT_GAS_MAX_PRIORITY_FEE_PER_GAS = parseUnits('2', 'gwei')
 export const DEFAULT_GAS_MAX_FEE_PER_GAS = parseUnits('10', 'gwei')
@@ -21,3 +22,29 @@ export const getProviderByChainId = (chainId) => {
 }
 
 export const web3Provider = getProviderByChainId(CHAIN_ID)
+
+export const getGasSettings = async () => {
+  let maxFeePerGas = parseUnits('40', 'gwei') // fallback to 40 gwei
+  let maxPriorityFeePerGas = parseUnits('40', 'gwei') // fallback to 40 gwei
+  try {
+    const { data } = await fetch(
+      isProdroduction
+        ? 'https://gasstation-mainnet.matic.network/v2'
+        : 'https://gasstation-mumbai.matic.today/v2'
+    )
+    maxFeePerGas = parseUnits(Math.ceil(data.fast.maxFee) + '', 'gwei')
+    maxPriorityFeePerGas = parseUnits(
+      Math.ceil(data.fast.maxPriorityFee) + '',
+      'gwei'
+    )
+  } catch {
+    // ignore
+  }
+  return { maxFeePerGas, maxPriorityFeePerGas }
+}
+
+// send tx with custom gas
+const tx = await contract.multicall(calldata, {
+  maxFeePerGas,
+  maxPriorityFeePerGas,
+})

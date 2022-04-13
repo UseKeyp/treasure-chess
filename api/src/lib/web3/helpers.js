@@ -28,7 +28,7 @@ export const getGasSettings = async () => {
   let maxPriorityFeePerGas = parseUnits('40', 'gwei') // fallback to 40 gwei
   try {
     const { data } = await fetch(
-      isProdroduction
+      isProduction
         ? 'https://gasstation-mainnet.matic.network/v2'
         : 'https://gasstation-mumbai.matic.today/v2'
     )
@@ -42,9 +42,3 @@ export const getGasSettings = async () => {
   }
   return { maxFeePerGas, maxPriorityFeePerGas }
 }
-
-// send tx with custom gas
-const tx = await contract.multicall(calldata, {
-  maxFeePerGas,
-  maxPriorityFeePerGas,
-})

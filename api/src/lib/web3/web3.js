@@ -6,7 +6,7 @@ import { fetchGame } from 'src/lib/games'
 import { pinTreasure } from 'src/lib/pinata/pinata'
 import { formatUnits } from '@ethersproject/units'
 
-import { mint } from 'src/lib/web3/treasure/treasure'
+import { mint } from 'src/lib/web3/treasure'
 import { web3Provider } from 'src/lib/web3/helpers'
 import { generateTreasureData } from 'src/lib/treasures'
 import { sendDiscordAlert } from 'src/lib/discord/discord'

@@ -15,17 +15,19 @@ const validateConfig = (wallet) => {
 }
 
 export const payerSendTransaction = async (unsigned) => {
-  validateConfig(adminWallet)
+  validateConfig(payerWallet)
   try {
     logger.debug({ custom: web3Provider.connection }, 'web3Provider')
-    const adminWalletWithProvider = adminWallet.connect(web3Provider)
+    const payerWalletWithProvider = payerWallet.connect(web3Provider)
     const gasSettings = await getGasSettings()
-    return await adminWalletWithProvider.sendTransaction({
+    return await payerWalletWithProvider.sendTransaction({
       ...unsigned,
       ...gasSettings,
     })
   } catch (e) {
     logger.error(e)
-    throw new Error(`adminSendTransaction() ${e}`)
+    throw new Error(`payerSendTransaction() ${e}`)
   }
 }
+
+export const payerAddress = payerWallet.address

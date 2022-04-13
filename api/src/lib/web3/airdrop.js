@@ -1,8 +1,8 @@
-import { Wallet } from '@ethersproject/wallet'
 import { parseEther, formatEther } from '@ethersproject/units'
 import { web3Provider } from 'src/lib/web3/helpers'
 import { sendDiscordAlert } from 'src/lib/discord/discord'
 import { payerSendTransaction } from 'src/lib/web3/wallets'
+import { payerAddress } from 'src/lib/web3/wallets/payer'
 
 import { getExplorerBaseUrlFromName } from '@treasure-chess/web3-helpers'
 import { logger } from 'src/lib/logger'
@@ -32,7 +32,7 @@ const getEtherBalance = async ({ address }) => {
 const checkGasAndAirdrop = async ({ member, amount = DEFAULT_DROP_AMOUNT }) => {
   try {
     const balance = await getEtherBalance({ address: member.address })
-    const payerBalance = await getEtherBalance({ address: payerWallet.address })
+    const payerBalance = await getEtherBalance({ address: payerAddress })
     if (balance.lte(parseEther(MINIMUM_GAS_THRESHOLD))) {
       const tx = await airdropGasTransaction({
         address: member.address,

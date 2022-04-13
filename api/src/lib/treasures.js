@@ -54,17 +54,33 @@ const getWhereQueryFromArgs = ({ username, filter, owner }) => {
     filterObj[pair[0]] = value
   }
 
+  const configUsernameQuery = () => {
+    if (!username) return null
+
+    const isManyUsernames = username.includes(',')
+    let usernames = username.split(',')
+
+    let player1 = isManyUsernames ? usernames[0] : username
+    let player2 = isManyUsernames ? usernames[1] : username
+
+    return {
+      OR: [
+        { white: { username: player1 } },
+        { black: { username: player2 } },
+        { white: { username: player2 } },
+        { black: { username: player1 } },
+      ],
+    }
+  }
+
   // Create each TreasureWhereInput
   const ownerQuery = owner
     ? {
         OR: [{ owner: { username: owner } }, { owner: { address: owner } }],
       }
     : null
-  const usernameQuery = username
-    ? {
-        OR: [{ black: { username } }, { white: { username } }],
-      }
-    : null
+  const usernameQuery = configUsernameQuery()
+
   const outcomeQuery = filterObj.outcome
     ? {
         OR: filterObj.outcome.split(',').map((outcome) => ({ outcome })),

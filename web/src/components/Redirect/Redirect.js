@@ -17,7 +17,7 @@ const Redirect = ({ type }) => {
   const [orderSubmitted, setOrderSubmitted] = React.useState()
   const [successMessage, setSuccessMessage] = React.useState()
   const { code, state, error } = useParams()
-  const { logIn } = useAuth()
+  const { logIn, reauthenticate } = useAuth()
   const [codeGrant] = useMutation(OAUTH_CODE_GRANT_MUTATION)
 
   // ###############  Chess.com  ################
@@ -33,7 +33,10 @@ const Redirect = ({ type }) => {
     })
     if (response.error || !response)
       return setErrorMessage(response.error || 'Something went wrong')
-    if (response.id) navigate(getRedirectTo() || '/')
+    if (response.id) {
+      await reauthenticate()
+      navigate(getRedirectTo() || '/')
+    }
   }
 
   // ###############  General oAuth  ################

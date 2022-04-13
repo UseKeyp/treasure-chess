@@ -88,9 +88,13 @@ const MobileMenu = ({
           }
           className="mr-2"
         >
-          <Icon name="close_x" />
+          <Button onClick={() => setShowMenu(false)}>
+            <Icon name="close_x" color="#fff" />
+            dev
+          </Button>
         </Button>
       </div>
+
       <div className="px-4" ref={childrenContainerRef}>
         {children}
       </div>

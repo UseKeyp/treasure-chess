@@ -46,13 +46,13 @@ export const handler = async (event, _context) => {
     // logger.error(error, { custom: event })
     /* eslint-enable no-console */
     Sentry.captureException(error)
+    if (browser) await browser.close()
     return {
       statusCode: 500,
       body: {
         message: `Internal server error. ${error}`,
       },
     }
-    if (browser) await browser.close()
   } finally {
     if (browser) await browser.close()
   }

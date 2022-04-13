@@ -6,7 +6,7 @@ import { fetchGame } from 'src/lib/games'
 import { pinTreasure } from 'src/lib/pinata/pinata'
 import { formatUnits } from '@ethersproject/units'
 
-import { mint } from 'src/lib/web3/treasure/treasure'
+import { mint } from 'src/lib/web3/treasure'
 import { web3Provider } from 'src/lib/web3/helpers'
 import { generateTreasureData } from 'src/lib/treasures'
 import { sendDiscordAlert } from 'src/lib/discord/discord'
@@ -64,6 +64,7 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
       // Create new members if needed, treasureId, etc.
       includeTreasureData: true,
     })
+    if (!game) throw `No game found ${gameId} ${gameEndTime}`
 
     const treasureData = generateTreasureData({
       game,
@@ -175,7 +176,7 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
     })
     /* eslint-disable-next-line no-console */
   } catch (e) {
-    throw `mintTreasure() ${e}`
+    throw `mintTreasureAndUpdatePurchase() ${e}`
   }
 }
 

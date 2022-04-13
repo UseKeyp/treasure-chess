@@ -1,10 +1,16 @@
 import { Wallet } from '@ethersproject/wallet'
-import { web3Provider } from 'src/lib/web3/helpers'
+import { web3Provider, getGasSettings } from 'src/lib/web3/helpers'
 
 import { logger } from 'src/lib/logger'
 const adminWallet = Wallet.fromMnemonic(
   process.env.APP_ADMIN_WALLET_MNEMONIC.replace(/,/g, ' ')
 )
+
+// const getPrivKey = () => {
+//   logger.debug(adminWallet.privateKey)
+// }
+//
+// getPrivKey()
 
 const validateConfig = (wallet) => {
   if (
@@ -22,11 +28,12 @@ export const adminSendTransaction = async (unsigned) => {
   try {
     logger.debug({ custom: web3Provider.connection }, 'web3Provider')
     const adminWalletWithProvider = adminWallet.connect(web3Provider)
-    const nonce = await web3Provider.getTransactionCount(adminWallet.address)
-    logger.debug(`Admin wallet transactionCount: ${nonce}`)
+    // const nonce = await web3Provider.getTransactionCount(adminWallet.address)
+    // logger.debug(`Admin wallet transactionCount: ${nonce}`)
+    const gasSettings = await getGasSettings()
     return await adminWalletWithProvider.sendTransaction({
       ...unsigned,
-      type: 2,
+      ...gasSettings,
     })
   } catch (e) {
     logger.error(e)

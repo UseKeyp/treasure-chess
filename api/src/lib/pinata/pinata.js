@@ -28,7 +28,7 @@ const fetchScreenshotBase64Buffer = async (html) => {
       body: html,
       'Content-Type': 'text/plain',
     })
-    // logger.debug({ custom: result }, 'fetchScreenshotBase64Buffer result')
+    logger.debug({ custom: result }, 'fetchScreenshotBase64Buffer result ')
     // if (result.status !== 200) throw "Couldn't get card snapshot"
     const buffer = await result.buffer()
     logger.debug(`typeof buffer ${typeof buffer}`)
@@ -36,17 +36,24 @@ const fetchScreenshotBase64Buffer = async (html) => {
     return buffer
   } catch (e) {
     logger.error(e)
+    throw `fetchScreenshotBase64Buffer() ${e}`
   }
 }
 
 const fetchBoardBase64Buffer = async ({ boardLayout, playerColor }) => {
-  const result = await fetch(`${API_DOMAIN}/image`, {
-    method: 'POST',
-    body: JSON.stringify({ boardLayout, playerColor }),
-  })
-  if (result.status !== 200) throw "Couldn't get static board image"
-  const buffer = await result.buffer()
-  return buffer.toString('base64')
+  try {
+    logger.debug({ custom: boardLayout }, 'fetchBoardBase64Buffer')
+    const result = await fetch(`${API_DOMAIN}/image`, {
+      method: 'POST',
+      body: JSON.stringify({ boardLayout, playerColor }),
+    })
+    if (result.status !== 200) throw "Couldn't get static board image"
+    const buffer = await result.buffer()
+    return buffer.toString('base64')
+  } catch (e) {
+    logger.error(e)
+    throw `fetchBoardBase64Buffer() ${e}`
+  }
 }
 
 const pinFile = async (blob, filename) => {
@@ -70,26 +77,32 @@ const pinFile = async (blob, filename) => {
     if (!response.IpfsHash) throw `Couldn't pin file: ${blob}`
     return `ipfs://${response.IpfsHash}`
   } catch (e) {
+    logger.error(e)
     throw `pinFile() ${e}`
   }
 }
 
 const pinJson = async (jsonString) => {
-  const response = await fetch(`${PINATA_API_URL}/pinning/pinJSONToIPFS`, {
-    method: 'post',
-    body: jsonString,
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      pinata_api_key: PINATA_API_KEY,
-      pinata_secret_api_key: PINATA_API_SECRET_KEY,
-    },
-  }).then((res) => {
-    return res.json()
-  })
+  try {
+    const response = await fetch(`${PINATA_API_URL}/pinning/pinJSONToIPFS`, {
+      method: 'post',
+      body: jsonString,
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        pinata_api_key: PINATA_API_KEY,
+        pinata_secret_api_key: PINATA_API_SECRET_KEY,
+      },
+    }).then((res) => {
+      return res.json()
+    })
 
-  if (!response.IpfsHash) throw `Couldn't pin JSON: ${jsonString}`
-  return `ipfs://${response.IpfsHash}`
+    if (!response.IpfsHash) throw `Couldn't pin JSON: ${jsonString}`
+    return `ipfs://${response.IpfsHash}`
+  } catch (e) {
+    logger.error(e)
+    throw `pinJson() ${e}`
+  }
 }
 
 const ipfsUrlToPinata = (ipfsUrl) =>
@@ -97,6 +110,7 @@ const ipfsUrlToPinata = (ipfsUrl) =>
 
 export const pinTreasure = async ({ treasure, tcn }) => {
   try {
+    // Setup
     const { gifBase64 } = await getGifBase64({
       tcn,
       playerColor: treasure.cardColor,
@@ -158,16 +172,19 @@ export const pinTreasure = async ({ treasure, tcn }) => {
     logger.debug({ custom: uriData }, 'uriData')
     const tokenUri = await pinJson(stringifiedUriData)
 
-    logger.info({
-      custom: {
-        animation_url,
-        image,
-        tokenUri,
-        // animation_url: ipfsUrlToPinata(animation_url),
-        // image: ipfsUrlToPinata(image.split),
-        // tokenUri: ipfsUrlToPinata(tokenUri),
-      },
-    })
+    let customLog = ''
+    try {
+      ;[tokenUri, animation_url, image, openGraphImageSrc].map((ipfs) => {
+        try {
+          customLog += `${ipfsUrlToPinata(ipfs)}, `
+        } catch (e) {
+          throw ipfs
+        }
+      })
+    } catch (e) {
+      throw `error getting ipfs url: ${e}`
+    }
+    logger.info(customLog)
 
     return { tokenUri, uriData: stringifiedUriData }
   } catch (e) {

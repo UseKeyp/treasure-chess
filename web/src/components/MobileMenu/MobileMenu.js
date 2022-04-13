@@ -30,7 +30,7 @@ const MobileMenu = ({
 
   const handleCloseMenuCallback = useCallback(closeMenuWithCollapseTreasure, [
     setCollapseTreasures,
-  ])
+  ]) 
 
   const handleChildrenClick = useCallback(() => {
     if (showMenu && !disableAutoClose) {
@@ -80,6 +80,7 @@ const MobileMenu = ({
         } items-center p-4 w-full`}
       >
         {title ? <div className="mobile-menu--title">{title}</div> : null}
+      fix/mobile-menu-filter-scroll
         <Button
           onClick={
             setCollapseTreasures
@@ -92,7 +93,6 @@ const MobileMenu = ({
             <Icon name="close_x" color="#fff" />
             dev
           </Button>
-        </Button>
       </div>
 
       <div className="px-4" ref={childrenContainerRef}>

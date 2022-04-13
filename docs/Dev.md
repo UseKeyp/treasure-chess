@@ -1,3 +1,8 @@
+# Testing on mobile
+
+1. Run `yarn rw storybook`. Check the CLI output to get the appropriate IP address for your machine eg. `http://172.17.123.20:7910`
+2. Replace the port with `8910`, then open on your phone eg. `http://172.17.123.20:8910/treasures`
+
 # Ngrok
 
 Useful for testing webhook from Wyre. Open a ngrok to your local dev environment

@@ -1,5 +1,4 @@
 import { Set, Router, Route, Private } from '@redwoodjs/router'
-import TreasuresLayout from 'src/layouts/TreasuresLayout'
 import DefaultLayout from 'src/layouts/DefaultLayout'
 
 const Routes = () => {
@@ -17,10 +16,8 @@ const Routes = () => {
         <Private unauthenticated="signin">
           <Route path="/profile" page={ProfilePage} name="profile" />
         </Private>
-        <Set wrap={TreasuresLayout}>
-          <Route path="/treasures/{tokenId:String}" page={TreasureTreasurePage} name="treasure" />
-          <Route path="/treasures" page={TreasureTreasuresPage} name="treasures" />
-        </Set>
+        <Route path="/treasures/{tokenId:String}" page={TreasureTreasurePage} name="treasure" />
+        <Route path="/treasures" page={TreasureTreasuresPage} name="treasures" />
         <Route path="/chain-data" page={ChainDataPage} name="chainData" />
       </Set>
     </Router>

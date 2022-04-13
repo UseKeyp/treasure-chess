@@ -5,6 +5,7 @@ import Icon, { TwitchIcon } from 'src/components/Icon'
 import { useOAuth } from 'src/providers/oAuth'
 
 import MemberBalance from 'src/components/Member/MemberBalance'
+import MemberMintCredits from 'src/components/Member/MemberMintCredits'
 
 import globalConfig from 'src/global.config'
 
@@ -71,7 +72,23 @@ const MemberDetails = ({ member, isProfile }) => {
               {member.username}
             </a>
           </h3>
-          <div className="mt-2 w-full content-center member-details--member-content">
+
+          <div className="mt-2 member-details--member-content">
+            {member.masterTitle && (
+              <div className="bg-red px-[8px] py-[5px] rounded-[3px] mr-1">
+                <p className="font-bold">{member.masterTitle}</p>
+              </div>
+            )}
+            <img
+              alt={`Flag of ${member.country}`}
+              src={getFlagBase64(member.country)}
+            />
+            <TwitchLink
+              username={member.twitchUsername}
+              isProfile={isProfile}
+            />
+          </div>
+          <div className="mt-4 w-full content-center member-details--member-content">
             {isProfile ? (
               <div className="flex">
                 <p className="mr-2">{trimAddress(member.address)}</p>
@@ -90,23 +107,8 @@ const MemberDetails = ({ member, isProfile }) => {
               </Button>
             )}
           </div>
-          <div className="mt-2 member-details--member-content">
-            {member.masterTitle && (
-              <div className="bg-red px-[8px] py-[5px] rounded-[3px] mr-1">
-                <p className="font-bold">{member.masterTitle}</p>
-              </div>
-            )}
-            <img
-              alt={`Flag of ${member.country}`}
-              src={getFlagBase64(member.country)}
-            />
-            <TwitchLink
-              username={member.twitchUsername}
-              isProfile={isProfile}
-            />
-          </div>
           {isProfile && (
-            <div className="mt-2 member-details--member-content">
+            <div className="mt-4 member-details--member-content">
               <p>
                 <Link
                   to={routes.member({ usernameOrAddress: member.username })}
@@ -120,14 +122,17 @@ const MemberDetails = ({ member, isProfile }) => {
 
         {isProfile && (
           <div className="member-details--funds-actions">
-            <h4>
+            <div>
               <MemberBalance />
-            </h4>
+            </div>
+            <div className="mt-2 mb-4">
+              <MemberMintCredits />
+            </div>
             <Button
               onClick={deposit}
               variant="blue"
               size="small"
-              className="w-32"
+              className="w-32 "
             >
               Deposit
             </Button>

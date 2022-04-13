@@ -7,9 +7,9 @@ import { getTokenIdFromHashId } from 'src/lib/web3/treasure'
 import { fetchGame } from 'src/lib/games'
 import { logger } from 'src/lib/logger'
 
-const COMPLETE = 'COMPLETE'
-const FAILED = 'FAILED'
-const PENDING = 'PENDING'
+export const COMPLETE = 'COMPLETE'
+export const FAILED = 'FAILED'
+export const PENDING = 'PENDING'
 
 const fetchPendingMintPurchases = () => {
   return db.mintPurchase.findMany({
@@ -74,6 +74,10 @@ export const processPendingPurchases = async () => {
   let pendingPurchases = await fetchPendingMintPurchases()
   pendingPurchases = await Promise.all(
     pendingPurchases.map(async (mintPurchase) => {
+      logger.debug(
+        { custom: { ...mintPurchase, member: 'REDACTED' } },
+        'mintPurchase'
+      )
       if (mintPurchase.orderStatus !== COMPLETE) return mintPurchase
       if (![COMPLETE, FAILED].includes(mintPurchase.status)) {
         // Treasure not successfully minted. Proceed to mint!

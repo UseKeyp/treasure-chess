@@ -33,24 +33,26 @@ export const SuccessModal = ({
     toggleModal()
   }
   return (
-    <ModalContainer
-      headerText="New Treasure Minted!"
-      isVisible={isVisible}
-      onSubmit={handleSubmit}
-      hideModal={hideModal}
-      submitText="View"
-      cancelText="Back"
-      content={
-        <div className="flex justify-center align-center h-full w-full">
-          <TreasureCardCell tokenId={tokenId.toString()} />
-          <ConfettiExplosion />
-        </div>
-      }
-    />
+    <>
+      <ModalContainer
+        headerText="New Treasure Minted!"
+        isVisible={isVisible}
+        onSubmit={handleSubmit}
+        hideModal={hideModal}
+        submitText="View"
+        cancelText="Back"
+        content={
+          <div className="flex justify-center align-center h-full w-full">
+            <TreasureCardCell tokenId={tokenId.toString()} />
+          </div>
+        }
+      />
+      <ConfettiExplosion />
+    </>
   )
 }
 
-const ConfettiExplosion = () => {
+export const ConfettiExplosion = () => {
   const refAnimationInstance = React.useRef(null)
 
   const canvasStyles = {
@@ -60,6 +62,7 @@ const ConfettiExplosion = () => {
     height: '100%',
     top: 0,
     left: 0,
+    zIndex: 9999,
   }
 
   const getInstance = React.useCallback((instance) => {
@@ -76,31 +79,29 @@ const ConfettiExplosion = () => {
   }, [])
 
   const fire = React.useCallback(() => {
-    makeShot(0.25, {
-      spread: 26,
-      startVelocity: 55,
+    makeShot(1, {
+      spread: 120,
+      startVelocity: 70,
     })
-
     makeShot(0.2, {
       spread: 60,
+      startVelocity: 40,
     })
-
     makeShot(0.35, {
       spread: 100,
-      decay: 0.91,
+      decay: 0.8,
       scalar: 0.8,
+      startVelocity: 40,
     })
-
     makeShot(0.1, {
-      spread: 120,
-      startVelocity: 25,
+      spread: 90,
+      startVelocity: 40,
       decay: 0.92,
       scalar: 1.2,
     })
-
     makeShot(0.1, {
-      spread: 120,
-      startVelocity: 45,
+      spread: 20,
+      startVelocity: 100,
     })
   }, [makeShot])
 

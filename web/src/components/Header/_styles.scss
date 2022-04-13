@@ -39,6 +39,7 @@
     }
   }
   &__tooltip {
+    position: absolute;
     font-weight: bold;
     color: theme('colors.grey')
   }

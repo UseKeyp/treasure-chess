@@ -49,8 +49,8 @@ export const getColorFromTheme = (color) => {
   }
 }
 
+let timeout
 export const debounce = (func, delay) => {
-  let timeout
   return (...params) => {
     clearTimeout(timeout)
     timeout = setTimeout(() => {

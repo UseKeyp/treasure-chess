@@ -15,9 +15,11 @@ const HomePage = () => {
       <HomePageHero />
       <LandingPageBoxes />
       <FeaturedPlayers />
-      <HeadingBar text="Newest Treasures">
-        <AllTreasuresButton />
-      </HeadingBar>
+      <div className="mt-16">
+        <HeadingBar text="Newest Treasures">
+          <AllTreasuresButton />
+        </HeadingBar>
+      </div>
       <TreasuresFetcher sort="Newest First" />
       <FaqSection />
     </>

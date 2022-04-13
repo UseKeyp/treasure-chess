@@ -2,7 +2,7 @@ import GameCard from 'src/components/Game/GameCard/GameCard'
 import TreasureSocial from '../TreasureSocial/TreasureSocial'
 import TreasureMoves from '../TreasureMoves/TreasureMoves'
 import TreasureMarketInteraction from 'src/components/Treasure/TreasureMarketInteraction'
-import TreasureSales from '../TreasureSales/TreasureSales'
+import TreasureActivity from '../TreasureActivity/TreasureActivity'
 import TreasuresFetcher from 'src/components/Treasure/TreasuresFetcher'
 
 const Treasure = ({ treasure, isLoading }) => {
@@ -21,7 +21,7 @@ const Treasure = ({ treasure, isLoading }) => {
             tokenId={treasure?.tokenId}
             isLoading={isLoading}
           />
-          <TreasureSales treasure={treasure} isLoading={isLoading} />
+          <TreasureActivity treasure={treasure} isLoading={isLoading} />
           <TreasureSocial treasure={treasure} isLoading={isLoading} />
         </div>
         <TreasureMoves treasure={treasure} isLoading={isLoading} />

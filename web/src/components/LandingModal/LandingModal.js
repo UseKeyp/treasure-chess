@@ -12,7 +12,7 @@ export const content = (
       title=""
       questionList={[aboutContent[2], aboutContent[3], aboutContent[4]]}
     />
-    <p className="mt-4">
+    <p className="">
       We need your consent to set cookies on your device as defined in our{' '}
       <a href="/privacy" target="_blank" className="underline">
         Privacy Policy
@@ -43,7 +43,11 @@ const LandingModal = () => {
     if (!isBrowser) return // Support prerender
     localStorage.setItem('gdpr-accepted', true)
     /* eslint-disable-next-line no-undef */
-    _paq.push(['rememberConsentGiven'])
+    try {
+      _paq.push(['rememberConsentGiven'])
+    } catch {
+      // ignore
+    }
     toggleModal()
   }
 

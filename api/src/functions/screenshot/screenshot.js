@@ -52,6 +52,7 @@ export const handler = async (event, _context) => {
         message: `Internal server error. ${error}`,
       },
     }
+    if (browser) await browser.close()
   } finally {
     if (browser) await browser.close()
   }

@@ -56,7 +56,7 @@ const OwnerSaleInteraction = () => {
 
   if ([PENDING_LISTED, null, DELISTED, SOLD].includes(marketStatus))
     return (
-      <div className="flex flex-col w-[396px] h-52 p-4 mb-4 rounded-xl shadow-md justify-between bg-chessBlack-200">
+      <div className="flex flex-col h-52 p-4 rounded-xl shadow-md justify-between bg-chessBlack-200">
         <div>
           <div className="flex items-center justify-between mb-2">
             <h2 className="text-base text-white">List Your Treasure</h2>
@@ -81,7 +81,7 @@ const OwnerSaleInteraction = () => {
             <h2 className="text-base text-white">Gift this Treasure</h2>
           </div>
           <div className="flex flex-col items-center justify-between">
-            <div className="flex items-center">
+            <div className="flex items-center justify-end w-full">
               <UsernameSearchBar value={username} setValue={setUsername} />
               <Button
                 className={`w-28 h-[40px] text-xl ml-2 hover:bg-green hover:shadow-greenDark ${
@@ -98,7 +98,7 @@ const OwnerSaleInteraction = () => {
     )
   return (
     <div>
-      <div className="flex flex-col justify-between w-[396px] h-[108px] p-4 mb-4 rounded-xl shadow-md bg-chessBlack-200">
+      <div className="flex flex-col justify-between h-[108px] p-4 mb-4 rounded-xl shadow-md bg-chessBlack-200">
         <div className="flex items-center justify-between">
           <h2 className="text-base text-white">Listed</h2>
           {statusContent}

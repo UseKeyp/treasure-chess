@@ -1,12 +1,8 @@
 const treasureMerketArtifact = require('@treasure-chess/treasure-contracts/artifacts/contracts/TreasureMarket.sol/TreasureMarket.json')
 import { Contract } from '@ethersproject/contracts'
-import { memberSendTransaction } from 'src/lib/web3/member'
+import { memberSendTransaction } from 'src/lib/web3/wallets'
 import { parseUnits } from '@ethersproject/units'
-import {
-  web3Provider,
-  DEFAULT_GAS_MAX_PRIORITY_FEE_PER_GAS,
-  DEFAULT_GAS_MAX_FEE_PER_GAS,
-} from 'src/lib/web3/helpers'
+import { web3Provider } from 'src/lib/web3/helpers'
 import { getTreasureContract } from 'src/lib/web3/treasure'
 import { getTokenContract } from 'src/lib/web3/tokens'
 
@@ -39,11 +35,7 @@ export const checkAndSetMarketApprovals = async ({ member }) => {
       const unsignedTx =
         await treasureContract.populateTransaction.setApprovalForAll(
           process.env.CONTRACT_ADDRESS_TREASURE_MARKET,
-          true,
-          {
-            maxPriorityFeePerGas: DEFAULT_GAS_MAX_PRIORITY_FEE_PER_GAS,
-            maxFeePerGas: DEFAULT_GAS_MAX_FEE_PER_GAS,
-          }
+          true
         )
       treasureApprovalTx = await memberSendTransaction({
         memberId: member.id,
@@ -60,11 +52,7 @@ export const checkAndSetMarketApprovals = async ({ member }) => {
     if (allowance.lt(ONE_BILLION_BN)) {
       const unsignedTx = await tokenContract.populateTransaction.approve(
         process.env.CONTRACT_ADDRESS_TREASURE_MARKET,
-        ONE_BILLION_BN,
-        {
-          maxPriorityFeePerGas: DEFAULT_GAS_MAX_PRIORITY_FEE_PER_GAS,
-          maxFeePerGas: DEFAULT_GAS_MAX_FEE_PER_GAS,
-        }
+        ONE_BILLION_BN
       )
       tokenApprovalTx = await memberSendTransaction({
         memberId: member.id,
@@ -88,11 +76,7 @@ export const list = async ({ treasure, amount }) => {
       await treasureMarketContract.populateTransaction.tokenListItem(
         treasure.tokenId,
         parseUnits(amount.toString(), process.env.DECIMALS_PAYMENT_TOKEN),
-        process.env.CONTRACT_ADDRESS_PAYMENT_TOKEN,
-        {
-          maxPriorityFeePerGas: DEFAULT_GAS_MAX_PRIORITY_FEE_PER_GAS,
-          maxFeePerGas: DEFAULT_GAS_MAX_FEE_PER_GAS,
-        }
+        process.env.CONTRACT_ADDRESS_PAYMENT_TOKEN
       )
     const tx = await memberSendTransaction({
       memberId: treasure.ownerId,
@@ -113,11 +97,7 @@ export const unlist = async ({ treasure }) => {
     const treasureMarketContract = getTreasureMarketContract()
     const unsignedTx =
       await treasureMarketContract.populateTransaction.tokenUnlistItem(
-        treasure.tokenId,
-        {
-          maxPriorityFeePerGas: DEFAULT_GAS_MAX_PRIORITY_FEE_PER_GAS,
-          maxFeePerGas: DEFAULT_GAS_MAX_FEE_PER_GAS,
-        }
+        treasure.tokenId
       )
     const tx = await memberSendTransaction({
       memberId: treasure.ownerId,
@@ -139,11 +119,7 @@ export const buy = async ({ treasure }) => {
     const unsignedTx =
       await treasureMarketContract.populateTransaction.tokenInstantBuy(
         treasure.tokenId,
-        process.env.CONTRACT_ADDRESS_PAYMENT_TOKEN,
-        {
-          maxPriorityFeePerGas: DEFAULT_GAS_MAX_PRIORITY_FEE_PER_GAS,
-          maxFeePerGas: DEFAULT_GAS_MAX_FEE_PER_GAS,
-        }
+        process.env.CONTRACT_ADDRESS_PAYMENT_TOKEN
       )
     const tx = await memberSendTransaction({
       memberId: context.currentUser.id,

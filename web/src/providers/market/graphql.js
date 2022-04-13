@@ -4,6 +4,7 @@ export const TREASURE_WITH_MARKET_SALES_QUERY = gql`
       id
       tokenId
       ownerId
+      createdAt
       marketSales {
         id
         updatedAt
@@ -23,6 +24,7 @@ export const LIST_MARKET_SALE_MUTATION = gql`
     marketSale: listTreasure(tokenId: $tokenId, amount: $amount) {
       id
       updatedAt
+      createdAt
       listedAt
       status
       isClosed
@@ -36,6 +38,7 @@ export const UNLIST_MARKET_SALE_MUTATION = gql`
     marketSale: unlistTreasure(tokenId: $tokenId) {
       id
       updatedAt
+      createdAt
       listedAt
       status
       isClosed
@@ -50,6 +53,7 @@ export const BUY_MARKET_SALE_MUTATION = gql`
       id
       updatedAt
       listedAt
+      createdAt
       status
       isClosed
       amount

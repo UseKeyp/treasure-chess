@@ -587,7 +587,6 @@ const Coinbase = ({ color = '#fff', ...rest }) => (
     />
   </svg>
 )
-
 const Twitter = ({ color = '#ABB6B9' }) => (
   <svg
     width="24"

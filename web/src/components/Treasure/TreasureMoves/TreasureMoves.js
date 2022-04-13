@@ -1,4 +1,3 @@
-import Avatar from 'src/components/Avatar'
 import { RowsSkeleton } from 'src/components/LoadingSkeleton'
 import MemberLink from 'src/components/MemberLink'
 const parsePgn = (str) => {
@@ -26,25 +25,11 @@ const TreasureMoves = ({ treasure, isLoading }) => {
       <header className="moves-details__players">
         <div className="moves-details__player">
           <span className="moves-details__player-no">White</span>
-          <div className="moves-details__player-avatar">
-            <div className="mr-2">
-              <Avatar src={treasure?.white.imageSrc} size="16px" />
-            </div>
-            <div className="moves-details__player-nick">
-              <MemberLink usernameOrAddress={treasure?.white.username} />
-            </div>
-          </div>
+          <MemberLink member={treasure?.white} />
         </div>
         <div className="moves-details__player">
           <span className="moves-details__player-no">Black</span>
-          <div className="moves-details__player-avatar">
-            <div className="mr-2">
-              <Avatar src={treasure?.black.imageSrc} size="16px" />
-            </div>
-            <div className="moves-details__player-nick">
-              <MemberLink usernameOrAddress={treasure?.black.username} />
-            </div>
-          </div>
+          <MemberLink member={treasure?.black} />
         </div>
       </header>
       {isLoading ? (

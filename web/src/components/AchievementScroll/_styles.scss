@@ -1,0 +1,74 @@
+.achievementScrollWrapper {
+  height: 100vh;
+  max-height: 126px;
+  width: 100%;
+  font-size: 1rem;
+  user-select: none;
+  position: relative;
+  background-color: #272522;
+  padding: 1ex 1em;
+  border-radius: 0.25rem;
+}
+
+.achievementScrollArea {
+  height: 100vh;
+  max-height: 300px;
+  &:not([data-extend-scroll-area='true']) {
+    max-height: 126px;
+  }
+  width: 100%;
+  overflow-y: scroll;
+  font-size: 1rem;
+  user-select: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #272522;
+  padding: 0ex 1em;
+  border-radius: 0.25rem;
+  &:not([data-show-scrollbar='true']) {
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+
+.topGradient {
+  display: block;
+  position: absolute;
+  pointer-events: none;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 25px;
+  content: '';
+  background: linear-gradient(0deg, rgba(39, 37, 34, 0) 0%, #272522 100%);
+  transition-duration: 5s;
+}
+.bottomGradient {
+  display: block;
+  position: absolute;
+  pointer-events: none;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 25px;
+  content: '';
+  background: linear-gradient(180deg, rgba(39, 37, 34, 0) 0%, #272522 100%);
+  &:not([data-extend-scroll-area='false']) {
+    display: none;
+  }
+}
+
+.achievementScrollItem {
+  display: grid;
+  grid-template-columns: 9fr 1fr;
+  background-color: #4f4f4f;
+  padding: 1ex 1em;
+  margin-bottom: 1ex;
+  border-radius: 0.25rem;
+}
+
+.activeScrollItem {
+  background-color: #6c9d41;
+}

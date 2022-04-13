@@ -1,4 +1,6 @@
-import { LOCAL_REDIRECT_TO_KEY } from './constants'
+const LOCAL_REDIRECT_TO_KEY = 'redirect_to'
+
+export const APPROVED_LOGIN_PROVIDERS = ['CHESS']
 
 export const saveRedirectTo = (redirect) =>
   redirect &&

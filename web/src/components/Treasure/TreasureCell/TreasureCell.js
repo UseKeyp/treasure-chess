@@ -5,6 +5,7 @@ export const QUERY = gql`
     treasure: treasure(tokenId: $tokenId) {
       id
       tokenId
+      createdAt
       black {
         username
         country
@@ -69,7 +70,13 @@ export const QUERY = gql`
         sellerId
         listTx {
           id
+          updatedAt
         }
+        unlistTx {
+          id
+          updatedAt
+        }
+        unlistTxId
         listTxId
         status
         isClosed

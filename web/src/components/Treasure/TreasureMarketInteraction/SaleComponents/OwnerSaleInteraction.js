@@ -79,9 +79,6 @@ const OwnerSaleInteraction = () => {
         <div>
           <div className="flex items-center justify-between mb-2">
             <h2 className="text-base text-white">Gift this Treasure</h2>
-            <p className="text-[10px]">
-              Enter the person you want to gift it to.
-            </p>
           </div>
           <div className="flex flex-col items-center justify-between">
             <div className="flex items-center">

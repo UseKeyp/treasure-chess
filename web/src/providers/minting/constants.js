@@ -7,8 +7,8 @@ export const WYRE = 'WYRE'
 // orderStatus from BE
 export const COMPLETE = 'COMPLETE'
 export const RESERVATION = 'RESERVATION'
-// txStatus from BE
-export const UNSUBMITTED = 'UNSUBMITTED'
+// status from BE
+export const PENDING = 'PENDING'
 export const SUBMITTED = 'SUBMITTED'
 export const FAILED = 'FAILED'
 export const SUCCESS = 'SUCCESS'

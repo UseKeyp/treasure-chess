@@ -1,6 +1,7 @@
 import { EnvelopError } from '@envelop/core'
 
 import { db } from 'src/lib/db'
+import { logger } from 'src/lib/logger'
 import { checkGasAndAirdrop } from 'src/lib/web3/airdrop'
 import { checkAndSetMarketApprovals } from 'src/lib/web3/treasureMarket'
 import {
@@ -21,6 +22,8 @@ export const pendingMintPurchases = () => processPendingPurchases()
 
 export const mintWithCredit = async ({ gameId, endTime, title }) => {
   await validateMintRequest({ gameId, endTime, title })
+  logger.debug(`title: ${title}`)
+  logger.debug(`context.currentUser.id: ${context.currentUser.id}`)
   if (context.currentUser.mintCredits > 0) {
     const mintPurchase = await db.mintPurchase.create({
       data: {

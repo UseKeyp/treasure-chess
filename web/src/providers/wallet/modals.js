@@ -124,22 +124,52 @@ const VendorConnection = ({ ramp, amount, isLoading, disabled }) => {
     )
   if (disabled) button = <h3 className="mt-4">(Coming soon)</h3>
 
-  let status = 'Not connected'
+  let status
   if (ramp.address)
     status = (
-      <div>
-        <p>Connected - {trimAddress(ramp.address)}</p>
-        <p>{ramp.accountNickname}</p>
+      <div className="flex align-center">
+        <div>
+          <h4>
+            <i>Connected to {trimAddress(ramp.address)}</i>
+          </h4>
+          <h4>
+            <i>{ramp.accountNickname}</i>
+          </h4>
+        </div>
+        <div className="flex ml-4 align-center">
+          <Button onClick={ramp.onConnect} disabled={isLoading}>
+            <div className="flex flex-row items-center">
+              <Icon name="circle_arrow" height="13" color="white" />
+              <p className="ml-2">Update</p>
+            </div>
+          </Button>
+        </div>
       </div>
     )
+  const icon =
+    ramp.type === 'COINBASE' ? (
+      <Icon
+        name="coinbase"
+        size="25"
+        height="25"
+        color="white"
+        className=" mb-2"
+      />
+    ) : (
+      <img
+        src="/icons/wyre_plaid.png"
+        alt="Wyre and Plaid logos"
+        className="h-12"
+      />
+    )
   return (
-    <div className="">
-      <div className="mt-4 flex align-center items-center">
-        <h3>{ramp.name}</h3>{' '}
-        <p className="ml-4">
-          <i>{status}</i>
-        </p>
-      </div>
+    <div
+      className={`align-center bg-chessBlack-100 mt-6 p-4 rounded-lg border-2 ${
+        ramp.address ? 'border-green' : 'border-chessBlack-100'
+      }`}
+    >
+      <div className=" flex align-center items-center">{icon}</div>
+      <h2 className="mt-2">{status}</h2>
       {button}
       <p className="mt-2 text-orange">{ramp.error}</p>
     </div>
@@ -149,6 +179,7 @@ const VendorConnection = ({ ramp, amount, isLoading, disabled }) => {
 export const WithdrawModal = ({ isVisible, toggleModal }) => {
   const [amount, setAmount] = React.useState('0')
   const { ramps, isLoading } = useRamp()
+  const isConnected = ramps.map((ramp) => ramp.address && true).includes(true)
   return (
     <ModalContainer
       headerText="Withdraw Funds"
@@ -163,8 +194,12 @@ export const WithdrawModal = ({ isVisible, toggleModal }) => {
             provider. Connections are <i>Read-Only</i>.
           </p>
 
-          <h4 className="mt-4 ">Amount to withdraw</h4>
-          <FilterPriceInput value={amount} setValue={setAmount} />
+          {isConnected && (
+            <>
+              <h4 className="mt-4 ">Amount to withdraw</h4>
+              <FilterPriceInput value={amount} setValue={setAmount} />
+            </>
+          )}
           {ramps.map((ramp) => (
             <VendorConnection
               key={ramp.name}

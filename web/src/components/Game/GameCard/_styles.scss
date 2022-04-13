@@ -1,0 +1,76 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.gameCardWrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  width: 266px;
+  height: 492px;
+}
+
+.gameCardHtml {
+  max-width: 266px;
+  max-height: 492px;
+  box-shadow: 0px 10px 30px -5px rgba(0, 0, 0, 0.3);
+  will-change: transform;
+}
+
+.mintedCardHtml {
+  &:hover {
+    box-shadow: 0px 30px 100px -10px rgba(0, 0, 0, 0.4);
+  }
+}
+
+.gameCardMintingContainer {
+  position: absolute;
+  color: theme('colors.chessBlack.100');
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  display: flex;
+  height: 500px;
+  z-index: 2;
+  top: 0px;
+  position: absolute;
+}
+
+.gameCardMintingOverlay {
+  position: absolute;
+  top: 0px;
+  width: 266px;
+  height: 500px;
+  background-color: white;
+  opacity: 80%;
+  border-radius: 12px;
+  z-index: -1;
+}
+
+.gameCardEmpty {
+  top: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 266px;
+  height: 500px;
+  background-color: grey;
+  opacity: 80%;
+  border-radius: 12px;
+  // z-index: -1;
+}
+
+.priceBadge {
+  top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  height: 50px;
+  background-color: theme('colors.green');
+  border-radius: 0 0 12px 12px;
+}

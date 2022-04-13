@@ -5,19 +5,22 @@ export const schema = gql`
     url: String
   }
   type CodeGrantResponse {
-    action: String!
-    text: String!
-    status: CodeGrantStatus!
+    action: String
+    text: String
+    status: CodeGrantStatus
+    ramp: Ramp
   }
 
   type Query {
     oAuthUrl(type: String!): LoginUrl! @requireAuth
-    chessLoginUrl: LoginUrl! @skipAuth
   }
   type Mutation {
-    connectPlaid(code: String!, accountId: String!): Ramp! @requireAuth
-    codeGrant(code: String!, state: String!, type: String!): CodeGrantResponse!
-      @skipAuth
+    codeGrant(
+      type: String!
+      code: String!
+      state: String
+      accountId: String
+    ): CodeGrantResponse! @skipAuth
   }
   enum CodeGrantStatus {
     SUCCESS

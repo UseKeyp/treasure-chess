@@ -1,10 +1,13 @@
 import { useAuth } from '@redwoodjs/auth'
-import { useMutation } from '@redwoodjs/web'
-import { USER_LOCALE_MUTATION } from './graphql'
+// import { useMutation } from '@redwoodjs/web'
+// import { USER_LOCALE_MUTATION } from './graphql'
+import { isBrowser } from '@redwoodjs/prerender/browserUtils'
 
 const LocaleContext = React.createContext({})
 const LOCALE_LOCAL_KEY = 'i18nextLng'
+
 const getLocaleCode = () => {
+  if (!isBrowser) return // Support prerender
   return localStorage.getItem(LOCALE_LOCAL_KEY)
 }
 
@@ -12,15 +15,15 @@ const LocaleProvider = ({ children }) => {
   const [locale, setLocale] = React.useState(getLocaleCode())
   const { currentUser } = useAuth()
 
-  const [userLocale] = useMutation(USER_LOCALE_MUTATION)
+  // const [userLocale] = useMutation(USER_LOCALE_MUTATION)
 
   const updateLocale = async () => {
     try {
-      await userLocale({
-        variables: {
-          locale,
-        },
-      })
+      // await userLocale({
+      //   variables: {
+      //     locale,
+      //   },
+      // })
     } catch (e) {
       /* eslint-disable-next-line no-console */
       console.error(e)
@@ -28,7 +31,7 @@ const LocaleProvider = ({ children }) => {
   }
 
   React.useEffect(() => {
-    if (!locale) return
+    if (!locale || !currentUser) return
     if (locale !== currentUser?.locale) {
       updateLocale()
     }

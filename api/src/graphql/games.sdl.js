@@ -20,11 +20,19 @@ export const schema = gql`
     externalUrl: String
     opening: Opening!
     cardColor: String!
+    achievements: [String!]
+    achievementScore: Int
+    rarity: Rarity
     tokenId: Int
     title: String
   }
 
+  type GamesWithFilterResponse {
+    games: [Game!]!
+    count: Int!
+  }
   type Query {
-    games(filter: String): [Game!]! @requireAuth
+    gamesWithFilter(filter: String, page: Int): GamesWithFilterResponse!
+      @requireAuth
   }
 `

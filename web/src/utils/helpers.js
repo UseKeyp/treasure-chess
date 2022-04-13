@@ -2,7 +2,6 @@ import themeConfig from '../../config/tailwind.config'
 import config from 'src/global.config'
 
 export const isBrowser = typeof window !== 'undefined'
-export const isProduction = process.env.NODE_ENV === 'production'
 export const isMobile =
   isBrowser && window.matchMedia('(max-width: 767px)').matches
 
@@ -50,8 +49,8 @@ export const getColorFromTheme = (color) => {
   }
 }
 
+let timeout
 export const debounce = (func, delay) => {
-  let timeout
   return (...params) => {
     clearTimeout(timeout)
     timeout = setTimeout(() => {
@@ -61,6 +60,7 @@ export const debounce = (func, delay) => {
 }
 
 export const formatDate = (rawString) => {
+  if (!rawString) return null
   const date = new Date(rawString)
   let options = { month: 'short' }
   const month = new Intl.DateTimeFormat('en-US', options).format(date)

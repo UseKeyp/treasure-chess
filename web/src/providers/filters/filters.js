@@ -1,3 +1,5 @@
+import { isBrowser } from '@redwoodjs/prerender/browserUtils'
+
 import filters from '@treasure-chess/treasure-filters'
 const FilterContext = React.createContext({})
 
@@ -35,15 +37,19 @@ const FilterProvider = ({ children }) => {
     sort && sort !== defaultParams.sort && searchParams.append('sort', sort)
 
     searchParams.sort()
-    const newPath = searchParams.toString()
-      ? window.location.pathname + '?' + searchParams.toString()
-      : window.location.pathname
-    window.history.replaceState({}, '', newPath)
+    if (isBrowser) {
+      const newPath = searchParams.toString()
+        ? window.location.pathname + '?' + searchParams.toString()
+        : window.location.pathname
+      window.history.replaceState({}, '', newPath)
+    }
   }
 
   const onPageLoad = () => {
     // Consume existing url
-    const searchParams = new URLSearchParams(window.location.search)
+    const searchParams = isBrowser
+      ? new URLSearchParams(window.location.search)
+      : {}
     let newState = {}
     for (var pair of searchParams.entries()) {
       const key = pair[0]

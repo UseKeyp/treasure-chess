@@ -48,6 +48,10 @@
     @apply bg-orange;
   }
 
+  &[data-variant='white'] {
+    @apply bg-white;
+  }
+
   &[data-variant='black'] {
     @apply bg-chessBlack-200;
   }
@@ -63,9 +67,8 @@
   &[data-textcolor='grey'] {
     @apply text-grey;
   }
-}
-
-.disabled {
-  pointer-events: none;
-  opacity: 25%;
+  &:disabled {
+    pointer-events: none;
+    opacity: 25%;
+  }
 }

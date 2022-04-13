@@ -2,6 +2,7 @@ import ModalContainer from 'src/components/ModalContainer'
 import Icon from 'src/components/Icon'
 import { useModal } from 'src/hooks/useModal'
 import { useEffect } from 'react'
+import { isBrowser } from '@redwoodjs/prerender/browserUtils'
 
 export const content = (
   <>
@@ -56,13 +57,15 @@ const LandingModal = () => {
   }
 
   useEffect(() => {
-    const visited = window.localStorage.getItem('gdpr-accepted')
+    if (!isBrowser) return // Support prerender
+    const visited = localStorage.getItem('gdpr-accepted')
     !visited && showModal()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const onSubmit = () => {
-    window.localStorage.setItem('gdpr-accepted', true)
+    if (!isBrowser) return // Support prerender
+    localStorage.setItem('gdpr-accepted', true)
     /* eslint-disable-next-line no-undef */
     _paq.push(['rememberConsentGiven'])
     toggleModal()

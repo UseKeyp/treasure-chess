@@ -1,25 +1,48 @@
 import Button from 'src/components/Button'
+import LoadingDots from 'src/components/LoadingDots'
 
-const Pagination = ({ count, page, perPage, onChangePage }) => {
-  const items = []
-  const addButton = ({ text, page }) =>
-    items.push(
-      <Button key={page} onClick={() => onChangePage(page)}>
-        {text}
-      </Button>
-    )
-
+const Pagination = ({ page, count, perPage, onChangePage, isLoading }) => {
   const totalPages = Math.ceil(count / perPage)
-  if (page > 10) addButton({ text: '<<', page: page - 10 })
-  if (page > 1) addButton({ text: '<', page: page - 1 })
-  items.push(
-    <div key={page} className="inline-block mx-1 py-1 px-3 ">
-      {page}
+
+  return (
+    <div className="text-lg font-semibold flex align-center">
+      <Button
+        key={'<<' + 1}
+        onClick={() => onChangePage(page - 5)}
+        disabled={isLoading || page < 5}
+      >
+        {'<<'}
+      </Button>
+      <Button
+        key={'<' + page - 1}
+        onClick={() => onChangePage(page - 1)}
+        disabled={isLoading || page < 2}
+      >
+        {'<'}
+      </Button>
+      {isLoading ? (
+        <LoadingDots />
+      ) : (
+        <h3 key={page} className="mx-2 x-3 self-center">
+          {page} of {totalPages}
+        </h3>
+      )}
+      <Button
+        key={'>' + page + 1}
+        onClick={() => onChangePage(page + 1)}
+        disabled={isLoading || page >= totalPages}
+      >
+        {'>'}
+      </Button>{' '}
+      <Button
+        key={'>>' + page + 5}
+        onClick={() => onChangePage(page + 5)}
+        disabled={isLoading || page >= totalPages - 5}
+      >
+        {'>>'}
+      </Button>
     </div>
   )
-  if (page < totalPages) addButton({ text: '>', page: page + 1 })
-  if (page < totalPages - 10) addButton({ text: '>>', page: page + 10 })
-  return <div className="text-lg font-semibold">{items}</div>
 }
 
 export default Pagination

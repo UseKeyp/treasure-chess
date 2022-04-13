@@ -1,5 +1,4 @@
-import { useCallback, useEffect } from 'react'
-import TooltipTrigger from 'react-popper-tooltip'
+import { useCallback, useEffect, useState } from 'react'
 import { routes, useLocation } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
 import { useWallet } from 'src/providers/wallet'
@@ -12,28 +11,6 @@ import MobileMenu from 'src/components/MobileMenu/MobileMenu'
 import MemberBalance from 'src/components/Member/MemberBalance'
 
 import { trimAddress } from 'src/utils/helpers'
-
-const Tooltip = ({
-  arrowRef,
-  tooltipRef,
-  getArrowProps,
-  getTooltipProps,
-  placement,
-}) => (
-  <div
-    {...getTooltipProps({
-      ref: tooltipRef,
-    })}
-  >
-    <div
-      {...getArrowProps({
-        ref: arrowRef,
-        'data-placement': placement,
-      })}
-    />
-    <h4 className={'header__tooltip'}>Log out</h4>
-  </div>
-)
 
 const WalletBalance = () => {
   const { deposit } = useWallet()
@@ -72,7 +49,7 @@ const MobileNav = () => {
           <ul className="h-full relative grid place-items-center">
             <li className={navItemClasses}>
               <Button to={routes.home()}>
-                <Icon name="treasure_chess_full_white" />
+                <Icon name="treasure_chess_full" height="35px" color="#fff" />
                 <span className="sr-only">home</span>
               </Button>
             </li>
@@ -101,8 +78,8 @@ const MobileNav = () => {
             </li>
             {!isLoggedIn ? (
               <li className={navItemClasses}>
-                <Button className={navAnchorClasses} to={routes.login()}>
-                  Log In
+                <Button className={navAnchorClasses} to={routes.signin()}>
+                  Sign In
                 </Button>
               </li>
             ) : (
@@ -146,6 +123,7 @@ const Header = () => {
       logOut()
     }
   }, [profile, logOut])
+  const [isShowingTooltip, setIsShowingTooltip] = useState(false)
 
   useEffect(() => {
     handleUserStatus()
@@ -178,7 +156,10 @@ const Header = () => {
           <div className="mr-4">
             <Button to={routes.faq()} size="large" isSelected={isOnAboutPage}>
               <div className="flex items-center">
-                <img src="/icons/HelpIcon.svg" alt="" className="mr-2" />
+                <div className="mr-2">
+                  {' '}
+                  <Icon name="help" size="small" />{' '}
+                </div>
                 About
               </div>
             </Button>
@@ -215,37 +196,18 @@ const Header = () => {
             </div>
             <WalletBalance />
             <div className="ml-4">
-              <TooltipTrigger
-                placement="bottom"
-                trigger="hover"
-                tooltip={Tooltip}
+              <Button
+                onClick={logOut}
+                onMouseEnter={() => setIsShowingTooltip(true)}
+                onMouseLeave={() => setIsShowingTooltip(false)}
               >
-                {({ getTriggerProps, triggerRef }) => (
-                  <span
-                    {...getTriggerProps({
-                      ref: triggerRef,
-                      className: 'trigger',
-                      /* your props here */
-                    })}
-                  >
-                    {/* Click Me! */}
-                    <Button
-                      onClick={logOut}
-                      {...getTriggerProps({
-                        ref: triggerRef,
-                        className: 'trigger',
-                        /* your props here */
-                      })}
-                    >
-                      <Icon name="logout" color="grey" />
-                    </Button>
-                  </span>
-                )}
-              </TooltipTrigger>
+                <Icon name="logout" color="grey" />
+              </Button>
+              {isShowingTooltip && <p className="header__tooltip">Log out</p>}
             </div>
           </div>
         ) : (
-          <Button to={routes.login()}>Log In</Button>
+          <Button to={routes.signin()}>Sign In</Button>
         )}
       </div>
     </div>

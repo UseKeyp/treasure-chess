@@ -40,6 +40,15 @@ body {
   background-color: #47433f;
 }
 
+
+.chess {
+  background-image: url(assets/background/about.svg), radial-gradient(#595552 2px, transparent 0);
+  background-size: auto, 40px 40px;
+  background-repeat: repeat repeat;
+  background-color: #47433f;
+  background-attachment: fixed, scroll;
+}
+
 a {
   &:hover {
     text-decoration: underline;

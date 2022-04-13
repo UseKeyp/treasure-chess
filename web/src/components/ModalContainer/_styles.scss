@@ -53,7 +53,7 @@ body.modal-open {
 
 .modal-header-wrapper {
   text-align: center;
-  margin-bottom: 12px;
+
   display: flex;
   font-size: 20px;
   justify-content: space-between;
@@ -62,6 +62,7 @@ body.modal-open {
 }
 
 .body-text {
+  margin-top: 12px;
   font-size: 16px;
   overflow-y: auto;
   overflow-x: hidden;

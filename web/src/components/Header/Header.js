@@ -157,24 +157,10 @@ const Header = () => {
               </div>
             </Button>
           </div>
-          <div className="mr-4">
-            <Button to={routes.faq()} size="large" isSelected={isOnAboutPage}>
-              <div className="flex items-center">
-                <img src="/icons/HelpIcon.png" alt="" className="mr-2" />
-                About
-              </div>
-            </Button>
-          </div>
-          <Button
-            href="https://airtable.com/shrWkB9MS13NXoM46"
-            target="_blank"
-            size="large"
-          >
+          <Button to={routes.faq()} size="large" isSelected={isOnAboutPage}>
             <div className="flex items-center">
-              <div className="mr-2">
-                <Icon name="book" />
-              </div>
-              Feedback
+              <img src="/icons/HelpIcon.png" alt="" className="mr-2" />
+              About
             </div>
           </Button>
         </div>

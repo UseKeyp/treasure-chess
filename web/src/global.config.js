@@ -12,7 +12,7 @@ const config = {
   BLOG_URL: '',
   TOC_URL: '/terms',
   PRIVACY_POLICY_URL: '/privacy',
-  SUPPORT_URL: '',
+  SUPPORT_URL: 'https://support.chess.com/',
 }
 
 export const featuredPlayers = [

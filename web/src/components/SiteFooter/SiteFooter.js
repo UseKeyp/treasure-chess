@@ -35,6 +35,9 @@ const SiteFooter = () => {
           >
             Privacy Policy
           </a>
+          <a href={globalConfig.SUPPORT_URL} className="inline-block mr-4">
+            Support
+          </a>
           <Link className="inline-block mr-4" to={routes.feedback()}>
             Feedback
           </Link>

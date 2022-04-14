@@ -67,15 +67,6 @@ const MobileNav = () => {
                 About
               </Button>
             </li>
-            <li className={`${navItemClasses} mx-auto`}>
-              <Button
-                href="https://airtable.com/shrWkB9MS13NXoM46"
-                target="_blank"
-                size="large"
-              >
-                <h3 className="text-[30px] font-bold">Feedback</h3>
-              </Button>
-            </li>
             {!isLoggedIn ? (
               <li className={navItemClasses}>
                 <Button className={navAnchorClasses} to={routes.signin()}>

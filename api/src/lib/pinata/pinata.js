@@ -28,7 +28,7 @@ const fetchScreenshotBase64Buffer = async (html) => {
       body: html,
       'Content-Type': 'text/plain',
     })
-    logger.debug({ custom: result }, 'fetchScreenshotBase64Buffer result ')
+    // logger.debug({ custom: result }, 'fetchScreenshotBase64Buffer result ')
     // if (result.status !== 200) throw "Couldn't get card snapshot"
     const buffer = await result.buffer()
     logger.debug(`typeof buffer ${typeof buffer}`)
@@ -128,8 +128,8 @@ export const pinTreasure = async ({ treasure, tcn }) => {
 
     const htmlStringScreenshot = await getCardHtml({
       treasure: { ...treasure, achievements: achievementNames },
-      gifBase64,
       staticBase64: boardBuffer,
+      isScreenshot: true,
     })
     const screenshotBuffer = await fetchScreenshotBase64Buffer(
       htmlStringScreenshot
@@ -138,7 +138,6 @@ export const pinTreasure = async ({ treasure, tcn }) => {
 
     const htmlStringPrerender = await getCardHtml({
       treasure: { ...treasure, achievements: achievementNames },
-      gifBase64,
       staticBase64: boardBuffer,
       isPrerender: true,
     })

@@ -46,10 +46,10 @@ jest.mock('../../lib/mintPurchases', () => {
     validateMintRequest: jest.fn(() => null),
   }
 })
-jest.mock('../../lib/web3/treasureMarket/treasureMarket', () => ({
+jest.mock('../../lib/web3/treasureMarket', () => ({
   checkAndSetMarketApprovals: jest.fn(() => null),
 }))
-jest.mock('../../lib/web3/airdrop/airdrop', () => ({
+jest.mock('../../lib/web3/airdrop', () => ({
   checkGasAndAirdrop: jest.fn(() => null),
 }))
 jest.mock('../../lib/games', () => ({

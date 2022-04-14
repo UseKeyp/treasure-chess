@@ -83,7 +83,7 @@ jobs:
     name: Build
     runs-on: ubuntu-20.04
     needs: setup
-    timeout-minutes: 10
+    timeout-minutes: 35
     strategy:
       fail-fast: true
       matrix:

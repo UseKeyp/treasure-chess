@@ -10,6 +10,7 @@ const Routes = () => {
       <Set wrap={DefaultLayout} prerender>
         <Route path="/" page={HomePage} name="home" />
         <Route path="/about" page={FaqPage} name="faq" />
+        <Route path="/feedback" page={FeedbackPage} name="feedback" />
         <Route path="/signin" page={SignInPage} name="signin" />
         <Route notfound page={NotFoundPage} />
         <Route path="/members/{usernameOrAddress}" page={MemberMemberPage} name="member" />

@@ -6,7 +6,7 @@ export default {
 }
 
 export const generated = (args) => (
-  <div className="flex flex-row space-x-6">
+  <div className="flex flex-col lg:flex-row space-y-6 lg:space-x-6 lg:space-y-0">
     <AchievementList isLoading {...args} />
     <AchievementList {...args} />
   </div>

@@ -1,15 +1,20 @@
 import props from 'prop-types'
+import filters from '@treasure-chess/treasure-filters'
 
 import Table from 'src/components/Table'
-
-import achievements from './achievements.json'
 
 const AchievementList = ({ achievements, ...rest }) => {
   return <Table data={achievements} {...rest} />
 }
 
 AchievementList.defaultProps = {
-  achievements,
+  achievements: filters.achievementList
+    .sort((a, b) => b.points - a.points)
+    .map((achievement) => [
+      achievement.name,
+      achievement.description,
+      achievement.points,
+    ]),
   title: 'Achievements',
   isLoading: false,
   height: '350px',

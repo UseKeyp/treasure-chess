@@ -22,16 +22,16 @@ export const content = (
           <span className="mr-2">🌱</span> <b>Environmentally friendly</b>
         </h2>
         <h3 className="mt-2 ">
-          Less energy is consumed than from playing a game of chess online.
+          Less energy is consumed from minting a new Treasure than from playing a game of chess online.
         </h3>
       </li>
       <li>
         <h2 className="-indent-9 ">
           <span className="mr-3">🌞</span>
-          <b>Fun</b>
+          <b>Keep it Fun</b>
         </h2>
         <h3 className="mt-2 ">
-          Support the players and creator you love. Speculation is limited by a
+          Support the players and creators you love. Speculation is limited by a
           $100 maximum deposit.
         </h3>
       </li>

@@ -55,8 +55,8 @@ const FilterItems = ({ onChange }) => {
       // ...(day && { day }),
       ...(month && { month: monthsList.indexOf(month) + 1 }),
       ...(year && { year }),
-      ...(outcome && { outcome: outcome.toLowerCase() }),
       ...(username && { username }),
+      ...(outcome && { outcome: outcome.toLowerCase() }),
     })
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [month, year, username, outcome])

@@ -1,6 +1,14 @@
+# Screenshot
+
 Adding `?static=true` to the Treasure Html shows the static board image instead
 
 Replaced canvas with `@napi-rs/canva`
+
+# Troubleshooting
+
+```bash
+ps aux | grep playwright
+```
 
 ## chrome-aws-lambda
 

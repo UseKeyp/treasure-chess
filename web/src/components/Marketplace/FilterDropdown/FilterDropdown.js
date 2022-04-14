@@ -1,4 +1,3 @@
-import styles from './FilterDropdown.module.scss'
 import { useState } from 'react'
 /**
  * This component controls the visibility of multiple filter buttons
@@ -14,15 +13,12 @@ const FilterDropdown = (props) => {
 
   return (
     <>
-      <button
-        className={styles.filterDropdownLabel}
-        onClick={() => toggleOpen()}
-      >
+      <button className="filterDropdownLabel" onClick={() => toggleOpen()}>
         <h3>
           {isOpen ? '🔽' : '▶️'} {props.label}
         </h3>
       </button>
-      <div className={styles.filterDropdown}>{isOpen && props.children}</div>
+      <div className="filterDropdown">{isOpen && props.children}</div>
     </>
   )
 }

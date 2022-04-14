@@ -11,7 +11,7 @@ const decrypt = ({ encrypted, key }) => {
   const { tag, content, iv } = encrypted
   if (!key || !iv) throw 'No ENCRYPTION_KEY or ENCRYPTION_IV provided'
   const decipher = createDecipheriv(ALGORITHM, key, iv)
-  decipher.setAuthTag(new Buffer(tag, 'hex'))
+  decipher.setAuthTag(Buffer.from(tag, 'hex'))
 
   let decrypted = decipher.update(content, 'hex', 'utf8')
   decrypted += decipher.final('utf8')

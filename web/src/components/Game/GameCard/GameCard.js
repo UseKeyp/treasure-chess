@@ -1,6 +1,5 @@
 import { P } from 'src/components/Typography'
 import Loader from 'src/components/Loader'
-import styles from './GameCard.module.scss'
 const {
   getBoardLayout,
   getBoardBase64,
@@ -96,10 +95,10 @@ const GameCard = ({ game, isMinting, isLoading, title, showGif }) => {
 
   if (!isMinting && !game)
     return (
-      <div className={styles.container}>
-        <div className={styles.gameCardWrapper}>
-          <div className={styles.gameCardMintingContainer}>
-            <div className={styles.gameCardEmpty}>
+      <div className="container">
+        <div className="gameCardWrapper">
+          <div className="gameCardMintingContainer">
+            <div className="gameCardEmpty">
               <h2>Select a game</h2>
             </div>
           </div>
@@ -112,11 +111,11 @@ const GameCard = ({ game, isMinting, isLoading, title, showGif }) => {
     listAmount = game.marketSales[0].amount
 
   return (
-    <div className={styles.container}>
-      <div className={styles.gameCardWrapper}>
+    <div className="container">
+      <div className="gameCardWrapper">
         {isMinting && (
-          <div className={styles.gameCardMintingContainer}>
-            <div className={styles.gameCardMintingOverlay} />
+          <div className="gameCardMintingContainer">
+            <div className="gameCardMintingOverlay" />
             <div>
               <div className="mb-6 h-full">
                 <Loader />
@@ -137,9 +136,7 @@ const GameCard = ({ game, isMinting, isLoading, title, showGif }) => {
         <animated.div
           id={`card_${game.id}`}
           className={
-            game.tokenId
-              ? `${styles.gameCardHtml} ${styles.mintedCardHtml}`
-              : `${styles.gameCardHtml}`
+            game.tokenId ? 'gameCardHtml mintedCardHtml' : 'gameCardHtml'
           }
           onMouseMove={(e) => {
             var div = document
@@ -160,7 +157,7 @@ const GameCard = ({ game, isMinting, isLoading, title, showGif }) => {
         />
       </div>
       {listAmount > 0 ? (
-        <div className={styles.priceBadge}>
+        <div className="priceBadge">
           <h2>${listAmount.toLocaleString()}</h2>
         </div>
       ) : null}

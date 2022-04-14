@@ -11,7 +11,7 @@ export const CardSkeleton = () => {
 export const SaleSkeleton = () => {
   return (
     <SkeletonTheme baseColor="#272522" highlightColor="#21201D">
-      <Skeleton className={`h-[108px] w-[396px] rounded-xl`} count={1} />
+      <Skeleton className={`h-[108px] rounded-xl`} count={1} />
     </SkeletonTheme>
   )
 }

@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import styles from './Dropdown.module.scss'
 import { ReactComponent as Carat } from '../../assets/icons/carat.svg'
 
 const Dropdown = ({
@@ -23,7 +22,7 @@ const Dropdown = ({
   const handleKeyDown = (e, option, index) => {
     // jsx ally yelled at me to implement keyboard navigation
     let elements = document.querySelectorAll(
-      `div[name="${category}--${styles.dropdownObject}"]`
+      `div[name="${category}--dropdownObject"]`
     )
     if (e.key === 'Enter') {
       handleSelection(option)
@@ -38,7 +37,7 @@ const Dropdown = ({
     }
     if (e.key === 'ArrowUp' && index === 0) {
       document
-        .querySelectorAll(`div[name="${category}--${styles.dropdownLabel}"]`)[0]
+        .querySelectorAll(`div[name="${category}--dropdownLabel"]`)[0]
         .focus()
     }
     if (e.key === 'ArrowDown' && index < options.length - 1) {
@@ -47,15 +46,15 @@ const Dropdown = ({
     }
   }
 
-  const dropdownElementName = `${category}--${styles.dropdownObject}`
-  const dropdownSelectorName = `${category}--${styles.dropdownLabel}`
+  const dropdownElementName = `${category}--dropdownObject`
+  const dropdownSelectorName = `${category}--dropdownLabel`
 
   return (
-    <div className={styles.dropdownWrapper}>
+    <div className="dropdownWrapper">
       <h4>{category}</h4>
-      <div onMouseLeave={() => setIsOpen(false)} className={styles.dropdown}>
+      <div onMouseLeave={() => setIsOpen(false)} className="dropdown">
         <div
-          className={styles.dropdownLabel}
+          className="dropdownLabel"
           onClick={() => toggleOpen()}
           name={dropdownSelectorName}
           onKeyDown={(e) => {
@@ -83,13 +82,13 @@ const Dropdown = ({
           )}
         </div>
         {isOpen && typeof options !== 'undefined' ? (
-          <div className={styles.optionContainerWrap}>
-            <div className={styles.optionContainer}>
+          <div className="optionContainerWrap">
+            <div className="optionContainer">
               {options.map((option, index) => {
                 return (
                   <div
                     key={index}
-                    className={styles.dropdownObject}
+                    className="dropdownObject"
                     role={'button'}
                     tabIndex={0}
                     name={`${dropdownElementName}`}

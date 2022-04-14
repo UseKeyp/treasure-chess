@@ -2,6 +2,7 @@ export const schema = gql`
   type Member {
     id: String!
     username: String!
+    locale: String
     address: String
     treasuresOwned: [Treasure]!
     treasuresMinted: [Treasure]!
@@ -11,7 +12,7 @@ export const schema = gql`
     imageSrc: String
     country: String
     masterTitle: MasterTitle
-    activity: JSON
+    twitchUsername: String
   }
 
   type Profile {
@@ -26,7 +27,6 @@ export const schema = gql`
     imageSrc: String
     country: String
     masterTitle: String
-    activity: JSON
   }
 
   type MemberBalance {
@@ -35,11 +35,14 @@ export const schema = gql`
   }
 
   type Query {
-    members: [Member!]! @skipAuth
     member(usernameOrAddress: String!): Member @skipAuth
     usernames(query: String!): [String]! @skipAuth
     profile: Profile! @requireAuth
     memberBalance: MemberBalance! @requireAuth
+  }
+
+  type Mutation {
+    userLocale(locale: String!): Member! @requireAuth
   }
 
   enum MasterTitle {

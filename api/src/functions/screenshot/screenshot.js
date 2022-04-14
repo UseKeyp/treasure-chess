@@ -5,12 +5,12 @@ import { logger } from 'src/lib/logger'
 import Sentry from 'src/lib/sentry'
 
 export const handler = async (event, _context) => {
-  logger.debug('Invoked screenshot function')
+  logger.debug('Invoked /screenshot')
   let browser = null
   try {
-    const { url } = event.queryStringParameters
-    if (!url.match(/https:\/\/chess.mypinata.cloud\/ipfs/))
-      throw 'Only chess.mypinata.cloud is allowed'
+    const html = event.body
+    logger.debug(html.substring(0, 100))
+    if (!html) throw 'No html provided'
     const browser = await playwright.chromium.launch({
       args: chromium.args,
       executablePath: await chromium.executablePath,
@@ -18,11 +18,10 @@ export const handler = async (event, _context) => {
     })
     const context = await browser.newContext({
       deviceScaleFactor: 2,
-      timeout: 60000, // 60 s
+      timeout: 30000, // 60 s
     })
-
     const page = await context.newPage()
-    await page.goto(url)
+    await page.setContent(html)
     const buffer = await page.locator('body > div').screenshot()
     return {
       statusCode: 200,
@@ -33,9 +32,10 @@ export const handler = async (event, _context) => {
     }
   } catch (error) {
     /* eslint-disable no-console */
-    logger.error(error, { custom: event })
+    // logger.error(error, { custom: event })
     /* eslint-enable no-console */
     Sentry.captureException(error)
+    if (browser) await browser.close()
     return {
       statusCode: 500,
       body: {
@@ -43,8 +43,6 @@ export const handler = async (event, _context) => {
       },
     }
   } finally {
-    if (browser) {
-      await browser.close()
-    }
+    if (browser) await browser.close()
   }
 }

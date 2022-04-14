@@ -11,8 +11,10 @@ const TreasuresPage = () => {
 
   return (
     <div>
-      <MetaTags title="Treasures" />
-
+      <MetaTags
+        title="Explore"
+        description="Explore Treasures from your favorite players and friends."
+      />
       <div className="flex">
         <div className="mr-4 w-full">
           <div className="flex w-full justify-end relative mb-4">

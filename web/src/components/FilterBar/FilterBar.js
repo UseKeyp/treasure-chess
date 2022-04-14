@@ -1,8 +1,6 @@
 import filters from '@treasure-chess/treasure-filters'
 import { useState } from 'react'
 
-import styles from './FilterBar.module.scss'
-
 import { anyValues } from './Logic'
 import FilterCheckbox from 'src/components/FilterCheckbox/FilterCheckbox'
 import FilterPriceInput from 'src/components/FilterPriceInput/FilterPriceInput'
@@ -104,19 +102,19 @@ const FilterBar = ({
   ])
 
   return (
-    <div className={styles.filterBarWrapper} data-hide-on-mobile={hideOnMobile}>
-      <div className={styles.filterBar} data-show-scrollbar={showScrollbar}>
-        <div className={styles.resetRow}>
-          <button className={styles.reset} onClick={onReset}>
+    <div className="filterBarWrapper" data-hide-on-mobile={hideOnMobile}>
+      <div className="filterBar" data-show-scrollbar={showScrollbar}>
+        <div className="resetRow">
+          <button className="reset" onClick={onReset}>
             Reset
           </button>
         </div>
 
-        <div className={styles.dropdownRowSpacing}>
+        <div className="dropdownRowSpacing">
           <h4 style={{ marginBottom: `0.5em` }}>Username</h4>
           <UsernameSearchBar />
         </div>
-        <div className={styles.dropdownRowSpacing}>
+        <div className="dropdownRowSpacing">
           <Dropdown
             category={'Opening'}
             options={filters.openingList.map((opening) => opening.name)}
@@ -124,7 +122,7 @@ const FilterBar = ({
             queryFilter={opening}
           />
         </div>
-        <div className={styles.dropdownRowSpacing}>
+        <div className="dropdownRowSpacing">
           <Dropdown
             category={'Rarity'}
             options={filters.rarityList}
@@ -132,7 +130,7 @@ const FilterBar = ({
             queryFilter={rarity}
           />
         </div>
-        <div className={styles.dropdownRowSpacing}>
+        <div className="dropdownRowSpacing">
           <FilterCheckbox
             category={'Sale'}
             options={filters.saleList}
@@ -140,15 +138,15 @@ const FilterBar = ({
             queryFilter={sale}
           />
         </div>
-        <div className={styles.priceRowWrapper}>
+        <div className="priceRowWrapper">
           <h4>Price Range</h4>
-          <div className={styles.priceRow}>
+          <div className="priceRow">
             <FilterPriceInput value={lowPrice} setValue={setLowPrice} />
             <span>to</span>
             <FilterPriceInput value={highPrice} setValue={setHighPrice} />
           </div>
         </div>
-        <div className={styles.dropdownRowSpacing}>
+        <div className="dropdownRowSpacing">
           <FilterCheckbox
             category={'Outcome'}
             options={filters.outcomeList}
@@ -156,7 +154,7 @@ const FilterBar = ({
             queryFilter={outcome}
           />
         </div>
-        <div className={styles.dropdownRowSpacing}>
+        <div className="dropdownRowSpacing">
           <Dropdown
             category={'Termination'}
             options={filters.terminationList.map(
@@ -166,7 +164,7 @@ const FilterBar = ({
             queryFilter={termination}
           />
         </div>
-        <div className={styles.dropdownTwoElementRow}>
+        <div className="dropdownTwoElementRow">
           <Dropdown
             category={'Time'}
             options={filters.timeControlList.map((time) => time.name)}
@@ -180,7 +178,7 @@ const FilterBar = ({
             queryFilter={moveCount}
           />
         </div>
-        <div className={styles.dropdownRowSpacing}>
+        <div className="dropdownRowSpacing">
           <FilterCheckbox
             category={'Master Title'}
             options={filters.titleList}
@@ -190,7 +188,7 @@ const FilterBar = ({
             deselect={true}
           />
         </div>
-        <div className={styles.dropdownRow}>
+        <div className="dropdownRow">
           <h4 style={{ marginLeft: `1em`, marginBottom: `0.5em` }}>
             Achievements
           </h4>

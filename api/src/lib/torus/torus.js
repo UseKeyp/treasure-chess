@@ -48,6 +48,7 @@ export const getTorusPublicAddress = async (userId) => {
       torusNodePub,
       verifierDetails
     )
+    logger.debug(`getTorusPublicAddress ${publicAddress}`)
     return publicAddress.toLowerCase()
   } catch (e) {
     logger.error(e)

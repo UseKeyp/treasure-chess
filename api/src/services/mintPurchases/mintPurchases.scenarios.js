@@ -1,35 +1,32 @@
-export const standard = defineScenario({
-  mintPurchase: {
-    one: {
-      data: {
-        updatedAt: '2021-10-22T22:35:38Z',
-        gameId: 'String',
-        gameEndTime: 'String',
-        member: {
-          create: {
-            id: 'String',
-            username: 'String3089052',
-            updatedAt: '2021-10-22T22:35:38Z',
-            country: 'String',
-          },
-        },
-      },
-    },
+import { generateRandomMembers } from '../../../../scripts/seed/helpers'
 
-    two: {
-      data: {
-        updatedAt: '2021-10-22T22:35:38Z',
-        gameId: 'String',
-        gameEndTime: 'String',
-        member: {
-          create: {
-            id: 'String',
-            username: 'String4954184',
-            updatedAt: '2021-10-22T22:35:38Z',
-            country: 'String',
-          },
-        },
-      },
+const generatedMembers = generateRandomMembers(4, 0)
+// NOTE: alice and bob own all the treasures
+
+const member = {}
+const names = ['alice', 'bob', 'carol', 'dan', 'eve']
+generatedMembers.map((item, index) => {
+  member[names[index]] = { data: item }
+})
+const mintPurchase = {
+  one: {
+    data: {
+      id: 1,
+      memberId: '0',
+      gameId: 'randomGameId',
+      gameEndTime: '2021-07-19T20:38:36.000Z',
+      title: 'Embarrassed she beat a gm',
+      paymentType: 'MINTCREDIT',
+      status: 'PENDING',
+      orderStatus: 'COMPLETE',
+      orderId: null,
+      reservation: null,
+      transactionId: null,
     },
   },
+}
+
+export const standard = defineScenario({
+  member,
+  mintPurchase,
 })

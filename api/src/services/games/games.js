@@ -1,13 +1,14 @@
 import {
   fetchGame,
-  getGamesWithArguments,
+  getGamesWithFilter,
   getFullGameDetails,
 } from 'src/lib/games'
 
-export const games = async ({ filter }) =>
-  getGamesWithArguments({
+export const gamesWithFilter = async ({ filter, page }) =>
+  getGamesWithFilter({
     username: context.currentUser.username,
     filter,
+    page,
   })
 
 export const game = async ({
@@ -19,4 +20,4 @@ export const game = async ({
   return getFullGameDetails({ username: context.currentUser.username, game })
 }
 
-export const Treasure = {}
+export const Game = {}

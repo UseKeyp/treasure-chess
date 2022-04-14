@@ -8,5 +8,7 @@ export const chainData = async () => {
     marketAddress: process.env.CONTRACT_ADDRESS_TREASURE_MARKET,
     totalSupply: supply,
     networkName: process.env.ETHEREUM_NETWORK_NAME,
+    environment: process.env.ENVIRONMENT,
+    nodeEnvironment: process.env.NODE_ENV,
   }
 }

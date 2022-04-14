@@ -17,24 +17,44 @@ const TOKEN_URI_DOMAIN = process.env.APP_DOMAIN
 
 const API_DOMAIN = isProduction
   ? 'http://treasure-chess-api:8080'
-  : `${process.env.APP_DOMAIN}/api`
+  : process.env.REDWOOD_API_URL
 
-const fetchScreenshotBase64Buffer = async (_url) => {
-  // const target = `${API_DOMAIN}/screenshot?url=${url}`
-  // const result = await fetch(target)
-  // if (result.status !== 200) throw "Couldn't get card snapshot"
-  // const buffer = await result.buffer()
-  // return buffer
-  return Buffer.from(placeholderImage, 'base64')
+const fetchScreenshotBase64Buffer = async (html) => {
+  try {
+    if (['dev', 'sandbox'].includes(process.env.ENVIRONMENT))
+      return Buffer.from(placeholderImage, 'base64')
+    const result = await fetch(`${API_DOMAIN}/screenshot`, {
+      method: 'POST',
+      body: html,
+      'Content-Type': 'text/plain',
+    })
+    // logger.debug({ custom: result }, 'fetchScreenshotBase64Buffer result ')
+    // if (result.status !== 200) throw "Couldn't get card snapshot"
+    const buffer = await result.buffer()
+    logger.debug(`typeof buffer ${typeof buffer}`)
+    logger.debug(`buffer.length ${buffer.length}`)
+    return buffer
+  } catch (e) {
+    logger.error(e)
+    throw `fetchScreenshotBase64Buffer() ${e}`
+  }
 }
+
 const fetchBoardBase64Buffer = async ({ boardLayout, playerColor }) => {
-  const result = await fetch(`${API_DOMAIN}/image`, {
-    method: 'POST',
-    body: JSON.stringify({ boardLayout, playerColor }),
-  })
-  if (result.status !== 200) throw "Couldn't get static board image"
-  const buffer = await result.buffer()
-  return buffer.toString('base64')
+  try {
+    // logger.debug({ custom: boardLayout }, 'fetchBoardBase64Buffer')
+    const result = await fetch(`${API_DOMAIN}/image`, {
+      method: 'POST',
+      body: JSON.stringify({ boardLayout, playerColor }),
+    })
+    if (result.status !== 200) throw "Couldn't get static board image"
+    const buffer = await result.buffer()
+    return buffer.toString('base64')
+  } catch (e) {
+    logger.error(e)
+    logger.debug(JSON.stringify({ boardLayout, playerColor }))
+    throw `fetchBoardBase64Buffer() ${e}`
+  }
 }
 
 const pinFile = async (blob, filename) => {
@@ -58,30 +78,40 @@ const pinFile = async (blob, filename) => {
     if (!response.IpfsHash) throw `Couldn't pin file: ${blob}`
     return `ipfs://${response.IpfsHash}`
   } catch (e) {
+    logger.error(e)
     throw `pinFile() ${e}`
   }
 }
 
 const pinJson = async (jsonString) => {
-  const response = await fetch(`${PINATA_API_URL}/pinning/pinJSONToIPFS`, {
-    method: 'post',
-    body: jsonString,
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      pinata_api_key: PINATA_API_KEY,
-      pinata_secret_api_key: PINATA_API_SECRET_KEY,
-    },
-  }).then((res) => {
-    return res.json()
-  })
+  try {
+    const response = await fetch(`${PINATA_API_URL}/pinning/pinJSONToIPFS`, {
+      method: 'post',
+      body: jsonString,
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        pinata_api_key: PINATA_API_KEY,
+        pinata_secret_api_key: PINATA_API_SECRET_KEY,
+      },
+    }).then((res) => {
+      return res.json()
+    })
 
-  if (!response.IpfsHash) throw `Couldn't pin JSON: ${jsonString}`
-  return `ipfs://${response.IpfsHash}`
+    if (!response.IpfsHash) throw `Couldn't pin JSON: ${jsonString}`
+    return `ipfs://${response.IpfsHash}`
+  } catch (e) {
+    logger.error(e)
+    throw `pinJson() ${e}`
+  }
 }
+
+const ipfsUrlToPinata = (ipfsUrl) =>
+  'https://chess.mypinata.cloud/ipfs/' + ipfsUrl.split('ipfs://')[1]
 
 export const pinTreasure = async ({ treasure, tcn }) => {
   try {
+    // Setup
     const { gifBase64 } = await getGifBase64({
       tcn,
       playerColor: treasure.cardColor,
@@ -89,29 +119,46 @@ export const pinTreasure = async ({ treasure, tcn }) => {
     const achievementNames = getAchievementNamesFromValues(
       treasure.achievements
     )
+    const attributes = getAttributes({ ...treasure, achievementNames })
 
+    // Image processing
     const boardBuffer = await fetchBoardBase64Buffer({
       boardLayout: JSON.parse(treasure.boardLayout),
       playerColor: treasure.winner,
     })
 
+    const htmlStringScreenshot = await getCardHtml({
+      treasure: { ...treasure, achievements: achievementNames },
+      staticBase64: boardBuffer,
+      isScreenshot: true,
+    })
+    const screenshotBuffer = await fetchScreenshotBase64Buffer(
+      htmlStringScreenshot
+    )
+    const image = await pinFile(screenshotBuffer, `${treasure.id}.png`)
+
+    const htmlStringPrerender = await getCardHtml({
+      treasure: { ...treasure, achievements: achievementNames },
+      staticBase64: boardBuffer,
+      isPrerender: true,
+    })
+    const prerenderImageBuffer = await fetchScreenshotBase64Buffer(
+      htmlStringPrerender
+    )
+    const openGraphImageSrc = await pinFile(
+      prerenderImageBuffer,
+      `${treasure.id}-prerender.png`
+    )
+
     const htmlString = await getCardHtml({
       treasure: { ...treasure, achievements: achievementNames },
       gifBase64,
       staticBase64: boardBuffer,
+      openGraphImageSrc: ipfsUrlToPinata(openGraphImageSrc),
     })
+
     /* eslint-disable camelcase */
     const animation_url = await pinFile(htmlString, `${treasure.id}.html`)
-
-    const screenshotUrl = escape(
-      'https://chess.mypinata.cloud/ipfs/' +
-        animation_url.split('ipfs://')[1] +
-        '?static=true'
-    )
-    const screenshotBuffer = await fetchScreenshotBase64Buffer(screenshotUrl)
-
-    const image = await pinFile(screenshotBuffer, `${treasure.id}.png`)
-    const attributes = getAttributes({ ...treasure, achievementNames })
 
     const uriData = {
       description: getDescription({ opening: treasure.opening }), // TODO: Update copy for this
@@ -122,22 +169,22 @@ export const pinTreasure = async ({ treasure, tcn }) => {
       image,
     }
     const stringifiedUriData = JSON.stringify(uriData)
+    logger.debug({ custom: uriData }, 'uriData')
     const tokenUri = await pinJson(stringifiedUriData)
-    /* eslint-disable no-console */
-    logger.info({
-      animation_url:
-        'https://chess.mypinata.cloud/ipfs/' +
-        animation_url.split('ipfs://')[1] +
-        '?static=true',
-    })
-    logger.info({
-      image: 'https://chess.mypinata.cloud/ipfs/' + image.split('ipfs://')[1],
-    })
-    logger.info({
-      tokenUri:
-        'https://chess.mypinata.cloud/ipfs/' + tokenUri.split('ipfs://')[1],
-    })
-    /* eslint-enable no-console */
+
+    let customLog = ''
+    try {
+      ;[tokenUri, animation_url, image, openGraphImageSrc].map((ipfs) => {
+        try {
+          customLog += `${ipfsUrlToPinata(ipfs)}, `
+        } catch (e) {
+          throw ipfs
+        }
+      })
+    } catch (e) {
+      throw `error getting ipfs url: ${e}`
+    }
+    logger.info(customLog)
 
     return { tokenUri, uriData: stringifiedUriData }
   } catch (e) {

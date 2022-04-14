@@ -8,6 +8,7 @@ import LandingModal from 'src/components/LandingModal'
 import { logIn } from 'src/utils/auth/client'
 import FatalErrorPage from 'src/pages/FatalErrorPage'
 import Routes from 'src/Routes'
+import './i18next.js'
 
 import './scaffold.css'
 import './index.scss'
@@ -41,7 +42,7 @@ const SentryInjector = () => {
   try {
     Sentry.init({
       dsn: process.env.SENTRY_DSN,
-      environment: process.env.SENTRY_ENVIRONMENT,
+      environment: process.env.ENVIRONMENT,
       // beforeSend(event) {
       // Check if it is an exception, and if so, show the report dialog
       // if (event.exception) {
@@ -64,7 +65,7 @@ const SentryInjector = () => {
 
 const App = () => (
   <FatalErrorBoundary page={FatalErrorPage}>
-    <RedwoodProvider titleTemplate="%PageTitle | %AppTitle">
+    <RedwoodProvider titleTemplate="%AppTitle — %PageTitle">
       <AuthProviderExtended
         type="dbAuth"
         config={{ fetchConfig: { credentials: 'include' } }}

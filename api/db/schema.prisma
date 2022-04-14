@@ -13,6 +13,8 @@ model Member {
   id                   String         @id // Chess.com id
   username             String         @unique // Chess.com username
   address              String?        @unique // Torus wallet address
+  twitchUsername       String?        @unique // Twitch username
+  locale               String?
   // --------------- LINKS --------------
   treasuresOwned       Treasure[]     @relation("treasuresOwned")
   treasuresMinted      Treasure[]     @relation("treasuresMinted")
@@ -134,26 +136,28 @@ model MarketSale {
 }
 
 model MintPurchase {
-  id          Int                      @id @default(autoincrement())
-  createdAt   DateTime                 @default(now())
-  updatedAt   DateTime                 @updatedAt
+  id                Int                      @id @default(autoincrement())
+  createdAt         DateTime                 @default(now())
+  updatedAt         DateTime                 @updatedAt
   // --------------- LINKS --------------
-  member      Member                   @relation("mintPurchases", fields: [memberId], references: [id])
-  memberId    String
-  treasure    Treasure?                @relation("mintPurchase")
+  member            Member                   @relation("mintPurchases", fields: [memberId], references: [id])
+  memberId          String
+  treasure          Treasure?                @relation("mintPurchase")
   // --------------- STATE --------------
-  gameId      String
-  gameEndTime String
-  title       String // User's desired title
-  // Order
-  paymentType String                   @default("WYRE") // WYRE, MINTCREDIT
-  orderStatus MintPurchaseOrderStatus?
+  gameId            String
+  gameEndTime       String
+  title             String // Treasure title
+  // Order details
+  paymentType       String                   @default("WYRE") // WYRE, MINTCREDIT
+  status            RampStatus               @default(PENDING)
   // Wyre
-  orderId     String?                  @unique // Wyre orderId
-  reservation String?                  @unique // Wyre reservation
-  // NFT
-  txHash      String?
-  txStatus    TxStatus                 @default(UNSUBMITTED)
+  orderStatus       MintPurchaseOrderStatus?
+  orderId           String?                  @unique // Wyre orderId
+  reservation       String?                  @unique // Wyre reservation
+  // Blockchain
+  staleTransactions Transaction[]            @relation("staleMintTransactions")
+  transaction       Transaction?             @relation(fields: [transactionId], references: [id])
+  transactionId     String?                  @unique
 }
 
 model OAuth {
@@ -181,16 +185,22 @@ model RampWithdraw {
 }
 
 model Transaction {
-  id               String        @id
-  createdAt        DateTime      @default(now())
-  updatedAt        DateTime      @updatedAt
+  id                   String        @id
+  createdAt            DateTime      @default(now())
+  updatedAt            DateTime      @updatedAt
   // --------------- STATE --------------
-  status           TxStatus      @default(SUBMITTED)
-  marketSaleList   MarketSale?   @relation("listTx")
-  marketSaleUnlist MarketSale?   @relation("unlistTx")
-  marketSaleSale   MarketSale?   @relation("saleTransactions", fields: [marketSaleSaleId], references: [id])
-  marketSaleSaleId Int?
-  rampWithdraw     RampWithdraw?
+  status               TxStatus      @default(SUBMITTED)
+  gasLimit             Int           @default(0)
+  maxPriorityFeePerGas Int           @default(0)
+  maxFeePerGas         Int           @default(0)
+  mintPurchase         MintPurchase?
+  marketSaleList       MarketSale?   @relation("listTx")
+  marketSaleUnlist     MarketSale?   @relation("unlistTx")
+  marketSaleSale       MarketSale?   @relation("saleTransactions", fields: [marketSaleSaleId], references: [id])
+  marketSaleSaleId     Int?
+  rampWithdraw         RampWithdraw?
+  MintPurchase         MintPurchase? @relation("staleMintTransactions", fields: [mintPurchaseId], references: [id])
+  mintPurchaseId       Int?
 }
 
 enum RampType {

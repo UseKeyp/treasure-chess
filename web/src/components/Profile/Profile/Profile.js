@@ -15,25 +15,21 @@ const Profile = () => {
     <div className="max-width-container">
       <div className="grid grid-rows-1">
         <div className="grid md:grid-cols-2 grid-cols-1 gap-10">
-          <div>
-            <MemberDetails member={currentUser} isProfile />
-          </div>
-          <div>
-            <MemberActivityCell address={currentUser?.address} />
-          </div>
+          <MemberDetails member={currentUser} isProfile />
+          <MemberActivityCell usernameOrAddress={currentUser?.username} />
         </div>
       </div>
-      <h1 className="mt-8">Games</h1>
+      <h1 className="mt-10">Games</h1>
       <div className="mt-4">
         <GameExplorer />
       </div>
-      <h1 className="mt-8">Treasures Owned</h1>
+      <h1 className="mt-10">Treasures Owned</h1>
       <div className="flex mt-4">
-        <TreasuresFetcher owner={currentUser?.username} />
+        <TreasuresFetcher owner={currentUser?.username} sort="Most Rare" />
       </div>
-      <h1 className="mt-8">Treasures Played</h1>
+      <h1 className="mt-10">Treasures Played</h1>
       <div className="flex mt-4">
-        <TreasuresFetcher username={currentUser?.username} />
+        <TreasuresFetcher username={currentUser?.username} sort="Most Rare" />
       </div>
     </div>
   )

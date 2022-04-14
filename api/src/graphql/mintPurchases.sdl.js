@@ -6,9 +6,9 @@ export const schema = gql`
     gameId: String!
     gameEndTime: String!
     title: String!
-    txHash: String
-    txStatus: String!
     paymentType: String!
+    status: String!
+    transaction: Transaction
   }
 
   type Query {

@@ -193,6 +193,7 @@ const filters = {
 }
 
 export const TREASURES_PER_PAGE = 9
+export const GAMES_PER_PAGE = 50
 
 export const getAchievementNamesFromValues = (achievements) =>
   achievements.map((value) => {

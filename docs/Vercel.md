@@ -19,7 +19,7 @@ bash -c 'if [[$VERCEL_GIT_COMMIT_REF == "sandbox"]]; then exit 1; fi'
 
 ## Serverless considerations
 
-The built `api` must be <50MB for Vercel. Use these commands to check the current size of each serverless function:
+The built `api` must be <50MB for Vercel. Use these commands to check the size of each serverless function:
 
 ```bash
 yarn rw build api && \

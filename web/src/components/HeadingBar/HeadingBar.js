@@ -20,7 +20,7 @@ const HeadingBar = ({ children, justifyChildren = 'left', text, type }) => {
     return 'text-2xl font-bold'
   }, [type])
 
-  const wrapperClasses = `flex items-center pt-4 pb-4 w-full`
+  const wrapperClasses = `flex items-start md:items-center flex-col md:flex-row pt-4 pb-4 w-full`
 
   const textClasses = `${getTextClasses()} mr-4`
 

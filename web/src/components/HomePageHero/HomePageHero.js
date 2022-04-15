@@ -4,13 +4,27 @@ import { game } from './data.js'
 
 const HomePageHero = () => {
   const [card, setCard] = React.useState()
+
   const update = async () => {
     const raw = await getCardHtml({
       treasure: { ...game, title: 'Lucky Timeout' },
       gifUrl:
         'https://images.chesscomfiles.com/uploads/game-gifs/90px/brown/neo/0/cc/0/0/bUNaSkNKN0psQiFUYnNKR2NsWVFzQ0dZQ1QyVGd2NkVmbTBLQktFdm12VEtlZzlSdk41WmR2ODZ2MTc5MVM2NWxzWklTQUtDZ2g5THM_TE5BIVk2ITY1Nm93Q3VudVJ3aG93UnB4SUNhZE5Nb3ZNTA,,.gif',
     })
-    setCard(raw)
+
+    const replacement =
+      raw
+        .match(/href=".+?(?=treasures)\S*(\S+)"/g)[0]
+        .split('/')
+        .slice(0, 3)
+        .join('/') + '/treasures"'
+
+    const replacedRaw = raw.replaceAll(
+      /href=".+?(?=members|treasures)\S*(\S+)"/g,
+      replacement
+    )
+
+    setCard(replacedRaw)
   }
   React.useEffect(() => {
     update()

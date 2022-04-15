@@ -7,7 +7,7 @@ const faqs = [
   {
     question: 'What are Treasures?',
     answer:
-      'Each unique game played on Chess.com can be turned into a Treasure, and no two Treasures can be the same. A Treasure has special attributes, achievements, and a level based on those achievements as well. Treasures can also be bought and sold in our Marketplace. Every Treasure was minted by one of the players who played its game on Chess.com.',
+      'Every game played on Chess.com can be turned into a Treasure. Only one Treasure for each player per game can ever be minted, and only the players can mint them. A Treasure has special attributes, achievements, and a level. Treasures can be bought and sold in our Marketplace.',
   },
   {
     question: 'What do I need to get started?',
@@ -19,7 +19,7 @@ const faqs = [
       'Each Treasure has a level: Good, Great, Ultra, or Mythic. The level is calculated automatically based on the achievements earned. Do something amazing, like take all of your opponents pawns without losing any, and you will be on your way to a Mythic Treasure.',
   },
   {
-    question: 'Who decides what achievements there are?',
+    question: 'Who decides the achievements?',
     answer:
       'There are currently 36 achievements in Treasure Chess. Who will be the first to earn them all (send us a message if you have)? We hope to add dozens and dozens more, using feedback and suggestions from the community. In the future there could even be a way to vote on what achievements are added to Treasure Chess.',
   },
@@ -63,7 +63,7 @@ const faqs = [
     question: 'What if I have another question?',
     answer:
       'Let us know! Treasure Chess is a living product and community. We want to help answer your questions and improve Treasure Chess.',
-  }
+  },
 ]
 
 export default faqs

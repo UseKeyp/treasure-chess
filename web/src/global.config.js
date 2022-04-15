@@ -17,16 +17,16 @@ const config = {
 
 export const featuredPlayers = [
   {
-    name: 'Magnus Carlsen',
-    rating: 2865,
+    name: 'Danny Rensch',
+    rating: '2500',
     imageSrc:
-      'https://images.chesscomfiles.com/uploads/v1/master_player/3b0ddf4e-bd82-11e8-9421-af517c2ebfed.3ea0e292.160x160o.bcc8fdc32021@2x.jpeg',
-    masterTitle: 'GM',
-    country: 'NO',
-    username: 'MagnusCarlsen',
+      'https://images.chesscomfiles.com/uploads/v1/user/4317.e9dc54f0.160x160o.b759b9aa64e8@2x.jpeg',
+    masterTitle: 'IM',
+    country: 'US',
+    username: 'Danny',
   },
   {
-    name: 'Jschiar',
+    name: 'Joseph Schiarizzi',
     rating: '1500',
     imageSrc:
       'https://images.chesscomfiles.com/uploads/v1/user/106292268.1f925d2d.161x161o.f292b345924a@2x.png',
@@ -35,22 +35,22 @@ export const featuredPlayers = [
     username: 'Jschiar',
   },
   {
-    name: 'Hikaru Nakamura',
-    rating: '2950',
+    name: 'Alexandra Botez',
+    rating: '2059',
     imageSrc:
-      'https://images.chesscomfiles.com/uploads/v1/user/86419862.dd45ef51.200x200o.e929634604ef.jpeg',
-    masterTitle: 'GM',
-    country: 'US',
-    username: 'chefshouse',
+      'https://images.chesscomfiles.com/uploads/v1/master_player/7064c138-1af7-11eb-b69b-0371950d641f.8e25e027.250x250o.135a8cc20161@2x.jpeg',
+    masterTitle: 'WFM',
+    country: 'CA',
+    username: 'alexandra-botez',
   },
   {
-    name: 'Tweetious',
-    rating: '1070',
+    name: 'Levy Rozman',
+    rating: '2333',
     imageSrc:
-      'https://images.chesscomfiles.com/uploads/v1/user/117951316.d1fc130c.160x160o.389ae6711765@2x.png',
-    masterTitle: '',
-    country: 'GR',
-    username: 'tweetious',
+      'https://images.chesscomfiles.com/uploads/v1/master_player/de4c8970-1fa1-11eb-b085-f9083b57b9d8.09ceeeff.250x250o.0401a269c1c9@2x.jpeg',
+    masterTitle: 'IM',
+    country: 'US',
+    username: 'levy-rozman',
   },
   {
     name: 'Marissa Li',
@@ -62,7 +62,7 @@ export const featuredPlayers = [
     username: 'Lightning_Pig',
   },
   {
-    name: 'Chadbiryani',
+    name: 'Aakaash Meduri',
     rating: '2772',
     imageSrc:
       'https://images.chesscomfiles.com/uploads/v1/user/10547944.c35e0df3.160x160o.f78382e5901f@2x.png',

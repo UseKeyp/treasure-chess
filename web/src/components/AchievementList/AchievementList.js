@@ -11,9 +11,9 @@ AchievementList.defaultProps = {
   achievements: filters.achievementList
     .sort((a, b) => b.points - a.points)
     .map((achievement) => [
-      achievement.name,
-      achievement.description,
-      achievement.points,
+      { text: achievement.name, style: { flex: 2 } },
+      { text: achievement.description, style: { flex: 6 } },
+      `${achievement.points} Point${achievement.points > 1 ? 's' : ''}`,
     ]),
   title: 'Achievements',
   isLoading: false,

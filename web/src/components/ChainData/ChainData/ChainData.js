@@ -28,24 +28,26 @@ const ChainData = ({ chainData, isLoading, isError }) => {
       nodeEnvironment,
     } = chainData
     const rows = [
-      ['Network', networkName],
+      ['Network', { text: networkName, className: 'lg:text-right' }],
       [
         'Treasure',
-        treasureAddress,
+        { text: treasureAddress, style: { flex: 6 } },
         {
           text: <Icon name="network" color="white" />,
           href: `${config.BLOCK_EXPLORER_BASE_URL}address/${treasureAddress}`,
+          style: { flex: 0.25 },
         },
       ],
       [
         'Market',
-        marketAddress,
+        { text: marketAddress, style: { flex: 6 } },
         {
           text: <Icon name="network" color="white" />,
           href: `${config.BLOCK_EXPLORER_BASE_URL}address/${marketAddress}`,
+          style: { flex: 0.25 },
         },
       ],
-      ['Total supply', totalSupply],
+      ['Total supply', { text: totalSupply, className: 'lg:text-right' }],
     ]
     return (
       <>

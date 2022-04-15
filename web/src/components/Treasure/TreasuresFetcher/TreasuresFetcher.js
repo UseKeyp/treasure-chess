@@ -81,7 +81,7 @@ const TREASURES_WITH_FILTER_COUNT = gql`
   }
 `
 
-const TreasuresFetcher = ({ username, owner, filter, sort, limit = false }) => {
+const TreasuresFetcher = ({ username, owner, filter, sort, limit }) => {
   const [treasures, setTreasures] = React.useState([])
   const [count, setCount] = React.useState()
   const [page, setPage] = React.useState(0)
@@ -101,7 +101,9 @@ const TreasuresFetcher = ({ username, owner, filter, sort, limit = false }) => {
     variables: { username, owner, filter },
     fetchPolicy: 'network-only',
     onCompleted: ({ count: newCount }) => {
-      setCount(newCount)
+      setCount(
+        limit && newCount > TREASURES_PER_PAGE ? TREASURES_PER_PAGE : newCount
+      )
     },
   })
 
@@ -112,7 +114,7 @@ const TreasuresFetcher = ({ username, owner, filter, sort, limit = false }) => {
 
   const onNewSearch = () => {
     getTreasures()
-    limit ? setCount(TREASURES_PER_PAGE) : getTreasuresCount()
+    getTreasuresCount()
     setPage(0)
     setTreasures([])
   }

@@ -22,7 +22,7 @@ const HomePage = () => {
           <AllTreasuresButton />
         </HeadingBar>
       </div>
-      <TreasuresFetcher sort="Newest First" />
+      <TreasuresFetcher limit sort="Newest First" />
       <FaqSection />
     </>
   )

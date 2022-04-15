@@ -40,7 +40,6 @@
   },
   "devDependencies": {
     "@redwoodjs/cli": "^1.0.0",
-    "dotenv": "^10.0.0",
     "prisma": "^3.6.0",
     "puppeteer": "^13.2.0"
   }

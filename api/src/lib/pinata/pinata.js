@@ -17,7 +17,7 @@ const TOKEN_URI_DOMAIN = process.env.APP_DOMAIN
 
 const API_DOMAIN = isProduction
   ? 'http://treasure-chess-api:8080'
-  : `${process.env.APP_DOMAIN}/api`
+  : process.env.REDWOOD_API_URL
 
 const fetchScreenshotBase64Buffer = async (html) => {
   try {
@@ -42,7 +42,7 @@ const fetchScreenshotBase64Buffer = async (html) => {
 
 const fetchBoardBase64Buffer = async ({ boardLayout, playerColor }) => {
   try {
-    logger.debug({ custom: boardLayout }, 'fetchBoardBase64Buffer')
+    // logger.debug({ custom: boardLayout }, 'fetchBoardBase64Buffer')
     const result = await fetch(`${API_DOMAIN}/image`, {
       method: 'POST',
       body: JSON.stringify({ boardLayout, playerColor }),
@@ -52,6 +52,7 @@ const fetchBoardBase64Buffer = async ({ boardLayout, playerColor }) => {
     return buffer.toString('base64')
   } catch (e) {
     logger.error(e)
+    logger.debug(JSON.stringify({ boardLayout, playerColor }))
     throw `fetchBoardBase64Buffer() ${e}`
   }
 }

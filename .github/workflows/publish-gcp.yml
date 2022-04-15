@@ -98,6 +98,7 @@ jobs:
           APP_DOMAIN="https://treasure.gcp-staging.chess-platform.com"
           ETHEREUM_NETWORK_NAME=matic
           BASIC_AUTH_PASSWORD=pauliemorphy
+          ENVIRONMENT=${{ needs.setup.outputs.ENVIRONMENT }}
           SENTRY_DSN="https://0723d14bc0b94064902f01f77a915392@o1016103.ingest.sentry.io/5981718"
           if [ $ENVIRONMENT == "prod" ] ; then
              REDWOOD_API_URL="https://treasure.chess.com"

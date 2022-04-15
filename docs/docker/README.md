@@ -29,7 +29,7 @@
 - Includes `core-js`
 - Entrypoint `./serve-api.sh`
 
-### Guid
+## Build
 
 Images are built via Github Action. To build the images locally:
 
@@ -41,50 +41,44 @@ docker build . -t pi0neerpat/treasure-chess-web -f web/Dockerfile \
 --build-arg BASIC_AUTH_PASSWORD='pauliemorphy'
 
 # api
-docker build . -t pi0neerpat/treasure-chess-api -f api/Dockerfile \
---build-arg NODE_ENV=dev \
-
-# both
-docker build . -t pi0neerpat/treasure-chess-both \
--f docker/Dockerfile \
---build-arg NODE_ENV=development \
---build-arg RUNTIME_ENV=local
+docker build . -t pi0neerpat/treasure-chess-api -f api/Dockerfile --build-arg ENVIRONMENT=dev
 ```
 
-Explore
+## Run
 
-```bash
-# Container
-docker exec -u 0 -it <containerId> /bin/bash
-apt-get update
-apt-get install nano
+If you did not build the images locally, you'll need to download them from the Github Container Registry (GHCR). To enable access to GHCR, create a `GITHUB_PAT` in your Github "Developer Settings" with permissions `read:packages`.
 
-# Image (read-only?)
-docker run --rm -it --entrypoint=/bin/bash <imageId>
-```
-
-Run an image locally:
-
-Create a `GITHUB_PAT` in your Github "Developer Settings" with permissions `read:packages`
+Start both containers with `docker-compose`
 
 ```bash
 # Authenticate
 docker login https://ghcr.io -u USERNAME -p GITHUB_PAT
 
-# Pull the images (web and api)
-docker pull ghcr.io/pi0neerpat/treasure-chess-web:latest
-docker pull ghcr.io/pi0neerpat/treasure-chess-api:latest
-
 # Run
 docker-compose up
-
-# Alternatively, run a single image
-docker run -it --rm \
-       -p 8910:8910 \
-        pi0neerpat/treasure-chess-web:latest
 ```
 
-Killing Docker
+To run a single image, use the `run` command:
+
+```bash
+docker run -it --rm \
+       -p 8911:8911 \
+        pi0neerpat/treasure-chess-api:latest
+```
+
+## Explore
+
+Helpful commands for exploring containers.
+
+```bash
+# Container
+docker exec -u 0 -it <containerId> /bin/bash
+
+# Image (read-only?)
+docker run --rm -it --entrypoint=/bin/bash <imageId>
+```
+
+## Troubleshoot
 
 ```bash
 # WARNING: may kill other containers on your machine
@@ -109,4 +103,110 @@ sudo /etc/init.d/docker restart
 # Potential fix for this problem
 sudo aa-remove-unknown
 https://javahowtos.com/guides/124-docker/414-solved-cannot-kill-docker-container-permission-denied.html
+
+sudo apt purge --auto-remove apparmor
+sudo service docker restart
+docker system prune --all --volumes
 ```
+
+## Image size-reduction tests
+
+redwood-release-devops example
+
+```
+docker run --rm -it --entrypoint=/bin/bash <imageId>
+
+apt-get install ncdu
+ncdu
+```
+
+## Devops repo
+
+#### `33b`
+
+Start of experiment
+
+container 2.15G
+node_modules 2.2G
+@redwoodjs 972.1 M
+@prisma 229.2 M
+
+#### `0201`
+
+Changed `RUN yarn install --production && yarn global add @redwoodjs/api-server @redwoodjs/internal`
+
+container 1.48G
+node_modules 82 M
+@redwoodjs 1.8 M
+@prisma n/a
+/root 208 Kb
+/usr/local/share/.cache/yarn 446 M
+/usr/lib x86_64-linux-gnu 299 M
+/usr/local/share/.config/yarn/global 194 M
+
+## tc repo
+
+#### `dev-b11e2c5`
+
+Start of experiment
+
+Build time 9-11 min
+container 5.45 G
+node_modules 2.2 G
+@redwoodjs 144 M
+@storybook 192 M
+@prisma 428 M
+/root/.cache/prisma/master 309 M
+/usr/lib x86_64-linux-gnu 303 M
+/usr/local/share/.cache/yarn 2.2 G
+/usr/local/share/.config/yarn/global n/a
+
+### `e41`
+
+Using the new --production flag, with lerna
+
+Build time 14 min
+container 3.43 G
+node_modules 275 M
+@redwoodjs 1.4 M
+@storybook n/a
+@prisma 4.9 M
+/root/.cache/prisma/master n/a
+/usr/lib x86_64-linux-gnu 303.5 M
+/usr/local/share/.cache/yarn 2.2 G
+/usr/local/share/.config/yarn/global 244 M
+
+RESULTS: Reduced by 2GB for Treasure Chess, and 670 M for `redwood-release-devops-example`
+
+### `3d6`
+
+Adding prisma global, and dotenv local
+
+container 3.68G
+node_modules 275 M
+/usr/local/share/.cache/yarn 2.3 G
+/usr/local/share/.config/yarn/global 363 M (prisma added 110.5 M)
+
+### `3150`
+
+Added `yarn cache clean`
+
+container 1.58G
+node_modules 275 M
+/usr/lib x86_64-linux-gnu 303.5 M
+/usr/local/share/.cache/yarn 0
+/usr/local/share/.config/yarn/global 363 M
+
+Using Alpine image caused too many problems. Needed python and gyp libraries. But still many issues.
+
+```bash
+# https://dev.to/grigorkh/node-gyp-support-in-alpine-linux-4d0f
+RUN apk add --no-cache --virtual .gyp python3 make g++ pkgconfig && \
+apt install libpixman-1-dev libcairo2-dev libpango1.0-dev libjpeg8-dev libgif-dev && \
+yarn install --frozen-lockfile
+RUN apk update && apk add --no-cache -y libnss3 nano ncdu
+```
+
+### ``
+
+Exclude install web dependencies. Needs `react` and `react-dom`

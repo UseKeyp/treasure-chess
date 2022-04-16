@@ -1,15 +1,15 @@
 const playwright = require('playwright-core')
 const chromium = require('chrome-aws-lambda')
 
-import { logger } from 'src/lib/logger'
+// import { logger } from 'src/lib/logger'
 import Sentry from 'src/lib/sentry'
 
 export const handler = async (event, _context) => {
-  logger.debug('Invoked /screenshot')
+  // logger.debug('Invoked /screenshot')
   let browser = null
   try {
     const html = event.body
-    logger.debug(html.substring(0, 100))
+    // logger.debug(html.substring(0, 100))
     if (!html) throw 'No html provided'
     const browser = await playwright.chromium.launch({
       args: chromium.args,

@@ -20,7 +20,9 @@ const FaqSection = ({ title, questionList, columns }) => {
   return (
     <div className="flex justify-center">
       <div>
-        <h2 className="faq-header font-black text-4xl py-5">{title}</h2>
+        {title && (
+          <h2 className="faq-header font-black text-4xl py-5">{title}</h2>
+        )}
         <div
           className="faq-container max-w-2xl"
           columns={columns ? 'true' : 'false'}

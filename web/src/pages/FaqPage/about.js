@@ -3,7 +3,7 @@ import config from 'src/global.config'
 const about = [
   [
     // [0] = title
-    'Who',
+    'Story time',
     // [1] = answer
     'Long ago, some people much smarter than us created the beautiful game of chess. It has evolved in many ways since then, but many things have stayed the same: our favorite games are often lost to time, you can’t make a living from games of chess you’ve already played, and it’s difficult to show off your achievements when the result boils down to a win or loss. With those issues in mind, a small team of chess lovers set out to create a new way for fans to engage with chess streamers, to make unique games of chess more permanent than ever before, and create a new mini-game around achievements within chess.',
     // [2] = icon
@@ -20,19 +20,19 @@ const about = [
     '📚',
   ],
   [
-    '100% of primary sales goes directly to players',
-    "Secondary sales: 90% seller / 5% player / 5% platform. We're here to support the Chess community.",
+    'Keep it fun',
+    'We built Treasure Chess so you can support the players and creator you love, as well as cherish your own games with friends.',
+    '🌞',
+  ],
+  [
+    '100% of primary sales go directly to players',
+    'Secondary sales are split 90% seller / 5% player / 5% platform. Our goal is to support the Chess community.',
     '❤️',
   ],
   [
-    'Less energy consumed than playing a game of chess online.',
-    'Minting cards consumes less energy than playing a game of chess online.',
+    'Environmentally friendly',
+    'Minting treasures consumes less energy than playing a game of chess online.',
     '🌱',
-  ],
-  [
-    'Keep it fun',
-    'Support the players and creator you love. Speculation is limited by a $100 maximum deposit.',
-    '🌞',
   ],
 ]
 export default about

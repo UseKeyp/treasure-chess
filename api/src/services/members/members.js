@@ -42,7 +42,9 @@ export const memberBalance = async () => {
   const usdcBalance = await getUsdcBal(context.currentUser.address)
   return {
     usdcBalance,
-    mintCreditBalance: context.currentUser.mintCredits,
+    mintCreditBalance:
+      context.currentUser.mintCredits *
+        process.env.WYRE_MINT_USD_PURCHASE_AMOUNT || 1,
   }
 }
 

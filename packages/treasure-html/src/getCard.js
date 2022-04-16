@@ -290,7 +290,7 @@ const getCardHtml = async ({
     return serializer.serializeToString(doc)
   } catch (e) {
     console.log(e)
-    throw e
+    throw `getCardHtml ${e}`
   }
 }
 

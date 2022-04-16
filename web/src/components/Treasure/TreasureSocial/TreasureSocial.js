@@ -52,13 +52,12 @@ const TreasureSocial = ({ treasure }) => {
           })(document, 'script', 'facebook-jssdk')}
         </script>
         <div className="treasure-social__persons">
-          <p className="treasure-social__person">
-            Owner <MemberLink usernameOrAddress={treasure?.owner?.username} />
-          </p>
-          <p className="treasure-social__person">
-            Creator{' '}
-            <MemberLink usernameOrAddress={treasure?.minter?.username} />
-          </p>
+          <div className="flex space-x-3">
+            <p>Owner</p> <MemberLink member={treasure?.owner} />
+          </div>
+          <div className="flex space-x-3">
+            <p>Creator</p> <MemberLink member={treasure?.minter} />
+          </div>
         </div>
         <div className="treasure-social__socials">
           <p className="treasure-social__title">Share this Treasure</p>
@@ -82,7 +81,7 @@ const TreasureSocial = ({ treasure }) => {
               data-url={linkToShare}
               data-show-count="false"
             >
-              <Icon name="twitter" size={24} />
+              <Icon name="twitter" size={24} color="#abb6b9" />
             </a>
           </div>
         </div>

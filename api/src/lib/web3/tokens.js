@@ -1,14 +1,10 @@
-import {
-  web3Provider,
-  DEFAULT_GAS_MAX_PRIORITY_FEE_PER_GAS,
-  DEFAULT_GAS_MAX_FEE_PER_GAS,
-} from 'src/lib/web3/helpers'
+import { web3Provider } from 'src/lib/web3/helpers'
 import { Contract } from '@ethersproject/contracts'
 import { formatUnits, parseUnits } from '@ethersproject/units'
 import { EnvelopError } from '@envelop/core'
 import { logger } from 'src/lib/logger'
 import { checkGasAndAirdrop } from 'src/lib/web3/airdrop'
-import { memberSendTransaction } from 'src/lib/web3/member'
+import { memberSendTransaction } from 'src/lib/web3/wallets'
 
 export const getTokenContract = () => {
   try {
@@ -71,14 +67,7 @@ export const transferUsdc = async ({ to, amount }) => {
           : 0
       }`
 
-    const unsignedTx = await contract.populateTransaction.transfer(
-      to,
-      amountBn,
-      {
-        maxPriorityFeePerGas: DEFAULT_GAS_MAX_PRIORITY_FEE_PER_GAS,
-        maxFeePerGas: DEFAULT_GAS_MAX_FEE_PER_GAS,
-      }
-    )
+    const unsignedTx = await contract.populateTransaction.transfer(to, amountBn)
     const tx = await memberSendTransaction({
       memberId: context.currentUser.id,
       unsignedTx,

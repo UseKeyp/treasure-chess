@@ -24,7 +24,6 @@ const test = async () => {
   const htmlPrerender = await getCardHtml({
     treasure,
     staticBase64: base64Image,
-    gifUrl,
     isPrerender: true,
   })
   fs.writeFile(
@@ -35,7 +34,6 @@ const test = async () => {
   const htmlScreenshot = await getCardHtml({
     treasure,
     staticBase64: base64Image,
-    gifUrl,
     isScreenshot: true,
   })
   fs.writeFile(

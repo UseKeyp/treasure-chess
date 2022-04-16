@@ -12,7 +12,7 @@ const SiteFooter = () => {
             <span className="sr-only">discord</span>
           </a>
           <a href={globalConfig.TWITTER_URL} className="inline-block mr-4">
-            <Icon name="twitter" color="white" size="24px" />
+            <Icon name="twitter" color="#fff" size="24px" />
             <span className="sr-only">twitter</span>
           </a>
           <a href={globalConfig.GITHUB_URL} className="inline-block mr-4">

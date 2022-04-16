@@ -18,8 +18,9 @@
 
 .table-row {
   display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   margin-bottom: 1rem;
-  align-items: center;
   background: #312e2b;
   border-radius: 12px;
 
@@ -29,6 +30,30 @@
   font-size: 12px;
   line-height: 15px;
   color: #c4c4c4;
+}
+
+.table-cell {
+  display: initial;
+  flex: 1;
+  word-break: break-word;
+
+  &:not(:first-child) {
+    margin-top: theme('spacing.2');
+  }
+}
+
+@screen sm {
+  .table-row {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .table-cell {
+    &:not(:first-child) {
+      margin-top: 0;
+      margin-left: theme('spacing.4');
+    }
+  }
 }
 
 .table-component {

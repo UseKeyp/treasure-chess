@@ -4,6 +4,7 @@ import DefaultLayout from 'src/layouts/DefaultLayout'
 const Routes = () => {
   return (
     <Router>
+      <Route path="privacy" page={PrivacyPage} name="privacy" />
       <Route path="/restricted" page={RestrictedPage} name="restricted" />
       <Route path="/redirect/{type}" page={RedirectPage} name="redirect" prerender />
       <Route path="/redirect/{type}/{error}" page={RedirectPage} name="redirect" prerender />

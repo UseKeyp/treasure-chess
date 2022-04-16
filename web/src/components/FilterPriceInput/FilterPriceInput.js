@@ -23,7 +23,7 @@ const FilterPriceInput = (props) => {
 
   return (
     <div className="filterPriceWrapper">
-      $
+      <span className="absolute left-3 top-2.5">$</span>
       <input
         type="text"
         className="filterPriceInput"

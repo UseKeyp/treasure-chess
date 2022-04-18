@@ -65,7 +65,7 @@ const SentryInjector = () => {
 
 const App = () => (
   <FatalErrorBoundary page={FatalErrorPage}>
-    <RedwoodProvider titleTemplate="%AppTitle — %PageTitle">
+    <RedwoodProvider titleTemplate="%AppTitle | %PageTitle">
       <AuthProviderExtended
         type="dbAuth"
         config={{ fetchConfig: { credentials: 'include' } }}

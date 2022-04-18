@@ -44,7 +44,7 @@ export const memberBalance = async () => {
     usdcBalance,
     mintCreditBalance:
       context.currentUser.mintCredits *
-        process.env.WYRE_MINT_USD_PURCHASE_AMOUNT || 1,
+      process.env.WYRE_MINT_USD_PURCHASE_AMOUNT,
   }
 }
 

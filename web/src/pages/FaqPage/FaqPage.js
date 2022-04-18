@@ -1,18 +1,22 @@
 import FaqSection from 'src/components/FaqSection/FaqSection'
 import { MetaTags } from '@redwoodjs/web'
 
+import { useTheme } from 'src/providers/theme'
+// import  from 'src/providers/'
+
 import about from './about'
 import faq from './faq'
 import { useEffect } from 'react'
 
 const FaqPage = () => {
-  useEffect(() => {
-    document.body.className = 'chess'
+  const { toggleFaqTheme } = useTheme()
 
+  useEffect(() => {
+    toggleFaqTheme(true)
     return function cleanup() {
-      setTimeout(() => document.body.classList.remove('chess'), 200)
+      toggleFaqTheme(false)
     }
-  }, [])
+  })
 
   return (
     <div>

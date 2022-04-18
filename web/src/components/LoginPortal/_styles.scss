@@ -2,8 +2,7 @@
   background-color: theme('colors.chessBlack.200');
   border-radius: 12px;
   width: 400px;
-  height: 400px;
-  padding: theme('spacing.6');
+  padding: theme('spacing.8') theme('spacing.6');
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -13,11 +12,19 @@
   }
 }
 
+@screen md {
+  .login-portal-container {
+    padding: theme('spacing.12') theme('spacing.6');
+    &--button-wrapper {
+      margin: 40px 0;
+    }
+  }
+}
+
 .login-button {
   align-items: center;
   width: 100%;
   border-radius: 50px;
-  margin-top: 1rem;
 }
 .icon-logo {
   width: 32px;

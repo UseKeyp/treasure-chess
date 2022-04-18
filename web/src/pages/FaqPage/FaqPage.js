@@ -1,8 +1,6 @@
 import FaqSection from 'src/components/FaqSection/FaqSection'
 import { MetaTags } from '@redwoodjs/web'
-
 import { useTheme } from 'src/providers/theme'
-// import  from 'src/providers/'
 
 import about from './about'
 import faq from './faq'

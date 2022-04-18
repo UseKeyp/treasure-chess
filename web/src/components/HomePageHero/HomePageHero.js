@@ -1,4 +1,5 @@
 import Button from 'src/components/Button/Button'
+import { routes } from '@redwoodjs/router'
 import { getCardHtml } from '@treasure-chess/treasure-html'
 import { game } from './data.js'
 
@@ -36,7 +37,11 @@ const HomePageHero = () => {
           <h1>Treasure your Chess Games.</h1>
           <h3>Every chess game is one-of-a-kind. Make yours a collectible.</h3>
           <p>Connect Your Chess.com Account</p>
-          <Button size="large" className="bg-greenLight mt-4" to={'/login'}>
+          <Button
+            size="large"
+            className="bg-greenLight mt-4"
+            to={routes.signin()}
+          >
             Get Started!
           </Button>
         </div>

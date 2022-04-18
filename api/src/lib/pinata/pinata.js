@@ -17,7 +17,7 @@ const TOKEN_URI_DOMAIN = process.env.APP_DOMAIN
 
 const API_DOMAIN = isProduction
   ? 'http://treasure-chess-api:8080'
-  : process.env.REDWOOD_API_URL
+  : process.env.APP_DOMAIN + '/api'
 
 const fetchScreenshotBase64Buffer = async (html) => {
   try {

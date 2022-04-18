@@ -37,7 +37,7 @@ const card = `<html>
     }
     </style>
 	</head>
-	<body style="font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; background-color:#47433F; display: flex; align-items: center;" >
+	<body style="font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; background-color:#47433F; display: flex; align-items: center; justify-content:center; margin:3;" >
     <div id="screenshot-container" style="padding: 0px;display: flex;">
       <div id="game-prerender" style="display: none; justify-items:center; width: 274px; height: 274px; margin: 0 46px 0 0;">
           <img id="game-image-prerender" src="" style="width: 100%;  border-radius: 4px;" alt="Video of the game"/>

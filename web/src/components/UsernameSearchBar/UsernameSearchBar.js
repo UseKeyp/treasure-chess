@@ -74,7 +74,7 @@ const UsernameSearchBar = ({ setValue: setParentValue }) => {
   }
 
   return (
-    <div>
+    <div className="relative">
       <div className={'searchBarContainer'}>
         <input
           placeholder="Search"

@@ -1,6 +1,41 @@
 import ModalContainer from './ModalContainer'
 
 import Icon from 'src/components/Icon'
+import { ConfettiExplosion } from 'src/providers/minting/modals'
+import GameCard from 'src/components/Game/GameCard'
+
+const game = {
+  __typename: 'Game',
+  id: '30756476687',
+  endTime: '2021-11-15T23:08:48.000Z',
+  white: { __typename: 'Member', imageSrc: null, country: 'US' },
+  black: {
+    __typename: 'Member',
+    imageSrc:
+      'https://images.chesscomfiles-4.com/uploads/v1/user/41479298.3d21e1ba.200x200o.7b825295a3d5.jpeg',
+    country: 'US',
+  },
+  moveCount: 12,
+  outcome: 'black',
+  termination: 'treasure_joseph won by resignation',
+  externalUrl: 'https://www.chess-6.com/game/live/30756476687',
+  achievements: null,
+  cardColor: 'white',
+  ruleVariant: 'Standard',
+  whiteRating: 179,
+  blackRating: 621,
+  timeControl: '60',
+  winnerUsername: 'treasure_joseph',
+  winnerId: '41479298',
+  blackUsername: 'treasure_joseph',
+  blackId: '41479298',
+  blackMasterTitle: null,
+  whiteUsername: 'treasure_patrick',
+  whiteId: '41494122',
+  whiteMasterTitle: null,
+  tokenId: null,
+  title: null,
+}
 
 const bodyWyreDeposit =
   'Fund your wallet using Wyre. Funds are typically added in less than 3 minutes, and can be withdrawn anytime according to the limits set by Wyre.'
@@ -96,6 +131,31 @@ export const bigBody = () => {
       />
       {backgroundText}
     </div>
+  )
+}
+
+export const mintSuccess = () => {
+  return (
+    <ModalContainer
+      headerText="New Treasure Minted!"
+      isVisible={true}
+      hideModal={() => {
+        /* eslint-disable-next-line no-console */
+        console.log('CLOSED MODAL')
+      }}
+      onSubmit={() => {
+        /* eslint-disable-next-line no-console */
+        console.log('ONSUBMIT MODAL')
+      }}
+      submitText="View"
+      cancelText="Back"
+      content={
+        <div className="flex justify-center align-center h-full w-full">
+          <GameCard game={game} showGif={true} />
+          <ConfettiExplosion />
+        </div>
+      }
+    />
   )
 }
 

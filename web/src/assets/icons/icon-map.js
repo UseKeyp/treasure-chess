@@ -7,6 +7,8 @@ import { ReactComponent as Collect } from './collect.svg'
 import { ReactComponent as Share } from './share.svg'
 import { ReactComponent as Github } from './github.svg'
 import { ReactComponent as Help } from './help.svg'
+import { ReactComponent as Bishiop } from './bishop.svg'
+import { ReactComponent as Rook } from './rook.svg'
 
 const ChessCom = ({ height = '34' }) => (
   <svg
@@ -634,4 +636,6 @@ export default {
   help: Help,
   plaid: Plaid,
   coinbase: Coinbase,
+  bishop: Bishiop,
+  rook: Rook,
 }

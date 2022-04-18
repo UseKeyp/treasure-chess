@@ -42,8 +42,8 @@ const LandingModal = () => {
   const onSubmit = () => {
     if (!isBrowser) return // Support prerender
     localStorage.setItem('gdpr-accepted', true)
-    /* eslint-disable-next-line no-undef */
     try {
+      /* eslint-disable-next-line no-undef */
       _paq.push(['rememberConsentGiven'])
     } catch {
       // ignore

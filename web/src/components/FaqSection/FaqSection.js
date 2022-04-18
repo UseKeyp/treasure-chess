@@ -1,5 +1,4 @@
 const FaqItem = ({ icon, question, answer, feature }) => {
-  // const [isExpanded, setExpanded] = useState(false)
   return (
     <div className="question-wrapper" has-piece={feature ? 'true' : 'false'}>
       <div className="piece" />

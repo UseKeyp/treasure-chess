@@ -1,13 +1,40 @@
 .faq-container {
+  &[columns='true'] {
+    column-count: 2;
+    gap: 0.85rem;
+    @media (max-width: 768px) {
+      column-count: 1;
+    }
+  }
+
+  .color-grey-light {
+    color: theme('colors.grey');
+  }
+
   .faq-header {
     line-height: 56px;
   }
 
   .question-wrapper {
-    margin-bottom: 20px;
-    padding: 16px;
-    background: #272522;
+    background: theme('colors.chessBlack.100');
     border-radius: 12px;
+    margin-bottom: 1rem;
+
+    break-inside: avoid;
+    padding: 16px;
+    page-break-inside: avoid;
+    will-change: transform;
+    &[has-piece='true'] {
+      .piece {
+        background-image: url(assets/artifacts/chess-piece.svg);
+        background-repeat: no-repeat;
+        position: absolute;
+        top: -38px;
+        left: 80%;
+        width: 50px;
+        height: 50px;
+      }
+    }
   }
 
   .section-expand-button {
@@ -16,6 +43,8 @@
 
   .answer-container {
     transition: opacity 250ms ease, max-height 250ms ease;
-    line-height: 30px;
+    line-height: 19px;
+    font-weight: 500;
+    background-color: theme('colors.chessBlack.100');
   }
 }

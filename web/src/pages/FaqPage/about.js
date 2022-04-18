@@ -21,7 +21,7 @@ const about = [
   ],
   [
     'Keep it fun',
-    'We built Treasure Chess so you can support the players and creator you love, as well as cherish your own games with friends.',
+    'We built Treasure Chess so you can support the players and creators you love, as well as cherish your own games with friends.',
     '🌞',
   ],
   [

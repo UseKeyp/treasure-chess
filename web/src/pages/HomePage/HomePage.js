@@ -6,8 +6,19 @@ import HomePageHero from 'src/components/HomePageHero/HomePageHero'
 import HeadingBar from 'src/components/HeadingBar/HeadingBar'
 import AllTreasuresButton from 'src/components/AllTreasuresButton/AllTreasuresButton'
 import TreasuresFetcher from 'src/components/Treasure/TreasuresFetcher'
+import { useTheme } from 'src/providers/theme'
+import { useEffect } from 'react'
 
 const HomePage = () => {
+  const { toggleHomeTheme } = useTheme()
+
+  useEffect(() => {
+    toggleHomeTheme(true)
+    return function cleanup() {
+      toggleHomeTheme(false)
+    }
+  })
+
   return (
     <>
       <MetaTags title="Play, Create, Collect" />

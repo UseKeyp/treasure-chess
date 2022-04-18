@@ -13,8 +13,12 @@ const ThemeContextProvider = ({ children }) => {
     isToggled ? setThemeName('about-page') : setThemeName('')
   }
 
+  const toggleHomeTheme = (isToggled) => {
+    isToggled ? setThemeName('home-page') : setThemeName('')
+  }
+
   return (
-    <ThemeContext.Provider value={{ theme, toggleFaqTheme }}>
+    <ThemeContext.Provider value={{ theme, toggleFaqTheme, toggleHomeTheme }}>
       <Background themeName={themeName}>{children}</Background>
     </ThemeContext.Provider>
   )

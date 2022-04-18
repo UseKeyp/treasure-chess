@@ -1,6 +1,7 @@
 import { useAuth } from '@redwoodjs/auth'
 
 import MemberDetails from 'src/components/Member/MemberDetails'
+import FaqSection from 'src/components/FaqSection'
 import MemberActivityCell from 'src/components/Member/MemberActivityCell'
 import GameExplorer from 'src/components/Game/GameExplorer'
 import TreasuresFetcher from 'src/components/Treasure/TreasuresFetcher'
@@ -19,6 +20,16 @@ const Profile = () => {
           <MemberActivityCell usernameOrAddress={currentUser?.username} />
         </div>
       </div>
+      <FaqSection
+        // title="How to Mint new Treasures"
+        questionList={[
+          {
+            question: '✨ How to Mint new Treasures',
+            answer:
+              'Click a game below and enter a title. The fee for Minting is $5. You can use your Mint Credits or a debit card.',
+          },
+        ]}
+      />
       <h1 className="mt-10">Games</h1>
       <div className="mt-4">
         <GameExplorer />

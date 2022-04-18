@@ -6,7 +6,7 @@ const MemberMintCredits = () => {
 
   return (
     <div className="memberMintCredits">
-      <h4 className="memberMintCredits__title">Mint credits </h4>
+      <h4 className="memberMintCredits__title">Mint Credits </h4>
       <h4 className="memberMintCredits__balance">
         {mintCreditBalance ? (
           `$${

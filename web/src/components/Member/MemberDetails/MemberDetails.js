@@ -145,15 +145,6 @@ const MemberDetails = ({ member, isProfile }) => {
             >
               Withdraw
             </Button>
-            <p className="mt-2">
-              <a
-                href={globalConfig.HOW_TO_BUY_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                How to buy and FAQ
-              </a>
-            </p>
           </div>
         )}
       </div>

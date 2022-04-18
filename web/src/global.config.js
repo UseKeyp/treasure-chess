@@ -9,7 +9,7 @@ const config = {
   DISCORD_URL: 'https://discord.gg/DJD7AC4jtz',
   TWITTER_URL: 'https://twitter.com/treasurechess_',
   GITHUB_URL: 'https://github.com/treasure-chess',
-  BLOG_URL: '',
+  BLOG_URL: 'http://blog.treasurechess.com/',
   TOC_URL: '/terms',
   PRIVACY_POLICY_URL: '/privacy',
   SUPPORT_URL: '',

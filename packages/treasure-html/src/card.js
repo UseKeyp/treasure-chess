@@ -42,7 +42,7 @@ const card = `<html>
       <div id="game-prerender" style="display: none; justify-items:center; width: 274px; height: 274px; margin: 0 46px 0 0;">
           <img id="game-image-prerender" src="" style="width: 100%;  border-radius: 4px;" alt="Video of the game"/>
       </div>
-    	<div id="container" style="height: 485px; color:black; width: 266px; min-width: 266px; border-radius: 12px; background-color: #FFF8EE; display: flex; flex-direction: column; justify-items:center; padding: 4px; box-shadow: 0px 10px 30px -5px rgba(0, 0, 0, 0.3);">
+    	<div id="container" style="height: 492px; color:black; width: 266px; min-width: 266px; border-radius: 12px; background-color: #FFF8EE; display: flex; flex-direction: column; justify-items:center; padding: 4px; box-shadow: 0px 10px 30px -5px rgba(0, 0, 0, 0.3);">
   			<div id="banner" style="width: 100%; background-color: #ABB6B9; border-radius: 8px 8px 2px 2px; display: flex; justify-content: space-between; align-items: center; height: 39px; box-sizing: border-box; padding: 0 8px">
     			<div style="display: flex;align-items: center; min-height: 39px;">
     				<div style="padding-right: 8px;">

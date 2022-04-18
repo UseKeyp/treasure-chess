@@ -1,4 +1,5 @@
 <h1 align="center"><img width="600" style="border-radius: 30px;" src="https://github.com/treasure-chess/treasure-chess/blob/main/github-header.png?raw=true"/></h1>
+<h1 align="center">Welcome to @treasure-chess/treasure-html 👋</h1>
 
 <p align="center">
   <a href="#" target="_blank">
@@ -80,13 +81,13 @@ Give a ⭐️ if this project helped you!
 
 👤 **Treasure Chess Community <maintainers@niftychess.com>**
 
-- Website: https://niftychess.com
-  - Twitter: [@https:\/\/twitter.com\/niftychess](https://twitter.com/https://twitter.com/niftychess)
-  - GitHub: [@Treasure-Chess](https://github.com/Treasure-Chess)
+- Website: https://treasurechess.com
+- Twitter: [@treasurechess\_](https://twitter.com/treasurechess_)
+- GitHub: [@Treasure-Chess](https://github.com/Treasure-Chess)
 
 ## 📝 License
 
-Copyright © 2021 Nifty Chess, Inc.<br />
+Copyright © 2022 Nifty Chess, Inc.<br />
 This project is [MIT](https://github.com/Treasure-Chess/chess-achievements/blob/master/LICENSE) licensed.
 
 ---

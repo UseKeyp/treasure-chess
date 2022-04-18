@@ -8,6 +8,7 @@ const Routes = () => {
       <Route path="/redirect/{type}" page={RedirectPage} name="redirect" prerender />
       <Route path="/redirect/{type}/{error}" page={RedirectPage} name="redirect" prerender />
       <Set wrap={DefaultLayout} prerender>
+        <Route path="/privacy" page={PrivacyPage} name="privacy" />
         <Route path="/" page={HomePage} name="home" />
         <Route path="/about" page={FaqPage} name="faq" />
         <Route path="/feedback" page={FeedbackPage} name="feedback" />

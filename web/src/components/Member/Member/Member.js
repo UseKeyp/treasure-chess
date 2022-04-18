@@ -3,7 +3,7 @@ import MemberActivityCell from 'src/components/Member/MemberActivityCell'
 import TreasuresFetcher from 'src/components/Treasure/TreasuresFetcher'
 
 const Member = ({ member, isLoading }) => {
-  const twitchSrc = `https://player.twitch.tv/?channel=${member.twitchUsername}&parent=${process.env.APP_DOMAIN}&muted=true&autoplay=true`
+  //const twitchSrc = `https://player.twitch.tv/?channel=${member.twitchUsername}&parent=${process.env.APP_DOMAIN}&muted=true&autoplay=true`
   // To test locally, uncomment and use domain "localhost"
   // const twitchSrc = `https://player.twitch.tv/?channel=jpegjames&parent=localhost&muted=true&autoplay=true`
   return (
@@ -14,7 +14,7 @@ const Member = ({ member, isLoading }) => {
           <MemberActivityCell usernameOrAddress={member.username} />
         </div>
       </div>
-      {member.twitchUsername && (
+      {/*member.twitchUsername && (
         <div className="mt-10 px-2 w-full flex justify-center bg-black rounded-xl border-4 border-[#5A3E85]">
           <iframe
             title={`Twitch stream for ${member.twitchUsername}`}
@@ -24,7 +24,7 @@ const Member = ({ member, isLoading }) => {
             height={300}
           ></iframe>
         </div>
-      )}
+      )*/}
 
       <h1 className="mt-10">Treasures Owned</h1>
       <div className="flex mt-4">

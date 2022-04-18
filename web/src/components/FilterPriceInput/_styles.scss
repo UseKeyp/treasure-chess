@@ -1,15 +1,12 @@
 @use 'sass:color';
 
 .filterPriceWrapper {
-  display: flex;
+  position: relative;
   font-size: 1rem;
   color: white;
   transition: all 0.25s;
   border-radius: 0.25rem;
-  padding: 1ex 1em;
-  max-width: 80%;
   background-color: #4f4f4f;
-  padding-top: 1.5ex;
   overflow: hidden;
   &:hover {
     background-color: color.scale(#4f4f4f, $lightness: 20%);
@@ -23,7 +20,9 @@
   font-size: inherit;
   color: inherit;
   background-color: transparent;
-  max-width: 7ch;
+  width: 100%;
+  padding: 1.25ex 0.75em;
+  padding-left: 1.75em;
   &::placeholder {
     color: color.scale(#4f4f4f, $lightness: 60%);
   }

@@ -1,3 +1,5 @@
+import { Link, routes } from '@redwoodjs/router'
+
 import Icon from 'src/components/Icon'
 import globalConfig from 'src/global.config.js'
 
@@ -23,19 +25,11 @@ const SiteFooter = () => {
             Blog
           </a>
         </div>
-        <div className="text-center mt-4 md:mt-0">
-          <a href={globalConfig.TOC_URL} className="inline-block mr-4">
-            Terms of Service
-          </a>
-          <a
-            href={globalConfig.PRIVACY_POLICY_URL}
-            className="inline-block mr-4"
-          >
-            Privacy Policy
-          </a>
-          <a href={globalConfig.SUPPORT_URL} className="inline-block mr-4">
-            Support
-          </a>
+        <div className="flex flex-col sm:flex-row text-center my-6 sm:my-0 sm:space-x-4 space-y-6 sm:space-y-0">
+          <a href={globalConfig.TOC_URL}>Terms of Service</a>
+          <a href={globalConfig.PRIVACY_POLICY_URL}>Privacy Policy</a>
+          <a href={globalConfig.SUPPORT_URL}>Support</a>
+          <Link to={routes.feedback()}>Feedback</Link>
         </div>
         <div className="flex items-center mt-4 md:mt-0">
           <a href={globalConfig.CHESS_COM_BASE_URL} className="mr-4">

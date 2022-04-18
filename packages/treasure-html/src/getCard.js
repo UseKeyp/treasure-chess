@@ -197,7 +197,8 @@ const getCardHtml = async ({
       `data:image/png;base64,${staticBase64}`
     )
     // Don't show the border except for the final html used for screenshots
-    if (staticBase64) updateStyle('screenshot-container', 'padding', '8px')
+    if (staticBase64 && !openGraphImageSrc)
+      updateStyle('screenshot-container', 'padding', '8px')
     if (isScreenshot)
       updateTag('game-image', 'src', `data:image/png;base64,${staticBase64}`)
     if (isPrerender) {
@@ -234,17 +235,23 @@ const getCardHtml = async ({
       // Achievements
       updateContent(
         'achievement-1-icon',
-        iconByPoints(5, treasure.cardColor),
+        treasure.achievements[0]
+          ? iconByPoints(5, treasure.cardColor)
+          : undefined,
         true
       )
       updateContent(
         'achievement-2-icon',
-        iconByPoints(4, treasure.cardColor),
+        treasure.achievements[1]
+          ? iconByPoints(4, treasure.cardColor)
+          : undefined,
         true
       )
       updateContent(
         'achievement-3-icon',
-        iconByPoints(3, treasure.cardColor),
+        treasure.achievements[2]
+          ? iconByPoints(3, treasure.cardColor)
+          : undefined,
         true
       )
       updateContent('achievement-1', treasure.achievements[0])

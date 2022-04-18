@@ -11,7 +11,7 @@ const SortingDropdown = () => {
   }
 
   return (
-    <div className="absolute w-full" style={{ maxWidth: '235px' }}>
+    <div className="sm:absolute w-full sm:max-w-[235px]">
       <Dropdown
         default={defaultParams.sort}
         options={filters.sortList}

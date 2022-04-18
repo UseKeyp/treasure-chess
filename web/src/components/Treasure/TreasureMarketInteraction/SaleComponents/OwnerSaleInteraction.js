@@ -56,42 +56,42 @@ const OwnerSaleInteraction = () => {
 
   if ([PENDING_LISTED, null, DELISTED, SOLD].includes(marketStatus))
     return (
-      <div className="flex flex-col h-52 p-4 rounded-xl shadow-md justify-between bg-chessBlack-200">
+      <div className="flex flex-col p-4 space-y-4 rounded-xl shadow-md justify-between bg-chessBlack-200">
         <div>
           <div className="flex items-center justify-between mb-2">
             <h2 className="text-base text-white">List Your Treasure</h2>
             {statusContent}
           </div>
-          <div className="flex flex-col items-center justify-between">
-            <div className="flex items-center justify-end w-full">
+          <div className="flex items-center justify-end w-full">
+            <div className="min-w-0 w-full">
               <FilterPriceInput value={listAmount} setValue={setListAmount} />
-              <Button
-                className={`w-28 h-[40px] text-xl ml-2 hover:bg-green hover:shadow-greenDark ${
-                  actionStatus === PENDING_LISTED && 'pointer-events-none'
-                }`}
-                variant={actionStatus === PENDING_LISTED ? 'grey' : 'green'}
-                label="List"
-                onClick={() => list(listAmount)}
-              />
             </div>
+            <Button
+              className={`w-28 h-[40px] text-xl ml-2 hover:bg-green hover:shadow-greenDark ${
+                actionStatus === PENDING_LISTED && 'pointer-events-none'
+              }`}
+              variant={actionStatus === PENDING_LISTED ? 'grey' : 'green'}
+              label="List"
+              onClick={() => list(listAmount)}
+            />
           </div>
         </div>
         <div>
           <div className="flex items-center justify-between mb-2">
             <h2 className="text-base text-white">Gift this Treasure</h2>
           </div>
-          <div className="flex flex-col items-center justify-between">
-            <div className="flex items-center justify-end w-full">
+          <div className="flex items-center justify-end w-full">
+            <div className="min-w-0 w-full">
               <UsernameSearchBar value={username} setValue={setUsername} />
-              <Button
-                className={`w-28 h-[40px] text-xl ml-2 hover:bg-green hover:shadow-greenDark ${
-                  actionStatus === PENDING_LISTED && 'pointer-events-none'
-                }`}
-                variant={actionStatus === PENDING_LISTED ? 'grey' : 'green'}
-                label="Gift"
-                onClick={() => gift(username)}
-              />
             </div>
+            <Button
+              className={`w-28 h-[40px] text-xl ml-2 hover:bg-green hover:shadow-greenDark ${
+                actionStatus === PENDING_LISTED && 'pointer-events-none'
+              }`}
+              variant={actionStatus === PENDING_LISTED ? 'grey' : 'green'}
+              label="Gift"
+              onClick={() => gift(username)}
+            />
           </div>
         </div>
       </div>

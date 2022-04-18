@@ -17,7 +17,6 @@ const test = async () => {
   treasure.black = members[1]
   const html = await getCardHtml({
     treasure,
-    staticBase64: base64Image,
     gifUrl,
   })
   fs.writeFile('card.deleteme.html', html, (e) => e && console.log(e))

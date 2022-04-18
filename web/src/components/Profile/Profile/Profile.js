@@ -1,7 +1,6 @@
 import { useAuth } from '@redwoodjs/auth'
 
 import MemberDetails from 'src/components/Member/MemberDetails'
-import FaqSection from 'src/components/FaqSection'
 import MemberActivityCell from 'src/components/Member/MemberActivityCell'
 import GameExplorer from 'src/components/Game/GameExplorer'
 import TreasuresFetcher from 'src/components/Treasure/TreasuresFetcher'

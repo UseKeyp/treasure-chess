@@ -116,6 +116,11 @@ const getWhereQueryFromArgs = ({ username, filter, owner }) => {
         opening: getValueByName(filters.openingList, filterObj.opening),
       }
     : null
+  const saleQuery = filterObj.sale
+    ? {
+        marketSaleStatus: getValueByName(filters.saleList, filterObj.sale),
+      }
+    : null
 
   return {
     ...(usernameQuery && usernameQuery),
@@ -125,12 +130,12 @@ const getWhereQueryFromArgs = ({ username, filter, owner }) => {
     ...(moveCountQuery && moveCountQuery),
     ...(titleQuery && titleQuery),
     ...(openingQuery && openingQuery),
+    ...(saleQuery && saleQuery),
     ...(filterObj.color && { cardColor: filterObj.color }),
     ...(filterObj.termination && { termination: filterObj.termination }),
     ...(filterObj.timeControl && { timeControl: filterObj.timeControl }),
     ...(filterObj.rarity && { rarity: filterObj.rarity }),
     // TODO:  implement sale, and price
-    // sale,
     // lowPrice,
     // highPrice,
   }

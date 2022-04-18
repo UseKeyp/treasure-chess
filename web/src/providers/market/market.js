@@ -291,7 +291,7 @@ const MarketProvider = ({ children }) => {
     fetchData()
     /* eslint-disable-next-line react-hooks/exhaustive-deps*/
   }, [])
-
+  console.log(state)
   React.useEffect(() => {
     if (authLoading || !currentUser || !state.treasure) return
     if (currentUser.id === state.treasure.ownerId)

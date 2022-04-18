@@ -31,7 +31,7 @@ const different = [
       </>
     ),
     answer:
-      'Support the players and creator you love. Speculation is limited by a $100 maximum deposit.',
+      'Support the players and creators you love. Speculation is limited by a $100 maximum deposit.',
   },
 ]
 

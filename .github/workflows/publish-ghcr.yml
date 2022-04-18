@@ -8,7 +8,6 @@ on:
         required: true
         default: 'dev'
 env:
-  ENVIRONMENT: ${{ github.event.inputs.image_tag_prefix }}
   REDWOOD_API_URL: 'http://0.0.0.0:8911'
   APP_DOMAIN: 'http://0.0.0.0:8910'
   BASIC_AUTH_PASSWORD: 'pauliemorphy'

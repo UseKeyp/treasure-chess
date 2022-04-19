@@ -132,9 +132,6 @@ const TreasuresFetcher = ({
     /* eslint-disable-next-line react-hooks/exhaustive-deps*/
   }, [username, filter])
 
-  // TODO: add button to scroll to top
-  // https://www.w3schools.com/howto/howto_js_scroll_to_top.asp
-
   if (error) return <h2 className="rw-text-center">Something went wrong</h2>
   return !collapsedTreasures ? (
     <Treasures

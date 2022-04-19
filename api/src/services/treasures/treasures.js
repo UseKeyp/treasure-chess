@@ -17,7 +17,7 @@ export const treasure = ({ tokenId }) => {
     where: { ...(id ? { id } : { tokenId: Number(tokenId) }) },
     include: {
       owner: true,
-      marketSales: { orderBy: { id: 'desc' } },
+      marketSales: { orderBy: { id: 'desc' }, take: 2 },
     },
   })
 }

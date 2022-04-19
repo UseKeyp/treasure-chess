@@ -1,4 +1,5 @@
 import { db } from 'src/lib/db'
+import { logger } from 'src/lib/logger'
 
 import filters, { TREASURES_PER_PAGE } from '@treasure-chess/treasure-filters'
 
@@ -197,6 +198,7 @@ export const getTreasuresWithFilter = async ({
     // TODO: add sorting, see https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#orderby
     orderBy: orderByQuery,
   })
+  logger.debug({ custom: treasures[0] }, 'one treasure')
   return treasures
 }
 

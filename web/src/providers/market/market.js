@@ -86,10 +86,14 @@ const MarketProvider = ({ children }) => {
     variables: { tokenId },
     onCompleted: async ({ treasureWithMarketSales } = {}) => {
       const last = state?.marketSale || {}
-      const current = treasureWithMarketSales?.marketSales[0] || {}
+      const current =
+        treasureWithMarketSales?.marketSales.sort(
+          (a, b) => a.updatedAt < b.updatedAt
+        )[0] || {}
       if (current.status === last.status) return
       const { status, isClosed, amount } = current
       let shouldPoll = false
+
       if (status.includes('PENDING')) shouldPoll = true
       setState({
         ...state,
@@ -124,18 +128,18 @@ const MarketProvider = ({ children }) => {
   const [buyTreasureMutation] = useMutation(BUY_MARKET_SALE_MUTATION)
 
   const fetchData = async () => {
-    if (!tokenId) return
     const { data: { treasureWithMarketSales } = {} } =
       await treasureWithMarketSalesLazyQuery({
         variables: { tokenId },
       })
-    const marketSale = treasureWithMarketSales?.marketSales[0]
+    const marketSale = treasureWithMarketSales?.marketSales?.sort(
+      (a, b) => a.updatedAt < b.updatedAt
+    )[0] // Gets the most recent item
     if (!marketSale)
       return setState({
         ...state,
         marketLoading: false,
         marketStatus: null,
-
         treasure: treasureWithMarketSales,
       })
     const { status, isClosed, amount } = marketSale
@@ -288,10 +292,10 @@ const MarketProvider = ({ children }) => {
   }
 
   React.useEffect(() => {
+    if (!tokenId) return
     fetchData()
     /* eslint-disable-next-line react-hooks/exhaustive-deps*/
   }, [tokenId])
-  console.log(state)
   React.useEffect(() => {
     if (authLoading || !currentUser || !state.treasure) return
     if (currentUser.id === state.treasure.ownerId)

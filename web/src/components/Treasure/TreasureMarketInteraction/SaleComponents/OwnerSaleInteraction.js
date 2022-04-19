@@ -51,7 +51,7 @@ const OwnerSaleInteraction = () => {
               variant={actionStatus === PENDING_LISTED ? 'grey' : 'green'}
               label={
                 actionStatus === PENDING_LISTED ? (
-                  <div className="flex items-center">
+                  <div className="flex items-center justify-center">
                     <div className="mr-2">
                       <LoadingDots />
                     </div>
@@ -99,7 +99,7 @@ const OwnerSaleInteraction = () => {
             }`}
             label={
               actionStatus === PENDING_DELISTED ? (
-                <div className="flex items-center">
+                <div className="flex items-center justify-center">
                   <div className="mr-2">
                     <LoadingDots />
                   </div>

@@ -3,7 +3,7 @@ import Icon from 'src/components/Icon'
 import { useModal } from 'src/hooks/useModal'
 import { useEffect } from 'react'
 import { isBrowser } from '@redwoodjs/prerender/browserUtils'
-import aboutContent from 'src/pages/FaqPage/about'
+import aboutContent from 'src/pages/AboutPage/about'
 import FaqSection from 'src/components/FaqSection/FaqSection'
 
 export const content = (

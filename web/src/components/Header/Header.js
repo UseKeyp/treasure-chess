@@ -61,7 +61,7 @@ const MobileNav = () => {
             <li className={navItemClasses}>
               <Button
                 isSelected={isOnAboutPage}
-                to={routes.faq()}
+                to={routes.about()}
                 className={navAnchorClasses}
               >
                 About
@@ -145,7 +145,7 @@ const Header = () => {
             </Button>
           </div>
           <div className="mr-4">
-            <Button to={routes.faq()} size="large" isSelected={isOnAboutPage}>
+            <Button to={routes.about()} size="large" isSelected={isOnAboutPage}>
               <div className="flex items-center">
                 <div className="mr-2">
                   {' '}

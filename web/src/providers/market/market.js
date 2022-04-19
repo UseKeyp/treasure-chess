@@ -88,7 +88,7 @@ const MarketProvider = ({ children }) => {
     onCompleted: async ({ treasureWithMarketSales } = {}) => {
       const last = state?.marketSale || {}
       const current =
-        treasureWithMarketSales?.marketSales.sort(
+        [...treasureWithMarketSales.marketSales].sort(
           (a, b) => a.updatedAt < b.updatedAt
         )[0] || {}
       if (current.status === last.status) return
@@ -133,7 +133,7 @@ const MarketProvider = ({ children }) => {
       await treasureWithMarketSalesLazyQuery({
         variables: { tokenId },
       })
-    const marketSale = treasureWithMarketSales?.marketSales?.sort(
+    const marketSale = [...treasureWithMarketSales.marketSales]?.sort(
       (a, b) => a.updatedAt < b.updatedAt
     )[0] // Gets the most recent item
     if (!marketSale)
@@ -287,9 +287,8 @@ const MarketProvider = ({ children }) => {
     })
     toggleModalConfirm()
   }
-  const gift = async () => {
-    /* eslint-disable-next-line no-console */
-    console.log('This feature is not yet implemented')
+  const gift = () => {
+    setState({ ...state, actionError: 'This feature is coming soon' })
   }
 
   React.useEffect(() => {
@@ -309,8 +308,6 @@ const MarketProvider = ({ children }) => {
     if (state.actionData.type === PENDING_DELISTED) return onConfirmDelist()
     if (state.actionData.type === PENDING_SOLD) return onConfirmBuy()
   }
-  console.log(state.marketStatus)
-  console.log(state.actionStatus)
   return (
     <MarketContext.Provider
       value={{
@@ -346,7 +343,6 @@ const MarketProvider = ({ children }) => {
       />
     */}
       {state.actionStatus === SOLD && <Confetti type="rain" />}
-      <Confetti type="rain" />
       {children}
     </MarketContext.Provider>
   )

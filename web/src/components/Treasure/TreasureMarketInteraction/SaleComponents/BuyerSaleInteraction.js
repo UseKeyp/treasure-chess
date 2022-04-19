@@ -6,7 +6,7 @@ import Button from 'src/components/Button/Button'
 import { PENDING_SOLD, SOLD, DELISTED } from 'src/providers/market/constants'
 
 const BuyerSaleInteraction = () => {
-  const { actionStatus, actionError, marketStatus, buy, amount } = useMarket()
+  const { actionStatus, actionError, marketStatus, buy } = useMarket()
   if ([null, DELISTED, SOLD].includes(marketStatus) && actionStatus !== SOLD)
     return <></>
   let buttonText = 'Buy'

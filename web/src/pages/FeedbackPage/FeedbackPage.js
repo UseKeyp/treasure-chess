@@ -1,6 +1,16 @@
+import { useEffect } from 'react'
 import { MetaTags } from '@redwoodjs/web'
 
+import { useTheme } from 'src/providers/theme'
+
 const FeedbackPage = () => {
+  const { toggleHomeTheme } = useTheme()
+
+  useEffect(() => {
+    toggleHomeTheme(true)
+    return () => toggleHomeTheme(false)
+  })
+
   return (
     <>
       <MetaTags title="Feedback" />
@@ -9,13 +19,12 @@ const FeedbackPage = () => {
         <script src="https://static.airtable.com/js/embed/embed_snippet_v1.js"></script>
         <iframe
           title="Treasure Chess feedback form"
-          className="airtable-embed airtable-dynamic-height"
+          className="airtable-embed airtable-dynamic-height bg-greyLight border border-chessBlack-100 rounded"
           src="https://airtable.com/embed/shrWkB9MS13NXoM46?backgroundColor=pink"
           frameBorder="0"
           onmousewheel=""
           width="100%"
           height="1340"
-          style={{ background: 'transparent', border: '1px solid #ccc' }}
         ></iframe>
       </div>
     </>

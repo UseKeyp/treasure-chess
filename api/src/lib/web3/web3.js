@@ -209,9 +209,7 @@ export const getMintTxStatus = async ({ mintPurchase }) => {
     if (mintPurchase.transaction?.status === SUBMITTED) {
       const receipt = await getTxReceipt(mintPurchase.transaction.id)
       logger.debug(
-        {
-          custom: { receipt, id: mintPurchase.transaction.id },
-        },
+        { custom: { receipt, id: mintPurchase.transaction.id } },
         'getMintTxStatus'
       )
       if (receipt?.status === 0) {

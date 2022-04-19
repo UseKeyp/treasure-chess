@@ -67,7 +67,7 @@ const getGifBase64 = async ({ tcn, playerColor }) => {
     return { gifBase64, url: gifUrl }
   } catch (e) {
     // logger.error(e)
-    throw ('getGifBase64() ', e)
+    throw `getGifBase64() ${e}`
   }
 }
 

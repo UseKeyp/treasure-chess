@@ -1,8 +1,8 @@
 import { routes, navigate } from '@redwoodjs/router'
-import ReactCanvasConfetti from 'react-canvas-confetti'
 
 import ModalContainer from 'src/components/ModalContainer/ModalContainer'
 import TreasureCardCell from 'src/components/Treasure/TreasureCardCell'
+import Confetti from 'src/components/Confetti'
 
 export const CancelModal = ({ isVisible, toggleModal, onSubmit }) => (
   <ModalContainer
@@ -47,68 +47,7 @@ export const SuccessModal = ({
           </div>
         }
       />
-      <ConfettiExplosion />
+      <Confetti />
     </>
   )
-}
-
-export const ConfettiExplosion = () => {
-  const refAnimationInstance = React.useRef(null)
-
-  const canvasStyles = {
-    position: 'fixed',
-    pointerEvents: 'none',
-    width: '100%',
-    height: '100%',
-    top: 0,
-    left: 0,
-    zIndex: 9999,
-  }
-
-  const getInstance = React.useCallback((instance) => {
-    refAnimationInstance.current = instance
-  }, [])
-
-  const makeShot = React.useCallback((particleRatio, opts) => {
-    refAnimationInstance.current &&
-      refAnimationInstance.current({
-        ...opts,
-        origin: { y: 0.7 },
-        particleCount: Math.floor(200 * particleRatio),
-      })
-  }, [])
-
-  const fire = React.useCallback(() => {
-    makeShot(1, {
-      spread: 120,
-      startVelocity: 70,
-    })
-    makeShot(0.2, {
-      spread: 60,
-      startVelocity: 40,
-    })
-    makeShot(0.35, {
-      spread: 100,
-      decay: 0.8,
-      scalar: 0.8,
-      startVelocity: 40,
-    })
-    makeShot(0.1, {
-      spread: 90,
-      startVelocity: 40,
-      decay: 0.92,
-      scalar: 1.2,
-    })
-    makeShot(0.1, {
-      spread: 20,
-      startVelocity: 100,
-    })
-  }, [makeShot])
-
-  React.useEffect(() => {
-    fire()
-    /* eslint-disable-next-line react-hooks/exhaustive-deps*/
-  }, [])
-
-  return <ReactCanvasConfetti refConfetti={getInstance} style={canvasStyles} />
 }

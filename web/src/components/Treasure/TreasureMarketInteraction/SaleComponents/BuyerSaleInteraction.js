@@ -21,7 +21,6 @@ const BuyerSaleInteraction = () => {
     )
 
   const textColor = marketStatus === PENDING_SOLD ? 'text-black' : 'text-white'
-  const backgroundColor = actionStatus === SOLD ? '[#47A7FF]' : 'chessBlack-200'
 
   const PurchaseButton = () => {
     if (actionStatus === SOLD) return <div className="w-[272px] h-[40px]"></div>
@@ -41,13 +40,13 @@ const BuyerSaleInteraction = () => {
     if (actionError) {
       return <p className="text-red font-bold">{actionError}</p>
     } else if (actionStatus === SOLD) {
-      return <p className="text-black">Congrats! This is now your Treasure.</p>
+      return <p className="mt-4">🎉 Congrats! This is now your Treasure.</p>
     } else return null
   }
 
   return (
     <div
-      className={`flex flex-col justify-between mb-4 p-4 rounded-xl shadow-md bg-${backgroundColor}`}
+      className={`flex flex-col justify-between mb-4 p-4 rounded-xl shadow-md bg-chessBlack-200`}
     >
       <div className="flex flex-col">
         <h2 className={`text-base ${textColor}`}>Buy Treasure</h2>

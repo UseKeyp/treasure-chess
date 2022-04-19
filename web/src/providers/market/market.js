@@ -5,6 +5,7 @@ import { useToast } from 'src/providers/toast'
 import { useModal } from 'src/hooks/useModal'
 import { ConfirmModal } from './modals'
 import { TxToast } from './toasts'
+import Confetti from 'src/components/Confetti'
 
 import {
   TREASURE_WITH_MARKET_SALES_QUERY,
@@ -65,7 +66,7 @@ const MarketProvider = ({ children }) => {
         id: state.treasure.id,
       })
     if (type === PENDING_SOLD)
-      return toast.loading(<TxToast text="Purchasing" txHash={txHash} />, {
+      return toast.loading(<TxToast text="Buying" txHash={txHash} />, {
         id: state.treasure.id,
       })
 
@@ -76,7 +77,7 @@ const MarketProvider = ({ children }) => {
     if (type === DELISTED)
       return toast.success('Unlisted!', { id: state.treasure.id })
     if (type === SOLD)
-      return toast.success('Purchased!', { id: state.treasure.id })
+      return toast.success('Bought!', { id: state.treasure.id })
   }
 
   useQuery(TREASURE_WITH_MARKET_SALES_QUERY, {
@@ -308,7 +309,8 @@ const MarketProvider = ({ children }) => {
     if (state.actionData.type === PENDING_DELISTED) return onConfirmDelist()
     if (state.actionData.type === PENDING_SOLD) return onConfirmBuy()
   }
-
+  console.log(state.marketStatus)
+  console.log(state.actionStatus)
   return (
     <MarketContext.Provider
       value={{
@@ -343,6 +345,8 @@ const MarketProvider = ({ children }) => {
         toggleModal={toggleModalSuccess}
       />
     */}
+      {state.actionStatus === SOLD && <Confetti type="rain" />}
+      <Confetti type="rain" />
       {children}
     </MarketContext.Provider>
   )

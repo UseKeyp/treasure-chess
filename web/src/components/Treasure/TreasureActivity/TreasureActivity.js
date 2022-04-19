@@ -12,11 +12,11 @@ const TreasureActivity = ({ treasure, isLoading }) => {
   let list = []
   treasure?.marketSales.map((sale, i) => {
     const { status, amount, updatedAt, buyer } = sale
-    if (status === 'SOLD') {
+    if (status === 'SOLD' && buyer) {
       list.push([
         formatDate(updatedAt),
-        `$${amount}`,
-        <MemberLink key={buyer.username + i} member={buyer} />,
+        `Bought for $${amount}`,
+        <MemberLink key={buyer?.username + i} member={buyer} />,
       ])
     }
   })

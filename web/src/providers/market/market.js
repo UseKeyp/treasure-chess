@@ -290,7 +290,7 @@ const MarketProvider = ({ children }) => {
   React.useEffect(() => {
     fetchData()
     /* eslint-disable-next-line react-hooks/exhaustive-deps*/
-  }, [])
+  }, [tokenId])
   console.log(state)
   React.useEffect(() => {
     if (authLoading || !currentUser || !state.treasure) return

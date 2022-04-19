@@ -99,7 +99,15 @@ export const processPendingMarketTransactions = async ({ treasure }) => {
             if (tx.status === COMPLETE) {
               newMarketSale = await db.marketSale.update({
                 where: { id: currentMarketSale.id },
-                data: { status: LISTED, isClosed: false },
+                data: {
+                  status: LISTED,
+                  isClosed: false,
+                  treasure: {
+                    update: {
+                      marketSaleStatus: LISTED,
+                    },
+                  },
+                },
               })
             } else if (tx.status === FAILED) {
               // newMarketSale = await db.marketSale.update({
@@ -111,7 +119,15 @@ export const processPendingMarketTransactions = async ({ treasure }) => {
             if (tx.status === COMPLETE) {
               newMarketSale = await db.marketSale.update({
                 where: { id: currentMarketSale.id },
-                data: { status: DELISTED, isClosed: true },
+                data: {
+                  status: DELISTED,
+                  isClosed: true,
+                  treasure: {
+                    update: {
+                      marketSaleStatus: DELISTED,
+                    },
+                  },
+                },
               })
             } else if (tx.status === FAILED) {
               // newMarketSale = await db.marketSale.update({
@@ -147,6 +163,7 @@ export const processPendingMarketTransactions = async ({ treasure }) => {
                 treasure: {
                   update: {
                     owner: { connect: { id: buyer.id } },
+                    marketSaleStatus: DELISTED,
                   },
                 },
               },

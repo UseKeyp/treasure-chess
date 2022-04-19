@@ -54,6 +54,7 @@ export const QUERY = gql`
       achievements
       achievementScore
       rarity
+      marketSaleStatus
       marketSales {
         id
         createdAt

@@ -39,11 +39,10 @@ const OAuthProvider = ({ children }) => {
   }
   const revokeOAuth = async (type) => {
     try {
-      const { data, error } = await revokeMutation({
+      const { error } = await revokeMutation({
         variables: { type },
       })
       if (error) throw error
-      console.log(data)
     } catch (e) {
       toast.error(e?.message)
       return setState({ error: e?.message, isLoading: false })

@@ -22,7 +22,7 @@ const Profile = () => {
 
       <div className="how-to-mint justify-center mt-6 p-4 bg-chessBlack-200">
         <div className="mb-2">
-          <div className="text-sm">✨</div>
+          <div className="text-lg">✨</div>
           <div className="flex justify-between">
             <h3 className="text-base font-bold color-grey-light">
               How to mint new treasures

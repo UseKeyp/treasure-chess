@@ -13,15 +13,8 @@ import {
 } from 'src/providers/market/constants'
 
 const OwnerSaleInteraction = () => {
-  const {
-    actionStatus,
-    actionError,
-    marketStatus,
-    list,
-    unlist,
-    gift,
-    amount,
-  } = useMarket()
+  const { actionStatus, actionError, marketStatus, list, unlist, gift } =
+    useMarket()
   const [listAmount, setListAmount] = React.useState()
   const [username, setUsername] = React.useState(0)
   let statusContent = null
@@ -94,7 +87,7 @@ const OwnerSaleInteraction = () => {
         </div>
         <div className="flex items-center justify-center">
           <Button
-            className={`w-[272px] h-[40px] text-xl shadow-m hover:sm hover:bg-[#ffc82f] hover:shadow-orange' ${
+            className={`w-[200px] h-[40px] text-xl shadow-m hover:sm hover:bg-[#ffc82f] hover:shadow-orange' ${
               actionStatus === PENDING_DELISTED && 'pointer-events-none'
             }`}
             label={

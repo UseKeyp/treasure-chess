@@ -38,9 +38,9 @@ const Treasure = ({ treasure, isLoading }) => {
           </div>
         </div>
         <p className="answer-container text-sm font-normal color-grey-light tracking-tight">
-          Treasures listed for sale can be purchased using your account balance.
-          You can credit your account with a debit card, or cash-out to your
-          bank via your{' '}
+          Treasures listed for sale by the owner can be purchased using your
+          account balance. You can credit your account with a debit card, or
+          cash-out to your bank via your{' '}
           <Link to={routes.profile()} className="underline">
             Profile
           </Link>

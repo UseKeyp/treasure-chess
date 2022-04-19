@@ -21,6 +21,7 @@ export const schema = gql`
     tokenId: Int
     mintedAt: DateTime
 
+    marketSaleStatus: MarketSaleStatus!
     marketSales: [MarketSale!]!
 
     title: String!

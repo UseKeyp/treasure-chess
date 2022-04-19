@@ -1,4 +1,6 @@
 import { useLazyQuery } from '@apollo/client'
+import { TREASURES_PER_PAGE } from '@treasure-chess/treasure-filters'
+
 import Treasures from 'src/components/Treasure/Treasures'
 
 const TREASURES_WITH_FILTER = gql`
@@ -57,6 +59,7 @@ const TREASURES_WITH_FILTER = gql`
       achievementScore
       rarity
       tokenId
+      marketSaleStatus
       marketSales {
         id
         amount
@@ -84,6 +87,7 @@ const TreasuresFetcher = ({
   owner,
   filter,
   sort,
+  limit,
   collapsedTreasures,
 }) => {
   const [treasures, setTreasures] = React.useState([])
@@ -105,7 +109,9 @@ const TreasuresFetcher = ({
     variables: { username, owner, filter },
     fetchPolicy: 'network-only',
     onCompleted: ({ count: newCount }) => {
-      setCount(newCount)
+      setCount(
+        limit && newCount > TREASURES_PER_PAGE ? TREASURES_PER_PAGE : newCount
+      )
     },
   })
 
@@ -118,7 +124,6 @@ const TreasuresFetcher = ({
     getTreasures()
     getTreasuresCount()
     setPage(0)
-    setCount()
     setTreasures([])
   }
 
@@ -135,7 +140,7 @@ const TreasuresFetcher = ({
     <Treasures
       treasures={treasures}
       count={count}
-      onLoadMore={onLoadMore}
+      onLoadMore={!limit && onLoadMore}
       page={page}
       loading={loading}
     />

@@ -17,9 +17,7 @@ export const treasure = ({ tokenId }) => {
     where: { ...(id ? { id } : { tokenId: Number(tokenId) }) },
     include: {
       owner: true,
-      marketSales: {
-        orderBy: { updatedAt: 'desc' },
-      },
+      marketSales: { orderBy: { id: 'desc' }, take: 2 },
     },
   })
 }
@@ -31,7 +29,7 @@ export const treasureWithMarketSales = async ({ tokenId }) => {
     where: { ...(id ? { id } : { tokenId: Number(tokenId) }) },
     include: {
       marketSales: {
-        orderBy: { updatedAt: 'desc' },
+        orderBy: { id: 'desc' },
         take: 2,
         include: { listTx: true, unlistTx: true, saleTransactions: true },
       },

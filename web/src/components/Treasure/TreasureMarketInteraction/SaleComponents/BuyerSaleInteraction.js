@@ -6,20 +6,27 @@ import Button from 'src/components/Button/Button'
 import { PENDING_SOLD, SOLD, DELISTED } from 'src/providers/market/constants'
 
 const BuyerSaleInteraction = () => {
-  const { actionStatus, actionError, marketStatus, buy, amount } = useMarket()
+  const { actionStatus, actionError, marketStatus, buy } = useMarket()
   if ([null, DELISTED, SOLD].includes(marketStatus) && actionStatus !== SOLD)
     return <></>
   let buttonText = 'Buy'
-  if (actionStatus === PENDING_SOLD) buttonText = 'Purchase in Progress'
+  if (actionStatus === PENDING_SOLD)
+    buttonText = (
+      <div className="flex items-center justify-center">
+        <div className="mr-2">
+          <LoadingDots />
+        </div>
+        Buying
+      </div>
+    )
 
   const textColor = marketStatus === PENDING_SOLD ? 'text-black' : 'text-white'
-  const backgroundColor = actionStatus === SOLD ? '[#47A7FF]' : 'chessBlack-200'
 
   const PurchaseButton = () => {
     if (actionStatus === SOLD) return <div className="w-[272px] h-[40px]"></div>
     return (
       <Button
-        className={`w-[272px] h-[40px] text-xl shadow-m hover:sm hover:bg-green hover:shadow-greenDark ${
+        className={`w-[200px] h-[40px] text-xl shadow-m hover:sm hover:bg-green hover:shadow-greenDark ${
           [PENDING_SOLD, SOLD].includes(actionStatus) && 'pointer-events-none'
         }`}
         label={buttonText}
@@ -33,29 +40,19 @@ const BuyerSaleInteraction = () => {
     if (actionError) {
       return <p className="text-red font-bold">{actionError}</p>
     } else if (actionStatus === SOLD) {
-      return <p className="text-black">Congrats! This is now your Treasure.</p>
-    } else if (actionStatus === PENDING_SOLD) {
-      return (
-        <p className="text-white flex text-[10px]">
-          Purchases can take up to 3 minutes.
-          <div className="ml-2">
-            <LoadingDots />
-          </div>
-        </p>
-      )
+      return <p className="mt-4">🎉 Congrats! This is now your Treasure.</p>
     } else return null
   }
 
   return (
     <div
-      className={`flex flex-col justify-between w-[396px] mb-4 p-4 rounded-xl shadow-md bg-${backgroundColor}`}
+      className={`flex flex-col justify-between mb-4 p-4 rounded-xl shadow-md bg-chessBlack-200`}
     >
       <div className="flex flex-col">
         <h2 className={`text-base ${textColor}`}>Buy Treasure</h2>
         {marketStatus && <Status />}
       </div>
-      <div className="flex items-center justify-between">
-        <h2 className={`text-xl ml-3.5 ${textColor}`}>{`$${amount}`}</h2>
+      <div className="flex items-center justify-center mt-2">
         <PurchaseButton />
       </div>
     </div>

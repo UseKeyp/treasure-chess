@@ -13,15 +13,8 @@ import {
 } from 'src/providers/market/constants'
 
 const OwnerSaleInteraction = () => {
-  const {
-    actionStatus,
-    actionError,
-    marketStatus,
-    list,
-    unlist,
-    gift,
-    amount,
-  } = useMarket()
+  const { actionStatus, actionError, marketStatus, list, unlist, gift } =
+    useMarket()
   const [listAmount, setListAmount] = React.useState()
   const [username, setUsername] = React.useState(0)
   let statusContent = null
@@ -30,68 +23,57 @@ const OwnerSaleInteraction = () => {
     statusContent = (
       <p className="text-red  font-bold text-[11px]">{actionError}</p>
     )
-  } else if (actionStatus === PENDING_LISTED) {
-    statusContent = (
-      <div className=" flex">
-        <p className="text-white text-[10px]">
-          Listing can take up to 3 minutes.
-        </p>
-        <div className="ml-2">
-          <LoadingDots />
-        </div>
-      </div>
-    )
-  } else if (actionStatus === PENDING_DELISTED) {
-    statusContent = (
-      <div className=" flex">
-        <p className="text-white text-[10px]">
-          Delisting can take up to 3 minutes.
-        </p>
-        <div className="ml-2">
-          <LoadingDots />
-        </div>
-      </div>
-    )
   }
 
   if ([PENDING_LISTED, null, DELISTED, SOLD].includes(marketStatus))
     return (
-      <div className="flex flex-col h-52 p-4 rounded-xl shadow-md justify-between bg-chessBlack-200">
+      <div className="flex flex-col p-4 space-y-4 rounded-xl shadow-md justify-between bg-chessBlack-200">
         <div>
           <div className="flex items-center justify-between mb-2">
             <h2 className="text-base text-white">List Your Treasure</h2>
             {statusContent}
           </div>
-          <div className="flex flex-col items-center justify-between">
-            <div className="flex items-center justify-end w-full">
+          <div className="flex items-center justify-end w-full">
+            <div className="min-w-0 w-full">
               <FilterPriceInput value={listAmount} setValue={setListAmount} />
-              <Button
-                className={`w-28 h-[40px] text-xl ml-2 hover:bg-green hover:shadow-greenDark ${
-                  actionStatus === PENDING_LISTED && 'pointer-events-none'
-                }`}
-                variant={actionStatus === PENDING_LISTED ? 'grey' : 'green'}
-                label="List"
-                onClick={() => list(listAmount)}
-              />
             </div>
+            <Button
+              className={`w-28 h-[40px] text-xl ml-2 hover:bg-green hover:shadow-greenDark ${
+                actionStatus === PENDING_LISTED && 'pointer-events-none'
+              }`}
+              variant={actionStatus === PENDING_LISTED ? 'grey' : 'green'}
+              label={
+                actionStatus === PENDING_LISTED ? (
+                  <div className="flex items-center justify-center">
+                    <div className="mr-2">
+                      <LoadingDots />
+                    </div>
+                    Listing
+                  </div>
+                ) : (
+                  'List'
+                )
+              }
+              onClick={() => list(listAmount)}
+            />
           </div>
         </div>
         <div>
           <div className="flex items-center justify-between mb-2">
             <h2 className="text-base text-white">Gift this Treasure</h2>
           </div>
-          <div className="flex flex-col items-center justify-between">
-            <div className="flex items-center justify-end w-full">
+          <div className="flex items-center justify-end w-full">
+            <div className="min-w-0 w-full">
               <UsernameSearchBar value={username} setValue={setUsername} />
-              <Button
-                className={`w-28 h-[40px] text-xl ml-2 hover:bg-green hover:shadow-greenDark ${
-                  actionStatus === PENDING_LISTED && 'pointer-events-none'
-                }`}
-                variant={actionStatus === PENDING_LISTED ? 'grey' : 'green'}
-                label="Gift"
-                onClick={() => gift(username)}
-              />
             </div>
+            <Button
+              className={`w-28 h-[40px] text-xl ml-2 hover:bg-green hover:shadow-greenDark ${
+                actionStatus === PENDING_LISTED && 'pointer-events-none'
+              }`}
+              variant={actionStatus === PENDING_LISTED ? 'grey' : 'green'}
+              label="Gift"
+              onClick={() => gift(username)}
+            />
           </div>
         </div>
       </div>
@@ -103,16 +85,22 @@ const OwnerSaleInteraction = () => {
           <h2 className="text-base text-white">Listed</h2>
           {statusContent}
         </div>
-        <div className="flex items-center justify-between">
-          <h2 className="text-xl ml-3.5 text-white">{`$${amount}`}</h2>
+        <div className="flex items-center justify-center">
           <Button
-            className={`w-[272px] h-[40px] text-xl shadow-m hover:sm hover:bg-[#ffc82f] hover:shadow-orange' ${
+            className={`w-[200px] h-[40px] text-xl shadow-m hover:sm hover:bg-[#ffc82f] hover:shadow-orange' ${
               actionStatus === PENDING_DELISTED && 'pointer-events-none'
             }`}
             label={
-              actionStatus === PENDING_DELISTED
-                ? 'Delisting in progress.'
-                : 'Unlist'
+              actionStatus === PENDING_DELISTED ? (
+                <div className="flex items-center justify-center">
+                  <div className="mr-2">
+                    <LoadingDots />
+                  </div>
+                  Unisting
+                </div>
+              ) : (
+                'Unlist'
+              )
             }
             variant={actionStatus === PENDING_DELISTED ? 'grey' : 'orange'}
             onClick={unlist}

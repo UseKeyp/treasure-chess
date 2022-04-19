@@ -1,4 +1,5 @@
 import { db } from 'src/lib/db'
+import { logger } from 'src/lib/logger'
 
 import filters, { TREASURES_PER_PAGE } from '@treasure-chess/treasure-filters'
 
@@ -116,6 +117,13 @@ const getWhereQueryFromArgs = ({ username, filter, owner }) => {
         opening: getValueByName(filters.openingList, filterObj.opening),
       }
     : null
+  const saleQuery = filterObj.sale
+    ? {
+        OR: filterObj.sale.split(',').map((status) => ({
+          marketSaleStatus: getValueByName(filters.saleList, status),
+        })),
+      }
+    : null
 
   return {
     ...(usernameQuery && usernameQuery),
@@ -125,12 +133,12 @@ const getWhereQueryFromArgs = ({ username, filter, owner }) => {
     ...(moveCountQuery && moveCountQuery),
     ...(titleQuery && titleQuery),
     ...(openingQuery && openingQuery),
+    ...(saleQuery && saleQuery),
     ...(filterObj.color && { cardColor: filterObj.color }),
     ...(filterObj.termination && { termination: filterObj.termination }),
     ...(filterObj.timeControl && { timeControl: filterObj.timeControl }),
     ...(filterObj.rarity && { rarity: filterObj.rarity }),
     // TODO:  implement sale, and price
-    // sale,
     // lowPrice,
     // highPrice,
   }
@@ -190,6 +198,7 @@ export const getTreasuresWithFilter = async ({
     // TODO: add sorting, see https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#orderby
     orderBy: orderByQuery,
   })
+  logger.debug({ custom: treasures[0] }, 'one treasure')
   return treasures
 }
 

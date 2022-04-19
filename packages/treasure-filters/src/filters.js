@@ -147,6 +147,10 @@ const terminationList = [
     value: 'LosersStalemate',
   },
 ]
+const saleList = [
+  { name: 'For Sale', value: 'LISTED' },
+  { name: 'Unlisted', value: 'DELISTED' },
+]
 ////////////////////////////////
 // Items without name/value pair
 const titleList = [
@@ -163,7 +167,6 @@ const titleList = [
 ]
 const colorList = ['white', 'black']
 const rarityList = ['Good', 'Great', 'Ultra', 'Mythic']
-const saleList = ['For Sale', 'Unlisted']
 const outcomeList = ['black', 'white', 'draw']
 
 const sortList = [

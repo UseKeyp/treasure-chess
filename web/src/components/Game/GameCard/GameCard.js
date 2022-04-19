@@ -107,8 +107,10 @@ const GameCard = ({ game, isMinting, isLoading, title, showGif }) => {
     )
 
   let listAmount = 0
-  if (game.marketSales && game.marketSales[0]?.status === 'LISTED')
-    listAmount = game.marketSales[0].amount
+  if (game.marketSaleStatus === 'LISTED' && game.marketSales?.length) {
+    let sorted = [...game.marketSales]
+    listAmount = sorted.sort((a, b) => a.updatedAt < b.updatedAt)[0].amount
+  }
 
   return (
     <div className="container">

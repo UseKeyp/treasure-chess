@@ -1,5 +1,5 @@
 const fetch = require('cross-fetch')
-import { logger } from 'src/lib/logger'
+// const { logger } = require('../logger')
 
 function sleep(ms) {
   return new Promise((resolve) => {
@@ -22,7 +22,7 @@ const poll = async (url, retries = 0) => {
     await sleep(1000)
     return await poll(url, retries + 1)
   } catch (e) {
-    logger.error(e)
+    // logger.error(e)
     throw `poll() ${e}`
   }
 }
@@ -49,7 +49,7 @@ const getGifUrl = ({ tcn, playerColor }) => {
       '/'
     return baseGifUrl + tcn64 + `.gif`
   } catch (e) {
-    logger.error(e)
+    // logger.error(e)
     throw `getGifUrl() ${e}`
   }
 }
@@ -66,7 +66,7 @@ const getGifBase64 = async ({ tcn, playerColor }) => {
     gifBase64 = gifBase64.toString('base64')
     return { gifBase64, url: gifUrl }
   } catch (e) {
-    logger.error(e)
+    // logger.error(e)
     throw ('getGifBase64() ', e)
   }
 }

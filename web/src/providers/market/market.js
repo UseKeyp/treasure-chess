@@ -5,6 +5,7 @@ import { useToast } from 'src/providers/toast'
 import { useModal } from 'src/hooks/useModal'
 import { ConfirmModal } from './modals'
 import { TxToast } from './toasts'
+import Confetti from 'src/components/Confetti'
 
 import {
   TREASURE_WITH_MARKET_SALES_QUERY,
@@ -65,7 +66,7 @@ const MarketProvider = ({ children }) => {
         id: state.treasure.id,
       })
     if (type === PENDING_SOLD)
-      return toast.loading(<TxToast text="Purchasing" txHash={txHash} />, {
+      return toast.loading(<TxToast text="Buying" txHash={txHash} />, {
         id: state.treasure.id,
       })
 
@@ -76,7 +77,7 @@ const MarketProvider = ({ children }) => {
     if (type === DELISTED)
       return toast.success('Unlisted!', { id: state.treasure.id })
     if (type === SOLD)
-      return toast.success('Purchased!', { id: state.treasure.id })
+      return toast.success('Bought!', { id: state.treasure.id })
   }
 
   useQuery(TREASURE_WITH_MARKET_SALES_QUERY, {
@@ -86,10 +87,14 @@ const MarketProvider = ({ children }) => {
     variables: { tokenId },
     onCompleted: async ({ treasureWithMarketSales } = {}) => {
       const last = state?.marketSale || {}
-      const current = treasureWithMarketSales?.marketSales[0] || {}
+      const current =
+        [...treasureWithMarketSales.marketSales].sort(
+          (a, b) => a.updatedAt < b.updatedAt
+        )[0] || {}
       if (current.status === last.status) return
       const { status, isClosed, amount } = current
       let shouldPoll = false
+
       if (status.includes('PENDING')) shouldPoll = true
       setState({
         ...state,
@@ -124,18 +129,18 @@ const MarketProvider = ({ children }) => {
   const [buyTreasureMutation] = useMutation(BUY_MARKET_SALE_MUTATION)
 
   const fetchData = async () => {
-    if (!tokenId) return
     const { data: { treasureWithMarketSales } = {} } =
       await treasureWithMarketSalesLazyQuery({
         variables: { tokenId },
       })
-    const marketSale = treasureWithMarketSales?.marketSales[0]
+    const marketSale = [...treasureWithMarketSales.marketSales]?.sort(
+      (a, b) => a.updatedAt < b.updatedAt
+    )[0] // Gets the most recent item
     if (!marketSale)
       return setState({
         ...state,
         marketLoading: false,
         marketStatus: null,
-
         treasure: treasureWithMarketSales,
       })
     const { status, isClosed, amount } = marketSale
@@ -282,16 +287,15 @@ const MarketProvider = ({ children }) => {
     })
     toggleModalConfirm()
   }
-  const gift = async () => {
-    /* eslint-disable-next-line no-console */
-    console.log('This feature is not yet implemented')
+  const gift = () => {
+    setState({ ...state, actionError: 'This feature is coming soon' })
   }
 
   React.useEffect(() => {
+    if (!tokenId) return
     fetchData()
     /* eslint-disable-next-line react-hooks/exhaustive-deps*/
-  }, [])
-
+  }, [tokenId])
   React.useEffect(() => {
     if (authLoading || !currentUser || !state.treasure) return
     if (currentUser.id === state.treasure.ownerId)
@@ -304,7 +308,6 @@ const MarketProvider = ({ children }) => {
     if (state.actionData.type === PENDING_DELISTED) return onConfirmDelist()
     if (state.actionData.type === PENDING_SOLD) return onConfirmBuy()
   }
-
   return (
     <MarketContext.Provider
       value={{
@@ -339,6 +342,7 @@ const MarketProvider = ({ children }) => {
         toggleModal={toggleModalSuccess}
       />
     */}
+      {state.actionStatus === SOLD && <Confetti type="rain" />}
       {children}
     </MarketContext.Provider>
   )

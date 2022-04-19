@@ -61,19 +61,10 @@ const MobileNav = () => {
             <li className={navItemClasses}>
               <Button
                 isSelected={isOnAboutPage}
-                to={routes.faq()}
+                to={routes.about()}
                 className={navAnchorClasses}
               >
                 About
-              </Button>
-            </li>
-            <li className={`${navItemClasses} mx-auto`}>
-              <Button
-                href="https://airtable.com/shrWkB9MS13NXoM46"
-                target="_blank"
-                size="large"
-              >
-                <h3 className="text-[30px] font-bold">Feedback</h3>
               </Button>
             </li>
             {!isLoggedIn ? (
@@ -154,7 +145,7 @@ const Header = () => {
             </Button>
           </div>
           <div className="mr-4">
-            <Button to={routes.faq()} size="large" isSelected={isOnAboutPage}>
+            <Button to={routes.about()} size="large" isSelected={isOnAboutPage}>
               <div className="flex items-center">
                 <div className="mr-2">
                   {' '}
@@ -164,18 +155,6 @@ const Header = () => {
               </div>
             </Button>
           </div>
-          <Button
-            href="https://airtable.com/shrWkB9MS13NXoM46"
-            target="_blank"
-            size="large"
-          >
-            <div className="flex items-center">
-              <div className="mr-2">
-                <Icon name="book" />
-              </div>
-              Feedback
-            </div>
-          </Button>
         </div>
         {isLoggedIn ? (
           <div className="flex items-center">

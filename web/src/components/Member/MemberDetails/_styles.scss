@@ -3,7 +3,7 @@
   border-radius: 12px;
 
   &--inner {
-    @apply flex flex-col lg:flex-row lg:justify-center;
+    @apply flex flex-col lg:flex-row items-center lg:items-start;
   }
 
   &--avatar {

@@ -1,11 +1,11 @@
 import { render } from '@redwoodjs/testing'
 
-import FaqPage from './FaqPage'
+import Background from './Background'
 
-describe('FaqPage', () => {
+describe('Background', () => {
   it('renders successfully', () => {
     expect(() => {
-      render(<FaqPage />)
+      render(<Background />)
     }).not.toThrow()
   })
 })

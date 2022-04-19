@@ -72,6 +72,10 @@ const validatePurchaseRequest = async ({ treasure }) => {
 
 export const processPendingMarketTransactions = async ({ treasure }) => {
   try {
+    logger.debug(
+      { custom: treasure.marketSales },
+      'processPendingMarketTransactions'
+    )
     // WARNING: the next line doesn't account for re-orgs.
     // marketSales marked completed are not re-checked
     let currentMarketSale = treasure.marketSales[0]
@@ -99,7 +103,11 @@ export const processPendingMarketTransactions = async ({ treasure }) => {
             if (tx.status === COMPLETE) {
               newMarketSale = await db.marketSale.update({
                 where: { id: currentMarketSale.id },
-                data: { status: LISTED, isClosed: false },
+                data: {
+                  status: LISTED,
+                  isClosed: false,
+                  treasure: { update: { marketSaleStatus: LISTED } },
+                },
               })
             } else if (tx.status === FAILED) {
               // newMarketSale = await db.marketSale.update({
@@ -111,7 +119,11 @@ export const processPendingMarketTransactions = async ({ treasure }) => {
             if (tx.status === COMPLETE) {
               newMarketSale = await db.marketSale.update({
                 where: { id: currentMarketSale.id },
-                data: { status: DELISTED, isClosed: true },
+                data: {
+                  status: DELISTED,
+                  isClosed: true,
+                  treasure: { update: { marketSaleStatus: DELISTED } },
+                },
               })
             } else if (tx.status === FAILED) {
               // newMarketSale = await db.marketSale.update({
@@ -147,6 +159,7 @@ export const processPendingMarketTransactions = async ({ treasure }) => {
                 treasure: {
                   update: {
                     owner: { connect: { id: buyer.id } },
+                    marketSaleStatus: DELISTED,
                   },
                 },
               },
@@ -196,11 +209,7 @@ export const createNewTreasureListing = async ({ treasure, amount }) => {
         amount,
         treasure: { connect: { id: treasure.id } },
         seller: { connect: { id: context.currentUser.id } },
-        listTx: {
-          create: {
-            id: tx.hash,
-          },
-        },
+        listTx: { create: { id: tx.hash } },
       },
     })
     return marketSale
@@ -225,16 +234,10 @@ export const removeTreasureListing = async ({ treasure }) => {
 
     // Update the marketSale object
     const marketSale = await db.marketSale.update({
-      where: {
-        id: treasure.marketSales[0].id,
-      },
+      where: { id: treasure.marketSales[0].id },
       data: {
         status: PENDING_DELISTED,
-        unlistTx: {
-          create: {
-            id: tx.hash,
-          },
-        },
+        unlistTx: { create: { id: tx.hash } },
       },
     })
     return marketSale

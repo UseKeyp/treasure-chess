@@ -17,7 +17,7 @@ const TOKEN_URI_DOMAIN = process.env.APP_DOMAIN
 
 const API_DOMAIN = isProduction
   ? 'http://treasure-chess-api:8080'
-  : `${process.env.APP_DOMAIN}/api`
+  : process.env.APP_DOMAIN + '/api'
 
 const fetchScreenshotBase64Buffer = async (html) => {
   try {
@@ -28,7 +28,7 @@ const fetchScreenshotBase64Buffer = async (html) => {
       body: html,
       'Content-Type': 'text/plain',
     })
-    logger.debug({ custom: result }, 'fetchScreenshotBase64Buffer result ')
+    // logger.debug({ custom: result }, 'fetchScreenshotBase64Buffer result ')
     // if (result.status !== 200) throw "Couldn't get card snapshot"
     const buffer = await result.buffer()
     logger.debug(`typeof buffer ${typeof buffer}`)
@@ -42,7 +42,7 @@ const fetchScreenshotBase64Buffer = async (html) => {
 
 const fetchBoardBase64Buffer = async ({ boardLayout, playerColor }) => {
   try {
-    logger.debug({ custom: boardLayout }, 'fetchBoardBase64Buffer')
+    // logger.debug({ custom: boardLayout }, 'fetchBoardBase64Buffer')
     const result = await fetch(`${API_DOMAIN}/image`, {
       method: 'POST',
       body: JSON.stringify({ boardLayout, playerColor }),
@@ -52,6 +52,7 @@ const fetchBoardBase64Buffer = async ({ boardLayout, playerColor }) => {
     return buffer.toString('base64')
   } catch (e) {
     logger.error(e)
+    logger.debug(JSON.stringify({ boardLayout, playerColor }))
     throw `fetchBoardBase64Buffer() ${e}`
   }
 }
@@ -128,8 +129,8 @@ export const pinTreasure = async ({ treasure, tcn }) => {
 
     const htmlStringScreenshot = await getCardHtml({
       treasure: { ...treasure, achievements: achievementNames },
-      gifBase64,
       staticBase64: boardBuffer,
+      isScreenshot: true,
     })
     const screenshotBuffer = await fetchScreenshotBase64Buffer(
       htmlStringScreenshot
@@ -138,7 +139,6 @@ export const pinTreasure = async ({ treasure, tcn }) => {
 
     const htmlStringPrerender = await getCardHtml({
       treasure: { ...treasure, achievements: achievementNames },
-      gifBase64,
       staticBase64: boardBuffer,
       isPrerender: true,
     })

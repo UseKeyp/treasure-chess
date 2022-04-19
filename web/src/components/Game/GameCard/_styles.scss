@@ -16,7 +16,7 @@
 
 .gameCardHtml {
   max-width: 266px;
-  max-height: 492px;
+  max-height: 485px;
   box-shadow: 0px 10px 30px -5px rgba(0, 0, 0, 0.3);
   will-change: transform;
 }
@@ -44,7 +44,7 @@
   position: absolute;
   top: 0px;
   width: 266px;
-  height: 500px;
+  height: 485px;
   background-color: white;
   opacity: 80%;
   border-radius: 12px;
@@ -70,7 +70,7 @@
   align-items: center;
   justify-content: center;
   width: 150px;
-  height: 50px;
+  height: 25px;
   background-color: theme('colors.green');
   border-radius: 0 0 12px 12px;
 }

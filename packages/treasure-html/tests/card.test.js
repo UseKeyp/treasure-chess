@@ -17,14 +17,12 @@ const test = async () => {
   treasure.black = members[1]
   const html = await getCardHtml({
     treasure,
-    staticBase64: base64Image,
     gifUrl,
   })
   fs.writeFile('card.deleteme.html', html, (e) => e && console.log(e))
   const htmlPrerender = await getCardHtml({
     treasure,
     staticBase64: base64Image,
-    gifUrl,
     isPrerender: true,
   })
   fs.writeFile(
@@ -35,7 +33,6 @@ const test = async () => {
   const htmlScreenshot = await getCardHtml({
     treasure,
     staticBase64: base64Image,
-    gifUrl,
     isScreenshot: true,
   })
   fs.writeFile(

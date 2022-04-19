@@ -133,7 +133,7 @@ const FilterBar = ({
         <div className="dropdownRowSpacing">
           <FilterCheckbox
             category={'Sale'}
-            options={filters.saleList}
+            options={filters.saleList.map((status) => status.name)}
             queryFilterFunction={updateSale}
             queryFilter={sale}
           />

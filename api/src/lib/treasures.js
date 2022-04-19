@@ -118,7 +118,9 @@ const getWhereQueryFromArgs = ({ username, filter, owner }) => {
     : null
   const saleQuery = filterObj.sale
     ? {
-        marketSaleStatus: getValueByName(filters.saleList, filterObj.sale),
+        OR: filterObj.sale.split(',').map((status) => ({
+          marketSaleStatus: getValueByName(filters.saleList, status),
+        })),
       }
     : null
 

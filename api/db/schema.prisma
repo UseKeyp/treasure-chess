@@ -34,6 +34,7 @@ model Member {
   mintCredits          Int            @default(3) // Mint for free!
   banned               Boolean        @default(false)
   refreshToken         String? // Chess.com Oauth
+  twitchToken          String?        @unique // Twitch access token
   ramps                Ramp[]
   OAuth                OAuth[]
 }

@@ -11,6 +11,7 @@ export const TWITCH_OAUTH_URL_AUTHORIZE =
   'https://id.twitch.tv/oauth2/authorize'
 
 const TWITCH_OAUTH_URL_TOKEN = 'https://id.twitch.tv/oauth2/token'
+const TWITCH_OAUTH_URL_REVOKE = 'https://id.twitch.tv/oauth2/revoke'
 const TWITCH_SCOPE = 'user:read:email'
 const TWITCH_REDIRECT_URI = isDevelopment
   ? 'http://localhost:8910/redirect/twitch'
@@ -21,6 +22,40 @@ const params = {
   scope: TWITCH_SCOPE,
   redirect_uri: TWITCH_REDIRECT_URI,
   force_verify: true,
+}
+
+export const onRevoke = async () => {
+  try {
+    const member = await db.member.findUnique({
+      where: { id: context.currentUser.id },
+    })
+
+    const body = {
+      client_id: process.env.TWITCH_CLIENT_ID,
+      token: member.twitchToken,
+    }
+
+    const encodedBody = encodeBody(body)
+
+    const response = await fetch(TWITCH_OAUTH_URL_REVOKE, {
+      method: 'post',
+      body: encodedBody,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    }).then((res) => {
+      if (res.status != 200)
+        throw `Twitch API failed for /revoke. ${res.status} - ${res.statusText}`
+      return res.json()
+    })
+
+    if (response.error)
+      throw `${response.error} - ${response.hint}. ${response.message}`
+    return response
+  } catch (e) {
+    Sentry.captureException(e)
+    throw `onRevoke() ${e}`
+  }
 }
 
 export const onSubmitCode = async (code, { memberId }) => {
@@ -81,7 +116,10 @@ export const onConnected = async ({ accessToken, memberId }) => {
     logger.debug({ custom: usersList }, 'Twitch user details')
     await db.member.update({
       where: { id: memberId },
-      data: { twitchUsername: usersList.data[0].login },
+      data: {
+        twitchUsername: usersList.data[0].login,
+        twitchToken: accessToken,
+      },
     })
     return { status: 'SUCCESS' }
   } catch (e) {
@@ -90,9 +128,24 @@ export const onConnected = async ({ accessToken, memberId }) => {
   }
 }
 
+export const onDisConnected = async (memberId) => {
+  try {
+    await db.member.update({
+      where: { id: memberId },
+      data: { twitchUsername: '', twitchToken: '' },
+    })
+    return { status: 'SUCCESS' }
+  } catch (e) {
+    Sentry.captureException(e)
+    throw `onDisconnected() ${e}`
+  }
+}
+
 export const provider = {
   urlAuthorize: TWITCH_OAUTH_URL_AUTHORIZE,
   params,
   onSubmitCode,
   onConnected,
+  onRevoke,
+  onDisConnected,
 }

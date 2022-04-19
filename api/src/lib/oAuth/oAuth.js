@@ -8,6 +8,7 @@ import { logger } from 'src/lib/logger'
 
 import { providers, types } from 'src/lib/oAuth/providers'
 import { createPlaidLink, PLAID } from 'src/lib/oAuth/providers/plaid'
+import { TWITCH } from 'src/lib/oAuth/providers/twitch'
 
 export const oAuthUrl = async (type) => {
   try {
@@ -61,6 +62,28 @@ export const processCodeGrant = async ({ state, code, type, accountId }) => {
     logger.error(e)
     Sentry.captureException(e)
     throw new AuthenticationError(e)
+  }
+}
+
+export const processRevoke = async (type) => {
+  try {
+    logger.debug(`revoke - ${type}`)
+    if (!types.includes(type)) throw `Unknown OAuth Provider - ${type}`
+    return revoke(type)
+  } catch (e) {
+    logger.error(e)
+    Sentry.captureException(e)
+    throw new AuthenticationError(e)
+  }
+}
+
+export const revoke = async (type) => {
+  if (!Object.values(types).includes(type))
+    throw `OAuth Provider "${type}" is not enabled.`
+  const { onRevoke, onDisconnected } = providers[type]
+  if (type === TWITCH) {
+    await onRevoke()
+    return onDisconnected(context.currentUser.id)
   }
 }
 

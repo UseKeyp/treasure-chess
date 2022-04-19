@@ -29,3 +29,11 @@ export const OAUTH_CODE_GRANT_MUTATION = gql`
     }
   }
 `
+
+export const OAUTH_REVOKE_MUTATION = gql`
+  mutation revokeOAuth($type: String!) {
+    revokeOAuth(type: $type) {
+      status
+    }
+  }
+`

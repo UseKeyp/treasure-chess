@@ -15,24 +15,27 @@ import { useWallet } from 'src/providers/wallet'
 import { trimAddress } from 'src/utils/helpers'
 
 const TwitchLink = ({ isProfile, username }) => {
-  const { getOAuthUrl, isLoading } = useOAuth()
+  const { getOAuthUrl, revokeOAuth, isLoading } = useOAuth()
 
-  const onConnectTwitch = async () => {
-    const oAuthUrl = await getOAuthUrl('TWITCH')
-    if (oAuthUrl)
-      window.open(
-        oAuthUrl.url,
-        'Twitch - Connect',
-        'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
-      )
+  const onClickTwitch = async () => {
+    if (username) {
+      await revokeOAuth('TWITCH')
+    } else {
+      const oAuthUrl = await getOAuthUrl('TWITCH')
+      if (oAuthUrl)
+        window.open(
+          oAuthUrl.url,
+          'Twitch - Connect',
+          'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
+        )
+    }
   }
-
   if (isProfile) {
     return (
-      <Button disabled={isLoading} onClick={onConnectTwitch} className="ml-2">
+      <Button disabled={isLoading} onClick={onClickTwitch} className="ml-2">
         <div className="flex flex-row">
           <TwitchIcon color={username ? undefined : '#ABB6B9'} />
-          <p className="ml-1">{username ? 'Update' : 'Connect'}</p>
+          <p className="ml-1">{username ? 'Disconnect' : 'Connect'}</p>
         </div>
       </Button>
     )

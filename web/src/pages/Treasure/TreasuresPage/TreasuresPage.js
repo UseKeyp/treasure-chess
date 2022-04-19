@@ -30,7 +30,6 @@ const TreasuresPage = () => {
             filter={new URLSearchParams(filter).toString()}
             sort={sort}
           />
-          )
         </div>
         <FilterBar defaultParams={defaultParams} hideOnMobile />
       </div>

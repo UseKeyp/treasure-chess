@@ -2,7 +2,7 @@ import LoadingDots from 'src/components/LoadingDots/LoadingDots'
 import Button from 'src/components/Button/Button'
 
 import FilterPriceInput from 'src/components/FilterPriceInput'
-import UsernameSearchBar from 'src/components/UsernameSearchBar/UsernameSearchBar'
+// import UsernameSearchBar from 'src/components/UsernameSearchBar/UsernameSearchBar'
 import { useMarket } from 'src/providers/market'
 
 import {
@@ -13,10 +13,16 @@ import {
 } from 'src/providers/market/constants'
 
 const OwnerSaleInteraction = () => {
-  const { actionStatus, actionError, marketStatus, list, unlist, gift } =
-    useMarket()
+  const {
+    actionStatus,
+    actionError,
+    marketStatus,
+    list,
+    unlist,
+    // gift
+  } = useMarket()
   const [listAmount, setListAmount] = React.useState()
-  const [username, setUsername] = React.useState(0)
+  // const [username, setUsername] = React.useState(0)
   let statusContent = null
 
   if (actionError) {

@@ -14,7 +14,6 @@ services:
     env_file:
       - .env
     environment:
-      APP_DOMAIN: 'http://0.0.0.0:8910'
       REDWOOD_API_URL: 'http://0.0.0.0:8911'
 
   web:

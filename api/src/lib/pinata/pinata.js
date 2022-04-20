@@ -17,7 +17,8 @@ const TOKEN_URI_DOMAIN = process.env.APP_DOMAIN
 
 const API_DOMAIN = isProduction
   ? 'http://treasure-chess-api:8080'
-  : process.env.APP_DOMAIN + '/api'
+  : process.env.REDWOOD_API_URL
+// : process.env.APP_DOMAIN + '/api'
 
 const fetchScreenshotBase64Buffer = async (html) => {
   try {
@@ -43,7 +44,9 @@ const fetchScreenshotBase64Buffer = async (html) => {
 const fetchBoardBase64Buffer = async ({ boardLayout, playerColor }) => {
   try {
     // logger.debug({ custom: boardLayout }, 'fetchBoardBase64Buffer')
-    const result = await fetch(`${API_DOMAIN}/image`, {
+    const url = `${API_DOMAIN}/image`
+    logger.debug(url)
+    const result = await fetch(url, {
       method: 'POST',
       body: JSON.stringify({ boardLayout, playerColor }),
     })
@@ -166,7 +169,7 @@ export const pinTreasure = async ({ treasure, tcn, gameId }) => {
       external_url: `${TOKEN_URI_DOMAIN}/treasures`,
       name: treasure.title,
       gameId,
-      endTime: treasure.gameEndTime,
+      endTime: treasure.endTime,
       attributes,
       animation_url,
       image,
@@ -177,7 +180,7 @@ export const pinTreasure = async ({ treasure, tcn, gameId }) => {
 
     let customLog = ''
     try {
-      ;[tokenUri, animation_url, image, openGraphImageSrc].map((ipfs) => {
+      ;[tokenUri, animation_url, image].map((ipfs) => {
         try {
           customLog += `${ipfsUrlToPinata(ipfs)}, `
         } catch (e) {
@@ -188,6 +191,7 @@ export const pinTreasure = async ({ treasure, tcn, gameId }) => {
       throw `error getting ipfs url: ${e}`
     }
     logger.info(customLog)
+    logger.info(`openGraphImageSrc ${openGraphImageSrc}`)
 
     return { tokenUri, uriData: stringifiedUriData, openGraphImageSrc }
   } catch (e) {

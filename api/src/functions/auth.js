@@ -66,7 +66,7 @@ export const handler = async (event, context) => {
       Path: '/',
       SameSite: 'Strict',
       Secure: isProduction,
-      ...(isProduction && { Domain: process.env.APP_DOMAIN }),
+      // ...(isProduction && { Domain: process.env.APP_DOMAIN }),
     },
   })
 

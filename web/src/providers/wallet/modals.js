@@ -30,7 +30,7 @@ export const AddressModal = ({ address, isVisible, toggleModal }) => {
     <ModalContainer
       isVisible={isVisible}
       headerText="Deposit USDC"
-      submitText={copied ? 'Copied!' : 'Copy Wallet Address'}
+      submitText={copied ? 'Address copied!' : 'Accept'}
       onSubmit={() => handleCopy()}
       hideModal={toggleModal}
       content={
@@ -43,9 +43,13 @@ export const AddressModal = ({ address, isVisible, toggleModal }) => {
 
           <p className="mt-4 text-base">
             Do not send anything else to this address. Do not use other
-            networks. You will not be able to recover assets, and they may be
-            lost forever. We cannot guarantee support will be added for other
-            networks or assets.
+            networks.{' '}
+            <b>
+              You will not be able to recover unsupported assets, and they may
+              be lost forever.
+            </b>{' '}
+            We cannot guarantee support will be added for other networks or
+            assets.
           </p>
 
           <p className="mt-4 text-base">
@@ -77,6 +81,7 @@ export const DepositModal = ({ isVisible, toggleModal }) => {
             Fees - Wyre: 2.9% + $0.30 or $5 minimum (
             <a
               className="underline"
+              rel="noreferrer"
               href="https://docs.sendwyre.com/reference/hosted-checkout#tr  ansaction-processing-limits"
               target="_blank"
             >
@@ -87,7 +92,12 @@ export const DepositModal = ({ isVisible, toggleModal }) => {
           <p className="mt-4">
             We are actively working to improve this experience. If you have
             feedback please let us know using the{' '}
-            <a className="underline" href="/feedback" target="_blank">
+            <a
+              className="underline"
+              href="/feedback"
+              rel="noreferrer"
+              target="_blank"
+            >
               Feedback Form
             </a>
             .
@@ -209,7 +219,12 @@ export const WithdrawModal = ({ isVisible, toggleModal }) => {
           <p className="text-base">Send funds to your bank at any time.</p>
           <p className="mt-4">
             Supported Countries - Wyre: US, Coinbase:{' '}
-            <a className="underline" href="https://www.coinbase.com/places">
+            <a
+              className="underline"
+              rel="noreferrer"
+              target="_blank"
+              href="https://www.coinbase.com/places"
+            >
               see full list
             </a>
           </p>
@@ -218,7 +233,12 @@ export const WithdrawModal = ({ isVisible, toggleModal }) => {
             This gives us permission to only send funds to these accounts; we
             can never withdraw. We are actively working to improve this
             experience. If you have issues please let us know using the{' '}
-            <a className="underline" href="/feedback" target="_blank">
+            <a
+              className="underline"
+              rel="noreferrer"
+              target="_blank"
+              href="/feedback"
+            >
               Feedback Form
             </a>
             .

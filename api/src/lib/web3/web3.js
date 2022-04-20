@@ -72,13 +72,14 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
       minter: member,
     })
 
-    const { tokenUri, uriData } = await pinTreasure({
+    const { tokenUri, uriData, openGraphImageSrc } = await pinTreasure({
       treasure: {
         ...treasureData,
         black: { ...game.black }, // Inject the players manually
         white: { ...game.white },
       },
       tcn: game.tcn,
+      gameId,
     })
     // logger.debug({ custom: mintPurchase }, 'mintPurchase')
     if (mintPurchase.transaction?.id) {
@@ -99,6 +100,7 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
                 tokenId,
                 uriData,
                 tokenUri,
+                openGraphImageSrc,
               },
             },
           },

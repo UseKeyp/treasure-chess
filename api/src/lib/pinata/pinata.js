@@ -109,7 +109,7 @@ const pinJson = async (jsonString) => {
 const ipfsUrlToPinata = (ipfsUrl) =>
   'https://chess.mypinata.cloud/ipfs/' + ipfsUrl.split('ipfs://')[1]
 
-export const pinTreasure = async ({ treasure, tcn }) => {
+export const pinTreasure = async ({ treasure, tcn, gameId }) => {
   try {
     // Setup
     const { gifBase64 } = await getGifBase64({
@@ -145,16 +145,17 @@ export const pinTreasure = async ({ treasure, tcn }) => {
     const prerenderImageBuffer = await fetchScreenshotBase64Buffer(
       htmlStringPrerender
     )
-    const openGraphImageSrc = await pinFile(
+    let openGraphImageSrc = await pinFile(
       prerenderImageBuffer,
       `${treasure.id}-prerender.png`
     )
+    openGraphImageSrc = ipfsUrlToPinata(openGraphImageSrc)
 
     const htmlString = await getCardHtml({
       treasure: { ...treasure, achievements: achievementNames },
       gifBase64,
       staticBase64: boardBuffer,
-      openGraphImageSrc: ipfsUrlToPinata(openGraphImageSrc),
+      openGraphImageSrc,
     })
 
     /* eslint-disable camelcase */
@@ -164,6 +165,8 @@ export const pinTreasure = async ({ treasure, tcn }) => {
       description: getDescription({ opening: treasure.opening }), // TODO: Update copy for this
       external_url: `${TOKEN_URI_DOMAIN}/treasures`,
       name: treasure.title,
+      gameId,
+      endTime: treasure.gameEndTime,
       attributes,
       animation_url,
       image,
@@ -186,7 +189,7 @@ export const pinTreasure = async ({ treasure, tcn }) => {
     }
     logger.info(customLog)
 
-    return { tokenUri, uriData: stringifiedUriData }
+    return { tokenUri, uriData: stringifiedUriData, openGraphImageSrc }
   } catch (e) {
     throw `pinTreasure() ${e}`
   }

@@ -1,11 +1,8 @@
 import { db } from 'src/lib/db'
 import { logger } from 'src/lib/logger'
-import fetch from 'cross-fetch'
+import { getCardHtml } from '@treasure-chess/treasure-html'
 
 import Sentry from 'src/lib/sentry'
-
-const ipfsUrlToPinata = (ipfsUrl) =>
-  'https://chess.mypinata.cloud/ipfs/' + ipfsUrl.split('ipfs://')[1]
 
 export const handler = async (event, _context) => {
   logger.debug('Invoked /prerender')
@@ -14,6 +11,7 @@ export const handler = async (event, _context) => {
 
     const treasure = await db.treasure.findUnique({
       where: { tokenId: Number(tokenId) },
+      include: { white: true, black: true },
     })
     if (!treasure) return { statusCode: 404 }
 

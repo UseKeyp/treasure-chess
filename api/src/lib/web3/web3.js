@@ -108,14 +108,14 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
         return purchase
       }
       if (status === SUBMITTED) {
-        logger.debug(`Status is SUBMITTED for ${tx.hash}`)
+        logger.debug(`Status is SUBMITTED for ${mintPurchase.transaction.id}`)
         if (!isOlderThanResubmitTimeout(mintPurchase.transaction.updatedAt))
           return mintPurchase
         logger.debug(`Tx is >2 hours old, so we will resubmit`)
       }
       if (status === FAILED) {
         await db.transaction.update({
-          where: { id: tx.hash },
+          where: { id: mintPurchase.transaction?.id },
           data: { status: FAILED },
         })
         return mintFailGracefully({

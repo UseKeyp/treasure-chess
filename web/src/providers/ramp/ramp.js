@@ -100,6 +100,7 @@ const RampProvider = ({ children }) => {
   }
 
   const connectWyre = async () => {
+    setShouldPoll(true)
     setWyre({ isLoading: true, error: null, ...wyre })
     const oAuthUrl = await getOAuthUrl(PLAID)
     if (errorOAuth)

@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import Avatar from 'src/components/Avatar'
 import Button from 'src/components/Button/Button'
 import { Link, routes } from '@redwoodjs/router'
@@ -14,12 +15,13 @@ import { useWallet } from 'src/providers/wallet'
 
 import { trimAddress } from 'src/utils/helpers'
 
-const TwitchLink = ({ isProfile, username }) => {
+const TwitchLink = ({ isProfile, username: twitchUsername }) => {
   const { getOAuthUrl, revokeOAuth, isLoading } = useOAuth()
-
+  const [username, setUsername] = useState(twitchUsername)
   const onClickTwitch = async () => {
     if (username) {
       await revokeOAuth('TWITCH')
+      setUsername('')
     } else {
       const oAuthUrl = await getOAuthUrl('TWITCH')
       if (oAuthUrl)

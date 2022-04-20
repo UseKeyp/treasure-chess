@@ -80,10 +80,10 @@ export const processRevoke = async (type) => {
 export const revoke = async (type) => {
   if (!Object.values(types).includes(type))
     throw `OAuth Provider "${type}" is not enabled.`
-  const { onRevoke, onDisconnected } = providers[type]
+  const { onRevoke, onDisConnected } = providers[type]
   if (type === TWITCH) {
     await onRevoke()
-    return onDisconnected(context.currentUser.id)
+    return onDisConnected()
   }
 }
 

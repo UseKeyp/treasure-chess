@@ -37,7 +37,7 @@ export const onRevoke = async () => {
 
     const encodedBody = encodeBody(body)
 
-    const response = await fetch(TWITCH_OAUTH_URL_REVOKE, {
+    await fetch(TWITCH_OAUTH_URL_REVOKE, {
       method: 'post',
       body: encodedBody,
       headers: {
@@ -46,12 +46,8 @@ export const onRevoke = async () => {
     }).then((res) => {
       if (res.status != 200)
         throw `Twitch API failed for /revoke. ${res.status} - ${res.statusText}`
-      return res.json()
     })
-
-    if (response.error)
-      throw `${response.error} - ${response.hint}. ${response.message}`
-    return response
+    return { status: 'SUCCESS' }
   } catch (e) {
     Sentry.captureException(e)
     throw `onRevoke() ${e}`
@@ -128,16 +124,16 @@ export const onConnected = async ({ accessToken, memberId }) => {
   }
 }
 
-export const onDisConnected = async (memberId) => {
+export const onDisConnected = async () => {
   try {
     await db.member.update({
-      where: { id: memberId },
+      where: { id: context.currentUser.id },
       data: { twitchUsername: '', twitchToken: '' },
     })
     return { status: 'SUCCESS' }
   } catch (e) {
     Sentry.captureException(e)
-    throw `onDisconnected() ${e}`
+    throw `onDisConnected() ${e}`
   }
 }
 

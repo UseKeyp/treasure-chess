@@ -193,7 +193,10 @@ export const getTxReceipt = async (txHash) =>
 
 export const getTxStatus = async (txHash) => {
   const receipt = await getTxReceipt(txHash)
-  if (receipt?.status === 0) {
+  if (
+    receipt?.status === 0 &&
+    receipt?.confirmations >= MINIMUM_CONFIRMATIONS
+  ) {
     return FAILED
   } else if (
     receipt?.status == 1 &&
@@ -212,7 +215,10 @@ export const getMintTxStatus = async ({ mintPurchase }) => {
         { custom: { receipt, id: mintPurchase.transaction.id } },
         'getMintTxStatus'
       )
-      if (receipt?.status === 0) {
+      if (
+        receipt?.status === 0 &&
+        receipt?.confirmations >= MINIMUM_CONFIRMATIONS
+      ) {
         return { status: FAILED }
       } else if (
         receipt?.status == 1 &&
@@ -238,7 +244,10 @@ export const getSaleTxStatus = async (txHash) => {
   try {
     const receipt = await getTxReceipt(txHash)
 
-    if (receipt?.status === 0) {
+    if (
+      receipt?.status === 0 &&
+      receipt?.confirmations >= MINIMUM_CONFIRMATIONS
+    ) {
       return { status: FAILED }
     } else if (
       receipt?.status == 1 &&

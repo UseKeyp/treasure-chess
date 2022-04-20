@@ -78,20 +78,21 @@ export const DepositModal = ({ isVisible, toggleModal }) => {
             Use a debit card to instantly add funds to your account.
           </p>
           <p className="mt-4">
-            Fees - Wyre: 2.9% + $0.30 or $5 minimum (
+            Fees - Wyre: 2.9% + $0.30 (
             <a
               className="underline"
               rel="noreferrer"
               href="https://docs.sendwyre.com/reference/hosted-checkout#tr  ansaction-processing-limits"
               target="_blank"
             >
-              limits
+              see limits
             </a>
             )
           </p>
           <p className="mt-4">
-            We are actively working to improve this experience. If you have
-            feedback please let us know using the{' '}
+            We are actively working to improve this experience, and to add
+            support for more regions. If you have feedback please let us know
+            using the{' '}
             <a
               className="underline"
               href="/feedback"
@@ -234,7 +235,8 @@ export const WithdrawModal = ({ isVisible, toggleModal }) => {
             For your protection, funds can only be sent one-way from your
             Treasure Chess account to your bank. Funds can never be withdrawn
             from your bank using this method. We are actively working to improve
-            this experience. If you have issues please let us know using the{' '}
+            this experience, and to add support for more regions. If you have
+            issues please let us know using the{' '}
             <a
               className="underline"
               rel="noreferrer"

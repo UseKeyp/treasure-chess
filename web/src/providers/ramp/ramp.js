@@ -201,6 +201,7 @@ const RampProvider = ({ children }) => {
             onWithdraw: withdrawWyre,
             onDeposit: depositWyre,
           },
+          // Disabled
           // {
           //   ...coinbase,
           //   onConnect: connectCoinbase,

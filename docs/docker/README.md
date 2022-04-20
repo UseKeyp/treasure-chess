@@ -69,7 +69,7 @@ docker run -it --rm \
         pi0neerpat/treasure-chess-api:latest
 
 docker run -it --rm \
-       -p 8911:8911 \
+       -p 8910:8910 \
         pi0neerpat/treasure-chess-web:latest
 ```
 

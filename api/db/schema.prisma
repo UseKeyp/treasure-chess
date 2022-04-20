@@ -110,6 +110,7 @@ model Treasure {
   achievementScore Int // eg. 10
   rarity           Rarity // eg. 10
   marketSales      MarketSale[]
+  openGraphImageSrc String?
   marketSaleStatus MarketSaleStatus @default(DELISTED)
 }
 

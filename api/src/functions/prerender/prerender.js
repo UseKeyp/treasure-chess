@@ -17,17 +17,19 @@ export const handler = async (event, _context) => {
     })
     if (!treasure) return { statusCode: 404 }
 
-    const { uriData } = treasure
-    /* eslint-disable camelcase */
-    const { animation_url } = JSON.parse(uriData)
-    const url = ipfsUrlToPinata(animation_url)
-    logger.debug(url)
-    const html = await fetch(url)
+    let openGraphImageSrc = 'https://treasure.chess.com/seo.png'
+    if (treasure.openGraphImageSrc)
+      openGraphImageSrc = treasure.openGraphImageSrc
+
+    const htmlString = await getCardHtml({
+      treasure,
+      openGraphImageSrc,
+    })
 
     return {
       statusCode: 200,
       headers: { 'Content-Type': 'text/html' },
-      body: html.body,
+      body: htmlString,
     }
   } catch (error) {
     /* eslint-disable no-console */

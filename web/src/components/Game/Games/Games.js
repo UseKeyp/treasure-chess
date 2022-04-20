@@ -46,8 +46,13 @@ const Games = ({ games, count: queryCount, isLoading, error }) => {
     setGamesContext((state) => ({ ...state, page: pageNumber - 1 }))
   }
 
+  let sortedGames = games?.slice(0)
+  sortedGames = sortedGames?.sort(
+    (a, b) => new Date(b.endTime) - new Date(a.endTime)
+  )
+
   const getItems = () =>
-    games?.map((game) => {
+    sortedGames?.map((game) => {
       const outcome = getOutcomeText({
         username: currentUser?.username,
         game,

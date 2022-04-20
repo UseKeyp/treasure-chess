@@ -58,7 +58,7 @@ const OwnerSaleInteraction = () => {
             />
           </div>
         </div>
-        <div>
+        {/*<div>
           <div className="flex items-center justify-between mb-2">
             <h2 className="text-base text-white">Gift this Treasure</h2>
           </div>
@@ -75,7 +75,7 @@ const OwnerSaleInteraction = () => {
               onClick={() => gift(username)}
             />
           </div>
-        </div>
+        </div>*/}
       </div>
     )
   return (

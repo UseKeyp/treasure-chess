@@ -195,15 +195,15 @@ const RampProvider = ({ children }) => {
         deposit: depositWyre,
         ramps: [
           {
-            ...coinbase,
-            onConnect: connectCoinbase,
-            onWithdraw: withdrawCoinbase,
-          },
-          {
             ...wyre,
             onConnect: connectWyre,
             onWithdraw: withdrawWyre,
             onDeposit: depositWyre,
+          },
+          {
+            ...coinbase,
+            onConnect: connectCoinbase,
+            onWithdraw: withdrawCoinbase,
           },
         ],
       }}

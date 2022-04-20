@@ -64,18 +64,35 @@ export const DepositModal = ({ isVisible, toggleModal }) => {
       isVisible={isVisible}
       onSubmit={deposit}
       hideModal={toggleModal}
-      headerText="Deposit Funds"
+      headerText="Add Funds"
       icon={<Icon name="wyre" size="29" />}
-      submitText="Deposit with Wyre"
+      submitText="Continue to Wyre"
       content={
         <>
           {' '}
           <p className="text-base">
-            Fund your wallet using Wyre. Funds are typically added in less than
-            3 minutes, and can be withdrawn anytime according to the limits set
-            by Wyre.
+            Use a debit card to instantly add funds to your account.
           </p>
-          <p className="text-base mt-4 mb-4">
+          <p className="mt-4">
+            Fees - Wyre: 2.9% + $0.30 or $5 minimum (
+            <a
+              className="underline"
+              href="https://docs.sendwyre.com/reference/hosted-checkout#tr  ansaction-processing-limits"
+              target="_blank"
+            >
+              limits
+            </a>
+            )
+          </p>
+          <p className="mt-4">
+            We are actively working to improve this experience. If you have
+            feedback please let us know using the{' '}
+            <a className="underline" href="/feedback" target="_blank">
+              Feedback Form
+            </a>
+            .
+          </p>
+          <p className="mt-4">
             <i>
               By submitting, I authorize Wyre Payments, Inc., to electronically
               charge my credit/debit card (and, if necessary, electronically
@@ -83,7 +100,7 @@ export const DepositModal = ({ isVisible, toggleModal }) => {
               this authorization will remain in full force and effect until I
               notify Treasure Chess that I wish to revoke this authorization. I
               agree that credit/debit card transactions I authorize, comply with
-              all applicable law.
+              all applicable law.{' '}
             </i>
           </p>
         </>
@@ -182,21 +199,33 @@ export const WithdrawModal = ({ isVisible, toggleModal }) => {
   const isConnected = ramps.map((ramp) => ramp.address && true).includes(true)
   return (
     <ModalContainer
-      headerText="Withdraw Funds"
+      headerText="Cash Out"
       isVisible={isVisible}
       onSubmit={toggleModal}
       hideModal={toggleModal}
       // icon={<Icon name="wyre" size="29" />}
       content={
         <>
-          <p className="text-base">
-            Withdraw your funds anytime. Limits are set by each third-party
-            provider. Connections are <i>Read-Only</i>.
+          <p className="text-base">Send funds to your bank at any time.</p>
+          <p className="mt-4">
+            Supported Countries - Wyre: US, Coinbase:{' '}
+            <a className="underline" href="https://www.coinbase.com/places">
+              see full list
+            </a>
           </p>
-
+          <p className="">Fees - Wyre: 0.2%, Coinbase: 0%</p>
+          <p className="mt-4">
+            This gives us permission to only send funds to these accounts; we
+            can never withdraw. We are actively working to improve this
+            experience. If you have issues please let us know using the{' '}
+            <a className="underline" href="/feedback" target="_blank">
+              Feedback Form
+            </a>
+            .
+          </p>
           {isConnected && (
             <>
-              <h4 className="mt-4 ">Amount to withdraw</h4>
+              <h4 className="mt-4 ">Amount to cash out</h4>
               <FilterPriceInput value={amount} setValue={setAmount} />
             </>
           )}

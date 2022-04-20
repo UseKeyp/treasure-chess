@@ -134,7 +134,7 @@ const MemberDetails = ({ member, isProfile }) => {
               size="small"
               className="w-32 "
             >
-              Deposit
+              Add Funds
             </Button>
             <Button
               onClick={withdraw}
@@ -143,7 +143,7 @@ const MemberDetails = ({ member, isProfile }) => {
               size="small"
               className="w-32"
             >
-              Withdraw
+              Cash Out
             </Button>
           </div>
         )}

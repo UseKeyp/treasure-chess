@@ -169,6 +169,7 @@ export const pinTreasure = async ({ treasure, tcn, gameId }) => {
       external_url: `${TOKEN_URI_DOMAIN}/treasures`,
       name: treasure.title,
       gameId,
+      treasureId: treasure.id,
       endTime: treasure.endTime,
       attributes,
       animation_url,

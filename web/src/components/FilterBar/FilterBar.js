@@ -101,6 +101,9 @@ const FilterBar = ({
     highPrice,
   ])
 
+  /* eslint-disable-next-line react-hooks/exhaustive-deps */
+  React.useEffect(() => updateFilter(), [])
+
   return (
     <div className="filterBarWrapper" data-hide-on-mobile={hideOnMobile}>
       <div className="filterBar" data-show-scrollbar={showScrollbar}>

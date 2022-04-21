@@ -84,20 +84,20 @@ const RampProvider = ({ children }) => {
     // toggleModalDep()
   }
 
-  const connectCoinbase = async () => {
-    setCoinbase({ isLoading: true, error: null, ...coinbase })
-    const oAuthUrl = await getOAuthUrl(COINBASE)
-    if (errorOAuth)
-      return setWyre({ isLoading: false, error: errorOAuth, ...coinbase })
-    setCoinbase({ isLoading: false, ...coinbase })
-    setShouldPoll(true)
-    if (isBrowser)
-      window.open(
-        oAuthUrl.url,
-        'Coinbase - Connect',
-        'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
-      )
-  }
+  // const connectCoinbase = async () => {
+  //   setCoinbase({ isLoading: true, error: null, ...coinbase })
+  //   const oAuthUrl = await getOAuthUrl(COINBASE)
+  //   if (errorOAuth)
+  //     return setWyre({ isLoading: false, error: errorOAuth, ...coinbase })
+  //   setCoinbase({ isLoading: false, ...coinbase })
+  //   setShouldPoll(true)
+  //   if (isBrowser)
+  //     window.open(
+  //       oAuthUrl.url,
+  //       'Coinbase - Connect',
+  //       'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
+  //     )
+  // }
 
   const connectWyre = async () => {
     setShouldPoll(true)
@@ -146,25 +146,25 @@ const RampProvider = ({ children }) => {
     linkHandler.open()
   }
 
-  const withdrawCoinbase = async (amount) => {
-    try {
-      setCoinbase({ isLoading: true, error: null, ...coinbase })
-      const {
-        data: { rampWithdraw },
-      } = await rampWithdrawMutation({
-        variables: { type: COINBASE, amount },
-      })
-      toast.success(
-        <TxToast text="Withdraw submitted" txHash={rampWithdraw.id} />,
-        {
-          id: rampWithdraw.id,
-        }
-      )
-      setCoinbase({ isLoading: false, ...coinbase })
-    } catch (e) {
-      setCoinbase({ isLoading: false, error: e.message, ...coinbase })
-    }
-  }
+  // const withdrawCoinbase = async (amount) => {
+  //   try {
+  //     setCoinbase({ isLoading: true, error: null, ...coinbase })
+  //     const {
+  //       data: { rampWithdraw },
+  //     } = await rampWithdrawMutation({
+  //       variables: { type: COINBASE, amount },
+  //     })
+  //     toast.success(
+  //       <TxToast text="Withdraw submitted" txHash={rampWithdraw.id} />,
+  //       {
+  //         id: rampWithdraw.id,
+  //       }
+  //     )
+  //     setCoinbase({ isLoading: false, ...coinbase })
+  //   } catch (e) {
+  //     setCoinbase({ isLoading: false, error: e.message, ...coinbase })
+  //   }
+  // }
 
   const withdrawWyre = async (amount) => {
     try {
@@ -201,11 +201,12 @@ const RampProvider = ({ children }) => {
             onWithdraw: withdrawWyre,
             onDeposit: depositWyre,
           },
-          {
-            ...coinbase,
-            onConnect: connectCoinbase,
-            onWithdraw: withdrawCoinbase,
-          },
+          // Disabled
+          // {
+          //   ...coinbase,
+          //   onConnect: connectCoinbase,
+          //   onWithdraw: withdrawCoinbase,
+          // },
         ],
       }}
     >

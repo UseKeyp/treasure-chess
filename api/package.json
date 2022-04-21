@@ -1,6 +1,6 @@
 {
   "name": "api",
-  "version": "0.12.2-staging.1",
+  "version": "0.12.2-staging.10",
   "private": true,
   "dependencies": {
     "@envelop/rate-limiter": "^1.0.0",
@@ -20,9 +20,9 @@
     "@treasure-chess/chess-achievements": "0.1.5",
     "@treasure-chess/chess-image-generator": "^1.5.7",
     "@treasure-chess/treasure-contracts": "^0.1.0",
-    "@treasure-chess/treasure-filters": "^0.12.2-staging.1",
-    "@treasure-chess/treasure-html": "^0.12.2-staging.1",
-    "@treasure-chess/web3-helpers": "^0.12.2-staging.1",
+    "@treasure-chess/treasure-filters": "^0.12.2-staging.10",
+    "@treasure-chess/treasure-html": "^0.12.2-staging.10",
+    "@treasure-chess/web3-helpers": "^0.12.2-staging.10",
     "atob": "^2.1.2",
     "bad-words": "^3.0.4",
     "chess.js": "^0.12.1",

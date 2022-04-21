@@ -47,9 +47,34 @@ const LoginPortal = () => {
         <h1 className="text-2xl tracking-tight font-extrabold text-gray-900 sm:text-3xl md:text-4xl">
           <span className="block xl:inline">Sign In</span>
         </h1>
-        <h3 className="mt-4 md:mt-8 text-center">
-          Create a Treasure Chess account
-        </h3>
+        <div className="mt-6">
+          <div className="mb-2">
+            <h3 className="text-base font-bold color-grey-light text-center">
+              Create a Treasure Chess account
+            </h3>
+          </div>
+          <ul className="ml-6">
+            <li>
+              <h4 className="-indent-6 ">
+                <span className="mr-2">✨</span>
+                Mint new Treasures
+              </h4>
+            </li>
+            <li>
+              <h4 className="-indent-6 ">
+                <span className="mr-2">❤️</span>
+                Collect Treasures from your favorite players
+              </h4>
+            </li>
+            <li>
+              <h4 className="-indent-6 ">
+                <span className="mr-2">🎁</span>
+                Treasures you appear in can be sold in the Marketplace
+              </h4>
+            </li>
+          </ul>
+        </div>
+
         <div className="login-portal-container--button-wrapper">
           <Button
             onClick={() => onSubmitSignUp('CHESS')}
@@ -67,13 +92,25 @@ const LoginPortal = () => {
         {errorText && <div className="mt-8 rw-cell-error">{errorText}</div>}
         <h4>
           By continuing you acknowledge that you have read, understand, and
-          agree to the
-          <a href={globalConfig.TOC_URL}>
-            <span className="text-blue"> Terms of Service </span>
+          agree to the{' '}
+          <a className="text-blue" href={globalConfig.TOC_URL}>
+            Terms of Service
+          </a>{' '}
+          and{' '}
+          <a className="text-blue" href={globalConfig.PRIVACY_POLICY_URL}>
+            Privacy Policy
           </a>
-          and
-          <a href={globalConfig.PRIVACY_POLICY_URL}>
-            <span className="text-blue"> Privacy Policy</span>
+          .
+        </h4>
+        <h4 className="mt-4">
+          If you have any questions or concerns, please let us know using the{' '}
+          <a
+            className="text-blue"
+            rel="noreferrer"
+            target="_blank"
+            href="/feedback"
+          >
+            Feedback Form
           </a>
           .
         </h4>

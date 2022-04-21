@@ -33,6 +33,7 @@ model Member {
   country              String // Player's country  eg. US, DE
   mintCredits          Int            @default(3) // Mint for free!
   banned               Boolean        @default(false)
+  blocked              Boolean? // Prevents minting Treasures containing this player
   refreshToken         String? // Chess.com Oauth
   ramps                Ramp[]
   OAuth                OAuth[]

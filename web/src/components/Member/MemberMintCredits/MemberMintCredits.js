@@ -8,7 +8,7 @@ const MemberMintCredits = () => {
     <div className="memberMintCredits">
       <h4 className="memberMintCredits__title">Mint Credits </h4>
       <h4 className="memberMintCredits__balance">
-        {mintCreditBalance ? (
+        {mintCreditBalance !== undefined ? (
           `$${
             Number(mintCreditBalance) > 0
               ? Number(mintCreditBalance).toLocaleString(undefined, {

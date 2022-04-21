@@ -3,7 +3,9 @@ import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 export const CardSkeleton = () => {
   return (
     <SkeletonTheme baseColor="#272522" highlightColor="#21201D">
-      <Skeleton className="skeleton-card" count={1} />
+      <div className="skeleton-card-wrapper">
+        <Skeleton className="skeleton-card" count={1} />
+      </div>
     </SkeletonTheme>
   )
 }

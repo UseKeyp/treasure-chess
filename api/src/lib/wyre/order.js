@@ -15,11 +15,11 @@ const validateMintOrder = (order) => {
     if (order.sourceCurrency !== 'USD') throw "sourceCurrency' is not USD"
     if (order.destCurrency !== 'USD') throw "destCurrency' is not USD"
     // TODO: Check if this is still valid we finalize the fee amount with Wyre
-    if (order.usdSourceAmount != process.env.WYRE_MINT_USD_SOURCE_AMOUNT)
-      throw `usdSourceAmount' is not ${process.env.WYRE_MINT_USD_SOURCE_AMOUNT}`
-
-    if (order.usdPurchaseAmount != process.env.WYRE_MINT_USD_PURCHASE_AMOUNT)
-      throw `usdPurchaseAmount' is not ${process.env.WYRE_MINT_USD_PURCHASE_AMOUNT}`
+    // if (order.usdSourceAmount != process.env.WYRE_MINT_USD_SOURCE_AMOUNT)
+    //   throw `usdSourceAmount' is not ${process.env.WYRE_MINT_USD_SOURCE_AMOUNT}`
+    //
+    // if (order.usdPurchaseAmount != process.env.WYRE_MINT_USD_PURCHASE_AMOUNT)
+    //   throw `usdPurchaseAmount' is not ${process.env.WYRE_MINT_USD_PURCHASE_AMOUNT}`
     const destString = `account:${process.env.WYRE_ACCOUNT_ID_TREASURE}`
     if (order.dest !== destString) throw `dest' is not ${destString}`
   } catch (e) {

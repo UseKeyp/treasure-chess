@@ -78,20 +78,21 @@ export const DepositModal = ({ isVisible, toggleModal }) => {
             Use a debit card to instantly add funds to your account.
           </p>
           <p className="mt-4">
-            Fees - Wyre: 2.9% + $0.30 or $5 minimum (
+            Fees - Wyre: 2.9% + $0.30 (
             <a
               className="underline"
               rel="noreferrer"
               href="https://docs.sendwyre.com/reference/hosted-checkout#tr  ansaction-processing-limits"
               target="_blank"
             >
-              limits
+              see limits
             </a>
             )
           </p>
           <p className="mt-4">
-            We are actively working to improve this experience. If you have
-            feedback please let us know using the{' '}
+            We are actively working to improve this experience, and to add
+            support for more regions. If you have feedback please let us know
+            using the{' '}
             <a
               className="underline"
               href="/feedback"
@@ -218,7 +219,8 @@ export const WithdrawModal = ({ isVisible, toggleModal }) => {
         <>
           <p className="text-base">Send funds to your bank at any time.</p>
           <p className="mt-4">
-            Supported Countries - Wyre: US, Coinbase:{' '}
+            Supported Countries - Wyre: US
+            {/*, Coinbase:{' '}
             <a
               className="underline"
               rel="noreferrer"
@@ -226,13 +228,15 @@ export const WithdrawModal = ({ isVisible, toggleModal }) => {
               href="https://www.coinbase.com/places"
             >
               see full list
-            </a>
+            </a>*/}
           </p>
-          <p className="">Fees - Wyre: 0.2%, Coinbase: 0%</p>
+          <p className="">Fees - Wyre: 0.2%</p>
           <p className="mt-4">
-            This gives us permission to only send funds to these accounts; we
-            can never withdraw. We are actively working to improve this
-            experience. If you have issues please let us know using the{' '}
+            For your protection, funds can only be sent one-way from your
+            Treasure Chess account to your bank. Funds can never be withdrawn
+            from your bank using this method. We are actively working to improve
+            this experience, and to add support for more regions. If you have
+            issues please let us know using the{' '}
             <a
               className="underline"
               rel="noreferrer"

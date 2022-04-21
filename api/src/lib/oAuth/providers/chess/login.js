@@ -30,6 +30,7 @@ export const onConnected = async ({ refreshToken, decoded }) => {
         imageSrc: member.imageSrc,
         country: member.country,
         ...(member.masterTitle && { masterTitle: member.masterTitle }),
+        ...(member.blocked && { blocked: false }), // Remove the block if they sign in
       },
     })
 

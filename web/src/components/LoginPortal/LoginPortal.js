@@ -57,13 +57,13 @@ const LoginPortal = () => {
             <li>
               <h4 className="-indent-6 ">
                 <span className="mr-2">✨</span>
-                Minting new Treasures
+                Mint new Treasures
               </h4>
             </li>
             <li>
               <h4 className="-indent-6 ">
                 <span className="mr-2">❤️</span>
-                Collecting Treasures from your favorite players
+                Collect Treasures from your favorite players
               </h4>
             </li>
             <li>

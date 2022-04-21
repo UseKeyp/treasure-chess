@@ -49,8 +49,8 @@ const LoginPortal = () => {
         </h1>
         <div className="mt-6">
           <div className="mb-2">
-            <h3 className="text-base font-bold color-grey-light">
-              Create an account to enable:
+            <h3 className="text-base font-bold color-grey-light text-center">
+              Create an account
             </h3>
           </div>
           <ul className="ml-6">

@@ -50,7 +50,7 @@ const LoginPortal = () => {
         <div className="mt-6">
           <div className="mb-2">
             <h3 className="text-base font-bold color-grey-light text-center">
-              Create an account
+              Create a Treasure Chess account
             </h3>
           </div>
           <ul className="ml-6">

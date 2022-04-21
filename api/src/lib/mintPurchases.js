@@ -60,9 +60,13 @@ export const validateMintRequest = async ({ gameId, endTime, title }) => {
     includeTreasureData: true,
   })
   if (!game) throw new EnvelopError(`You did not participate in this game.`)
-  if (game.black.blocked || game.white.blocked)
+  if (game.black.blocked)
     throw new EnvelopError(
-      `This other player needs to sign in first, before you can mint Treasures they appear in.`
+      `Whoops! ${game.black.username} needs to sign in to Treasure Chess before you can mint Treasures they appear in.`
+    )
+  if (game.white.blocked)
+    throw new EnvelopError(
+      `Whoops! ${game.white.username} needs to sign in to Treasure Chess before you can mint Treasures they appear in.`
     )
   const tokenId = await getTokenIdFromHashId(game.treasureId)
   if (tokenId > 0)

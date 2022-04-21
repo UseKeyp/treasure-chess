@@ -41,12 +41,12 @@ export const fetchMemberAndBlock = async (username) => {
           },
         })
       } catch (e) {
-        console.log(`Error creating user ${username} ${e}`)
+        logger.error(`Error creating user ${username} ${e}`)
       }
     }
     // For members who have signed in, do not change block status
   } catch (e) {
-    console.log(`Error updating user ${username} ${e}`)
+    logger.error(`Error updating user ${username} ${e}`)
   }
 }
 

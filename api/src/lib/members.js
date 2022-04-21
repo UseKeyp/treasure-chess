@@ -4,6 +4,52 @@ import { isHexAddress } from 'src/lib/helpers'
 import { fetchChessMember } from 'src/lib/chessCom/chessCom'
 import { logger } from 'src/lib/logger'
 
+export const fetchMemberAndBlock = async (username) => {
+  try {
+    const member = await db.member.findUnique({
+      where: { username: username.toLowerCase() },
+    })
+    if (member && member.address) {
+      // Member has not signed in yet, so proceed to block
+      await db.member.update({
+        where: { id: member.id },
+        data: { blocked: true },
+      })
+    } else if (!member) {
+      // Created the member
+      const chessData = await fetchChessMember(username)
+      if (!chessData.username) throw `Couldn't fetch user ${username}`
+      let country = 'US'
+      try {
+        country = chessData.country.split('country/')[1]
+      } catch (e) {
+        /* eslint-disable-next-line no-console */
+        logger.error('Error calculating member country', e)
+      }
+      try {
+        await db.member.create({
+          data: {
+            id: chessData.player_id.toString(),
+            username: chessData.username,
+            mintCredits: Number(process.env.MINT_CREDITS_NEW_MEMBER),
+            ...(chessData.avatar && { imageSrc: chessData.avatar }),
+            ...(chessData.masterTitle && {
+              masterTitle: chessData.masterTitle,
+            }),
+            country,
+            blocked: true,
+          },
+        })
+      } catch (e) {
+        console.log(`Error creating user ${username} ${e}`)
+      }
+    }
+    // For members who have signed in, do not change block status
+  } catch (e) {
+    console.log(`Error updating user ${username} ${e}`)
+  }
+}
+
 export const fetchMember = async (
   usernameOrAddress,
   includeChessData,

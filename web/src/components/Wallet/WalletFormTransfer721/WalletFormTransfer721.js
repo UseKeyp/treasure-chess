@@ -7,13 +7,19 @@ import {
   Submit,
   FormError,
 } from '@redwoodjs/forms'
+import { useWallet } from 'src/providers/wallet'
 import { isHexAddress } from 'src/utils/helpers'
 
 const WalletFormTransfer721 = () => {
-  const onSubmit = (_data) => {
-    // TODO: implement transferErc721
+  const { transfer, transferLoading } = useWallet()
+  const onSubmit = async (value) => {
+    await transfer({
+      variables: {
+        ...value,
+        type: 'ERC721',
+      },
+    })
   }
-
   return (
     <div className="rw-form-wrapper">
       <Form onSubmit={onSubmit}>
@@ -83,7 +89,12 @@ const WalletFormTransfer721 = () => {
         <FieldError name="recipientAddress" className="rw-field-error" />
 
         <div className="rw-button-group">
-          <Submit className="rw-button rw-button-blue">Transfer</Submit>
+          <Submit
+            disabled={transferLoading}
+            className="rw-button rw-button-blue"
+          >
+            Transfer
+          </Submit>
         </div>
       </Form>
     </div>

@@ -8,6 +8,7 @@ import AllTreasuresButton from 'src/components/AllTreasuresButton/AllTreasuresBu
 import TreasuresFetcher from 'src/components/Treasure/TreasuresFetcher'
 import { useTheme } from 'src/providers/theme'
 import { useEffect } from 'react'
+import WalletFormTransfer721 from 'src/components/Wallet/WalletFormTransfer721/WalletFormTransfer721'
 
 const HomePage = () => {
   const { toggleHomeTheme } = useTheme()
@@ -27,6 +28,7 @@ const HomePage = () => {
       <div className="mt-24">
         <LandingPageBoxes />
       </div>
+      <WalletFormTransfer721 />
       <FeaturedPlayers />
       <div className="mt-16">
         <HeadingBar text="Newest Treasures">

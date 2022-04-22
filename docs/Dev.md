@@ -1,3 +1,10 @@
+# gyp errors when yarn installing 
+You're missing some weird dependencies.
+Run
+```sh
+sudo apt-get install build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev
+```
+
 # Testing on mobile
 
 1. Run `yarn rw storybook`. Check the CLI output to get the appropriate IP address for your machine eg. `http://172.17.123.20:7910`

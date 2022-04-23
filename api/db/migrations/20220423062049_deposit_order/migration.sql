@@ -7,8 +7,12 @@ CREATE TABLE "DepositOrder" (
     "amount" INTEGER,
     "paymentType" "RampType" NOT NULL,
     "status" "TxStatus" NOT NULL DEFAULT E'UNSUBMITTED',
-    "paymentMethod" TEXT,
+    "sourceCurrency" TEXT,
+    "sourceAmount" INTEGER,
+    "purchaseAmount" INTEGER,
     "destCurrency" TEXT,
+    "paymentMethod" TEXT,
+    "orderType" TEXT,
     "orderId" TEXT,
     "reservation" TEXT,
 

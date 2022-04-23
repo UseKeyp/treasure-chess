@@ -151,8 +151,12 @@ model DepositOrder {
   paymentType   RampType
   status        TxStatus @default(UNSUBMITTED)
   // Wyre
-  paymentMethod String?
+  sourceCurrency  String?
+  sourceAmount Int?
+  purchaseAmount Int?
   destCurrency  String?
+  paymentMethod String?
+  orderType     String? // DOMESTIC or INTERNATIONAL
   orderId       String?    @unique // Wyre orderId
   reservation   String?    @unique // Wyre reservation
 }

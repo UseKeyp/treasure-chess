@@ -3,15 +3,17 @@ import {
   createWithdrawReservation,
 } from 'src/lib/wyre'
 import { logger } from 'src/lib/logger'
+import { db } from 'src/lib/db'
 
 export const wyreDepositUrl = async () => {
-  const { url, reservaton, paymentMethod, destCurrency } =
+  const { url, reservation, paymentMethod, destCurrency } =
     await createDepositReservation(context.currentUser.address)
   try {
     await db.depositOrder.create({
       data: {
         paymentType: 'WYRE',
         paymentMethod,
+        reservation,
         destCurrency,
         member: { connect: { id: context.currentUser.id } },
       },

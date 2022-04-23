@@ -135,7 +135,7 @@ export const createDepositReservation = async (destinationAddress) => {
     logger.debug({ custom: response }, 'createDepositReservation response')
     if (!response.url) throw 'Error'
     logger.debug(`checkoutUrl: ${response.url}`)
-    return { ...response, data }
+    return { ...response, ...data }
   } catch (e) {
     logger.error(e)
     throw new Error(

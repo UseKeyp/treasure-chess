@@ -149,7 +149,7 @@ model DepositOrder {
   // --------------- STATE --------------
   amount        Int?
   paymentType   RampType
-  status        RampStatus @default(PENDING)
+  status        TxStatus @default(UNSUBMITTED)
   // Wyre
   paymentMethod String?
   destCurrency  String?
@@ -171,7 +171,7 @@ model MintPurchase {
   title             String // Treasure title
   // Order details
   paymentType       String                   @default("WYRE") // WYRE, MINTCREDIT
-  status            TxStatus                 @default(UNSUBMITTED)
+  status            RampStatus                 @default(PENDING)
   // Wyre
   orderStatus       MintPurchaseOrderStatus?
   orderId           String?                  @unique // Wyre orderId

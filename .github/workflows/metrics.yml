@@ -1,0 +1,24 @@
+name: fetch-metrics
+on:
+  schedule:
+    - cron: '0 * * * *'
+  workflow_dispatch:
+jobs:
+  fetch-metrics:
+    runs-on: ubuntu-latest
+    env:
+      BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+    steps:
+      - name: Get metrics data
+        id: get_metrics
+        run: |
+          WALLETS=$(curl -s 'https://treasure.chess.com/graphql' -X POST -H 'content-type: application/json' \
+           --data '{"query": "{ metrics(password: \"${{ secrets.DATA_ACCESS_PASSWORD }}\") }"}' |jq -r .data.metrics.member.count.total)
+          echo "::set-output name=WALLETS::$WALLETS"
+      - name: Discord notify complete
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_DEVOPS }}
+        uses: Ilshidur/action-discord@0c4b27844ba47cb1c7bee539c8eead5284ce9fa9
+        with:
+          args: |
+            👛 Total wallets: `${{ needs.get_metrics.outputs.WALLETS }}`

@@ -2,11 +2,24 @@ import {
   createDepositReservation,
   createWithdrawReservation,
 } from 'src/lib/wyre'
+import { logger } from 'src/lib/logger'
 
 export const wyreDepositUrl = async () => {
-  const { url, _reservaton } = await createDepositReservation(
-    context.currentUser.address
-  )
+  const { url, reservaton, paymentMethod, destCurrency } =
+    await createDepositReservation(context.currentUser.address)
+  try {
+    await db.depositOrder.create({
+      data: {
+        paymentType: 'WYRE',
+        paymentMethod,
+        destCurrency,
+        member: { connect: { id: context.currentUser.id } },
+      },
+    })
+  } catch (e) {
+    logger.error(e)
+    // Do nothing
+  }
   return url
 }
 export const wyreWithdrawUrl = async () => {

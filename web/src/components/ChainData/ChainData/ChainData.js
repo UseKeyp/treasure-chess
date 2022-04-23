@@ -27,7 +27,7 @@ const ChainData = ({ chainData, isLoading, isError }) => {
       environment,
       nodeEnvironment,
     } = chainData
-    console.log(chainData)
+    
 
     const rows = [
       ['Network', { text: networkName, className: 'lg:text-right' }],

@@ -8,7 +8,7 @@ import { totalSupply } from 'src/lib/web3/treasure'
 export const getChainData = async () => {
   let supply = ''
   try {
-    const supply = await totalSupply()
+    supply = await totalSupply()
   } catch (e) {
     logger.error(e)
   }

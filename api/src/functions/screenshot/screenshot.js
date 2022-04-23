@@ -1,5 +1,6 @@
 const playwright = require('playwright-core')
-const chromium = require('chrome-aws-lambda')
+// const chromium = require('chrome-aws-lambda')
+// const { chromium } = require('playwright')
 
 // import { logger } from 'src/lib/logger'
 import Sentry from 'src/lib/sentry'
@@ -12,9 +13,9 @@ export const handler = async (event, _context) => {
     // logger.debug(html.substring(0, 100))
     if (!html) throw 'No html provided'
     const browser = await playwright.chromium.launch({
-      args: chromium.args,
-      executablePath: await chromium.executablePath,
-      headless: chromium.headless,
+      args: playwright.chromium.args,
+      // executablePath: await playwright.chromium.executablePath,
+      headless: true,
     })
     const context = await browser.newContext({
       deviceScaleFactor: 2,

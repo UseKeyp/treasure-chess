@@ -15,6 +15,12 @@ export const fetchMemberAndBlock = async (username, shouldIgnoreAddress) => {
         where: { id: member.id },
         data: { blocked: true },
       })
+    } else if (member && !member.address && !member.blocked) {
+      // Member didn't get marked blocked correctly
+      await db.member.update({
+        where: { id: member.id },
+        data: { blocked: true },
+      })
     } else if (!member) {
       // Created the member
       const chessData = await fetchChessMember(username)

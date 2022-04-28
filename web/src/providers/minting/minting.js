@@ -74,7 +74,7 @@ const MintingProvider = ({ children }) => {
   }
   useQuery(PENDING_MINT_PURCHASES_QUERY, {
     pollInterval: 5000,
-    skip: !state.shouldPoll,
+    skip: !state.shouldPoll || !isAuthenticated,
     fetchPolicy: 'network-only',
     onCompleted: async ({
       pendingMintPurchases: pendingMintPurchasesPoll,

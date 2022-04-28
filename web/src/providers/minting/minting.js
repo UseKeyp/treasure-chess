@@ -4,8 +4,8 @@ import { isBrowser } from '@redwoodjs/prerender/browserUtils'
 
 import { useWallet } from 'src/providers/wallet'
 import { useModal } from 'src/hooks/useModal'
-// import { useToast } from 'src/providers/toast'
-// import { MintingToast } from './toasts'
+import { useToast } from 'src/providers/toast'
+import { MintingToast } from './toasts'
 import { CancelModal, SuccessModal } from './modals'
 
 import {
@@ -36,7 +36,7 @@ const MintingContext = React.createContext({
 const MintingProvider = ({ children }) => {
   const { mintCreditBalance } = useWallet()
   const { isAuthenticated } = useAuth()
-  // const { toast } = useToast()
+  const { toast } = useToast()
   const { isVisible: isVisibleModalCancel, toggleModal: toggleModalCancel } =
     useModal()
   const { isVisible: isVisibleModalSuccess, toggleModal: toggleModalSuccess } =
@@ -50,9 +50,9 @@ const MintingProvider = ({ children }) => {
     mintLoading: false,
   })
 
-  const toastPurchase = (_purchase) => {
+  const toastPurchase = (purchase) => {
     // TODO: "Remove toasts"
-    return
+    // return
     // TODO: Add more data to toasts (links, etc.)
     // if (purchase.orderStatus === RESERVATION)
     //   return toast.loading('Waiting for Wyre', { id: purchase.id })
@@ -62,10 +62,10 @@ const MintingProvider = ({ children }) => {
     //   })
     // if (purchase.status === COMPLETE)
     //   return toast.success('Success!', { id: purchase.id })
-    // if (purchase.status === FAILED)
-    //   return toast.error(<MintingToast mintPurchase={purchase} />, {
-    //     id: purchase.id,
-    //   })
+    if (purchase.status === FAILED)
+      return toast.error(<MintingToast mintPurchase={purchase} />, {
+        id: purchase.id,
+      })
     // if (purchase.status === PENDING) {
     //   if (purchase.paymentType === WYRE)
     //     toast.success('Wyre checkout successful!')

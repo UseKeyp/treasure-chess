@@ -104,7 +104,10 @@ export const fetchMember = async (
         } catch (e) {
           // Fixes race condition for creating members
           logger.debug(`Attempts: ${attempts}`)
-          if (attempts > 5) throw 'Error fetching member'
+          if (attempts > 5)
+            throw `Error fetching member ${username} ${JSON.stringify(
+              chessData
+            )}`
           return fetchMember(usernameOrAddress, includeChessData, attempts + 1)
         }
       }

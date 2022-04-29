@@ -89,7 +89,7 @@ const MarketProvider = ({ children }) => {
       const last = state?.marketSale || {}
       const current =
         [...treasureWithMarketSales.marketSales].sort(
-          (a, b) => a.updatedAt < b.updatedAt
+          (a, b) => b.id - a.id
         )[0] || {}
       if (current.status === last.status) return
       const { status, isClosed, amount } = current
@@ -134,7 +134,7 @@ const MarketProvider = ({ children }) => {
         variables: { tokenId },
       })
     const marketSale = [...treasureWithMarketSales.marketSales]?.sort(
-      (a, b) => a.updatedAt < b.updatedAt
+      (a, b) => b.id - a.id
     )[0] // Gets the most recent item
     if (!marketSale)
       return setState({

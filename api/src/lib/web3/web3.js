@@ -65,6 +65,15 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
       includeTreasureData: true,
     })
     if (!game) throw `No game found ${gameId} ${gameEndTime}`
+    logger.debug({ custom: game }, 'Game')
+    if (game.tokenId) {
+      const GAME_ALREADY_MINTED = `Purchase found, but the Treasure was already minted. `
+      logger.info(GAME_ALREADY_MINTED)
+      return mintFailGracefully({
+        mintPurchase,
+        errorMessage: GAME_ALREADY_MINTED,
+      })
+    }
 
     const treasureData = generateTreasureData({
       game,
@@ -185,7 +194,14 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
     })
     /* eslint-disable-next-line no-console */
   } catch (e) {
-    throw `mintTreasureAndUpdatePurchase() ${e}`
+    throw `mintTreasureAndUpdatePurchase() ${JSON.stringify(
+      {
+        ...mintPurchase,
+        member: { ...mintPurchase.member, refreshToken: 'REDACTED' },
+      },
+      undefined,
+      4
+    )} ${e}`
   }
 }
 

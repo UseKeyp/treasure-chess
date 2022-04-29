@@ -8,7 +8,7 @@ import { getExplorerBaseUrlFromName } from '@treasure-chess/web3-helpers'
 import { logger } from 'src/lib/logger'
 import Sentry from 'src/lib/sentry'
 
-const MINIMUM_GAS_THRESHOLD = '0.0075' // Units of Ether
+const MINIMUM_GAS_THRESHOLD = '0.019' // Units of Ether
 const DEFAULT_DROP_AMOUNT = '0.025' // Units of Ether
 
 const airdropGasTransaction = async ({ address, amount }) => {

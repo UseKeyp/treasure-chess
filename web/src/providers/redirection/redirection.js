@@ -67,7 +67,8 @@ const RedirectionProvider = ({ children }) => {
     if (!orderId || error)
       return setState({
         isLoading: false,
-        errorMessage: 'Wyre checkout failed',
+        errorMessage:
+          "Your debit-card wasn't accepted by Wyre. Please reach out to us if this keeps happening.",
       })
     setState({
       isLoading: false,

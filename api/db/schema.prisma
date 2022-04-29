@@ -25,6 +25,7 @@ model Member {
   marketSalesSold      MarketSale[]   @relation("marketSalesSold")
   marketSalesPurchased MarketSale[]   @relation("marketSalesPurchased")
   rampWithdraws        RampWithdraw[] @relation("rampWithdraws")
+  depositOrders        DepositOrder[] @relation("depositOrders")
   // --------------- STATE --------------
   createdAt            DateTime       @default(now())
   updatedAt            DateTime       @updatedAt
@@ -64,55 +65,55 @@ model Ramp {
 }
 
 model Treasure {
-  id               String        @id // Moves hash plus end time
-  createdAt        DateTime      @default(now())
-  updatedAt        DateTime      @updatedAt
+  id                String           @id // Moves hash plus end time
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
   // --------------- LINKS --------------
   // Chess.com (required)
-  black            Member        @relation(name: "treasuresPlayedWhite", fields: [blackId], references: [id])
-  blackId          String
-  white            Member        @relation(name: "treasuresPlayedBlack", fields: [whiteId], references: [id])
-  whiteId          String
-  winner           Member?       @relation(name: "treasuresWon", fields: [winnerId], references: [id])
-  winnerId         String?
+  black             Member           @relation(name: "treasuresPlayedWhite", fields: [blackId], references: [id])
+  blackId           String
+  white             Member           @relation(name: "treasuresPlayedBlack", fields: [whiteId], references: [id])
+  whiteId           String
+  winner            Member?          @relation(name: "treasuresWon", fields: [winnerId], references: [id])
+  winnerId          String?
   // NFT
-  minter           Member        @relation(name: "treasuresMinted", fields: [minterId], references: [id])
-  minterId         String
-  owner            Member        @relation(name: "treasuresOwned", fields: [ownerId], references: [id])
-  ownerId          String
-  mintPurchase     MintPurchase? @relation(name: "mintPurchase", fields: [mintPurchaseId], references: [id])
-  mintPurchaseId   Int?          @unique
+  minter            Member           @relation(name: "treasuresMinted", fields: [minterId], references: [id])
+  minterId          String
+  owner             Member           @relation(name: "treasuresOwned", fields: [ownerId], references: [id])
+  ownerId           String
+  mintPurchase      MintPurchase?    @relation(name: "mintPurchase", fields: [mintPurchaseId], references: [id])
+  mintPurchaseId    Int?             @unique
   // --------------- STATE --------------
-  uriData          String
-  tokenUri         String
-  tokenId          Int?          @unique
-  mintedAt         DateTime?
-  title            String
-  cardColor        String // white or black
-  gifUrl           String // white or black
-  blackRating      Int // Rating at the time of the game
-  whiteRating      Int // Rating at the time of the game
-  blackRatingDelta Int // Rating at the time of the game
-  whiteRatingDelta Int
-  blackMasterTitle MasterTitle? // eg. "GM" "NM", or "IM"
-  whiteMasterTitle MasterTitle?
-  timeControl      String // game time variant
-  termination      Termination
-  endTime          DateTime
-  outcome          Outcome // "white" "black" "draw" etc.
-  event            String // eg. "Live Chess"
-  moves            String // pgn moves
-  boardLayout      String // Final positions used to generate the image
-  moveCount        Int // eg. 43
-  ruleVariant      String        @default("Standard") // eg. "Standard" or "Chess960"
-  externalUrl      String? // Link to game on chess.com
-  opening          Opening
-  achievements     Achievement[] // List eg. "win/play above 2200,queen side castle,mate with a bishop"
-  achievementScore Int // eg. 10
-  rarity           Rarity // eg. 10
-  marketSales      MarketSale[]
+  uriData           String
+  tokenUri          String
+  tokenId           Int?             @unique
+  mintedAt          DateTime?
+  title             String
+  cardColor         String // white or black
+  gifUrl            String // white or black
+  blackRating       Int // Rating at the time of the game
+  whiteRating       Int // Rating at the time of the game
+  blackRatingDelta  Int // Rating at the time of the game
+  whiteRatingDelta  Int
+  blackMasterTitle  MasterTitle? // eg. "GM" "NM", or "IM"
+  whiteMasterTitle  MasterTitle?
+  timeControl       String // game time variant
+  termination       Termination
+  endTime           DateTime
+  outcome           Outcome // "white" "black" "draw" etc.
+  event             String // eg. "Live Chess"
+  moves             String // pgn moves
+  boardLayout       String // Final positions used to generate the image
+  moveCount         Int // eg. 43
+  ruleVariant       String           @default("Standard") // eg. "Standard" or "Chess960"
+  externalUrl       String? // Link to game on chess.com
+  opening           Opening
+  achievements      Achievement[] // List eg. "win/play above 2200,queen side castle,mate with a bishop"
+  achievementScore  Int // eg. 10
+  rarity            Rarity // eg. 10
+  marketSales       MarketSale[]
   openGraphImageSrc String?
-  marketSaleStatus MarketSaleStatus @default(DELISTED)
+  marketSaleStatus  MarketSaleStatus @default(DELISTED)
 }
 
 model MarketSale {
@@ -138,6 +139,28 @@ model MarketSale {
   amount           Int
 }
 
+model DepositOrder {
+  id            Int        @id @default(autoincrement())
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  // --------------- LINKS --------------
+  member        Member     @relation("depositOrders", fields: [memberId], references: [id])
+  memberId      String
+  // --------------- STATE --------------
+  amount        Int?
+  paymentType   RampType
+  status        TxStatus @default(UNSUBMITTED)
+  // Wyre
+  sourceCurrency  String?
+  sourceAmount Int?
+  purchaseAmount Int?
+  destCurrency  String?
+  paymentMethod String?
+  orderType     String? // DOMESTIC or INTERNATIONAL
+  orderId       String?    @unique // Wyre orderId
+  reservation   String?    @unique // Wyre reservation
+}
+
 model MintPurchase {
   id                Int                      @id @default(autoincrement())
   createdAt         DateTime                 @default(now())
@@ -152,7 +175,7 @@ model MintPurchase {
   title             String // Treasure title
   // Order details
   paymentType       String                   @default("WYRE") // WYRE, MINTCREDIT
-  status            RampStatus               @default(PENDING)
+  status            RampStatus                 @default(PENDING)
   // Wyre
   orderStatus       MintPurchaseOrderStatus?
   orderId           String?                  @unique // Wyre orderId

@@ -13,8 +13,12 @@ const IS_TEST = false
 
 const FILENAME = IS_TEST ? 'test-block.csv' : 'block.csv'
 const CHUNK_SIZE = IS_TEST ? 2 : 50
+
+const FORCE_BLOCK = true // Block regardless of signed-in
+
 const db = new PrismaClient()
-// Run command
+
+// Run with this command:
 // $(node tasks/environment/setupEnv) && yarn rw exec updateBlockList/updateBlockList
 
 function chunk(arr, chunkSize) {
@@ -26,10 +30,10 @@ function chunk(arr, chunkSize) {
 }
 
 const check = async () => {
-    const blockedMemberCount = await db.member.count({
-      where: { blocked: true },
-    })
-    console.log(`Total blocked members: ${blockedMemberCount}`)
+  const blockedMemberCount = await db.member.count({
+    where: { blocked: true },
+  })
+  console.log(`Total blocked members: ${blockedMemberCount}`)
 }
 
 const update = async () => {
@@ -51,7 +55,7 @@ const update = async () => {
       // Create all members in the db
       await Promise.all(
         chunks[i].map(async (row) => {
-          await fetchMemberAndBlock(row[0])
+          await fetchMemberAndBlock(row[0], FORCE_BLOCK)
         })
       )
       console.log(`Finished chunk #${i}`)
@@ -64,5 +68,5 @@ const update = async () => {
   })
 }
 
-//update()
+update()
 check()

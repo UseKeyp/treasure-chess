@@ -6,7 +6,7 @@ import { isProduction } from 'src/lib/helpers'
 import { logger } from 'src/lib/logger'
 
 const DISCORD_WYRE_DASHBOARD_URL = isProduction
-  ? 'https://www.wyre.com/#/dashboard'
+  ? 'https://www.sendwyre.com/#/dashboard'
   : 'https://www.testwyre.com/#/dashboard'
 
 const validateMintOrder = (order) => {
@@ -31,6 +31,87 @@ const validateMintOrder = (order) => {
   }
 }
 
+const processDepositOrder = async ({ order, reservation }) => {
+  try {
+    logger.debug({ custom: order }, 'order')
+    const depositOrder = await db.depositOrder.findUnique({
+      where: { reservation },
+      include: { member: true },
+    })
+    logger.debug({ custom: depositOrder }, 'depositOrder')
+    if (
+      order?.status === 'COMPLETE' &&
+      depositOrder &&
+      depositOrder.status !== 'COMPLETE'
+    ) {
+      await db.depositOrder.update({
+        where: { id: depositOrder.id },
+        data: {
+          status: 'COMPLETE',
+          amount: order.usdPurchaseAmount,
+          orderId: order.id,
+          sourceCurrency: order.sourceCurrency,
+          sourceAmount: order.sourceAmount,
+          purchaseAmount: order.purchaseAmount,
+          destCurrency: order.destCurrency,
+          orderType: order.orderType,
+        },
+      })
+      await sendDiscordAlert({
+        embed: {
+          color: 3066993, // https://gist.github.com/thomasbnt/b6f455e2c7d743b796917fa3c205f812
+          title: `🤑 Deposit Success!`,
+          description: `Wyre order ID: ${order.id}
+          sourceCurrency: ${order.sourceCurrency}
+usdSourceAmount: **$${order.usdSourceAmount}**
+usdPurchaseAmount: **$${order.usdPurchaseAmount}**
+dest: ${order.dest}
+fees: $${order.usdSourceAmount - order.usdPurchaseAmount}
+user: https://treasure.chess.com/members/${depositOrder?.member?.username}`,
+          footer: { text: new Date().toString() },
+          type: 'link',
+        },
+        channelName: 'orders',
+      })
+    } else {
+      let extraDetails = ''
+      if (!depositOrder)
+        extraDetails = `Couldn't update database for reservation ${reservation}.`
+      await sendDiscordAlert({
+        embed: {
+          color: 2067276, // https://gist.github.com/thomasbnt/b6f455e2c7d743b796917fa3c205f812
+          title: `❓🤑 Deposit data received`,
+          description: `See below to confirm if successful
+${extraDetails && `\`${extraDetails}\``}
+
+${JSON.stringify(order, undefined, 4)}
+`,
+          footer: { text: new Date().toString() },
+        },
+        channelName: 'orders',
+      })
+    }
+  } catch (e) {
+    await sendDiscordAlert({
+      embed: {
+        color: 2067276,
+        title: `❓🤑 Deposit processing error`,
+        description: `See below to confirm if successful.
+
+${e}
+${JSON.stringify(order, undefined, 4)}
+
+[Wyre Dashboard](${DISCORD_WYRE_DASHBOARD_URL})`,
+        footer: { text: new Date().toString() },
+        type: 'link',
+      },
+      channelName: 'orders',
+    })
+    logger.error(`processDepositOrder() ${e}`)
+    Sentry.captureException(e)
+  }
+}
+
 export const processOrder = async ({ reservation, orderId }) => {
   try {
     let mintPurchase = await db.mintPurchase.findUnique({
@@ -43,6 +124,8 @@ export const processOrder = async ({ reservation, orderId }) => {
       )
     const order = await fetchOrder(orderId)
     if (order.status === 'PROCESSING') return // Don't throw errors and do nothing
+    if (order.destCurrency === 'MUSDC')
+      return processDepositOrder({ order, orderId, reservation })
     validateMintOrder(order)
     mintPurchase = await db.mintPurchase.findUnique({
       where: { reservation },
@@ -55,13 +138,9 @@ export const processOrder = async ({ reservation, orderId }) => {
     Sentry.setUser({ username: mintPurchase.member.username })
     await db.mintPurchase.update({
       where: { id: mintPurchase.id },
-      data: {
-        orderId,
-        orderStatus: 'COMPLETE',
-      },
+      data: { orderId, orderStatus: 'COMPLETE' },
     })
   } catch (e) {
-    logger.error(e)
     await sendDiscordAlert({
       embed: {
         color: 16740982,
@@ -71,13 +150,12 @@ export const processOrder = async ({ reservation, orderId }) => {
 ${e}
 
 [Wyre Dashboard](${DISCORD_WYRE_DASHBOARD_URL})`,
-        footer: {
-          text: new Date().toString(),
-        },
+        footer: { text: new Date().toString() },
         type: 'link',
       },
       channelName: 'orders',
     })
+    logger.error(`processOrder() ${e}`)
     Sentry.captureException(e)
   }
 }

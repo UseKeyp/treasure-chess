@@ -14,7 +14,7 @@ export const handler = async (event, _context) => {
     const browser = await playwright.chromium.launch({
       args: chromium.args,
       executablePath: await chromium.executablePath,
-      headless: chromium.headless,
+      headless: true,
     })
     const context = await browser.newContext({
       deviceScaleFactor: 2,
@@ -23,6 +23,7 @@ export const handler = async (event, _context) => {
     const page = await context.newPage()
     await page.setContent(html)
     const buffer = await page.locator('body > div').screenshot()
+    await browser.close()
     return {
       statusCode: 200,
       headers: {
@@ -42,7 +43,5 @@ export const handler = async (event, _context) => {
         message: `Internal server error. ${error}`,
       },
     }
-  } finally {
-    if (browser) await browser.close()
   }
 }

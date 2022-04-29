@@ -10,7 +10,7 @@ export const fetchChessMember = (username) => {
       },
     }).then((res) => res.json())
   } catch (e) {
-    throw `fetchChessMember ${e}`
+    throw `fetchChessMember() ${username} ${e}`
   }
 }
 

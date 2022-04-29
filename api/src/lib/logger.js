@@ -17,7 +17,7 @@ import { isProduction } from 'src/lib/helpers'
 export const logger = createLogger({
   options: {
     redact: [...redactionsList, 'member.refreshToken'],
-    level: isProduction ? 'warn' : 'debug', // These are the redwoodJS defaults
+    level: isProduction && !process.env.IMPERSONATE_USERNAME ? 'warn' : 'debug', // These are the redwoodJS defaults
     // showConfig: !isProduction, // Helpful for debugging
   },
 })

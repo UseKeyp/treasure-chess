@@ -4,21 +4,40 @@ import Sentry from 'src/lib/sentry'
 import { db } from 'src/lib/db'
 
 export const getCurrentUser = async (session) => {
-  const member = await db.member.findUnique({
-    where: { id: session.id },
-    // Warning: don't send any confidential data here
-    select: {
-      id: true,
-      username: true,
-      twitchUsername: true,
-      address: true,
-      imageSrc: true,
-      locale: true,
-      mintCredits: true,
-      country: true,
-      banned: true,
-    },
-  })
+  let member
+  if (process.env.IMPERSONATE_USERNAME) {
+    member = await db.member.findUnique({
+      where: { username: process.env.IMPERSONATE_USERNAME },
+      // Warning: don't send any confidential data here
+      select: {
+        id: true,
+        username: true,
+        twitchUsername: true,
+        address: true,
+        imageSrc: true,
+        locale: true,
+        mintCredits: true,
+        country: true,
+        banned: true,
+      },
+    })
+  } else {
+    member = await db.member.findUnique({
+      where: { id: session.id },
+      // Warning: don't send any confidential data here
+      select: {
+        id: true,
+        username: true,
+        twitchUsername: true,
+        address: true,
+        imageSrc: true,
+        locale: true,
+        mintCredits: true,
+        country: true,
+        banned: true,
+      },
+    })
+  }
   if (!member) return null
   // WARNING: Returned values here are exposed to the FE
   // Don't include any Chess.com access tokens here

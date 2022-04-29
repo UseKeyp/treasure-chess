@@ -29,7 +29,7 @@ export const AddressModal = ({ address, isVisible, toggleModal }) => {
   return (
     <ModalContainer
       isVisible={isVisible}
-      headerText="Deposit USDC"
+      headerText="Deposit MUSDC"
       submitText={copied ? 'Address copied!' : 'Accept'}
       onSubmit={() => handleCopy()}
       hideModal={toggleModal}
@@ -37,7 +37,8 @@ export const AddressModal = ({ address, isVisible, toggleModal }) => {
         <>
           <p className="text-base">
             <span className={'modals__matic-warning'}>
-              WARNING: Only deposit USDC on the Polygon (Matic) network.
+              WARNING: Only deposit <b>MUSDC</b> on the{' '}
+              <b>Polygon (Matic) network</b>. Do not send funds using Coinbase.
             </span>
           </p>
 

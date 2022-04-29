@@ -92,19 +92,21 @@ const MemberDetails = ({ member, isProfile }) => {
             {isProfile ? (
               <div className="flex">
                 <p className="mr-2">{trimAddress(member.address)}</p>
-                <button onClick={getAddress}>
+                <button onClick={() => getAddress(member.address)}>
                   <Icon name="copy" color="#147DDD" />
                 </button>
               </div>
             ) : (
-              <Button
-                onClick={getAddress}
-                variant="green"
-                size="small"
-                className="w-40"
-              >
-                Donate
-              </Button>
+              member.address && (
+                <Button
+                  onClick={() => getAddress(member.address)}
+                  variant="green"
+                  size="small"
+                  className="w-40"
+                >
+                  Donate
+                </Button>
+              )
             )}
           </div>
           {isProfile && (

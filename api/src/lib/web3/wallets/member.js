@@ -6,6 +6,11 @@ import { logger } from 'src/lib/logger'
 
 export const memberSendTransaction = async ({ memberId, unsignedTx }) => {
   try {
+    if (process.env.IMPERSONATE_USERNAME)
+      return logger.warn(
+        { custom: unsignedTx },
+        'IMPERSONATE_USERNAME tx skipped'
+      )
     const torusWallet = await getTorusWallet(memberId)
     const memberWalletWithProvider = new Wallet(
       torusWallet.privateKey,

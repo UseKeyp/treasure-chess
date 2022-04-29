@@ -66,7 +66,7 @@ const processDepositOrder = async ({ order, reservation }) => {
 usdSourceAmount: **$${order.usdSourceAmount}**
 usdPurchaseAmount: **$${order.usdPurchaseAmount}**
 dest: ${order.dest}
-fees: $${order.usdSourceAmount - order.usdPurchaseAmount}
+fees: $${Number(order.usdSourceAmount) - Number(order.usdPurchaseAmount)}
 user: https://treasure.chess.com/members/${depositOrder?.member?.username}`,
           footer: { text: new Date().toString() },
           type: 'link',
@@ -147,7 +147,7 @@ export const processOrder = async ({ reservation, orderId }) => {
         title: `⛈️💳  Failed to process Wyre Order!`,
         description: `Wyre order ID: ${orderId}
 
-${e}
+${JSON.stringify(e)}
 
 [Wyre Dashboard](${DISCORD_WYRE_DASHBOARD_URL})`,
         footer: { text: new Date().toString() },

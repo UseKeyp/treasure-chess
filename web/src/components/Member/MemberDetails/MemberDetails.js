@@ -54,7 +54,6 @@ const TwitchLink = ({ isProfile, username }) => {
 
 const MemberDetails = ({ member, isProfile }) => {
   const { deposit, withdraw, getAddress } = useWallet()
-  console.log(member)
   return (
     <section className="member-details p-4">
       <div className="member-details--inner">

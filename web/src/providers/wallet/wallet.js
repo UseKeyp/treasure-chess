@@ -13,7 +13,7 @@ const WalletContext = React.createContext({
 })
 
 const WalletProvider = ({ children }) => {
-  const { isAuthenticated, currentUser } = useAuth()
+  const { isAuthenticated } = useAuth()
   const [state, setState] = React.useState({
     usdcBalance: null,
     mintCreditBalance: null,

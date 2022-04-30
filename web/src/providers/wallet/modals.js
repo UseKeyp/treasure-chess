@@ -5,9 +5,19 @@ import Button from 'src/components/Button'
 import LoadingDots from 'src/components/LoadingDots'
 import { useRamp } from 'src/providers/ramp'
 import { trimAddress } from 'src/utils/helpers'
+import {useEffect} from "react";
 
 export const AddressModal = ({ address, isVisible, toggleModal }) => {
   const [copied, setCopied] = React.useState(false)
+
+  useEffect(() => {
+    if (isVisible) {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }
+  }, [isVisible])
 
   const handleCopy = React.useCallback(() => {
     if (typeof document === 'undefined') {
@@ -205,6 +215,15 @@ const VendorConnection = ({ ramp, amount, isLoading, disabled }) => {
 }
 
 export const WithdrawModal = ({ isVisible, toggleModal }) => {
+  useEffect(() => {
+    if (toggleModal) {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }
+  }, [toggleModal])
+
   const [amount, setAmount] = React.useState('0')
   const { ramps, isLoading } = useRamp()
   const isConnected = ramps.map((ramp) => ramp.address && true).includes(true)

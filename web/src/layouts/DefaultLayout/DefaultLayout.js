@@ -1,7 +1,7 @@
 import Header from 'src/components/Header'
 
 import SiteFooter from 'src/components/SiteFooter'
-import {useEffect, useState} from "react";
+import {useEffect, useState} from "react"
 
 const DefaultLayout = ({ children }) => {
   let [scrollPosition, setScrollPosition] = useState(0)
@@ -11,17 +11,17 @@ const DefaultLayout = ({ children }) => {
   useEffect(() => {
     if (window.location.pathname === '/') {
       if (!scrolled && parseInt(sessionScrollPosition) > 0) {
-        window.scrollTo(0, parseInt(sessionScrollPosition));
+        window.scrollTo(0, parseInt(sessionScrollPosition))
       }
     }
     window.addEventListener('scroll', () => {
       if (window.location.pathname === '/') {
-        setScrolled(true);
-        setScrollPosition(window.scrollY);
-        sessionStorage.setItem('scrollPosition', scrollPosition.toString());
+        setScrolled(true)
+        setScrollPosition(window.scrollY)
+        sessionStorage.setItem('scrollPosition', scrollPosition.toString())
       }
-    });
-  });
+    })
+  })
 
   return (
     <div>

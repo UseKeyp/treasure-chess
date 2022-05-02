@@ -9,7 +9,7 @@ import { trimAddress } from 'src/utils/helpers'
 export const AddressModal = ({ address, isVisible, toggleModal }) => {
   const [textToPass, setTextToPass] = React.useState('Accept')
 
-  const handleCopy = React.useCallback(() => {
+  const handleCopy = () => {
     if (typeof document === 'undefined') {
       return
     }
@@ -23,7 +23,7 @@ export const AddressModal = ({ address, isVisible, toggleModal }) => {
     setTextToPass('Address Copied!')
 
     setTimeout(() => setTextToPass('Accept'), 4000)
-  })
+  }
 
   return (
     <ModalContainer

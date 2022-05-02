@@ -1,7 +1,6 @@
 import { createPortal } from 'react-dom'
 import Button from 'src/components/Button/Button'
 import LoadingDots from 'src/components/LoadingDots'
-import { isBrowser } from '@redwoodjs/prerender/browserUtils'
 
 const ModalContainer = ({
   isVisible,
@@ -15,15 +14,6 @@ const ModalContainer = ({
   hideCancelButton,
   isLoading,
 }) => {
-  if (isBrowser) {
-    if (isVisible) {
-      document.body.style.position = 'fixed'
-      document.body.style.width = '100%'
-    } else {
-      document.body.style.position = 'relative'
-    }
-  }
-
   return isVisible
     ? createPortal(
         <div>

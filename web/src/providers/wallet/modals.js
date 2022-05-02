@@ -5,19 +5,9 @@ import Button from 'src/components/Button'
 import LoadingDots from 'src/components/LoadingDots'
 import { useRamp } from 'src/providers/ramp'
 import { trimAddress } from 'src/utils/helpers'
-import {useEffect} from "react";
 
 export const AddressModal = ({ address, isVisible, toggleModal }) => {
-  const [copied, setCopied] = React.useState(false)
-
-  useEffect(() => {
-    if (isVisible) {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth',
-      });
-    }
-  }, [isVisible])
+  const [textToPass, setTextToPass] = React.useState('Accept')
 
   const handleCopy = React.useCallback(() => {
     if (typeof document === 'undefined') {
@@ -27,20 +17,19 @@ export const AddressModal = ({ address, isVisible, toggleModal }) => {
     const textArea = document.createElement('textarea')
     textArea.value = address
     document.body.appendChild(textArea)
-    textArea.focus()
     textArea.select()
     document.execCommand('copy')
     document.body.removeChild(textArea)
-    setCopied(true)
+    setTextToPass('Address Copied!')
 
-    setTimeout(() => setCopied(false), 4000)
-  }, [address])
+    setTimeout(() => setTextToPass('Accept'), 4000)
+  })
 
   return (
     <ModalContainer
       isVisible={isVisible}
       headerText="Deposit USDC"
-      submitText={copied ? 'Address copied!' : 'Accept'}
+      submitText={textToPass}
       onSubmit={() => handleCopy()}
       hideModal={toggleModal}
       content={
@@ -215,15 +204,6 @@ const VendorConnection = ({ ramp, amount, isLoading, disabled }) => {
 }
 
 export const WithdrawModal = ({ isVisible, toggleModal }) => {
-  useEffect(() => {
-    if (toggleModal) {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth',
-      });
-    }
-  }, [toggleModal])
-
   const [amount, setAmount] = React.useState('0')
   const { ramps, isLoading } = useRamp()
   const isConnected = ramps.map((ramp) => ramp.address && true).includes(true)

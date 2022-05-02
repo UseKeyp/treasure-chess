@@ -128,7 +128,10 @@ export const getGamesWithFilter = async ({ username, filter, page = 0 }) => {
   const filteredGames = games.filter((game) => {
     if (
       filterObj.username &&
-      ![game.black.username, game.white.username].includes(filterObj.username)
+      ![
+        game.black.username.toLowerCase(),
+        game.white.username.toLowerCase(),
+      ].includes(filterObj.username)
     )
       return false
     if (filterObj?.outcome !== 'any') {

@@ -89,22 +89,36 @@ export const fetchMember = async (
       if (!member) {
         // Create member if they don't exist (relationship required for treasures)
         try {
-          member = await db.member.create({
-            data: {
-              id: chessData.player_id.toString(),
-              username: chessData.username,
-              mintCredits: Number(process.env.MINT_CREDITS_NEW_MEMBER),
-              ...(chessData.avatar && { imageSrc: chessData.avatar }),
-              ...(chessData.masterTitle && {
-                masterTitle: chessData.masterTitle,
-              }),
-              country,
-            },
+          const memberWithChangedUsername = await db.member.findUnique({
+            where: { id: chessData.player_id.toString() },
           })
+          if (memberWithChangedUsername) {
+            // Update the new username for the member
+            member = await db.member.update({
+              where: { id: chessData.player_id.toString() },
+              data: { username: username.toLowerCase() },
+            })
+          } else {
+            member = await db.member.create({
+              data: {
+                id: chessData.player_id.toString(),
+                username: chessData.username,
+                mintCredits: Number(process.env.MINT_CREDITS_NEW_MEMBER),
+                ...(chessData.avatar && { imageSrc: chessData.avatar }),
+                ...(chessData.masterTitle && {
+                  masterTitle: chessData.masterTitle,
+                }),
+                country,
+              },
+            })
+          }
         } catch (e) {
           // Fixes race condition for creating members
           logger.debug(`Attempts: ${attempts}`)
-          if (attempts > 5) throw 'Error fetching member'
+          if (attempts > 5)
+            throw `Error fetching member ${username} ${JSON.stringify(
+              chessData
+            )} ${e}`
           return fetchMember(usernameOrAddress, includeChessData, attempts + 1)
         }
       }

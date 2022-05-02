@@ -152,8 +152,8 @@ model DepositOrder {
   status        TxStatus @default(UNSUBMITTED)
   // Wyre
   sourceCurrency  String?
-  sourceAmount Int?
-  purchaseAmount Int?
+  sourceAmount String?
+  purchaseAmount String?
   destCurrency  String?
   paymentMethod String?
   orderType     String? // DOMESTIC or INTERNATIONAL

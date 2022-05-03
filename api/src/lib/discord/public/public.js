@@ -1,6 +1,8 @@
 // NOTE: This file is currently not included in the app. It must be included for this bot to run..
 
+import { logger } from 'src/lib/logger'
 import DiscordBot from 'src/lib/discord/discord'
+
 import commands from './commands'
 
 const BOTS = {

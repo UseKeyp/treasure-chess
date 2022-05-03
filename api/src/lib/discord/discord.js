@@ -48,8 +48,10 @@ class DiscordBot {
         }
       })
 
+      logger.debug(`Discord bot starting... ${clientId}`)
       client.login(botToken)
     } catch (e) {
+      logger.debug({ custom: e }, 'Bot instantiation error')
       logger.error(e)
       // Maybe we don't want to throw here if there are multiple instances.
     }

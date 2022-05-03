@@ -1,6 +1,7 @@
 import Sentry from 'src/lib/sentry'
-
+import { logger } from 'src/lib/logger'
 import DiscordBot, { postToChannel } from 'src/lib/discord/discord'
+
 import commands from './commands'
 
 const BOTS = {
@@ -20,10 +21,22 @@ const BOTS = {
 let environment = process.env.ENVIRONMENT
 if (environment === 'local') environment = 'dev'
 export const { clientId, botToken } = BOTS[environment]
+logger.debug(
+  {
+    custom: {
+      clientId,
+      botToken,
+      'process.env.SUPPRESS_BOT': process.env.SUPPRESS_BOT,
+    },
+  },
+  'Bot details for "chester"'
+)
 
-!process.env.SUPPRESS_BOT && // Prevents multiple instances running
+if (
+  !!process.env.SUPPRESS_BOT && // Prevents multiple instances running
   clientId &&
-  botToken &&
+  botToken
+)
   new DiscordBot({
     clientId,
     botToken,

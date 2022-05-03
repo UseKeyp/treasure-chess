@@ -1,3 +1,5 @@
+// NOTE: This file is currently not included in the app. It must be included for this bot to run..
+
 import DiscordBot from 'src/lib/discord/discord'
 import commands from './commands'
 
@@ -18,10 +20,22 @@ const BOTS = {
 let environment = process.env.ENVIRONMENT
 if (environment === 'local') environment = 'dev'
 export const { clientId, botToken } = BOTS[environment]
+logger.debug(
+  {
+    custom: {
+      clientId,
+      botToken,
+      'process.env.SUPPRESS_BOT': process.env.SUPPRESS_BOT,
+    },
+  },
+  'Bot details for "treasure-chess"'
+)
 
-!process.env.SUPPRESS_BOT && // Prevents multiple instances running
+if (
+  !!process.env.SUPPRESS_BOT && // Prevents multiple instances running
   clientId &&
-  botToken &&
+  botToken
+)
   new DiscordBot({
     clientId,
     botToken,

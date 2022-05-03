@@ -3,7 +3,7 @@ import { useAuth } from '@redwoodjs/auth'
 
 import { useModal } from 'src/hooks/useModal'
 
-import { WithdrawModal, DepositModal, AddressModal } from './modals'
+import { AddressModal } from './modals'
 import { MEMBER_BALANCE_QUERY } from './graphql'
 
 const WalletContext = React.createContext({
@@ -20,8 +20,6 @@ const WalletProvider = ({ children }) => {
     addressToCopy: '',
   })
 
-  const { isVisible: isVisibleDep, toggleModal: toggleModalDep } = useModal()
-  const { isVisible: isVisibleWit, toggleModal: toggleModalWit } = useModal()
   const { isVisible: isVisibleAdd, toggleModal: toggleModalAdd } = useModal()
 
   const {
@@ -51,8 +49,6 @@ const WalletProvider = ({ children }) => {
   return (
     <WalletContext.Provider
       value={{
-        deposit: toggleModalDep,
-        withdraw: toggleModalWit,
         getAddress,
         usdcBalance: state.usdcBalance,
         mintCreditBalance: state.mintCreditBalance,
@@ -60,8 +56,6 @@ const WalletProvider = ({ children }) => {
         balanceLoading,
       }}
     >
-      <DepositModal isVisible={isVisibleDep} toggleModal={toggleModalDep} />
-      <WithdrawModal isVisible={isVisibleWit} toggleModal={toggleModalWit} />
       <AddressModal
         address={state.addressToCopy}
         isVisible={isVisibleAdd}

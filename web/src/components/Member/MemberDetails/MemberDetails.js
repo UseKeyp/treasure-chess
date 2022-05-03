@@ -10,9 +10,9 @@ import MemberMintCredits from 'src/components/Member/MemberMintCredits'
 import globalConfig from 'src/global.config'
 
 import { getFlagBase64 } from '@treasure-chess/treasure-html'
-import { useWallet } from 'src/providers/wallet'
 
 import { trimAddress } from 'src/utils/helpers'
+import {useRamp} from "src/providers/ramp/ramp";
 
 const TwitchLink = ({ isProfile, username }) => {
   const { getOAuthUrl, isLoading } = useOAuth()
@@ -53,7 +53,7 @@ const TwitchLink = ({ isProfile, username }) => {
 }
 
 const MemberDetails = ({ member, isProfile }) => {
-  const { deposit, withdraw, getAddress } = useWallet()
+  const { deposit, withdraw, getAddress } = useRamp()
   return (
     <section className="member-details p-4">
       <div className="member-details--inner">

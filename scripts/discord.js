@@ -2,7 +2,17 @@
 
 const { Routes } = require('discord-api-types/v9')
 import adminCommands from '../api/src/lib/discord/admin/commands'
+import {
+  botToken as adminBotToken,
+  clientId as adminClientId,
+} from '../api/src/lib/discord/admin'
+
 import publicCommands from '../api/src/lib/discord/public/commands'
+import {
+  botToken as publicBotToken,
+  clientId as publicClientId,
+} from '../api/src/lib/discord/public'
+
 import { fetchDiscord } from '../api/src/lib/discord/discord'
 
 const dotenv = require('dotenv')
@@ -15,19 +25,25 @@ const GUILD_ID = '874700997220515901' // Our internal treasure-chess server
 const method = 'PUT'
 // const method = "DELETE" // Use to clear out old invalid command
 
-let botToken = process.env.DISCORD_ADMIN_BOT_TOKEN
-let clientId = process.env.DISCORD_ADMIN_CLIENT_ID
+let botName = 'chester'
+let botToken = adminBotToken
+let clientId = adminClientId
 let commands = adminCommands
 
 if (BOT === 'PUBLIC') {
-  botToken = process.env.DISCORD_PUBLIC_BOT_TOKEN
-  clientId = process.env.DISCORD_PUBLIC_CLIENT_ID
+  botName = 'treasure-chess'
+  botToken = publicBotToken
+  let clientId = publicClientId
   commands = publicCommands
 }
 
 const registerCommands = async () => {
   try {
-    console.log(`Commands registered: ${commands.map((cmd) => cmd.data.name)}`)
+    console.log(
+      `Registering commands for bot "${botName}" - ${commands.map(
+        (cmd) => cmd.data.name
+      )}`
+    )
     const body = commands.map((cmd) => cmd.data)
 
     await Promise.all(

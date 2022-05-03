@@ -3,6 +3,33 @@ import Sentry from 'src/lib/sentry'
 import DiscordBot, { postToChannel } from 'src/lib/discord/discord'
 import commands from './commands'
 
+const BOTS = {
+  dev: {
+    clientId: process.env.DISCORD_ADMIN_CLIENT_ID_DEV,
+    botToken: process.env.DISCORD_ADMIN_BOT_TOKEN_DEV,
+  },
+  staging: {
+    clientId: process.env.DISCORD_ADMIN_CLIENT_ID_STAGING,
+    botToken: process.env.DISCORD_ADMIN_BOT_TOKEN_STAGING,
+  },
+  prod: {
+    clientId: process.env.DISCORD_ADMIN_CLIENT_ID_PROD,
+    botToken: process.env.DISCORD_ADMIN_BOT_TOKEN_PROD,
+  },
+}
+let environment = process.env.ENVIRONMENT
+if (environment === 'local') environment = 'dev'
+export const { clientId, botToken } = BOTS[environment]
+
+!process.env.SUPPRESS_BOT && // Prevents multiple instances running
+  clientId &&
+  botToken &&
+  new DiscordBot({
+    clientId,
+    botToken,
+    commands,
+  })
+
 const CHANNELS_DEV = {
   orders: '900524323238981703',
   airdrop: '936402300954640394',
@@ -15,15 +42,6 @@ const CHANNELS_PROD = {
   orders: '900529491829460992',
   airdrop: '936402336899801088',
 }
-
-/* eslint-disable-next-line no-unused-vars*/
-const bot =
-  !process.env.SUPPRESS_BOT &&
-  new DiscordBot({
-    clientId: process.env.DISCORD_ADMIN_CLIENT_ID,
-    token: process.env.DISCORD_ADMIN_BOT_TOKEN,
-    commands,
-  })
 
 const getChannelId = (channel) => {
   let id = CHANNELS_DEV[channel]
@@ -44,7 +62,7 @@ export const sendDiscordAdminAlert = async ({
       message,
       embed,
       channelId,
-      botToken: process.env.DISCORD_ADMIN_BOT_TOKEN,
+      botToken,
     })
   } catch (e) {
     Sentry.captureException(e)

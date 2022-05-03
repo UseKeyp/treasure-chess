@@ -9,8 +9,8 @@ const DISCORD_NO_DM_INVOCATION =
 const DISCORD_API_URL = 'https://discord.com/api/v9'
 
 class DiscordBot {
-  constructor({ clientId, token, commands }) {
-    if (!token || !clientId || !commands)
+  constructor({ clientId, botToken, commands }) {
+    if (!botToken || !clientId || !commands)
       throw 'Invalid Discord params provided'
     try {
       const client = new Client({ intents: [Intents.FLAGS.DIRECT_MESSAGES] })
@@ -48,7 +48,7 @@ class DiscordBot {
         }
       })
 
-      client.login(token)
+      client.login(botToken)
     } catch (e) {
       logger.error(e)
       // Maybe we don't want to throw here if there are multiple instances.

@@ -89,9 +89,11 @@ locize sync --path src/locales --skip-delete true --format flat --dry true
 
 No action needed, the app will automatically pull locales from this package using a script in `gatsby-node.js`.
 
-## Campaign Locales
+## Dynamic Locales
 
-`i18next-scanner` does not pre-compute keys for `i18next`. For example doing `t({campaign.headerText})` in the campaign pages will not work, since the scanner doesn't know the value of `campaign.headerText`.
+> NOTE: This section really only applies to pre-rendered code, such as in Gatsby
+
+`i18next-scanner` does not pre-compute keys for `i18next`. For example doing a dynamically generated `t({campaign.headerText})` in the campaign pages will not work, since the scanner doesn't know the value of `campaign.headerText`.
 
 To get around this, a script `generateCampaignLocale` is used to generate a new locale for each campaign. It is run automatically during `compileLocales()`.
 

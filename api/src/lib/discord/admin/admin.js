@@ -37,6 +37,7 @@ if (
   clientId &&
   botToken
 )
+  /* eslint-disable-next-line no-new */
   new DiscordBot({
     clientId,
     botToken,

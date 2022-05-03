@@ -33,7 +33,7 @@ logger.debug(
 )
 
 if (
-  !!process.env.SUPPRESS_BOT && // Prevents multiple instances running
+  !process.env.SUPPRESS_BOT === 'false' && // Prevents multiple instances running
   clientId &&
   botToken
 )

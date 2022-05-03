@@ -1,4 +1,7 @@
 import { Client, Intents } from 'discord.js'
+
+import fetch from 'node-fetch'
+import Sentry from 'src/lib/sentry'
 import { logger } from 'src/lib/logger'
 
 const DISCORD_NO_DM_INVOCATION =

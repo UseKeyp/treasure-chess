@@ -1,4 +1,3 @@
-import fetch from 'node-fetch'
 import Sentry from 'src/lib/sentry'
 
 import DiscordBot, { postToChannel } from 'src/lib/discord/discord'

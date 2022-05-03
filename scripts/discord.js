@@ -11,7 +11,9 @@ dotenv.config()
 const BOT = 'ADMIN'
 // const BOT= "PUBLIC"
 
-const GUILD_ID = '874700997220515901'
+const GUILD_ID = '874700997220515901' // Our internal treasure-chess server
+const method = 'PUT'
+// const method = "DELETE" // Use to clear out old invalid command
 
 let botToken = process.env.DISCORD_ADMIN_BOT_TOKEN
 let clientId = process.env.DISCORD_ADMIN_CLIENT_ID
@@ -26,23 +28,23 @@ if (BOT === 'PUBLIC') {
 const registerCommands = async () => {
   try {
     console.log(`Commands registered: ${commands.map((cmd) => cmd.data.name)}`)
-    // const rest = new REST({ version: '9' }).setToken(token)
-    // Global commands takes up to 1 hour to propagate
-
     const body = commands.map((cmd) => cmd.data)
-    const method = 'DELETE'
-    await fetchDiscord({
-      path: Routes.applicationCommands(clientId),
-      body,
-      method,
-      botToken,
-    })
-    await fetchDiscord({
-      path: Routes.applicationGuildCommands(clientId, GUILD_ID),
-      body,
-      method,
-      botToken,
-    })
+
+    await Promise.all(
+      [
+        // Global commands takes up to 1 hour to propagate
+        Routes.applicationCommands(clientId),
+        // Guild-specific commands update instantly
+        Routes.applicationGuildCommands(clientId, GUILD_ID),
+      ].map(async (path) => {
+        await fetchDiscord({
+          path,
+          body,
+          method,
+          botToken,
+        })
+      })
+    )
   } catch (e) {
     console.error(e)
   }

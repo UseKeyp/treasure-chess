@@ -1,7 +1,7 @@
 import Sentry from 'src/lib/sentry'
 import { fetchOrder } from 'src/lib/wyre/wyre'
 import { db } from 'src/lib/db'
-import { sendDiscordAlert } from 'src/lib/discord/discord'
+import { sendDiscordAdminAlert } from 'src/lib/discord/admin'
 import { isProduction } from 'src/lib/helpers'
 import { logger } from 'src/lib/logger'
 
@@ -57,7 +57,7 @@ const processDepositOrder = async ({ order, reservation }) => {
           orderType: order.orderType,
         },
       })
-      await sendDiscordAlert({
+      await sendDiscordAdminAlert({
         embed: {
           color: 3066993, // https://gist.github.com/thomasbnt/b6f455e2c7d743b796917fa3c205f812
           title: `🤑 Deposit Success!`,
@@ -77,7 +77,7 @@ user: https://treasure.chess.com/members/${depositOrder?.member?.username}`,
       let extraDetails = ''
       if (!depositOrder)
         extraDetails = `Couldn't update database for reservation ${reservation}.`
-      await sendDiscordAlert({
+      await sendDiscordAdminAlert({
         embed: {
           color: 2067276, // https://gist.github.com/thomasbnt/b6f455e2c7d743b796917fa3c205f812
           title: `❓🤑 Deposit data received`,
@@ -92,7 +92,7 @@ ${JSON.stringify(order, undefined, 4)}
       })
     }
   } catch (e) {
-    await sendDiscordAlert({
+    await sendDiscordAdminAlert({
       embed: {
         color: 2067276,
         title: `❓🤑 Deposit processing error`,
@@ -141,7 +141,7 @@ export const processOrder = async ({ reservation, orderId }) => {
       data: { orderId, orderStatus: 'COMPLETE' },
     })
   } catch (e) {
-    await sendDiscordAlert({
+    await sendDiscordAdminAlert({
       embed: {
         color: 16740982,
         title: `⛈️💳  Failed to process Wyre Order!`,

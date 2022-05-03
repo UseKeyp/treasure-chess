@@ -21,10 +21,10 @@ jobs:
           echo github.sha: ${{ github.sha }}
           echo github.repository: ${{ github.repository }}
           echo github.ref: ${{ github.ref }}
-      - name: Setup Node.js v14
+      - name: Setup Node.js v16
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: '16'
       - name: Cache "node_modules"
         uses: actions/cache@v2
         with:

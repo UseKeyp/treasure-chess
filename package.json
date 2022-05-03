@@ -18,12 +18,14 @@
     "seed": "yarn rw exec seed"
   },
   "devDependencies": {
+    "@discordjs/rest": "^0.4.1",
     "@ethersproject/wallet": "^5.5.0",
     "@netlify/zip-it-and-ship-it": "^4.23.0",
     "@redwoodjs/core": "^1.0.0",
     "babel-loader": "^8.2.3",
     "chromatic": "^5.9.2",
     "csv-parse": "^5.0.4",
+    "discord-api-types": "^0.32.0",
     "eslint-plugin-prettier": "^4.0.0",
     "lerna": "^4.0.0",
     "random-username-generator": "^1.0.4",

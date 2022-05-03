@@ -46,6 +46,10 @@ Use the `<Trans>` component ([docs](https://react.i18next.com/latest/trans-compo
 // "recruitedNumberOfPeople_plural": "<0>Recruited <1>{{numberOfRecruits}}</1> people!</0>",
 ```
 
+---
+
+> NOTE: the section below is from Redwood, and needs to be updated for our use-case
+
 # Translation Guide
 
 **IMPORTANT: Do not translate directly in this repo!**

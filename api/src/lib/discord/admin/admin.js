@@ -1,10 +1,8 @@
 import fetch from 'node-fetch'
 import Sentry from 'src/lib/sentry'
 
-import DiscordBot from 'src/lib/discord/discord'
+import DiscordBot, { postToChannel } from 'src/lib/discord/discord'
 import commands from './commands'
-
-const DISCORD_API_URL = 'https://discord.com/api/v9'
 
 const CHANNELS_DEV = {
   orders: '900524323238981703',
@@ -41,14 +39,12 @@ export const sendDiscordAdminAlert = async ({
 }) => {
   try {
     const channelId = getChannelId(channelName)
-    await fetch(`${DISCORD_API_URL}/channels/${channelId}/messages`, {
-      method: 'POST',
-      body: message ? message : JSON.stringify({ embed }),
-      headers: {
-        Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
-        'Content-Type': 'application/json',
-      },
-    }).then((res) => res.text())
+    await postToChannel({
+      message,
+      embed,
+      channelId,
+      botToken: process.env.DISCORD_ADMIN_BOT_TOKEN,
+    })
   } catch (e) {
     Sentry.captureException(e)
   }

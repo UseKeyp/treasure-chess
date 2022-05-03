@@ -3,6 +3,7 @@ import { logger } from 'src/lib/logger'
 
 const DISCORD_NO_DM_INVOCATION =
   'NOTE: Treasure Chess will never DM you! You can only use the bot in the server.'
+const DISCORD_API_URL = 'https://discord.com/api/v9'
 
 class DiscordBot {
   constructor({ clientId, token, commands }) {
@@ -49,6 +50,55 @@ class DiscordBot {
       logger.error(e)
       // Maybe we don't want to throw here if there are multiple instances.
     }
+  }
+}
+
+export const postToChannel = async ({
+  message,
+  embed,
+  channelId,
+  botToken,
+}) => {
+  try {
+    await fetchDiscord({
+      path: `channels/${channelId}/messages`,
+      method: 'POST',
+      body: message ? message : JSON.stringify({ embed }),
+      botToken,
+    })
+  } catch (e) {
+    Sentry.captureException(e)
+  }
+}
+
+export const fetchDiscord = async ({
+  path,
+  body,
+  method: methodArg,
+  botToken,
+}) => {
+  try {
+    let method = 'GET'
+    if (methodArg) method = methodArg
+    if (!['POST', 'GET', 'DELETE', 'PUT', 'PATCH'].includes(method))
+      throw 'Invalid method'
+    if (!body) throw 'No body provided'
+    if (!path) throw 'No path provided'
+    const url = new URL(path, DISCORD_API_URL)
+    await fetch(url, {
+      method: method,
+      body,
+      headers: {
+        Authorization: `Bot ${botToken}`,
+        'Content-Type': 'application/json',
+      },
+    }).then((res) => res.text())
+  } catch (e) {
+    const errorMessage = `fetchDiscord() ${e}`
+    /* eslint-disable-next-line no-console */
+    console.log(errorMessage)
+    logger.error(errorMessage)
+    Sentry.captureException(errorMessage)
   }
 }
 

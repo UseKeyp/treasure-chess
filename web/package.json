@@ -13,7 +13,8 @@
     ]
   },
   "scripts": {
-    "generate-icons": "node src/scripts/generate-icon-system"
+    "generate-icons": "node src/scripts/generate-icon-system",
+    "scan-i18n": "rm -rf -f src/i18n/locales && i18next-scanner --config src/i18n/i18next-scanner.config.js"
   },
   "dependencies": {
     "@redwoodjs/auth": "^1.0.0",

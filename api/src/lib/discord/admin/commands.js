@@ -30,7 +30,7 @@ const commands = [
         where: { blocked: true },
       })
       interaction.editReply(
-        `${username} is now blocked. Total blocked members: ${blockedMemberCount.toLocaleString()}`
+        `**${username}** is now blocked. \`Blocked members: ${blockedMemberCount.toLocaleString()}\``
       )
     },
   },
@@ -61,10 +61,10 @@ const commands = [
       })
       if (isBanned)
         return interaction.editReply(
-          `${username} is now banned. Total banned members: ${bannedMemberCount.toLocaleString()}`
+          `**${username}** is now banned. \`Banned members: ${bannedMemberCount.toLocaleString()}`
         )
       interaction.editReply(
-        `${username} is no longer banned. Total banned members: ${bannedMemberCount.toLocaleString()}`
+        `**${username}** is no longer banned. \`Banned members: ${bannedMemberCount.toLocaleString()}\``
       )
     },
   },

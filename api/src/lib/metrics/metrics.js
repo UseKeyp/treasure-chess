@@ -284,13 +284,13 @@ export const getBusinessMetrics = async () => {
 }
 
 export const getUserOrders = async (username) => {
-  const market = await db.marketSale.findMany({
-    where: { OR: { buyer: { username }, seller: { username } } },
+  const marketSales = await db.marketSale.findMany({
+    where: { OR: [{ buyer: { username } }, { seller: { username } }] },
   })
 
-  const mint = await db.mintPurchase.findMany({
+  const mintPurchases = await db.mintPurchase.findMany({
     where: { member: { username } },
   })
 
-  return { market, mint }
+  return { marketSales, mintPurchases }
 }

@@ -14,7 +14,6 @@ import LoadingDots from "src/components/LoadingDots";
 import Button from "src/components/Button";
 import {trimAddress} from "src/utils/helpers";
 import {useModal} from "src/hooks/useModal";
-import {useEffect} from "react";
 
 const PLAID = 'PLAID'
 const COINBASE = 'COINBASE'
@@ -160,6 +159,13 @@ const VendorConnection = ({ramp, amount, isLoading, disabled}) => {
     </p>
   )
   const buttonClassName = `mt-4 w-[272px] h-[40px] text-xl shadow-m hover:sm hover:bg-greenDark hover:shadow-greenDark ${backgroundColor}`
+  let rampError;
+  if (ramp.error != null && ramp.error != '') {
+    rampError = ramp.error.substring(0, 200)
+  } else {
+    rampError = ramp.error
+  }
+
   let button = (
     <Button
       id="connection-button"
@@ -229,7 +235,7 @@ const VendorConnection = ({ramp, amount, isLoading, disabled}) => {
       <div className=" flex align-center items-center">{icon}</div>
       <h2 className="mt-2">{status}</h2>
       {button}
-      <div className="mt-8 font-bold text-orange">{ramp.error}</div>
+      <div className="mt-8 font-bold text-errorOrange">{rampError}</div>
     </div>
   )
 }
@@ -320,21 +326,24 @@ const RampProvider = ({ children }) => {
     setCoinbase({ isLoading: true, error: null, ...coinbase })
     try {
       const oAuthUrl = await getOAuthUrl(COINBASE);
-      if (oAuthUrl == null) {
-        coinbase.error = "Authentication Error";
+      if (oAuthUrl == null || oAuthUrl != '') {
+        coinbase.error = errorOAuth;
         setCoinbase({ isLoading: false, ...coinbase})
+        document.getElementById('connection-button').disabled = false
         return
       }
-      setShouldPoll(true)
       if (isBrowser)
         window.open(
           oAuthUrl.url,
           'Coinbase - Connect',
           'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
         )
+      setShouldPoll(true)
       document.getElementById('connection-button').disabled = false
     } catch (error) {
-      return setCoinbase({ isLoading: false, error: errorOAuth, ...coinbase })
+      coinbase.error = error;
+      document.getElementById('connection-button').disabled = false
+      return setCoinbase({ isLoading: false, error: error, ...coinbase })
     }
   }
 
@@ -345,8 +354,15 @@ const RampProvider = ({ children }) => {
     try {
       oAuthUrl = await getOAuthUrl(PLAID)
       setShouldPoll(true)
+      if (oAuthUrl == null || oAuthUrl == '') {
+        wyre.error = errorOAuth;
+        document.getElementById('connection-button').disabled = false
+        return setWyre({isLoading: false, error: errorOAuth, ...wyre})
+      }
     } catch (error) {
-      return setWyre({isLoading: false, error: errorOAuth, ...wyre})
+      wyre.error = error;
+      document.getElementById('connection-button').disabled = false
+      return setWyre({isLoading: false, error: error, ...wyre})
     }
     /* eslint-disable-next-line no-undef */
     const linkHandler = Plaid.create({
@@ -368,6 +384,7 @@ const RampProvider = ({ children }) => {
           })
           toast.success('Wyre + Plaid connected!')
         } catch (e) {
+          document.getElementById('connection-button').disabled = false
           setWyre({
             ...wyre,
             isLoading: false,
@@ -381,6 +398,7 @@ const RampProvider = ({ children }) => {
           // TODO: Trigger some error notification
           toast.error('Failed to connect')
           // The user encountered a Plaid API error prior to exiting.
+          wyre.error = err;
           setWyre({
             ...wyre,
             isLoading: false,

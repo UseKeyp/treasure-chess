@@ -26,6 +26,7 @@ module.exports = {
       greyDark: '#4F4F4F',
       orange: '#FFBB0D',
       red: '#B23330',
+      errorOrange: '#ff9255',
       white: '#FFFFFF',
     },
   },

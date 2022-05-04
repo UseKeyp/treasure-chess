@@ -27,14 +27,14 @@ logger.debug(
     custom: {
       clientId,
       botToken,
-      'process.env.SUPPRESS_BOT': process.env.SUPPRESS_BOT,
+      'process.env.ENABLE_DISCORD_BOTS': process.env.ENABLE_DISCORD_BOTS,
     },
   },
   'Bot details for "treasure-chess"'
 )
 
 if (
-  !process.env.SUPPRESS_BOT === 'false' && // Prevents multiple instances running
+  process.env.ENABLE_DISCORD_BOTS && // Prevents multiple instances running
   clientId &&
   botToken
 )

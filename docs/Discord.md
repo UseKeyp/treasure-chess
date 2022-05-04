@@ -1,6 +1,6 @@
 # Discord
 
-To test bots locally, you must add to your .env `SUPPRESS_BOT=false`. **PLEASE REMOVE IT** once you're finished.
+To test bots locally, you must add to your .env `ENABLE_DISCORD_BOTS=true`. **PLEASE REMOVE IT** once you're finished.
 
 ### Localization
 

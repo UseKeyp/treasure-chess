@@ -1,4 +1,4 @@
-import { parseEther, formatEther } from '@ethersproject/units'
+import { formatEther } from '@ethersproject/units'
 
 import Sentry from 'src/lib/sentry'
 import { db } from 'src/lib/db'

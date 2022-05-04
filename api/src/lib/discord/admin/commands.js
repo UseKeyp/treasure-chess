@@ -3,7 +3,6 @@ const { MessageEmbed } = require('discord.js')
 import { Buffer } from 'buffer'
 
 import { db } from 'src/lib/db'
-import { logger } from 'src/lib/logger'
 
 import { getBusinessMetrics } from 'src/lib/metrics'
 import {

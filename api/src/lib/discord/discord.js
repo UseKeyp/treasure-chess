@@ -1,5 +1,3 @@
-import { Client, Intents } from 'discord.js'
-
 import fetch from 'node-fetch'
 import Sentry from 'src/lib/sentry'
 import { logger } from 'src/lib/logger'
@@ -10,6 +8,8 @@ const DISCORD_API_URL = 'https://discord.com/api/v9'
 
 class DiscordBot {
   constructor({ clientId, botToken, commands }) {
+    if (process.env.VERCEL) return // skip when deployed to Vercel
+    const { Client, Intents } = require('discord.js')
     if (!botToken || !clientId || !commands)
       throw 'Invalid Discord params provided'
     try {

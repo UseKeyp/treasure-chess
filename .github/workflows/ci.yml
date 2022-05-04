@@ -14,7 +14,7 @@ jobs:
       SKIP_RELEASE: ${{ steps.skip_release.outputs.SKIP_RELEASE }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Show context
         run: |
           echo github.event_name: ${{ github.event_name }}
@@ -22,11 +22,11 @@ jobs:
           echo github.repository: ${{ github.repository }}
           echo github.ref: ${{ github.ref }}
       - name: Setup Node.js v16
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: '16'
       - name: Cache "node_modules"
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: '**/node_modules'
           key: node_modules_${{ hashFiles('**/yarn.lock') }}

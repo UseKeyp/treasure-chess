@@ -1,9 +1,21 @@
-// Run with this command: $(node tasks/environment/setupEnv) yarn rw exec --prisma=false discord
+// Run with this command: $(node tasks/environment/setupEnv) && yarn rw exec --prisma=false discord
 
-const { REST } = require('@discordjs/rest')
 const { Routes } = require('discord-api-types/v9')
+const { REST } = require('@discordjs/rest')
+
+import { fetchDiscord } from '../api/src/lib/discord/discord'
+
 import adminCommands from '../api/src/lib/discord/admin/commands'
+import {
+  botToken as adminBotToken,
+  clientId as adminClientId,
+} from '../api/src/lib/discord/admin/config'
+
 import publicCommands from '../api/src/lib/discord/public/commands'
+import {
+  botToken as publicBotToken,
+  clientId as publicClientId,
+} from '../api/src/lib/discord/public/config'
 
 const dotenv = require('dotenv')
 dotenv.config()
@@ -11,30 +23,39 @@ dotenv.config()
 const BOT = 'ADMIN'
 // const BOT= "PUBLIC"
 
-const GUILD_ID = '874700997220515901'
+const TYPE = 'GLOBAL'
+// const TYPE= "GUILD"
 
-let token = process.env.DISCORD_ADMIN_BOT_TOKEN
-let clientId = process.env.DISCORD_ADMIN_CLIENT_ID
+const GUILD_ID = '874700997220515901' // Our internal treasure-chess server
+
+const method = 'PUT'
+// "PUT" for commands are always treated as an upsert
+// To remove old unwanted command See https://discord.com/developers/docs/interactions/application-commands#updating-and-deleting-a-command
+
+let botName = `chester ${process.env.ENVIRONMENT}`
+let botToken = adminBotToken
+let clientId = adminClientId
 let commands = adminCommands
 
 if (BOT === 'PUBLIC') {
-  token = process.env.DISCORD_PUBLIC_BOT_TOKEN
-  clientId = process.env.DISCORD_PUBLIC_CLIENT_ID
+  botName = `treasure-chess ${process.env.ENVIRONMENT}`
+  botToken = publicBotToken
+  let clientId = publicClientId
   commands = publicCommands
 }
 
 const registerCommands = async () => {
   try {
-    console.log(`Commands registered: ${commands.map((cmd) => cmd.data.name)}`)
-    const rest = new REST({ version: '9' }).setToken(token)
-
-    // Global commands takes up to 1 hour to propagate
-    await rest.put(Routes.applicationCommands(clientId), {
-      body: commands.map((cmd) => cmd.data),
-    })
-
-    // Guild-specific commands update instantly
-    await rest.put(Routes.applicationGuildCommands(clientId, GUILD_ID), {
+    console.log(
+      `Registering commands for bot "${botName}" ${clientId}- ${commands.map(
+        (cmd) => cmd.data.name
+      )}`
+    )
+    const rest = new REST({ version: '9' }).setToken(botToken)
+    const path = Routes.applicationCommands(clientId)
+    if (TYPE === 'GUILD')
+      path = Routes.applicationGuildCommands(clientId, GUILD_ID)
+    await rest.put(path, {
       body: commands.map((cmd) => cmd.data),
     })
   } catch (e) {
@@ -42,4 +63,29 @@ const registerCommands = async () => {
   }
 }
 
-export default registerCommands
+const deleteCommands = async () => {
+  // Delete all commands for a bot
+  const response = await fetchDiscord({
+    path:
+      TYPE === 'GLOBAL'
+        ? `/applications/${clientId}/commands`
+        : `/applications/${clientId}/guilds/${GUILD_ID}/commands`,
+    botToken,
+  })
+  const activeCommands = await response.json()
+  console.log(activeCommands)
+  for (var i = 0; i < activeCommands.length; i++) {
+    const response = await fetchDiscord({
+      // Global
+      path:
+        TYPE === 'GLOBAL'
+          ? `/applications/${clientId}/commands/${activeCommands[i].id}`
+          : `/applications/${clientId}/guilds/${GUILD_ID}/commands/${activeCommands[i].id}`,
+      method: 'DELETE',
+      botToken,
+    })
+  }
+}
+
+registerCommands()
+// deleteCommands()

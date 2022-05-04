@@ -26,7 +26,12 @@ const commands = [
       const member = await fetchMemberAndBlock(username, true)
       // fetchMemberAndBlock doesn't throw errors, so we must do it manually
       if (!member) throw 'Member not found'
-      interaction.editReply(`${username} is now blocked`)
+      const blockedMemberCount = await db.member.count({
+        where: { blocked: true },
+      })
+      interaction.editReply(
+        `**${username}** is now blocked. \`Blocked members: ${blockedMemberCount.toLocaleString()}\``
+      )
     },
   },
   {
@@ -51,8 +56,16 @@ const commands = [
       const member = await fetchMemberAndUpdateBan(username, isBanned)
       // fetchMemberAndBlock doesn't throw errors, so we must do it manually
       if (!member) throw 'Member not found'
-      if (isBanned) return interaction.editReply(`${username} is now banned`)
-      interaction.editReply(`${username} is no longer banned`)
+      const bannedMemberCount = await db.member.count({
+        where: { banned: true },
+      })
+      if (isBanned)
+        return interaction.editReply(
+          `**${username}** is now banned. \`Banned members: ${bannedMemberCount.toLocaleString()}\``
+        )
+      interaction.editReply(
+        `**${username}** is no longer banned. \`Banned members: ${bannedMemberCount.toLocaleString()}\``
+      )
     },
   },
   {

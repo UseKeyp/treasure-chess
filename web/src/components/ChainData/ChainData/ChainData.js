@@ -7,8 +7,7 @@ const HEIGHT = 300
 const WIDTH = 500
 
 const ChainData = ({ chainData, isLoading, isError }) => {
-  if (isLoading)
-    return <Table title={TITLE} isLoading />
+  if (isLoading) return <Table title={TITLE} isLoading />
   else if (isError)
     return (
       <Table

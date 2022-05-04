@@ -26,7 +26,7 @@
     "@treasure-chess/treasure-html": "^1.0.3",
     "@treasure-chess/web3-helpers": "^1.0.3",
     "bad-words": "^3.0.4",
-    "canvas": "2.6.1",
+    "canvas": "2.9.1",
     "i18next": "^21.6.14",
     "i18next-browser-languagedetector": "^6.1.3",
     "prop-types": "^15.7.2",

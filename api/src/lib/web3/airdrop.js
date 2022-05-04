@@ -1,6 +1,6 @@
 import { parseEther, formatEther } from '@ethersproject/units'
 import { web3Provider } from 'src/lib/web3/helpers'
-import { sendDiscordAlert } from 'src/lib/discord/discord'
+import { sendDiscordAdminAlert } from 'src/lib/discord/admin'
 import { payerSendTransaction } from 'src/lib/web3/wallets'
 import { payerAddress } from 'src/lib/web3/wallets/payer'
 
@@ -62,7 +62,7 @@ const notifyDiscord = async ({
   gasLimit,
 }) => {
   try {
-    await sendDiscordAlert({
+    await sendDiscordAdminAlert({
       embed: {
         color: 16740982,
         title: `✅  Airdrop Submitted!`,

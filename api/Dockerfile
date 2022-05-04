@@ -1,6 +1,6 @@
 # ==
 # Base
-FROM node:14 as base
+FROM node:16 as base
 
 WORKDIR /app
 
@@ -30,7 +30,7 @@ RUN yarn build-packages && yarn rw build api
 
 # ==
 # Serve
-FROM node:14 as serve
+FROM node:16 as serve
 
 WORKDIR /app
 

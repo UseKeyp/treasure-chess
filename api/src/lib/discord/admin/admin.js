@@ -31,14 +31,17 @@ if (
 const CHANNELS_DEV = {
   orders: '900524323238981703',
   airdrop: '936402300954640394',
+  mint: '969773625244807188',
 }
 const CHANNELS_STAGING = {
   orders: '936403586290683974',
   airdrop: '936403830105587823',
+  mint: '969773542268866640',
 }
 const CHANNELS_PROD = {
   orders: '900529491829460992',
   airdrop: '936402336899801088',
+  mint: '969773412962685029',
 }
 
 const getChannelId = (channel) => {

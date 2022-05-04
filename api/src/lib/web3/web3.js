@@ -4,7 +4,7 @@ import Sentry from 'src/lib/sentry'
 import { fetchMember } from 'src/lib/members'
 import { fetchGame } from 'src/lib/games'
 import { pinTreasure } from 'src/lib/pinata/pinata'
-import { formatUnits } from '@ethersproject/units'
+import { formatUnits, formatEther } from '@ethersproject/units'
 
 import { mint } from 'src/lib/web3/treasure'
 import { web3Provider } from 'src/lib/web3/helpers'
@@ -13,6 +13,7 @@ import { sendDiscordAdminAlert } from 'src/lib/discord/admin'
 
 import { logger } from 'src/lib/logger'
 import { isProduction, isOlderThanResubmitTimeout } from 'src/lib/helpers'
+import { getAdminBalance } from './wallets/admin'
 
 const SUBMITTED = 'SUBMITTED'
 const COMPLETE = 'COMPLETE'
@@ -20,6 +21,18 @@ const FAILED = 'FAILED'
 
 const MINIMUM_CONFIRMATIONS = isProduction ? 15 : 1
 const MAX_RESUBMIT_ATTEMPTS = 0
+
+const alertDiscord = async (tokenId) => {
+  const adminMaticBalance = await getAdminBalance()
+  await sendDiscordAdminAlert({
+    embed: {
+      title: `Mint transaction complete!`,
+      treasureLink: `${process.env.APP_DOMAIN}/treasures/${tokenId}`,
+      adminBalance: formatEther(adminMaticBalance),
+    },
+    channelName: 'mint',
+  })
+}
 
 const mintFailGracefully = async ({ mintPurchase, errorMessage }) => {
   await sendDiscordAdminAlert({
@@ -98,6 +111,7 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
         // TODO: optimize by combining these two db calls
         // Stop, don't mint again
         logger.debug('Mint transaction complete!')
+        alertDiscord(treasureData.tokenId)
         const purchase = await db.mintPurchase.update({
           where: { id: mintPurchase.id },
           data: {

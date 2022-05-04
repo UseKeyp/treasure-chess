@@ -1,10 +1,16 @@
 const { SlashCommandBuilder } = require('@discordjs/builders')
-import { db } from 'src/lib/db'
-import { getBusinessMetrics } from 'src/lib/metrics'
 const { MessageEmbed } = require('discord.js')
+import { parseEther, formatEther } from '@ethersproject/units'
 import { Buffer } from 'buffer'
 
+import { db } from 'src/lib/db'
+import { logger } from 'src/lib/logger'
+
+import { web3Provider } from 'src/lib/web3/helpers'
+import { getBusinessMetrics, getMemberOrders } from 'src/lib/metrics'
+import { getUsdcBalance } from 'src/lib/web3/tokens'
 import {
+  fetchMember,
   fetchMemberAndBlock,
   fetchMemberAndUpdateBan,
   fetchMemberAndGiveCredits,
@@ -142,6 +148,16 @@ const commands = [
             name: 'Minter',
             value: treasure.minter.username,
             inline: true,
+          },
+          {
+            name: 'tokenId',
+            value: treasure.tokenId,
+            inline: true,
+          },
+          {
+            name: 'hashId',
+            value: treasure.id,
+            inline: true,
           }
         )
         .setImage(treasure.openGraphImageSrc)
@@ -159,7 +175,77 @@ const commands = [
         files: [
           {
             name: `metrics_${new Date().toJSON().slice(0, 16)}.json`,
-            attachment: Buffer.from(JSON.stringify(metrics)),
+            attachment: Buffer.from(JSON.stringify(metrics, undefined, 4)),
+          },
+        ],
+      })
+    },
+  },
+  {
+    data: new SlashCommandBuilder()
+      .setName('member')
+      .setDescription('Get member raw data')
+      .addStringOption((option) =>
+        option
+          .setName('username')
+          .setDescription('Who to view')
+          .setRequired(true)
+      ),
+    execute: async (interaction) => {
+      const username = interaction.options.getString('username')
+      let member = await db.member.findUnique({
+        where: { username },
+        include: {
+          treasuresOwned: true,
+          treasuresMinted: true,
+          marketSalesSold: true,
+          marketSalesPurchased: true,
+          mintPurchases: true,
+          depositOrders: true,
+        },
+      })
+      if (!member) throw 'Member not found'
+      const details = {
+        treasuresOwned: member.treasuresOwned,
+        treasuresMinted: member.treasuresMinted,
+        marketSalesSold: member.marketSalesSold,
+        marketSalesPurchased: member.marketSalesPurchased,
+        mintPurchases: member.mintPurchases,
+        depositOrders: member.depositOrders,
+      }
+      Object.keys(details).map((key) => delete member[key])
+      delete member.refreshToken
+
+      let usdcBalance
+      let etherBalance
+      try {
+        usdcBalance = await getUsdcBalance(member.address)
+        etherBalance = await web3Provider.getBalance(member.address)
+        etherBalance = formatEther(etherBalance)
+      } catch {
+        // Do nothing
+      }
+      let ramps = await db.ramp.findMany({
+        where: { memberId: member.id },
+        orderBy: { createdAt: 'desc' },
+        include: { RampWithdraw: true },
+      })
+      ramps = ramps.map((ramp) => ({
+        ...ramp,
+        accessToken: 'REDACTED',
+        refreshToken: 'REDACTED',
+      }))
+      const data = {
+        member,
+        web3: { etherBalance, usdcBalance },
+        ...details,
+        ramps,
+      }
+      interaction.editReply({
+        files: [
+          {
+            name: `member_${username}_${new Date().toJSON().slice(0, 16)}.json`,
+            attachment: Buffer.from(JSON.stringify(data, undefined, 4)),
           },
         ],
       })

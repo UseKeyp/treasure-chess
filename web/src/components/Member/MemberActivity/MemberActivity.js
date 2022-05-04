@@ -20,6 +20,12 @@ const MemberActivity = ({ member, isLoading, refetch }) => {
   if (!member || isLoading)
     return <Table title={TITLE} isLoading height={250} />
   member?.treasuresMinted?.map((treasure) => {
+    list.push([
+      formatDate(treasure.createdAt),
+      'Minted',
+      <TreasureLink key={treasure.id} treasure={treasure} />,
+      treasure.createdAt,
+    ])
     treasure.marketSales?.map((marketSale) => {
       list.push([
         formatDate(marketSale.updatedAt),

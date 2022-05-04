@@ -26,9 +26,13 @@ const alertDiscord = async (tokenId) => {
   const adminMaticBalance = await getAdminBalance()
   await sendDiscordAdminAlert({
     embed: {
+      color: 8963403,
       title: `Mint transaction complete!`,
-      treasureLink: `${process.env.APP_DOMAIN}/treasures/${tokenId}`,
-      adminBalance: formatEther(adminMaticBalance),
+      description: `
+Treasure Link: ${process.env.APP_DOMAIN}/treasures/${tokenId}
+Matic Balance in Admin Wallet: ${formatEther(adminMaticBalance)}
+      `,
+      footer: { text: new Date().toString() },
     },
     channelName: 'mint',
   })
@@ -111,7 +115,7 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
         // TODO: optimize by combining these two db calls
         // Stop, don't mint again
         logger.debug('Mint transaction complete!')
-        alertDiscord(treasureData.tokenId)
+        await alertDiscord(treasureData.tokenId)
         const purchase = await db.mintPurchase.update({
           where: { id: mintPurchase.id },
           data: {

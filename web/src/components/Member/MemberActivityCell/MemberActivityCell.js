@@ -11,6 +11,16 @@ export const QUERY = gql`
         title
         tokenId
         achievementScore
+        marketSales {
+          id
+          status
+          amount
+          updatedAt
+          buyer {
+            id
+            username
+          }
+        }
       }
       treasuresWon {
         id

@@ -16,7 +16,7 @@ const transport = createTransport({
 
 // --
 
-export const sendEmail = async (type, member, treasure) => {
+export const sendEmail = async ({ type, member, treasure }) => {
   //
   const mail = await transport.sendMail({})
 }

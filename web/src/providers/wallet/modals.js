@@ -7,9 +7,9 @@ import { useRamp } from 'src/providers/ramp'
 import { trimAddress } from 'src/utils/helpers'
 
 export const AddressModal = ({ address, isVisible, toggleModal }) => {
-  const [copied, setCopied] = React.useState(false)
+  const [textToPass, setTextToPass] = React.useState('Accept')
 
-  const handleCopy = React.useCallback(() => {
+  const handleCopy = () => {
     if (typeof document === 'undefined') {
       return
     }
@@ -17,20 +17,19 @@ export const AddressModal = ({ address, isVisible, toggleModal }) => {
     const textArea = document.createElement('textarea')
     textArea.value = address
     document.body.appendChild(textArea)
-    textArea.focus()
     textArea.select()
     document.execCommand('copy')
     document.body.removeChild(textArea)
-    setCopied(true)
+    setTextToPass('Address Copied!')
 
-    setTimeout(() => setCopied(false), 4000)
-  }, [address])
+    setTimeout(() => setTextToPass('Accept'), 4000)
+  }
 
   return (
     <ModalContainer
       isVisible={isVisible}
       headerText="Deposit MUSDC"
-      submitText={copied ? 'Address copied!' : 'Accept'}
+      submitText={textToPass}
       onSubmit={() => handleCopy()}
       hideModal={toggleModal}
       content={

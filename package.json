@@ -24,6 +24,7 @@
     "babel-loader": "^8.2.3",
     "chromatic": "^5.9.2",
     "csv-parse": "^5.0.4",
+    "discord-api-types": "^0.32.0",
     "eslint-plugin-prettier": "^4.0.0",
     "lerna": "^4.0.0",
     "random-username-generator": "^1.0.4",

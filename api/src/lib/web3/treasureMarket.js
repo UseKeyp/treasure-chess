@@ -49,7 +49,8 @@ export const checkAndSetMarketApprovals = async ({ member }) => {
       process.env.CONTRACT_ADDRESS_TREASURE_MARKET
     )
     const ONE_BILLION_BN = parseUnits('1000000000', 18)
-    if (allowance.lt(ONE_BILLION_BN)) {
+    const TEN_MILLION_BN = parseUnits('10000000', 18)
+    if (allowance.lt(TEN_MILLION_BN)) {
       const unsignedTx = await tokenContract.populateTransaction.approve(
         process.env.CONTRACT_ADDRESS_TREASURE_MARKET,
         ONE_BILLION_BN

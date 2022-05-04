@@ -3,7 +3,9 @@ const { MessageEmbed } = require('discord.js')
 import { Buffer } from 'buffer'
 
 import { db } from 'src/lib/db'
+import { logger } from 'src/lib/logger'
 
+import { getExplorerBaseUrlFromName } from '@treasure-chess/web3-helpers'
 import { getBusinessMetrics } from 'src/lib/metrics'
 import {
   fetchMemberAndBlock,
@@ -11,6 +13,10 @@ import {
   fetchMemberAndGiveCredits,
   getMemberRawData,
 } from 'src/lib/members'
+
+const EXPLORER_BASE_URL = getExplorerBaseUrlFromName(
+  process.env.ETHEREUM_NETWORK_NAME
+)
 
 const commands = [
   {
@@ -112,26 +118,22 @@ const commands = [
       if (tokenId.startsWith('0x')) id = tokenId
       const treasure = await db.treasure.findUnique({
         where: { ...(id ? { id } : { tokenId: Number(tokenId) }) },
-        select: {
-          title: true,
+        include: {
           owner: { select: { username: true } },
           minter: { select: { username: true } },
-          openGraphImageSrc: true,
-          marketSaleStatus: true,
-          externalUrl: true,
-          marketSales: { orderBy: { id: 'desc' }, take: 2 },
+          marketSales: { orderBy: { id: 'desc' } },
+          mintPurchase: true,
         },
       })
       if (!treasure) throw 'Treasure not found'
-
+      logger.debug({ custom: treasure })
       const currentSale = treasure.marketSales[0]
       const embed = new MessageEmbed()
         .setColor('#0099ff')
         .setTitle(treasure.title)
         .setDescription(
-          `Market status: ${treasure.marketSaleStatus} ${
-            currentSale ? `for $${currentSale.amount}` : ''
-          }`
+          `\`tokenId\` **#${treasure.tokenId}**
+${EXPLORER_BASE_URL}token/${treasure.id}`
         )
         .setURL(`https://treasure.chess.com/treasures/${tokenId}`)
         .addFields(
@@ -146,19 +148,23 @@ const commands = [
             inline: true,
           },
           {
-            name: 'tokenId',
-            value: treasure.tokenId,
-            inline: true,
-          },
-          {
-            name: 'hashId',
-            value: treasure.id,
+            name: 'Market Status',
+            value: treasure.marketSaleStatus,
             inline: true,
           }
         )
         .setImage(treasure.openGraphImageSrc)
-      // interaction.editReply(JSON.stringify(treasure, undefined, 4))
-      interaction.editReply({ embeds: [embed] })
+      interaction.editReply({
+        embeds: [embed],
+        files: [
+          {
+            name: `treasure_${treasure.tokenId}_${new Date()
+              .toJSON()
+              .slice(0, 16)}.json`,
+            attachment: Buffer.from(JSON.stringify(treasure, undefined, 4)),
+          },
+        ],
+      })
     },
   },
   {
@@ -190,7 +196,47 @@ const commands = [
     execute: async (interaction) => {
       const username = interaction.options.getString('username')
       const data = await getMemberRawData(username)
+      const { member } = data
+      let description = `${EXPLORER_BASE_URL}address/${member.address}`
+      if (member.twitchUsername)
+        description += `\n📺 https://twitch.tv/${member.twitchUsername}`
+      if (member.banned) description += '\n **BANNED !!!** '
+      if (member.blocked) description += '\n **BLOCKED !!!** '
+      const embed = new MessageEmbed()
+        .setColor('#0099ff')
+        .setTitle(username)
+        .setDescription(description)
+        .setURL(`https://treasure.chess.com/members/${username}`)
+        .addFields(
+          {
+            name: 'Mint credits',
+            value: `${member.mintCredits}`,
+          },
+          {
+            name: 'Wallet',
+            value: `USDC: **$${
+              data.web3.usdcBalance
+            }** ETH: **${data.web3.etherBalance.substring(0, 8)}**`,
+          },
+          {
+            name: 'Owned',
+            value: `${data.treasuresOwned.length}`,
+            inline: true,
+          },
+          {
+            name: 'Purchased',
+            value: `${data.marketSalesPurchased.length}`,
+            inline: true,
+          },
+          {
+            name: 'Sold',
+            value: `${data.marketSalesSold.length}`,
+            inline: true,
+          }
+        )
+        .setThumbnail(member.imageSrc)
       interaction.editReply({
+        embeds: [embed],
         files: [
           {
             name: `member_${username}_${new Date().toJSON().slice(0, 16)}.json`,

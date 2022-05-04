@@ -62,7 +62,7 @@ export const checkAndSetMarketApprovals = async ({ member }) => {
     }
     return { tokenApprovalTx, treasureApprovalTx }
   } catch (e) {
-    if (!message.includes('insufficient funds for gas')) logger.error(e)
+    if (!e.message.includes('insufficient funds for gas')) logger.error(e)
     throw new Error(`checkAndSetMarketApproval() ${e}`)
   }
 }

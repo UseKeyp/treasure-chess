@@ -127,7 +127,6 @@ const commands = [
       })
       if (!treasure) throw 'Treasure not found'
       logger.debug({ custom: treasure })
-      const currentSale = treasure.marketSales[0]
       const embed = new MessageEmbed()
         .setColor('#0099ff')
         .setTitle(treasure.title)

@@ -22,8 +22,11 @@ const BOT = 'ADMIN'
 // const BOT= "PUBLIC"
 
 const GUILD_ID = '874700997220515901' // Our internal treasure-chess server
+
 const method = 'PUT'
-// const method = "DELETE" // Use to clear out old invalid command
+// Use DELETE to remove old unwanted command. Unnecessary for updates to existing commands.
+// See https://discord.com/developers/docs/interactions/application-commands#updating-and-deleting-a-command
+// const method = "DELETE"
 
 let botName = 'chester'
 let botToken = adminBotToken

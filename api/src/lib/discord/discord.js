@@ -1,6 +1,7 @@
 import fetch from 'node-fetch'
 import Sentry from 'src/lib/sentry'
 import { logger } from 'src/lib/logger'
+var path = require('path')
 
 const DISCORD_NO_DM_INVOCATION =
   'NOTE: Treasure Chess will never DM you! You can only use the bot in the server.'
@@ -77,7 +78,7 @@ export const postToChannel = async ({
 }
 
 export const fetchDiscord = async ({
-  path,
+  path: pathArg,
   body,
   method: methodArg,
   botToken,
@@ -87,21 +88,23 @@ export const fetchDiscord = async ({
     if (methodArg) method = methodArg
     if (!['POST', 'GET', 'DELETE', 'PUT', 'PATCH'].includes(method))
       throw 'Invalid method'
-    if (!body) throw 'No body provided'
     if (!path) throw 'No path provided'
-    const url = new URL(path, DISCORD_API_URL)
-    await fetch(url, {
-      method: method,
+    const url = path.join(DISCORD_API_URL, pathArg)
+    return await fetch(url, {
+      method,
       body,
       headers: {
         Authorization: `Bot ${botToken}`,
         'Content-Type': 'application/json',
       },
-    }).then((res) => res.text())
+    }).then((res) => {
+      if (res.status !== 200) throw res
+      return res
+    })
   } catch (e) {
     const errorMessage = `fetchDiscord() ${e}`
     /* eslint-disable-next-line no-console */
-    console.log(errorMessage)
+    console.error(e)
     logger.error(errorMessage)
     Sentry.captureException(errorMessage)
   }

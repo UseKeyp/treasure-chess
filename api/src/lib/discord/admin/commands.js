@@ -57,11 +57,11 @@ const commands = [
       // fetchMemberAndBlock doesn't throw errors, so we must do it manually
       if (!member) throw 'Member not found'
       const bannedMemberCount = await db.member.count({
-        where: { blocked: true },
+        where: { banned: true },
       })
       if (isBanned)
         return interaction.editReply(
-          `**${username}** is now banned. \`Banned members: ${bannedMemberCount.toLocaleString()}`
+          `**${username}** is now banned. \`Banned members: ${bannedMemberCount.toLocaleString()}\``
         )
       interaction.editReply(
         `**${username}** is no longer banned. \`Banned members: ${bannedMemberCount.toLocaleString()}\``

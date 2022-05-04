@@ -1,9 +1,29 @@
-import DiscordBot from 'src/lib/discord/discord'
-import commands from './commands'
+// NOTE: This file is currently not included in the app. It must be included for this bot to run..
 
-/* eslint-disable-next-line no-unused-vars*/
-const bot = new DiscordBot({
-  clientId: process.env.DISCORD_PUBLIC_CLIENT_ID,
-  token: process.env.DISCORD_PUBLIC_BOT_TOKEN,
-  commands,
-})
+import { logger } from 'src/lib/logger'
+import DiscordBot from 'src/lib/discord/discord'
+import { botToken, clientId } from 'src/lib/discord/public/config'
+import commands from 'src/lib/discord/public/commands'
+
+logger.debug(
+  {
+    custom: {
+      clientId,
+      botToken,
+      'process.env.ENABLE_DISCORD_BOTS': process.env.ENABLE_DISCORD_BOTS,
+    },
+  },
+  'Bot details for "treasure-chess"'
+)
+
+if (
+  process.env.ENABLE_DISCORD_BOTS && // Prevents multiple instances running
+  clientId &&
+  botToken
+)
+  /* eslint-disable-next-line no-new */
+  new DiscordBot({
+    clientId,
+    botToken,
+    commands,
+  })

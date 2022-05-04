@@ -1,7 +1,7 @@
 import { createPortal } from 'react-dom'
 import Button from 'src/components/Button/Button'
 import LoadingDots from 'src/components/LoadingDots'
-import {useEffect} from "react"
+import { useEffect } from 'react'
 
 const ModalContainer = ({
   isVisible,

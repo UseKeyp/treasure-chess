@@ -9,7 +9,7 @@ import { formatUnits } from '@ethersproject/units'
 import { mint } from 'src/lib/web3/treasure'
 import { web3Provider } from 'src/lib/web3/helpers'
 import { generateTreasureData } from 'src/lib/treasures'
-import { sendDiscordAlert } from 'src/lib/discord/discord'
+import { sendDiscordAdminAlert } from 'src/lib/discord/admin'
 
 import { logger } from 'src/lib/logger'
 import { isProduction, isOlderThanResubmitTimeout } from 'src/lib/helpers'
@@ -22,7 +22,7 @@ const MINIMUM_CONFIRMATIONS = isProduction ? 15 : 1
 const MAX_RESUBMIT_ATTEMPTS = 0
 
 const mintFailGracefully = async ({ mintPurchase, errorMessage }) => {
-  await sendDiscordAlert({
+  await sendDiscordAdminAlert({
     embed: {
       color: 16740982,
       title: `⛈️⛓️  Failed to submit mint transaction!`,

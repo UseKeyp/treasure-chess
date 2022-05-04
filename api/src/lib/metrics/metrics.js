@@ -285,6 +285,7 @@ export const getBusinessMetrics = async () => {
 
 export const getUserOrders = async (username) => {
   const marketSales = await db.marketSale.findMany({
+    include: { saleTransactions: true },
     where: { OR: [{ buyer: { username } }, { seller: { username } }] },
   })
 

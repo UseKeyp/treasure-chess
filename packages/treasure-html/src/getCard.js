@@ -133,7 +133,10 @@ const getCardHtml = async ({
       'content',
       `${APP_DOMAIN}/treasures/${treasure.tokenId || treasure.id}`
     )
-    if (openGraphImageSrc) updateTag('og:image', 'content', openGraphImageSrc)
+    if (openGraphImageSrc) {
+      updateTag('og:image', 'content', openGraphImageSrc)
+      updateTag('twitter:image', 'content', openGraphImageSrc)
+    }
     updateContent('termination', treasure.termination)
     const rarityColor = getRarityColor(treasure.achievementScore)
     updateStyle('banner', 'background-color', rarityColor)

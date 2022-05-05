@@ -170,8 +170,8 @@ const rarityList = ['Good', 'Great', 'Ultra', 'Mythic']
 const outcomeList = ['black', 'white', 'draw']
 
 const sortList = [
-  'Most Rare',
-  'Least Rare',
+  'Highest Level',
+  'Lowest Level',
   'Price: High to Low',
   'Price: Low to High',
   'Newest First',

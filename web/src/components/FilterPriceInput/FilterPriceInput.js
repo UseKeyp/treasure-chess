@@ -1,22 +1,22 @@
-const FilterPriceInput = (props) => {
+const FilterPriceInput = ({ value = '', setValue }) => {
   const moneyRegex = /^[0-9]*$/
 
   const handleChange = (event) => {
     // allows form clearing
     if (event.target.value === '') {
-      props.setValue('')
+      setValue('')
     }
     // no non-number inputs
     if (!moneyRegex.test(event.target.value)) {
-      props.setValue(props.value)
+      setValue(value)
     }
     // limit inputs
     if (moneyRegex.test(event.target.value)) {
       if (event.target.value.length <= 6) {
-        props.setValue(event.target.value)
+        setValue(event.target.value)
       }
       if (event.target.value.length > 6) {
-        props.setValue((v) => v)
+        setValue((v) => v)
       }
     }
   }
@@ -32,7 +32,8 @@ const FilterPriceInput = (props) => {
       <input
         type="text"
         className="filterPriceInput"
-        value={props.value}
+        placeholder="Price"
+        value={value}
         onChange={(e) => handleChange(e)}
       />
     </div>

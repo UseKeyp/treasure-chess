@@ -1,4 +1,5 @@
 import { useAuth } from '@redwoodjs/auth'
+import { routes } from '@redwoodjs/router'
 
 import MemberDetails from 'src/components/Member/MemberDetails'
 import MemberActivityCell from 'src/components/Member/MemberActivityCell'
@@ -43,12 +44,13 @@ const Profile = () => {
         <TreasuresFetcher
           limit
           username={currentUser?.username}
-          sort="Most Rare"
+          seeMore={routes.treasures({ username: currentUser?.username })}
+          sort="Highest Level"
         />
       </div>
       <h1 className="mt-10">Treasures Owned</h1>
       <div className="flex mt-4">
-        <TreasuresFetcher owner={currentUser?.username} sort="Most Rare" />
+        <TreasuresFetcher owner={currentUser?.username} sort="Highest Level" />
       </div>
     </div>
   )

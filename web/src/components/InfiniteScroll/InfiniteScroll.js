@@ -1,12 +1,15 @@
 import ReactInfiniteScrollComponent from 'react-infinite-scroll-component'
 import ScrollToTop from 'react-scroll-to-top'
+
 import Icon from 'src/components/Icon'
+
 const InfiniteScroll = ({
   children,
   onLoadMore,
   count,
   page,
   perPage,
+  limit,
   loader,
   dataLength,
 }) => {
@@ -26,14 +29,16 @@ const InfiniteScroll = ({
       <ReactInfiniteScrollComponent
         style={{ overflow: 'visible' }}
         dataLength={dataLength}
-        next={onLoadMore}
+        next={!limit && onLoadMore}
         hasMore={hasMore}
         scrollThreshold={0.8}
         loader={loader || <h4>Loading...</h4>}
         endMessage={
-          <div className="mt-8 rw-text-center">
-            <h3>That&apos;s everything</h3>
-          </div>
+          !limit && (
+            <div className="mt-8 rw-text-center">
+              <h3>That&apos;s everything</h3>
+            </div>
+          )
         }
       >
         {children}

@@ -9,7 +9,7 @@ import { formatUnits } from '@ethersproject/units'
 import { mint } from 'src/lib/web3/treasure'
 import { web3Provider } from 'src/lib/web3/helpers'
 import { generateTreasureData } from 'src/lib/treasures'
-import { sendDiscordAlert } from 'src/lib/discord/discord'
+import { sendDiscordAdminAlert } from 'src/lib/discord/admin'
 
 import { logger } from 'src/lib/logger'
 import { isProduction, isOlderThanResubmitTimeout } from 'src/lib/helpers'
@@ -22,7 +22,7 @@ const MINIMUM_CONFIRMATIONS = isProduction ? 15 : 1
 const MAX_RESUBMIT_ATTEMPTS = 0
 
 const mintFailGracefully = async ({ mintPurchase, errorMessage }) => {
-  await sendDiscordAlert({
+  await sendDiscordAdminAlert({
     embed: {
       color: 16740982,
       title: `⛈️⛓️  Failed to submit mint transaction!`,
@@ -65,6 +65,15 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
       includeTreasureData: true,
     })
     if (!game) throw `No game found ${gameId} ${gameEndTime}`
+    logger.debug({ custom: game }, 'Game')
+    if (game.tokenId) {
+      const GAME_ALREADY_MINTED = `Purchase found, but the Treasure was already minted. `
+      logger.info(GAME_ALREADY_MINTED)
+      return mintFailGracefully({
+        mintPurchase,
+        errorMessage: GAME_ALREADY_MINTED,
+      })
+    }
 
     const treasureData = generateTreasureData({
       game,
@@ -72,13 +81,14 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
       minter: member,
     })
 
-    const { tokenUri, uriData } = await pinTreasure({
+    const { tokenUri, uriData, openGraphImageSrc } = await pinTreasure({
       treasure: {
         ...treasureData,
         black: { ...game.black }, // Inject the players manually
         white: { ...game.white },
       },
       tcn: game.tcn,
+      gameId,
     })
     // logger.debug({ custom: mintPurchase }, 'mintPurchase')
     if (mintPurchase.transaction?.id) {
@@ -99,18 +109,22 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
                 tokenId,
                 uriData,
                 tokenUri,
+                openGraphImageSrc,
               },
             },
           },
         })
         return purchase
       }
-      if (status === SUBMITTED)
+      if (status === SUBMITTED) {
+        logger.debug(`Status is SUBMITTED for ${mintPurchase.transaction.id}`)
         if (!isOlderThanResubmitTimeout(mintPurchase.transaction.updatedAt))
           return mintPurchase
+        logger.debug(`Tx is >2 hours old, so we will resubmit`)
+      }
       if (status === FAILED) {
         await db.transaction.update({
-          where: { id: tx.hash },
+          where: { id: mintPurchase.transaction?.id },
           data: { status: FAILED },
         })
         return mintFailGracefully({
@@ -126,10 +140,11 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
 
     // Move existing transaction to staleTransactions
     if (mintPurchase.transaction) {
+      logger.debug(`Moving to staleTransactions ${mintPurchase.transaction.id}`)
       mintPurchase = await db.mintPurchase.update({
         where: { id: mintPurchase.id },
         data: {
-          staleTransactions: { connect: { id: mintPurchase.transaction.id } },
+          staleTransactions: { connect: [{ id: mintPurchase.transaction.id }] },
           transaction: { disconnect: true },
         },
       })
@@ -153,9 +168,12 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
         // 5% boost per failed attempt
         gasMultiplier: 1 + mintPurchase.staleTransactions.length * 0.05,
       })
+      // TODO: dont fail the mint purchase here
       if (!tx || !tx.hash) throw 'Transaction could not be submitted.'
     } catch (error) {
-      return mintFailGracefully({ mintPurchase, errorMessage: error.message })
+      return mintPurchase
+      // TODO: If submitting a tx fails, what should happen? Should it be failure-type specific?
+      // return mintFailGracefully({ mintPurchase, errorMessage: error.message })
     }
     logger.debug(formatUnits(tx.gasLimit, 'gwei'))
     return await db.mintPurchase.update({
@@ -176,7 +194,14 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
     })
     /* eslint-disable-next-line no-console */
   } catch (e) {
-    throw `mintTreasureAndUpdatePurchase() ${e}`
+    throw `mintTreasureAndUpdatePurchase() ${JSON.stringify(
+      {
+        ...mintPurchase,
+        member: { ...mintPurchase.member, refreshToken: 'REDACTED' },
+      },
+      undefined,
+      4
+    )} ${e}`
   }
 }
 

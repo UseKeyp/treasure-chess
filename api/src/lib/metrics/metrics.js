@@ -2,7 +2,25 @@ import { db } from 'src/lib/db'
 import achievementsList from '@treasure-chess/chess-achievements/src/achievementsList'
 
 import { logger } from 'src/lib/logger'
-import { getChainData } from 'src/lib/chainData'
+
+import { totalSupply } from 'src/lib/web3/treasure'
+
+export const getChainData = async () => {
+  let supply = ''
+  try {
+    supply = await totalSupply()
+  } catch (e) {
+    logger.error(e)
+  }
+  return {
+    treasureAddress: process.env.CONTRACT_ADDRESS_TREASURE,
+    marketAddress: process.env.CONTRACT_ADDRESS_TREASURE_MARKET,
+    totalSupply: supply,
+    networkName: process.env.ETHEREUM_NETWORK_NAME,
+    environment: process.env.ENVIRONMENT,
+    nodeEnvironment: process.env.NODE_ENV,
+  }
+}
 
 // per active user (minted or used the marketplace)
 const getMintPurchaseData = async () => {

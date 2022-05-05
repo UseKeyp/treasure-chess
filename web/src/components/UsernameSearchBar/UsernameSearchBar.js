@@ -69,6 +69,15 @@ const UsernameSearchBar = ({ setValue: setParentValue }) => {
   }
 
   const onChange = (e) => {
+    if (e.target.value === '') {
+      update('')
+      setValue('')
+      setParentValue
+        ? setParentValue(undefined)
+        : setFilter('username', undefined)
+      return
+    }
+
     setIsValueFromSelector(false)
     setValue(e.target.value)
   }

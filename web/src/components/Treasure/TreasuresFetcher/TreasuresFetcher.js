@@ -88,6 +88,7 @@ const TreasuresFetcher = ({
   filter,
   sort,
   limit,
+  seeMore,
   collapsedTreasures,
 }) => {
   const [treasures, setTreasures] = React.useState([])
@@ -137,9 +138,11 @@ const TreasuresFetcher = ({
     <Treasures
       treasures={treasures}
       count={count}
-      onLoadMore={!limit && onLoadMore}
+      onLoadMore={onLoadMore}
       page={page}
+      limit={limit}
       loading={loading}
+      seeMore={seeMore}
     />
   ) : (
     <></>

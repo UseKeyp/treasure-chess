@@ -1,6 +1,6 @@
 import { parseEther, formatEther } from '@ethersproject/units'
 import { web3Provider } from 'src/lib/web3/helpers'
-import { sendDiscordAlert } from 'src/lib/discord/discord'
+import { sendDiscordAdminAlert } from 'src/lib/discord/admin'
 import { payerSendTransaction } from 'src/lib/web3/wallets'
 import { payerAddress } from 'src/lib/web3/wallets/payer'
 
@@ -8,7 +8,7 @@ import { getExplorerBaseUrlFromName } from '@treasure-chess/web3-helpers'
 import { logger } from 'src/lib/logger'
 import Sentry from 'src/lib/sentry'
 
-const MINIMUM_GAS_THRESHOLD = '0.0075' // Units of Ether
+const MINIMUM_GAS_THRESHOLD = '0.019' // Units of Ether
 const DEFAULT_DROP_AMOUNT = '0.025' // Units of Ether
 
 const airdropGasTransaction = async ({ address, amount }) => {
@@ -62,7 +62,7 @@ const notifyDiscord = async ({
   gasLimit,
 }) => {
   try {
-    await sendDiscordAlert({
+    await sendDiscordAdminAlert({
       embed: {
         color: 16740982,
         title: `✅  Airdrop Submitted!`,
@@ -82,4 +82,4 @@ Payer balance: **${payerBalance}**`,
   }
 }
 
-module.exports = { checkGasAndAirdrop }
+module.exports = { checkGasAndAirdrop, getEtherBalance }

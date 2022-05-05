@@ -13,9 +13,8 @@ services:
         max-file: '10'
     env_file:
       - .env
-    # environment:
-    # REDWOOD_API_URL: 'http://0.0.0.0:8911'
-    # DATABASE_URL: 'postgres://dev:letmein@0.0.0.0:5432/treasurechessplayground?connection_limit=1'
+    environment:
+      REDWOOD_API_URL: 'http://0.0.0.0:8911'
 
   web:
     image: pi0neerpat/treasure-chess-web:latest

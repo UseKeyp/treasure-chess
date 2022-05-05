@@ -3,7 +3,6 @@ import { MetaTags } from '@redwoodjs/web'
 const PrivacyPage = () => {
   return (
     <div style={{ maxWidth: '85%', margin: 'auto' }}>
-      <MetaTags title="Privacy Policy" />
       <MetaTags
         title="Privacy Policy"
         description="Treasure Chess Privacy Policy"

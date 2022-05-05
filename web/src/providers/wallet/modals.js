@@ -7,9 +7,9 @@ import { useRamp } from 'src/providers/ramp'
 import { trimAddress } from 'src/utils/helpers'
 
 export const AddressModal = ({ address, isVisible, toggleModal }) => {
-  const [copied, setCopied] = React.useState(false)
+  const [textToPass, setTextToPass] = React.useState('Accept')
 
-  const handleCopy = React.useCallback(() => {
+  const handleCopy = () => {
     if (typeof document === 'undefined') {
       return
     }
@@ -17,35 +17,39 @@ export const AddressModal = ({ address, isVisible, toggleModal }) => {
     const textArea = document.createElement('textarea')
     textArea.value = address
     document.body.appendChild(textArea)
-    textArea.focus()
     textArea.select()
     document.execCommand('copy')
     document.body.removeChild(textArea)
-    setCopied(true)
+    setTextToPass('Address Copied!')
 
-    setTimeout(() => setCopied(false), 4000)
-  }, [address])
+    setTimeout(() => setTextToPass('Accept'), 4000)
+  }
 
   return (
     <ModalContainer
       isVisible={isVisible}
-      headerText="Deposit USDC"
-      submitText={copied ? 'Copied!' : 'Copy Wallet Address'}
+      headerText="Deposit MUSDC"
+      submitText={textToPass}
       onSubmit={() => handleCopy()}
       hideModal={toggleModal}
       content={
         <>
           <p className="text-base">
             <span className={'modals__matic-warning'}>
-              WARNING: Only deposit USDC on the Polygon (Matic) network.
+              WARNING: Only deposit <b>MUSDC</b> on the{' '}
+              <b>Polygon (Matic) network</b>. Do not send funds using Coinbase.
             </span>
           </p>
 
           <p className="mt-4 text-base">
             Do not send anything else to this address. Do not use other
-            networks. You will not be able to recover assets, and they may be
-            lost forever. We cannot guarantee support will be added for other
-            networks or assets.
+            networks.{' '}
+            <b>
+              You will not be able to recover unsupported assets, and they may
+              be lost forever.
+            </b>{' '}
+            We cannot guarantee support will be added for other networks or
+            assets.
           </p>
 
           <p className="mt-4 text-base">
@@ -64,18 +68,42 @@ export const DepositModal = ({ isVisible, toggleModal }) => {
       isVisible={isVisible}
       onSubmit={deposit}
       hideModal={toggleModal}
-      headerText="Deposit Funds"
+      headerText="Add Funds"
       icon={<Icon name="wyre" size="29" />}
-      submitText="Deposit with Wyre"
+      submitText="Continue to Wyre"
       content={
         <>
           {' '}
           <p className="text-base">
-            Fund your wallet using Wyre. Funds are typically added in less than
-            3 minutes, and can be withdrawn anytime according to the limits set
-            by Wyre.
+            Use a debit card to instantly add funds to your account.
           </p>
-          <p className="text-base mt-4 mb-4">
+          <p className="mt-4">
+            Fees - Wyre: 2.9% + $0.30 (
+            <a
+              className="underline"
+              rel="noreferrer"
+              href="https://docs.sendwyre.com/reference/hosted-checkout#tr  ansaction-processing-limits"
+              target="_blank"
+            >
+              see limits
+            </a>
+            )
+          </p>
+          <p className="mt-4">
+            We are actively working to improve this experience, and to add
+            support for more regions. If you have feedback please let us know
+            using the{' '}
+            <a
+              className="underline"
+              href="/feedback"
+              rel="noreferrer"
+              target="_blank"
+            >
+              Feedback Form
+            </a>
+            .
+          </p>
+          <p className="mt-4">
             <i>
               By submitting, I authorize Wyre Payments, Inc., to electronically
               charge my credit/debit card (and, if necessary, electronically
@@ -83,7 +111,7 @@ export const DepositModal = ({ isVisible, toggleModal }) => {
               this authorization will remain in full force and effect until I
               notify Treasure Chess that I wish to revoke this authorization. I
               agree that credit/debit card transactions I authorize, comply with
-              all applicable law.
+              all applicable law.{' '}
             </i>
           </p>
         </>
@@ -182,21 +210,46 @@ export const WithdrawModal = ({ isVisible, toggleModal }) => {
   const isConnected = ramps.map((ramp) => ramp.address && true).includes(true)
   return (
     <ModalContainer
-      headerText="Withdraw Funds"
+      headerText="Cash Out"
       isVisible={isVisible}
       onSubmit={toggleModal}
       hideModal={toggleModal}
       // icon={<Icon name="wyre" size="29" />}
       content={
         <>
-          <p className="text-base">
-            Withdraw your funds anytime. Limits are set by each third-party
-            provider. Connections are <i>Read-Only</i>.
+          <p className="text-base">Send funds to your bank at any time.</p>
+          <p className="mt-4">
+            Supported Countries - Wyre: US
+            {/*, Coinbase:{' '}
+            <a
+              className="underline"
+              rel="noreferrer"
+              target="_blank"
+              href="https://www.coinbase.com/places"
+            >
+              see full list
+            </a>*/}
           </p>
-
+          <p className="">Fees - Wyre: 0.2%</p>
+          <p className="mt-4">
+            For your protection, funds can only be sent one-way from your
+            Treasure Chess account to your bank. Funds can never be withdrawn
+            from your bank using this method. We are actively working to improve
+            this experience, and to add support for more regions. If you have
+            issues please let us know using the{' '}
+            <a
+              className="underline"
+              rel="noreferrer"
+              target="_blank"
+              href="/feedback"
+            >
+              Feedback Form
+            </a>
+            .
+          </p>
           {isConnected && (
             <>
-              <h4 className="mt-4 ">Amount to withdraw</h4>
+              <h4 className="mt-4 ">Amount to cash out</h4>
               <FilterPriceInput value={amount} setValue={setAmount} />
             </>
           )}

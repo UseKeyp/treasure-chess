@@ -54,7 +54,7 @@ const GameCardDiagram = () => {
       <DiagramLabel
         text={
           <>
-            <span>Rarity</span>
+            <span>Level</span>
             <ul className="text-xs">
               <li>&lt;6 — Good</li>
               <li>6+ — Great</li>

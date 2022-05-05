@@ -26,12 +26,12 @@ const about = [
   ],
   [
     '100% of primary sales go directly to players',
-    'Secondary sales are split 90% seller / 5% player / 5% platform. Our goal is to support the Chess community.',
+    'Secondary sales are split 90% seller / 5% original player / 5% platform. Our goal is to support the Chess community.',
     '❤️',
   ],
   [
     'Environmentally friendly',
-    'Minting treasures consumes less energy than playing a game of chess online.',
+    'Minting Treasures consumes less energy than sending an email.',
     '🌱',
   ],
 ]

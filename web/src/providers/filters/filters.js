@@ -1,6 +1,7 @@
 import { isBrowser } from '@redwoodjs/prerender/browserUtils'
-
+import { gHistory } from '@redwoodjs/router/dist/history'
 import filters from '@treasure-chess/treasure-filters'
+
 const FilterContext = React.createContext({})
 
 const initialState = {
@@ -62,6 +63,7 @@ const FilterProvider = ({ children }) => {
     }
     setState({ ...state, ...newState, initialized: true })
   }
+
   React.useEffect(() => {
     if (!initialized) return
     updateUrl()
@@ -70,6 +72,8 @@ const FilterProvider = ({ children }) => {
 
   React.useEffect(() => {
     onPageLoad()
+    const listener = gHistory.listen(onPageLoad)
+    return () => gHistory.remove(listener)
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [])
 

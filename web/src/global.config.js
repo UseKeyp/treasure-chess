@@ -35,22 +35,21 @@ export const featuredPlayers = [
     username: 'Jschiar',
   },
   {
-    name: 'Alexandra Botez',
-    rating: '2059',
-    imageSrc:
-      'https://images.chesscomfiles.com/uploads/v1/master_player/7064c138-1af7-11eb-b69b-0371950d641f.8e25e027.250x250o.135a8cc20161@2x.jpeg',
-    masterTitle: 'WFM',
-    country: 'CA',
-    username: 'alexandra-botez',
+    name: 'Justus Williams',
+    rating: '2510',
+    imageSrc: 'https://i.imgur.com/dpxmBHB.png',
+    masterTitle: 'FM',
+    country: 'US',
+    username: 'jwillz14',
   },
   {
-    name: 'Levy Rozman',
-    rating: '2333',
+    name: 'Joshua Lapidus',
+    rating: '1426',
     imageSrc:
-      'https://images.chesscomfiles.com/uploads/v1/master_player/de4c8970-1fa1-11eb-b085-f9083b57b9d8.09ceeeff.250x250o.0401a269c1c9@2x.jpeg',
-    masterTitle: 'IM',
+      'https://images.chesscomfiles.com/uploads/v1/user/19572800.98021cbe.160x160o.94f2d23c2b99@2x.png',
+    masterTitle: '',
     country: 'US',
-    username: 'levy-rozman',
+    username: '0xjoshua',
   },
   {
     name: 'Marissa Li',

@@ -10,7 +10,7 @@ export const fetchChessMember = (username) => {
       },
     }).then((res) => res.json())
   } catch (e) {
-    throw `fetchChessMember ${e}`
+    throw `fetchChessMember() ${username} ${e}`
   }
 }
 
@@ -43,20 +43,24 @@ export const fetchChessGame = async ({ username, gameId, endTime }) => {
 }
 
 export const fetchRatingDelta = async (id) => {
-  const response = await fetch(
-    `https://www.chess.com/callback/live/game/${id}`,
-    {
-      headers: {
-        // Required to prevent rate-limiting
-        Authorization: `Bearer ${process.env.CHESS_API_ACCESS_TOKEN}`,
-      },
+  try {
+    const response = await fetch(
+      `https://www.chess.com/callback/live/game/${id}`,
+      {
+        headers: {
+          // Required to prevent rate-limiting
+          Authorization: `Bearer ${process.env.CHESS_API_ACCESS_TOKEN}`,
+        },
+      }
+    ).then((res) => {
+      return res.json()
+    })
+    return {
+      white: response.game.ratingChangeWhite || 0,
+      black: response.game.ratingChangeBlack || 0,
     }
-  ).then((res) => {
-    return res.json()
-  })
-  return {
-    white: response.game.ratingChangeWhite || 0,
-    black: response.game.ratingChangeBlack || 0,
+  } catch (e) {
+    throw `fetchRatingDelta ${e}`
   }
 }
 

@@ -1,7 +1,9 @@
-import ProfanityFilter from 'bad-words'
 import { EnvelopError } from '@envelop/core'
+import ProfanityFilter from 'bad-words'
 const chess = require('chess.js')
 const Chess = chess.Chess
+
+import { logger } from 'src/lib/logger'
 
 const profanityFilter = new ProfanityFilter()
 
@@ -21,9 +23,13 @@ export const isExpired = (expiration) => {
 
 export const isOlderThanResubmitTimeout = (date) => {
   // var TEN_MIN = 10 * 60 * 1000
-  var TWO_HOURS = 2 * 60 * 60 * 1000
   // var TEN_MIN = 0.2 * 60 * 1000
-  return new Date() - new Date(date) > TWO_HOURS
+  var TWO_HOURS = 60 * 60 * 1000 * 2
+  const now = new Date()
+  logger.debug({ custom: date }, 'date')
+  logger.debug({ custom: now }, 'now')
+  logger.debug(`TWO_HOURS ${TWO_HOURS}`)
+  return now - new Date(date) > TWO_HOURS
 }
 
 export const checkProfanity = (string) => {

@@ -132,9 +132,10 @@ export const createDepositReservation = async (destinationAddress) => {
     }
     const response = await fetchWyre(url, data)
     logger.debug({ custom: data }, 'createDepositReservation')
+    logger.debug({ custom: response }, 'createDepositReservation response')
     if (!response.url) throw 'Error'
     logger.debug(`checkoutUrl: ${response.url}`)
-    return response
+    return { ...response, ...data }
   } catch (e) {
     logger.error(e)
     throw new Error(

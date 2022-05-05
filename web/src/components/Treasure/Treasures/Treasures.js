@@ -4,11 +4,20 @@ import CardsListWrapper from 'src/components/CardsListWrapper'
 import GameCard from 'src/components/Game/GameCard'
 import InfiniteScroll from 'src/components/InfiniteScroll'
 import LoadingDots from 'src/components/LoadingDots'
+import { CardSkeleton } from 'src/components/LoadingSkeleton'
+import SeeMore from 'src/components/SeeMore'
+
 import { isMobile } from 'src/utils/helpers'
 
-import { CardSkeleton } from 'src/components/LoadingSkeleton'
-
-const TreasuresList = ({ treasures, count, onLoadMore, page, loading }) => {
+const TreasuresList = ({
+  treasures,
+  count,
+  onLoadMore,
+  page,
+  limit,
+  loading,
+  seeMore,
+}) => {
   const loader = (
     <CardsListWrapper>
       {Array(isMobile ? 1 : 6)
@@ -42,6 +51,7 @@ const TreasuresList = ({ treasures, count, onLoadMore, page, loading }) => {
             count={count}
             perPage={TREASURES_PER_PAGE}
             page={page}
+            limit={limit}
             loader={loader}
             dataLength={treasures?.length}
           >
@@ -50,6 +60,7 @@ const TreasuresList = ({ treasures, count, onLoadMore, page, loading }) => {
                 {treasures.map((treasure, index) => (
                   <GameCard key={treasure.id + index} game={treasure} />
                 ))}
+                {limit && <SeeMore to={seeMore} />}
               </CardsListWrapper>
             </div>
           </InfiniteScroll>

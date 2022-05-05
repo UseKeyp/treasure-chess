@@ -40,5 +40,15 @@ const test = async () => {
     htmlScreenshot,
     (e) => e && console.log(e)
   )
+  const htmlPrerenderResponse = await getCardHtml({
+    treasure,
+    openGraphImageSrc:
+      'https://chess.mypinata.cloud/ipfs/QmdU1A9WsS61Lu8ZY8ZNkcvVKU6MpzFydaNk8aod7CWf53',
+  })
+  fs.writeFile(
+    'htmlPrerenderResponse.deleteme.html',
+    htmlPrerenderResponse,
+    (e) => e && console.log(e)
+  )
 }
 test()

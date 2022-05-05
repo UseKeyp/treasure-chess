@@ -23,16 +23,16 @@ const FilterBar = ({
   const [moveCount, setMoveCount] = useState(filter.moveCount)
   const [achievements, setAchievements] = useState(filter.achievements || [])
   const [opening, setOpening] = useState(
-    defaultParams?.opening || filter.opening
+    filter.opening ?? defaultParams?.opening
   )
   const [color, setColor] = useState(filter.color)
   const [termination, setTermination] = useState(
-    defaultParams?.termination || filter.termination
+    filter.termination ?? defaultParams?.termination
   )
   const [rarity, setRarity] = useState(filter.rarity)
   const [sale, setSale] = useState(defaultParams?.sale || filter.sale)
   const [outcome, setOutcome] = useState(
-    defaultParams?.outcome || filter.outcome
+    filter.outcome ?? defaultParams?.outcome
   )
   const [lowPrice, setLowPrice] = useState(filter.lowPrice) // must be initialized to a string to control the input from initial render
   const [highPrice, setHighPrice] = useState(filter.highPrice)
@@ -101,6 +101,9 @@ const FilterBar = ({
     highPrice,
   ])
 
+  /* eslint-disable-next-line react-hooks/exhaustive-deps */
+  React.useEffect(() => updateFilter(), [])
+
   return (
     <div className="filterBarWrapper" data-hide-on-mobile={hideOnMobile}>
       <div className="filterBar" data-show-scrollbar={showScrollbar}>
@@ -124,7 +127,7 @@ const FilterBar = ({
         </div>
         <div className="dropdownRowSpacing">
           <Dropdown
-            category={'Rarity'}
+            category={'Level'}
             options={filters.rarityList}
             queryFilterFunction={setRarity}
             queryFilter={rarity}

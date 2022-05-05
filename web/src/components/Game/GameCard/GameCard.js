@@ -9,6 +9,7 @@ import { getAchievementNamesFromValues } from '@treasure-chess/treasure-filters'
 import placeholderGame from './placeholderGameData'
 import { useSpring, animated } from '@react-spring/web'
 import { CardSkeleton } from 'src/components/LoadingSkeleton'
+import { isMobile } from 'src/utils/helpers'
 
 const calc = (x, y) => [-y / 140, x / 45, 1.05]
 const trans = (x, y, s) =>
@@ -109,7 +110,7 @@ const GameCard = ({ game, isMinting, isLoading, title, showGif }) => {
   let listAmount = 0
   if (game.marketSaleStatus === 'LISTED' && game.marketSales?.length) {
     let sorted = [...game.marketSales]
-    listAmount = sorted.sort((a, b) => a.updatedAt < b.updatedAt)[0].amount
+    listAmount = sorted?.sort((a, b) => b.id - a.id)[0].amount
   }
 
   return (
@@ -153,7 +154,8 @@ const GameCard = ({ game, isMinting, isLoading, title, showGif }) => {
           }}
           onMouseLeave={() => set.start({ xys: [0, 0, 1] })}
           style={{
-            transform: game.id && !isMinting && props.xys.to(trans),
+            transform:
+              game.id && !isMobile && !isMinting && props.xys.to(trans),
           }}
           dangerouslySetInnerHTML={{ __html: cardHtml }}
         />

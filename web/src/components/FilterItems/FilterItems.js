@@ -88,7 +88,11 @@ const FilterItems = ({ onChange }) => {
           >
             Opponent
           </h4>
-          <UsernameSearchBar initialQuery={username} setQuery={setUsername} />
+          <UsernameSearchBar
+            initialQuery={username}
+            setQuery={setUsername}
+            setValue={setUsername}
+          />
         </div>
         <FilterCheckbox
           options={['Any', 'Won', 'Draw', 'Lost']}

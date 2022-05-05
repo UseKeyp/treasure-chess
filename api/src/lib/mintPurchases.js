@@ -59,8 +59,15 @@ export const validateMintRequest = async ({ gameId, endTime, title }) => {
     endTime,
     includeTreasureData: true,
   })
-  if (!game) throw new Error(`Member did not participate in this game.`)
-
+  if (!game) throw new EnvelopError(`You did not participate in this game.`)
+  if (game.black.blocked)
+    throw new EnvelopError(
+      `Whoops! ${game.black.username} needs to sign in to Treasure Chess before you can mint Treasures they appear in.`
+    )
+  if (game.white.blocked)
+    throw new EnvelopError(
+      `Whoops! ${game.white.username} needs to sign in to Treasure Chess before you can mint Treasures they appear in.`
+    )
   const tokenId = await getTokenIdFromHashId(game.treasureId)
   if (tokenId > 0)
     throw new EnvelopError(
@@ -78,7 +85,18 @@ export const processPendingPurchases = async () => {
         { custom: { ...mintPurchase, member: 'REDACTED' } },
         'mintPurchase'
       )
-      if (mintPurchase.orderStatus !== COMPLETE) return mintPurchase
+      if (mintPurchase.orderStatus !== COMPLETE) {
+        var FIFTEEN_MINUTES = 15 * 60 * 1000
+        const now = new Date()
+        if (now - new Date(mintPurchase.createdAt) > FIFTEEN_MINUTES) {
+          const updatedMintPurchase = await db.mintPurchase.update({
+            where: { id: mintPurchase.id },
+            data: { status: FAILED, orderStatus: COMPLETE },
+          })
+          return updatedMintPurchase
+        }
+        return mintPurchase
+      }
       if (![COMPLETE, FAILED].includes(mintPurchase.status)) {
         // Treasure not successfully minted. Proceed to mint!
         logger.debug(`Pending Purchase: #${mintPurchase.id}`)

@@ -27,6 +27,37 @@
     outline: none;
   }
 }
+.searchClear {
+  display: flex;
+  font-weight: 900;
+  padding: 1ex;
+  padding-top: 1.25ex;
+  font-size: 14px;
+  user-select: none;
+  border-radius: 0.25rem;
+  border: 1px solid transparent;
+  outline: none;
+  background-color: #4f4f4f;
+  transition: all 0.25s;
+  line-height: 1;
+  margin: 0.5ex 0;
+  margin-right: 1ex;
+  color: #848484;
+  &:disabled {
+    cursor: not-allowed;
+  }
+  &:hover:not(:disabled),
+  &:focus:not(:disabled) {
+    box-shadow: 0px 4px 0px 0px color.scale(#6c9d41, $lightness: -20%);
+    background-color: color.scale(#6c9d41, $lightness: 20%);
+    color: white;
+    cursor: pointer;
+    transform: translateY(-4px);
+  }
+  &:focus {
+    outline: none;
+  }
+}
 .dropdownContainer {
   position: absolute;
   height: 0px;

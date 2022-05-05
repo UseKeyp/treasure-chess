@@ -11,6 +11,8 @@ const Table = ({
   rowWidth,
   title,
   data,
+  bgColor,
+  fgColor,
 }) => {
   const rows = data?.map((row, i) => {
     if (React.isValidElement(row)) return row
@@ -35,7 +37,11 @@ const Table = ({
       )
     })
     return (
-      <div className="table-row p-3" key={i}>
+      <div
+        className="table-row p-3 mr-2"
+        style={{ backgroundColor: fgColor }}
+        key={i}
+      >
         {cells}
       </div>
     )
@@ -50,7 +56,10 @@ const Table = ({
     )
 
   return (
-    <div className="table-wrapper" style={{ height, width }}>
+    <div
+      className="table-wrapper"
+      style={{ height, width, backgroundColor: bgColor }}
+    >
       <h1 className="table-header">{title}</h1>
       <div className="table-component">{contents}</div>
     </div>

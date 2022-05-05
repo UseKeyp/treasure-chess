@@ -37,9 +37,12 @@ const Member = ({ member, isLoading }) => {
       </div>
       <h1 className="mt-10">Treasures Owned</h1>
       <div className="flex mt-4">
+        <div className="flex w-full justify-end relative mb-4">
+          <SortingDropdown />
+        </div>
         <TreasuresFetcher
           owner={member.username}
-          sort="Highest Level"
+          sort={sort}
           seeMore={routes.treasures({ username: member.username })}
         />
       </div>

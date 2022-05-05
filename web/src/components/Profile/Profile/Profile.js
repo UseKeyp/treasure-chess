@@ -41,6 +41,9 @@ const Profile = () => {
       </div>
       <h1 className="mt-10">Treasures Played</h1>
       <div className="flex mt-4">
+        <div className="flex w-full justify-end relative mb-4">
+          <SortingDropdown />
+        </div>
         <TreasuresFetcher
           limit
           username={currentUser?.username}
@@ -50,7 +53,7 @@ const Profile = () => {
       </div>
       <h1 className="mt-10">Treasures Owned</h1>
       <div className="flex mt-4">
-        <TreasuresFetcher owner={currentUser?.username} sort="Highest Level" />
+        <TreasuresFetcher owner={currentUser?.username} sort={sort} />
       </div>
     </div>
   )

@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import Avatar from 'src/components/Avatar'
 import Button from 'src/components/Button/Button'
 import { Link, routes } from '@redwoodjs/router'
@@ -13,26 +14,31 @@ import { getFlagBase64 } from '@treasure-chess/treasure-html'
 import { useWallet } from 'src/providers/wallet'
 
 import { trimAddress } from 'src/utils/helpers'
+const TWITCH = 'TWITCH'
 
-const TwitchLink = ({ isProfile, username }) => {
-  const { getOAuthUrl, isLoading } = useOAuth()
-
-  const onConnectTwitch = async () => {
-    const oAuthUrl = await getOAuthUrl('TWITCH')
-    if (oAuthUrl)
-      window.open(
-        oAuthUrl.url,
-        'Twitch - Connect',
-        'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
-      )
+const TwitchLink = ({ isProfile, username: twitchUsername }) => {
+  const { getOAuthUrl, revokeOAuth, isLoading } = useOAuth()
+  const [username, setUsername] = useState(twitchUsername)
+  const onClickTwitch = async () => {
+    if (username) {
+      const revoked = await revokeOAuth(TWITCH)
+      if (revoked) setUsername('')
+    } else {
+      const oAuthUrl = await getOAuthUrl(TWITCH)
+      if (oAuthUrl)
+        window.open(
+          oAuthUrl.url,
+          'Twitch - Connect',
+          'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
+        )
+    }
   }
-
   if (isProfile) {
     return (
-      <Button disabled={isLoading} onClick={onConnectTwitch} className="ml-2">
+      <Button disabled={isLoading} onClick={onClickTwitch} className="ml-2">
         <div className="flex flex-row">
           <TwitchIcon color={username ? undefined : '#ABB6B9'} />
-          <p className="ml-1">{username ? 'Update' : 'Connect'}</p>
+          <p className="ml-1">{username ? 'Disconnect' : 'Connect'}</p>
         </div>
       </Button>
     )

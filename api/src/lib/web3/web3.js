@@ -68,11 +68,11 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
     logger.debug({ custom: game }, 'Game')
     if (game.tokenId) {
       const GAME_ALREADY_MINTED = `Purchase found, but the Treasure was already minted. `
-      logger.info(GAME_ALREADY_MINTED)
-      return mintFailGracefully({
-        mintPurchase,
-        errorMessage: GAME_ALREADY_MINTED,
-      })
+      return logger.info(GAME_ALREADY_MINTED)
+      // return mintFailGracefully({
+      //   mintPurchase,
+      //   errorMessage: GAME_ALREADY_MINTED,
+      // })
     }
 
     const treasureData = generateTreasureData({

@@ -1,0 +1,79 @@
+@use 'sass:color';
+
+.banner-wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  position: fixed;
+  width: 70%;
+  // max-width: 432px;
+  // max-height: 120vh;
+  background: #4f4f4f;
+  box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.4);
+  border-radius: 12px 12px 0 0;
+  z-index: 1000;
+}
+
+.banner-header-wrapper {
+  text-align: center;
+
+  display: flex;
+  font-size: 20px;
+  justify-content: space-between;
+  width: 100%;
+  bottom: 10px;
+}
+
+.body-text {
+  margin-top: 12px;
+  font-size: 16px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  line-height: 20px;
+}
+
+.banner-button-wrapper {
+  text-align: center;
+  padding-bottom: 2px;
+  display: flex;
+  font-size: 20px;
+  justify-content: space-between;
+  width: 100%;
+  padding-top: 10px;
+}
+
+.banner-close-button {
+  padding-right: 10px;
+  &:focus {
+    outline: none;
+  }
+}
+
+.banner-submit-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 8px 8px 8px;
+  position: relative;
+  left: 0px;
+  top: 0px;
+  background: #125bf5;
+  border-radius: 4px;
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: bold;
+  line-height: 24px;
+  box-shadow: 0px 2px 0px 0px #1a32af;
+  &:focus {
+    outline: none;
+  }
+  &:hover {
+    background-color: color.scale(#125bf5, $lightness: -5%);
+    box-shadow: none;
+    transform: translateY(2px);
+  }
+}

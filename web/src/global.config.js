@@ -17,38 +17,21 @@ const config = {
 
 export const featuredPlayers = [
   {
-    name: 'Danny Rensch',
-    rating: '2500',
+    name: 'Jose Alcantara',
+    rating: '2930',
     imageSrc:
-      'https://images.chesscomfiles.com/uploads/v1/user/4317.e9dc54f0.160x160o.b759b9aa64e8@2x.jpeg',
-    masterTitle: 'IM',
-    country: 'US',
-    username: 'Danny',
+      'https://images.chesscomfiles.com/uploads/v1/user/26867272.87be9fe5.160x160o.3e7b1ac1b82d.jpeg',
+    masterTitle: 'GM',
+    country: 'PE',
+    username: 'jospem',
   },
   {
-    name: 'Joseph Schiarizzi',
-    rating: '1500',
+    name: 'Aristotelis S.',
+    rating: '2190',
     imageSrc:
-      'https://images.chesscomfiles.com/uploads/v1/user/106292268.1f925d2d.161x161o.f292b345924a@2x.png',
+      'https://images.chesscomfiles.com/uploads/v1/user/140386997.369cceeb.200x200o.13519e7e6470.jpeg',
     masterTitle: '',
-    country: 'US',
-    username: 'Jschiar',
-  },
-  {
-    name: 'Justus Williams',
-    rating: '2510',
-    imageSrc: 'https://i.imgur.com/dpxmBHB.png',
-    masterTitle: 'FM',
-    country: 'US',
-    username: 'jwillz14',
-  },
-  {
-    name: 'Joshua Lapidus',
-    rating: '1426',
-    imageSrc:
-      'https://images.chesscomfiles.com/uploads/v1/user/19572800.98021cbe.160x160o.94f2d23c2b99@2x.png',
-    masterTitle: '',
-    country: 'US',
+    country: 'GR',
     username: '0xjoshua',
   },
   {
@@ -58,7 +41,16 @@ export const featuredPlayers = [
       'https://images.chesscomfiles.com/uploads/v1/user/17782238.cc671fcf.160x160o.5d48062e1c0e@2x.jpeg',
     masterTitle: 'WCM',
     country: 'US',
-    username: 'Lightning_Pig',
+    username: 'lightning_pig',
+  },
+  {
+    name: 'Joseph Schiarizzi',
+    rating: '1500',
+    imageSrc:
+      'https://images.chesscomfiles.com/uploads/v1/user/106292268.1f925d2d.161x161o.f292b345924a@2x.png',
+    masterTitle: '',
+    country: 'US',
+    username: 'jschiar',
   },
   {
     name: 'Aakaash Meduri',
@@ -71,3 +63,30 @@ export const featuredPlayers = [
   },
 ]
 export default config
+
+// {
+//   name: 'Joshua Lapidus',
+//   rating: '1426',
+//   imageSrc:
+//   'https://images.chesscomfiles.com/uploads/v1/user/19572800.98021cbe.160x160o.94f2d23c2b99@2x.png',
+//   masterTitle: '',
+//   country: 'US',
+//   username: '0xjoshua',
+// },
+// {
+//   name: 'Danny Rensch',
+//   rating: '2500',
+//   imageSrc:
+//     'https://images.chesscomfiles.com/uploads/v1/user/4317.e9dc54f0.160x160o.b759b9aa64e8@2x.jpeg',
+//   masterTitle: 'IM',
+//   country: 'US',
+//   username: 'danny',
+// },
+// {
+//   name: 'Justus Williams',
+//   rating: '2510',
+//   imageSrc: 'https://i.imgur.com/dpxmBHB.png',
+//   masterTitle: 'FM',
+//   country: 'US',
+//   username: 'jwillz14',
+// },

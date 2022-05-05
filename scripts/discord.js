@@ -44,6 +44,8 @@ if (BOT === 'PUBLIC') {
   commands = publicCommands
 }
 
+const delay = (ms) => new Promise((res) => setTimeout(res, ms))
+
 const registerCommands = async () => {
   try {
     console.log(
@@ -65,6 +67,7 @@ const registerCommands = async () => {
 
 // Delete all commands for a bot
 const deleteCommands = async () => {
+  console.log(`Deleting ${TYPE} commands for bot "${botName}"`)
   const response = await fetchDiscord({
     path:
       TYPE === 'GLOBAL'
@@ -84,8 +87,9 @@ const deleteCommands = async () => {
       method: 'DELETE',
       botToken,
     })
+    delay(2000)
   }
 }
 
-registerCommands()
-// deleteCommands()
+// registerCommands()
+deleteCommands()

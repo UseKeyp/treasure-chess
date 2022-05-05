@@ -10,30 +10,31 @@ generator client {
 }
 
 model Member {
-  id                   String         @id // Chess.com id
-  username             String         @unique // Chess.com username
-  address              String?        @unique // Torus wallet address
-  twitchUsername       String?        @unique // Twitch username
+  id                   String            @id // Chess.com id
+  username             String            @unique // Chess.com username
+  address              String?           @unique // Torus wallet address
+  twitchUsername       String?           @unique // Twitch username
   locale               String?
   // --------------- LINKS --------------
-  treasuresOwned       Treasure[]     @relation("treasuresOwned")
-  treasuresMinted      Treasure[]     @relation("treasuresMinted")
-  treasuresPlayedWhite Treasure[]     @relation("treasuresPlayedWhite")
-  treasuresPlayedBlack Treasure[]     @relation("treasuresPlayedBlack")
-  treasuresWon         Treasure[]     @relation("treasuresWon")
-  mintPurchases        MintPurchase[] @relation("mintPurchases")
-  marketSalesSold      MarketSale[]   @relation("marketSalesSold")
-  marketSalesPurchased MarketSale[]   @relation("marketSalesPurchased")
-  rampWithdraws        RampWithdraw[] @relation("rampWithdraws")
-  depositOrders        DepositOrder[] @relation("depositOrders")
+  treasuresOwned       Treasure[]        @relation("treasuresOwned")
+  treasuresMinted      Treasure[]        @relation("treasuresMinted")
+  treasuresPlayedWhite Treasure[]        @relation("treasuresPlayedWhite")
+  treasuresPlayedBlack Treasure[]        @relation("treasuresPlayedBlack")
+  treasuresWon         Treasure[]        @relation("treasuresWon")
+  mintPurchases        MintPurchase[]    @relation("mintPurchases")
+  marketSalesSold      MarketSale[]      @relation("marketSalesSold")
+  marketSalesPurchased MarketSale[]      @relation("marketSalesPurchased")
+  rampWithdraws        RampWithdraw[]    @relation("rampWithdraws")
+  depositOrders        DepositOrder[]    @relation("depositOrders")
+  oAuthConnections     OAuthConnection[] @relation("oAuthConnections")
   // --------------- STATE --------------
-  createdAt            DateTime       @default(now())
-  updatedAt            DateTime       @updatedAt
+  createdAt            DateTime          @default(now())
+  updatedAt            DateTime          @updatedAt
   imageSrc             String? // Avatar URL
   masterTitle          MasterTitle? // "Grand Master" or "International Master"
   country              String // Player's country  eg. US, DE
-  mintCredits          Int            @default(3) // Mint for free!
-  banned               Boolean        @default(false)
+  mintCredits          Int               @default(3) // Mint for free!
+  banned               Boolean           @default(false)
   blocked              Boolean? // Prevents minting Treasures containing this player
   refreshToken         String? // Chess.com Oauth
   ramps                Ramp[]
@@ -59,6 +60,7 @@ model Ramp {
   // Wyre
   paymentMethodId    String? // Wyre
   // Coinbase
+  // TODO: Replace with oAuthConnection
   accessToken        String?
   refreshToken       String?
   RampWithdraw       RampWithdraw[]
@@ -140,25 +142,25 @@ model MarketSale {
 }
 
 model DepositOrder {
-  id            Int        @id @default(autoincrement())
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
+  id             Int      @id @default(autoincrement())
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
   // --------------- LINKS --------------
-  member        Member     @relation("depositOrders", fields: [memberId], references: [id])
-  memberId      String
+  member         Member   @relation("depositOrders", fields: [memberId], references: [id])
+  memberId       String
   // --------------- STATE --------------
-  amount        Int?
-  paymentType   RampType
-  status        TxStatus @default(UNSUBMITTED)
+  amount         Int?
+  paymentType    RampType
+  status         TxStatus @default(UNSUBMITTED)
   // Wyre
-  sourceCurrency  String?
-  sourceAmount String?
+  sourceCurrency String?
+  sourceAmount   String?
   purchaseAmount String?
-  destCurrency  String?
-  paymentMethod String?
-  orderType     String? // DOMESTIC or INTERNATIONAL
-  orderId       String?    @unique // Wyre orderId
-  reservation   String?    @unique // Wyre reservation
+  destCurrency   String?
+  paymentMethod  String?
+  orderType      String? // DOMESTIC or INTERNATIONAL
+  orderId        String?  @unique // Wyre orderId
+  reservation    String?  @unique // Wyre reservation
 }
 
 model MintPurchase {
@@ -175,7 +177,7 @@ model MintPurchase {
   title             String // Treasure title
   // Order details
   paymentType       String                   @default("WYRE") // WYRE, MINTCREDIT
-  status            RampStatus                 @default(PENDING)
+  status            RampStatus               @default(PENDING)
   // Wyre
   orderStatus       MintPurchaseOrderStatus?
   orderId           String?                  @unique // Wyre orderId
@@ -193,6 +195,19 @@ model OAuth {
   createdAt     DateTime @default(now())
   member        Member?  @relation(fields: [memberId], references: [id])
   memberId      String?
+}
+
+model OAuthConnection {
+  id           String              @id @default(uuid())
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime            @updatedAt
+  member       Member              @relation("oAuthConnections", fields: [memberId], references: [id])
+  memberId     String
+  type         OAuthConnectionType
+  revoked     Boolean @default(false)
+  refreshToken String?
+  accessToken  String
+  expiration    DateTime?
 }
 
 model RampWithdraw {
@@ -232,6 +247,11 @@ model Transaction {
 enum RampType {
   COINBASE
   WYRE
+}
+
+enum OAuthConnectionType {
+  TWITCH
+  COINBASE
 }
 
 enum RampStatus {

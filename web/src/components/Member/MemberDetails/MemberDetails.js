@@ -21,8 +21,8 @@ const TwitchLink = ({ isProfile, username: twitchUsername }) => {
   const [username, setUsername] = useState(twitchUsername)
   const onClickTwitch = async () => {
     if (username) {
-      await revokeOAuth(TWITCH)
-      setUsername('')
+      const revoked = await revokeOAuth(TWITCH)
+      if (revoked) setUsername('')
     } else {
       const oAuthUrl = await getOAuthUrl(TWITCH)
       if (oAuthUrl)

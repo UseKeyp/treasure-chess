@@ -43,9 +43,11 @@ const OAuthProvider = ({ children }) => {
         variables: { type },
       })
       if (error) throw error
+      return true
     } catch (e) {
       toast.error(e?.message)
-      return setState({ error: e?.message, isLoading: false })
+      setState({ error: e?.message, isLoading: false })
+      return false
     }
   }
 

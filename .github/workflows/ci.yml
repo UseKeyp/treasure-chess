@@ -9,7 +9,7 @@ on:
 jobs:
   runCI:
     name: Run CI
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18
     outputs:
       SKIP_RELEASE: ${{ steps.skip_release.outputs.SKIP_RELEASE }}
     steps:

@@ -14,16 +14,17 @@ import { getFlagBase64 } from '@treasure-chess/treasure-html'
 import { useWallet } from 'src/providers/wallet'
 
 import { trimAddress } from 'src/utils/helpers'
+const TWITCH = 'TWITCH'
 
 const TwitchLink = ({ isProfile, username: twitchUsername }) => {
   const { getOAuthUrl, revokeOAuth, isLoading } = useOAuth()
   const [username, setUsername] = useState(twitchUsername)
   const onClickTwitch = async () => {
     if (username) {
-      await revokeOAuth('TWITCH')
+      await revokeOAuth(TWITCH)
       setUsername('')
     } else {
-      const oAuthUrl = await getOAuthUrl('TWITCH')
+      const oAuthUrl = await getOAuthUrl(TWITCH)
       if (oAuthUrl)
         window.open(
           oAuthUrl.url,

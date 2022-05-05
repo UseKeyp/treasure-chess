@@ -64,6 +64,19 @@ export const processCodeGrant = async ({ state, code, type, accountId }) => {
   }
 }
 
+export const processRevoke = async (type) => {
+  try {
+    logger.debug(`revoke - ${type}`)
+    if (!types.includes(type)) throw `Unknown OAuth Provider - ${type}`
+    const { onRevoke } = providers[type]
+    return onRevoke()
+  } catch (e) {
+    logger.error(e)
+    Sentry.captureException(e)
+    throw new AuthenticationError(e)
+  }
+}
+
 export const submitCodeGrant = async ({ state, code, type, accountId }) => {
   if (!Object.values(types).includes(type))
     throw `OAuth Provider "${type}" is not enabled.`

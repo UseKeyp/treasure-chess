@@ -10,6 +10,9 @@ export const schema = gql`
     status: CodeGrantStatus
     ramp: Ramp
   }
+  type RevokeResponse {
+    status: CodeGrantStatus
+  }
 
   type Query {
     oAuthUrl(type: String!): LoginUrl! @requireAuth
@@ -21,6 +24,7 @@ export const schema = gql`
       state: String
       accountId: String
     ): CodeGrantResponse! @skipAuth
+    revokeOAuth(type: String!): RevokeResponse! @requireAuth
   }
   enum CodeGrantStatus {
     SUCCESS

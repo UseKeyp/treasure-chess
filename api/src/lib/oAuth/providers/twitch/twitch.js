@@ -41,8 +41,11 @@ export const onSubmitCode = async (code, { memberId }) => {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
     }).then((res) => {
-      if (res.status != 200)
+      if (res.status != 200) {
+        if (res.status === 401)
+          throw 'Refresh token no longer valid. User must re-authenticate.'
         throw `Twitch API failed for /token. ${res.status} - ${res.statusText}`
+      }
       return res.json()
     })
     if (response.error)
@@ -67,7 +70,12 @@ export const onSubmitCode = async (code, { memberId }) => {
   }
 }
 
-export const onConnected = async ({ accessToken, memberId }) => {
+export const onConnected = async ({
+  accessToken,
+  accessTokenExpiration,
+  refreshToken,
+  memberId,
+}) => {
   try {
     const usersList = await fetch(`https://api.twitch.tv/helix/users`, {
       headers: {
@@ -84,7 +92,14 @@ export const onConnected = async ({ accessToken, memberId }) => {
       where: { id: memberId },
       data: {
         twitchUsername: usersList.data[0].login,
-        twitchToken: accessToken,
+        oAuthConnections: {
+          create: {
+            accessToken,
+            expiration: accessTokenExpiration,
+            refreshToken,
+            type: 'TWITCH',
+          },
+        },
       },
     })
     return { status: 'SUCCESS' }
@@ -94,28 +109,85 @@ export const onConnected = async ({ accessToken, memberId }) => {
   }
 }
 
-const onRevoke = async () => {
+// Note: there is a potential for this to be generalized for multiple providers
+export const refreshTokens = async (refreshToken) => {
   try {
-    const member = await db.member.findUnique({
-      where: { id: context.currentUser.id },
-    })
     const body = {
-      client_id: process.env.TWITCH_CLIENT_ID,
-      token: member.twitchToken,
+      grant_type: 'refresh_token',
+      client_id: process.env.CHESS_CLIENT_ID,
+      client_secret: process.env.CHESS_CLIENT_SECRET,
+      refresh_token: refreshToken,
     }
     const encodedBody = encodeBody(body)
-
-    await fetch(TWITCH_OAUTH_URL_REVOKE, {
+    const response = await fetch(TWITCH_OAUTH_URL_TOKEN, {
       method: 'post',
       body: encodedBody,
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     }).then((res) => {
-      if (res.status != 200)
-        throw `Twitch API failed for /revoke. ${res.status} - ${res.statusText}`
+      if (res.status == 401)
+        throw new Error('Twitch basic authorization failed')
+      return res.json()
+    })
+    if (response.error)
+      throw `${response.error} - ${response.hint}. ${response.message}`
+    const {
+      access_token: newAccessToken,
+      refresh_token: newRefreshToken,
+      expires_in: newExpiration,
+    } = response
+    if (!newAccessToken || !newRefreshToken)
+      throw 'Failed to refresh tokens from Twitch'
+    await db.oAuthConnections.update({
+      where: { refreshToken },
+      data: {
+        accessToken: newAccessToken,
+        refreshToken: newRefreshToken,
+        expiration: getExpiration(newExpiration),
+      },
+    })
+  } catch (e) {
+    throw `refreshTokens() ${e}`
+  }
+}
+
+const onRevoke = async () => {
+  try {
+    const member = await db.member.findUnique({
+      where: { id: context.currentUser.id },
+      include: { oAuthConnections: { where: { revoked: false } } },
+    })
+    const twitchOAuthConnection = member.oAuthConnections.find(
+      (connection) => connection.type === 'TWITCH'
+    )
+    if (!twitchOAuthConnection) throw 'No OAuth connection found'
+    const body = {
+      client_id: process.env.TWITCH_CLIENT_ID,
+      token: twitchOAuthConnection.accessToken,
+    }
+    const encodedBody = encodeBody(body)
+    logger.debug({ custom: encodedBody }, 'encodedBody')
+    logger.debug({ custom: body }, 'body')
+    logger.debug({ custom: twitchOAuthConnection }, 'twitchOAuthConnection')
+    await fetch(TWITCH_OAUTH_URL_REVOKE, {
+      method: 'post',
+      body: encodedBody,
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    }).then(async (res) => {
+      if (res.status != 200) {
+        if (res.status === 401) {
+          await refreshTokens(twitchOAuthConnection.refreshToken)
+          return onRevoke()
+        }
+        throw `Twitch API failed. ${res.status} - ${res.statusText}`
+      }
     })
     await db.member.update({
       where: { id: context.currentUser.id },
-      data: { twitchUsername: '', twitchToken: '' },
+      data: { twitchUsername: '' },
+    })
+    await db.oAuthConnection.update({
+      where: { id: twitchOAuthConnection.id },
+      data: { revoked: true, accessToken: '', refreshToken: '' },
     })
     return { status: 'SUCCESS' }
   } catch (e) {

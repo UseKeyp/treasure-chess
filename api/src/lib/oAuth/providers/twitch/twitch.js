@@ -24,36 +24,6 @@ const params = {
   force_verify: true,
 }
 
-export const onRevoke = async () => {
-  try {
-    const member = await db.member.findUnique({
-      where: { id: context.currentUser.id },
-    })
-
-    const body = {
-      client_id: process.env.TWITCH_CLIENT_ID,
-      token: member.twitchToken,
-    }
-
-    const encodedBody = encodeBody(body)
-
-    await fetch(TWITCH_OAUTH_URL_REVOKE, {
-      method: 'post',
-      body: encodedBody,
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-    }).then((res) => {
-      if (res.status != 200)
-        throw `Twitch API failed for /revoke. ${res.status} - ${res.statusText}`
-    })
-    return { status: 'SUCCESS' }
-  } catch (e) {
-    Sentry.captureException(e)
-    throw `onRevoke() ${e}`
-  }
-}
-
 export const onSubmitCode = async (code, { memberId }) => {
   try {
     const body = {
@@ -124,8 +94,25 @@ export const onConnected = async ({ accessToken, memberId }) => {
   }
 }
 
-export const onDisConnected = async () => {
+const onRevoke = async () => {
   try {
+    const member = await db.member.findUnique({
+      where: { id: context.currentUser.id },
+    })
+    const body = {
+      client_id: process.env.TWITCH_CLIENT_ID,
+      token: member.twitchToken,
+    }
+    const encodedBody = encodeBody(body)
+
+    await fetch(TWITCH_OAUTH_URL_REVOKE, {
+      method: 'post',
+      body: encodedBody,
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    }).then((res) => {
+      if (res.status != 200)
+        throw `Twitch API failed for /revoke. ${res.status} - ${res.statusText}`
+    })
     await db.member.update({
       where: { id: context.currentUser.id },
       data: { twitchUsername: '', twitchToken: '' },
@@ -133,7 +120,7 @@ export const onDisConnected = async () => {
     return { status: 'SUCCESS' }
   } catch (e) {
     Sentry.captureException(e)
-    throw `onDisConnected() ${e}`
+    throw `onRevoke() ${e}`
   }
 }
 
@@ -143,5 +130,4 @@ export const provider = {
   onSubmitCode,
   onConnected,
   onRevoke,
-  onDisConnected,
 }

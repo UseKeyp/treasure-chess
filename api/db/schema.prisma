@@ -26,6 +26,7 @@ model Member {
   marketSalesPurchased MarketSale[]   @relation("marketSalesPurchased")
   rampWithdraws        RampWithdraw[] @relation("rampWithdraws")
   depositOrders        DepositOrder[] @relation("depositOrders")
+  oAuthConnections     OAuthConnection[] @relation("oAuthConnections")
   // --------------- STATE --------------
   createdAt            DateTime       @default(now())
   updatedAt            DateTime       @updatedAt
@@ -36,7 +37,6 @@ model Member {
   banned               Boolean        @default(false)
   blocked              Boolean? // Prevents minting Treasures containing this player
   refreshToken         String? // Chess.com Oauth
-  twitchToken          String?        @unique // Twitch access token
   ramps                Ramp[]
   OAuth                OAuth[]
 }
@@ -60,6 +60,7 @@ model Ramp {
   // Wyre
   paymentMethodId    String? // Wyre
   // Coinbase
+  // TODO: Replace with oAuthConnection
   accessToken        String?
   refreshToken       String?
   RampWithdraw       RampWithdraw[]
@@ -196,6 +197,17 @@ model OAuth {
   memberId      String?
 }
 
+model OAuthConnection {
+  id                Int                      @id @default(uuid())
+  createdAt     DateTime @default(now())
+  updatedAt    DateTime                 @updatedAt
+  member        Member  @relation(fields: [memberId], references: [id])
+  memberId      String
+  type OAuthConnectionType
+  refreshToken         String?
+  accessToken         String?
+}
+
 model RampWithdraw {
   id            String      @id @default(uuid())
   createdAt     DateTime    @default(now())
@@ -233,6 +245,10 @@ model Transaction {
 enum RampType {
   COINBASE
   WYRE
+}
+
+enum OAuthConnectionType {
+  TWITCH
 }
 
 enum RampStatus {

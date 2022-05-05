@@ -23,8 +23,8 @@ dotenv.config()
 const BOT = 'ADMIN'
 // const BOT= "PUBLIC"
 
-const TYPE = 'GLOBAL'
-// const TYPE= "GUILD"
+// const TYPE = 'GLOBAL'
+const TYPE = 'GUILD'
 
 const GUILD_ID = '874700997220515901' // Our internal treasure-chess server
 
@@ -52,7 +52,7 @@ const registerCommands = async () => {
       )}`
     )
     const rest = new REST({ version: '9' }).setToken(botToken)
-    const path = Routes.applicationCommands(clientId)
+    let path = Routes.applicationCommands(clientId)
     if (TYPE === 'GUILD')
       path = Routes.applicationGuildCommands(clientId, GUILD_ID)
     await rest.put(path, {
@@ -63,8 +63,8 @@ const registerCommands = async () => {
   }
 }
 
+// Delete all commands for a bot
 const deleteCommands = async () => {
-  // Delete all commands for a bot
   const response = await fetchDiscord({
     path:
       TYPE === 'GLOBAL'

@@ -58,7 +58,6 @@ export const processCodeGrant = async ({ state, code, type, accountId }) => {
     let tokens
     if (type === PLAID) {
       // Skip the normal OAuth db checking
-      const { onSubmitCode } = providers[type]
       tokens = await providers[PLAID].onSubmitCode({ code, accountId })
     } else {
       tokens = await submitCodeGrant({ state, code, type })

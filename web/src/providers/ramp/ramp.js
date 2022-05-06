@@ -379,9 +379,7 @@ const RampProvider = ({ children }) => {
             accountId,
             type: PLAID,
           })
-          console.log(error)
           if (error) throw error
-          console.log(data)
           const { ramp: wyreRamp } = data
           setWyre({
             ...wyre,

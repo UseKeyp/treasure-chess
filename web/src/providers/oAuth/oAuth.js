@@ -1,7 +1,11 @@
 import { useLazyQuery, useMutation } from '@apollo/client'
 import { useToast } from 'src/providers/toast'
 
-import { OAUTH_URL_QUERY, OAUTH_CODE_GRANT_MUTATION } from './graphql'
+import {
+  OAUTH_URL_QUERY,
+  OAUTH_CODE_GRANT_MUTATION,
+  OAUTH_REVOKE_MUTATION,
+} from './graphql'
 
 const OAuthContext = React.createContext({
   isLoading: true,
@@ -15,6 +19,7 @@ const OAuthProvider = ({ children }) => {
     fetchPolicy: 'network-only',
   })
   const [codeGrantMutation] = useMutation(OAUTH_CODE_GRANT_MUTATION)
+  const [revokeMutation] = useMutation(OAUTH_REVOKE_MUTATION)
 
   const getOAuthUrl = async (type) => {
     try {
@@ -30,6 +35,19 @@ const OAuthProvider = ({ children }) => {
       const errorMessage = `Error fetching ${type} link. ${e?.message}`
       toast.error(errorMessage)
       return setState({ error: errorMessage, isLoading: false })
+    }
+  }
+  const revokeOAuth = async (type) => {
+    try {
+      const { error } = await revokeMutation({
+        variables: { type },
+      })
+      if (error) throw error
+      return true
+    } catch (e) {
+      toast.error(e?.message)
+      setState({ error: e?.message, isLoading: false })
+      return false
     }
   }
 
@@ -68,6 +86,7 @@ const OAuthProvider = ({ children }) => {
         error: state.error,
         getOAuthUrl,
         submitCodeGrant,
+        revokeOAuth,
       }}
     >
       {children}

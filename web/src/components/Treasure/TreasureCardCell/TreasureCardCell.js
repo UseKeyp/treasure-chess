@@ -61,6 +61,6 @@ export const Failure = () => (
   </div>
 )
 
-export const Success = ({ treasureCard }) => {
-  return <GameCard game={treasureCard} showGif={true} />
+export const Success = ({ treasureCard, ...rest }) => {
+  return <GameCard game={treasureCard} showGif={true} {...rest} />
 }

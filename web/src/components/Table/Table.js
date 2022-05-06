@@ -1,6 +1,7 @@
 import clsx from 'clsx'
 import { Link } from '@redwoodjs/router'
 import { RowsSkeleton } from 'src/components/LoadingSkeleton/LoadingSkeleton'
+import { useLocale } from 'src/providers/locale'
 
 const Table = ({
   isLoading,
@@ -14,6 +15,8 @@ const Table = ({
   bgColor,
   fgColor,
 }) => {
+  const { t } = useLocale()
+
   const rows = data?.map((row, i) => {
     if (React.isValidElement(row)) return row
     const cells = row.map((item, j) => {
@@ -60,8 +63,8 @@ const Table = ({
       className="table-wrapper"
       style={{ height, width, backgroundColor: bgColor }}
     >
-      <h1 className="table-header">{title}</h1>
-      <div className="table-component">{contents}</div>
+      <h1 className="table-header">{t(title)}</h1>
+      <div className="table-component">{t(contents)}</div>
     </div>
   )
 }

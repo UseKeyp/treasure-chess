@@ -3,9 +3,12 @@ import Icon from 'src/components/Icon/Icon'
 import { routes } from '@redwoodjs/router'
 import { getCardHtml } from '@treasure-chess/treasure-html'
 import { game } from './data.js'
+import { useLocale } from 'src/providers/locale/locale.js'
 
 const HomePageHero = () => {
   const [card, setCard] = React.useState()
+
+  const { t } = useLocale()
 
   const update = async () => {
     const raw = await getCardHtml({
@@ -40,17 +43,19 @@ const HomePageHero = () => {
             <Icon name="rook" />
           </div>
           <div className="leftContent ">
-            <h1>Treasure your Chess Games.</h1>
+            <h1> {t('Treasure your Chess Games.')} </h1>
             <h3>
-              Every chess game is one-of-a-kind. Make yours a collectible.
+              {t(
+                'Every chess game is one-of-a-kind. Make yours a collectible.'
+              )}
             </h3>
-            <p>Connect Your Chess.com Account</p>
+            <p> {t('Connect Your Chess.com Account')} </p>
             <Button
               size="large"
               className="bg-greenLight mt-4"
               to={routes.signin()}
             >
-              Get Started!
+              {t('Get Started!')}
             </Button>
           </div>
         </div>

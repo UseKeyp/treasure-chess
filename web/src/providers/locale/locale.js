@@ -5,6 +5,7 @@ import { isBrowser } from '@redwoodjs/prerender/browserUtils'
 
 const LocaleContext = React.createContext({})
 const LOCALE_LOCAL_KEY = 'i18nextLng'
+import { useTranslation } from 'react-i18next'
 
 const getLocaleCode = () => {
   if (!isBrowser) return // Support prerender
@@ -14,6 +15,8 @@ const getLocaleCode = () => {
 const LocaleProvider = ({ children }) => {
   const [locale, setLocale] = React.useState(getLocaleCode())
   const { currentUser } = useAuth()
+
+  const { t } = useTranslation('web')
 
   // const [userLocale] = useMutation(USER_LOCALE_MUTATION)
 
@@ -43,6 +46,7 @@ const LocaleProvider = ({ children }) => {
       value={{
         locale: locale,
         setLocale: setLocale,
+        t,
       }}
     >
       {children}
@@ -50,4 +54,6 @@ const LocaleProvider = ({ children }) => {
   )
 }
 
-export { LocaleProvider }
+const useLocale = () => React.useContext(LocaleContext)
+
+export { LocaleProvider, useLocale }

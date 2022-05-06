@@ -6,8 +6,11 @@ import TreasureMoves from '../TreasureMoves/TreasureMoves'
 import TreasureMarketInteraction from 'src/components/Treasure/TreasureMarketInteraction'
 import TreasureActivity from '../TreasureActivity/TreasureActivity'
 import TreasuresFetcher from 'src/components/Treasure/TreasuresFetcher'
+import { useLocale } from 'src/providers/locale'
 
 const Treasure = ({ treasure, isLoading }) => {
+  const { t } = useLocale
+
   const players = [treasure?.white.username, treasure?.black.username]
   const getUsernames = (players) => Object.values(players).toString()
   // const currentMarketSale = treasure.marketSales ? treasure.marketSales[0] : {}
@@ -33,26 +36,27 @@ const Treasure = ({ treasure, isLoading }) => {
           <div className="text-lg">🎁</div>
           <div className="flex justify-between">
             <h3 className="text-base font-bold color-grey-light">
-              How to use the Marketplace
+              {t('How to use the Marketplace')}
             </h3>
           </div>
         </div>
         <p className="answer-container text-sm font-normal color-grey-light tracking-tight">
-          Once a Treasure is listed for sale by its owner, it can be purchased
-          using your account balance. You can add funds to your account using a
-          debit card, and funds can be cashed-out to your bank via your{' '}
+          {t(
+            'Once a Treasure is listed for sale by its owner, it can be purchased using your account balance. You can add funds to your account using a debit card, and funds can be cashed-out to your bank via your'
+          )}
           <Link to={routes.profile()} className="underline">
-            Profile
+            {t('Profile')}
           </Link>
-          . Transactions in the Marketplace can take up to 3 minutes to process.
-          Learn more over at{' '}
+          {t(
+            'Transactions in the Marketplace can take up to 3 minutes to process. Learn more over at'
+          )}
           <Link to={routes.about()} className="underline">
-            About
+            {t('About')}
           </Link>
           .
         </p>
       </div>
-      <h1 className="mt-16">More by these users</h1>
+      <h1 className="mt-16">{t('More by these users')}</h1>
       <div className="w-full mt-4">
         <TreasuresFetcher
           username={getUsernames(players)}

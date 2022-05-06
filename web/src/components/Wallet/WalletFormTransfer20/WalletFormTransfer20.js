@@ -9,11 +9,15 @@ import {
 } from '@redwoodjs/forms'
 import { isHexAddress } from 'src/utils/helpers'
 import { BigNumber } from '@ethersproject/bignumber'
+import { useWallet } from 'src/providers/wallet'
 
 const WalletFormTransfer20 = () => {
+  const { transferErc20, transferErc20Loading, transferErc20Error } =
+    useWallet()
+
   const onSubmit = (data) => {
     data.amount = BigNumber.from(data.amount)
-    // TODO: implement transferErc721
+    transferErc20(data.tokenAddress, data.recipientAddress, data.amount)
   }
 
   return (

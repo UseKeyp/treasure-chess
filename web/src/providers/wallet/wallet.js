@@ -4,12 +4,16 @@ import { useAuth } from '@redwoodjs/auth'
 import { useModal } from 'src/hooks/useModal'
 
 import { WithdrawModal, DepositModal, AddressModal } from './modals'
-import { MEMBER_BALANCE_QUERY } from './graphql'
+import { MEMBER_BALANCE_QUERY, TRANSFER_ERC20 } from './graphql'
+import { useMutation } from '@redwoodjs/web'
 
 const WalletContext = React.createContext({
   balanceLoading: true,
   usdcBalance: null,
   mintCreditBalance: null,
+  transferErc20: (tokenAddress, recipientAddress, amount) => {},
+  transferErc20Loading: false,
+  transferErc20Error: null,
 })
 
 const WalletProvider = ({ children }) => {
@@ -23,6 +27,11 @@ const WalletProvider = ({ children }) => {
   const { isVisible: isVisibleDep, toggleModal: toggleModalDep } = useModal()
   const { isVisible: isVisibleWit, toggleModal: toggleModalWit } = useModal()
   const { isVisible: isVisibleAdd, toggleModal: toggleModalAdd } = useModal()
+
+  const [
+    transferErc20Mutation,
+    { data, loading: transferErc20Loading, error: transferErc20Error },
+  ] = useMutation(TRANSFER_ERC20)
 
   const {
     data: { memberBalance } = {},
@@ -41,6 +50,12 @@ const WalletProvider = ({ children }) => {
     toggleModalAdd()
   }
 
+  const transferErc20 = async (tokenAddress, recipientAddress, amount) => {
+    await transferErc20Mutation({
+      variables: { tokenAddress, recipientAddress, amount },
+    })
+  }
+
   React.useEffect(() => {
     setState({
       ...state,
@@ -54,10 +69,13 @@ const WalletProvider = ({ children }) => {
         deposit: toggleModalDep,
         withdraw: toggleModalWit,
         getAddress,
+        transferErc20,
         usdcBalance: state.usdcBalance,
         mintCreditBalance: state.mintCreditBalance,
         balanceError,
         balanceLoading,
+        transferErc20Loading,
+        transferErc20Error,
       }}
     >
       <DepositModal isVisible={isVisibleDep} toggleModal={toggleModalDep} />

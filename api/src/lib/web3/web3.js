@@ -15,6 +15,11 @@ import { logger } from 'src/lib/logger'
 import { isProduction, isOlderThanResubmitTimeout } from 'src/lib/helpers'
 import { getAdminBalance } from './wallets/admin'
 
+import { getExplorerBaseUrlFromName } from '@treasure-chess/web3-helpers'
+const EXPLORER_BASE_URL = getExplorerBaseUrlFromName(
+  process.env.ETHEREUM_NETWORK_NAME
+)
+
 const SUBMITTED = 'SUBMITTED'
 const COMPLETE = 'COMPLETE'
 const FAILED = 'FAILED'
@@ -22,22 +27,27 @@ const FAILED = 'FAILED'
 const MINIMUM_CONFIRMATIONS = isProduction ? 15 : 1
 const MAX_RESUBMIT_ATTEMPTS = 0
 
-const alertDiscord = async (tokenId) => {
-  const adminMaticBalance = await getAdminBalance()
-  await sendDiscordAdminAlert({
-    embed: {
-      color: 8963403,
-      title: `Mint transaction complete!`,
-      description: `
-Treasure Link: ${process.env.APP_DOMAIN}/treasures/${tokenId}
-Matic Balance in Admin Wallet: ${formatEther(adminMaticBalance)}
-      `,
-      footer: { text: new Date().toString() },
-    },
-    channelName: 'mint',
-  })
-}
+const alertDiscord = async (treasure) => {
+  try {
+    const adminMaticBalance = await getAdminBalance()
+    await sendDiscordAdminAlert({
+      embed: {
+        color: 8963403,
+        title: `Mint transaction complete!`,
+        url: `${process.env.APP_DOMAIN}/treasures/${treasure.tokenId}`,
+        description: `\`tokenId\` **#${treasure.tokenId}**
+${EXPLORER_BASE_URL}token/${treasure.id}
 
+Admin Wallet ETH: \`${formatEther(adminMaticBalance).substring(0, 8)}\``,
+        image: { url: treasure.openGraphImageSrc },
+        footer: { text: new Date().toString() },
+      },
+      channelName: 'mint',
+    })
+  } catch (e) {
+    logger.error(e)
+  }
+}
 const mintFailGracefully = async ({ mintPurchase, errorMessage }) => {
   await sendDiscordAdminAlert({
     embed: {
@@ -115,7 +125,6 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
         // TODO: optimize by combining these two db calls
         // Stop, don't mint again
         logger.debug('Mint transaction complete!')
-        await alertDiscord(treasureData.tokenId)
         const purchase = await db.mintPurchase.update({
           where: { id: mintPurchase.id },
           data: {
@@ -131,6 +140,13 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
               },
             },
           },
+        })
+        await alertDiscord({
+          ...treasureData,
+          tokenId,
+          uriData,
+          tokenUri,
+          openGraphImageSrc,
         })
         return purchase
       }

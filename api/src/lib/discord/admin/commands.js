@@ -153,6 +153,7 @@ ${EXPLORER_BASE_URL}token/${treasure.id}`
           }
         )
         .setImage(treasure.openGraphImageSrc)
+      logger.debug({ custom: embed })
       interaction.editReply({
         embeds: [embed],
         files: [

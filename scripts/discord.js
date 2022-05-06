@@ -22,15 +22,10 @@ dotenv.config()
 
 const BOT = 'ADMIN'
 // const BOT= "PUBLIC"
-
-// const TYPE = 'GLOBAL'
-const TYPE = 'GUILD'
+const TYPE = 'GLOBAL'
+// const TYPE = 'GUILD'
 
 const GUILD_ID = '874700997220515901' // Our internal treasure-chess server
-
-const method = 'PUT'
-// "PUT" for commands are always treated as an upsert
-// To remove old unwanted command See https://discord.com/developers/docs/interactions/application-commands#updating-and-deleting-a-command
 
 let botName = `chester ${process.env.ENVIRONMENT}`
 let botToken = adminBotToken
@@ -91,5 +86,5 @@ const deleteCommands = async () => {
   }
 }
 
-// registerCommands()
-deleteCommands()
+registerCommands()
+// deleteCommands()

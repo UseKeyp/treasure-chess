@@ -1,6 +1,6 @@
 {
   "name": "api",
-  "version": "1.0.4",
+  "version": "1.0.5-staging.3",
   "private": true,
   "dependencies": {
     "@envelop/rate-limiter": "^1.0.0",
@@ -20,9 +20,9 @@
     "@treasure-chess/chess-achievements": "0.1.5",
     "@treasure-chess/chess-image-generator": "^1.5.7",
     "@treasure-chess/treasure-contracts": "^0.1.0",
-    "@treasure-chess/treasure-filters": "^1.0.4",
-    "@treasure-chess/treasure-html": "^1.0.4",
-    "@treasure-chess/web3-helpers": "^1.0.4",
+    "@treasure-chess/treasure-filters": "^1.0.5-staging.3",
+    "@treasure-chess/treasure-html": "^1.0.5-staging.3",
+    "@treasure-chess/web3-helpers": "^1.0.5-staging.3",
     "atob": "^2.1.2",
     "bad-words": "^3.0.4",
     "chess.js": "^0.12.1",
@@ -37,6 +37,9 @@
     "puppeteer-core": "^13.5.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
+  },
+  "optionalDependencies": {
+    "discord.js": "^13.6.0"
   },
   "devDependencies": {
     "@redwoodjs/cli": "^1.0.0",

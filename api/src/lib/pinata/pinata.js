@@ -15,11 +15,11 @@ const PINATA_API_KEY = process.env.PINATA_API_KEY
 const PINATA_API_SECRET_KEY = process.env.PINATA_API_SECRET_KEY
 const TOKEN_URI_DOMAIN = process.env.APP_DOMAIN
 
-const API_DOMAIN =
+let API_DOMAIN =
   isProduction && !process.env.IMPERSONATE_USERNAME
     ? 'http://treasure-chess-api:8080'
     : process.env.REDWOOD_API_URL
-// : process.env.APP_DOMAIN + '/api'
+if (process.env.ENVIRONMENT === 'local') API_DOMAIN = 'http://0.0.0.0:8911'
 
 const fetchScreenshotBase64Buffer = async (html) => {
   try {

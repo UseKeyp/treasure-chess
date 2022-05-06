@@ -9,6 +9,7 @@ import { getAchievementNamesFromValues } from '@treasure-chess/treasure-filters'
 import placeholderGame from './placeholderGameData'
 import { useSpring, animated } from '@react-spring/web'
 import { CardSkeleton } from 'src/components/LoadingSkeleton'
+import { isMobile } from 'src/utils/helpers'
 
 const calc = (x, y) => [-y / 140, x / 45, 1.05]
 const trans = (x, y, s) =>
@@ -21,7 +22,14 @@ const options = {
   style: 'neo',
 }
 
-const GameCard = ({ game, isMinting, isLoading, title, showGif }) => {
+const GameCard = ({
+  game,
+  isMinting,
+  isLoading,
+  title,
+  showGif,
+  disableAnimation,
+}) => {
   const [cardHtml, setCardHtml] = React.useState()
   const [props, set] = useSpring(() => ({
     xys: [0, 0, 1],
@@ -153,7 +161,12 @@ const GameCard = ({ game, isMinting, isLoading, title, showGif }) => {
           }}
           onMouseLeave={() => set.start({ xys: [0, 0, 1] })}
           style={{
-            transform: game.id && !isMinting && props.xys.to(trans),
+            transform:
+              game.id &&
+              !disableAnimation &&
+              !isMobile &&
+              !isMinting &&
+              props.xys.to(trans),
           }}
           dangerouslySetInnerHTML={{ __html: cardHtml }}
         />

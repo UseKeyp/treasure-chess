@@ -39,6 +39,8 @@ model Member {
   refreshToken         String? // Chess.com Oauth
   ramps                Ramp[]
   OAuth                OAuth[]
+  promotionId          Int?
+  promotion            Promotion?        @relation(name: "membersClaimed", fields: [promotionId], references: [id])
 }
 
 model Ramp {
@@ -204,10 +206,10 @@ model OAuthConnection {
   member       Member              @relation("oAuthConnections", fields: [memberId], references: [id])
   memberId     String
   type         OAuthConnectionType
-  revoked     Boolean @default(false)
+  revoked      Boolean             @default(false)
   refreshToken String?
   accessToken  String
-  expiration    DateTime?
+  expiration   DateTime?
 }
 
 model RampWithdraw {
@@ -413,4 +415,23 @@ enum Achievement {
   MrMarathonMan
   PawnHoarder
   Winner
+}
+
+model Promotion {
+  id             Int                 @id @default(autoincrement())
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
+  rewardType     PromotionRewardType @default(MINT_CREDIT)
+  type           PromotionType
+  mintCredits    Int? // How many mint credits should be given
+  enabled        Boolean             @default(false)
+  membersClaimed Member[]            @relation("membersClaimed") // All members who claim this promotion
+}
+
+enum PromotionRewardType {
+  MINT_CREDIT
+}
+
+enum PromotionType {
+  TWITCH_CONNECTION
 }

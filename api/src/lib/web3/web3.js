@@ -33,12 +33,17 @@ const alertDiscord = async (treasure) => {
     await sendDiscordAdminAlert({
       embed: {
         color: 8963403,
-        title: `Mint transaction complete!`,
+        title: `✨ Mint success!`,
         url: `${process.env.APP_DOMAIN}/treasures/${treasure.tokenId}`,
-        description: `\`tokenId\` **#${treasure.tokenId}**
-${EXPLORER_BASE_URL}token/${treasure.id}
-
-Admin Wallet ETH: \`${formatEther(adminMaticBalance).substring(0, 8)}\``,
+        description: `${EXPLORER_BASE_URL}token/${treasure.id}`,
+        fields: [
+          { name: 'tokenId', value: treasure.tokenId, inline: true },
+          {
+            name: 'Admin wallet',
+            value: `${formatEther(adminMaticBalance).substring(0, 6)} ETH`,
+            inline: true,
+          },
+        ],
         image: { url: treasure.openGraphImageSrc },
         footer: { text: new Date().toString() },
       },

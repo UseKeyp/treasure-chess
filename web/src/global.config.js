@@ -17,22 +17,13 @@ const config = {
 
 export const featuredPlayers = [
   {
-    name: 'Jose Alcantara',
-    rating: '2930',
-    imageSrc:
-      'https://images.chesscomfiles.com/uploads/v1/user/26867272.87be9fe5.160x160o.3e7b1ac1b82d.jpeg',
-    masterTitle: 'GM',
-    country: 'PE',
-    username: 'jospem',
-  },
-  {
     name: 'Aristotelis S.',
     rating: '2190',
     imageSrc:
       'https://images.chesscomfiles.com/uploads/v1/user/140386997.369cceeb.200x200o.13519e7e6470.jpeg',
     masterTitle: '',
     country: 'GR',
-    username: '0xjoshua',
+    username: 'chessbutgreek',
   },
   {
     name: 'Marissa Li',
@@ -60,6 +51,15 @@ export const featuredPlayers = [
     masterTitle: 'NM',
     country: 'US',
     username: 'chadbiryani',
+  },
+  {
+    name: 'Chanelno5x',
+    rating: '860',
+    imageSrc:
+      'https://images.chesscomfiles.com/uploads/v1/user/97796764.7e5e99ad.160x160o.87d8ccbf822d@2x.jpeg',
+    masterTitle: '',
+    country: 'US',
+    username: 'chanelno5x',
   },
 ]
 export default config

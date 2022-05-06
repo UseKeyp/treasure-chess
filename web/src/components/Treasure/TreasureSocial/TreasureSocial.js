@@ -22,14 +22,6 @@ const TreasureSocial = ({ treasure }) => {
     setTimeout(() => setLabel(false), 2000)
   }, [linkToShare])
 
-  const facebookHandler = () => {
-    const uriComponent = encodeURIComponent(linkToShare)
-    window.open(
-      `https://www.facebook.com/sharer/sharer.php?u=${uriComponent}`,
-      'facebook-share-dialog',
-      'width=626,height=436'
-    )
-  }
   return (
     <div className="treasure-social-container">
       <h1 className="table-header">Details</h1>
@@ -39,18 +31,6 @@ const TreasureSocial = ({ treasure }) => {
           src="https://platform.twitter.com/widgets.js"
           charSet="utf-8"
         ></script>
-        <script>
-          {(function (d, s, id) {
-            var js,
-              fjs = d.getElementsByTagName(s)[0]
-            if (d.getElementById(id)) return
-            js = d.createElement(s)
-            js.id = id
-            js.src =
-              'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0'
-            fjs.parentNode.insertBefore(js, fjs)
-          })(document, 'script', 'facebook-jssdk')}
-        </script>
         <div className="treasure-social__persons">
           <div className="flex space-x-3">
             <p>Owner</p> <MemberLink member={treasure?.owner} />
@@ -68,9 +48,6 @@ const TreasureSocial = ({ treasure }) => {
               ) : (
                 <Icon name="share" color="#abb6b9" size={24} />
               )}
-            </button>
-            <button onClick={facebookHandler}>
-              <Icon name="facebook" size={24} />
             </button>
             <a
               target="_blank"

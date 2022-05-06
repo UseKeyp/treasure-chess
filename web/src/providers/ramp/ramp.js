@@ -1,19 +1,23 @@
-import {useLazyQuery, useMutation, useQuery} from '@apollo/client'
-import {useAuth} from '@redwoodjs/auth'
-import {isBrowser} from '@redwoodjs/prerender/browserUtils'
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
+import { useAuth } from '@redwoodjs/auth'
+import { isBrowser } from '@redwoodjs/prerender/browserUtils'
 
-import {useToast} from 'src/providers/toast'
-import {TxToast} from 'src/providers/market/toasts'
-import {useOAuth} from 'src/providers/oAuth'
+import { useToast } from 'src/providers/toast'
+import { TxToast } from 'src/providers/market/toasts'
+import { useOAuth } from 'src/providers/oAuth'
 
-import {MEMBER_RAMPS_QUERY, RAMP_WITHDRAW_MUTATION, WYRE_DEPOSIT_URL_QUERY,} from './graphql'
-import ModalContainer from "src/components/ModalContainer";
-import Icon from "src/components/Icon";
-import FilterPriceInput from "src/components/FilterPriceInput";
-import LoadingDots from "src/components/LoadingDots";
-import Button from "src/components/Button";
-import {trimAddress} from "src/utils/helpers";
-import {useModal} from "src/hooks/useModal";
+import {
+  MEMBER_RAMPS_QUERY,
+  RAMP_WITHDRAW_MUTATION,
+  WYRE_DEPOSIT_URL_QUERY,
+} from './graphql'
+import ModalContainer from 'src/components/ModalContainer'
+import Icon from 'src/components/Icon'
+import FilterPriceInput from 'src/components/FilterPriceInput'
+import LoadingDots from 'src/components/LoadingDots'
+import Button from 'src/components/Button'
+import { trimAddress } from 'src/utils/helpers'
+import { useModal } from 'src/hooks/useModal'
 
 const PLAID = 'PLAID'
 const COINBASE = 'COINBASE'
@@ -25,15 +29,15 @@ const RampContext = React.createContext({
 
 const useRamp = () => React.useContext(RampContext)
 
-export const DepositModal = ({isVisible, toggleModal}) => {
-  const {deposit} = useRamp()
+export const DepositModal = ({ isVisible, toggleModal }) => {
+  const { deposit } = useRamp()
   return (
     <ModalContainer
       isVisible={isVisible}
       onSubmit={deposit}
       hideModal={toggleModal}
       headerText="Add Funds"
-      icon={<Icon name="wyre" size="29"/>}
+      icon={<Icon name="wyre" size="29" />}
       submitText="Continue to Wyre"
       content={
         <>
@@ -84,9 +88,9 @@ export const DepositModal = ({isVisible, toggleModal}) => {
   )
 }
 
-export const WithdrawModal = ({isVisible, toggleModal}) => {
+export const WithdrawModal = ({ isVisible, toggleModal }) => {
   const [amount, setAmount] = React.useState('0')
-  const {ramps, isLoading} = useRamp()
+  const { ramps, isLoading } = useRamp()
   const isConnected = ramps.map((ramp) => ramp.address && true).includes(true)
   return (
     <ModalContainer
@@ -130,7 +134,7 @@ export const WithdrawModal = ({isVisible, toggleModal}) => {
           {isConnected && (
             <>
               <h4 className="mt-4 ">Amount to cash out</h4>
-              <FilterPriceInput value={amount} setValue={setAmount}/>
+              <FilterPriceInput value={amount} setValue={setAmount} />
             </>
           )}
           {ramps.map((ramp) => (
@@ -148,18 +152,18 @@ export const WithdrawModal = ({isVisible, toggleModal}) => {
   )
 }
 
-const VendorConnection = ({ramp, amount, isLoading, disabled}) => {
+const VendorConnection = ({ ramp, amount, isLoading, disabled }) => {
   if (!ramp) return null
   let backgroundColor = isLoading
     ? 'bg-chessBlack-200 pointer-events-none'
     : 'bg-green'
   const loadingText = (
     <p className="text-white flex justify-center text-[10px]">
-      <LoadingDots/>
+      <LoadingDots />
     </p>
   )
   const buttonClassName = `mt-4 w-[272px] h-[40px] text-xl shadow-m hover:sm hover:bg-greenDark hover:shadow-greenDark ${backgroundColor}`
-  let rampError;
+  let rampError
   if (ramp.error != null && ramp.error != '') {
     rampError = ramp.error.substring(0, 200)
   } else {
@@ -203,7 +207,7 @@ const VendorConnection = ({ramp, amount, isLoading, disabled}) => {
         <div className="flex ml-4 align-center">
           <Button onClick={ramp.onConnect} disabled={isLoading}>
             <div className="flex flex-row items-center">
-              <Icon name="circle_arrow" height="13" color="white"/>
+              <Icon name="circle_arrow" height="13" color="white" />
               <p className="ml-2">Update</p>
             </div>
           </Button>
@@ -276,14 +280,13 @@ const RampProvider = ({ children }) => {
         ...coinbase,
         ...coinbaseRamp,
       })
-      setWyre
-      ({
+      setWyre({
         error: '',
         ...wyre,
         ...wyreRamp,
       })
-    };
-    document.addEventListener('click', handleClickInsideModal, true);
+    }
+    document.addEventListener('click', handleClickInsideModal, true)
     const coinbaseRamp = ramps.find((ramp) => ramp.type === COINBASE)
     const wyreRamp = ramps.find((ramp) => ramp.type === WYRE)
     // TODO:  only continue if there's been a change, otherwise keep polling.
@@ -325,10 +328,10 @@ const RampProvider = ({ children }) => {
     document.getElementById('connection-button').disabled = true
     setCoinbase({ isLoading: true, error: null, ...coinbase })
     try {
-      const oAuthUrl = await getOAuthUrl(COINBASE);
+      const oAuthUrl = await getOAuthUrl(COINBASE)
       if (oAuthUrl == null || oAuthUrl != '') {
-        coinbase.error = errorOAuth;
-        setCoinbase({ isLoading: false, ...coinbase})
+        coinbase.error = errorOAuth
+        setCoinbase({ isLoading: false, ...coinbase })
         document.getElementById('connection-button').disabled = false
         return
       }
@@ -341,7 +344,7 @@ const RampProvider = ({ children }) => {
       setShouldPoll(true)
       document.getElementById('connection-button').disabled = false
     } catch (error) {
-      coinbase.error = error;
+      coinbase.error = error
       document.getElementById('connection-button').disabled = false
       return setCoinbase({ isLoading: false, error: error, ...coinbase })
     }
@@ -350,19 +353,19 @@ const RampProvider = ({ children }) => {
   const connectWyre = async () => {
     document.getElementById('connection-button').disabled = true
     setWyre({ isLoading: true, error: null, ...wyre })
-    let oAuthUrl;
+    let oAuthUrl
     try {
       oAuthUrl = await getOAuthUrl(PLAID)
       setShouldPoll(true)
       if (oAuthUrl == null || oAuthUrl == '') {
-        wyre.error = errorOAuth;
+        wyre.error = errorOAuth
         document.getElementById('connection-button').disabled = false
-        return setWyre({isLoading: false, error: errorOAuth, ...wyre})
+        return setWyre({ isLoading: false, error: errorOAuth, ...wyre })
       }
     } catch (error) {
-      wyre.error = error;
+      wyre.error = error
       document.getElementById('connection-button').disabled = false
-      return setWyre({isLoading: false, error: error, ...wyre})
+      return setWyre({ isLoading: false, error: error, ...wyre })
     }
     /* eslint-disable-next-line no-undef */
     const linkHandler = Plaid.create({
@@ -371,12 +374,15 @@ const RampProvider = ({ children }) => {
       onSuccess: async (public_token, metadata) => {
         const accountId = metadata.accounts[0].id
         try {
-          const {data} = await submitCodeGrant({
+          const { data, error } = await submitCodeGrant({
             code: public_token,
             accountId,
             type: PLAID,
           })
-          const {ramp: wyreRamp} = data
+          console.log(error)
+          if (error) throw error
+          console.log(data)
+          const { ramp: wyreRamp } = data
           setWyre({
             ...wyre,
             isLoading: false,
@@ -398,15 +404,15 @@ const RampProvider = ({ children }) => {
           // TODO: Trigger some error notification
           toast.error('Failed to connect')
           // The user encountered a Plaid API error prior to exiting.
-          wyre.error = err;
+          wyre.error = err
           setWyre({
             ...wyre,
             isLoading: false,
-            error: err
+            error: err,
           })
         }
       },
-    });
+    })
     linkHandler.open()
   }
 

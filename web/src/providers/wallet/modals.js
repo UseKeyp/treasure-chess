@@ -4,21 +4,10 @@ import FilterPriceInput from 'src/components/FilterPriceInput'
 import Button from 'src/components/Button'
 import LoadingDots from 'src/components/LoadingDots'
 import { useRamp } from 'src/providers/ramp'
-import { isBrowser, trimAddress } from 'src/utils/helpers'
-import { useEffect } from 'react'
+import { trimAddress } from 'src/utils/helpers'
 
 export const AddressModal = ({ address, isVisible, toggleModal }) => {
   const [textToPass, setTextToPass] = React.useState('Accept')
-
-  useEffect(() => {
-    if (isBrowser) {
-      if (isVisible) {
-        document.body.style.overflow = 'hidden'
-      } else {
-        document.body.style.overflow = 'visible'
-      }
-    }
-  }, [isVisible])
 
   const handleCopy = () => {
     if (typeof document === 'undefined') {
@@ -73,16 +62,6 @@ export const AddressModal = ({ address, isVisible, toggleModal }) => {
 }
 
 export const DepositModal = ({ isVisible, toggleModal }) => {
-  useEffect(() => {
-    if (isBrowser) {
-      if (isVisible) {
-        document.body.style.overflow = 'hidden'
-      } else {
-        document.body.style.overflow = 'visible'
-      }
-    }
-  }, [isVisible])
-
   const { deposit } = useRamp()
   return (
     <ModalContainer
@@ -229,15 +208,6 @@ export const WithdrawModal = ({ isVisible, toggleModal }) => {
   const [amount, setAmount] = React.useState('0')
   const { ramps, isLoading } = useRamp()
   const isConnected = ramps.map((ramp) => ramp.address && true).includes(true)
-  useEffect(() => {
-    if (isBrowser) {
-      if (isVisible) {
-        document.body.style.overflow = 'hidden'
-      } else {
-        document.body.style.overflow = 'visible'
-      }
-    }
-  }, [isVisible])
   return (
     <ModalContainer
       headerText="Cash Out"

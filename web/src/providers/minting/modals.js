@@ -3,19 +3,10 @@ import { routes, navigate } from '@redwoodjs/router'
 import ModalContainer from 'src/components/ModalContainer/ModalContainer'
 import TreasureCardCell from 'src/components/Treasure/TreasureCardCell'
 import Confetti from 'src/components/Confetti'
-import { useEffect } from 'react'
 import { isBrowser } from 'src/utils/helpers'
+import { useEffect } from 'react'
 
 export const CancelModal = ({ isVisible, toggleModal, onSubmit }) => {
-  useEffect(() => {
-    if (isBrowser) {
-      if (isVisible) {
-        document.body.style.overflow = 'hidden'
-      } else {
-        document.body.style.overflow = 'visible'
-      }
-    }
-  }, [isVisible])
   return (
     <ModalContainer
       headerText="Cancel Order"

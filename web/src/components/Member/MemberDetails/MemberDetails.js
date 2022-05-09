@@ -13,7 +13,7 @@ import globalConfig from 'src/global.config'
 import { getFlagBase64 } from '@treasure-chess/treasure-html'
 
 import { trimAddress } from 'src/utils/helpers'
-import { useRamp } from "src/providers/ramp/ramp";
+import { useRamp } from 'src/providers/ramp/ramp'
 
 const TWITCH = 'TWITCH'
 

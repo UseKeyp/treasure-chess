@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { routes, useLocation } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
-import {useRamp} from "src/providers/ramp/ramp";
+import { useRamp } from 'src/providers/ramp/ramp'
 
 import Icon from 'src/components/Icon/Icon'
 import Avatar from 'src/components/Avatar/Avatar'

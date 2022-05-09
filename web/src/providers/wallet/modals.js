@@ -54,4 +54,3 @@ export const AddressModal = ({ address, isVisible, toggleModal }) => {
     />
   )
 }
-

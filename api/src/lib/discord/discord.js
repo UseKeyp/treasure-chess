@@ -40,7 +40,7 @@ class DiscordBot {
           await interaction.deferReply({ ephemeral: false })
           await command.execute(interaction)
         } catch (e) {
-          logger.debug('Something wend wrong while executing this function')
+          logger.debug('Something went wrong while executing this function')
           logger.error(e)
           await interaction.editReply({
             content: `Error: ${e}`,

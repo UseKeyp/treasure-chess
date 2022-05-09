@@ -1,8 +1,13 @@
+import { formatEther } from '@ethersproject/units'
+
 import Sentry from 'src/lib/sentry'
 import { db } from 'src/lib/db'
 import { isHexAddress } from 'src/lib/helpers'
 import { fetchChessMember } from 'src/lib/chessCom/chessCom'
 import { logger } from 'src/lib/logger'
+
+import { web3Provider } from 'src/lib/web3/helpers'
+import { getUsdcBalance } from 'src/lib/web3/tokens'
 
 export const fetchMemberAndGiveCredits = async (username, creditsToGive) => {
   const member = await db.member.findUnique({
@@ -226,5 +231,62 @@ export const fetchMember = async (
     logger.error(e)
     Sentry.captureException(e)
     throw `fetchMember() ${e}`
+  }
+}
+
+// NOTE: For internal use only!
+// Currently used only for Chester Discord bot
+export const getMemberRawData = async (username) => {
+  let member = await db.member.findUnique({
+    where: { username },
+    include: {
+      treasuresOwned: true,
+      treasuresMinted: true,
+      marketSalesSold: { include: { buyer: { select: { username: true } } } },
+      marketSalesPurchased: {
+        include: { seller: { select: { username: true } } },
+      },
+      mintPurchases: {
+        include: { staleTransactions: true, transaction: true },
+      },
+      depositOrders: true,
+    },
+  })
+  if (!member) throw 'Member not found'
+  const details = {
+    treasuresOwned: member.treasuresOwned,
+    treasuresMinted: member.treasuresMinted,
+    marketSalesSold: member.marketSalesSold,
+    marketSalesPurchased: member.marketSalesPurchased,
+    mintPurchases: member.mintPurchases,
+    depositOrders: member.depositOrders,
+  }
+  Object.keys(details).map((key) => delete member[key])
+  delete member.refreshToken
+
+  let usdcBalance
+  let etherBalance
+  try {
+    usdcBalance = await getUsdcBalance(member.address)
+    etherBalance = await web3Provider.getBalance(member.address)
+    etherBalance = formatEther(etherBalance)
+  } catch {
+    // Do nothing
+  }
+  let ramps = await db.ramp.findMany({
+    where: { memberId: member.id },
+    orderBy: { createdAt: 'desc' },
+    include: { RampWithdraw: { include: { transaction: true } } },
+  })
+  ramps = ramps.map((ramp) => ({
+    ...ramp,
+    accessToken: 'REDACTED',
+    refreshToken: 'REDACTED',
+  }))
+  return {
+    member,
+    web3: { etherBalance, usdcBalance },
+    ...details,
+    ramps,
   }
 }

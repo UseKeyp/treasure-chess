@@ -140,6 +140,18 @@ export const processOrder = async ({ reservation, orderId }) => {
       where: { id: mintPurchase.id },
       data: { orderId, orderStatus: 'COMPLETE' },
     })
+    await sendDiscordAdminAlert({
+      embed: {
+        color: 3066993,
+        title: `✨💳  Wyre debit card mint success!`,
+        description: `Wyre order ID: ${orderId}
+member: ${mintPurchase.member.username}
+mintPurchase: ${mintPurchase.id}`,
+        footer: { text: new Date().toString() },
+        type: 'link',
+      },
+      channelName: 'orders',
+    })
   } catch (e) {
     await sendDiscordAdminAlert({
       embed: {

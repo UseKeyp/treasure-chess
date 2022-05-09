@@ -4,7 +4,7 @@ import Sentry from 'src/lib/sentry'
 import { fetchMember } from 'src/lib/members'
 import { fetchGame } from 'src/lib/games'
 import { pinTreasure } from 'src/lib/pinata/pinata'
-import { formatUnits } from '@ethersproject/units'
+import { formatUnits, formatEther } from '@ethersproject/units'
 
 import { mint } from 'src/lib/web3/treasure'
 import { web3Provider } from 'src/lib/web3/helpers'
@@ -13,6 +13,12 @@ import { sendDiscordAdminAlert } from 'src/lib/discord/admin'
 
 import { logger } from 'src/lib/logger'
 import { isProduction, isOlderThanResubmitTimeout } from 'src/lib/helpers'
+import { getAdminBalance } from './wallets/admin'
+
+import { getExplorerBaseUrlFromName } from '@treasure-chess/web3-helpers'
+const EXPLORER_BASE_URL = getExplorerBaseUrlFromName(
+  process.env.ETHEREUM_NETWORK_NAME
+)
 
 const SUBMITTED = 'SUBMITTED'
 const COMPLETE = 'COMPLETE'
@@ -21,6 +27,32 @@ const FAILED = 'FAILED'
 const MINIMUM_CONFIRMATIONS = isProduction ? 15 : 1
 const MAX_RESUBMIT_ATTEMPTS = 0
 
+const alertDiscord = async (treasure) => {
+  try {
+    const adminMaticBalance = await getAdminBalance()
+    await sendDiscordAdminAlert({
+      embed: {
+        color: 8963403,
+        title: `✨ Mint success!`,
+        url: `${process.env.APP_DOMAIN}/treasures/${treasure.tokenId}`,
+        description: `${EXPLORER_BASE_URL}token/${treasure.id}`,
+        fields: [
+          { name: 'tokenId', value: treasure.tokenId, inline: true },
+          {
+            name: 'Admin wallet',
+            value: `${formatEther(adminMaticBalance).substring(0, 6)} ETH`,
+            inline: true,
+          },
+        ],
+        image: { url: treasure.openGraphImageSrc },
+        footer: { text: new Date().toString() },
+      },
+      channelName: 'mint',
+    })
+  } catch (e) {
+    logger.error(e)
+  }
+}
 const mintFailGracefully = async ({ mintPurchase, errorMessage }) => {
   await sendDiscordAdminAlert({
     embed: {
@@ -68,11 +100,11 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
     logger.debug({ custom: game }, 'Game')
     if (game.tokenId) {
       const GAME_ALREADY_MINTED = `Purchase found, but the Treasure was already minted. `
-      logger.info(GAME_ALREADY_MINTED)
-      return mintFailGracefully({
-        mintPurchase,
-        errorMessage: GAME_ALREADY_MINTED,
-      })
+      return logger.info(GAME_ALREADY_MINTED)
+      // return mintFailGracefully({
+      //   mintPurchase,
+      //   errorMessage: GAME_ALREADY_MINTED,
+      // })
     }
 
     const treasureData = generateTreasureData({
@@ -113,6 +145,13 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
               },
             },
           },
+        })
+        await alertDiscord({
+          ...treasureData,
+          tokenId,
+          uriData,
+          tokenUri,
+          openGraphImageSrc,
         })
         return purchase
       }

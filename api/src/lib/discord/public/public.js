@@ -17,7 +17,7 @@ logger.debug(
 )
 
 if (
-  process.env.ENABLE_DISCORD_BOTS && // Prevents multiple instances running
+  process.env.ENABLE_DISCORD_BOTS === 'true' && // Prevents multiple instances running
   clientId &&
   botToken
 )

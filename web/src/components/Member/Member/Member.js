@@ -31,17 +31,14 @@ const Member = ({ member, isLoading }) => {
       <div className="flex mt-4">
         <TreasuresFetcher
           limit
+          seeMore={routes.treasures({ username: member.username })}
           username={member.username}
           sort="Highest Level"
         />
       </div>
       <h1 className="mt-10">Treasures Owned</h1>
       <div className="flex mt-4">
-        <TreasuresFetcher
-          owner={member.username}
-          sort="Highest Level"
-          seeMore={routes.treasures({ username: member.username })}
-        />
+        <TreasuresFetcher owner={member.username} sort="Highest Level" />
       </div>
     </div>
   )

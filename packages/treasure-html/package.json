@@ -1,6 +1,6 @@
 {
   "name": "@treasure-chess/treasure-html",
-  "version": "1.0.4",
+  "version": "1.0.5-staging.3",
   "description": "Generates a beautiful html card for a treasure.",
   "main": "dist/index.js",
   "module": "src/index.js",

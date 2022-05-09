@@ -23,6 +23,9 @@ const validateConfig = (wallet) => {
 export const adminSign = async (unsigned) =>
   adminWallet.signTransaction(unsigned)
 
+export const getAdminBalance = async () =>
+  web3Provider.getBalance(adminWallet.address)
+
 export const adminSendTransaction = async (unsigned) => {
   validateConfig(adminWallet)
   try {

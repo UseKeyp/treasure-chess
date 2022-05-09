@@ -22,7 +22,14 @@ const options = {
   style: 'neo',
 }
 
-const GameCard = ({ game, isMinting, isLoading, title, showGif }) => {
+const GameCard = ({
+  game,
+  isMinting,
+  isLoading,
+  title,
+  showGif,
+  disableAnimation,
+}) => {
   const [cardHtml, setCardHtml] = React.useState()
   const [props, set] = useSpring(() => ({
     xys: [0, 0, 1],
@@ -132,6 +139,8 @@ const GameCard = ({ game, isMinting, isLoading, title, showGif }) => {
                 Minting
                 <br />
                 in progress
+                <br />
+                (~1 minute)
               </P>
             </div>
           </div>
@@ -155,7 +164,11 @@ const GameCard = ({ game, isMinting, isLoading, title, showGif }) => {
           onMouseLeave={() => set.start({ xys: [0, 0, 1] })}
           style={{
             transform:
-              game.id && !isMobile && !isMinting && props.xys.to(trans),
+              game.id &&
+              !disableAnimation &&
+              !isMobile &&
+              !isMinting &&
+              props.xys.to(trans),
           }}
           dangerouslySetInnerHTML={{ __html: cardHtml }}
         />

@@ -56,7 +56,7 @@ const FilterProvider = ({ children }) => {
       const key = pair[0]
       const value = pair[1]
       if (key === 'username' || key === 'sort') {
-        newState[key] = value
+        newState[key] = key === 'username' ? value.toLowerCase() : value
       } else {
         newState.filter = { ...newState.filter, [key]: value }
       }

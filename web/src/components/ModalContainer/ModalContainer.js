@@ -1,8 +1,8 @@
 import { createPortal } from 'react-dom'
 import Button from 'src/components/Button/Button'
 import LoadingDots from 'src/components/LoadingDots'
+import { isBrowser } from '@redwoodjs/prerender/browserUtils'
 import { useEffect } from 'react'
-
 const ModalContainer = ({
   isVisible,
   hideModal,
@@ -15,6 +15,13 @@ const ModalContainer = ({
   hideCancelButton,
   isLoading,
 }) => {
+  if (isBrowser) {
+    if (isVisible) {
+      document.body.style.width = '100%'
+    } else {
+      document.body.style.position = 'relative'
+    }
+  }
   useEffect(() => {
     if (isVisible) {
       document.body.style.overflow = 'hidden'

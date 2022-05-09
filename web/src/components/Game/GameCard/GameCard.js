@@ -139,6 +139,8 @@ const GameCard = ({
                 Minting
                 <br />
                 in progress
+                <br />
+                (~1 minute)
               </P>
             </div>
           </div>

@@ -30,6 +30,6 @@ export const deletePromotion = ({ id }) => {
 }
 
 export const Promotion = {
-  membersClaimed: (_obj, { root }) =>
-    db.promotion.findUnique({ where: { id: root.id } }).membersClaimed(),
+  members: (_obj, { root }) =>
+    db.promotion.findUnique({ where: { id: root.id } }).members(),
 }

@@ -27,10 +27,10 @@ describe('promotions', () => {
 
   scenario('creates a promotion', async () => {
     const result = await createPromotion({
-      input: { updatedAt: '2022-05-06T14:42:27Z', type: 'TWITCH_CONNECTION' },
+      input: { updatedAt: '2022-05-10T01:36:23Z', type: 'TWITCH_CONNECTION' },
     })
 
-    expect(result.updatedAt).toEqual('2022-05-06T14:42:27Z')
+    expect(result.updatedAt).toEqual('2022-05-10T01:36:23Z')
     expect(result.type).toEqual('TWITCH_CONNECTION')
   })
 
@@ -38,10 +38,10 @@ describe('promotions', () => {
     const original = await promotion({ id: scenario.promotion.one.id })
     const result = await updatePromotion({
       id: original.id,
-      input: { updatedAt: '2022-05-07T14:42:27Z' },
+      input: { updatedAt: '2022-05-11T01:36:23Z' },
     })
 
-    expect(result.updatedAt).toEqual('2022-05-07T14:42:27Z')
+    expect(result.updatedAt).toEqual('2022-05-11T01:36:23Z')
   })
 
   scenario('deletes a promotion', async (scenario) => {

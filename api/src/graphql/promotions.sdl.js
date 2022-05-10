@@ -7,7 +7,7 @@ export const schema = gql`
     type: PromotionType!
     mintCredits: Int
     enabled: Boolean!
-    membersClaimed: [Member]!
+    members: [PromotionsOnMembers]!
   }
 
   enum PromotionRewardType {

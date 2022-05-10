@@ -6,6 +6,7 @@ import { useModal } from 'src/hooks/useModal'
 import { WithdrawModal, DepositModal, AddressModal } from './modals'
 import { MEMBER_BALANCE_QUERY, TRANSFER_ERC20 } from './graphql'
 import { useMutation } from '@redwoodjs/web'
+import { useToast } from 'src/providers/toast'
 
 const WalletContext = React.createContext({
   balanceLoading: true,
@@ -18,20 +19,20 @@ const WalletContext = React.createContext({
 
 const WalletProvider = ({ children }) => {
   const { isAuthenticated } = useAuth()
+  const { toast } = useToast()
   const [state, setState] = React.useState({
     usdcBalance: null,
     mintCreditBalance: null,
     addressToCopy: '',
+    transferErc20Loading: false,
+    transferErc20Error: null,
   })
 
   const { isVisible: isVisibleDep, toggleModal: toggleModalDep } = useModal()
   const { isVisible: isVisibleWit, toggleModal: toggleModalWit } = useModal()
   const { isVisible: isVisibleAdd, toggleModal: toggleModalAdd } = useModal()
 
-  const [
-    transferErc20Mutation,
-    { data, loading: transferErc20Loading, error: transferErc20Error },
-  ] = useMutation(TRANSFER_ERC20)
+  const [transferErc20Mutation] = useMutation(TRANSFER_ERC20)
 
   const {
     data: { memberBalance } = {},
@@ -51,9 +52,30 @@ const WalletProvider = ({ children }) => {
   }
 
   const transferErc20 = async (tokenAddress, recipientAddress, amount) => {
-    await transferErc20Mutation({
-      variables: { tokenAddress, recipientAddress, amount },
-    })
+    try {
+      setState((state) => ({ ...state, transferErc20Loading: true }))
+
+      const { error, data } = await transferErc20Mutation({
+        variables: { tokenAddress, recipientAddress, amount },
+      })
+      if (error) throw error
+
+      setState((state) => ({
+        ...state,
+        transferErc20Error: null,
+        transferErc20Loading: false,
+      }))
+
+      return data
+    } catch (e) {
+      toast.error(e?.message)
+      setState((state) => ({
+        ...state,
+        transferErc20Error: e?.message,
+        transferErc20Loading: false,
+      }))
+      return null
+    }
   }
 
   React.useEffect(() => {
@@ -74,8 +96,8 @@ const WalletProvider = ({ children }) => {
         mintCreditBalance: state.mintCreditBalance,
         balanceError,
         balanceLoading,
-        transferErc20Loading,
-        transferErc20Error,
+        transferErc20Loading: state.transferErc20Loading,
+        transferErc20Error: state.transferErc20Error,
       }}
     >
       <DepositModal isVisible={isVisibleDep} toggleModal={toggleModalDep} />

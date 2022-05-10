@@ -10,14 +10,22 @@ import {
 import { isHexAddress } from 'src/utils/helpers'
 import { BigNumber } from '@ethersproject/bignumber'
 import { useWallet } from 'src/providers/wallet'
+import { useToast } from 'src/providers/toast'
 
 const WalletFormTransfer20 = () => {
-  const { transferErc20, transferErc20Loading, transferErc20Error } =
-    useWallet()
+  const { toast } = useToast()
+  const { transferErc20, transferErc20Loading } = useWallet()
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     data.amount = BigNumber.from(data.amount)
-    transferErc20(data.tokenAddress, data.recipientAddress, data.amount)
+    const transferErc20Response = await transferErc20(
+      data.tokenAddress,
+      data.recipientAddress,
+      data.amount
+    )
+    if (transferErc20Response) {
+      toast.success('Transferred!')
+    }
   }
 
   return (
@@ -89,7 +97,12 @@ const WalletFormTransfer20 = () => {
         <FieldError name="recipientAddress" className="rw-field-error" />
 
         <div className="rw-button-group">
-          <Submit className="rw-button rw-button-blue">Transfer</Submit>
+          <Submit
+            disabled={transferErc20Loading}
+            className="rw-button rw-button-blue"
+          >
+            Transfer
+          </Submit>
         </div>
       </Form>
     </div>

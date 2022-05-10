@@ -8,24 +8,29 @@ const SiteFooter = () => {
   return (
     <div className="w-full flex items-center justify-center">
       <div className="max-w-7xl flex-1 flex flex-col items-center justify-between py-12 px-4 text-sm md:flex-row">
-        <div className="flex items-center mt-4 md:mt-0">
-          <a href={globalConfig.DISCORD_URL} className="inline-block mr-4">
-            <Icon name="discord" size="24px" />
-            <span className="sr-only">discord</span>
-          </a>
-          <a href={globalConfig.TWITTER_URL} className="inline-block mr-4">
-            <Icon name="twitter" color="#fff" size="24px" />
-            <span className="sr-only">twitter</span>
-          </a>
-          <a href={globalConfig.GITHUB_URL} className="inline-block mr-4">
-            <Icon name="github" size="24px" />
-            <span className="sr-only">Github</span>
-          </a>
-          <a href={globalConfig.BLOG_URL} className="inline-block mr-4">
+        <div className="flex items-center mt-4 md:mt-0 flex-col sm:flex-row">
+          <div className="flex items-center">
+            <a href={globalConfig.DISCORD_URL} className="inline-block mr-4">
+              <Icon name="discord" size="24px" />
+              <span className="sr-only">discord</span>
+            </a>
+            <a href={globalConfig.TWITTER_URL} className="inline-block mr-4">
+              <Icon name="twitter" color="#fff" size="24px" />
+              <span className="sr-only">twitter</span>
+            </a>
+            <a href={globalConfig.GITHUB_URL} className="inline-block mr-4">
+              <Icon name="github" size="24px" />
+              <span className="sr-only">Github</span>
+            </a>
+          </div>
+          <a
+            href={globalConfig.BLOG_URL}
+            className="inline-block my-6 sm:mr-4 sm:my-0"
+          >
             Blog
           </a>
         </div>
-        <div className="flex flex-col sm:flex-row text-center my-6 sm:my-0 sm:space-x-4 space-y-6 sm:space-y-0">
+        <div className="flex flex-col sm:flex-row text-center mb-6 sm:my-0 sm:space-x-4 space-y-6 sm:space-y-0">
           <a href={globalConfig.TOC_URL}>Terms of Service</a>
           <a href={globalConfig.PRIVACY_POLICY_URL}>Privacy Policy</a>
           <a href={globalConfig.SUPPORT_URL}>Support</a>

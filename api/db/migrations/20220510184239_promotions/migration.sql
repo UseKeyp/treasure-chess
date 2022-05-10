@@ -19,6 +19,8 @@ CREATE TABLE "Promotion" (
 
 -- CreateTable
 CREATE TABLE "PromotionsOnMembers" (
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
     "memberId" TEXT NOT NULL,
     "promotionId" INTEGER NOT NULL,
 

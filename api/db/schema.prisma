@@ -245,6 +245,27 @@ model Transaction {
   mintPurchaseId       Int?
 }
 
+model Promotion {
+  id          Int                   @id @default(autoincrement())
+  createdAt   DateTime              @default(now())
+  updatedAt   DateTime              @updatedAt
+  rewardType  PromotionRewardType   @default(MINT_CREDIT)
+  type        PromotionType
+  mintCredits Int? // How many mint credits should be given
+  enabled     Boolean               @default(false)
+  members     PromotionsOnMembers[]
+}
+
+model PromotionsOnMembers {
+  @@id([memberId, promotionId])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  member      Member    @relation(fields: [memberId], references: [id])
+  memberId    String
+  promotion   Promotion @relation(fields: [promotionId], references: [id])
+  promotionId Int
+}
+
 enum RampType {
   COINBASE
   WYRE
@@ -416,30 +437,10 @@ enum Achievement {
   Winner
 }
 
-model Promotion {
-  id          Int                   @id @default(autoincrement())
-  createdAt   DateTime              @default(now())
-  updatedAt   DateTime              @updatedAt
-  rewardType  PromotionRewardType   @default(MINT_CREDIT)
-  type        PromotionType
-  mintCredits Int? // How many mint credits should be given
-  enabled     Boolean               @default(false)
-  members     PromotionsOnMembers[]
-}
-
 enum PromotionRewardType {
   MINT_CREDIT
 }
 
 enum PromotionType {
   TWITCH_CONNECTION
-}
-
-model PromotionsOnMembers {
-  member      Member    @relation(fields: [memberId], references: [id])
-  memberId    String
-  promotion   Promotion @relation(fields: [promotionId], references: [id])
-  promotionId Int
-
-  @@id([memberId, promotionId])
 }

@@ -36,8 +36,8 @@ export const fetchMemberAndGiveCredits = async (username, creditsToGive) => {
         mintCredits:
           Number(process.env.MINT_CREDITS_NEW_MEMBER) + creditsToGive,
         ...(chessData.avatar && { imageSrc: chessData.avatar }),
-        ...(chessData.masterTitle && {
-          masterTitle: chessData.masterTitle,
+        ...(chessData.title && {
+          masterTitle: chessData.title,
         }),
         country,
         banned: true,
@@ -72,8 +72,8 @@ export const fetchMemberAndUpdateBan = async (username, shouldBan) => {
         username: chessData.username,
         mintCredits: Number(process.env.MINT_CREDITS_NEW_MEMBER),
         ...(chessData.avatar && { imageSrc: chessData.avatar }),
-        ...(chessData.masterTitle && {
-          masterTitle: chessData.masterTitle,
+        ...(chessData.title && {
+          masterTitle: chessData.title,
         }),
         country,
         banned: shouldBan,
@@ -119,8 +119,8 @@ export const fetchMemberAndBlock = async (username, shouldIgnoreAddress) => {
             username: chessData.username,
             mintCredits: Number(process.env.MINT_CREDITS_NEW_MEMBER),
             ...(chessData.avatar && { imageSrc: chessData.avatar }),
-            ...(chessData.masterTitle && {
-              masterTitle: chessData.masterTitle,
+            ...(chessData.title && {
+              masterTitle: chessData.title,
             }),
             country,
             blocked: true,
@@ -185,8 +185,8 @@ export const fetchMember = async (
                 username: chessData.username,
                 mintCredits: Number(process.env.MINT_CREDITS_NEW_MEMBER),
                 ...(chessData.avatar && { imageSrc: chessData.avatar }),
-                ...(chessData.masterTitle && {
-                  masterTitle: chessData.masterTitle,
+                ...(chessData.title && {
+                  masterTitle: chessData.title,
                 }),
                 country,
               },

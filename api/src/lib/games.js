@@ -159,7 +159,8 @@ export const getGamesWithFilter = async ({ username, filter, page = 0 }) => {
   await Promise.all(
     sortedGames.map(async (game) => {
       let gameState = game
-      if (!game.termination) gameState['termination'] = 'Unkown'
+      if (!game.termination)
+        gameState['termination'] = 'Unkown' && logger.error(game.externalUrl)
 
       try {
         const fullGame = await getFullGameDetails({ gameState, username })

@@ -107,6 +107,7 @@ model Treasure {
   moves             String // pgn moves
   boardLayout       String // Final positions used to generate the image
   moveCount         Int // eg. 43
+  viewCount         Int              @default(0)
   ruleVariant       String           @default("Standard") // eg. "Standard" or "Chess960"
   externalUrl       String? // Link to game on chess.com
   opening           Opening
@@ -204,10 +205,10 @@ model OAuthConnection {
   member       Member              @relation("oAuthConnections", fields: [memberId], references: [id])
   memberId     String
   type         OAuthConnectionType
-  revoked     Boolean @default(false)
+  revoked      Boolean             @default(false)
   refreshToken String?
   accessToken  String
-  expiration    DateTime?
+  expiration   DateTime?
 }
 
 model RampWithdraw {

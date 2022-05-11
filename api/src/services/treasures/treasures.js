@@ -10,9 +10,15 @@ export const treasuresWithFilter = ({ username, owner, sort, filter, page }) =>
 export const treasuresWithFilterCount = ({ username, owner, filter }) =>
   getTreasuresWithFilterCount({ username, filter, owner })
 
-export const treasure = ({ tokenId }) => {
+export const treasure = async ({ tokenId }) => {
   let id
   if (tokenId.startsWith('0x')) id = tokenId
+
+  await db.treasure.update({
+    where: { ...(id ? { id } : { tokenId: Number(tokenId) }) },
+    data: { viewCount: { increment: 1 } },
+  })
+
   return db.treasure.findUnique({
     where: { ...(id ? { id } : { tokenId: Number(tokenId) }) },
     include: {

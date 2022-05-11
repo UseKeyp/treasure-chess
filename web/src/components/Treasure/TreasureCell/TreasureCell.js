@@ -48,6 +48,7 @@ export const QUERY = gql`
       moves
       gifUrl
       boardLayout
+      viewCount
       ruleVariant
       externalUrl
       opening

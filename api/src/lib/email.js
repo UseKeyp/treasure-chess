@@ -4,6 +4,10 @@ import { logger } from 'src/lib/logger'
 
 // --
 
+const EMAIL_FROM = ''
+
+// --
+
 const transport = createTransport({
   logger,
   host: process.env.SMTP_HOST,
@@ -16,7 +20,35 @@ const transport = createTransport({
 
 // --
 
-export const sendEmail = async ({ type, member, treasure }) => {
+/**
+ * @example
+ * // Provide `body` and `subject` directly
+ *
+ * import { sendEmail } from 'src/lib/email'
+ *
+ * sendEmail({
+ *   member,
+ *   treasure,
+ *   subject: 'hello world',
+ *   body: 'foo bar, lorem ipsum',
+ * })
+ *
+ * // via a template
+ *
+ * import { sendEmail, WYRE_DEPOSIT_SUCCESS } from 'src/lib/email'
+ *
+ * sendEmail({ member, treasure, ...WYRE_DEPOSIT_SUCCESS({ ... }) })
+ */
+export const sendEmail = async ({ body, member, subject, treasure: _t }) => {
   //
-  const mail = await transport.sendMail({})
+  const { email } = member
+
+  // --
+
+  const _mail = await transport.sendMail({
+    from: EMAIL_FROM,
+    subject,
+    text: body,
+    to: email,
+  })
 }

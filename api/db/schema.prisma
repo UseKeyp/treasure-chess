@@ -10,35 +10,36 @@ generator client {
 }
 
 model Member {
-  id                   String            @id // Chess.com id
-  username             String            @unique // Chess.com username
-  address              String?           @unique // Torus wallet address
-  twitchUsername       String?           @unique // Twitch username
+  id                   String                @id // Chess.com id
+  username             String                @unique // Chess.com username
+  address              String?               @unique // Torus wallet address
+  twitchUsername       String?               @unique // Twitch username
   locale               String?
   // --------------- LINKS --------------
-  treasuresOwned       Treasure[]        @relation("treasuresOwned")
-  treasuresMinted      Treasure[]        @relation("treasuresMinted")
-  treasuresPlayedWhite Treasure[]        @relation("treasuresPlayedWhite")
-  treasuresPlayedBlack Treasure[]        @relation("treasuresPlayedBlack")
-  treasuresWon         Treasure[]        @relation("treasuresWon")
-  mintPurchases        MintPurchase[]    @relation("mintPurchases")
-  marketSalesSold      MarketSale[]      @relation("marketSalesSold")
-  marketSalesPurchased MarketSale[]      @relation("marketSalesPurchased")
-  rampWithdraws        RampWithdraw[]    @relation("rampWithdraws")
-  depositOrders        DepositOrder[]    @relation("depositOrders")
-  oAuthConnections     OAuthConnection[] @relation("oAuthConnections")
+  treasuresOwned       Treasure[]            @relation("treasuresOwned")
+  treasuresMinted      Treasure[]            @relation("treasuresMinted")
+  treasuresPlayedWhite Treasure[]            @relation("treasuresPlayedWhite")
+  treasuresPlayedBlack Treasure[]            @relation("treasuresPlayedBlack")
+  treasuresWon         Treasure[]            @relation("treasuresWon")
+  mintPurchases        MintPurchase[]        @relation("mintPurchases")
+  marketSalesSold      MarketSale[]          @relation("marketSalesSold")
+  marketSalesPurchased MarketSale[]          @relation("marketSalesPurchased")
+  rampWithdraws        RampWithdraw[]        @relation("rampWithdraws")
+  depositOrders        DepositOrder[]        @relation("depositOrders")
+  oAuthConnections     OAuthConnection[]     @relation("oAuthConnections")
   // --------------- STATE --------------
-  createdAt            DateTime          @default(now())
-  updatedAt            DateTime          @updatedAt
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
   imageSrc             String? // Avatar URL
   masterTitle          MasterTitle? // "Grand Master" or "International Master"
   country              String // Player's country  eg. US, DE
-  mintCredits          Int               @default(3) // Mint for free!
-  banned               Boolean           @default(false)
+  mintCredits          Int                   @default(3) // Mint for free!
+  banned               Boolean               @default(false)
   blocked              Boolean? // Prevents minting Treasures containing this player
   refreshToken         String? // Chess.com Oauth
   ramps                Ramp[]
   OAuth                OAuth[]
+  promotions           PromotionsOnMembers[]
 }
 
 model Ramp {
@@ -204,10 +205,10 @@ model OAuthConnection {
   member       Member              @relation("oAuthConnections", fields: [memberId], references: [id])
   memberId     String
   type         OAuthConnectionType
-  revoked     Boolean @default(false)
+  revoked      Boolean             @default(false)
   refreshToken String?
   accessToken  String
-  expiration    DateTime?
+  expiration   DateTime?
 }
 
 model RampWithdraw {
@@ -242,6 +243,27 @@ model Transaction {
   rampWithdraw         RampWithdraw?
   MintPurchase         MintPurchase? @relation("staleMintTransactions", fields: [mintPurchaseId], references: [id])
   mintPurchaseId       Int?
+}
+
+model Promotion {
+  id          Int                   @id @default(autoincrement())
+  createdAt   DateTime              @default(now())
+  updatedAt   DateTime              @updatedAt
+  rewardType  PromotionRewardType   @default(MINT_CREDIT)
+  type        PromotionType
+  mintCredits Int? // How many mint credits should be given
+  enabled     Boolean               @default(false)
+  members     PromotionsOnMembers[]
+}
+
+model PromotionsOnMembers {
+  @@id([memberId, promotionId])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  member      Member    @relation(fields: [memberId], references: [id])
+  memberId    String
+  promotion   Promotion @relation(fields: [promotionId], references: [id])
+  promotionId Int
 }
 
 enum RampType {
@@ -413,4 +435,12 @@ enum Achievement {
   MrMarathonMan
   PawnHoarder
   Winner
+}
+
+enum PromotionRewardType {
+  MINT_CREDIT
+}
+
+enum PromotionType {
+  TWITCH_CONNECTION
 }

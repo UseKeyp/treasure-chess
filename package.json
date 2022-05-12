@@ -18,7 +18,8 @@
     "seed": "yarn rw exec seed"
   },
   "dependencies": {
-    "dotenv": "^16.0.0"
+    "dotenv": "^16.0.0",
+    "react-tooltip": "^4.2.21"
   },
   "devDependencies": {
     "@ethersproject/wallet": "^5.5.0",

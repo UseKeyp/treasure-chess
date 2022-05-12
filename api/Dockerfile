@@ -48,6 +48,9 @@ RUN yarn global add @redwoodjs/api-server @redwoodjs/internal lerna prisma && \
 # Helpful utilities for exploring your container
 # apk update && apk add --no-cache -y libnss3 nano ncdu
       apt-get update && apt install -y libnss3 nano ncdu
+RUN cd /app/node_modules/chrome-aws-lambda/bin && \
+      apt install brotli && brotli -d chromium.br -o /tmp/chromium && \
+      apt remove brotli -y
 
 COPY --from=build /app/api/dist /app/api/dist
 COPY --from=build /app/node_modules/.prisma /app/node_modules/.prisma

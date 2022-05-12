@@ -4,12 +4,14 @@ import { logger } from 'src/lib/logger'
 
 // --
 
-const EMAIL_FROM = ''
+const EMAIL_FROM = 'no-reply@treasure.chess.com'
 
 // --
 
+const nodemailerLogger = logger.child({ nodemailer: true })
+
 const transport = createTransport({
-  logger,
+  logger: nodemailerLogger,
   host: process.env.SMTP_HOST,
   port: parseInt(process.env.SMTP_PORT),
   auth: {
@@ -49,6 +51,7 @@ export const sendEmail = async ({ body, member, subject, treasure: _t }) => {
     from: EMAIL_FROM,
     subject,
     text: body,
+    textEncoding: 'base64',
     to: email,
   })
 }

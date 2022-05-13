@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { Span } from 'src/components/Typography'
 import Dropdown from 'src/components/Dropdown'
 import FilterCheckbox from 'src/components/FilterCheckbox'
+import GameByIdForm from 'src/components/GameByIdForm'
 import UsernameSearchBar from 'src/components/UsernameSearchBar/UsernameSearchBar'
 
 const getYearsArray = () => {
@@ -42,6 +43,7 @@ const FilterItems = ({ onChange }) => {
   const [year, setYear] = useState(yearsList[0])
   const [outcome, setOutcome] = useState('Any')
   const [username, setUsername] = useState('')
+  const [url, setUrl] = useState('')
 
   const transparentWhite = 'rgba(255, 255, 255, 0.6)'
   const CategoryWrap = ({ children }) => (
@@ -57,9 +59,10 @@ const FilterItems = ({ onChange }) => {
       ...(year && { year }),
       ...(username && { username }),
       ...(outcome && { outcome: outcome.toLowerCase() }),
+      ...(url && { url: url.toLowerCase() }),
     })
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
-  }, [month, year, username, outcome])
+  }, [month, year, username, outcome, url])
 
   return (
     <div className="filter-items w-full">
@@ -88,11 +91,7 @@ const FilterItems = ({ onChange }) => {
           >
             Opponent
           </h4>
-          <UsernameSearchBar
-            initialQuery={username}
-            setQuery={setUsername}
-            setValue={setUsername}
-          />
+          <UsernameSearchBar setValue={setUsername} />
         </div>
         <FilterCheckbox
           options={['Any', 'Won', 'Draw', 'Lost']}
@@ -100,6 +99,9 @@ const FilterItems = ({ onChange }) => {
           queryFilter={outcome}
           category="Your Outcome"
         />
+      </div>
+      <div className="">
+        <GameByIdForm setQuery={setUrl} initialQuery={url} />
       </div>
     </div>
   )

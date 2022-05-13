@@ -21,7 +21,7 @@ export const getErrorResponse = (error, functionName) => {
   }
   const ABORTED = 'aborted'
   const EXCEPTION = 'exception'
-  const UNKOWN = 'unknown error type'
+  const UNKNOWN = 'unknown error type'
   if (error.code) {
     res.code = error.code
     switch (error.code) {
@@ -32,7 +32,7 @@ export const getErrorResponse = (error, functionName) => {
         res.txErrorType = EXCEPTION
         break
       default:
-        res.txErrorType = UNKOWN
+        res.txErrorType = UNKNOWN
     }
   }
   return { error: res }

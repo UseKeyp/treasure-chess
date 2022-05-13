@@ -42,6 +42,7 @@ export const SuccessModal = ({
   const { tokenId } = mintPurchase.treasure
   const handleSubmit = () => {
     navigate(routes.treasure({ tokenId }))
+    window.location.reload()
     onSubmit()
     toggleModal()
   }

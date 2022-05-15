@@ -8,29 +8,47 @@ const GameByIdForm = ({ setQuery, initialQuery }) => {
   const [errorText, setErrorText] = React.useState('')
 
   const handleChange = (e) => {
-    if (isMinting) return
     setErrorText('')
-    setInputValue(e.target.value)
+    const value = e.target.value
+    setInputValue(value)
+    if (!value) return
 
-    const error = validate(inputValue)
+    const error = validate(value)
     if (error) return setErrorText(error)
-    setErrorText('')
-    setQuery(inputValue)
+    setQuery(value)
   }
 
   const validate = (str) => {
-    if (!str.match(/[^https://chess.com]/))
-      return `Invalid game URL. It should look like "".`
+    if (str.match(/^[0-9]+$/)) return ''
+    try {
+      const url = new URL(str)
+      if (!url.hostname.match(/chess.com/))
+        return 'Only games played on Chess.com are supported'
+      if (!url.pathname.match(/[0-9]$/))
+        return `Invalid URL, it should look like "https://www.chess.com/game/live/43432194983"`
+    } catch (e) {
+      return `Invalid URL or Game ID, it should look like "43432194983" or "https://www.chess.com/game/live/43432194983"`
+    }
     return ''
   }
 
+  const transparentWhite = 'rgba(255, 255, 255, 0.6)'
   return (
     <div className="games-history-list__mint-section">
-      <div className="flex">
+      <div className="filter-items__input-wrap w-full">
+        <h4
+          fontSize={11}
+          fontWeight="bold"
+          color={transparentWhite}
+          mt="1rem"
+          className="mb-2"
+        >
+          URL or Game ID
+        </h4>
         <input
           type="text"
           value={inputValue}
-          placeholder="Game Title"
+          placeholder="https://www.chess.com/game/live/43432194983"
           className="games-history-list__input"
           onChange={handleChange}
         />

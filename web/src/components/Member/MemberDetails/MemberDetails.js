@@ -15,6 +15,7 @@ import { useWallet } from 'src/providers/wallet'
 
 import { trimAddress } from 'src/utils/helpers'
 import { useLocale } from 'src/providers/locale'
+
 const TWITCH = 'TWITCH'
 
 const TwitchLink = ({ isProfile, username: twitchUsername }) => {

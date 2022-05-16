@@ -1,17 +1,13 @@
 import { useLocale } from 'src/providers/locale'
 
 const FaqItem = ({ icon, question, answer, feature }) => {
-  const { t } = useLocale()
-
   return (
     <div className="question-wrapper" has-piece={feature ? 'true' : 'false'}>
       <div className="piece" />
       <div className="mb-2">
         {icon ? <div className="text-lg">{icon}</div> : <></>}
         <div className="flex justify-between">
-          <h3 className="text-base font-bold color-grey-light">
-            {t(question)}
-          </h3>
+          <h3 className="text-base font-bold color-grey-light">{question}</h3>
         </div>
       </div>
       <p className="answer-container text-sm font-normal color-grey-light tracking-tight">
@@ -37,10 +33,10 @@ const FaqSection = ({ title, questionList, columns }) => {
           {questionList?.map((item, idx) => (
             <FaqItem
               key={idx}
-              icon={t(item[2])}
+              icon={item[2]}
               question={t(item[0])}
-              answer={t(item[1])}
-              feature={t(item[3])}
+              answer={typeof item[1] === 'object' ? item[1] : t(item[1])}
+              feature={item[3]}
             />
           ))}
         </div>

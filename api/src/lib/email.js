@@ -1,4 +1,5 @@
-import { createTransport } from 'nodemailer'
+import Email from 'email-templates'
+import { resolve } from 'path'
 
 import { logger } from 'src/lib/logger'
 
@@ -6,53 +7,34 @@ import { logger } from 'src/lib/logger'
 
 const EMAIL_FROM = 'no-reply@treasure.chess.com'
 
-// --
-
-const nodemailerLogger = logger.child({ nodemailer: true })
-
-const transport = createTransport({
-  logger: nodemailerLogger,
-  host: process.env.SMTP_HOST,
-  port: parseInt(process.env.SMTP_PORT),
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
+const EMAIL_CONFIG = {
+  transport: {
+    logger,
+    host: process.env.SMTP_HOST,
+    port: parseInt(process.env.SMTP_PORT),
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
+    },
   },
-})
+}
 
 // --
 
 /**
- * @example
- * // Provide `body` and `subject` directly
- *
- * import { sendEmail } from 'src/lib/email'
- *
- * sendEmail({
- *   member,
- *   treasure,
- *   subject: 'hello world',
- *   body: 'foo bar, lorem ipsum',
- * })
- *
- * // via a template
- *
- * import { sendEmail, WYRE_DEPOSIT_SUCCESS } from 'src/lib/email'
- *
- * sendEmail({ member, treasure, ...WYRE_DEPOSIT_SUCCESS({ ... }) })
+ * @param {string} template
+ * @param {string | string[]} to
+ * @param {Record<string, unknown>} locals
  */
-export const sendEmail = async ({ body, member, subject, treasure: _t }) => {
+export const sendEmail = async (template, to, locals) => {
   //
-  const { email } = member
-
-  // --
-
-  const _mail = await transport.sendMail({
-    from: EMAIL_FROM,
-    subject,
-    text: body,
-    textEncoding: 'base64',
-    to: email,
+  await new Email(EMAIL_CONFIG).send({
+    locals,
+    template: resolve(__dirname, '../../templates', template),
+    message: {
+      from: EMAIL_FROM,
+      to,
+    },
   })
 }
 

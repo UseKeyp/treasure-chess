@@ -18,10 +18,10 @@ const GameByIdForm = ({ setQuery, initialQuery }) => {
   const validate = (str) => {
     if (str.match(/^[0-9]+$/)) return ''
     try {
-      const url = new URL(str)
-      if (!url.hostname.match(/chess.com/))
+      if (!str.includes('chess.com'))
         return 'Only games played on Chess.com are supported'
-      if (!url.pathname.match(/[0-9]$/))
+      if (!str.includes('live')) return 'Only live games are supported'
+      if (!str.match(/[0-9]$/))
         return `Invalid URL, it should look like "https://www.chess.com/game/live/43432194983"`
     } catch (e) {
       return `Invalid URL or Game ID, it should look like "43432194983" or "https://www.chess.com/game/live/43432194983"`
@@ -31,7 +31,7 @@ const GameByIdForm = ({ setQuery, initialQuery }) => {
 
   const transparentWhite = 'rgba(255, 255, 255, 0.6)'
   return (
-    <div className="games-history-list__mint-section">
+    <div className="">
       <div className="filter-items__input-wrap w-full">
         <h4
           fontSize={11}
@@ -40,7 +40,7 @@ const GameByIdForm = ({ setQuery, initialQuery }) => {
           mt="1rem"
           className="mb-2"
         >
-          URL or Game ID
+          Search by URL
         </h4>
         <input
           type="text"

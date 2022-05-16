@@ -66,16 +66,18 @@ const FilterItems = ({ onChange }) => {
 
   return (
     <div className="filter-items w-full">
-      <div className="grid md:grid-cols-3 grid-cols-1 gap-2 md:gap-4">
-        <div className="grid grid-cols-2 gap-4">
+      <div className="">
+        <GameByIdForm setQuery={setUrl} initialQuery={url} />
+      </div>
+      <div className="mt-4 grid md:grid-cols-3 grid-cols-1 gap-2 md:gap-4">
+        <div className="grid grid-cols-2 gap-4 content-end flex justify-end">
           <Dropdown
-            category={<CategoryWrap>Month</CategoryWrap>}
+            category={<CategoryWrap>Search by Details</CategoryWrap>}
             options={monthsList}
             queryFilterFunction={setMonth}
             queryFilter={month}
           />
           <Dropdown
-            category={<CategoryWrap>Year</CategoryWrap>}
             options={yearsList}
             queryFilterFunction={setYear}
             queryFilter={year}
@@ -99,9 +101,6 @@ const FilterItems = ({ onChange }) => {
           queryFilter={outcome}
           category="Your Outcome"
         />
-      </div>
-      <div className="">
-        <GameByIdForm setQuery={setUrl} initialQuery={url} />
       </div>
     </div>
   )

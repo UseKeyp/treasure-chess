@@ -92,7 +92,7 @@ const getFullGameDetails = async ({
       ...(includeAchievements && { achievementScore: score }),
     }
   } catch (e) {
-    throw new Error(`Error getting full game details: ${e.message}`)
+    throw new Error(`getFullGameDetails() ${e.message}`)
   }
 }
 
@@ -124,8 +124,16 @@ export const getGamesWithFilter = async ({ username, filter, page = 0 }) => {
   let games = []
   logger.debug({ custom: filterObj }, 'filterObj')
   if (filterObj.url) {
-    const gameById = await fetchGameByIdOrUrl(filterObj.url)
+    let gameById = await fetchGameByIdOrUrl(filterObj.url)
+    // We don't trust the new v1/games endpoint, so we just grab the endtime
+    logger.debug({ custom: { gameById } }, 'gameById 1')
+    gameById = await fetchChessGame({
+      username,
+      gameId: gameById.id,
+      endTime: new Date(gameById.game_end_time * 1000),
+    })
     if (!gameById) return { count: 0, games: [] }
+    logger.debug({ custom: { gameById } }, 'gameById 2')
     const fullGameById = await getFullGameDetails({ game: gameById, username })
     return { count: 1, games: [fullGameById] }
   } else {

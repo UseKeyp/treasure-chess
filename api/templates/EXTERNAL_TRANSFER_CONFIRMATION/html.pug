@@ -1,0 +1,7 @@
+div
+  p
+    span You just transferred $#{amount} MUSDC to an external address:&nbsp;
+    a(href='https://polygonscan.com/address/' + externalAddress) #{externalAddress}
+    span .&nbsp;Here's the blockchain transaction receipt:&nbsp;
+    a(href='https://polygonscan.com/tx/' + txReceipt) #{txReceipt}
+    span .

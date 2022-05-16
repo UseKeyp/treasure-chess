@@ -70,18 +70,20 @@ const FilterItems = ({ onChange }) => {
         <GameByIdForm setQuery={setUrl} initialQuery={url} />
       </div>
       <div className="mt-4 grid md:grid-cols-3 grid-cols-1 gap-2 md:gap-4">
-        <div className="grid grid-cols-2 gap-4 content-end flex justify-end">
-          <Dropdown
-            category={<CategoryWrap>Search by Details</CategoryWrap>}
-            options={monthsList}
-            queryFilterFunction={setMonth}
-            queryFilter={month}
-          />
-          <Dropdown
-            options={yearsList}
-            queryFilterFunction={setYear}
-            queryFilter={year}
-          />
+        <div>
+          <CategoryWrap>Search by Details</CategoryWrap>
+          <div className="grid grid-cols-2 gap-4 content-end flex justify-end">
+            <Dropdown
+              options={monthsList}
+              queryFilterFunction={setMonth}
+              queryFilter={month}
+            />
+            <Dropdown
+              options={yearsList}
+              queryFilterFunction={setYear}
+              queryFilter={year}
+            />
+          </div>
         </div>
         <div className="filter-items__input-wrap">
           <h4

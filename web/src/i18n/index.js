@@ -4,14 +4,10 @@ import Backend from 'i18next-http-backend'
 import LanguageDetector from 'i18next-browser-languagedetector'
 import { languageData } from '@treasure-chess/localization'
 import enUS from '@treasure-chess/localization/src/locales/en/web.json'
-import ptBR from '@treasure-chess/localization/src/locales/pt/web.json'
 
 const resources = {
   en: {
     translation: enUS,
-  },
-  pt: {
-    translation: ptBR,
   },
 }
 

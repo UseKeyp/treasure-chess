@@ -4,7 +4,7 @@ const languageData = [
   { id: "de", region: "DE", value: "Deutsch" },
   { id: "ja", region: "JP", value: "日本語" },
   { id: "ru", region: "RU", value: "Pусский" },
-  { id: "pt", region: "PT", value: "Português" }
+  // { id: "pt", region: "PT", value: "Português" }
   //
   // // value in Devanagari or in
   // // International Alphabet of Sanskrit Transliteration

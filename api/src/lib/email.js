@@ -26,18 +26,14 @@ const EMAIL_CONFIG = {
  * @param {string | string[]} to
  * @param {Record<string, unknown>} locals
  */
-export const sendEmail = (template, to, locals) => {
+export const sendEmail = async (template, to, locals) => {
   //
-  const options = {
+  await new Email(EMAIL_CONFIG).send({
     locals,
     template: resolve(__dirname, '../../templates', template),
     message: {
       from: EMAIL_FROM,
       to,
     },
-  }
-
-  // --
-
-  new Email(EMAIL_CONFIG).send(options)
+  })
 }

@@ -21,133 +21,187 @@ const EMAIL_CONFIG = {
 
 // --
 
-/**
- * @param {string} template
- * @param {string | string[]} to
- * @param {Record<string, unknown>} locals
- */
-export const sendEmail = async (template, to, locals) => {
+export const sendEmail = async ({ locals, member: { email }, template }) => {
   //
   await new Email(EMAIL_CONFIG).send({
     locals,
     template: resolve(__dirname, '../../templates', template),
     message: {
       from: EMAIL_FROM,
-      to,
+      to: email,
     },
   })
 }
 
 // --
 
-export const EXTERNAL_TRANSFER_CONFIRMATION = ({
+export const sendExternalTransferConfirmation = async ({
   amount,
   externalAddress,
+  member,
   txReceipt,
 }) => {
   //
-  if (!amount) throw new Error('Missing MUSDC transfer amount.')
-  if (!externalAddress) throw new Error('Missing external address.')
-  if (!txReceipt) throw new Error('Missing blockchain transaction receipt.')
+  if (typeof amount !== 'string')
+    throw new Error('Missing MUSDC transfer amount.')
+
+  if (typeof externalAddress !== 'string')
+    throw new Error('Missing external address.')
+
+  if (typeof txReceipt !== 'string')
+    throw new Error('Missing blockchain transaction receipt.')
 
   // --
 
-  return {
-    subject: 'You initiated a MUSDC transfer',
-    body: `You just transferred $${amount} MUSDC to an external address [${externalAddress}](https://polygonscan.com/address/${externalAddress}). Here's the blockchain transaction receipt: [${txReceipt}](https://polygonscan.com/tx/${txReceipt})`,
-  }
+  await sendEmail({
+    member,
+    locals: { amount, externalAddress, txReceipt },
+    template: 'EXTERNAL_TRANSFER_CONFIRMATION',
+  })
 }
 
-export const WYRE_DEPOSIT_SUCCESS = ({ amount }) => {
+export const sendMintSuccessToNewUser = async ({ member, treasure }) => {
   //
-  if (!amount) throw new Error('Missing amount of funds added.')
+  const { title, tokenId } = treasure
 
   // --
 
-  return {
-    subject: 'Funds added successfully!',
-    body: `You just added $${amount} to your Treasure Chess account using Wyre. View your [profile](https://treasure.chess.com/profile) to see your current balance.`,
-  }
-}
+  if (typeof title !== 'string') throw new Error('Missing treasure title.')
 
-export const PLAID_CONNECT_SUCCESS = () => {
-  //
-  return {
-    subject: 'Cash Out is now enabled',
-    body: 'You just connected your bank using Plaid + Wyre. You can now cash out funds at any time. Funds typically take a few days to appear in your account.',
-  }
-}
-
-export const WYRE_WITHDRAW_SUCCESS = ({ amount, txReceipt }) => {
-  //
-  if (!amount) throw new Error('Missing cash out amount.')
-  if (!txReceipt) throw new Error('Missing blockchain transaction receipt.')
+  if (typeof tokenId !== 'string') throw new Error('Missing treasure tokenId.')
 
   // --
 
-  return {
-    subject: 'Cash Out request submitted!',
-    body: `You just initiated a Cash Out for $${amount} to your bank using Plaid + Wyre. Here's the blockchain transaction receipt: [${txReceipt}](https://polygonscan.com/tx/${txReceipt}). Funds typically take a few days to appear in your account.`,
-  }
+  await sendEmail({
+    member,
+    locals: { title, tokenId },
+    template: 'MINT_SUCCESS_NEWUSER',
+  })
 }
 
-export const MINT_SUCCESS_NEWUSER = ({ title, tokenId }) => {
+export const sendPlaidConnectSuccess = async ({ member }) => {
   //
-  if (!title) throw new Error('Missing treasure title.')
-  if (!tokenId) throw new Error('Missing treasure tokenId.')
-
-  // --
-
-  return {
-    subject: 'You minted your first Treasure!',
-    body: `Your Treasure looks super cool! Check it out here: [${title}](https://treasure.chess.com/treasures/${tokenId})`,
-  }
+  await sendEmail({
+    member,
+    template: 'PLAID_CONNECT_SUCCESS',
+  })
 }
 
-export const TREASURE_MARKET_SALE_SELLER = ({
+export const sendTreasureMarketSaleToBuyer = async ({
   amountEarned,
   amountSold,
-  title,
-  tokenId,
+  member,
+  sellerUsername,
+  treasure,
   txReceipt,
-  username,
 }) => {
   //
-  if (!amountEarned) throw new Error('Missing amount earned.')
-  if (!amountSold) throw new Error('Missing amount sold.')
-  if (!title) throw new Error('Missing treasure title.')
-  if (!tokenId) throw new Error('Missing treasure tokenId.')
-  if (!txReceipt) throw new Error('Missing blockchain transaction receipt.')
-  if (!username) throw new Error("Missing purchaser's username.")
+  const { title, tokenId } = treasure
 
   // --
 
-  return {
-    subject: `Treasure "${title}" sold for $${amountSold}`,
-    body: `Congrats! Treasure "[${title}](https://treasure.chess.com/treasures/${tokenId})" was bought by [${username}](https://treasure.chess.com/members/${username}) for $${amountSold}. You earned $${amountEarned}. Here's the blockchain transaction receipt: [${txReceipt}](https://polygonscan.com/tx/${txReceipt})`,
-  }
+  if (typeof amountEarned !== 'string')
+    throw new Error('Missing amount earned.')
+
+  if (typeof amountSold !== 'string') throw new Error('Missing amount sold.')
+
+  if (typeof title !== 'string') throw new Error('Missing treasure title.')
+
+  if (typeof tokenId !== 'string') throw new Error('Missing treasure tokenId.')
+
+  if (typeof txReceipt !== 'string')
+    throw new Error('Missing blockchain transaction receipt.')
+
+  if (typeof sellerUsername !== 'string')
+    throw new Error("Missing seller's username.")
+
+  // --
+
+  await sendEmail({
+    member,
+    template: 'TREASURE_MARKET_SALE_BUYER',
+    locals: {
+      amountEarned,
+      amountSold,
+      sellerUsername,
+      title,
+      tokenId,
+      txReceipt,
+    },
+  })
 }
 
-export const TREASURE_MARKET_SALE_BUYER = ({
-  amountBought,
+export const sendTreasureMarketSaleToSeller = async ({
   amountEarned,
+  amountSold,
+  buyerUsername,
+  member,
   title,
   tokenId,
   txReceipt,
-  username,
 }) => {
   //
-  if (!amountBought) throw new Error('Missing amount bought.')
-  if (!amountEarned) throw new Error('Missing amount earned.')
-  if (!title) throw new Error('Missing treasure title.')
-  if (!tokenId) throw new Error('Missing treasure tokenId.')
-  if (!txReceipt) throw new Error('Missing blockchain transaction receipt.')
-  if (!username) throw new Error("Missing seller's username.")
+  if (typeof amountEarned !== 'string')
+    throw new Error('Missing amount earned.')
+
+  if (typeof amountSold !== 'string') throw new Error('Missing amount sold.')
+
+  if (typeof buyerUsername !== 'string')
+    throw new Error("Missing buyer's username.")
+
+  if (typeof title !== 'string') throw new Error('Missing treasure title.')
+
+  if (typeof tokenId !== 'string') throw new Error('Missing treasure tokenId.')
+
+  if (typeof txReceipt !== 'string')
+    throw new Error('Missing blockchain transaction receipt.')
 
   // --
 
-  return {
-    subject: `Treasure "${title}" purchased`,
-    body: `You just purchased Treasure "[${title}](https://treasure.chess.com/treasures/${tokenId})" for $${amountBought}. The seller [${username}](https://treasure.chess.com/members/${username}) earned $${amountEarned}. Here's the blockchain transaction receipt: [${txReceipt}](https://polygonscan.com/tx/${txReceipt})`,
-  }
+  await sendEmail({
+    member,
+    template: 'TREASURE_MARKET_SALE_SELLER',
+    locals: {
+      amountEarned,
+      amountSold,
+      buyerUsername,
+      title,
+      tokenId,
+      txReceipt,
+    },
+  })
+}
+
+export const sendWyreDepositSuccess = async ({ amount, member }) => {
+  //
+  if (typeof amount !== 'string')
+    throw new Error('Missing amount of funds added.')
+
+  // --
+
+  await sendEmail({
+    member,
+    locals: { amount },
+    template: 'WYRE_DEPOSIT_SUCCESS',
+  })
+}
+
+export const sendWyreWithdrawSuccess = async ({
+  amount,
+  member,
+  txReceipt,
+}) => {
+  //
+  if (typeof amount !== 'string') throw new Error('Missing cash out amount.')
+
+  if (typeof txReceipt !== 'string')
+    throw new Error('Missing blockchain transaction receipt.')
+
+  // --
+
+  await sendEmail({
+    member,
+    locals: { amount, txReceipt },
+    template: 'WYRE_WITHDRAW_SUCCESS',
+  })
 }

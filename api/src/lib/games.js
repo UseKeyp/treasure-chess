@@ -7,6 +7,7 @@ import {
   fetchChessGames,
   fetchChessGame,
   fetchRatingDelta,
+  fetchGameByIdOrUrl,
 } from 'src/lib/chessCom/chessCom'
 import { parseGameFromChessDotCom } from 'src/lib/chessCom/gameParsing'
 import { getGifUrl } from 'src/lib/chessCom/gifGetter'
@@ -119,9 +120,18 @@ export const getGamesWithFilter = async ({ username, filter, page = 0 }) => {
   const now = new Date()
   const year = filterObj.year || now.getFullYear()
   const month = filterObj.month || now.getMonth()
-  // const month = filterObj.month === 'Any' ? null : filterObj.month || 0
-  // const day = filterObj.day === 'Any' ? null : filterObj.day
-  const games = await fetchChessGames({ username, year, month })
+
+  let games = []
+  logger.debug({ custom: filterObj }, 'filterObj')
+  if (filterObj.url) {
+    const gameById = await fetchGameByIdOrUrl(filterObj.url)
+    if (!gameById) return { count: 0, games: [] }
+    const fullGameById = await getFullGameDetails({ game: gameById, username })
+    return { count: 1, games: [fullGameById] }
+  } else {
+    games = await fetchChessGames({ username, year, month })
+  }
+
   logger.debug(`totalGames: ${games?.length}`)
   if (!games?.length) return { count: 0, games: [] }
 

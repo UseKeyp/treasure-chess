@@ -11,7 +11,7 @@ const GameByIdForm = ({ setQuery, initialQuery }) => {
     setErrorText('')
     const value = e.target.value
     setInputValue(value)
-    if (!value) return
+    if (!value) return setQuery('')
 
     const error = validate(value)
     if (error) return setErrorText(error)

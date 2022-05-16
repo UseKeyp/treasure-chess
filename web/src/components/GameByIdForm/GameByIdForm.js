@@ -1,10 +1,7 @@
 import { P } from 'src/components/Typography'
 
-import Button from 'src/components/Button/Button'
-import LoadingDots from 'src/components/LoadingDots'
-
 const GameByIdForm = ({ setQuery, initialQuery }) => {
-  const [inputValue, setInputValue] = React.useState('')
+  const [inputValue, setInputValue] = React.useState(initialQuery || '')
   const [errorText, setErrorText] = React.useState('')
 
   const handleChange = (e) => {

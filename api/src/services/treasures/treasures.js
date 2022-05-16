@@ -10,16 +10,20 @@ export const treasuresWithFilter = ({ username, owner, sort, filter, page }) =>
 export const treasuresWithFilterCount = ({ username, owner, filter }) =>
   getTreasuresWithFilterCount({ username, filter, owner })
 
-export const treasure = ({ tokenId }) => {
+export const treasure = async ({ tokenId }) => {
   let id
   if (tokenId.startsWith('0x')) id = tokenId
-  return db.treasure.findUnique({
+
+  const treasure = await db.treasure.update({
     where: { ...(id ? { id } : { tokenId: Number(tokenId) }) },
+    data: { viewCount: { increment: 1 } },
     include: {
       owner: true,
       marketSales: { orderBy: { id: 'desc' }, take: 2 },
     },
   })
+
+  return treasure
 }
 // Used to get the latest market sale, without slowing down the normal query
 export const treasureWithMarketSales = async ({ tokenId }) => {

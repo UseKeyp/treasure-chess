@@ -108,6 +108,7 @@ model Treasure {
   moves             String // pgn moves
   boardLayout       String // Final positions used to generate the image
   moveCount         Int // eg. 43
+  viewCount         Int              @default(0)
   ruleVariant       String           @default("Standard") // eg. "Standard" or "Chess960"
   externalUrl       String? // Link to game on chess.com
   opening           Opening

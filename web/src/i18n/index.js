@@ -7,7 +7,7 @@ import enUS from '@treasure-chess/localization/src/locales/en/web.json'
 
 const resources = {
   en: {
-    translation: enUS,
+    web: enUS,
   },
 }
 
@@ -24,7 +24,8 @@ i18n
     returnEmptyString: false,
     // saveMissing: true, // send not translated keys to endpoint
     backend: {
-      loadPath: 'web/public/locales/{{lng}}/{{ns}}.json',
+      loadPath:
+        '@treasure-chess/packages/localization/src/locales/{{lng}}/{{ns}}.json',
       // addPath: "http://localhost:3000/locales/add/{{lng}}/{{ns}}.missing.json",
     },
     load: 'languageOnly',

@@ -10,6 +10,16 @@ export const schema = gql`
     members: [PromotionsOnMembers]!
   }
 
+  type PromotionsOnMembers {
+    id: String!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+    member: Member!
+    memberId: String!
+    promotion: Promotion!
+    promotionId: Int!
+  }
+
   enum PromotionRewardType {
     MINT_CREDIT
   }

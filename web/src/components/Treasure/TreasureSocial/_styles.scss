@@ -10,8 +10,7 @@
   flex-wrap: wrap;
   width: 100%;
   max-height: 80px;
-  row-gap: .25rem;
-  justify-content: space-evenly;
+  justify-content: space-between;
 
   &__persons {
     display: flex;
@@ -24,5 +23,6 @@
     margin-top: 8px;
     display: flex;
     justify-content: space-around;
+    align-items: center;
   }
 }

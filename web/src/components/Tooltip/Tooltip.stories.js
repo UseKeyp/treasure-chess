@@ -1,9 +1,9 @@
-import ReactTooltip from 'react-tooltip'
 import Icon from 'src/components/Icon/Icon'
 import SeeMore from 'src/components/SeeMore/SeeMore'
 import Avatar from 'src/components/Avatar/Avatar'
 import avatar from 'src/components/Avatar/chess-avatar.png'
 import MiniButton from 'src/components/MiniButton/MiniButton'
+import Tooltip from 'src/components/Tooltip/Tooltip'
 
 function onClick() {
   return 'test test'
@@ -11,70 +11,54 @@ function onClick() {
 
 export const generated = () => {
   return (
-    <div>
-      <a data-tip="React-tooltip" href="/#">
-        <Icon name="logout" color="grey" />
-      </a>
-      <ReactTooltip effect="solid">Log Out</ReactTooltip>
-    </div>
+    <Tooltip effect="solid" text="Log Out" position="bottom" bgColor="dark">
+      <Icon name="logout" color="grey" />
+    </Tooltip>
   )
 }
 
 export const seeWrappedFloatingTreasureCard = () => {
   return (
-    <div>
-      <a data-tip="React-tooltip" href="/#">
-        <SeeMore />
-      </a>
-      <ReactTooltip>
-        <div>TEST TEST TEST TEST TEST</div>
-      </ReactTooltip>
-    </div>
+    <Tooltip effect="float" text="TEST TEST TEST TEST TEST" bgColor="dark">
+      <SeeMore />
+    </Tooltip>
   )
 }
 
 export const seeReactTooltipOverlayOfAvatar = () => {
   return (
-    <div>
-      <a data-tip="React-tooltip" href="/#">
-        Test Test
-      </a>
-      <ReactTooltip effect="solid" place="top">
-        <Avatar image={avatar} size={128} bgColor="green" />
-      </ReactTooltip>
-    </div>
+    <Tooltip text="Hello" position="top" effect="solid">
+      <Avatar image={avatar} size={128} bgColor="green" />
+    </Tooltip>
   )
 }
 
 export const seeReactTooltipOfAvatar = () => {
   return (
-    <div>
-      <a data-tip="React-tooltip" href="/#">
-        <div>Title</div>
-        <Avatar image={avatar} size={128} bgColor="green" />
-      </a>
-      <ReactTooltip effect="solid">Hey</ReactTooltip>
-    </div>
+    <Tooltip text="Hey" position="top" effect="solid">
+      <div>Test</div>
+      <Avatar image={avatar} size={128} bgColor="green" />
+    </Tooltip>
   )
 }
 
 export const seeReactTooltipSurroundingMiniButton = () => {
   return (
-    <div>
-      <a data-tip="React-tooltip" href="/#">
-        {' '}
-        <MiniButton onClick={() => onClick()}>Mint</MiniButton>
-      </a>
-      <ReactTooltip place="bottom" effect="solid">
-        <MiniButton onClick={() => onClick()} variant="grey">
+    <Tooltip
+      position="bottom"
+      effect="solid"
+      tooltipChild={
+        <MiniButton variant="grey" onClick={() => onClick()}>
           <div style={{ fontSize: 36 }}>&#8594;</div>
         </MiniButton>
-      </ReactTooltip>
-    </div>
+      }
+    >
+      <MiniButton onClick={() => onClick()}>Mint</MiniButton>
+    </Tooltip>
   )
 }
 
 export default {
-  title: 'Components/ReactTooltip',
+  title: 'Components/Tooltip',
   parameters: { layout: 'centered' },
 }

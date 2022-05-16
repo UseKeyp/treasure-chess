@@ -11,7 +11,7 @@ import MobileMenu from 'src/components/MobileMenu/MobileMenu'
 import MemberBalance from 'src/components/Member/MemberBalance'
 
 import { trimAddress } from 'src/utils/helpers'
-import ReactTooltip from 'react-tooltip'
+import Tooltip from 'src/components/Tooltip/Tooltip'
 
 const WalletBalance = () => {
   const { deposit } = useWallet()
@@ -176,12 +176,14 @@ const Header = () => {
             <WalletBalance />
             <div className="ml-4">
               <Button onClick={logOut}>
-                <a data-tip="React-tooltip" href="/#">
+                <Tooltip
+                  effect="solid"
+                  text="Log Out"
+                  position="bottom"
+                  bgColor="dark"
+                >
                   <Icon name="logout" color="grey" />
-                </a>
-                <ReactTooltip effect="solid" className="font-thin">
-                  Log Out
-                </ReactTooltip>
+                </Tooltip>
               </Button>
             </div>
           </div>

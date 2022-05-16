@@ -3,12 +3,24 @@ import { initReactI18next } from 'react-i18next'
 import Backend from 'i18next-http-backend'
 import LanguageDetector from 'i18next-browser-languagedetector'
 import { languageData } from '@treasure-chess/localization'
+import enUS from '@treasure-chess/localization/src/locales/en/web.json'
+import ptBR from '@treasure-chess/localization/src/locales/pt/web.json'
+
+const resources = {
+  en: {
+    translation: enUS,
+  },
+  pt: {
+    translation: ptBR,
+  },
+}
 
 i18n
   .use(Backend)
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
+    resources,
     fallbackLng: 'en',
     ns: ['web'],
     debug: process.env.ENVIRONMENT === 'local',
@@ -16,7 +28,8 @@ i18n
     returnEmptyString: false,
     // saveMissing: true, // send not translated keys to endpoint
     backend: {
-      loadPath: 'web/src/i18n/locales/{{lng}}/{{ns}}.json',
+      // something in this path seems not work well
+      loadPath: '@treasure-chess/web/src/i18n/locales/{{lng}}/{{ns}}.json',
       // addPath: "http://localhost:3000/locales/add/{{lng}}/{{ns}}.missing.json",
     },
     load: 'languageOnly',

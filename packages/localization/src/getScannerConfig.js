@@ -16,7 +16,7 @@ const getScannerConfig = ({ nsList }) => {
       removeUnusedKeys: true,
       plural: true,
       sort: true,
-      lngs: ["en"],
+      lngs: ["en, pt"],
       ns: nsList,
       defaultLng: "en",
       defaultNs: nsList[0],

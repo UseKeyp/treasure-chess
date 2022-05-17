@@ -24,10 +24,13 @@ export const getERC721Contract = (tokenAddress) => {
   }
 }
 
+// NOTE: If "to" refers to a smart contract, it must implement
+// IERC721Receiver.onERC721Received, which is called upon a safe transfer.
 export const transferERC721 = async ({
   tokenAddress,
-  recipientAddress,
   tokenId,
+  toAddress,
+  member,
 }) => {
   let contract
   try {
@@ -38,23 +41,16 @@ export const transferERC721 = async ({
   }
 
   try {
-    const address = await contract.ownerOf(tokenId)
-    if (recipientAddress.toLowerCase() !== address.toLowerCase()) {
+    const ownerAddress = await contract.ownerOf(tokenId)
+    if (member.address.toLowerCase() !== ownerAddress.toLowerCase())
       throw new EnvelopError('Member does not own token')
-    }
 
-    const unsignedTx = await contract.populateTransaction.transfer(
-      recipientAddress,
-      tokenId,
-      {
-        maxPriorityFeePerGas: DEFAULT_GAS_MAX_PRIORITY_FEE_PER_GAS,
-        maxFeePerGas: DEFAULT_GAS_MAX_FEE_PER_GAS,
-      }
+    const unsignedTx = await contract.populateTransaction.safeTransferFrom(
+      member.address,
+      toAddress,
+      tokenId
     )
-    const tx = await memberSendTransaction({
-      memberId: context.currentUser.id,
-      unsignedTx,
-    })
+    const tx = await memberSendTransaction({ memberId: member.id, unsignedTx })
     return { status: 'SUCCESS', hash: tx.hash }
   } catch (e) {
     logger.error(e)

@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/pi0neerpat/dappy-monorepo#readme",
   "devDependencies": {
+    "@crowdin/cli": "^3.7.8",
     "chalk": "^4.1.0",
     "i18next-scanner": "^3.1.0",
     "locize-cli": "^7.6.7"

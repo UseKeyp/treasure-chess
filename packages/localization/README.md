@@ -41,11 +41,25 @@ import 'dayjs/locale/ru'
 yarn compile
 ```
 
-#### 2. Upload to Locize
+#### 2. Upload (See options below)
 
-Create a new project in Locize.
+## Crowdin
 
-Go to Project > Settings and scroll down four your API keys. Use `.template.locize` to save your keys to a file named `.locize`. Now you have two options:
+```bash
+# Upload sources
+yarn crowdin upload sources
+
+yarn crowdin status
+yarn crowdin status proofreading
+
+# Download translations
+yarn crowdin download
+yarn crowdin download --dryrun
+```
+
+## Locize
+
+Create a new project in Locize. Go to Project > Settings and scroll down four your API keys. Use `.template.locize` to save your keys to a file named `.locize`. Now you have two options:
 
 Option A - I want to be extra careful
 
@@ -89,7 +103,7 @@ locize sync --path src/locales --skip-delete true --format flat --dry true
 
 No action needed, the app will automatically pull locales from this package using a script in `gatsby-node.js`.
 
-## Dynamic Locales
+## Variables
 
 > NOTE: This section really only applies to pre-rendered code, such as in Gatsby
 
@@ -103,9 +117,9 @@ To get around this, a script `generateCampaignLocale` is used to generate a new 
 
 Should adhere to ISO 639-1 ([list](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)) and ISO 3166-1 ([list](https://en.wikipedia.org/wiki/ISO_3166-1#Current_codes)) separated with a hyphen.
 
-#### Labels
+#### Labeling languages
 
-Should be written in the native text. See `src/languageData.js`
+Languages should always appear using their native text. See `src/index.js`
 
 #### One Hour translation API keys
 

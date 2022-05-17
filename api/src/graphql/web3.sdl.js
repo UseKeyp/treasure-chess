@@ -7,7 +7,7 @@ export const schema = gql`
     transfer(
       tokenAddress: String!
       tokenId: Int!
-      recipientAddress: String!
+      toAddress: String!
       type: String!
     ): TransferResponse! @requireAuth
   }

@@ -15,10 +15,11 @@ const WalletContext = React.createContext({
 })
 
 const WalletProvider = ({ children }) => {
-  const { isAuthenticated, currentUser } = useAuth()
+  const { isAuthenticated } = useAuth()
   const [state, setState] = React.useState({
     usdcBalance: null,
     mintCreditBalance: null,
+    addressToCopy: '',
   })
   const { toast } = useToast()
   const [transferLoading, setTransferLoading] = React.useState(false)
@@ -49,6 +50,13 @@ const WalletProvider = ({ children }) => {
     }
   }
 
+  const getAddress = (address) => {
+    // Set the correct address here before opening the modal
+    // Necessary for "donating" to other users
+    setState({ ...state, addressToCopy: address })
+    toggleModalAdd()
+  }
+
   React.useEffect(() => {
     setState({
       ...state,
@@ -62,7 +70,7 @@ const WalletProvider = ({ children }) => {
         transfer: transfer,
         deposit: toggleModalDep,
         withdraw: toggleModalWit,
-        getAddress: toggleModalAdd,
+        getAddress,
         usdcBalance: state.usdcBalance,
         mintCreditBalance: state.mintCreditBalance,
         balanceError,
@@ -73,7 +81,7 @@ const WalletProvider = ({ children }) => {
       <DepositModal isVisible={isVisibleDep} toggleModal={toggleModalDep} />
       <WithdrawModal isVisible={isVisibleWit} toggleModal={toggleModalWit} />
       <AddressModal
-        address={currentUser?.address}
+        address={state.addressToCopy}
         isVisible={isVisibleAdd}
         toggleModal={toggleModalAdd}
       />

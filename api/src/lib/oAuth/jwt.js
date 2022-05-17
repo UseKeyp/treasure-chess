@@ -62,9 +62,7 @@ export const getNewIdToken = async (userId) => {
     )
     await db.member.update({
       where: { id: userId },
-      data: {
-        refreshToken: newRefreshToken,
-      },
+      data: { refreshToken: newRefreshToken },
     })
     return idToken
   } catch (e) {

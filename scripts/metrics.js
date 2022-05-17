@@ -4,7 +4,7 @@ const dotenv = require('dotenv')
 var { parse } = require('csv-parse')
 const { PrismaClient } = require('@prisma/client')
 
-import { getBusinessMetrics } from '../../api/src/lib/metrics/metrics'
+import { getBusinessMetrics } from '../api/src/lib/metrics/metrics'
 
 dotenv.config()
 

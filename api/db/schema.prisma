@@ -10,33 +10,36 @@ generator client {
 }
 
 model Member {
-  id                   String         @id // Chess.com id
-  username             String         @unique // Chess.com username
-  address              String?        @unique // Torus wallet address
-  twitchUsername       String?        @unique // Twitch username
+  id                   String                @id // Chess.com id
+  username             String                @unique // Chess.com username
+  address              String?               @unique // Torus wallet address
+  twitchUsername       String?               @unique // Twitch username
   locale               String?
   // --------------- LINKS --------------
-  treasuresOwned       Treasure[]     @relation("treasuresOwned")
-  treasuresMinted      Treasure[]     @relation("treasuresMinted")
-  treasuresPlayedWhite Treasure[]     @relation("treasuresPlayedWhite")
-  treasuresPlayedBlack Treasure[]     @relation("treasuresPlayedBlack")
-  treasuresWon         Treasure[]     @relation("treasuresWon")
-  mintPurchases        MintPurchase[] @relation("mintPurchases")
-  marketSalesSold      MarketSale[]   @relation("marketSalesSold")
-  marketSalesPurchased MarketSale[]   @relation("marketSalesPurchased")
-  rampWithdraws        RampWithdraw[] @relation("rampWithdraws")
+  treasuresOwned       Treasure[]            @relation("treasuresOwned")
+  treasuresMinted      Treasure[]            @relation("treasuresMinted")
+  treasuresPlayedWhite Treasure[]            @relation("treasuresPlayedWhite")
+  treasuresPlayedBlack Treasure[]            @relation("treasuresPlayedBlack")
+  treasuresWon         Treasure[]            @relation("treasuresWon")
+  mintPurchases        MintPurchase[]        @relation("mintPurchases")
+  marketSalesSold      MarketSale[]          @relation("marketSalesSold")
+  marketSalesPurchased MarketSale[]          @relation("marketSalesPurchased")
+  rampWithdraws        RampWithdraw[]        @relation("rampWithdraws")
+  depositOrders        DepositOrder[]        @relation("depositOrders")
+  oAuthConnections     OAuthConnection[]     @relation("oAuthConnections")
   // --------------- STATE --------------
-  createdAt            DateTime       @default(now())
-  updatedAt            DateTime       @updatedAt
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
   imageSrc             String? // Avatar URL
   masterTitle          MasterTitle? // "Grand Master" or "International Master"
   country              String // Player's country  eg. US, DE
-  mintCredits          Int            @default(3) // Mint for free!
-  banned               Boolean        @default(false)
+  mintCredits          Int                   @default(3) // Mint for free!
+  banned               Boolean               @default(false)
   blocked              Boolean? // Prevents minting Treasures containing this player
   refreshToken         String? // Chess.com Oauth
   ramps                Ramp[]
   OAuth                OAuth[]
+  promotions           PromotionsOnMembers[]
 }
 
 model Ramp {
@@ -58,61 +61,63 @@ model Ramp {
   // Wyre
   paymentMethodId    String? // Wyre
   // Coinbase
+  // TODO: Replace with oAuthConnection
   accessToken        String?
   refreshToken       String?
   RampWithdraw       RampWithdraw[]
 }
 
 model Treasure {
-  id               String        @id // Moves hash plus end time
-  createdAt        DateTime      @default(now())
-  updatedAt        DateTime      @updatedAt
+  id                String           @id // Moves hash plus end time
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
   // --------------- LINKS --------------
   // Chess.com (required)
-  black            Member        @relation(name: "treasuresPlayedWhite", fields: [blackId], references: [id])
-  blackId          String
-  white            Member        @relation(name: "treasuresPlayedBlack", fields: [whiteId], references: [id])
-  whiteId          String
-  winner           Member?       @relation(name: "treasuresWon", fields: [winnerId], references: [id])
-  winnerId         String?
+  black             Member           @relation(name: "treasuresPlayedWhite", fields: [blackId], references: [id])
+  blackId           String
+  white             Member           @relation(name: "treasuresPlayedBlack", fields: [whiteId], references: [id])
+  whiteId           String
+  winner            Member?          @relation(name: "treasuresWon", fields: [winnerId], references: [id])
+  winnerId          String?
   // NFT
-  minter           Member        @relation(name: "treasuresMinted", fields: [minterId], references: [id])
-  minterId         String
-  owner            Member        @relation(name: "treasuresOwned", fields: [ownerId], references: [id])
-  ownerId          String
-  mintPurchase     MintPurchase? @relation(name: "mintPurchase", fields: [mintPurchaseId], references: [id])
-  mintPurchaseId   Int?          @unique
+  minter            Member           @relation(name: "treasuresMinted", fields: [minterId], references: [id])
+  minterId          String
+  owner             Member           @relation(name: "treasuresOwned", fields: [ownerId], references: [id])
+  ownerId           String
+  mintPurchase      MintPurchase?    @relation(name: "mintPurchase", fields: [mintPurchaseId], references: [id])
+  mintPurchaseId    Int?             @unique
   // --------------- STATE --------------
-  uriData          String
-  tokenUri         String
-  tokenId          Int?          @unique
-  mintedAt         DateTime?
-  title            String
-  cardColor        String // white or black
-  gifUrl           String // white or black
-  blackRating      Int // Rating at the time of the game
-  whiteRating      Int // Rating at the time of the game
-  blackRatingDelta Int // Rating at the time of the game
-  whiteRatingDelta Int
-  blackMasterTitle MasterTitle? // eg. "GM" "NM", or "IM"
-  whiteMasterTitle MasterTitle?
-  timeControl      String // game time variant
-  termination      Termination
-  endTime          DateTime
-  outcome          Outcome // "white" "black" "draw" etc.
-  event            String // eg. "Live Chess"
-  moves            String // pgn moves
-  boardLayout      String // Final positions used to generate the image
-  moveCount        Int // eg. 43
-  ruleVariant      String        @default("Standard") // eg. "Standard" or "Chess960"
-  externalUrl      String? // Link to game on chess.com
-  opening          Opening
-  achievements     Achievement[] // List eg. "win/play above 2200,queen side castle,mate with a bishop"
-  achievementScore Int // eg. 10
-  rarity           Rarity // eg. 10
-  marketSales      MarketSale[]
+  uriData           String
+  tokenUri          String
+  tokenId           Int?             @unique
+  mintedAt          DateTime?
+  title             String
+  cardColor         String // white or black
+  gifUrl            String // white or black
+  blackRating       Int // Rating at the time of the game
+  whiteRating       Int // Rating at the time of the game
+  blackRatingDelta  Int // Rating at the time of the game
+  whiteRatingDelta  Int
+  blackMasterTitle  MasterTitle? // eg. "GM" "NM", or "IM"
+  whiteMasterTitle  MasterTitle?
+  timeControl       String // game time variant
+  termination       Termination
+  endTime           DateTime
+  outcome           Outcome // "white" "black" "draw" etc.
+  event             String // eg. "Live Chess"
+  moves             String // pgn moves
+  boardLayout       String // Final positions used to generate the image
+  moveCount         Int // eg. 43
+  viewCount         Int              @default(0)
+  ruleVariant       String           @default("Standard") // eg. "Standard" or "Chess960"
+  externalUrl       String? // Link to game on chess.com
+  opening           Opening
+  achievements      Achievement[] // List eg. "win/play above 2200,queen side castle,mate with a bishop"
+  achievementScore  Int // eg. 10
+  rarity            Rarity // eg. 10
+  marketSales       MarketSale[]
   openGraphImageSrc String?
-  marketSaleStatus MarketSaleStatus @default(DELISTED)
+  marketSaleStatus  MarketSaleStatus @default(DELISTED)
 }
 
 model MarketSale {
@@ -136,6 +141,28 @@ model MarketSale {
   status           MarketSaleStatus @default(PENDING_LISTED)
   isClosed         Boolean          @default(false)
   amount           Int
+}
+
+model DepositOrder {
+  id             Int      @id @default(autoincrement())
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  // --------------- LINKS --------------
+  member         Member   @relation("depositOrders", fields: [memberId], references: [id])
+  memberId       String
+  // --------------- STATE --------------
+  amount         Int?
+  paymentType    RampType
+  status         TxStatus @default(UNSUBMITTED)
+  // Wyre
+  sourceCurrency String?
+  sourceAmount   String?
+  purchaseAmount String?
+  destCurrency   String?
+  paymentMethod  String?
+  orderType      String? // DOMESTIC or INTERNATIONAL
+  orderId        String?  @unique // Wyre orderId
+  reservation    String?  @unique // Wyre reservation
 }
 
 model MintPurchase {
@@ -172,6 +199,19 @@ model OAuth {
   memberId      String?
 }
 
+model OAuthConnection {
+  id           String              @id @default(uuid())
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime            @updatedAt
+  member       Member              @relation("oAuthConnections", fields: [memberId], references: [id])
+  memberId     String
+  type         OAuthConnectionType
+  revoked      Boolean             @default(false)
+  refreshToken String?
+  accessToken  String
+  expiration   DateTime?
+}
+
 model RampWithdraw {
   id            String      @id @default(uuid())
   createdAt     DateTime    @default(now())
@@ -206,9 +246,35 @@ model Transaction {
   mintPurchaseId       Int?
 }
 
+model Promotion {
+  id          Int                   @id @default(autoincrement())
+  createdAt   DateTime              @default(now())
+  updatedAt   DateTime              @updatedAt
+  rewardType  PromotionRewardType   @default(MINT_CREDIT)
+  type        PromotionType
+  mintCredits Int? // How many mint credits should be given
+  enabled     Boolean               @default(false)
+  members     PromotionsOnMembers[]
+}
+
+model PromotionsOnMembers {
+  @@id([memberId, promotionId])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  member      Member    @relation(fields: [memberId], references: [id])
+  memberId    String
+  promotion   Promotion @relation(fields: [promotionId], references: [id])
+  promotionId Int
+}
+
 enum RampType {
   COINBASE
   WYRE
+}
+
+enum OAuthConnectionType {
+  TWITCH
+  COINBASE
 }
 
 enum RampStatus {
@@ -370,4 +436,12 @@ enum Achievement {
   MrMarathonMan
   PawnHoarder
   Winner
+}
+
+enum PromotionRewardType {
+  MINT_CREDIT
+}
+
+enum PromotionType {
+  TWITCH_CONNECTION
 }

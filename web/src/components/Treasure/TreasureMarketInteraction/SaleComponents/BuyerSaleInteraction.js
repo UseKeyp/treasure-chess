@@ -38,7 +38,7 @@ const BuyerSaleInteraction = () => {
 
   const Status = () => {
     if (actionError) {
-      return <p className="text-red font-bold">{actionError}</p>
+      return <p className="text-errorYellow font-bold">{actionError}</p>
     } else if (actionStatus === SOLD) {
       return <p className="mt-4">🎉 Congrats! This is now your Treasure.</p>
     } else return null

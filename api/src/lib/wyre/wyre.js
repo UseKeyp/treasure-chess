@@ -132,9 +132,10 @@ export const createDepositReservation = async (destinationAddress) => {
     }
     const response = await fetchWyre(url, data)
     logger.debug({ custom: data }, 'createDepositReservation')
+    logger.debug({ custom: response }, 'createDepositReservation response')
     if (!response.url) throw 'Error'
     logger.debug(`checkoutUrl: ${response.url}`)
-    return response
+    return { ...response, ...data }
   } catch (e) {
     logger.error(e)
     throw new Error(
@@ -189,7 +190,7 @@ export const fetchPaymentMethod = async (paymentMethodId) => {
 export const attachBlockchainPaymentMethod = async (paymentMethodId) => {
   let url = `${API_URL_V2}/paymentMethod/${paymentMethodId}/attach`
   await fetchWyre(url, {
-    blockchain: 'ETH',
+    blockchain: 'ALL',
     notifyUrl: WYRE_WEBHOOK_URL,
   })
   // Bug with wyre returning 'No Content' status 204

@@ -52,7 +52,7 @@ const Redirect = ({ type }) => {
           <div className="redirect-contents w-full">
             <div
               className={`flex align-center bg-black p-4 rounded-lg border-2 border-${
-                successMessage ? 'green' : 'red'
+                successMessage ? `green` : `[#FFBB0D]`
               }`}
             >
               <Icon name={iconName} size="29" height="29" color="white" />
@@ -64,7 +64,7 @@ const Redirect = ({ type }) => {
                   <h2 className="mt-6 tracking-tight">
                     Oops - there was an issue
                   </h2>
-                  <h3 className="mt-8 font-bold text-[#FFBB0D]">
+                  <h3 className="mt-8 font-bold text-errorYellow">
                     {errorMessage.substring(0, 200)}
                   </h3>
                 </>

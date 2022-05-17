@@ -17,6 +17,9 @@
   "prisma": {
     "seed": "yarn rw exec seed"
   },
+  "dependencies": {
+    "dotenv": "^16.0.0"
+  },
   "devDependencies": {
     "@ethersproject/wallet": "^5.5.0",
     "@netlify/zip-it-and-ship-it": "^4.23.0",
@@ -24,10 +27,14 @@
     "babel-loader": "^8.2.3",
     "chromatic": "^5.9.2",
     "csv-parse": "^5.0.4",
+    "discord-api-types": "^0.32.0",
     "eslint-plugin-prettier": "^4.0.0",
     "lerna": "^4.0.0",
     "random-username-generator": "^1.0.4",
     "sharp": "^0.29.3"
+  },
+  "optionalDependencies": {
+    "@discordjs/rest": "^0.4.1"
   },
   "eslintConfig": {
     "extends": "@redwoodjs/eslint-config",
@@ -39,8 +46,5 @@
   "engines": {
     "node": ">=14.17 <=16.x",
     "yarn": ">=1.15 <2"
-  },
-  "dependencies": {
-    "dotenv": "^16.0.0"
   }
 }

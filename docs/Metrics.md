@@ -7,6 +7,17 @@ For the staging and production environments, the endpoints for these would look 
 
 Business: http://treasure-chess-api:8080/metrics?type=business
 
+Query using curl
+
+```bash
+curl 'https://treasure.chess.com/graphql' \
+  -X POST \
+  -H 'content-type: application/json' \
+  --data '{
+    "query": "{ metrics(password: \"Rmdp9uMEAKAwT7Sg9wf4y73vbyY3PoUFGZeBzwfsn8dXx7cqXBaRe3XE42zdZcuN\") }"
+  }'
+```
+
 Here's an sample response from business metrics:
 
 ```json

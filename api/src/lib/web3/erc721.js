@@ -43,7 +43,7 @@ export const transferERC721 = async ({
   try {
     const ownerAddress = await contract.ownerOf(tokenId)
     if (member.address.toLowerCase() !== ownerAddress.toLowerCase())
-      throw new EnvelopError('Member does not own token')
+      throw new EnvelopError('You do not own this token')
 
     const unsignedTx = await contract.populateTransaction.safeTransferFrom(
       member.address,
@@ -54,7 +54,7 @@ export const transferERC721 = async ({
     return { status: 'SUCCESS', hash: tx.hash }
   } catch (e) {
     logger.error(e)
-    throw new EnvelopError('Unable to transfer ERC721')
+    throw new EnvelopError(`Unable to transfer ERC721 - ${e.message}`)
   }
 }
 

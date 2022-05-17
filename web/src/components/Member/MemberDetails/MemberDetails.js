@@ -14,7 +14,7 @@ import { getFlagBase64 } from '@treasure-chess/treasure-html'
 import { useWallet } from 'src/providers/wallet'
 
 import { trimAddress } from 'src/utils/helpers'
-import { useLocale } from 'src/providers/locale'
+
 
 const TWITCH = 'TWITCH'
 
@@ -61,7 +61,7 @@ const TwitchLink = ({ isProfile, username: twitchUsername }) => {
 }
 
 const MemberDetails = ({ member, isProfile }) => {
-  const { t } = useLocale()
+
 
   const { deposit, withdraw, getAddress } = useWallet()
   return (

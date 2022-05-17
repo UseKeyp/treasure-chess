@@ -2,11 +2,8 @@ import { routes } from '@redwoodjs/router'
 
 import Button from 'src/components/Button/Button'
 import Icon from 'src/components/Icon/Icon'
-import { useLocale } from 'src/providers/locale'
 
 const AllTreasuresButton = () => {
-  const { t } = useLocale()
-
   return (
     <Button
       variant="black"

@@ -6,7 +6,7 @@ import { useToast } from 'src/providers/toast'
 import Button from 'src/components/Button'
 
 import globalConfig from 'src/global.config.js'
-import { useLocale } from 'src/providers/locale'
+
 
 const LoginPortal = () => {
   const { signUp, isAuthenticated, reauthenticate } = useAuth()
@@ -17,7 +17,7 @@ const LoginPortal = () => {
     if (error === 'expired') return `Session expired, please log in again.`
   }
 
-  const { t } = useLocale()
+
 
   const onSubmitSignUp = async (type) => {
     const response = await signUp({ type })

@@ -2,6 +2,7 @@ import { useAuth } from '@redwoodjs/auth'
 // import { useMutation } from '@redwoodjs/web'
 // import { USER_LOCALE_MUTATION } from './graphql'
 import { isBrowser } from '@redwoodjs/prerender/browserUtils'
+import { useEffect } from 'react'
 
 const LocaleContext = React.createContext({})
 const LOCALE_LOCAL_KEY = 'i18nextLng'
@@ -17,6 +18,10 @@ const LocaleProvider = ({ children }) => {
   const { currentUser } = useAuth()
 
   const { t } = useTranslation('web')
+
+  useEffect(() => {
+    globalThis.t = t
+  }, [])
 
   // const [userLocale] = useMutation(USER_LOCALE_MUTATION)
 

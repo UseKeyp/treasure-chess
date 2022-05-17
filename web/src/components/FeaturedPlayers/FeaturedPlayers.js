@@ -3,10 +3,10 @@ import HeadingBar from '../HeadingBar/HeadingBar'
 import { getFlagBase64 } from '@treasure-chess/treasure-html'
 import { featuredPlayers } from 'src/global.config'
 import Icon from 'src/components/Icon/Icon'
-import { useLocale } from 'src/providers/locale'
+
 
 const FeaturedPlayers = () => {
-  const { t } = useLocale()
+
 
   const playerIcons = featuredPlayers?.map((player, i) => {
     const flagImageSrc = getFlagBase64(player.country)

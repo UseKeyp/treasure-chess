@@ -8,12 +8,9 @@ import AllTreasuresButton from 'src/components/AllTreasuresButton/AllTreasuresBu
 import TreasuresFetcher from 'src/components/Treasure/TreasuresFetcher'
 import { useTheme } from 'src/providers/theme'
 import { useEffect } from 'react'
-import { useLocale } from 'src/providers/locale'
 
 const HomePage = () => {
   const { toggleHomeTheme } = useTheme()
-
-  const { t } = useLocale()
 
   useEffect(() => {
     toggleHomeTheme(true)

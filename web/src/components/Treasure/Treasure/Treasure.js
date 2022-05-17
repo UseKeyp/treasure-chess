@@ -6,7 +6,7 @@ import TreasureMoves from '../TreasureMoves/TreasureMoves'
 import TreasureMarketInteraction from 'src/components/Treasure/TreasureMarketInteraction'
 import TreasureActivity from '../TreasureActivity/TreasureActivity'
 import TreasuresFetcher from 'src/components/Treasure/TreasuresFetcher'
-import { useLocale } from 'src/providers/locale'
+
 
 const Treasure = ({ treasure, isLoading }) => {
   const { t } = useLocale

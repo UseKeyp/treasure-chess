@@ -1,10 +1,10 @@
 import { Link, routes } from '@redwoodjs/router'
 
 import Icon from 'src/components/Icon/Icon'
-import { useLocale } from 'src/providers/locale'
+
 
 const SeeMore = ({ to = routes.treasures() }) => {
-  const { t } = useLocale()
+
 
   return (
     <div className="flex items-center justify-center">

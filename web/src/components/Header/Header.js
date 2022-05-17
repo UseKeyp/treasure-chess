@@ -11,10 +11,10 @@ import MobileMenu from 'src/components/MobileMenu/MobileMenu'
 import MemberBalance from 'src/components/Member/MemberBalance'
 
 import { trimAddress } from 'src/utils/helpers'
-import { useLocale } from 'src/providers/locale'
+
 
 const WalletBalance = () => {
-  const { t } = useLocale()
+
 
   const { deposit } = useWallet()
   return (
@@ -39,7 +39,7 @@ const MobileNav = () => {
   const { isAuthenticated: isLoggedIn, logOut } = useAuth()
   const { pathname } = useLocation()
 
-  const { t } = useLocale()
+
 
   const isOnTreasuresPage = pathname === '/treasures'
   const isOnAboutPage = pathname === '/about'
@@ -100,7 +100,7 @@ const MobileNav = () => {
 }
 
 const Header = () => {
-  const { t } = useLocale()
+
 
   const {
     isAuthenticated: isLoggedIn,

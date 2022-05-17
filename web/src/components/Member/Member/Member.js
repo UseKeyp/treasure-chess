@@ -2,9 +2,9 @@ import MemberDetails from 'src/components/Member/MemberDetails'
 import MemberActivityCell from 'src/components/Member/MemberActivityCell'
 import TreasuresFetcher from 'src/components/Treasure/TreasuresFetcher'
 import { routes } from '@redwoodjs/router'
-import { useLocale } from 'src/providers/locale'
+
 const Member = ({ member, isLoading }) => {
-  const { t } = useLocale()
+
 
   //const twitchSrc = `https://player.twitch.tv/?channel=${member.twitchUsername}&parent=${process.env.APP_DOMAIN}&muted=true&autoplay=true`
   // To test locally, uncomment and use domain "localhost"

@@ -3,14 +3,12 @@ import AchievementList from 'src/components/AchievementList/AchievementList'
 import { MetaTags } from '@redwoodjs/web'
 import { useTheme } from 'src/providers/theme'
 
-import { useLocale } from 'src/providers/locale'
 import about from './about'
 import faq from './faq'
 import { useEffect } from 'react'
 
 const FaqPage = () => {
   const { toggleFaqTheme } = useTheme()
-  const { t } = useLocale()
 
   useEffect(() => {
     toggleFaqTheme(true)

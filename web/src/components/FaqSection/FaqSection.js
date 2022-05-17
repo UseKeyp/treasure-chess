@@ -1,4 +1,4 @@
-import { useLocale } from 'src/providers/locale'
+
 
 const FaqItem = ({ icon, question, answer, feature }) => {
   return (
@@ -18,7 +18,7 @@ const FaqItem = ({ icon, question, answer, feature }) => {
 }
 
 const FaqSection = ({ title, questionList, columns }) => {
-  const { t } = useLocale()
+
 
   return (
     <div className="flex justify-center">

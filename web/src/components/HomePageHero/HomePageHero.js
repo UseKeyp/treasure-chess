@@ -8,7 +8,7 @@ import { useLocale } from 'src/providers/locale/locale.js'
 const HomePageHero = () => {
   const [card, setCard] = React.useState()
 
-  const { t } = useLocale()
+
 
   const update = async () => {
     const raw = await getCardHtml({

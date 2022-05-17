@@ -3,8 +3,6 @@ import { MetaTags } from '@redwoodjs/web'
 import { useLocale } from 'src/providers/locale/locale.js'
 
 const MemberPage = ({ usernameOrAddress }) => {
-  const { t } = useLocale()
-
   return (
     <>
       <MetaTags

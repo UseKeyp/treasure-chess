@@ -2,8 +2,6 @@ import Icon from 'src/components/Icon/Icon'
 import { useLocale } from 'src/providers/locale/locale.js'
 
 const LandingPageBoxes = () => {
-  const { t } = useLocale()
-
   return (
     <div className="pageBoxes mx-auto">
       <div className="pageBox">

@@ -5,12 +5,12 @@ import MemberDetails from 'src/components/Member/MemberDetails'
 import MemberActivityCell from 'src/components/Member/MemberActivityCell'
 import GameExplorer from 'src/components/Game/GameExplorer'
 import TreasuresFetcher from 'src/components/Treasure/TreasuresFetcher'
-import { useLocale } from 'src/providers/locale'
+
 
 const Profile = () => {
   const { currentUser } = useAuth()
 
-  const { t } = useLocale()
+
 
   if (!currentUser) {
     return <></>

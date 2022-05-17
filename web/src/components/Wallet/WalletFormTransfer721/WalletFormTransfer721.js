@@ -4,10 +4,10 @@ import {
   TextField,
   NumberField,
   FieldError,
-  Submit,
   FormError,
 } from '@redwoodjs/forms'
 import { isHexAddress } from 'src/utils/helpers'
+import Button from 'src/components/Button/Button'
 
 const WalletFormTransfer721 = () => {
   const onSubmit = (_data) => {
@@ -83,7 +83,11 @@ const WalletFormTransfer721 = () => {
         <FieldError name="recipientAddress" className="rw-field-error" />
 
         <div className="rw-button-group">
-          <Submit className="rw-button rw-button-blue">Transfer</Submit>
+          <Button
+            type="submit"
+            className={`rw-button rw-button-blue w-[200px] h-[40px] text-xl shadow-m hover:sm items-center`}
+            label={'Transfer'}
+          />
         </div>
       </Form>
     </div>

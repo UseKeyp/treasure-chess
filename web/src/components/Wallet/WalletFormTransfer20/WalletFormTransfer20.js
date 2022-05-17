@@ -4,13 +4,14 @@ import {
   TextField,
   NumberField,
   FieldError,
-  Submit,
   FormError,
 } from '@redwoodjs/forms'
 import { isHexAddress } from 'src/utils/helpers'
 import { BigNumber } from '@ethersproject/bignumber'
 import { useWallet } from 'src/providers/wallet'
 import { useToast } from 'src/providers/toast'
+import LoadingDots from 'src/components/LoadingDots/LoadingDots'
+import Button from 'src/components/Button/Button'
 
 const WalletFormTransfer20 = () => {
   const { toast } = useToast()
@@ -97,12 +98,15 @@ const WalletFormTransfer20 = () => {
         <FieldError name="recipientAddress" className="rw-field-error" />
 
         <div className="rw-button-group">
-          <Submit
+          <Button
             disabled={transferErc20Loading}
-            className="rw-button rw-button-blue"
-          >
-            Transfer
-          </Submit>
+            type="submit"
+            className={`rw-button rw-button-blue w-[200px] h-[40px] text-xl shadow-m hover:sm items-center ${
+              transferErc20Loading && 'cursor-not-allowed'
+            }`}
+            variant={transferErc20Loading ? 'grey' : 'transparent'}
+            label={transferErc20Loading ? <LoadingDots /> : 'Transfer'}
+          />
         </div>
       </Form>
     </div>

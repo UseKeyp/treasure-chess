@@ -1,3 +1,4 @@
-const languageData = require("./languageData");
+const languageData = require('./languageData')
+const resources = require('./locales')
 
-module.exports = { languageData };
+module.exports = { languageData, resources }

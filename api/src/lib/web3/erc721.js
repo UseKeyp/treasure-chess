@@ -6,6 +6,7 @@ import {
 import { Contract } from '@ethersproject/contracts'
 import { EnvelopError } from '@envelop/core'
 import { memberSendTransaction } from 'src/lib/web3/wallets'
+import { logger } from 'src/lib/logger'
 
 export const getERC721Contract = (tokenAddress) => {
   try {
@@ -18,8 +19,7 @@ export const getERC721Contract = (tokenAddress) => {
       web3Provider
     )
   } catch (e) {
-    /* eslint-disable-next-line no-console */
-    console.log(e)
+    logger.error(e)
     throw new Error(e)
   }
 }
@@ -33,8 +33,7 @@ export const transferERC721 = async ({
   try {
     contract = getERC721Contract(tokenAddress)
   } catch (e) {
-    /* eslint-disable-next-line no-console */
-    console.log(e)
+    logger.error(e)
     throw new EnvelopError('Unable to transfer ERC721', e.me)
   }
 
@@ -58,8 +57,7 @@ export const transferERC721 = async ({
     })
     return { status: 'SUCCESS', hash: tx.hash }
   } catch (e) {
-    /* eslint-disable-next-line no-console */
-    console.log(e)
+    logger.error(e)
     throw new EnvelopError('Unable to transfer ERC721')
   }
 }
@@ -69,8 +67,7 @@ export const getERC721Balance = async ({ contractAddress, memberAddress }) => {
   try {
     contract = getERC721Contract(contractAddress)
   } catch (e) {
-    /* eslint-disable-next-line no-console */
-    console.log(e)
+    logger.error(e)
     throw new EnvelopError('Unable to get ERC721 balance')
   }
   return await contract.balanceOf(memberAddress)

@@ -3,12 +3,9 @@ import Icon from 'src/components/Icon/Icon'
 import { routes } from '@redwoodjs/router'
 import { getCardHtml } from '@treasure-chess/treasure-html'
 import { game } from './data.js'
-import { useLocale } from 'src/providers/locale/locale.js'
 
 const HomePageHero = () => {
   const [card, setCard] = React.useState()
-
-
 
   const update = async () => {
     const raw = await getCardHtml({

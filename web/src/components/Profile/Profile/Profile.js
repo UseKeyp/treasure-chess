@@ -6,11 +6,8 @@ import MemberActivityCell from 'src/components/Member/MemberActivityCell'
 import GameExplorer from 'src/components/Game/GameExplorer'
 import TreasuresFetcher from 'src/components/Treasure/TreasuresFetcher'
 
-
 const Profile = () => {
   const { currentUser } = useAuth()
-
-
 
   if (!currentUser) {
     return <></>

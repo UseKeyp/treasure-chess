@@ -7,7 +7,6 @@ import Button from 'src/components/Button'
 
 import globalConfig from 'src/global.config.js'
 
-
 const LoginPortal = () => {
   const { signUp, isAuthenticated, reauthenticate } = useAuth()
   const { error, redirectTo } = useParams()
@@ -16,8 +15,6 @@ const LoginPortal = () => {
   const getErrorText = (error) => {
     if (error === 'expired') return `Session expired, please log in again.`
   }
-
-
 
   const onSubmitSignUp = async (type) => {
     const response = await signUp({ type })
@@ -93,33 +90,34 @@ const LoginPortal = () => {
           </Button>
         </div>
         {errorText && <div className="mt-8 rw-cell-error">{errorText}</div>}
-        <h4>
-          {t(
-            'By continuing you acknowledge that you have read, understand, and agree to the'
-          )}
-          <a className="text-blue" href={globalConfig.TOC_URL}>
-            {t('Terms of Service')}
-          </a>
-          {t('and')}
-          <a className="text-blue" href={globalConfig.PRIVACY_POLICY_URL}>
-            {t('Privacy Policy')}
-          </a>
-          .
-        </h4>
-        <h4 className="mt-4">
-          {t(
-            'If you have any questions or concerns, please let us know using the'
-          )}
-          <a
-            className="text-blue"
-            rel="noreferrer"
-            target="_blank"
-            href="/feedback"
-          >
-            {t('Feedback Form')}
-          </a>
-          .
-        </h4>
+        <Trans i18nKey="web:userAgreement">
+          <h4>
+            By continuing you acknowledge that you have read, understand, and
+            agree to the
+            <a className="text-blue" href={globalConfig.TOC_URL}>
+              Terms of Service
+            </a>
+            and
+            <a className="text-blue" href={globalConfig.PRIVACY_POLICY_URL}>
+              Privacy Policy
+            </a>
+            .
+          </h4>
+        </Trans>
+        <Trans i18nKey="web:userAgreement2">
+          <h4 className="mt-4">
+            If you have any questions or concerns, please let us know using the
+            <a
+              className="text-blue"
+              rel="noreferrer"
+              target="_blank"
+              href="/feedback"
+            >
+              Feedback Form
+            </a>
+            .
+          </h4>
+        </Trans>
       </div>
     </div>
   )

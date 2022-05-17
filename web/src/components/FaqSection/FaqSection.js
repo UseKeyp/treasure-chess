@@ -1,5 +1,3 @@
-
-
 const FaqItem = ({ icon, question, answer, feature }) => {
   return (
     <div className="question-wrapper" has-piece={feature ? 'true' : 'false'}>
@@ -18,8 +16,6 @@ const FaqItem = ({ icon, question, answer, feature }) => {
 }
 
 const FaqSection = ({ title, questionList, columns }) => {
-
-
   return (
     <div className="flex justify-center">
       <div>

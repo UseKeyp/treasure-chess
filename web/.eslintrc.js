@@ -3,5 +3,6 @@ module.exports = {
   // in every single global variable being used in the rect component tree
   rules: {
     'no-undef': ['off'],
+    'react/jsx-no-undef': ['off'],
   },
 }

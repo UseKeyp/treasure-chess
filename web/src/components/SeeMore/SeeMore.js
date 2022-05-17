@@ -2,10 +2,7 @@ import { Link, routes } from '@redwoodjs/router'
 
 import Icon from 'src/components/Icon/Icon'
 
-
 const SeeMore = ({ to = routes.treasures() }) => {
-
-
   return (
     <div className="flex items-center justify-center">
       <div className="h-[492px] min-w-[266px]">

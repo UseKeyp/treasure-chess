@@ -15,7 +15,6 @@ import { useWallet } from 'src/providers/wallet'
 
 import { trimAddress } from 'src/utils/helpers'
 
-
 const TWITCH = 'TWITCH'
 
 const TwitchLink = ({ isProfile, username: twitchUsername }) => {
@@ -61,8 +60,6 @@ const TwitchLink = ({ isProfile, username: twitchUsername }) => {
 }
 
 const MemberDetails = ({ member, isProfile }) => {
-
-
   const { deposit, withdraw, getAddress } = useWallet()
   return (
     <section className="member-details p-4">

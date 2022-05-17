@@ -3,6 +3,8 @@ import { routes, useLocation } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
 import { useWallet } from 'src/providers/wallet'
 
+import { useLocale } from 'src/providers/locale'
+
 import Icon from 'src/components/Icon/Icon'
 import Avatar from 'src/components/Avatar/Avatar'
 import Button from 'src/components/Button/Button'
@@ -12,10 +14,7 @@ import MemberBalance from 'src/components/Member/MemberBalance'
 
 import { trimAddress } from 'src/utils/helpers'
 
-
 const WalletBalance = () => {
-
-
   const { deposit } = useWallet()
   return (
     <div className="flex flex-col flex-1 text-sm">
@@ -38,8 +37,7 @@ const WalletBalance = () => {
 const MobileNav = () => {
   const { isAuthenticated: isLoggedIn, logOut } = useAuth()
   const { pathname } = useLocation()
-
-
+  const { t } = useLocale()
 
   const isOnTreasuresPage = pathname === '/treasures'
   const isOnAboutPage = pathname === '/about'
@@ -100,14 +98,13 @@ const MobileNav = () => {
 }
 
 const Header = () => {
-
-
   const {
     isAuthenticated: isLoggedIn,
     currentUser: profile,
     logOut,
   } = useAuth()
   const { pathname } = useLocation()
+  const { t } = useLocale()
 
   const isOnTreasuresPage = pathname === '/treasures'
   const isOnAboutPage = pathname === '/about'

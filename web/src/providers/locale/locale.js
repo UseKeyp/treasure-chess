@@ -2,11 +2,10 @@ import { useAuth } from '@redwoodjs/auth'
 // import { useMutation } from '@redwoodjs/web'
 // import { USER_LOCALE_MUTATION } from './graphql'
 import { isBrowser } from '@redwoodjs/prerender/browserUtils'
-import { useEffect } from 'react'
 
 const LocaleContext = React.createContext({})
 const LOCALE_LOCAL_KEY = 'i18nextLng'
-import { useTranslation } from 'react-i18next'
+import { useTranslation, Trans } from 'react-i18next'
 
 const getLocaleCode = () => {
   if (!isBrowser) return // Support prerender
@@ -19,9 +18,8 @@ const LocaleProvider = ({ children }) => {
 
   const { t } = useTranslation('web')
 
-  useEffect(() => {
-    globalThis.t = t
-  }, [])
+  globalThis.t = t
+  globalThis.Trans = Trans
 
   // const [userLocale] = useMutation(USER_LOCALE_MUTATION)
 

@@ -85,7 +85,7 @@ const LoginPortal = () => {
           >
             <div className="flex justify-center align-center items-center m-1">
               <img src="/icons/chess.png" alt="chess" className="icon-logo" />
-              <span className="mr-2">Sign in with Chess</span>
+              <span className="mr-2">Sign in with Chess.com</span>
             </div>
           </Button>
         </div>

@@ -47,7 +47,7 @@ const Table = ({
     )
   })
   let contents
-  if (error) contents = <p className="text-orange">{error}</p>
+  if (error) contents = <p className="text-errorYellow font-bold">{error}</p>
   else if (rows?.length === 0) contents = <p className="text-grey">Empty</p>
   else if (!isLoading) contents = rows
   else

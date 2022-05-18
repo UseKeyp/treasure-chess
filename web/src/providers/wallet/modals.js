@@ -199,7 +199,7 @@ const VendorConnection = ({ ramp, amount, isLoading, disabled }) => {
       <div className=" flex align-center items-center">{icon}</div>
       <h2 className="mt-2">{status}</h2>
       {button}
-      <p className="mt-2 text-orange">{ramp.error}</p>
+      <p className="mt-2 font-bold text-errorYellow">{ramp.error}</p>
     </div>
   )
 }

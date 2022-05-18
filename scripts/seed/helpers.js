@@ -44,7 +44,7 @@ const generateRandomMembers = (count, highestMemberId) => {
       return {
         id: (highestMemberId + index).toString(),
         username: randomUsername,
-        address: randomAddress,
+        address: randomAddress.toLowerCase(),
         imageSrc: `data:image/jpeg;base64,${
           randomAvatarsBase64[randomInt(0, 199)]
         }`,

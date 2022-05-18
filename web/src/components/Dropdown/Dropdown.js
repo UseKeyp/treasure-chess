@@ -51,7 +51,7 @@ const Dropdown = ({
 
   return (
     <div className="dropdownWrapper">
-      <h4>{category}</h4>
+      {category && <h4>{category}</h4>}
       <div onMouseLeave={() => setIsOpen(false)} className="dropdown">
         <div
           className="dropdownLabel"

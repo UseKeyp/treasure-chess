@@ -4,7 +4,9 @@ import { useAuth } from '@redwoodjs/auth'
 import { useModal } from 'src/hooks/useModal'
 
 import { WithdrawModal, DepositModal, AddressModal } from './modals'
-import { MEMBER_BALANCE_QUERY } from './graphql'
+import { MEMBER_BALANCE_QUERY, TRANSFER_MUTATION } from './graphql'
+import { useMutation } from '@redwoodjs/web'
+import { useToast } from 'src/providers/toast'
 
 const WalletContext = React.createContext({
   balanceLoading: true,
@@ -19,6 +21,8 @@ const WalletProvider = ({ children }) => {
     mintCreditBalance: null,
     addressToCopy: '',
   })
+  const { toast } = useToast()
+  const [transferLoading, setTransferLoading] = React.useState(false)
 
   const { isVisible: isVisibleDep, toggleModal: toggleModalDep } = useModal()
   const { isVisible: isVisibleWit, toggleModal: toggleModalWit } = useModal()
@@ -33,6 +37,18 @@ const WalletProvider = ({ children }) => {
     skip: !isAuthenticated,
     fetchPolicy: 'network-only',
   })
+  const [transferMutation] = useMutation(TRANSFER_MUTATION)
+
+  const transfer = async (value) => {
+    try {
+      setTransferLoading(true)
+      await transferMutation(value)
+    } catch (e) {
+      toast.error(e?.message)
+    } finally {
+      setTransferLoading(false)
+    }
+  }
 
   const getAddress = (address) => {
     // Set the correct address here before opening the modal
@@ -51,6 +67,7 @@ const WalletProvider = ({ children }) => {
   return (
     <WalletContext.Provider
       value={{
+        transfer: transfer,
         deposit: toggleModalDep,
         withdraw: toggleModalWit,
         getAddress,
@@ -58,6 +75,7 @@ const WalletProvider = ({ children }) => {
         mintCreditBalance: state.mintCreditBalance,
         balanceError,
         balanceLoading,
+        transferLoading,
       }}
     >
       <DepositModal isVisible={isVisibleDep} toggleModal={toggleModalDep} />

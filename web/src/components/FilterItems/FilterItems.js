@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { Span } from 'src/components/Typography'
 import Dropdown from 'src/components/Dropdown'
 import FilterCheckbox from 'src/components/FilterCheckbox'
+import GameByIdForm from 'src/components/GameByIdForm'
 import UsernameSearchBar from 'src/components/UsernameSearchBar/UsernameSearchBar'
 
 const getYearsArray = () => {
@@ -42,6 +43,7 @@ const FilterItems = ({ onChange }) => {
   const [year, setYear] = useState(yearsList[0])
   const [outcome, setOutcome] = useState('Any')
   const [username, setUsername] = useState('')
+  const [url, setUrl] = useState('')
 
   const transparentWhite = 'rgba(255, 255, 255, 0.6)'
   const CategoryWrap = ({ children }) => (
@@ -57,26 +59,31 @@ const FilterItems = ({ onChange }) => {
       ...(year && { year }),
       ...(username && { username }),
       ...(outcome && { outcome: outcome.toLowerCase() }),
+      ...(url && { url: url.toLowerCase() }),
     })
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
-  }, [month, year, username, outcome])
+  }, [month, year, username, outcome, url])
 
   return (
     <div className="filter-items w-full">
-      <div className="grid md:grid-cols-3 grid-cols-1 gap-2 md:gap-4">
-        <div className="grid grid-cols-2 gap-4">
-          <Dropdown
-            category={<CategoryWrap>Month</CategoryWrap>}
-            options={monthsList}
-            queryFilterFunction={setMonth}
-            queryFilter={month}
-          />
-          <Dropdown
-            category={<CategoryWrap>Year</CategoryWrap>}
-            options={yearsList}
-            queryFilterFunction={setYear}
-            queryFilter={year}
-          />
+      <div className="">
+        <GameByIdForm setQuery={setUrl} initialQuery={url} />
+      </div>
+      <div className="mt-4 grid md:grid-cols-3 grid-cols-1 gap-2 md:gap-4">
+        <div>
+          <CategoryWrap>Search by Details</CategoryWrap>
+          <div className="grid grid-cols-2 gap-4 content-end flex justify-end">
+            <Dropdown
+              options={monthsList}
+              queryFilterFunction={setMonth}
+              queryFilter={month}
+            />
+            <Dropdown
+              options={yearsList}
+              queryFilterFunction={setYear}
+              queryFilter={year}
+            />
+          </div>
         </div>
         <div className="filter-items__input-wrap">
           <h4
@@ -88,11 +95,7 @@ const FilterItems = ({ onChange }) => {
           >
             Opponent
           </h4>
-          <UsernameSearchBar
-            initialQuery={username}
-            setQuery={setUsername}
-            setValue={setUsername}
-          />
+          <UsernameSearchBar setValue={setUsername} />
         </div>
         <FilterCheckbox
           options={['Any', 'Won', 'Draw', 'Lost']}

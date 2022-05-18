@@ -22,19 +22,28 @@ export const QUERY = gql`
           }
         }
       }
-      treasuresWon {
+      marketSalesPurchased {
         id
-        title
-        tokenId
-        achievementScore
-        marketSales {
+        status
+        amount
+        updatedAt
+        treasure {
           id
-          status
-          updatedAt
-          buyer {
-            id
-            username
-          }
+          title
+          tokenId
+          achievementScore
+        }
+      }
+      marketSalesSold {
+        id
+        status
+        amount
+        updatedAt
+        treasure {
+          id
+          title
+          tokenId
+          achievementScore
         }
       }
     }

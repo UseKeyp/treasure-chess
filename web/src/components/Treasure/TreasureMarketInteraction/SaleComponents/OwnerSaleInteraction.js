@@ -102,7 +102,7 @@ const OwnerSaleInteraction = () => {
                   <div className="mr-2">
                     <LoadingDots />
                   </div>
-                  Unisting
+                  Unlisting
                 </div>
               ) : (
                 'Unlist'

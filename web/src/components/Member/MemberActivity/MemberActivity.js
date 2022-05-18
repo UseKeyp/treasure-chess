@@ -26,28 +26,32 @@ const MemberActivity = ({ member, isLoading, refetch }) => {
       <TreasureLink key={treasure.id} treasure={treasure} />,
       treasure.createdAt,
     ])
-    treasure.marketSales?.map((marketSale) => {
+  })
+
+  member.marketSalesPurchased?.map((marketSale) => {
+    if (marketSale.status === 'SOLD')
       list.push([
         formatDate(marketSale.updatedAt),
-        `Bought for $${marketSale.amount}`,
-        <TreasureLink key={treasure.id} treasure={treasure} />,
+        `🎁 Bought for $${marketSale.amount}`,
+        <TreasureLink
+          key={marketSale.updatedAt}
+          treasure={marketSale.treasure}
+        />,
         marketSale.updatedAt,
       ])
-    })
   })
-  member?.treasuresWon?.map((treasure) => {
-    treasure.marketSales?.map((marketSale) => {
-      if (
-        marketSale.status === 'SOLD' &&
-        marketSale.buyer?.username === member.username
-      )
-        list.push([
-          formatDate(marketSale.updatedAt),
-          'Bought',
-          <TreasureLink key={marketSale.updatedAt} treasure={treasure} />,
-          marketSale.updatedAt,
-        ])
-    })
+
+  member?.marketSalesSold?.map((marketSale) => {
+    if (marketSale.status === 'SOLD')
+      list.push([
+        formatDate(marketSale.updatedAt),
+        `💰 Sold for $${marketSale.amount}`,
+        <TreasureLink
+          key={marketSale.updatedAt}
+          treasure={marketSale.treasure}
+        />,
+        marketSale.updatedAt,
+      ])
   })
 
   const sorted = list.sort((a, b) => a[3] < b[3])

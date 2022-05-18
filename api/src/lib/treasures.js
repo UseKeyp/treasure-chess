@@ -126,18 +126,20 @@ const getWhereQueryFromArgs = ({ username, filter, owner }) => {
     : null
 
   return {
-    ...(usernameQuery && usernameQuery),
-    ...(ownerQuery && ownerQuery),
-    ...(achievementQuery && achievementQuery),
-    ...(outcomeQuery && outcomeQuery),
-    ...(moveCountQuery && moveCountQuery),
-    ...(titleQuery && titleQuery),
-    ...(openingQuery && openingQuery),
-    ...(saleQuery && saleQuery),
-    ...(filterObj.color && { cardColor: filterObj.color }),
-    ...(filterObj.termination && { termination: filterObj.termination }),
-    ...(filterObj.timeControl && { timeControl: filterObj.timeControl }),
-    ...(filterObj.rarity && { rarity: filterObj.rarity }),
+    AND: [
+      usernameQuery,
+      ownerQuery,
+      achievementQuery,
+      outcomeQuery,
+      moveCountQuery,
+      titleQuery,
+      openingQuery,
+      saleQuery,
+      filterObj.color && { cardColor: filterObj.color },
+      filterObj.termination && { termination: filterObj.termination },
+      filterObj.timeControl && { timeControl: filterObj.timeControl },
+      filterObj.rarity && { rarity: filterObj.rarity },
+    ].filter((query) => query),
     // TODO:  implement sale, and price
     // lowPrice,
     // highPrice,

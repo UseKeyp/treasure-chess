@@ -43,7 +43,7 @@ const generateRandomMembers = (count, highestMemberId) => {
       if (rand > 0.5) masterTitle = filters.titleList[randomInt(0, 9)]
       return {
         id: (highestMemberId + index).toString(),
-        username: randomUsername,
+        username: randomUsername.toLowerCase(),
         address: randomAddress.toLowerCase(),
         imageSrc: `data:image/jpeg;base64,${
           randomAvatarsBase64[randomInt(0, 199)]

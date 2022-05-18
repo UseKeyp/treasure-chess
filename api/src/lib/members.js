@@ -185,8 +185,8 @@ export const fetchMember = async (
                 username: chessData.username,
                 mintCredits: Number(process.env.MINT_CREDITS_NEW_MEMBER),
                 ...(chessData.avatar && { imageSrc: chessData.avatar }),
-                ...(chessData.masterTitle && {
-                  masterTitle: chessData.masterTitle,
+                ...(chessData.title && {
+                  masterTitle: chessData.title,
                 }),
                 country,
               },

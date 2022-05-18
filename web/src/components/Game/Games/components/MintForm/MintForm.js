@@ -69,7 +69,7 @@ const MintForm = ({
         </Button>
       </div>
       {errorText && (
-        <P pt={'.5rem'} fontSize={13} fontWeight={500} color="#DA413E">
+        <P pt={'.5rem'} fontSize={13} fontWeight={700} color="#FFBB0D">
           {errorText}
         </P>
       )}

@@ -6,6 +6,6 @@ const APPROVED_LOGIN_PROVIDERS = [CHESS]
 
 export const validateLoginRequest = ({ type }) => {
   if (!APPROVED_LOGIN_PROVIDERS.includes(type)) {
-    throw new AuthenticationError('OAuth provider not avaialble for login.')
+    throw new AuthenticationError('OAuth provider not available for login.')
   }
 }

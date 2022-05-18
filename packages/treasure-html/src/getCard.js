@@ -31,6 +31,9 @@ const getOrderedUsers = (treasure) => {
     ...(treasure.black.masterTitle && {
       masterTitle: treasure.black.masterTitle,
     }),
+    ...(treasure.blackMasterTitle && {
+      masterTitle: treasure.blackMasterTitle,
+    }),
     // // Not content, but rather "styles" and "src"
     ...(blackRatingDeltaColor && { ratingDeltaColor: blackRatingDeltaColor }),
     imageSrc: treasure.black.imageSrc,
@@ -43,6 +46,9 @@ const getOrderedUsers = (treasure) => {
     ratingDelta: whiteRatingDelta,
     ...(treasure.white.masterTitle && {
       masterTitle: treasure.white.masterTitle,
+    }),
+    ...(treasure.whiteMasterTitle && {
+      masterTitle: treasure.whiteMasterTitle,
     }),
     // // Not content, but rather "styles" and "src"
     ...(whiteRatingDeltaColor && { ratingDeltaColor: whiteRatingDeltaColor }),
@@ -160,9 +166,6 @@ const getCardHtml = async ({
     if (!bottomUser.masterTitle)
       updateStyle('bottom-masterTitle', 'display', 'none')
     if (!topUser.masterTitle) updateStyle('top-masterTitle', 'display', 'none')
-
-    // TODO: DELETE ME
-    updateContent(`bottom-masterTitle`, 'FM')
 
     // The only async function here
     const topAvatarBase64 = await fetchImageAndEncodeBase64(topUser.imageSrc)

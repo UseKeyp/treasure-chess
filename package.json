@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "dotenv": "^16.0.0",
-    "terminal-link": "^3.0.0"
+    "terminal-link": "^2.1.1"
   },
   "devDependencies": {
     "@ethersproject/wallet": "^5.5.0",

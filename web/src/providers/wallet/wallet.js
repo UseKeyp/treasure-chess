@@ -4,7 +4,11 @@ import { useAuth } from '@redwoodjs/auth'
 import { useModal } from 'src/hooks/useModal'
 
 import { WithdrawModal, DepositModal, AddressModal } from './modals'
-import { MEMBER_BALANCE_QUERY, TRANSFER_ERC20 } from './graphql'
+import {
+  MEMBER_BALANCE_QUERY,
+  TRANSFER_ERC721_MUTATION,
+  TRANSFER_ERC20_MUTATION,
+} from './graphql'
 import { useMutation } from '@redwoodjs/web'
 import { useToast } from 'src/providers/toast'
 
@@ -12,9 +16,6 @@ const WalletContext = React.createContext({
   balanceLoading: true,
   usdcBalance: null,
   mintCreditBalance: null,
-  transferErc20: (tokenAddress, recipientAddress, amount) => {},
-  transferErc20Loading: false,
-  transferErc20Error: null,
 })
 
 const WalletProvider = ({ children }) => {
@@ -24,15 +25,13 @@ const WalletProvider = ({ children }) => {
     usdcBalance: null,
     mintCreditBalance: null,
     addressToCopy: '',
-    transferErc20Loading: false,
-    transferErc20Error: null,
   })
+  const [transferErc20Loading, setTransferErc20Loading] = React.useState(false)
+  const [transferErc721Error, setTransferErc721Error] = React.useState()
 
   const { isVisible: isVisibleDep, toggleModal: toggleModalDep } = useModal()
   const { isVisible: isVisibleWit, toggleModal: toggleModalWit } = useModal()
   const { isVisible: isVisibleAdd, toggleModal: toggleModalAdd } = useModal()
-
-  const [transferErc20Mutation] = useMutation(TRANSFER_ERC20)
 
   const {
     data: { memberBalance } = {},
@@ -43,6 +42,8 @@ const WalletProvider = ({ children }) => {
     skip: !isAuthenticated,
     fetchPolicy: 'network-only',
   })
+  const [transferErc20Mutation] = useMutation(TRANSFER_ERC20_MUTATION)
+  const [transferErc721Mutation] = useMutation(TRANSFER_ERC721_MUTATION)
 
   const getAddress = (address) => {
     // Set the correct address here before opening the modal
@@ -51,30 +52,40 @@ const WalletProvider = ({ children }) => {
     toggleModalAdd()
   }
 
-  const transferErc20 = async (tokenAddress, recipientAddress, amount) => {
+  const transferErc721 = async (args) => {
     try {
-      setState((state) => ({ ...state, transferErc20Loading: true }))
+      setTransferErc721Loading(true)
+      setTransferErc721Error(false)
+
+      const { error, data } = await transferErc721Mutation({
+        variables: { tokenAddress, recipientAddress, amount },
+      })
+      if (error) throw error
+      return data
+    } catch (e) {
+      toast.error(e?.message)
+      setTransferErc721Error(e?.message)
+      return null
+    } finally {
+      setTransferErc721Loading(false)
+    }
+  }
+  const transferErc20 = async (args) => {
+    try {
+      setTransferErc20Loading(true)
+      setTransferErc20Error(false)
 
       const { error, data } = await transferErc20Mutation({
         variables: { tokenAddress, recipientAddress, amount },
       })
       if (error) throw error
-
-      setState((state) => ({
-        ...state,
-        transferErc20Error: null,
-        transferErc20Loading: false,
-      }))
-
       return data
     } catch (e) {
       toast.error(e?.message)
-      setState((state) => ({
-        ...state,
-        transferErc20Error: e?.message,
-        transferErc20Loading: false,
-      }))
+      setTransferErc20Error(e?.message)
       return null
+    } finally {
+      setTransferErc20Loading(false)
     }
   }
 
@@ -91,13 +102,16 @@ const WalletProvider = ({ children }) => {
         deposit: toggleModalDep,
         withdraw: toggleModalWit,
         getAddress,
-        transferErc20,
         usdcBalance: state.usdcBalance,
         mintCreditBalance: state.mintCreditBalance,
         balanceError,
         balanceLoading,
-        transferErc20Loading: state.transferErc20Loading,
-        transferErc20Error: state.transferErc20Error,
+        transferErc721,
+        transferErc721Error,
+        transferErc721Loading,
+        transferErc20,
+        transferErc20Error,
+        transferErc20Loading,
       }}
     >
       <DepositModal isVisible={isVisibleDep} toggleModal={toggleModalDep} />

@@ -6,16 +6,35 @@ export const MEMBER_BALANCE_QUERY = gql`
     }
   }
 `
-export const TRANSFER_ERC20 = gql`
-  mutation transferErc20(
+export const TRANSFER_ERC721_MUTATION = gql`
+  mutation transfer(
     $tokenAddress: String!
-    $recipientAddress: String!
-    $amount: String!
+    $tokenId: Int!
+    $toAddress: String!
   ) {
-    transferErc20(
+    transfer(
       tokenAddress: $tokenAddress
-      recipientAddress: $recipientAddress
+      tokenId: $tokenId
+      toAddress: $toAddress
+    ) {
+      status
+      hash
+    }
+  }
+`
+export const TRANSFER_ERC20_MUTATION = gql`
+  mutation transfer(
+    $tokenAddress: String!
+    $amount: String!
+    $toAddress: String!
+  ) {
+    transfer(
+      tokenAddress: $tokenAddress
       amount: $amount
-    )
+      toAddress: $toAddress
+    ) {
+      status
+      hash
+    }
   }
 `

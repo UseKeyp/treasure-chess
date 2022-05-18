@@ -18,15 +18,9 @@ const WalletFormTransfer20 = () => {
   const { transferErc20, transferErc20Loading } = useWallet()
 
   const onSubmit = async (data) => {
-    data.amount = BigNumber.from(data.amount)
-    const transferErc20Response = await transferErc20(
-      data.tokenAddress,
-      data.recipientAddress,
-      data.amount
-    )
-    if (transferErc20Response) {
-      toast.success('Transferred!')
-    }
+    await transferErc20({
+      variables: { ...data, type: 'ERC20' },
+    })
   }
 
   return (
@@ -78,14 +72,14 @@ const WalletFormTransfer20 = () => {
         <FieldError name="amount" className="rw-field-error" />
 
         <Label
-          name="recipientAddress"
+          name="toAddress"
           className="rw-label"
           errorClassName="rw-label rw-label-error"
         >
-          recipientAddress
+          Recipient Address
         </Label>
         <TextField
-          name="recipientAddress"
+          name="toAddress"
           className="rw-input"
           errorClassName="rw-input rw-input-error"
           validation={{
@@ -95,7 +89,7 @@ const WalletFormTransfer20 = () => {
               'address should be 40 character hex string',
           }}
         />
-        <FieldError name="recipientAddress" className="rw-field-error" />
+        <FieldError name="toAddress" className="rw-field-error" />
 
         <div className="rw-button-group">
           <Button

@@ -64,7 +64,7 @@ const Redirect = ({ type }) => {
                   <h2 className="mt-6 tracking-tight">
                     Oops - there was an issue
                   </h2>
-                  <h3 className="mt-8 font-bold text-[#FFBB0D]">
+                  <h3 className="mt-8 font-bold text-errorYellow">
                     {errorMessage.substring(0, 200)}
                   </h3>
                 </>

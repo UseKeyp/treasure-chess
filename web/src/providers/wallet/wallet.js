@@ -27,6 +27,10 @@ const WalletProvider = ({ children }) => {
     addressToCopy: '',
   })
   const [transferErc20Loading, setTransferErc20Loading] = React.useState(false)
+  const [transferErc20Error, setTransferErc20Error] = React.useState()
+
+  const [transferErc721Loading, setTransferErc721Loading] =
+    React.useState(false)
   const [transferErc721Error, setTransferErc721Error] = React.useState()
 
   const { isVisible: isVisibleDep, toggleModal: toggleModalDep } = useModal()

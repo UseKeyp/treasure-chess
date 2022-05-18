@@ -12,11 +12,9 @@ import { isHexAddress } from 'src/utils/helpers'
 import Button from 'src/components/Button/Button'
 
 const WalletFormTransfer721 = () => {
-  const { transfer, transferLoading } = useWallet()
+  const { transferErc721, transferErc721Loading } = useWallet()
   const onSubmit = async (value) => {
-    await transfer({
-      variables: { ...value },
-    })
+    await transferErc721({ variables: { ...value } })
   }
   return (
     <div className="rw-form-wrapper">
@@ -87,12 +85,15 @@ const WalletFormTransfer721 = () => {
         <FieldError name="toAddress" className="rw-field-error" />
 
         <div className="rw-button-group">
-          <Submit
-            disabled={transferLoading}
-            className="rw-button rw-button-blue"
-          >
-            Transfer
-          </Submit>
+          <Button
+            disabled={transferErc721Loading}
+            type="submit"
+            className={`rw-button rw-button-blue w-[200px] h-[40px] text-xl shadow-m hover:sm items-center ${
+              transferErc721Loading && 'cursor-not-allowed'
+            }`}
+            variant={transferErc721Loading ? 'grey' : 'transparent'}
+            label={transferErc721Loading ? <LoadingDots /> : 'Transfer'}
+          />
         </div>
       </Form>
     </div>

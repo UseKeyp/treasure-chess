@@ -47,16 +47,15 @@ docker build . -t pi0neerpat/treasure-chess-api -f api/Dockerfile --build-arg EN
 Start both containers with `docker-compose`
 
 ```bash
-# Authenticate
-docker login https://ghcr.io -u USERNAME -p GITHUB_PAT
-
-# Run
 docker-compose up
 ```
 
-> NOTE: If you did not build the images locally, you'll need to download them from the Github Container Registry (GHCR). To enable access to GHCR, create a `GITHUB_PAT` in your Github "Developer Settings" with permissions `read:packages`.
+If you did not build the images locally, you'll need to download them from the Github Container Registry (GHCR). To enable access to GHCR, create a `GITHUB_PAT` in your Github "Developer Settings" with permissions `read:packages`.
 
-> NOTE: If you cannot connect to your local database, run `ifconfig docker0` and update the host for the database eg. "172.17.0.1"
+```bash
+# Authenticate
+docker login https://ghcr.io -u USERNAME -p GITHUB_PAT
+```
 
 To run a single image use `docker run`:
 
@@ -70,6 +69,16 @@ docker run -it --rm \
 docker run -it --rm \
        -p 8910:8910 \
         pi0neerpat/treasure-chess-web:latest
+```
+
+#### Connecting to a local database
+
+If you cannot connect to your local database, run `ifconfig docker0` and update the host for the database eg. "172.17.0.1". More info at https://stackoverflow.com/questions/31249112/allow-docker-container-to-connect-to-a-local-host-postgres-database
+
+Also, I had to update the following line on my local machine in `/etc/postgresql/12/main/postgresql.conf`
+
+```
+listen_addresses = '*'
 ```
 
 ## Explore

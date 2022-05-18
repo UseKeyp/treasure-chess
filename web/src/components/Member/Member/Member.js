@@ -11,7 +11,6 @@ const Member = ({ member, isLoading }) => {
   //const twitchSrc = `https://player.twitch.tv/?channel=${member.twitchUsername}&parent=${process.env.APP_DOMAIN}&muted=true&autoplay=true`
   // To test locally, uncomment and use domain "localhost"
   // const twitchSrc = `https://player.twitch.tv/?channel=jpegjames&parent=localhost&muted=true&autoplay=true`
-
   return (
     <div className="max-width-container">
       <div className="grid grid-rows-1 gap-10">

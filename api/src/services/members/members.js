@@ -59,6 +59,8 @@ export const Member = {
     db.member.findUnique({ where: { id: root.id } }).treasuresPlayedBlack(),
   treasuresWon: (_obj, { root }) =>
     db.member.findUnique({ where: { id: root.id } }).treasuresWon(),
-  locale: (_obj, { root }) =>
-    db.member.findUnique({ where: { id: root.id } }).locale(),
+  marketSalesSold: (_obj, { root }) =>
+    db.member.findUnique({ where: { id: root.id } }).marketSalesSold(),
+  marketSalesPurchased: (_obj, { root }) =>
+    db.member.findUnique({ where: { id: root.id } }).marketSalesPurchased(),
 }

@@ -53,7 +53,7 @@ const Member = ({ member, isLoading }) => {
             sort={sort}
           />
         </div>
-        <FilterBar defaultParams={defaultParams} hideOnMobile />
+        <FilterBar defaultParams={defaultParams} hideOnMobile disableUsername />
       </div>
     </div>
   )

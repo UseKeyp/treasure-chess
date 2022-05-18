@@ -64,7 +64,7 @@ const Profile = () => {
             sort={sort}
           />
         </div>
-        <FilterBar defaultParams={defaultParams} hideOnMobile />
+        <FilterBar defaultParams={defaultParams} hideOnMobile disableUsername />
       </div>
     </div>
   )

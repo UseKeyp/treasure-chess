@@ -41,11 +41,7 @@ const UsernameSearchBar = ({ setValue: setParentValue }) => {
       // Prevents performing another query after selection
       return setDropdownOptions([])
     }
-    fetchUsernames({
-      variables: {
-        query: value,
-      },
-    })
+    fetchUsernames({ variables: { query: value } })
   }
 
   const debounceUpdate = debounce(update, 1000)

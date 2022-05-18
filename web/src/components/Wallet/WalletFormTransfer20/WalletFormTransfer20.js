@@ -18,9 +18,7 @@ const WalletFormTransfer20 = () => {
   const { transferErc20, transferErc20Loading } = useWallet()
 
   const onSubmit = async (data) => {
-    await transferErc20({
-      variables: { ...data, type: 'ERC20' },
-    })
+    await transferErc20({ ...data, amount: data.amount.toString() })
   }
 
   return (

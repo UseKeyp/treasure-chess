@@ -61,16 +61,12 @@ const WalletProvider = ({ children }) => {
       setTransferErc721Loading(true)
       setTransferErc721Error(false)
 
-      const { error, data } = await transferErc721Mutation({
-        variables: { tokenAddress, recipientAddress, amount },
-      })
+      const { error, data } = await transferErc721Mutation({ variables: args })
       if (error) throw error
       return data
     } catch (e) {
       toast.error(e?.message)
       setTransferErc721Error(e?.message)
-      return null
-    } finally {
       setTransferErc721Loading(false)
     }
   }
@@ -79,16 +75,12 @@ const WalletProvider = ({ children }) => {
       setTransferErc20Loading(true)
       setTransferErc20Error(false)
 
-      const { error, data } = await transferErc20Mutation({
-        variables: { tokenAddress, recipientAddress, amount },
-      })
+      const { error, data } = await transferErc20Mutation({ variables: args })
       if (error) throw error
       return data
     } catch (e) {
       toast.error(e?.message)
       setTransferErc20Error(e?.message)
-      return null
-    } finally {
       setTransferErc20Loading(false)
     }
   }

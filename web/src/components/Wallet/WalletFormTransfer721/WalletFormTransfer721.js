@@ -5,16 +5,16 @@ import {
   NumberField,
   FieldError,
   FormError,
-  Submit,
 } from '@redwoodjs/forms'
 import { useWallet } from 'src/providers/wallet'
 import { isHexAddress } from 'src/utils/helpers'
 import Button from 'src/components/Button/Button'
+import LoadingDots from 'src/components/LoadingDots/LoadingDots'
 
 const WalletFormTransfer721 = () => {
   const { transferErc721, transferErc721Loading } = useWallet()
-  const onSubmit = async (value) => {
-    await transferErc721({ variables: { ...value } })
+  const onSubmit = async (data) => {
+    await transferErc721(data)
   }
   return (
     <div className="rw-form-wrapper">

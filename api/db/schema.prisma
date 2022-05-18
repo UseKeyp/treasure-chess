@@ -151,13 +151,13 @@ model DepositOrder {
   member         Member   @relation("depositOrders", fields: [memberId], references: [id])
   memberId       String
   // --------------- STATE --------------
-  amount         Int?
+  amount         Float?
   paymentType    RampType
   status         TxStatus @default(UNSUBMITTED)
   // Wyre
   sourceCurrency String?
-  sourceAmount   String?
-  purchaseAmount String?
+  sourceAmount   Float?
+  purchaseAmount Float?
   destCurrency   String?
   paymentMethod  String?
   orderType      String? // DOMESTIC or INTERNATIONAL

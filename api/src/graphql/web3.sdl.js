@@ -4,11 +4,15 @@ export const schema = gql`
     hash: String!
   }
   type Mutation {
-    transfer(
+    transferErc721(
       tokenAddress: String!
       tokenId: Int!
       toAddress: String!
-      type: String!
+    ): TransferResponse! @requireAuth
+    transferErc20(
+      tokenAddress: String!
+      amount: String!
+      toAddress: String!
     ): TransferResponse! @requireAuth
   }
   enum TransferStatus {

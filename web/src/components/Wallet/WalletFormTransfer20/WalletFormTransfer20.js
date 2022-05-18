@@ -7,14 +7,11 @@ import {
   FormError,
 } from '@redwoodjs/forms'
 import { isHexAddress } from 'src/utils/helpers'
-import { BigNumber } from '@ethersproject/bignumber'
 import { useWallet } from 'src/providers/wallet'
-import { useToast } from 'src/providers/toast'
 import LoadingDots from 'src/components/LoadingDots/LoadingDots'
 import Button from 'src/components/Button/Button'
 
 const WalletFormTransfer20 = () => {
-  const { toast } = useToast()
   const { transferErc20, transferErc20Loading } = useWallet()
 
   const onSubmit = async (data) => {

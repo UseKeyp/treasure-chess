@@ -36,7 +36,9 @@ const Member = ({ member, isLoading }) => {
           sort="Highest Level"
         />
       </div>
-      <h1 className="mt-10">{t('Treasures Owned')}</h1>
+      <Trans>
+        <h1 className="mt-10">Treasures Owned</h1>
+      </Trans>
       <div className="flex mt-4">
         <TreasuresFetcher owner={member.username} sort="Highest Level" />
       </div>

@@ -60,8 +60,12 @@ const Table = ({
       className="table-wrapper"
       style={{ height, width, backgroundColor: bgColor }}
     >
-      <h1 className="table-header">{title}</h1>
-      <div className="table-component">{contents}</div>
+      <Trans i18nKey="tableTitle">
+        <h1 className="table-header">{title}</h1>
+      </Trans>
+      <Trans i18nKey="tableContents">
+        <div className="table-component">{contents}</div>
+      </Trans>
     </div>
   )
 }

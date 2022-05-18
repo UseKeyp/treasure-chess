@@ -39,21 +39,22 @@ const Treasure = ({ treasure, isLoading }) => {
             </h3>
           </div>
         </div>
-        <p className="answer-container text-sm font-normal color-grey-light tracking-tight">
-          {t(
-            'Once a Treasure is listed for sale by its owner, it can be purchased using your account balance. You can add funds to your account using a debit card, and funds can be cashed-out to your bank via your'
-          )}
-          <Link to={routes.profile()} className="underline">
-            {t('Profile')}
-          </Link>
-          {t(
-            'Transactions in the Marketplace can take up to 3 minutes to process. Learn more over at'
-          )}
-          <Link to={routes.about()} className="underline">
-            {t('About')}
-          </Link>
-          .
-        </p>
+        <Trans i18nKey="treasure">
+          <p className="answer-container text-sm font-normal color-grey-light tracking-tight">
+            Once a Treasure is listed for sale by its owner, it can be purchased
+            using your account balance. You can add funds to your account using
+            a debit card, and funds can be cashed-out to your bank via your
+            <Link to={routes.profile()} className="underline">
+              Profile
+            </Link>
+            Transactions in the Marketplace can take up to 3 minutes to process.
+            Learn more over at
+            <Link to={routes.about()} className="underline">
+              About
+            </Link>
+            .
+          </p>
+        </Trans>
       </div>
       <h1 className="mt-16">{t('More by these users')}</h1>
       <div className="w-full mt-4">

@@ -118,13 +118,15 @@ const MemberDetails = ({ member, isProfile }) => {
           </div>
           {isProfile && (
             <div className="mt-4 member-details--member-content">
-              <p>
-                <Link
-                  to={routes.member({ usernameOrAddress: member.username })}
-                >
-                  {t('View public profile')}
-                </Link>
-              </p>
+              <Trans i18nKey="viewProfileLink">
+                <p>
+                  <Link
+                    to={routes.member({ usernameOrAddress: member.username })}
+                  >
+                    View public profile
+                  </Link>
+                </p>
+              </Trans>
             </div>
           )}
         </div>

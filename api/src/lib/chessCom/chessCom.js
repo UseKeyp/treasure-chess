@@ -1,5 +1,5 @@
 import fetch from 'cross-fetch'
-// import { logger } from 'src/lib/logger'
+import { logger } from 'src/lib/logger'
 
 export const fetchChessMember = (username) => {
   try {
@@ -34,12 +34,41 @@ export const fetchChessGames = async ({ username, year, month }) => {
 }
 
 export const fetchChessGame = async ({ username, gameId, endTime }) => {
-  const year = new Date(endTime).getFullYear()
-  let month = new Date(endTime).getMonth() + 1
-  if (month.toString().length < 2) month = '0' + month
-  const games = await fetchChessGames({ username, year, month })
-  const game = games.find((g) => g.url.includes(gameId))
-  return game
+  try {
+    logger.debug(
+      { custom: { username, gameId, endTime } },
+      'fetchChessGame  args'
+    )
+    const year = new Date(endTime).getFullYear()
+    let month = new Date(endTime).getMonth() + 1
+    if (month.toString().length < 2) month = '0' + month
+    const games = await fetchChessGames({ username, year, month })
+    logger.debug({ custom: games }, 'fetchChessGame games')
+    const game = games.find((g) => g.url.includes(gameId))
+    return game
+  } catch (e) {
+    throw new Error(`fetchChessGame() ${e}`)
+  }
+}
+
+export const fetchGameByIdOrUrl = async (gameIdOrUrl) => {
+  try {
+    let id = gameIdOrUrl
+    if (gameIdOrUrl.includes('chess.com')) id = gameIdOrUrl.split('live/')[1]
+    let url = `${process.env.CHESS_API_URL}/v1/games/${id}/live`
+    const response = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${process.env.CHESS_API_ACCESS_TOKEN}`,
+      },
+    }).then((res) => {
+      // logger.debug({ custom: res }, 'fetchGameByIdOrUrl res')
+      return res.json()
+    })
+    // logger.debug({ custom: response }, 'fetchGameByIdOrUrl response')
+    return response.data
+  } catch (e) {
+    throw new Error(`fetchGameByIdOrUrl() ${e}`)
+  }
 }
 
 export const fetchRatingDelta = async (id) => {

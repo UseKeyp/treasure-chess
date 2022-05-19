@@ -40,7 +40,7 @@ export const VendorConnection = ({ ramp, amount, isLoading, disabled }) => {
   )
   const buttonClassName = `mt-4 w-[272px] h-[40px] text-xl shadow-m hover:sm hover:bg-greenDark hover:shadow-greenDark ${backgroundColor}`
   let rampError
-  if (ramp.error != null && ramp.error != '') {
+  if (ramp.error != null && ramp.error != '' && ramp.error.length > 0) {
     rampError = ramp.error.substring(0, 200)
   } else {
     rampError = ''
@@ -92,13 +92,7 @@ export const VendorConnection = ({ ramp, amount, isLoading, disabled }) => {
     )
   const icon =
     ramp.type === 'COINBASE' ? (
-      <Icon
-        name="coinbase"
-        size="25"
-        height="25"
-        color="white"
-        className=" mb-2"
-      />
+      <Icon name="coinbase" size="45%" color="white" className="mb-2" />
     ) : (
       <img
         src="/icons/wyre_plaid.png"
@@ -112,7 +106,7 @@ export const VendorConnection = ({ ramp, amount, isLoading, disabled }) => {
         ramp.address ? 'border-green' : 'border-chessBlack-100'
       }`}
     >
-      <div className=" flex align-center items-center">{icon}</div>
+      <div className="flex align-center items-center">{icon}</div>
       <h2 className="mt-2">{status}</h2>
       {button}
       <div className="mt-8 font-bold text-errorYellow">{rampError}</div>
@@ -178,10 +172,25 @@ const RampProvider = ({ children }) => {
   }
 
   React.useEffect(() => {
+    if (errorOAuth != '' && errorOAuth != null) {
+      if (errorOAuth.includes('COINBASE')) {
+        coinbase.error = errorOAuth
+        setCoinbase({
+          ...coinbase,
+          error: errorOAuth,
+        })
+      } else if (errorOAuth.includes('WYRE')) {
+        wyre.error = errorOAuth
+        setWyre({
+          ...wyre,
+          error: errorOAuth,
+        })
+      }
+    }
     if (!ramps) return
     updateRamps()
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
-  }, [ramps])
+  }, [ramps, errorOAuth])
 
   const [wyreDepositUrlQuery] = useLazyQuery(WYRE_DEPOSIT_URL_QUERY, {
     fetchPolicy: 'network-only',
@@ -205,11 +214,16 @@ const RampProvider = ({ children }) => {
     setCoinbase({ isLoading: true, error: '', ...coinbase })
     try {
       const oAuthUrl = await getOAuthUrl(COINBASE)
-      if (oAuthUrl == null || oAuthUrl == '') {
-        coinbase.error = errorOAuth
-        setCoinbase({ isLoading: false, ...coinbase })
-        document.getElementById('connection-button').disabled = false
-        return
+      if (
+        (oAuthUrl == null || oAuthUrl == '') &&
+        errorOAuth != '' &&
+        errorOAuth != null
+      ) {
+        if (errorOAuth.contains('COINBASE')) {
+          coinbase.error = errorOAuth
+          document.getElementById('connection-button').disabled = false
+          return setCoinbase({ isLoading: false, ...coinbase })
+        }
       }
       if (isBrowser)
         window.open(
@@ -228,15 +242,20 @@ const RampProvider = ({ children }) => {
 
   const connectWyre = async () => {
     document.getElementById('connection-button').disabled = true
-    setWyre({ isLoading: true, error: null, ...wyre })
+    setWyre({ isLoading: true, error: '', ...wyre })
     let oAuthUrl
     try {
       oAuthUrl = await getOAuthUrl(PLAID)
-      setShouldPoll(true)
-      if (oAuthUrl == null || oAuthUrl == '') {
-        wyre.error = errorOAuth
-        document.getElementById('connection-button').disabled = false
-        return setWyre({ isLoading: false, error: errorOAuth, ...wyre })
+      if (
+        (oAuthUrl == null || oAuthUrl == '') &&
+        errorOAuth != '' &&
+        errorOAuth != null
+      ) {
+        if (errorOAuth.contains('WYRE')) {
+          wyre.error = errorOAuth
+          document.getElementById('connection-button').disabled = false
+          return setWyre({ isLoading: false, error: errorOAuth, ...wyre })
+        }
       }
     } catch (error) {
       wyre.error = error

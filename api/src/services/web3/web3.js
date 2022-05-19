@@ -13,10 +13,10 @@ const validateTransfer = async ({ toAddress }) => {
     )
 }
 
-export const transferErc20 = async ({ _tokenAddress, _amount, toAddress }) => {
-  await validateTransfer({ toAddress })
-  throw new EnvelopError(`Transfer type "ERC20" is not yet supported.`)
-}
+// export const transferErc20 = async ({ _tokenAddress, _amount, toAddress }) => {
+//   await validateTransfer({ toAddress })
+//   throw new EnvelopError(`Transfer type "ERC20" is not yet supported.`)
+// }
 export const transferErc721 = async ({ tokenAddress, tokenId, toAddress }) => {
   await validateTransfer({ toAddress })
   return transferERC721({

@@ -178,7 +178,7 @@ export const getGamesWithFilter = async ({ username, filter, page = 0 }) => {
   await Promise.all(
     sortedGames.map(async (game) => {
       try {
-        const fullGame = await getFullGameDetails({ game: gameState, username })
+        const fullGame = await getFullGameDetails({ game, username })
         fullGames.push(fullGame)
       } catch {
         // Do nothing

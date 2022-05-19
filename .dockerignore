@@ -18,3 +18,4 @@ zipped
 contracts/.openzeppelin
 package-lock.json
 docker-compose.yml
+!node_modules/.prisma

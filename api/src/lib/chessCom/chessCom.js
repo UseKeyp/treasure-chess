@@ -61,11 +61,11 @@ export const fetchGameByIdOrUrl = async (gameIdOrUrl) => {
         Authorization: `Bearer ${process.env.CHESS_API_ACCESS_TOKEN}`,
       },
     }).then((res) => {
-      // logger.debug({ custom: res }, 'fetchGameByIdOrUrl res')
+      logger.warn({ custom: res }, 'fetchGameByIdOrUrl res')
       return res.json()
     })
-    // logger.debug({ custom: response }, 'fetchGameByIdOrUrl response')
-    return response.data
+    logger.warn({ custom: response }, 'fetchGameByIdOrUrl response')
+    return { ...response.data, id }
   } catch (e) {
     throw new Error(`fetchGameByIdOrUrl() ${e}`)
   }

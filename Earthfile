@@ -42,14 +42,15 @@ build-app:
     ARG ENVIRONMENT='local'
     ARG VERSION='latest'
     RUN yarn rw build
-    # Optional "AS LOCAL" for testing outputs locally with "rw serve"
+    # Optional "AS LOCAL" to save output locally, for testing with "rw serve"
     SAVE ARTIFACT web/dist web/dist # AS LOCAL ./web/dist
     SAVE ARTIFACT api/dist api/dist # AS LOCAL ./api/dist
     SAVE ARTIFACT api/db api/db
 
 docker-web:
     FROM nginx
-    BUILD +build-app # Ensures /dist always saved locally for 'rw serve' purposes
+    BUILD +test
+    BUILD +build-app # Ensures output /dist is saved locally for 'rw serve' purposes
     ARG ENVIRONMENT='local'
     ARG VERSION='latest'
     COPY web/config/nginx/default.conf /etc/nginx/conf.d/default.conf

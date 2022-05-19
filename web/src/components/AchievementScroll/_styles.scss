@@ -1,6 +1,6 @@
 .achievementScrollWrapper {
   height: 100vh;
-  max-height: 126px;
+  max-height: 315px;
   width: 100%;
   font-size: 1rem;
   user-select: none;
@@ -14,7 +14,7 @@
   height: 100vh;
   max-height: 300px;
   &:not([data-extend-scroll-area='true']) {
-    max-height: 126px;
+    max-height: 315px;
   }
   width: 100%;
   overflow-y: scroll;

@@ -147,12 +147,12 @@ export const fetchMember = async (
     let username
     let address
     isHexAddress(usernameOrAddress)
-      ? (address = usernameOrAddress)
-      : (username = usernameOrAddress)
+      ? (address = usernameOrAddress.toLowerCase())
+      : (username = usernameOrAddress.toLowerCase())
     member = await db.member.findUnique({
       where: {
         ...(address && { address }),
-        ...(username && { username: username.toLowerCase() }),
+        ...(username && { username }),
       },
     })
     // Not in our db, but we have username. Or, we want extra data from chess.com
@@ -176,7 +176,7 @@ export const fetchMember = async (
             // Update the new username for the member
             member = await db.member.update({
               where: { id: chessData.player_id.toString() },
-              data: { username: username.toLowerCase() },
+              data: { username },
             })
           } else {
             member = await db.member.create({
@@ -185,8 +185,8 @@ export const fetchMember = async (
                 username: chessData.username,
                 mintCredits: Number(process.env.MINT_CREDITS_NEW_MEMBER),
                 ...(chessData.avatar && { imageSrc: chessData.avatar }),
-                ...(chessData.masterTitle && {
-                  masterTitle: chessData.masterTitle,
+                ...(chessData.title && {
+                  masterTitle: chessData.title,
                 }),
                 country,
               },
@@ -215,9 +215,9 @@ export const fetchMember = async (
       // Create external wallet user
       member = await db.member.create({
         data: {
-          id: address.toLowerCase(),
-          username: address.toLowerCase(),
-          address: address.toLowerCase(),
+          id: address,
+          username: address,
+          address: address,
           mintCredits: 0,
           country: 'ETHER',
         },

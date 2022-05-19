@@ -11,20 +11,39 @@ export const QUERY = gql`
         title
         tokenId
         achievementScore
-      }
-      treasuresWon {
-        id
-        title
-        tokenId
-        achievementScore
         marketSales {
           id
           status
+          amount
           updatedAt
           buyer {
             id
             username
           }
+        }
+      }
+      marketSalesPurchased {
+        id
+        status
+        amount
+        updatedAt
+        treasure {
+          id
+          title
+          tokenId
+          achievementScore
+        }
+      }
+      marketSalesSold {
+        id
+        status
+        amount
+        updatedAt
+        treasure {
+          id
+          title
+          tokenId
+          achievementScore
         }
       }
     }

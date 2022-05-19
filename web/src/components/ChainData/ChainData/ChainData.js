@@ -7,8 +7,7 @@ const HEIGHT = 300
 const WIDTH = 500
 
 const ChainData = ({ chainData, isLoading, isError }) => {
-  if (isLoading)
-    return <Table title={TITLE} isLoading height={HEIGHT} width={WIDTH} />
+  if (isLoading) return <Table title={TITLE} isLoading />
   else if (isError)
     return (
       <Table
@@ -52,7 +51,7 @@ const ChainData = ({ chainData, isLoading, isError }) => {
     ]
     return (
       <>
-        <Table title={TITLE} data={rows} height={HEIGHT} width={WIDTH} />
+        <Table title={TITLE} data={rows} />
         <p className="mt-4 text-greyLight">
           Environment: api {environment}, web {process.env.ENVIRONMENT}
         </p>

@@ -23,9 +23,17 @@ const validateConfig = (wallet) => {
 export const adminSign = async (unsigned) =>
   adminWallet.signTransaction(unsigned)
 
+export const getAdminBalance = async () =>
+  web3Provider.getBalance(adminWallet.address)
+
 export const adminSendTransaction = async (unsigned) => {
   validateConfig(adminWallet)
   try {
+    if (process.env.IMPERSONATE_USERNAME)
+      return logger.warn(
+        { custom: unsigned },
+        'IMPERSONATE_USERNAME tx skipped'
+      )
     logger.debug({ custom: web3Provider.connection }, 'web3Provider')
     const adminWalletWithProvider = adminWallet.connect(web3Provider)
     // const nonce = await web3Provider.getTransactionCount(adminWallet.address)

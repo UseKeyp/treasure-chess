@@ -4,16 +4,18 @@ import {
   TextField,
   NumberField,
   FieldError,
-  Submit,
   FormError,
 } from '@redwoodjs/forms'
 import { isHexAddress } from 'src/utils/helpers'
-import { BigNumber } from '@ethersproject/bignumber'
+import { useWallet } from 'src/providers/wallet'
+import LoadingDots from 'src/components/LoadingDots/LoadingDots'
+import Button from 'src/components/Button/Button'
 
 const WalletFormTransfer20 = () => {
-  const onSubmit = (data) => {
-    data.amount = BigNumber.from(data.amount)
-    // TODO: implement transferErc721
+  const { transferErc20, transferErc20Loading } = useWallet()
+
+  const onSubmit = async (data) => {
+    await transferErc20({ ...data, amount: data.amount.toString() })
   }
 
   return (
@@ -65,14 +67,14 @@ const WalletFormTransfer20 = () => {
         <FieldError name="amount" className="rw-field-error" />
 
         <Label
-          name="recipientAddress"
+          name="toAddress"
           className="rw-label"
           errorClassName="rw-label rw-label-error"
         >
-          recipientAddress
+          Recipient Address
         </Label>
         <TextField
-          name="recipientAddress"
+          name="toAddress"
           className="rw-input"
           errorClassName="rw-input rw-input-error"
           validation={{
@@ -82,10 +84,18 @@ const WalletFormTransfer20 = () => {
               'address should be 40 character hex string',
           }}
         />
-        <FieldError name="recipientAddress" className="rw-field-error" />
+        <FieldError name="toAddress" className="rw-field-error" />
 
         <div className="rw-button-group">
-          <Submit className="rw-button rw-button-blue">Transfer</Submit>
+          <Button
+            disabled={transferErc20Loading}
+            type="submit"
+            className={`rw-button rw-button-blue w-[200px] h-[40px] text-xl shadow-m hover:sm items-center ${
+              transferErc20Loading && 'cursor-not-allowed'
+            }`}
+            variant={transferErc20Loading ? 'grey' : 'transparent'}
+            label={transferErc20Loading ? <LoadingDots /> : 'Transfer'}
+          />
         </div>
       </Form>
     </div>

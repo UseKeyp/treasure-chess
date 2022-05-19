@@ -33,12 +33,14 @@
 }
 
 .table-cell {
-  display: initial;
+  display: contents;
   flex: 1;
   word-break: break-word;
 
   &:not(:first-child) {
     margin-top: theme('spacing.2');
+    display: flex;
+    justify-content: space-between;
   }
 }
 
@@ -51,7 +53,7 @@
   .table-cell {
     &:not(:first-child) {
       margin-top: 0;
-      margin-left: theme('spacing.4');
+      justify-content: center;
     }
   }
 }

@@ -14,12 +14,22 @@ jobs:
         run: |
           WALLETS=$(curl -s 'https://treasure.chess.com/graphql' -X POST -H 'content-type: application/json' \
            --data '{"query": "{ metrics(password: \"${{ secrets.DATA_ACCESS_PASSWORD }}\") }"}' |jq -r .data.metrics.member.count.total)
+          TREASURES=$(curl -s 'https://treasure.chess.com/graphql' -X POST -H 'content-type: application/json' \
+           --data '{"query": "{ metrics(password: \"${{ secrets.DATA_ACCESS_PASSWORD }}\") }"}' |jq -r .data.metrics.treasure.count.total)
+          SOLD=$(curl -s 'https://treasure.chess.com/graphql' -X POST -H 'content-type: application/json' \
+           --data '{"query": "{ metrics(password: \"${{ secrets.DATA_ACCESS_PASSWORD }}\") }"}' |jq -r .data.metrics.marketSale.count.status.SOLD)
           echo WALLETS: $WALLETS
+          echo TREASURES: $TREASURES
+          echo SOLD: $SOLD
           echo "::set-output name=WALLETS::$WALLETS"
+          echo "::set-output name=TREASURES::$TREASURES"
+          echo "::set-output name=SOLD::$SOLD"
       - name: Discord notify complete
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_DEVOPS }}
         uses: Ilshidur/action-discord@0c4b27844ba47cb1c7bee539c8eead5284ce9fa9
         with:
           args: |
-            👛 Total wallets: `${{ steps.get_metrics.outputs.WALLETS }}`
+            👛 Wallets: `${{ steps.get_metrics.outputs.WALLETS }}`
+            🏆 Treasures: `${{ steps.get_metrics.outputs.TREASURES }}`
+            🛍️ Sales: `${{ steps.get_metrics.outputs.SOLD }}`

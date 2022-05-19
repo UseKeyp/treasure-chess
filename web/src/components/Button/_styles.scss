@@ -44,8 +44,8 @@
     @apply bg-blueDark;
   }
 
-  &[data-variant='orange'] {
-    @apply bg-orange;
+  &[data-variant='errorYellow'] {
+    @apply bg-errorYellow;
   }
 
   &[data-variant='white'] {

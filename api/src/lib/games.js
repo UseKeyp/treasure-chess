@@ -69,8 +69,8 @@ const getFullGameDetails = async ({
       cardColor
     )
     const achievementsList = achievements.map((item) => item.value)
-    const white = await fetchMember(game.whiteUsername)
-    const black = await fetchMember(game.blackUsername)
+    const white = await fetchMember(game.whiteUsername, true) // Get latest data
+    const black = await fetchMember(game.blackUsername, true)
     let winnerId
     if (game.winnerUsername === game.whiteUsername) winnerId = white.id
     else if (game.winnerUsername === game.blackUsername) winnerId = black.id

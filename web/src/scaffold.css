@@ -107,9 +107,9 @@
 .rw-form-error-wrapper {
   padding: 1rem;
   background-color: #fff5f5;
-  color: #c53030;
+  color: #FFBB0D;
   border-width: 1px;
-  border-color: #feb2b2;
+  border-color: #FFBB0D;
   border-radius: 0.25rem;
   margin: 1rem 0;
 }
@@ -163,11 +163,11 @@
   background-color: #2b6cb0;
 }
 .rw-button.rw-button-red {
-  background-color: #e53e3e;
+  background-color: #FFBB0D;
   color: #fff;
 }
 .rw-button.rw-button-red:hover {
-  background-color: #c53030;
+  background-color: #FFBB0D;
 }
 .rw-button-icon {
   font-size: 1.25rem;
@@ -193,7 +193,7 @@
   font-weight: 600;
 }
 .rw-label.rw-label-error {
-  color: #c53030;
+  color: #FFBB0D;
 }
 .rw-input {
   display: block;
@@ -215,8 +215,8 @@
   border-color: #a0aec0;
 }
 .rw-input-error {
-  border-color: #c53030;
-  color: #c53030;
+  border-color: #FFBB0D;
+  color: #FFBB0D;
 }
 .rw-field-error {
   display: block;
@@ -224,7 +224,7 @@
   font-weight: 600;
   text-transform: uppercase;
   font-size: 0.75rem;
-  color: #c53030;
+  color: #FFBB0D;
 }
 .rw-table-wrapper-responsive {
   overflow-x: scroll;
@@ -292,10 +292,10 @@
   color: #fff;
 }
 .rw-table-actions .rw-button-red {
-  color: #e53e3e;
+  color: #FFBB0D;
 }
 .rw-table-actions .rw-button-red:hover {
-  background-color: #e53e3e;
+  background-color: #FFBB0D;
   color: #fff;
 }
 .rw-text-center {
@@ -316,6 +316,6 @@
 
 .rw-input-error:focus {
   outline: none;
-  border-color: #c53030;
-  box-shadow: 0 0 5px #c53030;
+  border-color: #FFBB0D;
+  box-shadow: 0 0 5px #FFBB0D;
 }

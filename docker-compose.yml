@@ -10,7 +10,7 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: default_database
   api:
-    image: 'pi0neerpat/treasure-chess-web:latest'
+    image: 'pi0neerpat/treasure-chess-api:latest'
     # image: ghcr.io/pi0neerpat/treasure-chess-api:latest
     depends_on:
       - database

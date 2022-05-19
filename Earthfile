@@ -41,7 +41,7 @@ build-app:
     # TODO: figure out arguments
     ARG ENVIRONMENT='staging'
     ARG VERSION='latest'
-    RUN yarn rw build web
+    RUN yarn rw build
     SAVE ARTIFACT web/dist web/dist AS LOCAL ./web/dist
     SAVE ARTIFACT api/dist api/dist AS LOCAL ./api/dist
     SAVE ARTIFACT api/db api/db

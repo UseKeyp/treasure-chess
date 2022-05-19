@@ -36,7 +36,11 @@ Images are built via Github Action or GHCR. To build the images locally:
 ```bash
 # web
 docker build . -t pi0neerpat/treasure-chess-web -f web/Dockerfile \
---build-arg REDWOOD_API_URL=http://0.0.0.0:8911
+--build-arg ENVIRONMENT=local \
+--build-arg VERSION=v-local \
+--build-arg ETHEREUM_NETWORK_NAME=matic \
+--build-arg REDWOOD_API_URL=http://0.0.0.0:8911 \
+--build-arg APP_DOMAIN=http://0.0.0.0:8910
 
 # api
 docker build . -t pi0neerpat/treasure-chess-api -f api/Dockerfile --build-arg ENVIRONMENT=dev

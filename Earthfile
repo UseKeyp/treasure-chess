@@ -38,6 +38,7 @@ test:
 build-app:
     FROM +deps
     COPY +build-packages/packages packages
+    BUILD +test
     # TODO: figure out arguments
     ARG ENVIRONMENT='local'
     ARG VERSION='latest'
@@ -49,7 +50,6 @@ build-app:
 
 docker-web:
     FROM nginx
-    BUILD +test
     BUILD +build-app # Ensures output /dist is saved locally for 'rw serve' purposes
     ARG ENVIRONMENT='local'
     ARG VERSION='latest'

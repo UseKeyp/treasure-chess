@@ -5,6 +5,7 @@ import LoadingDots from 'src/components/LoadingDots'
 
 import ProfanityFilter from 'bad-words'
 const profanityFilter = new ProfanityFilter()
+profanityFilter.removeWords('Pawn', 'pawn')
 
 const MintForm = ({
   onSubmit,

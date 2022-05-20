@@ -13,21 +13,21 @@
 
 1. Install
 
-- Installs everything.
+   - Installs everything.
 
 2. Build
 
-- Inherits everything from previous step and builds the packages and api.
+   - Inherits everything from previous step and builds the packages and api.
 
 3. Serve
 
-- Inherits build files, scripts, packages, and `.prisma` from build step.
-- Installs prod+dev dependencies in `/api/package.json`
-- Includes `dotenv` for running `setupEnv.js`
-- Includes `react` which is needed for some reason?
-- Includes `@redwoodjs/cli` for running `rw serve`?
-- Includes `core-js`
-- Entrypoint `./serve-api.sh`
+   - Inherits build files, scripts, packages, and `.prisma` from build step.
+   - Installs prod+dev dependencies in `/api/package.json`
+   - Includes `dotenv` for running `setupEnv.js`
+   - Includes `react` which is needed for some reason?
+   - Includes `@redwoodjs/cli` for running `rw serve`?
+   - Includes `core-js`
+   - Entrypoint `./serve-api.sh`
 
 ## Build
 
@@ -36,7 +36,11 @@ Images are built via Github Action or GHCR. To build the images locally:
 ```bash
 # web
 docker build . -t pi0neerpat/treasure-chess-web -f web/Dockerfile \
---build-arg REDWOOD_API_URL=http://0.0.0.0:8911
+--build-arg ENVIRONMENT=local \
+--build-arg VERSION=v-local \
+--build-arg ETHEREUM_NETWORK_NAME=matic \
+--build-arg REDWOOD_API_URL=http://0.0.0.0:8911 \
+--build-arg APP_DOMAIN=http://0.0.0.0:8910
 
 # api
 docker build . -t pi0neerpat/treasure-chess-api -f api/Dockerfile --build-arg ENVIRONMENT=dev
@@ -44,25 +48,22 @@ docker build . -t pi0neerpat/treasure-chess-api -f api/Dockerfile --build-arg EN
 
 ## Run
 
-If you did not build the images locally, you'll need to download them from the Github Container Registry (GHCR). To enable access to GHCR, create a `GITHUB_PAT` in your Github "Developer Settings" with permissions `read:packages`.
-
 Start both containers with `docker-compose`
+
+```bash
+docker-compose up
+```
+
+If you did not build the images locally, you'll need to download them from the Github Container Registry (GHCR). To enable access to GHCR, create a `GITHUB_PAT` in your Github "Developer Settings" with permissions `read:packages`.
 
 ```bash
 # Authenticate
 docker login https://ghcr.io -u USERNAME -p GITHUB_PAT
-
-# Run
-docker-compose up
 ```
 
-To run a single image, use the `run` command:
+To run a single image use `docker run`:
 
 ```bash
-# NOTE: your .env should only have ENCRYPTION_KEY you use for local development
-docker-compose up
-
-# Or
 docker run -it --rm \
       -p 8911:8911 \
       -e REDWOOD_API_URL=http://0.0.0.0:8911 \
@@ -72,6 +73,16 @@ docker run -it --rm \
 docker run -it --rm \
        -p 8910:8910 \
         pi0neerpat/treasure-chess-web:latest
+```
+
+#### Connecting to a local database
+
+If you cannot connect to your local database, run `ifconfig docker0` and update the host for the database eg. "172.17.0.1". More info at https://stackoverflow.com/questions/31249112/allow-docker-container-to-connect-to-a-local-host-postgres-database
+
+Also, I had to update the following line on my local machine in `/etc/postgresql/12/main/postgresql.conf`
+
+```
+listen_addresses = '*'
 ```
 
 ## Explore

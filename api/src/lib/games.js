@@ -126,6 +126,7 @@ export const getGamesWithFilter = async ({ username, filter, page = 0 }) => {
   if (filterObj.url) {
     let gameById = await fetchGameByIdOrUrl(filterObj.url)
     // We don't trust the new v1/games endpoint, so we just grab the endtime
+    if (!gameById || !gameById) return { count: 0, games: [] }
     logger.debug({ custom: { gameById } }, 'gameById 1')
     gameById = await fetchChessGame({
       username,

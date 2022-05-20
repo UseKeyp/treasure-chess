@@ -40,6 +40,7 @@ const MintForm = ({
       return `Only alphanumeric characters, emojis, and the symbols !@#$%^&*()+=-[]\\/|';.{}":<>? are allowed.`
     if (profanityFilter.isProfane(str)) return 'Potty mouth!'
     if (str.includes(',')) return `No "," characters allowed`
+    if (str.length > 50) return `Title must be 50 characters or less`
     return ''
   }
 

@@ -200,7 +200,7 @@ export const GAMES_PER_PAGE = 50
 
 export const getAchievementNamesFromValues = (achievements) =>
   achievements.map((value) => {
-    let chiev = achievementList.find((item, index) => item.value === value)
+    let chiev = achievementList.find((item) => item.value === value)
     if (!chiev) return value
     return chiev.name
   })

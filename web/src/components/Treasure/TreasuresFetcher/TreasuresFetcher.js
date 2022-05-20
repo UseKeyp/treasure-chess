@@ -95,6 +95,8 @@ const TreasuresFetcher = ({
   const [count, setCount] = React.useState()
   const [page, setPage] = React.useState(0)
 
+  console.log(filter)
+
   const [getTreasures, { error, loading }] = useLazyQuery(
     TREASURES_WITH_FILTER,
     {

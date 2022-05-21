@@ -8,8 +8,8 @@ export const generated = () => {
         I am an H2 with padding bottom and top 10px
       </H2>
       <H3 color="blueLink">I am an H3 with color blueLink</H3>
-      <P color="orange" mb={12} mt={12}>
-        Orange p tag with margin bottom and top 12px
+      <P color="errorYellow" mb={12} mt={12}>
+        errorYellow p tag with margin bottom and top 12px
       </P>
       <P size={11}>I am smaller p tag (11px)</P>
     </div>

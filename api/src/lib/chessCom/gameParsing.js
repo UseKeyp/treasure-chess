@@ -55,7 +55,7 @@ const getTermination = (game, outcome) => {
   const result = filters.terminationList.find((trm) => {
     return code === trm.code
   })
-  if (result) return result.value
+  if (result && result.value) return result.value
   return 'Unknown'
 }
 

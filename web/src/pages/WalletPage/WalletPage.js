@@ -7,7 +7,7 @@ const WalletPage = () => {
   return (
     <>
       <MetaTags title="Wallet" description="Interact with your wallet" />
-      <h1>WalletPage</h1>
+      <h1>Wallet</h1>
       <div className="transfer-container">
         <Section>
           <h1>Transfer ERC20</h1>

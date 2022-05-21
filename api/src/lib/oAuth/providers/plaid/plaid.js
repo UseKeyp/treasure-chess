@@ -27,6 +27,36 @@ const PLAID_WEBHOOK_URL = isProduction
   ? 'https://treasure.chess.com/api/plaid'
   : 'https://tc-checkout-dev.ngrok.io/api/plaid'
 
+const PLAID_AVAILABLE_LOCALE = {
+  en: 'en',
+  'en-US': 'en',
+  'en-GB': 'en',
+  'en-GB-oed': 'en',
+  'en-scouse': 'en',
+  fr: 'fr',
+  'sgn-FR': 'fr',
+  'sgn-BE-fr': 'fr',
+  es: 'es',
+  'sgn-ES': 'es',
+  'es-419': 'es',
+  nl: 'nl',
+  'sgn-NL': 'nl',
+  de: 'de',
+  'de-1901': 'de',
+  'de-1996': 'de',
+  'de-AT': 'de',
+  'de-AT-1901': 'de',
+  'de-AT-1996': 'de',
+  'de-CH': 'de',
+  'de-CH-1901': 'de',
+  'de-CH-1996': 'de',
+  'de-DE': 'de',
+  'de-DE-1901': 'de',
+  'de-DE-1996': 'de',
+  'sgn-DE': 'de',
+  'sgn-CH-de': 'de',
+}
+
 const getEnvironment = () => {
   if (process.env.ENVIRONMENT === 'staging') return 'development'
   else if (process.env.ENVIRONMENT === 'prod') return 'production'
@@ -49,7 +79,7 @@ export const createPlaidLink = async () => {
       user: { client_user_id: context.currentUser.id },
       client_name: 'Treasure Chess',
       products: PLAID_SCOPE,
-      language: 'en', // TODO get from user's account
+      language: PLAID_AVAILABLE_LOCALE[context.currentUser.locale] || 'en',
       webhook: PLAID_WEBHOOK_URL,
       redirect_uri: PLAID_REDIRECT_URI,
       country_codes: [CountryCode.Us], // TODO: How do we know this?

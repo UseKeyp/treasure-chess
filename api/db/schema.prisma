@@ -37,6 +37,7 @@ model Member {
   banned               Boolean               @default(false)
   blocked              Boolean? // Prevents minting Treasures containing this player
   refreshToken         String? // Chess.com Oauth
+  accessToken          String? // Chess.com Oauth
   ramps                Ramp[]
   OAuth                OAuth[]
   promotions           PromotionsOnMembers[]
@@ -151,13 +152,13 @@ model DepositOrder {
   member         Member   @relation("depositOrders", fields: [memberId], references: [id])
   memberId       String
   // --------------- STATE --------------
-  amount         Int?
+  amount         Float?
   paymentType    RampType
   status         TxStatus @default(UNSUBMITTED)
   // Wyre
   sourceCurrency String?
-  sourceAmount   String?
-  purchaseAmount String?
+  sourceAmount   Float?
+  purchaseAmount Float?
   destCurrency   String?
   paymentMethod  String?
   orderType      String? // DOMESTIC or INTERNATIONAL
@@ -258,13 +259,14 @@ model Promotion {
 }
 
 model PromotionsOnMembers {
-  @@id([memberId, promotionId])
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   member      Member    @relation(fields: [memberId], references: [id])
   memberId    String
   promotion   Promotion @relation(fields: [promotionId], references: [id])
   promotionId Int
+
+  @@id([memberId, promotionId])
 }
 
 enum RampType {

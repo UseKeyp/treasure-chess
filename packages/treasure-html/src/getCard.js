@@ -131,6 +131,7 @@ const getCardHtml = async ({
 
     // Header + SEO
     updateContent('title', treasure.title) // Card title text
+    updateContent('tooltiptext', treasure.title)
     updateContent('page-title', treasure.title)
     const description = getDescription(treasure)
     updateTag('og:description', 'content', description)

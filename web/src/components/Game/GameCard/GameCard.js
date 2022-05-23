@@ -130,20 +130,20 @@ const GameCard = ({
               <div className="mb-6 h-full">
                 <Loader />
               </div>
-              <Trans i18nKey="mintingInProgress">
-                <P
-                  fontWeight={700}
-                  className="mt-8"
-                  fontSize={16}
-                  color={'chessBlack.100'}
-                >
+              <P
+                fontWeight={700}
+                className="mt-8"
+                fontSize={16}
+                color={'chessBlack.100'}
+              >
+                <Trans i18nKey="mintingInProgress">
                   Minting
                   <br />
                   in progress
                   <br />
                   (~1 minute)
-                </P>
-              </Trans>
+                </Trans>
+              </P>
             </div>
           </div>
         )}

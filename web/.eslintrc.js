@@ -1,6 +1,8 @@
 module.exports = {
   globals: {
     t: 'readonly',
-    Trans: 'readonly',
+  },
+  rules: {
+    'react/jsx-no-undef': [true, { allowGlobals: true }],
   },
 }

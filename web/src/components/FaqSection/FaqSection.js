@@ -5,16 +5,14 @@ const FaqItem = ({ icon, question, answer, feature }) => {
       <div className="mb-2">
         {icon ? <div className="text-lg">{icon}</div> : <></>}
         <div className="flex justify-between">
-          <Trans i18nKey="facSectionQuestion">
-            <h3 className="text-base font-bold color-grey-light">{question}</h3>
-          </Trans>
+          <h3 className="text-base font-bold color-grey-light">
+            {t(question)}
+          </h3>
         </div>
       </div>
-      <Trans i18nKey="facSectionAnswer">
-        <p className="answer-container text-sm font-normal color-grey-light tracking-tight">
-          {answer}
-        </p>
-      </Trans>
+      <p className="answer-container text-sm font-normal color-grey-light tracking-tight">
+        {t(answer)}
+      </p>
     </div>
   )
 }
@@ -24,9 +22,7 @@ const FaqSection = ({ title, questionList, columns }) => {
     <div className="flex justify-center">
       <div>
         {title && (
-          <Trans i18nKey="facSectionTitle">
-            <h2 className="faq-header font-black text-4xl py-5">{title}</h2>
-          </Trans>
+          <h2 className="faq-header font-black text-4xl py-5">{t(title)}</h2>
         )}
         <div
           className="faq-container max-w-2xl"

@@ -1,8 +1,6 @@
 module.exports = {
-  // now t() becomes global, this rule stop the warning
-  // in every single global variable being used in the rect component tree
-  rules: {
-    'no-undef': ['off'],
-    'react/jsx-no-undef': ['off'],
+  globals: {
+    t: 'readonly',
+    Trans: 'readonly',
   },
 }

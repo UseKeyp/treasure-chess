@@ -36,3 +36,76 @@ jobs:
 
       - name: Run build
         run: earthly --ci --push -P +docker
+
+      - name: Skip release
+        id: skip_release
+        run: |
+          SKIP_RELEASE=0
+          if grep -q '^v[0-9]' <<< "${{ github.event.head_commit.message }}" ; then
+            SKIP_RELEASE=1
+          elif github.event_name == 'pull_request' ; then
+            SKIP_RELEASE=1
+          elif ! grep -q 'staging\|main' <<< "${{ github.ref_name }}" ; then
+            SKIP_RELEASE=1
+          fi
+          echo SKIP_RELEASE: $SKIP_RELEASE
+          echo "::set-output name=SKIP_RELEASE::$SKIP_RELEASE"
+
+  create-release-draft:
+    name: Create Release Draft
+    needs: runCI
+    if: needs.runCI.outputs.SKIP_RELEASE == 0
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.PAT_GITHUB }}
+
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+          registry-url: https://registry.npmjs.org/
+
+      - name: Update version
+        id: update_version
+        env:
+          GH_TOKEN: ${{ secrets.PAT_GITHUB }}
+        run: |
+          IS_PRERELEASE=true
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+          if [ ${{ github.ref_name }} == "main" ] ; then
+             npx lerna version --conventional-graduate --conventional-commits --yes
+             IS_PRERELEASE=false
+          else
+             npx lerna version prerelease --yes --preid staging
+          fi
+          VERSION=v$(jq -r .version lerna.json)
+          echo "::set-output name=VERSION::$VERSION"
+          echo "::set-output name=IS_PRERELEASE::$IS_PRERELEASE"
+
+      - name: Create release draft
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: ${{ steps.update_version.outputs.VERSION }}
+          release_name: ${{ steps.update_version.outputs.VERSION }}
+          body: |
+            Changes in this Release
+            ## Changed
+            ## Added
+            ## Fixes
+            ## Breaking
+          draft: true
+          prerelease: ${{ steps.update_version.outputs.IS_PRERELEASE }}
+
+      - name: Discord notify release draft
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_DEVOPS }}
+        uses: Ilshidur/action-discord@0c4b27844ba47cb1c7bee539c8eead5284ce9fa9
+        with:
+          args: 🗒️ Draft Release created for `${{ steps.update_version.outputs.VERSION }}` ${{ steps.create_release.outputs.html_url }}

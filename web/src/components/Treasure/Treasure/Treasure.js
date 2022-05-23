@@ -8,8 +8,6 @@ import TreasureActivity from '../TreasureActivity/TreasureActivity'
 import TreasuresFetcher from 'src/components/Treasure/TreasuresFetcher'
 
 const Treasure = ({ treasure, isLoading }) => {
-  const { t } = useLocale
-
   const players = [treasure?.white.username, treasure?.black.username]
   const getUsernames = (players) => Object.values(players).toString()
   // const currentMarketSale = treasure.marketSales ? treasure.marketSales[0] : {}
@@ -39,8 +37,8 @@ const Treasure = ({ treasure, isLoading }) => {
             </h3>
           </div>
         </div>
-        <Trans i18nKey="treasure">
-          <p className="answer-container text-sm font-normal color-grey-light tracking-tight">
+        <p className="answer-container text-sm font-normal color-grey-light tracking-tight">
+          <Trans i18nKey="treasure">
             Once a Treasure is listed for sale by its owner, it can be purchased
             using your account balance. You can add funds to your account using
             a debit card, and funds can be cashed-out to your bank via your
@@ -53,8 +51,8 @@ const Treasure = ({ treasure, isLoading }) => {
               About
             </Link>
             .
-          </p>
-        </Trans>
+          </Trans>
+        </p>
       </div>
       <h1 className="mt-16">{t('More by these users')}</h1>
       <div className="w-full mt-4">

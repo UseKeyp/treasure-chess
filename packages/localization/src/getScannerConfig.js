@@ -11,8 +11,6 @@ const getScannerConfig = ({ nsList }) => {
       // "!" to filter out files or directories
       "!src/i18n/**"
     ],
-    // changed output to public in frontend
-    output: "public/locales/",
     options: {
       debug: false,
       removeUnusedKeys: true,
@@ -36,8 +34,8 @@ const getScannerConfig = ({ nsList }) => {
         suffix: "}}"
       },
       resource: {
-        loadPath: "{{lng}}/{{ns}}.json",
-        savePath: "{{lng}}/{{ns}}.json",
+        loadPath: "src/i18n/locales/{{lng}}/{{ns}}.json",
+        savePath: "src/i18n/locales/{{lng}}/{{ns}}.json",
         jsonIndent: 2,
         lineEnding: "\n"
       },

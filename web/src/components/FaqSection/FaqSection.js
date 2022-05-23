@@ -5,13 +5,11 @@ const FaqItem = ({ icon, question, answer, feature }) => {
       <div className="mb-2">
         {icon ? <div className="text-lg">{icon}</div> : <></>}
         <div className="flex justify-between">
-          <h3 className="text-base font-bold color-grey-light">
-            {t(question)}
-          </h3>
+          <h3 className="text-base font-bold color-grey-light">{question}</h3>
         </div>
       </div>
       <p className="answer-container text-sm font-normal color-grey-light tracking-tight">
-        {t(answer)}
+        {answer}
       </p>
     </div>
   )
@@ -22,7 +20,7 @@ const FaqSection = ({ title, questionList, columns }) => {
     <div className="flex justify-center">
       <div>
         {title && (
-          <h2 className="faq-header font-black text-4xl py-5">{t(title)}</h2>
+          <h2 className="faq-header font-black text-4xl py-5">{title}</h2>
         )}
         <div
           className="faq-container max-w-2xl"

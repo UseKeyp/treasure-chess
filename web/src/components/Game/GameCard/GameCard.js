@@ -136,7 +136,7 @@ const GameCard = ({
                 fontSize={16}
                 color={'chessBlack.100'}
               >
-                <Trans i18nKey="mintingInProgress">
+                <Trans i18nKey="web:mintingInProgress">
                   Minting
                   <br />
                   in progress

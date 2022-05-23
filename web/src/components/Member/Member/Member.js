@@ -36,7 +36,7 @@ const Member = ({ member, isLoading }) => {
           sort="Highest Level"
         />
       </div>
-      <Trans>
+      <Trans i18nKey="web:TreasuresOwned">
         <h1 className="mt-10">Treasures Owned</h1>
       </Trans>
       <div className="flex mt-4">

@@ -6,7 +6,7 @@ import { fetchMember } from 'src/lib/members'
 import { getTorusPublicAddress } from 'src/lib/torus/torus'
 import { logger } from 'src/lib/logger'
 
-export const onConnected = async ({ refreshToken, decoded }) => {
+export const onConnected = async ({ refreshToken, accessToken, decoded }) => {
   try {
     if (!decoded) return null
     /* eslint-disable camelcase */
@@ -26,6 +26,7 @@ export const onConnected = async ({ refreshToken, decoded }) => {
       where: { id: member.id },
       data: {
         refreshToken,
+        accessToken,
         // NOTE: Updates user with their current avatar and country
         imageSrc: member.imageSrc,
         country: member.country,

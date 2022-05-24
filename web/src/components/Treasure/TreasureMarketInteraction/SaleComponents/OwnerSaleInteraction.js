@@ -27,7 +27,7 @@ const OwnerSaleInteraction = () => {
 
   if (actionError) {
     statusContent = (
-      <p className="text-red  font-bold text-[11px]">{actionError}</p>
+      <p className="text-errorYellow font-bold text-[11px]">{actionError}</p>
     )
   }
 
@@ -93,7 +93,7 @@ const OwnerSaleInteraction = () => {
         </div>
         <div className="flex items-center justify-center">
           <Button
-            className={`w-[200px] h-[40px] text-xl shadow-m hover:sm hover:bg-[#ffc82f] hover:shadow-orange' ${
+            className={`w-[200px] h-[40px] text-xl shadow-m hover:sm hover:bg-[#ffc82f] hover:shadow-errorYellow' ${
               actionStatus === PENDING_DELISTED && 'pointer-events-none'
             }`}
             label={
@@ -102,13 +102,13 @@ const OwnerSaleInteraction = () => {
                   <div className="mr-2">
                     <LoadingDots />
                   </div>
-                  Unisting
+                  Unlisting
                 </div>
               ) : (
                 'Unlist'
               )
             }
-            variant={actionStatus === PENDING_DELISTED ? 'grey' : 'orange'}
+            variant={actionStatus === PENDING_DELISTED ? 'grey' : 'errorYellow'}
             onClick={unlist}
           />
         </div>

@@ -7,6 +7,7 @@ import {
   fetchChessGames,
   fetchChessGame,
   fetchRatingDelta,
+  fetchGameByIdOrUrl,
 } from 'src/lib/chessCom/chessCom'
 import { parseGameFromChessDotCom } from 'src/lib/chessCom/gameParsing'
 import { getGifUrl } from 'src/lib/chessCom/gifGetter'
@@ -68,8 +69,8 @@ const getFullGameDetails = async ({
       cardColor
     )
     const achievementsList = achievements.map((item) => item.value)
-    const white = await fetchMember(game.whiteUsername)
-    const black = await fetchMember(game.blackUsername)
+    const white = await fetchMember(game.whiteUsername, true) // Get latest data
+    const black = await fetchMember(game.blackUsername, true)
     let winnerId
     if (game.winnerUsername === game.whiteUsername) winnerId = white.id
     else if (game.winnerUsername === game.blackUsername) winnerId = black.id
@@ -91,7 +92,7 @@ const getFullGameDetails = async ({
       ...(includeAchievements && { achievementScore: score }),
     }
   } catch (e) {
-    throw new Error(`Error getting full game details: ${e.message}`)
+    throw new Error(`getFullGameDetails() ${e.message}`)
   }
 }
 
@@ -119,9 +120,27 @@ export const getGamesWithFilter = async ({ username, filter, page = 0 }) => {
   const now = new Date()
   const year = filterObj.year || now.getFullYear()
   const month = filterObj.month || now.getMonth()
-  // const month = filterObj.month === 'Any' ? null : filterObj.month || 0
-  // const day = filterObj.day === 'Any' ? null : filterObj.day
-  const games = await fetchChessGames({ username, year, month })
+
+  let games = []
+  logger.debug({ custom: filterObj }, 'filterObj')
+  if (filterObj.url) {
+    let gameById = await fetchGameByIdOrUrl(filterObj.url)
+    // We don't trust the new v1/games endpoint, so we just grab the endtime
+    if (!gameById || !gameById) return { count: 0, games: [] }
+    logger.debug({ custom: { gameById } }, 'gameById 1')
+    gameById = await fetchChessGame({
+      username,
+      gameId: gameById.id,
+      endTime: new Date(gameById.game_end_time * 1000),
+    })
+    if (!gameById) return { count: 0, games: [] }
+    logger.debug({ custom: { gameById } }, 'gameById 2')
+    const fullGameById = await getFullGameDetails({ game: gameById, username })
+    return { count: 1, games: [fullGameById] }
+  } else {
+    games = await fetchChessGames({ username, year, month })
+  }
+
   logger.debug(`totalGames: ${games?.length}`)
   if (!games?.length) return { count: 0, games: [] }
 
@@ -160,11 +179,11 @@ export const getGamesWithFilter = async ({ username, filter, page = 0 }) => {
     sortedGames.map(async (game) => {
       let gameState = game
       if (!game.termination) {
-        gameState['termination'] = 'Unkown'
+        gameState['termination'] = 'Unknown'
         logger.error(`Termination error: ${game.externalUrl}`)
       }
       try {
-        const fullGame = await getFullGameDetails({ gameState, username })
+        const fullGame = await getFullGameDetails({ game: gameState, username })
         fullGames.push(fullGame)
       } catch {
         // Do nothing

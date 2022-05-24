@@ -145,11 +145,7 @@ export const processPendingMarketTransactions = async ({ treasure }) => {
         if (newStatus?.status && newStatus.status !== tx.status) {
           if (newStatus.status === COMPLETE) {
             if (treasure.tokenId !== newStatus.tokenId) return // Could happen in weird edge case?
-            let buyer = await db.member.findUnique({
-              where: { address: newStatus.buyerAddress },
-            })
-            // Create external wallet buyer
-            if (!buyer) buyer = await fetchMember(newStatus.buyerAddress)
+            const buyer = await fetchMember(newStatus.buyerAddress)
             newMarketSale = await db.marketSale.update({
               where: { id: currentMarketSale.id },
               data: {
@@ -215,8 +211,8 @@ export const createNewTreasureListing = async ({ treasure, amount }) => {
     return marketSale
   } catch (e) {
     /* eslint-disable-next-line no-console */
-    logger.error(e)
-    throw new Error('createNewTreasureListing() ', e)
+    logger.error(e.message)
+    throw new Error(`createNewTreasureListing() ${e.message}`)
   }
 }
 
@@ -243,8 +239,8 @@ export const removeTreasureListing = async ({ treasure }) => {
     return marketSale
   } catch (e) {
     /* eslint-disable-next-line no-console */
-    logger.error(e)
-    throw new Error('removeTreasureListing() ', e)
+    logger.error(e.message)
+    throw new Error(`removeTreasureListing() ${e.message}`)
   }
 }
 
@@ -267,18 +263,14 @@ export const purchaseTreasure = async ({ treasure }) => {
       },
       data: {
         status: PENDING_SOLD,
-        saleTransactions: {
-          create: {
-            id: tx.hash,
-          },
-        },
+        saleTransactions: { create: { id: tx.hash } },
       },
     })
     marketSale.saleTransactions = [{ id: tx.hash }]
     return marketSale
   } catch (e) {
     /* eslint-disable-next-line no-console */
-    logger.error(e)
-    throw new Error('purchaseTreasure() ', e)
+    logger.error(e.message)
+    throw new Error(`purchaseTreasure() ${e.message}`)
   }
 }

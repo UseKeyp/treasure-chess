@@ -181,18 +181,18 @@ const sortList = [
 ]
 
 const filters = {
-  achievementList,
-  ecoCodeList,
-  openingList,
-  colorList,
-  titleList,
-  timeControlList,
-  terminationList,
-  moveCountList,
-  rarityList,
-  saleList,
-  outcomeList,
-  sortList,
+  achievement: achievementList,
+  ecoCode: ecoCodeList,
+  opening: openingList,
+  timeControl: timeControlList,
+  termination: terminationList,
+  moveCount: moveCountList,
+  sale: saleList,
+  title: titleList, //array non objcts
+  color: colorList, //array non objcts
+  rarity: rarityList, //array non objcts
+  outcome: outcomeList, //array non objcts
+  sort: sortList, //array non objcts
 }
 
 export const TREASURES_PER_PAGE = 9

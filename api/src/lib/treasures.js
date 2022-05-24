@@ -2,7 +2,13 @@ import { db } from 'src/lib/db'
 import { logger } from 'src/lib/logger'
 
 import filters, { TREASURES_PER_PAGE } from '@treasure-chess/treasure-filters'
-
+// Convert text names to values
+const filterValuesByNameObj = Object.values(filters).reduce((acc, arrayObj) => {
+  return {
+    ...acc,
+    ...arrayObj.reduce((acc2, obj) => ({ ...acc2, [obj.name]: obj.value }), {}),
+  }
+}, {})
 // NOTE: any updates to this function should also be made in /scripts/seed
 export const generateTreasureData = ({ game, title, minter }) => {
   return {
@@ -38,22 +44,20 @@ export const generateTreasureData = ({ game, title, minter }) => {
   }
 }
 
-const getValueByName = (list, name) =>
-  list.find((item) => item.name === name).value
+// const getValueByName = (list, name) =>
+//   list.find((item) => item.name === name).value
 
 const getWhereQueryFromArgs = ({ username, filter, owner }) => {
   const searchParams = new URLSearchParams(filter)
   let filterObj = {}
-  // Convert text names to values
-  for (var pair of searchParams.entries()) {
-    let value = pair[1]
-    if (pair[0] === 'timeControl')
-      value = getValueByName(filters.timeControlList, pair[1])
-    else if (pair[0] === 'moveCount') {
-      value = getValueByName(filters.moveCountList, pair[1])
-    }
-    filterObj[pair[0]] = value
-  }
+
+  // since every filter as array of objs send by name
+  // and every filter as array of strings do not, we can do:
+  searchParams.entries().forEach(([key, value]) => {
+    if (filters[key][0] !== 'string')
+      filterObj[key] = filterValuesByNameObj[value]
+    else filterObj[key] = value
+  })
 
   const configUsernameQuery = () => {
     if (!username) return null
@@ -91,7 +95,7 @@ const getWhereQueryFromArgs = ({ username, filter, owner }) => {
     ? {
         OR: filterObj.achievements.split(',').map((chiev) => ({
           achievements: {
-            has: getValueByName(filters.achievementList, chiev),
+            has: filterValuesByNameObj[chiev],
           },
         })),
       }
@@ -114,13 +118,13 @@ const getWhereQueryFromArgs = ({ username, filter, owner }) => {
     : null
   const openingQuery = filterObj.opening
     ? {
-        opening: getValueByName(filters.openingList, filterObj.opening),
+        opening: filterValuesByNameObj[filterObj.opening],
       }
     : null
   const saleQuery = filterObj.sale
     ? {
         OR: filterObj.sale.split(',').map((status) => ({
-          marketSaleStatus: getValueByName(filters.saleList, status),
+          marketSaleStatus: filterValuesByNameObj[status],
         })),
       }
     : null

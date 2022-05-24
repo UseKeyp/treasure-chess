@@ -37,13 +37,6 @@ const FilterBar = ({
   const [lowPrice, setLowPrice] = useState(filter.lowPrice) // must be initialized to a string to control the input from initial render
   const [highPrice, setHighPrice] = useState(filter.highPrice)
 
-  const terminationValues = filters.terminationList.reduce(
-    (acc, termination) => {
-      return { ...acc, [termination.name]: termination.value }
-    },
-    {}
-  )
-
   const updateAchievements = (data) => {
     anyValues(data, achievements, setAchievements)
   }
@@ -170,7 +163,6 @@ const FilterBar = ({
             options={filters.terminationList.map(
               (termination) => termination.name
             )}
-            terminationValues={terminationValues}
             queryFilterFunction={setTermination}
             queryFilter={termination}
           />

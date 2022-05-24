@@ -7,7 +7,6 @@ const Dropdown = ({
   queryFilterFunction,
   category,
   defaultValue,
-  terminationValues,
 }) => {
   const [isOpen, setIsOpen] = useState(false)
 
@@ -86,8 +85,6 @@ const Dropdown = ({
           <div className="optionContainerWrap">
             <div className="optionContainer">
               {options.map((option, index) => {
-                let value = option
-                if (terminationValues) value = terminationValues[option]
                 return (
                   <div
                     key={index}
@@ -96,7 +93,7 @@ const Dropdown = ({
                     tabIndex={0}
                     name={`${dropdownElementName}`}
                     onClick={() => {
-                      handleSelection(value)
+                      handleSelection(option)
                     }}
                     onKeyDown={(e) => handleKeyDown(e, option, index)}
                   >

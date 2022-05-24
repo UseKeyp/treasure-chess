@@ -13,7 +13,8 @@
     ]
   },
   "scripts": {
-    "generate-icons": "node src/scripts/generate-icon-system"
+    "generate-icons": "node src/scripts/generate-icon-system",
+    "scan-i18n": "rm -rf -f src/i18n/locales && i18next-scanner --config src/i18n/i18next-scanner.config.js"
   },
   "dependencies": {
     "@redwoodjs/auth": "^1.0.0",
@@ -34,6 +35,7 @@
     "react-canvas-confetti": "^1.2.1",
     "react-dom": "^17.0.2",
     "react-feather": "^2.0.9",
+    "react-i18next": "^11.16.7",
     "react-infinite-scroll-component": "^6.1.0",
     "react-loading-skeleton": "^3.0.1",
     "react-scroll-to-top": "^1.0.8",

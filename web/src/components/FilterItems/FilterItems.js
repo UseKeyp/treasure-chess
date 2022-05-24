@@ -36,16 +36,6 @@ const monthsList = [
   'December',
 ]
 
-const getMonthsArray = () => {
-  const currentMonth = new Date().getMonth()
-
-  return [
-    ...monthsList.slice(currentMonth),
-    ...monthsList.slice(0, currentMonth),
-  ]
-}
-
-const descendingMonthsList = getMonthsArray()
 const yearsList = getYearsArray()
 
 const FilterItems = ({ onChange }) => {
@@ -85,8 +75,8 @@ const FilterItems = ({ onChange }) => {
           <CategoryWrap>Search by Details</CategoryWrap>
           <div className="grid grid-cols-2 gap-4 content-end flex justify-end">
             <Dropdown
-              defaultValue={descendingMonthsList[0]}
-              options={descendingMonthsList}
+              defaultValue={month}
+              options={monthsList}
               queryFilterFunction={setMonth}
               queryFilter={month}
             />

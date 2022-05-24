@@ -9,6 +9,7 @@ const filterValuesByNameObj = Object.values(filters).reduce((acc, arrayObj) => {
     ...arrayObj.reduce((acc2, obj) => ({ ...acc2, [obj.name]: obj.value }), {}),
   }
 }, {})
+
 // NOTE: any updates to this function should also be made in /scripts/seed
 export const generateTreasureData = ({ game, title, minter }) => {
   return {
@@ -49,14 +50,32 @@ export const generateTreasureData = ({ game, title, minter }) => {
 
 const getWhereQueryFromArgs = ({ username, filter, owner }) => {
   const searchParams = new URLSearchParams(filter)
-  let filterObj = {}
+  let filterObj = {
+    outcome: [],
+    achievements: [],
+    moveCount: [],
+    opening: [],
+    title: [],
+    sale: [],
+  }
 
   // since every filter as array of objs send by name
   // and every filter as array of strings do not, we can do:
   searchParams.entries().forEach(([key, value]) => {
-    if (filters[key][0] !== 'string')
-      filterObj[key] = filterValuesByNameObj[value]
-    else filterObj[key] = value
+    if (typeof filters[key + 'List'][0] == 'object') {
+      if (value.search(/,/) >= 0) {
+        filterObj[key] = value
+          .split(',')
+          .map((item) => filterValuesByNameObj[item])
+      } else {
+        filterObj[key] =
+          typeof filterValuesByNameObj[value] === 'object'
+            ? [...filterValuesByNameObj[value]]
+            : [filterValuesByNameObj[value]]
+      }
+    } else {
+      filterObj[key] = [value]
+    }
   })
 
   const configUsernameQuery = () => {
@@ -86,48 +105,56 @@ const getWhereQueryFromArgs = ({ username, filter, owner }) => {
     : null
   const usernameQuery = configUsernameQuery()
 
-  const outcomeQuery = filterObj.outcome
-    ? {
-        OR: filterObj.outcome.split(',').map((outcome) => ({ outcome })),
-      }
-    : null
-  const achievementQuery = filterObj.achievements
-    ? {
-        OR: filterObj.achievements.split(',').map((chiev) => ({
-          achievements: {
-            has: filterValuesByNameObj[chiev],
-          },
-        })),
-      }
-    : null
-  const moveCountQuery = filterObj.moveCount
-    ? {
-        AND: [
-          { moveCount: { gte: filterObj.moveCount[0] } },
-          { moveCount: { lte: filterObj.moveCount[1] } },
-        ],
-      }
-    : null
-  const titleQuery = filterObj.title
-    ? {
-        OR: [
-          { blackMasterTitle: filterObj.title },
-          { whiteMasterTitle: filterObj.title },
-        ],
-      }
-    : null
-  const openingQuery = filterObj.opening
-    ? {
-        opening: filterValuesByNameObj[filterObj.opening],
-      }
-    : null
-  const saleQuery = filterObj.sale
-    ? {
-        OR: filterObj.sale.split(',').map((status) => ({
-          marketSaleStatus: filterValuesByNameObj[status],
-        })),
-      }
-    : null
+  const outcomeQuery =
+    filterObj.outcome.length > 0
+      ? {
+          OR: filterObj.outcome.map((outcome) => ({ outcome })),
+        }
+      : null
+  const achievementQuery =
+    filterObj.achievements.length > 0
+      ? {
+          OR: filterObj.achievements.map((chiev) => {
+            return {
+              achievements: {
+                has: chiev,
+              },
+            }
+          }),
+        }
+      : null
+  const moveCountQuery =
+    filterObj.moveCount.length > 0
+      ? {
+          AND: [
+            { moveCount: { gte: filterObj.moveCount[0] } },
+            { moveCount: { lte: filterObj.moveCount[1] } },
+          ],
+        }
+      : null
+  const titleQuery =
+    filterObj.title.length > 0
+      ? {
+          OR: [
+            { blackMasterTitle: filterObj.title[0] },
+            { whiteMasterTitle: filterObj.title[0] },
+          ],
+        }
+      : null
+  const openingQuery =
+    filterObj.opening.length > 0
+      ? {
+          opening: filterValuesByNameObj[filterObj.opening[0]],
+        }
+      : null
+  const saleQuery =
+    filterObj.sale.length > 0
+      ? {
+          OR: filterObj.sale.map((status) => ({
+            marketSaleStatus: status,
+          })),
+        }
+      : null
 
   return {
     ...(usernameQuery && usernameQuery),
@@ -138,10 +165,10 @@ const getWhereQueryFromArgs = ({ username, filter, owner }) => {
     ...(titleQuery && titleQuery),
     ...(openingQuery && openingQuery),
     ...(saleQuery && saleQuery),
-    ...(filterObj.color && { cardColor: filterObj.color }),
-    ...(filterObj.termination && { termination: filterObj.termination }),
-    ...(filterObj.timeControl && { timeControl: filterObj.timeControl }),
-    ...(filterObj.rarity && { rarity: filterObj.rarity }),
+    ...(filterObj.color && { cardColor: filterObj.color[0] }),
+    ...(filterObj.termination && { termination: filterObj.termination[0] }),
+    ...(filterObj.timeControl && { timeControl: filterObj.timeControl[0] }),
+    ...(filterObj.rarity && { rarity: filterObj.rarity[0] }),
     // TODO:  implement sale, and price
     // lowPrice,
     // highPrice,

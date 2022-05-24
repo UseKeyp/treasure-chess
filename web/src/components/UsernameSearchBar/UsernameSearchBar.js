@@ -5,8 +5,8 @@ import { debounce } from 'src/utils/helpers'
 import { useFilter } from 'src/providers/filters'
 
 const USERNAME_QUERY = gql`
-  query usernames($query: String!) {
-    usernames(query: $query)
+  query usernames($query: String!, $orderBy: UserNameOrderByInput) {
+    usernames(query: $query, orderBy: $orderBy)
   }
 `
 
@@ -44,6 +44,9 @@ const UsernameSearchBar = ({ setValue: setParentValue }) => {
     fetchUsernames({
       variables: {
         query: value,
+        orderBy: {
+          username: 'asc',
+        },
       },
     })
   }

@@ -14,14 +14,15 @@ export const member = ({ usernameOrAddress }) => {
 
 export const profile = () => fetchMember(context.currentUser.username)
 
-export const usernames = async ({ query }) => {
+export const usernames = async ({ query, orderBy }) => {
   const members = await db.member.findMany({
     take: 6,
     where: {
       username: {
-        contains: query,
+        startsWith: query,
       },
     },
+    orderBy,
   })
   return members.map((member) => member.username)
 }

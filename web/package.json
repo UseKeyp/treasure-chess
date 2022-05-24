@@ -1,6 +1,6 @@
 {
   "name": "web",
-  "version": "1.0.6-staging.0",
+  "version": "1.0.6-staging.9",
   "private": true,
   "browserslist": {
     "development": [
@@ -13,7 +13,8 @@
     ]
   },
   "scripts": {
-    "generate-icons": "node src/scripts/generate-icon-system"
+    "generate-icons": "node src/scripts/generate-icon-system",
+    "scan-i18n": "rm -rf -f src/i18n/locales && i18next-scanner --config src/i18n/i18next-scanner.config.js"
   },
   "dependencies": {
     "@redwoodjs/auth": "^1.0.0",
@@ -22,9 +23,9 @@
     "@redwoodjs/web": "^1.0.0",
     "@sentry/browser": "^6.17.3",
     "@treasure-chess/chess-image-generator": "1.5.7",
-    "@treasure-chess/treasure-filters": "^1.0.6-staging.0",
-    "@treasure-chess/treasure-html": "^1.0.6-staging.0",
-    "@treasure-chess/web3-helpers": "^1.0.6-staging.0",
+    "@treasure-chess/treasure-filters": "^1.0.6-staging.9",
+    "@treasure-chess/treasure-html": "^1.0.6-staging.9",
+    "@treasure-chess/web3-helpers": "^1.0.6-staging.9",
     "bad-words": "^3.0.4",
     "canvas": "2.9.1",
     "i18next": "^21.6.14",
@@ -34,6 +35,7 @@
     "react-canvas-confetti": "^1.2.1",
     "react-dom": "^17.0.2",
     "react-feather": "^2.0.9",
+    "react-i18next": "^11.16.7",
     "react-infinite-scroll-component": "^6.1.0",
     "react-loading-skeleton": "^3.0.1",
     "react-scroll-to-top": "^1.0.8",

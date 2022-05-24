@@ -37,6 +37,7 @@ model Member {
   banned               Boolean               @default(false)
   blocked              Boolean? // Prevents minting Treasures containing this player
   refreshToken         String? // Chess.com Oauth
+  accessToken          String? // Chess.com Oauth
   ramps                Ramp[]
   OAuth                OAuth[]
   promotions           PromotionsOnMembers[]

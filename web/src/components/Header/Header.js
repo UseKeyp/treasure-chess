@@ -3,6 +3,8 @@ import { routes, useLocation } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
 import { useWallet } from 'src/providers/wallet'
 
+import { useLocale } from 'src/providers/locale'
+
 import Icon from 'src/components/Icon/Icon'
 import Avatar from 'src/components/Avatar/Avatar'
 import Button from 'src/components/Button/Button'
@@ -25,7 +27,7 @@ const WalletBalance = () => {
           textColor="blue"
           className={'header__nav__fund-wallet'}
         >
-          Add Funds
+          {t('Add Funds')}
         </Button>
       </div>
     </div>
@@ -35,6 +37,7 @@ const WalletBalance = () => {
 const MobileNav = () => {
   const { isAuthenticated: isLoggedIn, logOut } = useAuth()
   const { pathname } = useLocation()
+  const { t } = useLocale()
 
   const isOnTreasuresPage = pathname === '/treasures'
   const isOnAboutPage = pathname === '/about'
@@ -50,12 +53,12 @@ const MobileNav = () => {
             <li className={navItemClasses}>
               <Button to={routes.home()}>
                 <Icon name="treasure_chess_full" height="35px" color="#fff" />
-                <span className="sr-only">home</span>
+                <span className="sr-only">{t('home')}</span>
               </Button>
             </li>
             <li className={navItemClasses}>
               <Button isSelected={isOnTreasuresPage} to={routes.treasures()}>
-                Treasures
+                {t('Treasures')}
               </Button>
             </li>
             <li className={navItemClasses}>
@@ -64,25 +67,25 @@ const MobileNav = () => {
                 to={routes.about()}
                 className={navAnchorClasses}
               >
-                About
+                {t('About')}
               </Button>
             </li>
             {!isLoggedIn ? (
               <li className={navItemClasses}>
                 <Button className={navAnchorClasses} to={routes.signin()}>
-                  Sign In
+                  {t('Sign In')}
                 </Button>
               </li>
             ) : (
               <>
                 <li className={navItemClasses}>
                   <Button className={navAnchorClasses} to={routes.profile()}>
-                    Profile
+                    {t('Profile')}
                   </Button>
                 </li>
                 <li className={navItemClasses}>
                   <Button className={navAnchorClasses} onClick={logOut}>
-                    Log Out
+                    {t('Log Out')}
                   </Button>
                 </li>
               </>
@@ -101,6 +104,7 @@ const Header = () => {
     logOut,
   } = useAuth()
   const { pathname } = useLocation()
+  const { t } = useLocale()
 
   const isOnTreasuresPage = pathname === '/treasures'
   const isOnAboutPage = pathname === '/about'
@@ -140,7 +144,7 @@ const Header = () => {
                 <div className="mr-2">
                   <Icon name="treasure_chess" color="#ffffff" height="16px" />
                 </div>
-                Treasures
+                {t('Treasures')}
               </div>
             </Button>
           </div>
@@ -151,7 +155,7 @@ const Header = () => {
                   {' '}
                   <Icon name="help" size="small" />{' '}
                 </div>
-                About
+                {t('About')}
               </div>
             </Button>
           </div>
@@ -186,7 +190,7 @@ const Header = () => {
             </div>
           </div>
         ) : (
-          <Button to={routes.signin()}>Sign In</Button>
+          <Button to={routes.signin()}>{t('Sign In')}</Button>
         )}
       </div>
     </div>

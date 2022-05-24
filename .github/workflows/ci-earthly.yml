@@ -10,6 +10,7 @@ on:
 
 jobs:
   earthly:
+    name: Run CI
     runs-on: ubuntu-latest
     env:
       DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -53,7 +54,7 @@ jobs:
 
   create-release-draft:
     name: Create Release Draft
-    needs: runCI
+    needs: earthly
     if: needs.runCI.outputs.SKIP_RELEASE == 0
     runs-on: ubuntu-20.04
     steps:

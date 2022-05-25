@@ -45,31 +45,31 @@ const LoginPortal = () => {
     <div className="flex justify-center">
       <div className="login-portal-container w-80 sm:w-96">
         <h1 className="text-2xl tracking-tight font-extrabold text-gray-900 sm:text-3xl md:text-4xl">
-          <span className="block xl:inline">Sign In</span>
+          <span className="block xl:inline">{t('Sign In')}</span>
         </h1>
         <div className="mt-6">
           <div className="mb-2">
             <h3 className="text-base font-bold color-grey-light text-center">
-              Create a Treasure Chess account
+              {t('Create a Treasure Chess account')}
             </h3>
           </div>
           <ul className="ml-6">
             <li>
               <h4 className="-indent-6 ">
                 <span className="mr-2">✨</span>
-                Mint new Treasures
+                {t('Mint new Treasures')}
               </h4>
             </li>
             <li>
               <h4 className="-indent-6 ">
                 <span className="mr-2">❤️</span>
-                Collect Treasures from your favorite players
+                {t('Collect Treasures from your favorite players')}
               </h4>
             </li>
             <li>
               <h4 className="-indent-6 ">
                 <span className="mr-2">🎁</span>
-                Treasures you appear in can be sold in the Marketplace
+                {t('Treasures you appear in can be sold in the Marketplace')}
               </h4>
             </li>
           </ul>
@@ -85,35 +85,39 @@ const LoginPortal = () => {
           >
             <div className="flex justify-center align-center items-center m-1">
               <img src="/icons/chess.png" alt="chess" className="icon-logo" />
-              <span className="mr-2">Sign in with Chess.com</span>
+              <span className="mr-2">{t('Sign in with Chess.com')}</span>
             </div>
           </Button>
         </div>
         {errorText && <div className="mt-8 rw-cell-error">{errorText}</div>}
-        <h4>
-          By continuing you acknowledge that you have read, understand, and
-          agree to the{' '}
-          <a className="text-blue" href={globalConfig.TOC_URL}>
-            Terms of Service
-          </a>{' '}
-          and{' '}
-          <a className="text-blue" href={globalConfig.PRIVACY_POLICY_URL}>
-            Privacy Policy
-          </a>
-          .
-        </h4>
-        <h4 className="mt-4">
-          If you have any questions or concerns, please let us know using the{' '}
-          <a
-            className="text-blue"
-            rel="noreferrer"
-            target="_blank"
-            href="/feedback"
-          >
-            Feedback Form
-          </a>
-          .
-        </h4>
+        <Trans i18nKey="web:userAgreement">
+          <h4>
+            By continuing you acknowledge that you have read, understand, and
+            agree to the
+            <a className="text-blue" href={globalConfig.TOC_URL}>
+              Terms of Service
+            </a>
+            and
+            <a className="text-blue" href={globalConfig.PRIVACY_POLICY_URL}>
+              Privacy Policy
+            </a>
+            .
+          </h4>
+        </Trans>
+        <Trans i18nKey="web:userAgreement2">
+          <h4 className="mt-4">
+            If you have any questions or concerns, please let us know using the
+            <a
+              className="text-blue"
+              rel="noreferrer"
+              target="_blank"
+              href="/feedback"
+            >
+              Feedback Form
+            </a>
+            .
+          </h4>
+        </Trans>
       </div>
     </div>
   )

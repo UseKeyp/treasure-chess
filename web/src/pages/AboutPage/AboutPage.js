@@ -19,15 +19,15 @@ const FaqPage = () => {
 
   return (
     <div>
-      <MetaTags title="About" />
+      <MetaTags title={t('About')} />
       <MetaTags
-        title="About"
-        description="The what, why, and how of Treasure Chess."
+        title={t('About')}
+        description={t('The what, why, and how of Treasure Chess.')}
       />
       <FaqSection title="About" questionList={[...about]} columns />
 
       <div className="mt-4 m-auto w-full max-w-2xl">
-        <h2 className="text-4xl font-black">Achievements</h2>
+        <h2 className="text-4xl font-black">{t('Achievements')}</h2>
         <div className="mt-5">
           <AchievementList
             title=""

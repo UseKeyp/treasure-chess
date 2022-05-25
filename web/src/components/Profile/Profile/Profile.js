@@ -26,20 +26,21 @@ const Profile = () => {
           <div className="text-lg">✨</div>
           <div className="flex justify-between">
             <h3 className="text-base font-bold color-grey-light">
-              How to mint new treasures
+              {t('How to mint new treasures')}
             </h3>
           </div>
         </div>
         <p className="answer-container text-sm font-normal color-grey-light tracking-tight">
-          Click a game below and enter a title. The fee for Minting is $5. You
-          can use your Mint Credits or a debit card.
+          {t(
+            'Click a game below and enter a title. The fee for Minting is $5. You can use your Mint Credits or a debit card.'
+          )}
         </p>
       </div>
-      <h1 className="mt-6">Games</h1>
+      <h1 className="mt-6">{t('Games')}</h1>
       <div className="mt-4">
         <GameExplorer />
       </div>
-      <h1 className="mt-10">Treasures Played</h1>
+      <h1 className="mt-10">{t('Treasures Played')}</h1>
       <div className="flex mt-4">
         <TreasuresFetcher
           limit
@@ -48,7 +49,7 @@ const Profile = () => {
           sort="Highest Level"
         />
       </div>
-      <h1 className="mt-10">Treasures Owned</h1>
+      <h1 className="mt-10">{t('Treasures Owned')}</h1>
       <div className="flex mt-4">
         <TreasuresFetcher owner={currentUser?.username} sort="Highest Level" />
       </div>

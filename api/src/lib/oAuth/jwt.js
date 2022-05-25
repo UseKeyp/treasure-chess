@@ -14,9 +14,7 @@ import {
 const getKey = async (header) => {
   const client = jwksClient({
     jwksUri: `${CHESS_OAUTH_URL}/certs`,
-    requestHeaders: {
-      Authorization: `Basic ${getChessBasicAuth()}`,
-    },
+    requestHeaders: { Authorization: `Basic ${getChessBasicAuth()}` },
     timeout: 30000, // Defaults to 30s
     getKeysInterceptor: () => productionJwks, // Checks production keys vefore jwksUri
   })
@@ -41,9 +39,7 @@ export const verifyChessJwt = async (jwt) => {
   const decoded = verifyJwt(
     idToken,
     pubKey,
-    {
-      algorithms: ['RS256'],
-    },
+    { algorithms: ['RS256'] },
     (err, _decoded) => {
       if (err) throw err
       return _decoded
@@ -57,12 +53,14 @@ export const getNewIdToken = async (userId) => {
     const { refreshToken } = await db.member.findUnique({
       where: { id: userId },
     })
-    const { refreshToken: newRefreshToken, idToken } = await refreshChessTokens(
-      refreshToken
-    )
+    const {
+      refreshToken: newRefreshToken,
+      idToken,
+      accessToken: newAccessToken,
+    } = await refreshChessTokens(refreshToken)
     await db.member.update({
       where: { id: userId },
-      data: { refreshToken: newRefreshToken },
+      data: { refreshToken: newRefreshToken, accessToken: newAccessToken },
     })
     return idToken
   } catch (e) {

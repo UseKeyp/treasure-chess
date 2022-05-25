@@ -35,6 +35,7 @@ const monthsList = [
   'November',
   'December',
 ]
+
 const yearsList = getYearsArray()
 
 const FilterItems = ({ onChange }) => {
@@ -74,11 +75,13 @@ const FilterItems = ({ onChange }) => {
           <CategoryWrap>Search by Details</CategoryWrap>
           <div className="grid grid-cols-2 gap-4 content-end flex justify-end">
             <Dropdown
+              defaultValue={month}
               options={monthsList}
               queryFilterFunction={setMonth}
               queryFilter={month}
             />
             <Dropdown
+              defaultValue={yearsList[0]}
               options={yearsList}
               queryFilterFunction={setYear}
               queryFilter={year}

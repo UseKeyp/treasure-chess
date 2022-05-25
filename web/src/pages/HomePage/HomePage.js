@@ -29,7 +29,7 @@ const HomePage = () => {
       </div>
       <FeaturedPlayers />
       <div className="mt-16">
-        <HeadingBar text="Newest Treasures">
+        <HeadingBar text={t('Newest Treasures')}>
           <AllTreasuresButton />
         </HeadingBar>
       </div>

@@ -1,0 +1,29 @@
+{
+  "name": "@treasure-chess/localization",
+  "version": "1.0.3",
+  "private": true,
+  "description": "Translations for app",
+  "author": "Patrick Gallagher <blockchainbuddha@gmail.com>",
+  "main": "src/index.js",
+  "files": [
+    "src/importLocale.js",
+    "src/getScannerConfig.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pi0neerpat/dappy-monorepo.git"
+  },
+  "scripts": {
+    "compile": "lerna run scan-i18n && node scripts/compileLocales",
+    "sync": "locize sync --path src/locales --skip-delete true --format flat --update-values true --dry true",
+    "sync-confirm": "locize sync --path src/locales --skip-delete true --format flat --update-values true",
+    "lint": "eslint ./src --fix"
+  },
+  "homepage": "https://github.com/pi0neerpat/dappy-monorepo#readme",
+  "devDependencies": {
+    "@crowdin/cli": "^3.7.8",
+    "chalk": "^4.1.0",
+    "i18next-scanner": "^3.1.0",
+    "locize-cli": "^7.6.7"
+  }
+}

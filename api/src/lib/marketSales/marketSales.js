@@ -211,8 +211,8 @@ export const createNewTreasureListing = async ({ treasure, amount }) => {
     return marketSale
   } catch (e) {
     /* eslint-disable-next-line no-console */
-    logger.error(e)
-    throw new Error('createNewTreasureListing() ', e)
+    logger.error(e.message)
+    throw new Error(`createNewTreasureListing() ${e.message}`)
   }
 }
 
@@ -239,8 +239,8 @@ export const removeTreasureListing = async ({ treasure }) => {
     return marketSale
   } catch (e) {
     /* eslint-disable-next-line no-console */
-    logger.error(e)
-    throw new Error('removeTreasureListing() ', e)
+    logger.error(e.message)
+    throw new Error(`removeTreasureListing() ${e.message}`)
   }
 }
 
@@ -270,7 +270,7 @@ export const purchaseTreasure = async ({ treasure }) => {
     return marketSale
   } catch (e) {
     /* eslint-disable-next-line no-console */
-    logger.error(e)
-    throw new Error('purchaseTreasure() ', e)
+    logger.error(e.message)
+    throw new Error(`purchaseTreasure() ${e.message}`)
   }
 }

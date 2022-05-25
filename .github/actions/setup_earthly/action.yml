@@ -22,10 +22,10 @@ runs:
         git checkout -b "$branch" || true
 
     - name: Download latest Earthly
-      shell: bash
       run: "sudo /bin/sh -c 'wget https://github.com/earthly/earthly/releases/download/${{ inputs.version }}/earthly-linux-amd64 -O /usr/local/bin/earthly && chmod +x /usr/local/bin/earthly'"
+      shell: bash
 
     - name: Earthly version
-      shell: bash
       run: earthly --version
+      shell: bash
 

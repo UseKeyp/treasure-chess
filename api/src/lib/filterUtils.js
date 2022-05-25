@@ -36,8 +36,15 @@ export const buildFilterParams = (searchParams) => {
         // we just looka at the table 'filterValuesByNameObj' and add the value to the filterObj
         filterObj[key] =
           typeof filterValuesByNameObj[value] === 'object'
-            ? [...filterValuesByNameObj[value]]
-            : [filterValuesByNameObj[value]]
+            ? // when the array has a string with a comma
+              // it means that the result from 'filterValuesByNameObj' is an array
+              // and the type that we wanna for the 'filterObj' value from a key
+              // is just an array of strings
+              [...filterValuesByNameObj[value]]
+            : // otherwise the return value from 'filterValuesByNameObj' is a string
+              // not needing for spreading its value
+              // if we spread a string the array fills up with the characters of that string
+              [filterValuesByNameObj[value]]
       }
     } else {
       // otherwise we just add the value to the filterObj

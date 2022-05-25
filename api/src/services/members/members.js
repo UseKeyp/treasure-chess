@@ -19,7 +19,7 @@ export const usernames = async ({ query, orderBy }) => {
     take: 6,
     where: {
       username: {
-        startsWith: query,
+        contains: query,
       },
     },
     orderBy,

@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react'
 import { useLazyQuery } from '@apollo/client'
 import { debounce } from 'src/utils/helpers'
-
+import { sortBy } from 'lodash'
 import { useFilter } from 'src/providers/filters'
 
 const USERNAME_QUERY = gql`
@@ -28,7 +28,12 @@ const UsernameSearchBar = ({ setValue: setParentValue }) => {
     onCompleted: ({ usernames }) => {
       if (usernames.length === 0)
         return setDropdownOptions(['Username not found'])
-      setDropdownOptions(usernames.slice(0, 6))
+      setDropdownOptions(
+        sortBy(usernames, [(str) => str.indexOf(value), (str) => str]).slice(
+          0,
+          6
+        )
+      )
     },
   })
 

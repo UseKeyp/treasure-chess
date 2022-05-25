@@ -31,7 +31,7 @@ jobs:
           git checkout -b "$branch" || true
 
       - name: Docker Login
-        run: docker login ${{ env.DOCKER_REGISTRY }} --username "$DOCKER_USERNAME" --password "$DOCKER_TOKEN"
+        run: echo ${{ env.DOCKER_TOKEN }} | docker login ${{ env.DOCKER_REGISTRY }} --username "$DOCKER_USERNAME" --password-stdin
 
       - name: Download latest earthly
         run: "sudo /bin/sh -c 'wget https://github.com/earthly/earthly/releases/download/v0.6.14/earthly-linux-amd64 -O /usr/local/bin/earthly && chmod +x /usr/local/bin/earthly'"

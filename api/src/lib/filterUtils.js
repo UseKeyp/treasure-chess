@@ -121,7 +121,7 @@ const titleQuery = (filterObj) =>
 const openingQuery = (filterObj) =>
   filterObj.opening.length > 0
     ? {
-        opening: filterValuesByNameObj[filterObj.opening[0]],
+        opening: filterObj.opening[0],
       }
     : null
 const saleQuery = (filterObj) =>

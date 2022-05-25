@@ -17,18 +17,30 @@ export const buildFilterParams = (searchParams) => {
     sale: [],
   }
   searchParams.entries().forEach(([key, value]) => {
+    // the properties from 'filters' are named with List in the end
+    // so we must firstly look if the first item of each ie. 'outcome+List' = outcomeList
+    // has an string or has a object as value of its keys. because the filter can have this two
+    // different datatypes.
     if (typeof filters[key + 'List'][0] == 'object') {
+      // if the filter property has an object as value of its keys
+      // we must take the specific value from his key
+      // looking in a key:value obj named 'filterValuesByNameObj'
       if (value.search(/,/) >= 0) {
+        // if the actual iteration value is a string with a comma
+        // we must split the string by comma and add each value to the filterObj
         filterObj[key] = value
           .split(',')
           .map((item) => filterValuesByNameObj[item])
       } else {
+        // if the actual iteration value is a string without a comma
+        // we just looka at the table 'filterValuesByNameObj' and add the value to the filterObj
         filterObj[key] =
           typeof filterValuesByNameObj[value] === 'object'
             ? [...filterValuesByNameObj[value]]
             : [filterValuesByNameObj[value]]
       }
     } else {
+      // otherwise we just add the value to the filterObj
       filterObj[key] = [value]
     }
   })

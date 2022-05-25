@@ -157,34 +157,15 @@ const configEnumFilter = (filterParams) => {
   return filterObj
 }
 
-const buildFilterPayload = (filterParams, username, owner) => {
-  const queryByUsername = configUsernameQuery(username)
-  const queryByOwner = ownerQuery(owner)
-  const queryByOutcome = outcomeQuery(filterParams)
-  const queryByAchievement = achievementQuery(filterParams)
-  const queryByMoveCount = moveCountQuery(filterParams)
-  const queryByTitle = titleQuery(filterParams)
-  const queryByOpening = openingQuery(filterParams)
-  const queryBySale = saleQuery(filterParams)
-  // termination
-  // color
-  // cardColor
-  // timeControl
-  const queryByEnums = configEnumFilter(filterParams)
-
-  return {
-    ...queryByUsername,
-    ...queryByOwner,
-    ...queryByAchievement,
-    ...queryByOutcome,
-    ...queryByMoveCount,
-    ...queryByTitle,
-    ...queryByOpening,
-    ...queryBySale,
-    ...queryByEnums,
-    // TODO:  implement sale, and price
-    // lowPrice,
-    // highPrice,
-  }
-}
+const buildFilterPayload = (filterParams, username, owner) => ({
+  ...configUsernameQuery(username),
+  ...ownerQuery(owner),
+  ...outcomeQuery(filterParams),
+  ...achievementQuery(filterParams),
+  ...moveCountQuery(filterParams),
+  ...titleQuery(filterParams),
+  ...openingQuery(filterParams),
+  ...saleQuery(filterParams),
+  ...configEnumFilter(filterParams),
+})
 export { filters, buildFilterPayload, buildFilterParams, TREASURES_PER_PAGE }

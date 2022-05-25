@@ -12,9 +12,11 @@ jobs:
     env:
       FORCE_COLOR: 1
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout Source
+        uses: actions/checkout@v3
 
-      - uses: ./.github/actions/setup_earthly
+      - name: Setup Earthly
+        uses: ./.github/actions/setup_earthly
 
       - name: Build, lint, test, and run diagnostics
         run: earthly --ci -P +build-app

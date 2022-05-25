@@ -27,7 +27,7 @@ const Member = ({ member, isLoading }) => {
         </div>
       )*/}
 
-      <h1 className="mt-10">Treasures Played</h1>
+      <h1 className="mt-10">{t('Treasures Played')}</h1>
       <div className="flex mt-4">
         <TreasuresFetcher
           limit
@@ -36,7 +36,7 @@ const Member = ({ member, isLoading }) => {
           sort="Highest Level"
         />
       </div>
-      <h1 className="mt-10">Treasures Owned</h1>
+      <h1 className="mt-10">{t('Treasures Owned')}</h1>
       <div className="flex mt-4">
         <TreasuresFetcher owner={member.username} sort="Highest Level" />
       </div>

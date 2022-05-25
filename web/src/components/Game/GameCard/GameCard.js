@@ -107,7 +107,7 @@ const GameCard = ({
         <div className="gameCardWrapper">
           <div className="gameCardMintingContainer">
             <div className="gameCardEmpty">
-              <h2>Select a game</h2>
+              <h2>{t('Select a game')}</h2>
             </div>
           </div>
         </div>
@@ -136,11 +136,13 @@ const GameCard = ({
                 fontSize={16}
                 color={'chessBlack.100'}
               >
-                Minting
-                <br />
-                in progress
-                <br />
-                (~1 minute)
+                <Trans i18nKey="web:mintingInProgress">
+                  Minting
+                  <br />
+                  in progress
+                  <br />
+                  (~1 minute)
+                </Trans>
               </P>
             </div>
           </div>

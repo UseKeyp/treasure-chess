@@ -15,7 +15,7 @@ const AllTreasuresButton = () => {
         <div className="icon">
           <Icon name="treasure_chess" color="#ffffff" height="16px" />
         </div>
-        <div>All Treasures</div>
+        <div>{t('All Treasures')}</div>
       </div>
     </Button>
   )

@@ -6,6 +6,8 @@ import { isHexAddress } from 'src/lib/helpers'
 import { fetchChessMember } from 'src/lib/chessCom/chessCom'
 import { logger } from 'src/lib/logger'
 
+import { refreshChessTokens } from 'src/lib/oAuth/providers/chess'
+
 import { web3Provider } from 'src/lib/web3/helpers'
 import { getUsdcBalance } from 'src/lib/web3/tokens'
 
@@ -289,4 +291,26 @@ export const getMemberRawData = async (username) => {
     ...details,
     ramps,
   }
+}
+
+export const getAccessToken = async () => {
+  const member = await db.member.findUnique({
+    where: { id: context.currentUser.id },
+    select: { accessToken: true, refreshToken: true },
+  })
+  if (!member) throw 'No member found'
+  let accessToken = member.accessToken
+  if (!accessToken) {
+    const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
+      await refreshChessTokens(member.refreshToken)
+    await db.member.update({
+      where: { id: context.currentUser.id },
+      data: {
+        refreshToken: newRefreshToken,
+        accessToken: newAccessToken,
+      },
+    })
+    accessToken = newAccessToken
+  }
+  return accessToken
 }

@@ -7,7 +7,7 @@ import { P } from 'src/components/Typography'
 import LoadingDots from 'src/components/LoadingDots'
 import { trimString } from 'src/utils/helpers'
 
-const TITLE = 'Activity'
+const TITLE = t('Activity')
 
 const MemberActivity = ({ member, isLoading, refetch }) => {
   const { pendingMintPurchases, mintStatus } = useMinting()

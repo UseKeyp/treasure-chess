@@ -37,7 +37,7 @@ const FeaturedPlayers = () => {
   return (
     <>
       <div className="mx-auto max-w-[1080px] mt-16">
-        <HeadingBar text="Featured Players" />
+        <HeadingBar text={t('Featured Players')} />
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-7 place-items-center ">
           {playerIcons}
           <div className="max-w-[130px] max-h-[170px] h-[100%] p-2 block rounded-xl bg-chessBlack-300 text-center text-xs font-bold text-grey shadow-sm ">
@@ -45,7 +45,7 @@ const FeaturedPlayers = () => {
               <div className="mb-4 mt-4 mr-4 ml-4">
                 <Icon name="treasure_chess" height="70" color="#ffffff" />
               </div>
-              All Treasures
+              {t('All Treasures')}
             </Link>
           </div>
         </div>

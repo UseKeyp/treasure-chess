@@ -1,14 +1,8 @@
 import { db } from 'src/lib/db'
 import { logger } from 'src/lib/logger'
+import { buildFilterParams, buildFilterPayload } from './filterUtils'
 
 import filters, { TREASURES_PER_PAGE } from '@treasure-chess/treasure-filters'
-// Convert text names to values
-const filterValuesByNameObj = Object.values(filters).reduce((acc, arrayObj) => {
-  return {
-    ...acc,
-    ...arrayObj.reduce((acc2, obj) => ({ ...acc2, [obj.name]: obj.value }), {}),
-  }
-}, {})
 
 // NOTE: any updates to this function should also be made in /scripts/seed
 export const generateTreasureData = ({ game, title, minter }) => {
@@ -50,128 +44,12 @@ export const generateTreasureData = ({ game, title, minter }) => {
 
 const getWhereQueryFromArgs = ({ username, filter, owner }) => {
   const searchParams = new URLSearchParams(filter)
-  let filterObj = {
-    outcome: [],
-    achievements: [],
-    moveCount: [],
-    opening: [],
-    title: [],
-    sale: [],
-  }
-
-  // since every filter as array of objs send by name
-  // and every filter as array of strings do not, we can do:
-  searchParams.entries().forEach(([key, value]) => {
-    if (typeof filters[key + 'List'][0] == 'object') {
-      if (value.search(/,/) >= 0) {
-        filterObj[key] = value
-          .split(',')
-          .map((item) => filterValuesByNameObj[item])
-      } else {
-        filterObj[key] =
-          typeof filterValuesByNameObj[value] === 'object'
-            ? [...filterValuesByNameObj[value]]
-            : [filterValuesByNameObj[value]]
-      }
-    } else {
-      filterObj[key] = [value]
-    }
-  })
-
-  const configUsernameQuery = () => {
-    if (!username) return null
-
-    const isManyUsernames = username.includes(',')
-    let usernames = username.split(',')
-
-    let player1 = isManyUsernames ? usernames[0] : username
-    let player2 = isManyUsernames ? usernames[1] : username
-
-    return {
-      OR: [
-        { white: { username: player1 } },
-        { black: { username: player2 } },
-        { white: { username: player2 } },
-        { black: { username: player1 } },
-      ],
-    }
-  }
-
-  // Create each TreasureWhereInput
-  const ownerQuery = owner
-    ? {
-        OR: [{ owner: { username: owner } }, { owner: { address: owner } }],
-      }
-    : null
-  const usernameQuery = configUsernameQuery()
-
-  const outcomeQuery =
-    filterObj.outcome.length > 0
-      ? {
-          OR: filterObj.outcome.map((outcome) => ({ outcome })),
-        }
-      : null
-  const achievementQuery =
-    filterObj.achievements.length > 0
-      ? {
-          OR: filterObj.achievements.map((chiev) => {
-            return {
-              achievements: {
-                has: chiev,
-              },
-            }
-          }),
-        }
-      : null
-  const moveCountQuery =
-    filterObj.moveCount.length > 0
-      ? {
-          AND: [
-            { moveCount: { gte: filterObj.moveCount[0] } },
-            { moveCount: { lte: filterObj.moveCount[1] } },
-          ],
-        }
-      : null
-  const titleQuery =
-    filterObj.title.length > 0
-      ? {
-          OR: [
-            { blackMasterTitle: filterObj.title[0] },
-            { whiteMasterTitle: filterObj.title[0] },
-          ],
-        }
-      : null
-  const openingQuery =
-    filterObj.opening.length > 0
-      ? {
-          opening: filterValuesByNameObj[filterObj.opening[0]],
-        }
-      : null
-  const saleQuery =
-    filterObj.sale.length > 0
-      ? {
-          OR: filterObj.sale.map((status) => ({
-            marketSaleStatus: status,
-          })),
-        }
-      : null
-
+  // get and format filter params from frontend
+  const filterParams = buildFilterParams(searchParams)
+  // mount the payload to be send to the db
+  const filterPayload = buildFilterPayload(filterParams, username, owner)
   return {
-    ...(usernameQuery && usernameQuery),
-    ...(ownerQuery && ownerQuery),
-    ...(achievementQuery && achievementQuery),
-    ...(outcomeQuery && outcomeQuery),
-    ...(moveCountQuery && moveCountQuery),
-    ...(titleQuery && titleQuery),
-    ...(openingQuery && openingQuery),
-    ...(saleQuery && saleQuery),
-    ...(filterObj.color && { cardColor: filterObj.color[0] }),
-    ...(filterObj.termination && { termination: filterObj.termination[0] }),
-    ...(filterObj.timeControl && { timeControl: filterObj.timeControl[0] }),
-    ...(filterObj.rarity && { rarity: filterObj.rarity[0] }),
-    // TODO:  implement sale, and price
-    // lowPrice,
-    // highPrice,
+    ...filterPayload,
   }
 }
 

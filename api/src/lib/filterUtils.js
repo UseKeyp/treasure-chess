@@ -1,4 +1,4 @@
-import filters from '@treasure-chess/treasure-filters'
+import filters, { TREASURES_PER_PAGE } from '@treasure-chess/treasure-filters'
 // Convert text names to values
 const filterValuesByNameObj = Object.values(filters).reduce((acc, arrayObj) => {
   return {
@@ -7,7 +7,7 @@ const filterValuesByNameObj = Object.values(filters).reduce((acc, arrayObj) => {
   }
 }, {})
 
-export const buildFilterParams = (searchParams) => {
+const buildFilterParams = (searchParams) => {
   let filterObj = {
     outcome: [],
     achievements: [],
@@ -54,7 +54,7 @@ export const buildFilterParams = (searchParams) => {
   return filterObj
 }
 
-export const configUsernameQuery = (username) => {
+const configUsernameQuery = (username) => {
   if (!username) return null
 
   const isManyUsernames = username.includes(',')
@@ -73,21 +73,21 @@ export const configUsernameQuery = (username) => {
   }
 }
 
-export const ownerQuery = (owner) =>
+const ownerQuery = (owner) =>
   owner
     ? {
         OR: [{ owner: { username: owner } }, { owner: { address: owner } }],
       }
     : null
 
-export const outcomeQuery = (filterObj) =>
+const outcomeQuery = (filterObj) =>
   filterObj.outcome.length > 0
     ? {
         OR: filterObj.outcome.map((outcome) => ({ outcome })),
       }
     : null
 
-export const achievementQuery = (filterObj) =>
+const achievementQuery = (filterObj) =>
   filterObj.achievements.length > 0
     ? {
         OR: filterObj.achievements.map((chiev) => {
@@ -100,7 +100,7 @@ export const achievementQuery = (filterObj) =>
       }
     : null
 
-export const moveCountQuery = (filterObj) =>
+const moveCountQuery = (filterObj) =>
   filterObj.moveCount.length > 0
     ? {
         AND: [
@@ -109,7 +109,7 @@ export const moveCountQuery = (filterObj) =>
         ],
       }
     : null
-export const titleQuery = (filterObj) =>
+const titleQuery = (filterObj) =>
   filterObj.title.length > 0
     ? {
         OR: [
@@ -118,13 +118,13 @@ export const titleQuery = (filterObj) =>
         ],
       }
     : null
-export const openingQuery = (filterObj) =>
+const openingQuery = (filterObj) =>
   filterObj.opening.length > 0
     ? {
         opening: filterValuesByNameObj[filterObj.opening[0]],
       }
     : null
-export const saleQuery = (filterObj) =>
+const saleQuery = (filterObj) =>
   filterObj.sale.length > 0
     ? {
         OR: filterObj.sale.map((status) => ({
@@ -133,7 +133,31 @@ export const saleQuery = (filterObj) =>
       }
     : null
 
-export const buildFilterPayload = (filterParams, username, owner) => {
+const configEnumFilter = (filterParams) => {
+  const filterObj = {
+    termination: '',
+    cardColor: '',
+    rarity: '',
+    timeControl: '',
+  }
+
+  filterParams['termination']
+    ? (filterObj['termination'] = filterParams['termination'][0])
+    : delete filterObj['termination']
+  filterParams['color']
+    ? (filterObj['cardColor'] = filterParams['color'][0])
+    : delete filterObj['cardColor']
+  filterParams['rarity']
+    ? (filterObj['rarity'] = filterParams['rarity'][0])
+    : delete filterObj['rarity']
+  filterParams['timeControl']
+    ? (filterObj['timeControl'] = filterParams['timeControl'][0])
+    : delete filterObj['timeControl']
+
+  return filterObj
+}
+
+const buildFilterPayload = (filterParams, username, owner) => {
   const queryByUsername = configUsernameQuery(username)
   const queryByOwner = ownerQuery(owner)
   const queryByOutcome = outcomeQuery(filterParams)
@@ -142,26 +166,25 @@ export const buildFilterPayload = (filterParams, username, owner) => {
   const queryByTitle = titleQuery(filterParams)
   const queryByOpening = openingQuery(filterParams)
   const queryBySale = saleQuery(filterParams)
+  // termination
+  // color
+  // cardColor
+  // timeControl
+  const queryByEnums = configEnumFilter(filterParams)
 
   return {
-    ...(queryByUsername && queryByUsername),
-    ...(queryByOwner && queryByOwner),
-    ...(queryByAchievement && queryByAchievement),
-    ...(queryByOutcome && queryByOutcome),
-    ...(queryByMoveCount && queryByMoveCount),
-    ...(queryByTitle && queryByTitle),
-    ...(queryByOpening && queryByOpening),
-    ...(queryBySale && queryBySale),
-    ...(filterParams.color && { cardColor: filterParams.color[0] }),
-    ...(filterParams.termination && {
-      termination: filterParams.termination[0],
-    }),
-    ...(filterParams.timeControl && {
-      timeControl: filterParams.timeControl[0],
-    }),
-    ...(filterParams.rarity && { rarity: filterParams.rarity[0] }),
+    ...queryByUsername,
+    ...queryByOwner,
+    ...queryByAchievement,
+    ...queryByOutcome,
+    ...queryByMoveCount,
+    ...queryByTitle,
+    ...queryByOpening,
+    ...queryBySale,
+    ...queryByEnums,
     // TODO:  implement sale, and price
     // lowPrice,
     // highPrice,
   }
 }
+export { filters, buildFilterPayload, buildFilterParams, TREASURES_PER_PAGE }

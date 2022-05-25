@@ -1,0 +1,25 @@
+{
+  "noInlineConfig": false,
+  "reportUnusedDisableDirectives": true,
+  "env": {
+    "browser": true,
+    "es6": true,
+    "jest": true
+  },
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
+  },
+  "plugins": ["react", "i18next", "unicorn"],
+  "ignorePatterns": [],
+
+  "rules": {}
+}

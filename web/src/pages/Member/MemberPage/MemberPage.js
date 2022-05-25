@@ -6,7 +6,7 @@ const MemberPage = ({ usernameOrAddress }) => {
     <>
       <MetaTags
         title={usernameOrAddress || 'Player'}
-        description="Check out this player's Treasures."
+        description={t("Check out this player's Treasures.")}
       />
       <MemberCell usernameOrAddress={usernameOrAddress} />
     </>

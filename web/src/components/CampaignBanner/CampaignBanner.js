@@ -1,6 +1,7 @@
 import campaignConfig from 'src/bannerCampaign.config'
 import Icon from 'src/components/Icon/Icon'
 import { useEffect, useState } from 'react'
+import Button from 'src/components/Button/Button'
 
 const CampaignBanner = () => {
   const [show, setShow] = useState(false)
@@ -36,15 +37,15 @@ const CampaignBanner = () => {
           </div>
         </div>
         <div className="flex flex-row items-center ml-2">
-          <button className="bg-greenLight text-white sm:text-sm text-xs font-bold my-4 sm:py-2 py-1 px-4 rounded">
+          <Button className="bg-greenLight text-white sm:text-sm text-xs font-bold my-4 sm:py-2 py-1 px-4 rounded">
             {campaignConfig.buttonText}
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={closeBanner}
-            className="bg-blue-500 hover:bg-greyDark hover:-translate-y-1 text-white text-sm font-bold my-4 px-4 sm:py-2 py-1 rounded"
+            className="bg-blue-500 hover:bg-greyDark text-white text-sm font-bold my-4 px-4 sm:py-2 py-1 rounded"
           >
             X
-          </button>
+          </Button>
         </div>
       </header>
     )

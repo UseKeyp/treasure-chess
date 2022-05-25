@@ -87,7 +87,7 @@ const Games = ({ games, count: queryCount, isLoading, error }) => {
           <div className="flex justify-between align-center items-center ">
             <div className="flex space-x-2 align-center">
               {count !== undefined ? <h3>{count}</h3> : <LoadingDots />}
-              <h3>Games</h3>
+              <h3>{t('Games')}</h3>
             </div>
             <Pagination
               count={count}

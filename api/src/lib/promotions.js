@@ -11,17 +11,17 @@ export const processPromotion = async (type) => {
     },
   })
 
-  if (promotion) {
-    if (
-      promotion.rewardType === 'MINT_CREDIT' &&
-      promotion.members.findIndex(
-        (member) => member.memberId === context.currentUser.id
-      ) == -1
-    ) {
+  if (
+    promotion &&
+    promotion.members.findIndex(
+      (member) => member.memberId === context.currentUser.id
+    ) == -1
+  ) {
+    if (promotion.rewardType === 'MINT_CREDIT') {
       await db.member.update({
         where: { id: context.currentUser.id },
         data: {
-          mintCredits: context.currentUser.mintCredits + promotion.mintCredits,
+          mintCredits: { increment: promotion.mintCredits },
         },
       })
 

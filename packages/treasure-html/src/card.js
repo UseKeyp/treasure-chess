@@ -44,13 +44,13 @@ const card = `<html>
 
 .tooltip .tooltiptext {
   visibility: hidden;
-  width: 120px;
+  width: auto;
   bottom: 100%;
   left: 50%;
   margin-left: -60px; /* Use half of the width (120/2 = 60), to center the tooltip */
   background-color: black;
   text-align: center;
-  padding: 5px 0;
+  padding: 5px 5px 5px 5px;
   border-radius: 6px;
   color:white;
   font-weight: bold;

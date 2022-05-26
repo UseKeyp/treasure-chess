@@ -1,25 +1,38 @@
 import { db } from 'src/lib/db'
 
 export const processPromotion = async (type) => {
-  let promotions = db.promotion.findMany({
+  let promotion = await db.promotion.findFirst({
     where: {
-      members: { id: context.currentUser.id },
       type,
+      enabled: true,
+    },
+    include: {
+      members: true,
     },
   })
 
-  promotions = await Promise.all(
-    promotions.map(async (promotion) => {
-      if (promotion.rewardType === 'MINT_CREDIT') {
-        const updatedPromotion = await db.promotion.update({
-          where: { id: promotion.id },
-          data: { mintCredits: (promotion.mintCredits || 0) + 1 },
-        })
-        return updatedPromotion
-      }
-      return promotion
-    })
-  )
+  if (promotion) {
+    if (
+      promotion.rewardType === 'MINT_CREDIT' &&
+      promotion.members.findIndex(
+        (member) => member.memberId === context.currentUser.id
+      ) == -1
+    ) {
+      await db.member.update({
+        where: { id: context.currentUser.id },
+        data: {
+          mintCredits: context.currentUser.mintCredits + promotion.mintCredits,
+        },
+      })
 
-  return promotions
+      await db.promotionsOnMembers.create({
+        data: {
+          promotionId: promotion.id,
+          memberId: context.currentUser.id,
+        },
+      })
+    }
+  }
+
+  return promotion
 }

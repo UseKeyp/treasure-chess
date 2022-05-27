@@ -9,10 +9,10 @@ const DefaultLayout = ({ children }) => {
       <div className="flex flex-col min-h-screen">
         <div className="flex-grow">
           <div className="max-w-7xl mx-4 sm:mx-auto px-0 sm:px-4 sm:max-w-screen">
-            <div>
-              <CampaignBanner />
-            </div>
             <header className="relative mb-8 mt-4">
+              <div>
+                <CampaignBanner />
+              </div>
               <Header />
             </header>
             <div className="mx-4">{children}</div>

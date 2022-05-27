@@ -23,9 +23,9 @@ const CampaignBanner = () => {
 
   if (show) {
     return (
-      <header className="flex justify-between items-center px-4 py-2 bg-chessBlack-200 w-full relative">
-        <div className="flex flex-row items-center space-x-4 sm:space-x-4 ml-6 mr-4">
-          <div>
+      <header className="flex justify-between items-center py-2 mb-2 bg-chessBlack-200 w-full relative">
+        <div className="flex flex-row items-center space-x-4 sm:space-x-4">
+          <div className="ml-7">
             <Icon
               name={campaignConfig.iconName}
               color="#ffffff"
@@ -36,8 +36,8 @@ const CampaignBanner = () => {
             {campaignConfig.text}
           </div>
         </div>
-        <div className="flex flex-row items-center ml-2">
-          <Button className="bg-greenLight text-white sm:text-sm text-xs font-bold my-4 sm:py-2 py-1 px-4 rounded">
+        <div className="flex flex-row items-center ml-2 lg:mr-8 md:mr-4 mr-5">
+          <Button className="bg-greenLight text-white sm:text-sm text-xs font-bold my-4 sm:py-2 py-1 px-4 mr-2 rounded">
             {campaignConfig.buttonText}
           </Button>
           <Button

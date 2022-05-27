@@ -5,10 +5,11 @@ const config: CapacitorConfig = {
   appName: 'Treasure Chess',
   webDir: 'web/dist',
   bundledWebRuntime: false,
-  // server: {
-  //   // url: 'http://localhost:8910',
-  //   cleartext: true,
-  // },
+  // Enable for hot-rebuilds. The PWA should be served at http://localhost:8910
+  server: {
+    url: 'http://10.0.2.2:8910',
+    cleartext: true,
+  },
 }
 
 export default config

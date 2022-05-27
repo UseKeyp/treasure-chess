@@ -70,15 +70,13 @@ export const getBoardLayout = (pgn) => {
 }
 
 export const cors = {
-  // origin: corsOrigin,
-  // origin: '*',
-  // origin: process.env.APP_DOMAIN,
-  origin: [
-    'http://0.0.0.0:8910',
-    'http://localhost:8910',
-    'http://localhost',
-    'http://localhost:80',
-    'http://localhost:8080',
-  ],
+  origin: isProduction
+    ? process.env.APP_DOMAIN
+    : [
+        'http://0.0.0.0:8910',
+        'http://localhost:8910',
+        'http://localhost',
+        'http://10.0.2.2:8910',
+      ],
   credentials: true,
 }

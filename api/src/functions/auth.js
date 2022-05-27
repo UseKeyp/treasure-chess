@@ -9,16 +9,13 @@ import { logger } from 'src/lib/logger'
 import { oAuthUrl, submitCodeGrant } from 'src/lib/oAuth'
 import { providers } from 'src/lib/oAuth/providers'
 import { validateLoginRequest } from 'src/lib/auth/validation'
-import { isProduction, corsOrigin } from 'src/lib/helpers'
+import { isProduction, cors } from 'src/lib/helpers'
 
 export const handler = async (event, context) => {
   logger.debug('Invoked /auth ')
   const authHandler = new DbAuthHandler(event, context, {
     db: db,
-    cors: {
-      origin: corsOrigin,
-      credentials: true,
-    },
+    cors,
     authModelAccessor: 'member',
     authFields: {
       id: 'id',
@@ -64,7 +61,8 @@ export const handler = async (event, context) => {
     cookie: {
       HttpOnly: true,
       Path: '/',
-      SameSite: 'Strict',
+      SameSite: 'None',
+      // SameSite: 'Strict',
       Secure: isProduction,
       // ...(isProduction && { Domain: process.env.APP_DOMAIN }),
     },

@@ -29,9 +29,10 @@ export const fetchImageAndEncodeBase64 = async (url) => {
 export const getFlagBase64 = (code) => {
   let base64Image = flags['XX']
   if (code) {
-    const regionNames = new Intl.DisplayNames(['en'], { type: 'region' })
-    const country = regionNames.of(code)
-    base64Image = flags[country.replaceAll(' ', '-')]
+    base64Image = flags['United-States']
+    // const regionNames = new Intl.DisplayNames(['en'], { type: 'region' })
+    // const country = regionNames.of(code)
+    // base64Image = flags[country.replaceAll(' ', '-')]
   }
   return `data:image/png;base64,${base64Image}`
 }
@@ -40,7 +41,8 @@ export const formatDate = (rawString) => {
   if (!rawString) return ''
   const date = new Date(rawString)
   let options = { month: 'short' }
-  const month = new Intl.DateTimeFormat('en-US', options).format(date)
+  const month = 12
+  // const month = new Intl.DateTimeFormat('en-US', options).format(date)
   const day = date.getDate()
   const year = date.getFullYear()
   return `${month} ${day} ${year}`

@@ -1,4 +1,4 @@
 #!/bin/bash -ve
 $(node tasks/environment/setupEnv)
 yarn build-packages
-yarn rw dev api
+yarn rw dev api --fwd="--allowed-hosts all"

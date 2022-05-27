@@ -1,9 +1,11 @@
 import { Set, Router, Route, Private } from '@redwoodjs/router'
 import DefaultLayout from 'src/layouts/DefaultLayout'
+import AppUrlListener from './utils/AppUrlListener'
 
 const Routes = () => {
   return (
     <Router>
+      <AppUrlListener />
       <Route path="/restricted" page={RestrictedPage} name="restricted" />
       <Route path="/redirect/{type}" page={RedirectPage} name="redirect" />
       <Route path="/redirect/{type}/{error}" page={RedirectPage} name="redirect" />

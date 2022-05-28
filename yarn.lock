@@ -1409,10 +1409,10 @@
 
 "@capacitor/android@^3.5.1":
   version "3.5.1"
-  resolved "https://registry.npmjs.org/@capacitor/android/-/android-3.5.1.tgz#d81ec82f84ab7f0abeadb4cc100e6a3820197d65"
+  resolved "https://registry.yarnpkg.com/@capacitor/android/-/android-3.5.1.tgz#d81ec82f84ab7f0abeadb4cc100e6a3820197d65"
   integrity sha512-rjehS0+BQBlwoN8hUyrMuzexn/9QJsONb1kmN5uXcL8JuTEbv35fa7z0tSD4x1LKwUFd+3Zeuwt60QRuwijlmw==
 
-"@capacitor/app@^1.1.1":
+"@capacitor/app@^3.5.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@capacitor/app/-/app-1.1.1.tgz#bde7202faad1b47c4ae2c4a622285d7569384c5e"
   integrity sha512-8ADkldHnoE1xkWvPUsGlERVGm6/Zvcxy6hCI80AxydIKyaCG7kbDAvUclebbnw/eFRxj2zBoVatGLjmJNvTbYw==
@@ -1441,7 +1441,7 @@
 
 "@capacitor/core@^3.5.1":
   version "3.5.1"
-  resolved "https://registry.npmjs.org/@capacitor/core/-/core-3.5.1.tgz#49d48c0261d811a4d8c43d89d8a10bd519675bd2"
+  resolved "https://registry.yarnpkg.com/@capacitor/core/-/core-3.5.1.tgz#49d48c0261d811a4d8c43d89d8a10bd519675bd2"
   integrity sha512-UTROxB7q/hZBnhDLcCN7mVsAX3SxXNMhVuPbtddsDOUCm4hExLXN62gPD7rjgmumhfHMjeXmkw/EfRzSjttL1g==
   dependencies:
     tslib "^2.1.0"

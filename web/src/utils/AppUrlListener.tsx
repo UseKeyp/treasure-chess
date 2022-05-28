@@ -17,6 +17,8 @@ const AppUrlListener: React.FC<any> = () => {
     App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
       // Example url: https://beerswift.app/tabs/tab2
       // slug = /tabs/tab2
+      console.log('appUrlOpen event')
+
       console.log(event)
 
       const slug = event.url.split('.app').pop()
@@ -25,6 +27,9 @@ const AppUrlListener: React.FC<any> = () => {
       }
       // If no match, do nothing - let regular routing
       // logic take over
+    })
+    App.addListener('appStateChange', (event) => {
+      console.log('appStateChange:', JSON.stringify(event))
     })
   }, [])
 

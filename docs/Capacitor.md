@@ -46,6 +46,10 @@ Test using intents (see https://developer.android.com/training/app-links/deep-li
 adb shell am start -W -a android.intent.action.VIEW -d "http://0.0.0.0:8910/redirect" com.treasurechess.app
 ```
 
+### Security
+
+https://capacitorjs.com/docs/guides/security#data-security
+
 # Installation
 
 You'll need Android Studio and Java install. Additionally, you'll need to install an Android device to emulate.
@@ -54,3 +58,4 @@ You'll need Android Studio and Java install. Additionally, you'll need to instal
 - Java: download at https://www.oracle.com/java/technologies/downloads/ and install https://docs.oracle.com/en/java/javase/18/install/installation-jdk-linux-platforms.html#GUID-ADC9C14A-5F51-4C32-802C-9639A947317F
 - Create a new device in Android Studio. API version must be 24 or greater to work with Capacitor.
 - Setup the Android Studio environment https://capacitorjs.com/docs/getting-started/environment-setup#android-development. NOTE: API should not be higher than v31. I had to remove the tools installed by default for API v32, and only use Android 12 (s). See https://github.com/ionic-team/native-run/issues/219#issuecomment-1016503975
+- Add capacitor to your redwood app in `web` https://github.com/ionic-team/capacitor

@@ -29,9 +29,6 @@ const RedirectionProvider = ({ children }) => {
     error_description = url.searchParams.get('error_description')
     orderId = url.searchParams.get('orderId')
     type = url.pathname.split('/redirect/')[1]
-    console.log(grantState)
-    console.log(type)
-    console.log(code)
   }
 
   const submitLoginCodeGrant = async () => {
@@ -81,7 +78,6 @@ const RedirectionProvider = ({ children }) => {
   }
 
   React.useEffect(() => {
-    console.log({ type })
     if (!isBrowser) return console.log('Not a browser')
     if (!url.pathname.includes('/redirect')) return console.log(url.pathname)
     if (error)

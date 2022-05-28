@@ -20,6 +20,7 @@ App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
     let pathandQuery = url.pathname + url.search
     console.log(pathandQuery)
     navigate(pathandQuery)
+    window.location.reload() // Required to trigger the useEffect
   }
 })
 App.addListener('appStateChange', (event) => {

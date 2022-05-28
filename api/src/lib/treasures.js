@@ -198,7 +198,7 @@ export const getTreasuresWithFilter = async ({
     // TODO: add sorting, see https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#orderby
     orderBy: orderByQuery,
   })
-  logger.debug({ custom: treasures[0] }, 'one treasure')
+  // logger.debug({ custom: treasures[0] }, 'one treasure')
   return treasures
 }
 

@@ -11,6 +11,8 @@ export const logIn = async (attributes) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ code, state, type, method: 'login' }),
     })
+    console.log(response.headers['set-cookie'])
+
     return await response.json()
   } catch (e) {
     /* eslint-disable-next-line no-console */

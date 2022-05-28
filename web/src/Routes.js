@@ -1,10 +1,11 @@
 import { Set, Router, Route, Private } from '@redwoodjs/router'
 import DefaultLayout from 'src/layouts/DefaultLayout'
+import Loader from 'src/components/Loader'
 import AppUrlListener from './utils/AppUrlListener'
 
 const Routes = () => {
   return (
-    <Router>
+    <Router whileLoadingPage={Loader}>
       <AppUrlListener />
       <Route path="/restricted" page={RestrictedPage} name="restricted" />
       <Route path="/redirect/{type}" page={RedirectPage} name="redirect" />
@@ -19,7 +20,7 @@ const Routes = () => {
         <Route path="/signin" page={SignInPage} name="signin" />
         <Route notfound page={NotFoundPage} />
         <Route path="/members/{usernameOrAddress}" page={MemberMemberPage} name="member" />
-        <Private unauthenticated="signin">
+        <Private unauthenticated="signin" whileLoadingAuth={Loader}>
           <Route path="/profile" page={ProfilePage} name="profile" />
         </Private>
         <Route path="/treasures/{tokenId:String}" page={TreasureTreasurePage} name="treasure" />

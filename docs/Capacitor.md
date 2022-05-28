@@ -73,3 +73,23 @@ NOTES:
 
 - Hot re-load is hit-or-miss for working. Not sure why
 - isBrowser from `@redwoodjs/prerender/browserUtils` returns false for Android
+
+TODO:
+
+- Replace localstorage https://capacitorjs.com/docs/v2/apis/storage#storage\
+- Fix set-cookie not being set
+
+use http package to set cookies?
+
+- Discussion https://github.com/ionic-team/capacitor/issues/5145
+- https://stackoverflow.com/questions/5716898/set-a-cookie-to-a-webview-in-android
+- Oauth package https://github.com/moberwasserlechner/capacitor-oauth2
+
+Package: https://github.com/capacitor-community/http
+
+```
+"csrf-token": "3fbb07e6-eb4a-4d97-8b58-55f162221d7b",
+api |     "Set-Cookie": "session=U2FsdGVkX18MrrIFVIc9pb1S67V8FAJcsCeBUPpRjxAt7aJe3BcXPo1HAnlB5pef4QnR935rM33Qd5AYMsfsoEZy1zPbUa+Uu1c9fGWPkvU=;HttpOnly;Path=/;SameSite=None;Expires=Tue, 31 May 2022 05:28:11 GMT"
+```
+
+set-cookie: session=U2FsdGVkX18YdHiF/Od5IfAtCM7hUN/3gJa9hUfF8JgWPVq77px7ywOtQk6kZviN1Ng8P3q2xZ61i+ycRn9ZcvxhaBDRFSgApOeB8ndTVMI=;Path=/;SameSite=None;Expires=Tue, 31 May 2022 05:53:40 GMT

@@ -64,7 +64,7 @@ export const handler = async (event, context) => {
       SameSite: 'None',
       // SameSite: 'Strict',
       Secure: isProduction,
-      // ...(isProduction && { Domain: process.env.APP_DOMAIN }),
+      ...(isProduction && { Domain: process.env.APP_DOMAIN }),
     },
   })
 
@@ -94,7 +94,7 @@ export const handler = async (event, context) => {
         ...authHandler._createSessionHeader(sessionData, csrfToken),
       },
     ]
-    logger.debug({ custom: response })
+    logger.debug({ custom: response }, 'login() cookie')
     return response
   }
 

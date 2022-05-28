@@ -31,24 +31,6 @@ console.log(
 /* eslint-enable no-irregular-whitespace */
 /* eslint-enable no-console */
 
-import { Device } from '@capacitor/device'
-
-const getdevinfo = async () => {
-  console.log('trying to get device info')
-  // works in browser
-  const info = await Device.getId()
-  console.log(info)
-  console.log(info.uuid)
-
-  //wont work in browser
-  const moreInfo = await Device.getInfo()
-  const battery = await Device.getBatteryInfo()
-  console.log(JSON.stringify(moreInfo))
-  console.log(JSON.stringify(battery))
-
-  console.log('post device info request')
-}
-getdevinfo()
 class AuthProviderExtended extends AuthProvider {
   constructor(props) {
     super(props)

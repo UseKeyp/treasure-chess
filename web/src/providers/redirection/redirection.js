@@ -21,7 +21,7 @@ const RedirectionProvider = ({ children }) => {
   let orderId
   let type
 
-  if (isBrowser) {
+  if (true) {
     url = new URL(window.location.href) // Support prerender
     code = url.searchParams.get('code')
     grantState = url.searchParams.get('state')
@@ -29,6 +29,9 @@ const RedirectionProvider = ({ children }) => {
     error_description = url.searchParams.get('error_description')
     orderId = url.searchParams.get('orderId')
     type = url.pathname.split('/redirect/')[1]
+    console.log(grantState)
+    console.log(type)
+    console.log(code)
   }
 
   const submitLoginCodeGrant = async () => {
@@ -78,8 +81,9 @@ const RedirectionProvider = ({ children }) => {
   }
 
   React.useEffect(() => {
-    if (!isBrowser) return
-    if (!url.pathname.includes('/redirect')) return
+    console.log({ type })
+    if (!isBrowser) return console.log('Not a browser')
+    if (!url.pathname.includes('/redirect')) return console.log(url.pathname)
     if (error)
       return setState({
         isLoading: false,

@@ -68,3 +68,8 @@ Add capacitor to your redwood app in `web` using the instructions here https://g
 You MUST perform setup within `/web` directory, since capacitor does not work well with monorepos. If you correctl installed things in `web/package.json`, then later you should see "Found x Capacitor plugins...":
 
 ![](./assets/capacitor-run-android.png)
+
+NOTES:
+
+- Hot re-load is hit-or-miss for working. Not sure why
+- isBrowser from `@redwoodjs/prerender/browserUtils` returns false for Android

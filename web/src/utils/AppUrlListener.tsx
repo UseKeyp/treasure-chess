@@ -3,35 +3,31 @@ import React, { useEffect } from 'react'
 import { navigate } from '@redwoodjs/router'
 import { App, URLOpenListenerEvent } from '@capacitor/app'
 
-// console.log('AppUrlListener')
 const checkAppLaunchUrl = async () => {
   const { url } = await App.getLaunchUrl()
 
   console.log('App opened with URL: ' + url)
 }
+import { Device } from '@capacitor/device'
 
 App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
   // Example url: https://beerswift.app/tabs/tab2
   // slug = /tabs/tab2
   console.log('appUrlOpen event')
-
-  console.log(event)
-
   const slug = event.url.split('.app').pop()
   if (slug) {
-    navigate(slug)
+    let url = new URL(slug)
+    let pathandQuery = url.pathname + url.search
+    console.log(pathandQuery)
+    navigate(pathandQuery)
   }
-  // If no match, do nothing - let regular routing
-  // logic take over
+})
+App.addListener('appStateChange', (event) => {
+  console.log('appStateChange:', JSON.stringify(event))
 })
 const AppUrlListener: React.FC<any> = () => {
-  let navigate = useNavigate()
-  getdevinfo()
   useEffect(() => {
     checkAppLaunchUrl()
-    App.addListener('appStateChange', (event) => {
-      console.log('appStateChange:', JSON.stringify(event))
-    })
   }, [])
 
   return null

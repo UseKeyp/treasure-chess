@@ -59,7 +59,7 @@ export const handler = async (event, context) => {
       },
     },
     cookie: {
-      HttpOnly: true,
+      // HttpOnly: true,
       Path: '/',
       SameSite: 'None',
       // SameSite: 'Strict',
@@ -94,6 +94,7 @@ export const handler = async (event, context) => {
         ...authHandler._createSessionHeader(sessionData, csrfToken),
       },
     ]
+    logger.debug({ custom: response })
     return response
   }
 

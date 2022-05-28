@@ -17,9 +17,10 @@
     "scan-i18n": "rm -rf -f src/i18n/locales && i18next-scanner --config src/i18n/i18next-scanner.config.js"
   },
   "dependencies": {
-    "@capacitor/app": "^3.5.1",
     "@capacitor/android": "^3.5.1",
+    "@capacitor/app": "^1.1.1",
     "@capacitor/core": "^3.5.1",
+    "@capacitor/device": "^1.1.2",
     "@redwoodjs/auth": "^1.0.0",
     "@redwoodjs/forms": "^1.0.0",
     "@redwoodjs/router": "^1.0.0",

@@ -59,10 +59,10 @@ export const handler = async (event, context) => {
       },
     },
     cookie: {
-      // HttpOnly: true,
+      HttpOnly: true,
       Path: '/',
-      SameSite: 'None',
-      // SameSite: 'Strict',
+      // SameSite: 'None',
+      SameSite: 'Strict',
       Secure: isProduction,
       ...(isProduction && { Domain: process.env.APP_DOMAIN }),
     },

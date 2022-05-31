@@ -82,12 +82,12 @@ const card = `<html>
               </svg>
             </div>
             <div class="tooltip">
-            <p id="tooltiptext" class="tooltiptext" style="display:inline-block;">My fun game</p>
-    				<div style="max-width: 124px; overflow-x:hidden; white-space: nowrap;">
-    					<p id="title" style="color:white; margin: 0;font-weight: bold; font-size: 11px;">My fun game</p>
-    					<p id="termination" style="color:white; margin: 0; font-size: 10px;" >White won by checkmate</p>
-    				</div>
-          </div>
+              <p id="tooltiptext" class="tooltiptext" style="display:inline-block;">My fun game</p>
+      				<div style="max-width: 124px; overflow-x:hidden; white-space: nowrap;">
+      					<p id="title" style="color:white; margin: 0;font-weight: bold; font-size: 11px;">My fun game</p>
+      					<p id="termination" style="color:white; margin: 0; font-size: 10px;" >White won by checkmate</p>
+      				</div>
+            </div>
           </div>
           <a href="https://treasure.chess.com" target="_blank" rel="noopener">
           <svg height="16px" viewBox="0 0 450 102" fill="none" xmlns="http://www.w3.org/2000/svg">

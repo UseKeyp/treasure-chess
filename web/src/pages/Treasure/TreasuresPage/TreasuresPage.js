@@ -12,7 +12,6 @@ const TreasuresPage = () => {
   const [collapsedTreasures, setCollapseTreasures] = useState(false)
 
   useEffect(() => {}, [setCollapseTreasures])
-
   return (
     <div>
       <MetaTags

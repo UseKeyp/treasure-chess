@@ -132,6 +132,10 @@ const getCardHtml = async ({
     // Header + SEO
     updateContent('title', treasure.title) // Card title text
     updateContent('page-title', treasure.title)
+    updateContent('tooltiptext', treasure.title)
+    if (treasure.title.length < 10) {
+      updateStyle('tooltiptext', 'display', 'none')
+    }
     const description = getDescription(treasure)
     updateTag('og:description', 'content', description)
     updateTag(

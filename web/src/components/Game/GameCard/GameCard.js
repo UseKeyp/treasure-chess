@@ -54,6 +54,7 @@ const GameCard = ({
           ...game,
           achievements,
           title: title || game.title || 'Add a title',
+          tooltiptext: title || game.title || 'Add a title',
         },
         gifUrl: showGif ? game.gifUrl : imageSrc,
       })

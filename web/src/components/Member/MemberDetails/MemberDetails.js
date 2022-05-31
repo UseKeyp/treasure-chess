@@ -14,6 +14,7 @@ import { getFlagBase64 } from '@treasure-chess/treasure-html'
 import { useWallet } from 'src/providers/wallet'
 
 import { trimAddress } from 'src/utils/helpers'
+import Tooltip from 'src/components/Tooltip/Tooltip'
 
 const TWITCH = 'TWITCH'
 
@@ -37,10 +38,23 @@ const TwitchLink = ({ isProfile, username: twitchUsername }) => {
   if (isProfile) {
     return (
       <Button disabled={isLoading} onClick={onClickTwitch} className="ml-2">
-        <div className="flex flex-row">
-          <TwitchIcon color={username ? undefined : '#ABB6B9'} />
-          <p className="ml-1">{username ? 'Disconnect' : 'Connect'}</p>
-        </div>
+        <Tooltip
+          effect="solid"
+          tooltipChild={
+            <div className="flex flex-col text-md text-bold text-center">
+              <div className="whitespace-nowrap">Earn +1 free credit</div>
+              <div className="whitespace-nowrap">when you connect</div>
+              <div className="whitespace-nowrap">your Twitch account</div>
+            </div>
+          }
+          position="right"
+          bgColor="dark"
+        >
+          <div className="flex flex-row">
+            <TwitchIcon color={username ? undefined : '#ABB6B9'} />
+            <p className="ml-1">{username ? 'Disconnect' : 'Connect'}</p>
+          </div>
+        </Tooltip>
       </Button>
     )
   }

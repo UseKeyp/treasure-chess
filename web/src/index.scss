@@ -1,3 +1,4 @@
+@use 'sass:color';
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
@@ -40,7 +41,6 @@ body {
   background-color: #47433f;
 }
 
-
 a {
   &:hover {
     text-decoration: underline;
@@ -63,4 +63,7 @@ input::-webkit-inner-spin-button {
 
 input {
   -moz-appearance: textfield;
+  &::placeholder {
+    color: color.scale(#4f4f4f, $lightness: 60%);
+  }
 }

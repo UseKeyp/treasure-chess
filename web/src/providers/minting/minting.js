@@ -152,15 +152,15 @@ const MintingProvider = ({ children }) => {
     toggleModalMint()
   }
 
-  const onConfirmMint = async (providerType) => {
+  const onConfirmMint = async (paymentType) => {
     setState({
       ...state,
       mintStatus: MINT_STATUS_MINTING,
       mintLoading: true,
       mintError: false,
-      mintCheckoutProviderType: providerType,
+      mintCheckoutpaymentType: paymentType,
     })
-    if (providerType !== 'CREDIT') {
+    if (paymentType !== 'CREDIT') {
       try {
         const { data: { mintCheckoutUrl } = {} } =
           await mintCheckoutUrlMutation({
@@ -168,7 +168,7 @@ const MintingProvider = ({ children }) => {
               title: state.title,
               gameId: state.gameId,
               endTime: state.endTime,
-              providerType,
+              paymentType,
             },
           })
         setState({
@@ -252,7 +252,7 @@ const MintingProvider = ({ children }) => {
         mintStatus: state.mintStatus,
         mintError: state.mintError,
         mintLoading: state.mintLoading,
-        mintCheckoutProviderType: state.mintCheckoutProviderType,
+        mintCheckoutpaymentType: state.mintCheckoutpaymentType,
       }}
     >
       <MintModal

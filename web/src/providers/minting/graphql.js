@@ -24,13 +24,13 @@ export const MINT_CHECKOUT_URL_MUTATION = gql`
     $gameId: String!
     $endTime: DateTime!
     $title: String!
-    $providerType: String!
+    $paymentType: String!
   ) {
     mintCheckoutUrl(
       gameId: $gameId
       endTime: $endTime
       title: $title
-      providerType: $providerType
+      paymentType: $paymentType
     )
   }
 `

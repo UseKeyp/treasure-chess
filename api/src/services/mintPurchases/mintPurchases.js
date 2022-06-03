@@ -9,6 +9,7 @@ import {
   processPendingPurchases,
 } from 'src/lib/mintPurchases'
 import { createMintReservation } from 'src/lib/wyre'
+import { createCheckoutSession } from 'src/lib/stripe'
 
 export const mintPurchases = () => {
   return db.mintPurchase.findMany({
@@ -59,14 +60,27 @@ export const mintCheckoutUrl = async ({
 }) => {
   await validateMintRequest({ gameId, endTime, title, paymentType })
   const { username, address, id: userId } = context.currentUser
-  const { url, reservation } = await createMintReservation({
-    username,
-    gameId,
-    endTime,
-    address,
-    title,
-    paymentType,
-  })
+  let url
+  let reservation
+  if (paymentType === 'STRIPE') {
+    ;({ url } = await createCheckoutSession({
+      username,
+      gameId,
+      endTime,
+      address,
+      title,
+    }))
+  } else if (paymentType === 'WYRE') {
+    ;({ url, reservation } = await createMintReservation({
+      username,
+      gameId,
+      endTime,
+      address,
+      title,
+    }))
+  } else {
+    throw new Error('Payment provider not found')
+  }
   await db.mintPurchase.create({
     data: {
       member: { connect: { id: userId } },

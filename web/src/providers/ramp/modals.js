@@ -80,7 +80,7 @@ const VendorBankConnection = ({ ramp, amount, isLoading, disabled }) => {
     )
   return (
     <div
-      className={`align-center bg-chessBlack-100 mt-6 p-4 rounded-lg border-2 ${
+      className={`align-center bg-chessBlack-100 mt-6 p-4 rounded-lg border-[1px] ${
         ramp.address ? 'border-green' : 'border-chessBlack-100'
       }`}
     >

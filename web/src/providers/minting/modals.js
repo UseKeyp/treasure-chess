@@ -8,13 +8,15 @@ import LoadingDots from 'src/components/LoadingDots'
 import Confetti from 'src/components/Confetti'
 import { isBrowser } from 'src/utils/helpers'
 import { useEffect } from 'react'
+import { useWallet } from 'src/providers/wallet'
 
-const VendorCheckoutProvider = ({ provider, onSubmit }) => {
+const CheckoutProvider = ({ provider, onSubmit }) => {
   const [isLoading, setIsLoading] = React.useState(false)
   if (!provider) return null
-  let backgroundColor = isLoading
-    ? 'bg-chessBlack-200 pointer-events-none'
-    : 'bg-green'
+  let backgroundColor =
+    isLoading || provider.disabled
+      ? 'bg-chessBlack-200 pointer-events-none'
+      : 'bg-green'
   const buttonClassName = `mt-4 w-[272px] h-[40px] text-xl shadow-m hover:sm hover:bg-greenDark hover:shadow-greenDark ${backgroundColor}`
   let errorText
   if (
@@ -46,19 +48,25 @@ const VendorCheckoutProvider = ({ provider, onSubmit }) => {
       )}
     </Button>
   )
-  if (provider.disabled) button = <h3 className="mt-4">(Coming soon)</h3>
+  if (provider.disabled) button = <h3 className="mt-4">Not available</h3>
 
-  const icon = (
+  // TODO: remove name option once all have icons
+  const icon = provider.iconName ? (
     <Icon name={provider.iconName} size="45%" color="white" className="mb-2" />
+  ) : (
+    <h2>{provider.name}</h2>
   )
 
   return (
     <div
-      className={`align-center bg-chessBlack-100 mt-6 p-4 rounded-lg border-2 ${
+      className={`align-center bg-chessBlack-100 mt-6 p-4 rounded-lg border-[1px] ${
         !provider.disabled ? 'border-green' : 'border-chessBlack-100'
       }`}
     >
       <div className="flex align-center items-center">{icon}</div>
+      {provider.description && (
+        <div className="pt-4">{provider.description}</div>
+      )}
       {button}
       {errorText && (
         <div className="pt-8 font-bold text-errorYellow">{errorText}</div>
@@ -69,21 +77,30 @@ const VendorCheckoutProvider = ({ provider, onSubmit }) => {
 }
 
 export const MintModal = ({ isVisible, toggleModal, onSubmit }) => {
+  const { mintCreditBalance } = useWallet()
   const providers = [
+    {
+      name: 'Credits',
+      type: 'CREDIT',
+      description: `Mint Credits: $${mintCreditBalance} available`,
+      helperText: '',
+      iconName: 'treasure_chess_full',
+      disabled: mintCreditBalance < 1,
+    },
     {
       name: 'Stripe',
       type: 'STRIPE',
+      description: 'Debit card',
       helperText: '',
-      iconName: 'stripe',
-      disabled: false,
+      iconName: '',
     },
     {
       name: 'Wyre',
       type: 'WYRE',
+      description: 'Debit card',
       helperText:
-        'To ensure success, manually enter your card details when prompted. Do not use auto-complete, a password manager, or the clipboard. If this fails, try using a different email.',
+        'To ensure success, manually enter your card details when prompted. Do not use auto-complete, a password manager, or copy/paste. If this fails, try using a different email.',
       iconName: 'wyre',
-      disabled: false,
     },
   ]
   return (
@@ -97,7 +114,7 @@ export const MintModal = ({ isVisible, toggleModal, onSubmit }) => {
         <>
           <p className="text-base">Choose a payment provider</p>
           {providers.map((provider) => (
-            <VendorCheckoutProvider
+            <CheckoutProvider
               key={provider.name}
               provider={provider}
               onSubmit={onSubmit}

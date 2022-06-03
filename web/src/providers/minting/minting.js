@@ -152,14 +152,15 @@ const MintingProvider = ({ children }) => {
     toggleModalMint()
   }
 
-  const onConfirmMint = async () => {
+  const onConfirmMint = async (providerType) => {
     setState({
       ...state,
       mintStatus: MINT_STATUS_MINTING,
       mintLoading: true,
       mintError: false,
+      mintCheckoutProviderType: providerType,
     })
-    if (mintCreditBalance < 1) {
+    if (type !== 'CREDIT') {
       try {
         const { data: { mintCheckoutUrl } = {} } =
           await mintCheckoutUrlMutation({
@@ -167,6 +168,7 @@ const MintingProvider = ({ children }) => {
               title: state.title,
               gameId: state.gameId,
               endTime: state.endTime,
+              providerType,
             },
           })
         setState({
@@ -218,10 +220,11 @@ const MintingProvider = ({ children }) => {
     }
   }
 
-  const cancelMint = ({ _gameId, _endTime }) => toggleModalCancel()
+  const cancelMint = () => toggleModalCancel()
+
   const onConfirmCancel = () => {
     toggleModalCancel()
-    // TODO:  Delete mintPurchaseMutation
+    // TODO: Delete the mint. mintPurchaseMutation
     setState({ ...state, mintStatus: null, mintError: null })
   }
 
@@ -249,12 +252,14 @@ const MintingProvider = ({ children }) => {
         mintStatus: state.mintStatus,
         mintError: state.mintError,
         mintLoading: state.mintLoading,
+        mintCheckoutProviderType: state.mintCheckoutProviderType,
       }}
     >
       <MintModal
         onSubmit={onConfirmMint}
         isVisible={isVisibleModalMint}
         toggleModal={toggleModalMint}
+        mintCreditBalance={mintCreditBalance}
       />
       <CancelModal
         onSubmit={onConfirmCancel}

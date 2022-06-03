@@ -11,9 +11,6 @@ import {
   RAMP_WITHDRAW_MUTATION,
   WYRE_DEPOSIT_URL_QUERY,
 } from './graphql'
-import Icon from 'src/components/Icon'
-import LoadingDots from 'src/components/LoadingDots'
-import Button from 'src/components/Button'
 import { trimAddress } from 'src/utils/helpers'
 import { useModal } from 'src/hooks/useModal'
 import { DepositModal, WithdrawModal } from 'src/providers/ramp/modals'
@@ -27,92 +24,6 @@ const RampContext = React.createContext({
 })
 
 const useRamp = () => React.useContext(RampContext)
-
-export const VendorConnection = ({ ramp, amount, isLoading, disabled }) => {
-  if (!ramp) return null
-  let backgroundColor = isLoading
-    ? 'bg-chessBlack-200 pointer-events-none'
-    : 'bg-green'
-  const loadingText = (
-    <p className="text-white flex justify-center text-[10px]">
-      <LoadingDots />
-    </p>
-  )
-  const buttonClassName = `mt-4 w-[272px] h-[40px] text-xl shadow-m hover:sm hover:bg-greenDark hover:shadow-greenDark ${backgroundColor}`
-  let rampError
-  if (ramp.error != null && ramp.error != '' && ramp.error.length > 0) {
-    rampError = ramp.error.substring(0, 200)
-  } else {
-    rampError = ''
-  }
-
-  let button = (
-    <Button
-      id="connection-button"
-      className={buttonClassName}
-      onClick={ramp.onConnect}
-      disabled={isLoading}
-    >
-      {ramp.isLoading ? loadingText : 'Connect  '}
-    </Button>
-  )
-  if (ramp.address)
-    button = (
-      <Button
-        className={buttonClassName}
-        disabled={isLoading}
-        onClick={() => ramp.onWithdraw(amount)}
-      >
-        {ramp.isLoading ? loadingText : 'Withdraw'}
-      </Button>
-    )
-  if (disabled) button = <h3 className="mt-4">(Coming soon)</h3>
-
-  let status
-  if (ramp.address)
-    status = (
-      <div className="flex align-center">
-        <div>
-          <h4>
-            <i>Connected to {trimAddress(ramp.address)}</i>
-          </h4>
-          <h4>
-            <i>{ramp.accountNickname}</i>
-          </h4>
-        </div>
-        <div className="flex ml-4 align-center">
-          <Button onClick={ramp.onConnect} disabled={isLoading}>
-            <div className="flex flex-row items-center">
-              <Icon name="circle_arrow" height="13" color="white" />
-              <p className="ml-2">Update</p>
-            </div>
-          </Button>
-        </div>
-      </div>
-    )
-  const icon =
-    ramp.type === 'COINBASE' ? (
-      <Icon name="coinbase" size="45%" color="white" className="mb-2" />
-    ) : (
-      <img
-        src="/icons/wyre_plaid.png"
-        alt="Wyre and Plaid logos"
-        className="h-12"
-      />
-    )
-  return (
-    <div
-      className={`align-center bg-chessBlack-100 mt-6 p-4 rounded-lg border-2 ${
-        ramp.address ? 'border-green' : 'border-chessBlack-100'
-      }`}
-    >
-      <div className="flex align-center items-center">{icon}</div>
-      <h2 className="mt-2">{status}</h2>
-      {button}
-      <div className="mt-8 font-bold text-errorYellow">{rampError}</div>
-    </div>
-  )
-}
 
 const RampProvider = ({ children }) => {
   const { isAuthenticated } = useAuth()
@@ -365,11 +276,11 @@ const RampProvider = ({ children }) => {
             onDeposit: depositWyre,
           },
           // Disabled
-          {
-            ...coinbase,
-            onConnect: connectCoinbase,
-            onWithdraw: withdrawCoinbase,
-          },
+          // {
+          //   ...coinbase,
+          //   onConnect: connectCoinbase,
+          //   onWithdraw: withdrawCoinbase,
+          // },
         ],
       }}
     >

@@ -20,10 +20,6 @@ import {
   MINT_STATUS_SUCCESS,
   FAILED,
   COMPLETE,
-  // SUBMITTED,
-  // WYRE,
-  // RESERVATION,
-  // PENDING,
 } from 'src/providers/minting/constants'
 
 const MintingContext = React.createContext({

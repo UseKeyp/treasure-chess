@@ -6,7 +6,7 @@ import LoadingDots from 'src/components/LoadingDots'
 import Button from 'src/components/Button'
 import { trimAddress } from 'src/utils/helpers'
 
-const VendorConnection = ({ ramp, amount, isLoading, disabled }) => {
+const VendorBankConnection = ({ ramp, amount, isLoading, disabled }) => {
   if (!ramp) return null
   let backgroundColor = isLoading
     ? 'bg-chessBlack-200 pointer-events-none'
@@ -87,7 +87,9 @@ const VendorConnection = ({ ramp, amount, isLoading, disabled }) => {
       <div className="flex align-center items-center">{icon}</div>
       <h2 className="mt-2">{status}</h2>
       {button}
-      <div className="mt-8 font-bold text-errorYellow">{rampError}</div>
+      {rampError && (
+        <div className="mt-8 font-bold text-errorYellow">{rampError}</div>
+      )}
     </div>
   )
 }
@@ -184,7 +186,7 @@ export const WithdrawModal = ({ isVisible, toggleModal }) => {
             </>
           )}
           {ramps.map((ramp) => (
-            <VendorConnection
+            <VendorBankConnection
               key={ramp.name}
               isLoading={isLoading}
               amount={amount}

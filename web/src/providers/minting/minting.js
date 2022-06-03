@@ -6,7 +6,7 @@ import { useWallet } from 'src/providers/wallet'
 import { useModal } from 'src/hooks/useModal'
 import { useToast } from 'src/providers/toast'
 import { MintingToast } from './toasts'
-import { CancelModal, SuccessModal } from './modals'
+import { CancelModal, SuccessModal, MintModal } from './modals'
 
 import {
   PENDING_MINT_PURCHASES_QUERY,
@@ -41,6 +41,8 @@ const MintingProvider = ({ children }) => {
     useModal()
   const { isVisible: isVisibleModalSuccess, toggleModal: toggleModalSuccess } =
     useModal()
+  const { isVisible: isVisibleModalMint, toggleModal: toggleModalMint } =
+    useModal()
 
   const [state, setState] = React.useState({
     mintStatus: null,
@@ -48,6 +50,9 @@ const MintingProvider = ({ children }) => {
     pendingMintPurchases: [],
     successfulMintPurchase: null,
     mintLoading: false,
+    title: null,
+    gameId: null,
+    endTime: null,
   })
 
   const toastPurchase = (purchase) => {
@@ -145,7 +150,13 @@ const MintingProvider = ({ children }) => {
     pendingMintPurchases.map((purchase) => toastPurchase(purchase))
     setState({ ...state, pendingMintPurchases, shouldPoll: true })
   }
-  const mint = async ({ title, gameId, endTime }) => {
+
+  const mint = ({ title, gameId, endTime }) => {
+    setState({ ...state, title, gameId, endTime })
+    toggleModalMint()
+  }
+
+  const onConfirmMint = async () => {
     setState({
       ...state,
       mintStatus: MINT_STATUS_MINTING,
@@ -156,7 +167,11 @@ const MintingProvider = ({ children }) => {
       try {
         const { data: { mintCheckoutUrl } = {} } =
           await mintCheckoutUrlMutation({
-            variables: { title, gameId, endTime },
+            variables: {
+              title: state.title,
+              gameId: state.gameId,
+              endTime: state.endTime,
+            },
           })
         setState({
           ...state,
@@ -182,7 +197,11 @@ const MintingProvider = ({ children }) => {
       try {
         const { data: { mintWithCredit: mintPurchase } = {} } =
           await mintWithCreditMutation({
-            variables: { title, gameId, endTime },
+            variables: {
+              title: state.title,
+              gameId: state.gameId,
+              endTime: state.endTime,
+            },
           })
         setState({
           ...state,
@@ -236,6 +255,11 @@ const MintingProvider = ({ children }) => {
         mintLoading: state.mintLoading,
       }}
     >
+      <MintModal
+        onSubmit={onConfirmMint}
+        isVisible={isVisibleModalMint}
+        toggleModal={toggleModalMint}
+      />
       <CancelModal
         onSubmit={onConfirmCancel}
         isVisible={isVisibleModalCancel}

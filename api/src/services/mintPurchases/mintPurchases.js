@@ -55,9 +55,9 @@ export const mintCheckoutUrl = async ({
   gameId,
   endTime,
   title,
-  providerType,
+  paymentType,
 }) => {
-  await validateMintRequest({ gameId, endTime, title, providerType })
+  await validateMintRequest({ gameId, endTime, title, paymentType })
   const { username, address, id: userId } = context.currentUser
   const { url, reservation } = await createMintReservation({
     username,
@@ -65,6 +65,7 @@ export const mintCheckoutUrl = async ({
     endTime,
     address,
     title,
+    paymentType,
   })
   await db.mintPurchase.create({
     data: {
@@ -73,6 +74,7 @@ export const mintCheckoutUrl = async ({
       gameId,
       gameEndTime: endTime,
       title,
+      paymentType,
       orderStatus: 'RESERVATION',
     },
   })

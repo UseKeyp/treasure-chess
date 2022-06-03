@@ -4,6 +4,7 @@ import FilterPriceInput from 'src/components/FilterPriceInput'
 import { useRamp } from 'src/providers/ramp/ramp'
 import LoadingDots from 'src/components/LoadingDots'
 import Button from 'src/components/Button'
+import { trimAddress } from 'src/utils/helpers'
 
 const VendorConnection = ({ ramp, amount, isLoading, disabled }) => {
   if (!ramp) return null
@@ -195,17 +196,7 @@ export const WithdrawModal = ({ isVisible, toggleModal }) => {
             For your protection, funds can only be sent one-way from your
             Treasure Chess account to your bank. Funds can never be withdrawn
             from your bank using this method. We are actively working to improve
-            this experience, and to add support for more regions. If you have
-            issues please let us know using the{' '}
-            <a
-              className="underline"
-              rel="noreferrer"
-              target="_blank"
-              href="/feedback"
-            >
-              Feedback Form
-            </a>
-            .
+            this experience, and enable support for more countries.
           </p>
         </>
       }

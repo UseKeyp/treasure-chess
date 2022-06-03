@@ -11,7 +11,6 @@ import {
   RAMP_WITHDRAW_MUTATION,
   WYRE_DEPOSIT_URL_QUERY,
 } from './graphql'
-import { trimAddress } from 'src/utils/helpers'
 import { useModal } from 'src/hooks/useModal'
 import { DepositModal, WithdrawModal } from 'src/providers/ramp/modals'
 
@@ -120,37 +119,6 @@ const RampProvider = ({ children }) => {
     // toggleModalDep()
   }
 
-  const connectCoinbase = async () => {
-    document.getElementById('connection-button').disabled = true
-    setCoinbase({ isLoading: true, error: '', ...coinbase })
-    try {
-      const oAuthUrl = await getOAuthUrl(COINBASE)
-      if (
-        (oAuthUrl == null || oAuthUrl == '') &&
-        errorOAuth != '' &&
-        errorOAuth != null
-      ) {
-        if (errorOAuth.contains('COINBASE')) {
-          coinbase.error = errorOAuth
-          document.getElementById('connection-button').disabled = false
-          return setCoinbase({ isLoading: false, ...coinbase })
-        }
-      }
-      if (isBrowser)
-        window.open(
-          oAuthUrl.url,
-          'Coinbase - Connect',
-          'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
-        )
-      setShouldPoll(true)
-      document.getElementById('connection-button').disabled = false
-    } catch (error) {
-      coinbase.error = error
-      document.getElementById('connection-button').disabled = false
-      return setCoinbase({ isLoading: false, error: error, ...coinbase })
-    }
-  }
-
   const connectWyre = async () => {
     document.getElementById('connection-button').disabled = true
     setWyre({ isLoading: true, error: '', ...wyre })
@@ -219,26 +187,6 @@ const RampProvider = ({ children }) => {
     linkHandler.open()
   }
 
-  const withdrawCoinbase = async (amount) => {
-    try {
-      setCoinbase({ isLoading: true, error: null, ...coinbase })
-      const {
-        data: { rampWithdraw },
-      } = await rampWithdrawMutation({
-        variables: { type: COINBASE, amount },
-      })
-      toast.success(
-        <TxToast text="Withdraw submitted" txHash={rampWithdraw.id} />,
-        {
-          id: rampWithdraw.id,
-        }
-      )
-      setCoinbase({ isLoading: false, ...coinbase })
-    } catch (e) {
-      setCoinbase({ isLoading: false, error: e.message, ...coinbase })
-    }
-  }
-
   const withdrawWyre = async (amount) => {
     try {
       setWyre({ isLoading: true, error: null, ...wyre })
@@ -257,6 +205,57 @@ const RampProvider = ({ children }) => {
       setWyre({ isLoading: false, error: e.message, ...wyre })
     }
   }
+
+  // const connectCoinbase = async () => {
+  //   document.getElementById('connection-button').disabled = true
+  //   setCoinbase({ isLoading: true, error: '', ...coinbase })
+  //   try {
+  //     const oAuthUrl = await getOAuthUrl(COINBASE)
+  //     if (
+  //       (oAuthUrl == null || oAuthUrl == '') &&
+  //       errorOAuth != '' &&
+  //       errorOAuth != null
+  //     ) {
+  //       if (errorOAuth.contains('COINBASE')) {
+  //         coinbase.error = errorOAuth
+  //         document.getElementById('connection-button').disabled = false
+  //         return setCoinbase({ isLoading: false, ...coinbase })
+  //       }
+  //     }
+  //     if (isBrowser)
+  //     window.open(
+  //       oAuthUrl.url,
+  //       'Coinbase - Connect',
+  //       'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
+  //     )
+  //     setShouldPoll(true)
+  //     document.getElementById('connection-button').disabled = false
+  //   } catch (error) {
+  //     coinbase.error = error
+  //     document.getElementById('connection-button').disabled = false
+  //     return setCoinbase({ isLoading: false, error: error, ...coinbase })
+  //   }
+  // }
+
+  // const withdrawCoinbase = async (amount) => {
+  //   try {
+  //     setCoinbase({ isLoading: true, error: null, ...coinbase })
+  //     const {
+  //       data: { rampWithdraw },
+  //     } = await rampWithdrawMutation({
+  //       variables: { type: COINBASE, amount },
+  //     })
+  //     toast.success(
+  //       <TxToast text="Withdraw submitted" txHash={rampWithdraw.id} />,
+  //       {
+  //         id: rampWithdraw.id,
+  //       }
+  //     )
+  //     setCoinbase({ isLoading: false, ...coinbase })
+  //   } catch (e) {
+  //     setCoinbase({ isLoading: false, error: e.message, ...coinbase })
+  //   }
+  // }
 
   const isLoading = rampsLoading || coinbase.isLoading || wyre.isLoading
 

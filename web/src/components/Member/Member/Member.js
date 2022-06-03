@@ -2,8 +2,12 @@ import MemberDetails from 'src/components/Member/MemberDetails'
 import MemberActivityCell from 'src/components/Member/MemberActivityCell'
 import TreasuresFetcher from 'src/components/Treasure/TreasuresFetcher'
 import { routes } from '@redwoodjs/router'
+import { useFilter } from 'src/providers/filters'
+import SortingDropdown from 'src/components/SortingDropdown/SortingDropdown'
+import FilterBar from 'src/components/FilterBar/FilterBar'
 
 const Member = ({ member, isLoading }) => {
+  const { filter, sort, defaultParams } = useFilter()
   //const twitchSrc = `https://player.twitch.tv/?channel=${member.twitchUsername}&parent=${process.env.APP_DOMAIN}&muted=true&autoplay=true`
   // To test locally, uncomment and use domain "localhost"
   // const twitchSrc = `https://player.twitch.tv/?channel=jpegjames&parent=localhost&muted=true&autoplay=true`
@@ -27,7 +31,7 @@ const Member = ({ member, isLoading }) => {
         </div>
       )*/}
 
-      <h1 className="mt-10">Treasures Played</h1>
+      <h1 className="mt-10">{t('Treasures Played')}</h1>
       <div className="flex mt-4">
         <TreasuresFetcher
           limit
@@ -36,9 +40,19 @@ const Member = ({ member, isLoading }) => {
           sort="Highest Level"
         />
       </div>
-      <h1 className="mt-10">Treasures Owned</h1>
+      <h1 className="mt-10">{t('Treasures Owned')}</h1>
       <div className="flex mt-4">
-        <TreasuresFetcher owner={member.username} sort="Highest Level" />
+        <div className="md:mr-4 w-full">
+          <div className="flex w-full justify-end relative mb-4">
+            <SortingDropdown />
+          </div>
+          <TreasuresFetcher
+            owner={member.username}
+            filter={new URLSearchParams(filter).toString()}
+            sort={sort}
+          />
+        </div>
+        <FilterBar defaultParams={defaultParams} hideOnMobile disableUsername />
       </div>
     </div>
   )

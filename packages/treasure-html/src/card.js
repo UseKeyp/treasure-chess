@@ -36,6 +36,33 @@ const card = `<html>
       color:#000;
       opacity:0.5;
     }
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: auto;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -60px; /* Use half of the width (120/2 = 60), to center the tooltip */
+  background-color: black;
+  text-align: center;
+  padding: 5px 5px 5px 5px;
+  border-radius: 6px;
+  color:white;
+  font-weight: bold;
+  font-size: 11px;
+  position: absolute;
+  z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
     </style>
 	</head>
 	<body style="font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; background-color:#47433F; display: flex; align-items: center; justify-content:center; margin:3;" >
@@ -54,10 +81,13 @@ const card = `<html>
                 <path fill="#fff" d="M8.5 3C8.5 2.44772 8.94772 2 9.5 2H14.5C15.0523 2 15.5 2.44772 15.5 3V4C15.5 4.55228 15.0523 5 14.5 5H9.5C8.94772 5 8.5 4.55228 8.5 4V3Z" />
               </svg>
             </div>
-    				<div style="max-width: 124px; overflow-x:hidden; white-space: nowrap;">
-    					<p id="title" style="color:white; margin: 0;font-weight: bold; font-size: 11px;">My fun game</p>
-    					<p id="termination" style="color:white; margin: 0; font-size: 10px;" >White won by checkmate</p>
-    				</div>
+            <div class="tooltip">
+              <p id="tooltiptext" class="tooltiptext" style="display:inline-block;">My fun game</p>
+      				<div style="max-width: 124px; overflow-x:hidden; white-space: nowrap;">
+      					<p id="title" style="color:white; margin: 0;font-weight: bold; font-size: 11px;">My fun game</p>
+      					<p id="termination" style="color:white; margin: 0; font-size: 10px;" >White won by checkmate</p>
+      				</div>
+            </div>
           </div>
           <a href="https://treasure.chess.com" target="_blank" rel="noopener">
           <svg height="16px" viewBox="0 0 450 102" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -126,7 +156,7 @@ const card = `<html>
                 <img id="bottom-flagImage" alt="" style="margin-right: 1ex; height:14px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAABTVBMVEUAAAD///8AAQEAAQEAAQEAAQEAAQEmJiYmJiYmJiYmJiYmJiYmJiYmJiZ9fX10dHR8fHyDg4OIiIiKioqMjIyOjo6QkJACAgJoaGhWVlZXV1dXV1dXV1cCAgJcXFxPT09QUFBQUFBQUFACAgJHR0dGRkZGRkZGRkZGRkbAAgLtPT31PDz3PDz4PDz5PDy/AgLrMzPyMjL1MjL2MjL2MTG9AgLoKCjwJyfzJyf0Jyf0Jye7AgLmJSXuJyfwJyfxJyfyJia6AgLhFRXqFRXtFRXuFRXvFRW4lALgthHovRHqvxHrvxDswBC2kgLdsw3lugzovAzqvQ21kgLZsAjjtwjmuQnnugnouwizkALXrQXfswXjtwXkuAXluAWzkAXVrAfbsQjhtxDjuhbmvRvlvRzmvh/mvyDmvyG4lgy5lxC9mxHAnRHCnxHDoBHEoBH4ads7AAAAB3RSTlMAAAQMECQwISWBWgAAAFhJREFUKFPVjUEOgCAMBHcrcOD/f+WgsdqkJZDgxcSDc5zJtsD3UDJodKMG9sTCIKxxJNZ54LEllGXAPwNGPOR3pyJqcIfa7TBQcJP5s9eTwmXQpTbkweMC/zxfoVRzFjQAAAAASUVORK5CYII="/>
                 <p id="bottom-rating" style="margin-right: 1ex; font-size: 10px; color:black;">9999</p>
                 <p id="bottom-ratingDelta" style="margin-right: 1ex; color: inherit; bold;font-size: 10px;">-6</p>
-                <p id="bottom-masterTitle" style="display: flex; justify-content: center; padding: 0 3px; width: 15px; line-height: 10px; height: 11px; align-items: center; background-color: #B23330; font-size: 7px; font-weight: bold; color: white; border-radius:3px;"></p>
+                <span id="bottom-masterTitle" style="display: flex; justify-content: center; padding: 0 3px; width: content; line-height: 10px; height: 11px; align-items: center; background-color: #B23330; font-size: 7px; font-weight: bold; color: white; border-radius:3px;"></span>
               </div>
     				</div>
     			</div>

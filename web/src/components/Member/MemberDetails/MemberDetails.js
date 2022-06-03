@@ -14,6 +14,7 @@ import { getFlagBase64 } from '@treasure-chess/treasure-html'
 
 import { trimAddress } from 'src/utils/helpers'
 import { useRamp } from 'src/providers/ramp/ramp'
+import Tooltip from 'src/components/Tooltip/Tooltip'
 
 const TWITCH = 'TWITCH'
 
@@ -37,10 +38,23 @@ const TwitchLink = ({ isProfile, username: twitchUsername }) => {
   if (isProfile) {
     return (
       <Button disabled={isLoading} onClick={onClickTwitch} className="ml-2">
-        <div className="flex flex-row">
-          <TwitchIcon color={username ? undefined : '#ABB6B9'} />
-          <p className="ml-1">{username ? 'Disconnect' : 'Connect'}</p>
-        </div>
+        <Tooltip
+          effect="solid"
+          tooltipChild={
+            <div className="flex flex-col text-md text-bold text-center">
+              <div className="whitespace-nowrap">Earn +1 free credit</div>
+              <div className="whitespace-nowrap">when you connect</div>
+              <div className="whitespace-nowrap">your Twitch account</div>
+            </div>
+          }
+          position="right"
+          bgColor="dark"
+        >
+          <div className="flex flex-row">
+            <TwitchIcon color={username ? undefined : '#ABB6B9'} />
+            <p className="ml-1">{username ? 'Disconnect' : 'Connect'}</p>
+          </div>
+        </Tooltip>
       </Button>
     )
   }
@@ -111,7 +125,7 @@ const MemberDetails = ({ member, isProfile }) => {
                   size="small"
                   className="w-40"
                 >
-                  Donate
+                  {t('Donate')}
                 </Button>
               )
             )}
@@ -122,7 +136,7 @@ const MemberDetails = ({ member, isProfile }) => {
                 <Link
                   to={routes.member({ usernameOrAddress: member.username })}
                 >
-                  View public profile
+                  {t('View public profile')}
                 </Link>
               </p>
             </div>
@@ -143,7 +157,7 @@ const MemberDetails = ({ member, isProfile }) => {
               size="small"
               className="w-32 "
             >
-              Add Funds
+              {t('Add Funds')}
             </Button>
             <Button
               onClick={withdraw}
@@ -152,7 +166,7 @@ const MemberDetails = ({ member, isProfile }) => {
               size="small"
               className="w-32"
             >
-              Cash Out
+              {t('Cash Out')}
             </Button>
           </div>
         )}

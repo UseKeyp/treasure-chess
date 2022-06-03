@@ -53,13 +53,18 @@ export const transactionHistory = () => {
       }}
     >
       <Table
-        title="Transaction History"
+        title={t('Transaction History')}
         isLoading={true}
         height={193}
         width={532}
       />
       <p>.................</p>
-      <Table title="Transaction History" data={data} height={193} width={532} />
+      <Table
+        title={t('Transaction History')}
+        data={data}
+        height={193}
+        width={532}
+      />
     </div>
   )
 }
@@ -75,7 +80,7 @@ export const saleHistory = () => {
       }}
     >
       <Table
-        title="Sale History"
+        title={t('Sale History')}
         isLoading={true}
         height={156}
         width={396}
@@ -83,7 +88,7 @@ export const saleHistory = () => {
       />
       <p>.................</p>
       <Table
-        title="Sale History"
+        title={t('Sale History')}
         data={saleData}
         height={156}
         width={396}

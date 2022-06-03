@@ -9,6 +9,8 @@ export const schema = gql`
     treasuresPlayedWhite: [Treasure]!
     treasuresPlayedBlack: [Treasure]!
     treasuresWon: [Treasure]!
+    marketSalesPurchased: [MarketSale]!
+    marketSalesSold: [MarketSale]!
     imageSrc: String
     country: String
     masterTitle: MasterTitle
@@ -36,13 +38,21 @@ export const schema = gql`
 
   type Query {
     member(usernameOrAddress: String!): Member @skipAuth
-    usernames(query: String!): [String]! @skipAuth
+    usernames(query: String!, orderBy: UserNameOrderByInput): [String]!
+      @skipAuth
     profile: Profile! @requireAuth
     memberBalance: MemberBalance! @requireAuth
   }
 
   type Mutation {
     userLocale(locale: String!): Member! @requireAuth
+  }
+
+  input UserNameOrderByInput {
+    username: Sort
+    createdAt: Sort
+    updatedAt: Sort
+    address: Sort
   }
 
   enum MasterTitle {
@@ -56,5 +66,10 @@ export const schema = gql`
     CM
     WCM
     WNM
+  }
+
+  enum Sort {
+    asc
+    desc
   }
 `

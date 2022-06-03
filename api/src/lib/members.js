@@ -6,6 +6,8 @@ import { isHexAddress } from 'src/lib/helpers'
 import { fetchChessMember } from 'src/lib/chessCom/chessCom'
 import { logger } from 'src/lib/logger'
 
+import { refreshChessTokens } from 'src/lib/oAuth/providers/chess'
+
 import { web3Provider } from 'src/lib/web3/helpers'
 import { getUsdcBalance } from 'src/lib/web3/tokens'
 
@@ -147,12 +149,12 @@ export const fetchMember = async (
     let username
     let address
     isHexAddress(usernameOrAddress)
-      ? (address = usernameOrAddress)
-      : (username = usernameOrAddress)
+      ? (address = usernameOrAddress.toLowerCase())
+      : (username = usernameOrAddress.toLowerCase())
     member = await db.member.findUnique({
       where: {
         ...(address && { address }),
-        ...(username && { username: username.toLowerCase() }),
+        ...(username && { username }),
       },
     })
     // Not in our db, but we have username. Or, we want extra data from chess.com
@@ -176,7 +178,7 @@ export const fetchMember = async (
             // Update the new username for the member
             member = await db.member.update({
               where: { id: chessData.player_id.toString() },
-              data: { username: username.toLowerCase() },
+              data: { username },
             })
           } else {
             member = await db.member.create({
@@ -185,8 +187,8 @@ export const fetchMember = async (
                 username: chessData.username,
                 mintCredits: Number(process.env.MINT_CREDITS_NEW_MEMBER),
                 ...(chessData.avatar && { imageSrc: chessData.avatar }),
-                ...(chessData.masterTitle && {
-                  masterTitle: chessData.masterTitle,
+                ...(chessData.title && {
+                  masterTitle: chessData.title,
                 }),
                 country,
               },
@@ -215,9 +217,9 @@ export const fetchMember = async (
       // Create external wallet user
       member = await db.member.create({
         data: {
-          id: address.toLowerCase(),
-          username: address.toLowerCase(),
-          address: address.toLowerCase(),
+          id: address,
+          username: address,
+          address: address,
           mintCredits: 0,
           country: 'ETHER',
         },
@@ -284,9 +286,31 @@ export const getMemberRawData = async (username) => {
     refreshToken: 'REDACTED',
   }))
   return {
-    member,
+    member: { ...member, accessToken: 'REDACTED', refreshToken: 'REDACTED' },
     web3: { etherBalance, usdcBalance },
     ...details,
     ramps,
   }
+}
+
+export const getAccessToken = async () => {
+  const member = await db.member.findUnique({
+    where: { id: context.currentUser.id },
+    select: { accessToken: true, refreshToken: true },
+  })
+  if (!member) throw 'No member found'
+  let accessToken = member.accessToken
+  if (!accessToken) {
+    const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
+      await refreshChessTokens(member.refreshToken)
+    await db.member.update({
+      where: { id: context.currentUser.id },
+      data: {
+        refreshToken: newRefreshToken,
+        accessToken: newAccessToken,
+      },
+    })
+    accessToken = newAccessToken
+  }
+  return accessToken
 }

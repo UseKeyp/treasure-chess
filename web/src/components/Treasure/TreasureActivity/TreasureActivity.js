@@ -5,7 +5,7 @@ import { formatDate } from 'src/utils/helpers'
 import { useMarket } from 'src/providers/market'
 import LoadingDots from 'src/components/LoadingDots'
 
-const TITLE = 'Activity'
+const TITLE = t('Activity')
 
 const TreasureActivity = ({ treasure, isLoading }) => {
   const { marketStatus, amount: listAmount } = useMarket

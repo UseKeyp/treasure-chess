@@ -14,7 +14,7 @@ export const member = ({ usernameOrAddress }) => {
 
 export const profile = () => fetchMember(context.currentUser.username)
 
-export const usernames = async ({ query }) => {
+export const usernames = async ({ query, orderBy }) => {
   const members = await db.member.findMany({
     take: 6,
     where: {
@@ -22,6 +22,7 @@ export const usernames = async ({ query }) => {
         contains: query,
       },
     },
+    orderBy,
   })
   return members.map((member) => member.username)
 }
@@ -59,6 +60,8 @@ export const Member = {
     db.member.findUnique({ where: { id: root.id } }).treasuresPlayedBlack(),
   treasuresWon: (_obj, { root }) =>
     db.member.findUnique({ where: { id: root.id } }).treasuresWon(),
-  locale: (_obj, { root }) =>
-    db.member.findUnique({ where: { id: root.id } }).locale(),
+  marketSalesSold: (_obj, { root }) =>
+    db.member.findUnique({ where: { id: root.id } }).marketSalesSold(),
+  marketSalesPurchased: (_obj, { root }) =>
+    db.member.findUnique({ where: { id: root.id } }).marketSalesPurchased(),
 }

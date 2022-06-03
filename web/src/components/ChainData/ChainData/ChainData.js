@@ -2,7 +2,7 @@ import Icon from 'src/components/Icon'
 import config from 'src/global.config'
 import Table from 'src/components/Table'
 
-const TITLE = 'Chain Data'
+const TITLE = t('Chain Data')
 const HEIGHT = 300
 const WIDTH = 500
 

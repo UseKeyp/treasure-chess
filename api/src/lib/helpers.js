@@ -7,6 +7,8 @@ import { logger } from 'src/lib/logger'
 
 const profanityFilter = new ProfanityFilter()
 
+profanityFilter.removeWords('Pawn', 'pawn')
+
 export const isHexAddress = (address) => {
   return /^0x[0-9a-fA-F]{40}$/i.test(address)
 }

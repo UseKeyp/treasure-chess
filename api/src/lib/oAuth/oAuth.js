@@ -54,7 +54,14 @@ export const processCodeGrant = async ({ state, code, type, accountId }) => {
   try {
     logger.debug(`code grant - ${type}`)
     if (!types.includes(type)) throw `Unknown OAuth Provider - ${type}`
-    const tokens = await submitCodeGrant({ state, code, type, accountId })
+
+    let tokens
+    if (type === PLAID) {
+      // Skip the normal OAuth db checking
+      tokens = await providers[PLAID].onSubmitCode({ code, accountId })
+    } else {
+      tokens = await submitCodeGrant({ state, code, type })
+    }
     logger.debug({ custom: tokens }, 'onSubmitCode() response')
     return providers[type].onConnected(tokens)
   } catch (e) {
@@ -77,11 +84,9 @@ export const processRevoke = async (type) => {
   }
 }
 
-export const submitCodeGrant = async ({ state, code, type, accountId }) => {
+export const submitCodeGrant = async ({ state, code, type }) => {
   if (!Object.values(types).includes(type))
     throw `OAuth Provider "${type}" is not enabled.`
-  const { onSubmitCode } = providers[type]
-  if (type === PLAID) return onSubmitCode(code, { accountId })
 
   // Delete the OAuth Item
   let oAuth
@@ -96,5 +101,6 @@ export const submitCodeGrant = async ({ state, code, type, accountId }) => {
   if (new Date() - new Date(oAuth.createdAt) > 10 * 60 * 1000)
     throw 'Sorry, authentication must be completed within 10 minutes.'
 
+  const { onSubmitCode } = providers[type]
   return onSubmitCode(code, oAuth)
 }

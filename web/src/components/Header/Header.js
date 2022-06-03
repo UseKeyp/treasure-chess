@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from 'react'
 import { routes, useLocation } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
-import { useWallet } from 'src/providers/wallet'
+import { useRamp } from 'src/providers/ramp/ramp'
 
 import { useLocale } from 'src/providers/locale'
 
@@ -16,7 +16,7 @@ import { trimAddress } from 'src/utils/helpers'
 import Tooltip from 'src/components/Tooltip/Tooltip'
 
 const WalletBalance = () => {
-  const { deposit } = useWallet()
+  const { deposit } = useRamp()
   return (
     <div className="flex flex-col flex-1 text-sm">
       <div className={'header__nav__balance'}>

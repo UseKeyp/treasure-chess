@@ -97,14 +97,14 @@ export const createPlaidLink = async () => {
   }
 }
 
-const onSubmitCode = async (code, { accountId }) => {
+const onSubmitCode = async ({ code, accountId }) => {
   try {
     /* eslint-disable camelcase*/
     const tokenResponse = await client.itemPublicTokenExchange({
       public_token: code,
     })
     const accessToken = tokenResponse.data.access_token
-    return onConnected({ accessToken, accountId })
+    return { accessToken, accountId }
   } catch (e) {
     logger.error(e)
     Sentry.captureException(e)

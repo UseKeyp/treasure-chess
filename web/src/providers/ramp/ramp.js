@@ -1,4 +1,4 @@
-import { useQuery, useLazyQuery, useMutation } from '@apollo/client'
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
 import { useAuth } from '@redwoodjs/auth'
 import { isBrowser } from '@redwoodjs/prerender/browserUtils'
 
@@ -8,9 +8,11 @@ import { useOAuth } from 'src/providers/oAuth'
 
 import {
   MEMBER_RAMPS_QUERY,
-  WYRE_DEPOSIT_URL_QUERY,
   RAMP_WITHDRAW_MUTATION,
+  WYRE_DEPOSIT_URL_QUERY,
 } from './graphql'
+import { useModal } from 'src/hooks/useModal'
+import { DepositModal, WithdrawModal } from 'src/providers/ramp/modals'
 
 const PLAID = 'PLAID'
 const COINBASE = 'COINBASE'
@@ -19,6 +21,8 @@ const WYRE = 'WYRE'
 const RampContext = React.createContext({
   isLoading: true,
 })
+
+const useRamp = () => React.useContext(RampContext)
 
 const RampProvider = ({ children }) => {
   const { isAuthenticated } = useAuth()
@@ -37,6 +41,9 @@ const RampProvider = ({ children }) => {
     name: 'Wyre + Plaid',
   })
 
+  const { isVisible: isVisibleDep, toggleModal: toggleModalDep } = useModal()
+  const { isVisible: isVisibleWit, toggleModal: toggleModalWit } = useModal()
+
   const {
     data: { ramps } = {},
     error: rampError,
@@ -47,6 +54,19 @@ const RampProvider = ({ children }) => {
     fetchPolicy: 'network-only',
   })
   const updateRamps = () => {
+    const handleClickInsideModal = () => {
+      setCoinbase({
+        error: '',
+        ...coinbase,
+        ...coinbaseRamp,
+      })
+      setWyre({
+        error: '',
+        ...wyre,
+        ...wyreRamp,
+      })
+    }
+    document.addEventListener('click', handleClickInsideModal, true)
     const coinbaseRamp = ramps.find((ramp) => ramp.type === COINBASE)
     const wyreRamp = ramps.find((ramp) => ramp.type === WYRE)
     // TODO:  only continue if there's been a change, otherwise keep polling.
@@ -62,10 +82,25 @@ const RampProvider = ({ children }) => {
   }
 
   React.useEffect(() => {
+    if (errorOAuth != '' && errorOAuth != null) {
+      if (errorOAuth.includes('COINBASE')) {
+        coinbase.error = errorOAuth
+        setCoinbase({
+          ...coinbase,
+          error: errorOAuth,
+        })
+      } else if (errorOAuth.includes('WYRE')) {
+        wyre.error = errorOAuth
+        setWyre({
+          ...wyre,
+          error: errorOAuth,
+        })
+      }
+    }
     if (!ramps) return
     updateRamps()
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
-  }, [ramps])
+  }, [ramps, errorOAuth])
 
   const [wyreDepositUrlQuery] = useLazyQuery(WYRE_DEPOSIT_URL_QUERY, {
     fetchPolicy: 'network-only',
@@ -84,42 +119,41 @@ const RampProvider = ({ children }) => {
     // toggleModalDep()
   }
 
-  // const connectCoinbase = async () => {
-  //   setCoinbase({ isLoading: true, error: null, ...coinbase })
-  //   const oAuthUrl = await getOAuthUrl(COINBASE)
-  //   if (errorOAuth)
-  //     return setWyre({ isLoading: false, error: errorOAuth, ...coinbase })
-  //   setCoinbase({ isLoading: false, ...coinbase })
-  //   setShouldPoll(true)
-  //   if (isBrowser)
-  //     window.open(
-  //       oAuthUrl.url,
-  //       'Coinbase - Connect',
-  //       'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
-  //     )
-  // }
-
   const connectWyre = async () => {
-    setShouldPoll(true)
-    setWyre({ isLoading: true, error: null, ...wyre })
-    const oAuthUrl = await getOAuthUrl(PLAID)
-    if (errorOAuth)
-      return setWyre({ isLoading: false, error: errorOAuth, ...wyre })
-    setWyre({ isLoading: false, ...wyre })
+    document.getElementById('connection-button').disabled = true
+    setWyre({ isLoading: true, error: '', ...wyre })
+    let oAuthUrl
+    try {
+      oAuthUrl = await getOAuthUrl(PLAID)
+      if (
+        (oAuthUrl == null || oAuthUrl == '') &&
+        errorOAuth != '' &&
+        errorOAuth != null
+      ) {
+        if (errorOAuth.contains('WYRE')) {
+          wyre.error = errorOAuth
+          document.getElementById('connection-button').disabled = false
+          return setWyre({ isLoading: false, error: errorOAuth, ...wyre })
+        }
+      }
+    } catch (error) {
+      wyre.error = error
+      document.getElementById('connection-button').disabled = false
+      return setWyre({ isLoading: false, error: error, ...wyre })
+    }
     /* eslint-disable-next-line no-undef */
-    var linkHandler = Plaid.create({
+    const linkHandler = Plaid.create({
       token: oAuthUrl.text,
       /* eslint-disable camelcase*/
       onSuccess: async (public_token, metadata) => {
         const accountId = metadata.accounts[0].id
         try {
-          const { data } = await submitCodeGrant({
+          const { data, error } = await submitCodeGrant({
             code: public_token,
             accountId,
             type: PLAID,
           })
-          if (errorOAuth)
-            return setWyre({ isLoading: false, error: errorOAuth, ...wyre })
+          if (error) throw error
           const { ramp: wyreRamp } = data
           setWyre({
             ...wyre,
@@ -128,6 +162,7 @@ const RampProvider = ({ children }) => {
           })
           toast.success('Wyre + Plaid connected!')
         } catch (e) {
+          document.getElementById('connection-button').disabled = false
           setWyre({
             ...wyre,
             isLoading: false,
@@ -136,15 +171,71 @@ const RampProvider = ({ children }) => {
         }
       },
       onExit: function (err, _metadata) {
+        document.getElementById('connection-button').disabled = false
         if (err != null) {
           // TODO: Trigger some error notification
-          toast.error('Failed to connect')
           // The user encountered a Plaid API error prior to exiting.
+          wyre.error = err
+          setWyre({
+            ...wyre,
+            isLoading: false,
+            error: err,
+          })
         }
       },
     })
     linkHandler.open()
   }
+
+  const withdrawWyre = async (amount) => {
+    try {
+      setWyre({ isLoading: true, error: null, ...wyre })
+      const {
+        data: { rampWithdraw },
+      } = await rampWithdrawMutation({
+        variables: { type: WYRE, amount },
+      })
+      toast.success(
+        <TxToast text="Withdraw submitted" txHash={rampWithdraw.id} />,
+        {
+          id: rampWithdraw.id,
+        }
+      )
+    } catch (e) {
+      setWyre({ isLoading: false, error: e.message, ...wyre })
+    }
+  }
+
+  // const connectCoinbase = async () => {
+  //   document.getElementById('connection-button').disabled = true
+  //   setCoinbase({ isLoading: true, error: '', ...coinbase })
+  //   try {
+  //     const oAuthUrl = await getOAuthUrl(COINBASE)
+  //     if (
+  //       (oAuthUrl == null || oAuthUrl == '') &&
+  //       errorOAuth != '' &&
+  //       errorOAuth != null
+  //     ) {
+  //       if (errorOAuth.contains('COINBASE')) {
+  //         coinbase.error = errorOAuth
+  //         document.getElementById('connection-button').disabled = false
+  //         return setCoinbase({ isLoading: false, ...coinbase })
+  //       }
+  //     }
+  //     if (isBrowser)
+  //     window.open(
+  //       oAuthUrl.url,
+  //       'Coinbase - Connect',
+  //       'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
+  //     )
+  //     setShouldPoll(true)
+  //     document.getElementById('connection-button').disabled = false
+  //   } catch (error) {
+  //     coinbase.error = error
+  //     document.getElementById('connection-button').disabled = false
+  //     return setCoinbase({ isLoading: false, error: error, ...coinbase })
+  //   }
+  // }
 
   // const withdrawCoinbase = async (amount) => {
   //   try {
@@ -166,26 +257,6 @@ const RampProvider = ({ children }) => {
   //   }
   // }
 
-  const withdrawWyre = async (amount) => {
-    try {
-      setWyre({ isLoading: true, error: null, ...wyre })
-      const {
-        data: { rampWithdraw },
-      } = await rampWithdrawMutation({
-        variables: { type: WYRE, amount },
-      })
-      toast.success(
-        <TxToast text="Withdraw submitted" txHash={rampWithdraw.id} />,
-        {
-          id: rampWithdraw.id,
-        }
-      )
-      setWyre({ isLoading: false, ...wyre })
-    } catch (e) {
-      setWyre({ isLoading: false, error: e.message, ...wyre })
-    }
-  }
-
   const isLoading = rampsLoading || coinbase.isLoading || wyre.isLoading
 
   return (
@@ -194,6 +265,8 @@ const RampProvider = ({ children }) => {
         isLoading,
         rampError, // Currently unused
         deposit: depositWyre,
+        // deposit: toggleModalDep,
+        withdraw: toggleModalWit,
         ramps: [
           {
             ...wyre,
@@ -210,11 +283,11 @@ const RampProvider = ({ children }) => {
         ],
       }}
     >
+      <DepositModal isVisible={isVisibleDep} toggleModal={toggleModalDep} />
+      <WithdrawModal isVisible={isVisibleWit} toggleModal={toggleModalWit} />
       {children}
     </RampContext.Provider>
   )
 }
-
-const useRamp = () => React.useContext(RampContext)
 
 export { RampProvider, useRamp }

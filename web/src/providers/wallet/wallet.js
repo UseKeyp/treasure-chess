@@ -4,8 +4,6 @@ import { useAuth } from '@redwoodjs/auth'
 import { useModal } from 'src/hooks/useModal'
 
 import { AddressModal } from './modals'
-import { MEMBER_BALANCE_QUERY } from './graphql'
-import { WithdrawModal, DepositModal, AddressModal } from './modals'
 import {
   MEMBER_BALANCE_QUERY,
   TRANSFER_ERC721_MUTATION,

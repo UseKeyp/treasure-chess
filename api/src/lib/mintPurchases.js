@@ -11,6 +11,8 @@ export const COMPLETE = 'COMPLETE'
 export const FAILED = 'FAILED'
 export const PENDING = 'PENDING'
 
+const AVAILABLE_CHECKOUT_PROVIDER_TYPES = ['WYRE', 'STRIPE']
+
 const fetchPendingMintPurchases = () => {
   return db.mintPurchase.findMany({
     where: {
@@ -43,7 +45,14 @@ export const fetchMintPurchase = async ({ gameId, endTime, memberId }) => {
   return mintPurchases[0] || null
 }
 
-export const validateMintRequest = async ({ gameId, endTime, title }) => {
+export const validateMintRequest = async ({
+  gameId,
+  endTime,
+  title,
+  providerType,
+}) => {
+  if (!AVAILABLE_CHECKOUT_PROVIDER_TYPES.includes(providerType))
+    throw new EnvelopError(`Provider "${providerType}" currently unavailable.`)
   validateTreasureTitle(title)
   const existingPurchase = await fetchMintPurchase({
     gameId,

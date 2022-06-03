@@ -20,6 +20,7 @@ export const schema = gql`
       gameId: String!
       endTime: DateTime!
       title: String!
+      providerType: String!
     ): String! @requireAuth
     mintWithCredit(
       gameId: String!

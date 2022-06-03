@@ -51,8 +51,13 @@ export const mintWithCredit = async ({ gameId, endTime, title }) => {
   }
 }
 
-export const mintCheckoutUrl = async ({ gameId, endTime, title }) => {
-  await validateMintRequest({ gameId, endTime, title })
+export const mintCheckoutUrl = async ({
+  gameId,
+  endTime,
+  title,
+  providerType,
+}) => {
+  await validateMintRequest({ gameId, endTime, title, providerType })
   const { username, address, id: userId } = context.currentUser
   const { url, reservation } = await createMintReservation({
     username,

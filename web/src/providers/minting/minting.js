@@ -160,7 +160,7 @@ const MintingProvider = ({ children }) => {
       mintError: false,
       mintCheckoutProviderType: providerType,
     })
-    if (type !== 'CREDIT') {
+    if (providerType !== 'CREDIT') {
       try {
         const { data: { mintCheckoutUrl } = {} } =
           await mintCheckoutUrlMutation({

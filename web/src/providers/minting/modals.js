@@ -48,9 +48,17 @@ const CheckoutProvider = ({ provider, onSubmit }) => {
       )}
     </Button>
   )
-  if (provider.disabled) button = <h3 className="mt-4">Not available</h3>
+  if (provider.disabled)
+    button = (
+      <Button
+        id="connection-button"
+        className={buttonClassName}
+        disabled={true}
+      >
+        Not available
+      </Button>
+    )
 
-  // TODO: remove name option once all have icons
   const icon = provider.iconName ? (
     <Icon name={provider.iconName} size="45%" color="white" className="mb-2" />
   ) : (
@@ -82,7 +90,11 @@ export const MintModal = ({ isVisible, toggleModal, onSubmit }) => {
     {
       name: 'Credits',
       type: 'CREDIT',
-      description: `Mint Credits: $${mintCreditBalance} available`,
+      description: (
+        <>
+          Pay with Mint Credits: <b>${mintCreditBalance}</b> available
+        </>
+      ),
       helperText: '',
       iconName: 'treasure_chess_full',
       disabled: mintCreditBalance < 1,
@@ -90,34 +102,38 @@ export const MintModal = ({ isVisible, toggleModal, onSubmit }) => {
     {
       name: 'Stripe',
       type: 'STRIPE',
-      description: 'Debit card',
+      description: 'Pay by card',
       helperText: '',
       iconName: '',
     },
     {
       name: 'Wyre',
       type: 'WYRE',
-      description: 'Debit card',
+      description: 'Pay by card',
       helperText:
         'To ensure success, manually enter your card details when prompted. Do not use auto-complete, a password manager, or copy/paste. If this fails, try using a different email.',
       iconName: 'wyre',
     },
   ]
+  const onClick = (type) => {
+    toggleModal()
+    onSubmit(type)
+  }
   return (
     <ModalContainer
       headerText="Mint"
-      isVisible={true}
-      // isVisible={isVisible}
+      // isVisible={true}
+      isVisible={isVisible}
       hideModal={toggleModal}
       cancelText="Back"
       content={
         <>
-          <p className="text-base">Choose a payment provider</p>
+          <p className="text-base">Choose a payment type and provider</p>
           {providers.map((provider) => (
             <CheckoutProvider
               key={provider.name}
               provider={provider}
-              onSubmit={onSubmit}
+              onSubmit={onClick}
             />
           ))}
         </>

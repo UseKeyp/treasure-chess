@@ -1,57 +1,7 @@
-import { isBrowser } from '@redwoodjs/prerender/browserUtils'
-
-const openWindow = (url) =>
-  isBrowser &&
-  window.open(
-    url,
-    'Treasure Chess - Deposit',
-    'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
-  )
-const encodeBody = (body) =>
-  Object.keys(body)
-    .map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(body[key]))
-    .join('&')
-
-export const getOnramps = ({ address, depositWyre, toggleModal }) => {
-  const onSubmit = (callback) => {
-    callback()
-    toggleModal()
-  }
-
-  const perelinUrl =
-    'https://buy.mtpelerin.com/?' +
-    encodeBody({
-      addr: address,
-      type: 'web',
-      net: 'matic_mainnet',
-      nets: 'matic_mainnet',
-      bdc: 'USDC',
-      crys: 'USDC',
-      tabs: 'buy',
-      mylogo: 'https://treasure.chess.com/logo.png',
-      primary: '#47433f',
-      success: '#0096c6',
-      // TODO:  add referral code
-      // rfr:""
-      // TODO: code signature generation "MtPelerin-<code>"
-      // code: 1234,
-      // hash: "0xabc123"
-    })
-  const rampNetworkUrl =
-    'https://buy.ramp.network/?' +
-    encodeBody({
-      userAddress: address,
-      hostLogoUrl: 'https://treasure.chess.com/logo.png',
-      hostAppName: 'Treasure Chess',
-      // swapAsset: 'MATIC_USDC',
-      finalUrl: process.env.APP_DOMAIN + '/redirect/ramp_network',
-      // Use for testing
-      //'https://ri-widget-staging.firebaseapp.com/',
-    })
-
+export const getOnramps = ({ onSubmit }) => {
   return [
     {
-      onSubmit: () => onSubmit(() => openWindow(rampNetworkUrl)),
+      onSubmit: () => onSubmit('RAMP_NETWORK'),
       // iconName: 'ramp_network',
       name: 'Ramp Network',
       description: (
@@ -83,7 +33,7 @@ export const getOnramps = ({ address, depositWyre, toggleModal }) => {
       ),
     },
     {
-      onSubmit: () => onSubmit(depositWyre),
+      onSubmit: () => onSubmit('WYRE'),
       iconName: 'wyre',
       name: 'Wyre',
       helperText:
@@ -117,7 +67,7 @@ export const getOnramps = ({ address, depositWyre, toggleModal }) => {
       ),
     },
     {
-      onSubmit: () => onSubmit(() => openWindow(perelinUrl)),
+      onSubmit: () => onSubmit('MT_PELERIN'),
       // iconName: 'mt_pelerin',
       name: 'Mt Pelerin',
       description: (

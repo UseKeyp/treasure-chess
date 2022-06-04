@@ -9,7 +9,7 @@ import { useOAuth } from 'src/providers/oAuth'
 import {
   MEMBER_RAMPS_QUERY,
   RAMP_WITHDRAW_MUTATION,
-  WYRE_DEPOSIT_URL_QUERY,
+  RAMP_URL_QUERY,
 } from './graphql'
 import { useModal } from 'src/hooks/useModal'
 import { DepositModal, WithdrawModal } from 'src/providers/ramp/modals'
@@ -151,16 +151,18 @@ const RampProvider = ({ children }) => {
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [ramps, errorOAuth])
 
-  const [wyreDepositUrlQuery] = useLazyQuery(WYRE_DEPOSIT_URL_QUERY, {
+  const [rampUrlQuery] = useLazyQuery(RAMP_URL_QUERY, {
     fetchPolicy: 'network-only',
   })
   const [rampWithdrawMutation] = useMutation(RAMP_WITHDRAW_MUTATION)
 
-  const depositWyre = async () => {
-    const { data: { wyreDepositUrl } = {} } = await wyreDepositUrlQuery()
+  const getRampDepositUrl = async (type) => {
+    const { data: { url } = {} } = await rampUrlQuery({
+      variables: { direction: 'ON', type },
+    })
     if (isBrowser)
       window.open(
-        wyreDepositUrl,
+        url,
         'Treasure Chess - Deposit',
         'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
       )
@@ -312,7 +314,7 @@ const RampProvider = ({ children }) => {
       value={{
         isLoading,
         rampError, // Currently unused
-        depositWyre,
+        getRampDepositUrl,
         deposit: toggleModalDep,
         withdraw: toggleModalWit,
         offRamps: [

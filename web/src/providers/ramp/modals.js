@@ -6,7 +6,6 @@ import LoadingDots from 'src/components/LoadingDots'
 import Button from 'src/components/Button'
 import { trimAddress } from 'src/utils/helpers'
 import { getOnramps, feedbackSuggestionCta } from 'src/providers/ramp/onRamps'
-import { useAuth } from '@redwoodjs/auth'
 const Provider = ({
   error,
   isLoading,
@@ -122,13 +121,8 @@ const OffRampProvider = ({ ramp, amount, isLoading, disabled }) => {
 }
 
 export const DepositModal = ({ isVisible, toggleModal }) => {
-  const { depositWyre } = useRamp()
-  const { currentUser } = useAuth()
-  const onRamps = getOnramps({
-    address: currentUser?.address,
-    depositWyre,
-    toggleModal,
-  })
+  const { getRampDepositUrl } = useRamp()
+  const onRamps = getOnramps({ onSubmit: getRampDepositUrl })
   return (
     <ModalContainer
       isVisible={isVisible}

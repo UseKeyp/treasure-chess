@@ -2,6 +2,7 @@ import { useQuery } from '@apollo/client'
 import { useAuth } from '@redwoodjs/auth'
 
 import { useModal } from 'src/hooks/useModal'
+import { EnvelopError } from '@envelop/core'
 
 import { WithdrawModal, DepositModal, AddressModal } from './modals'
 import {
@@ -62,7 +63,13 @@ const WalletProvider = ({ children }) => {
       setTransferErc721Error(false)
 
       const { error, data } = await transferErc721Mutation({ variables: args })
-      if (error) throw error
+      if (error) {
+        if (error.error.error['code'] === -32000)
+          throw new EnvelopError(
+            'Things are a bit congested now, please try again in a few minutes'
+          )
+        else throw error
+      }
       return data
     } catch (e) {
       toast.error(e?.message)
@@ -76,7 +83,13 @@ const WalletProvider = ({ children }) => {
       setTransferErc20Error(false)
 
       const { error, data } = await transferErc20Mutation({ variables: args })
-      if (error) throw error
+      if (error) {
+        if (error.error.error['code'] === -32000)
+          throw new EnvelopError(
+            'Things are a bit congested now, please try again in a few minutes'
+          )
+        else throw error
+      }
       return data
     } catch (e) {
       toast.error(e?.message)

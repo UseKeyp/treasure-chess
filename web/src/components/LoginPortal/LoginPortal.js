@@ -94,11 +94,14 @@ const LoginPortal = () => {
           <h4>
             By continuing you acknowledge that you have read, understand, and
             agree to the
-            <a className="text-blue" href={globalConfig.TOC_URL}>
+            <a className="mx-1 text-blue" href={globalConfig.TOC_URL}>
               Terms of Service
             </a>
             and
-            <a className="text-blue" href={globalConfig.PRIVACY_POLICY_URL}>
+            <a
+              className="mx-1 text-blue"
+              href={globalConfig.PRIVACY_POLICY_URL}
+            >
               Privacy Policy
             </a>
             .
@@ -108,7 +111,7 @@ const LoginPortal = () => {
           <h4 className="mt-4">
             If you have any questions or concerns, please let us know using the
             <a
-              className="text-blue"
+              className="mx-1  text-blue"
               rel="noreferrer"
               target="_blank"
               href="/feedback"

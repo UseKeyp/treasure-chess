@@ -1,5 +1,6 @@
 import { Set, Router, Route, Private } from '@redwoodjs/router'
 import DefaultLayout from 'src/layouts/DefaultLayout'
+// import Loader from 'src/components/Loader'
 
 const Routes = () => {
   return (
@@ -18,6 +19,7 @@ const Routes = () => {
         <Route notfound page={NotFoundPage} />
         <Route path="/members/{usernameOrAddress}" page={MemberMemberPage} name="member" />
         <Private unauthenticated="signin">
+          {/*    <Private unauthenticated="signin" whileLoadingAuth={Loader}> */}
           <Route path="/profile" page={ProfilePage} name="profile" />
         </Private>
         <Route path="/treasures/{tokenId:String}" page={TreasureTreasurePage} name="treasure" />

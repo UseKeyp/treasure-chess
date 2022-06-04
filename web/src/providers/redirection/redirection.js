@@ -88,12 +88,20 @@ const RedirectionProvider = ({ children }) => {
       successMessage: 'Thanks for your order!',
     })
   }
+  const completeRampOrder = () => {
+    setState({
+      isLoading: false,
+      orderSubmitted: true,
+      successMessage: 'Thanks for your order!',
+    })
+  }
 
   React.useEffect(() => {
     if (!isBrowser) return
     if (!url.pathname.includes('/redirect')) return
     if (type === 'wyre') return completeWyreOrder()
     if (type === 'stripe') return completeStripeOrder()
+    if (type === 'rampnetwork') return completeRampOrder()
     if (error)
       return setState({
         isLoading: false,

@@ -43,7 +43,16 @@ const RampProvider = ({ children }) => {
     description: (
       <>
         <p>
-          Regions: Most places excluding the US
+          Regions: Most places excluding the US (
+          <a
+            href="https://developers.mtpelerin.com/service-information/supported-countries"
+            target="_blank"
+            className="underline"
+            rel="noreferrer"
+          >
+            list
+          </a>
+          )
           <br />
           Fee: Free up to $499, then 1.3% (
           <a
@@ -73,16 +82,7 @@ const RampProvider = ({ children }) => {
     description: (
       <>
         <p>
-          Regions: Americas, Europe, Africa, Asia (
-          <a
-            href="https://docs.sendwyre.com/reference/hosted-checkout#supported-states-and-countries"
-            target="_blank"
-            className="underline"
-            rel="noreferrer"
-          >
-            list
-          </a>
-          )
+          Regions: US, MX, AU, EU, CN, BR
           <br />
           Fee: 0.2%
         </p>

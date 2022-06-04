@@ -12,7 +12,7 @@ const encodeBody = (body) =>
     .map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(body[key]))
     .join('&')
 
-export const getOnramps = ({ userAddres, depositWyre, toggleModal }) => {
+export const getOnramps = ({ address, depositWyre, toggleModal }) => {
   const onSubmit = (callback) => {
     callback()
     toggleModal()
@@ -21,12 +21,12 @@ export const getOnramps = ({ userAddres, depositWyre, toggleModal }) => {
   const perelinUrl =
     'https://buy.mtpelerin.com/?' +
     encodeBody({
+      addr: address,
       type: 'web',
       net: 'matic_mainnet',
       nets: 'matic_mainnet',
       bdc: 'USDC',
       crys: 'USDC',
-      addr: userAddres,
       tabs: 'buy',
       mylogo: 'https://treasure.chess.com/logo.png',
       primary: '#47433f',
@@ -35,27 +35,25 @@ export const getOnramps = ({ userAddres, depositWyre, toggleModal }) => {
   const rampNetworkUrl =
     'https://buy.ramp.network/?' +
     encodeBody({
-      userAddress: userAddres,
+      userAddress: address,
       hostLogoUrl: 'https://treasure.chess.com/logo.png',
       hostAppName: 'Treasure Chess',
-      swapAsset: 'MATIC_USDC',
-      finalUrl: process.env.APP_DOMAIN + '/redirect/rampNetwork',
-      // Enable for testing
+      // swapAsset: 'MATIC_USDC',
+      finalUrl: process.env.APP_DOMAIN + '/redirect/ramp_network',
+      // Use for testing
       //'https://ri-widget-staging.firebaseapp.com/',
     })
 
   return [
     {
-      onSubmit: () => onSubmit(depositWyre),
-      iconName: 'wyre',
-      name: 'Wyre',
-      helperText:
-        'Tip: Do not use auto-complete, a password manager, or copy/paste. Try using different emails.',
+      onSubmit: () => onSubmit(() => openWindow(rampNetworkUrl)),
+      // iconName: 'ramp_network',
+      name: 'Ramp Network',
       description: (
         <p className="mt-4">
-          Regions: Americas, Europe, Africa, Asia (
+          Regions: Most places (
           <a
-            href="https://docs.sendwyre.com/reference/hosted-checkout#supported-states-and-countries"
+            href="https://support.ramp.network/en/articles/433-supported-countries-and-territories"
             target="_blank"
             className="underline"
             rel="noreferrer"
@@ -63,43 +61,6 @@ export const getOnramps = ({ userAddres, depositWyre, toggleModal }) => {
             list
           </a>
           )
-          <br />
-          Limits: $100/day
-          <br />
-          Fees: 2.9% + $0.30
-        </p>
-      ),
-    },
-    {
-      onSubmit: () => onSubmit(() => openWindow(perelinUrl)),
-      // iconName: 'pelerin',
-      name: 'Mt Pelerin',
-      description: (
-        <p className="mt-4">
-          Regions: Most places excluding the US
-          <br />
-          Limits: CHF 200/purchase
-          <br />
-          Fees: 1.5% + CHF 1.2 (
-          <a
-            href="https://www.mtpelerin.com/pricing"
-            target="_blank"
-            className="underline"
-            rel="noreferrer"
-          >
-            details
-          </a>
-          )
-        </p>
-      ),
-    },
-    {
-      onSubmit: () => onSubmit(() => openWindow(rampNetworkUrl)),
-      // iconName: 'ramp_network',
-      name: 'Ramp Network',
-      description: (
-        <p className="mt-4">
-          Regions: Most places excluding the US
           <br />
           Limits: €100/day
           <br />
@@ -116,6 +77,73 @@ export const getOnramps = ({ userAddres, depositWyre, toggleModal }) => {
         </p>
       ),
     },
+    {
+      onSubmit: () => onSubmit(depositWyre),
+      iconName: 'wyre',
+      name: 'Wyre',
+      helperText:
+        'Tip: Do not use auto-complete, a password manager, or copy/paste. Try using different emails.',
+      description: (
+        <p className="mt-4">
+          Regions: Most places (
+          <a
+            href="https://docs.sendwyre.com/reference/hosted-checkout#supported-states-and-countries"
+            target="_blank"
+            className="underline"
+            rel="noreferrer"
+          >
+            list
+          </a>
+          )
+          <br />
+          Limits: $100/day
+          <br />
+          Fees: 2.9% + $0.30 (
+          <a
+            href="https://support.sendwyre.com/hc/en-us/articles/360059565013-Wyre-card-processing-fees"
+            target="_blank"
+            className="underline"
+            rel="noreferrer"
+          >
+            details
+          </a>
+          )
+        </p>
+      ),
+    },
+    {
+      onSubmit: () => onSubmit(() => openWindow(perelinUrl)),
+      // iconName: 'mt_pelerin',
+      name: 'Mt Pelerin',
+      description: (
+        <p className="mt-4">
+          Regions: Most places excluding the US (
+          <a
+            href="https://developers.mtpelerin.com/service-information/supported-countries"
+            target="_blank"
+            className="underline"
+            rel="noreferrer"
+          >
+            list
+          </a>
+          )
+          <br />
+          Limits: CHF 200/purchase
+          <br />
+          Fees: 1.5% + CHF 1.2 (
+          <a
+            href="https://www.mtpelerin.com/pricing"
+            target="_blank"
+            className="underline"
+            rel="noreferrer"
+          >
+            details
+          </a>
+          )
+        </p>
+      ),
+    },
+
     feedbackSuggestionCta,
   ]
 }

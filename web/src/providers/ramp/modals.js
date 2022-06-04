@@ -124,9 +124,8 @@ const OffRampProvider = ({ ramp, amount, isLoading, disabled }) => {
 export const DepositModal = ({ isVisible, toggleModal }) => {
   const { depositWyre } = useRamp()
   const { currentUser } = useAuth()
-
   const onRamps = getOnramps({
-    userAddres: currentUser?.userAddres,
+    address: currentUser?.address,
     depositWyre,
     toggleModal,
   })

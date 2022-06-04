@@ -289,3 +289,24 @@ ${JSON.stringify(order, undefined, 4)}
     Sentry.captureException(e)
   }
 }
+
+export const processWyreWebhook = async () => {
+  // Ensure orderId hasn't already used with a different reservation
+  if (mintPurchase && mintPurchase.reservation !== reservation)
+    throw new Error(
+      `Wyre mint order invalid. orderId ${orderId} / reservation ${reservation} has already been used with reservation ${mintPurchase.reservation} and purchase #${mintPurchase.id}`
+    )
+  const order = await fetchOrder(orderId)
+  if (order.status === 'PROCESSING') return // Don't throw errors and do nothing
+  if (order.destCurrency === 'MUSDC')
+    return processDepositOrder({ order, orderId, reservation })
+  validateMintOrder(order)
+  mintPurchase = await db.mintPurchase.findUnique({
+    where: { reservation },
+    include: { member: true },
+  })
+  if (!mintPurchase)
+    throw new Error(
+      `MintPurchase not found for reservation: ${reservation} orderId: ${orderId}`
+    )
+}

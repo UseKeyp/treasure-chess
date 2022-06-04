@@ -40,6 +40,5 @@ export const Error = () => <div>Member not found</div>
 export const Empty = () => <div>Member not found</div>
 
 export const Success = ({ member }) => {
-  return <Loader />
   return <Member member={member} />
 }

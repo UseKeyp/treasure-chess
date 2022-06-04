@@ -1,9 +1,11 @@
 const stripe = require('stripe')
 import { db } from 'src/lib/db'
-import { processDepositOrder } from 'src/lib/wyre'
+import { processWyreWebhook } from 'src/lib/wyre'
+import { processStripeWebhook } from 'src/lib/stripe'
 import { sendDiscordAdminAlert } from 'src/lib/discord/admin'
 const endpointSecret =
   'whsec_9b44ae98a6e0e6b55e47482362f86e6d03f0aaabc0a971d589e14eb2f45cd055'
+import { logger } from 'src/lib/logger'
 
 const validateMintOrder = (order) => {
   try {
@@ -33,50 +35,37 @@ export const processOrder = async ({ body, stripeSignature }) => {
   let orderId
   let reservation
   body && ({ reservation, orderId } = body)
+
   try {
+    // let mintPurchase = await db.mintPurchase.findUnique({
+    //   where: { orderId },
+    // })
+    // Sentry.setUser({ username: mintPurchase.member.username })
+    //
     if (stripeSignature) {
       // Stripe order
+      await processStripeWebhook({ body, stripeSignature })
       return logger.debug({ custom: body }, 'processOrder')
     } else {
+      await processWyreWebhook()
     }
-    let mintPurchase = await db.mintPurchase.findUnique({
-      where: { orderId },
-    })
-    // Ensure orderId hasn't already used with a different reservation
-    if (mintPurchase && mintPurchase.reservation !== reservation)
-      throw new Error(
-        `Wyre mint order invalid. orderId ${orderId} / reservation ${reservation} has already been used with reservation ${mintPurchase.reservation} and purchase #${mintPurchase.id}`
-      )
-    const order = await fetchOrder(orderId)
-    if (order.status === 'PROCESSING') return // Don't throw errors and do nothing
-    if (order.destCurrency === 'MUSDC')
-      return processDepositOrder({ order, orderId, reservation })
-    validateMintOrder(order)
-    mintPurchase = await db.mintPurchase.findUnique({
-      where: { reservation },
-      include: { member: true },
-    })
-    if (!mintPurchase)
-      throw new Error(
-        `MintPurchase not found for reservation: ${reservation} orderId: ${orderId}`
-      )
-    Sentry.setUser({ username: mintPurchase.member.username })
-    await db.mintPurchase.update({
-      where: { id: mintPurchase.id },
-      data: { orderId, orderStatus: 'COMPLETE' },
-    })
-    await sendDiscordAdminAlert({
-      embed: {
-        color: 3066993,
-        title: `✨💳  Wyre debit card mint success!`,
-        description: `Wyre order ID: ${orderId}
-  member: ${mintPurchase.member.username}
-  mintPurchase: ${mintPurchase.id}`,
-        footer: { text: new Date().toString() },
-        type: 'link',
-      },
-      channelName: 'orders',
-    })
+
+    //   await db.mintPurchase.update({
+    //     where: { id: mintPurchase.id },
+    //     data: { orderId, orderStatus: 'COMPLETE' },
+    //   })
+    //   await sendDiscordAdminAlert({
+    //     embed: {
+    //       color: 3066993,
+    //       title: `✨💳  debit card mint success!`,
+    //       description: `Wyre order ID: ${orderId}
+    // member: ${mintPurchase.member.username}
+    // mintPurchase: ${mintPurchase.id}`,
+    //       footer: { text: new Date().toString() },
+    //       type: 'link',
+    //     },
+    //     channelName: 'orders',
+    //   })
   } catch (e) {
     await sendDiscordAdminAlert({
       embed: {
@@ -84,9 +73,7 @@ export const processOrder = async ({ body, stripeSignature }) => {
         title: `⛈️💳  Failed to process Wyre Order!`,
         description: `Wyre order ID: ${orderId}
 
-  ${JSON.stringify(e)}
-
-  [Wyre Dashboard](${DISCORD_WYRE_DASHBOARD_URL})`,
+  ${JSON.stringify(e)}`,
         footer: { text: new Date().toString() },
         type: 'link',
       },

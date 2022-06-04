@@ -31,6 +31,11 @@ export const getOnramps = ({ address, depositWyre, toggleModal }) => {
       mylogo: 'https://treasure.chess.com/logo.png',
       primary: '#47433f',
       success: '#0096c6',
+      // TODO:  add referral code
+      // rfr:""
+      // TODO: code signature generation "MtPelerin-<code>"
+      // code: 1234,
+      // hash: "0xabc123"
     })
   const rampNetworkUrl =
     'https://buy.ramp.network/?' +

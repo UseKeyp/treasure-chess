@@ -5,46 +5,86 @@ import { useRamp } from 'src/providers/ramp/ramp'
 import LoadingDots from 'src/components/LoadingDots'
 import Button from 'src/components/Button'
 import { trimAddress } from 'src/utils/helpers'
-
-const VendorBankConnection = ({ ramp, amount, isLoading, disabled }) => {
-  if (!ramp) return null
-  let backgroundColor = isLoading
-    ? 'bg-chessBlack-200 pointer-events-none'
-    : 'bg-green'
-  const loadingText = (
-    <p className="text-white flex justify-center text-[10px]">
-      <LoadingDots />
-    </p>
-  )
+import { getOnramps, feedbackSuggestionCta } from 'src/providers/ramp/onRamps'
+import { useAuth } from '@redwoodjs/auth'
+const Provider = ({
+  error,
+  isLoading,
+  onSubmit,
+  buttonText = 'Continue',
+  disabled,
+  status,
+  highlight,
+  description,
+  helperText,
+  hideButton,
+  iconName,
+  icon,
+  name,
+}) => {
+  let backgroundColor =
+    isLoading || disabled ? 'bg-chessBlack-200 pointer-events-none' : 'bg-green'
   const buttonClassName = `mt-4 w-[272px] h-[40px] text-xl shadow-m hover:sm hover:bg-greenDark hover:shadow-greenDark ${backgroundColor}`
-  let rampError
-  if (ramp.error != null && ramp.error != '' && ramp.error.length > 0) {
-    rampError = ramp.error.substring(0, 200)
+  let errorText
+  if (error != null && error != '' && error.length > 0) {
+    errorText = error.substring(0, 200)
   } else {
-    rampError = ''
+    errorText = ''
   }
 
   let button = (
     <Button
       id="connection-button"
       className={buttonClassName}
-      onClick={ramp.onConnect}
-      disabled={isLoading}
+      onClick={onSubmit}
+      disabled={isLoading || disabled}
     >
-      {ramp.isLoading ? loadingText : 'Connect  '}
+      {isLoading ? (
+        <p className="text-white flex justify-center text-[10px]">
+          <LoadingDots />
+        </p>
+      ) : (
+        buttonText
+      )}
     </Button>
   )
-  if (ramp.address)
-    button = (
-      <Button
-        className={buttonClassName}
-        disabled={isLoading}
-        onClick={() => ramp.onWithdraw(amount)}
-      >
-        {ramp.isLoading ? loadingText : 'Withdraw'}
-      </Button>
-    )
-  if (disabled) button = <h3 className="mt-4">(Coming soon)</h3>
+  let iconContent = iconName ? (
+    <Icon name={iconName} size="45%" color="white" className="mb-2" />
+  ) : (
+    <h2>{name}</h2>
+  )
+  if (icon) iconContent = icon
+  return (
+    <div
+      className={`align-center bg-chessBlack-100 mt-6 p-4 rounded-lg border-[1px] ${
+        highlight ? 'border-green' : 'border-chessBlack-100'
+      }`}
+    >
+      <div className="flex align-center items-center">{iconContent}</div>
+      {description && <div className="mt-4">{description}</div>}
+      <h2 className="mt-2">{status}</h2>
+      {!hideButton && button}
+      {errorText && (
+        <div className="mt-8 font-bold text-errorYellow">{errorText}</div>
+      )}
+      {helperText && <p className="mt-3 italic">{helperText}</p>}
+    </div>
+  )
+}
+
+const OnRampProvider = ({ ramp, toggleModal }) => {
+  if (!ramp) return null
+  const onSubmit = () => {
+    ramp.onSubmit()
+    toggleModal()
+  }
+  return <Provider onSubmit={onSubmit} highlight={true} {...ramp} />
+}
+
+const OffRampProvider = ({ ramp, amount, isLoading, disabled }) => {
+  if (!ramp) return null
+  let onSubmit = ramp.onConnect
+  if (ramp.address) onSubmit = () => ramp.onWithdraw(amount)
 
   let status
   if (ramp.address)
@@ -59,7 +99,7 @@ const VendorBankConnection = ({ ramp, amount, isLoading, disabled }) => {
           </h4>
         </div>
         <div className="flex ml-4 align-center">
-          <Button onClick={ramp.onConnect} disabled={isLoading}>
+          <Button onClick={onSubmit} disabled={isLoading || disabled}>
             <div className="flex flex-row items-center">
               <Icon name="circle_arrow" height="13" color="white" />
               <p className="ml-2">Update</p>
@@ -68,125 +108,74 @@ const VendorBankConnection = ({ ramp, amount, isLoading, disabled }) => {
         </div>
       </div>
     )
-  const icon =
-    ramp.type === 'COINBASE' ? (
-      <Icon name="coinbase" size="45%" color="white" className="mb-2" />
-    ) : (
-      <img
-        src="/icons/wyre_plaid.png"
-        alt="Wyre and Plaid logos"
-        className="h-12"
-      />
-    )
   return (
-    <div
-      className={`align-center bg-chessBlack-100 mt-6 p-4 rounded-lg border-[1px] ${
-        ramp.address ? 'border-green' : 'border-chessBlack-100'
-      }`}
-    >
-      <div className="flex align-center items-center">{icon}</div>
-      <h2 className="mt-2">{status}</h2>
-      {button}
-      {rampError && (
-        <div className="mt-8 font-bold text-errorYellow">{rampError}</div>
-      )}
-    </div>
+    <Provider
+      onSubmit={onSubmit}
+      isLoading={isLoading}
+      disabled={disabled}
+      buttonText={ramp.address ? 'Withdraw' : 'Connect'}
+      highlight={!!ramp.address}
+      satus={status}
+      {...ramp}
+    />
   )
 }
 
 export const DepositModal = ({ isVisible, toggleModal }) => {
-  const { deposit } = useRamp()
+  const { depositWyre } = useRamp()
+  const { currentUser } = useAuth()
+
+  const onRamps = getOnramps({
+    userAddres: currentUser?.userAddres,
+    depositWyre,
+    toggleModal,
+  })
   return (
     <ModalContainer
       isVisible={isVisible}
-      onSubmit={deposit}
+      // isVisible={true}
       hideModal={toggleModal}
       headerText="Add Funds"
-      icon={<Icon name="wyre" size="29" />}
-      submitText="Continue to Wyre"
       content={
         <>
-          {' '}
-          <p className="text-base">
-            Use a debit card to instantly add funds to your account.
-          </p>
-          <p className="mt-4">
-            Fees - Wyre: 2.9% + $0.30 (
-            <a
-              className="underline"
-              rel="noreferrer"
-              href="https://docs.sendwyre.com/reference/hosted-checkout#tr  ansaction-processing-limits"
-              target="_blank"
-            >
-              see limits
-            </a>
-            )
-          </p>
-          <p className="mt-4">
-            We are actively working to improve this experience, and to add
-            support for more regions. If you have feedback please let us know
-            using the{' '}
-            <a
-              className="underline"
-              href="/feedback"
-              rel="noreferrer"
-              target="_blank"
-            >
-              Feedback Form
-            </a>
-            .
-          </p>
-          <p className="mt-4">
-            <i>
-              By submitting, I authorize Wyre Payments, Inc., to electronically
-              charge my credit/debit card (and, if necessary, electronically
-              credit my card) using the card indicated by me. I understand that
-              this authorization will remain in full force and effect until I
-              notify Treasure Chess that I wish to revoke this authorization. I
-              agree that credit/debit card transactions I authorize, comply with
-              all applicable law.{' '}
-            </i>
-          </p>
+          <p className="text-base">Instantly add funds using a debit card.</p>
+          {onRamps.map((ramp) => (
+            <OnRampProvider
+              key={ramp.name}
+              ramp={ramp}
+              toggleModal={toggleModal}
+            />
+          ))}
         </>
       }
     />
   )
 }
+
 export const WithdrawModal = ({ isVisible, toggleModal }) => {
   const [amount, setAmount] = React.useState('0')
-  const { ramps, isLoading } = useRamp()
-  const isConnected = ramps.map((ramp) => ramp.address && true).includes(true)
+  const { offRamps, isLoading } = useRamp()
+  const isConnected = offRamps
+    .map((ramp) => ramp.address && true)
+    .includes(true)
+
   return (
     <ModalContainer
       headerText="Cash Out"
       isVisible={isVisible}
       onSubmit={toggleModal}
       hideModal={toggleModal}
-      // icon={<Icon name="wyre" size="29" />}
       content={
         <>
           <p className="text-base">Send funds to your bank at any time.</p>
-          <p className="mt-4">
-            Supported Countries - Wyre: US
-            {/*, Coinbase:{' '}
-            <a
-              className="underline"
-              rel="noreferrer"
-              target="_blank"
-              href="https://www.coinbase.com/places"
-            >
-              see full list
-            </a>*/}
-          </p>
-          <p className="">Fees - Wyre: 0.2%</p>
           {isConnected && (
             <>
               <h4 className="mt-4 ">Amount to cash out</h4>
               <FilterPriceInput value={amount} setValue={setAmount} />
             </>
           )}
-          {ramps.map((ramp) => (
-            <VendorBankConnection
+          {[...offRamps, feedbackSuggestionCta].map((ramp) => (
+            <OffRampProvider
               key={ramp.name}
               isLoading={isLoading}
               amount={amount}
@@ -194,11 +183,10 @@ export const WithdrawModal = ({ isVisible, toggleModal }) => {
               toggleModal={toggleModal}
             />
           ))}
-          <p className="mt-4">
+          <p className="mt-4 italic">
             For your protection, funds can only be sent one-way from your
             Treasure Chess account to your bank. Funds can never be withdrawn
-            from your bank using this method. We are actively working to improve
-            this experience, and enable support for more countries.
+            from your bank using this method.
           </p>
         </>
       }

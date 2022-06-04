@@ -55,7 +55,7 @@ const CheckoutProvider = ({ provider, onSubmit }) => {
         className={buttonClassName}
         disabled={true}
       >
-        Not available
+        Unavailable
       </Button>
     )
 

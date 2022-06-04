@@ -37,7 +37,7 @@ export const processStripeWebhook = async ({ body, stripeSignature }) => {
   )
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object
-
-    fulfillOrder(session)
+    // update the order
+    // Send email receipt
   }
 }

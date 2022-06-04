@@ -17,6 +17,7 @@ import { DepositModal, WithdrawModal } from 'src/providers/ramp/modals'
 const PLAID = 'PLAID'
 const COINBASE = 'COINBASE'
 const WYRE = 'WYRE'
+const PELERIN = 'PELERIN'
 
 const RampContext = React.createContext({
   isLoading: true,
@@ -35,10 +36,58 @@ const RampProvider = ({ children }) => {
     name: 'Coinbase',
     type: COINBASE,
   })
+  const [pelerin, _setPelerin] = React.useState({
+    isLoading: false,
+    name: 'Mt. Pelerin',
+    type: PELERIN,
+    description: (
+      <>
+        <p>
+          Regions: Most places excluding the US
+          <br />
+          Fee: Free up to $499, then 1.3% (
+          <a
+            href="https://www.mtpelerin.com/pricing"
+            target="_blank"
+            className="underline"
+            rel="noreferrer"
+          >
+            details
+          </a>
+          )
+        </p>
+      </>
+    ),
+  })
   const [wyre, setWyre] = React.useState({
     isLoading: false,
     type: WYRE,
     name: 'Wyre + Plaid',
+    icon: (
+      <img
+        src="/icons/wyre_plaid.png"
+        alt="Wyre and Plaid logos"
+        className="h-12"
+      />
+    ),
+    description: (
+      <>
+        <p>
+          Regions: Americas, Europe, Africa, Asia (
+          <a
+            href="https://docs.sendwyre.com/reference/hosted-checkout#supported-states-and-countries"
+            target="_blank"
+            className="underline"
+            rel="noreferrer"
+          >
+            list
+          </a>
+          )
+          <br />
+          Fee: 0.2%
+        </p>
+      </>
+    ),
   })
 
   const { isVisible: isVisibleDep, toggleModal: toggleModalDep } = useModal()
@@ -115,8 +164,7 @@ const RampProvider = ({ children }) => {
         'Treasure Chess - Deposit',
         'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
       )
-    // TODO: Close the modal
-    // toggleModalDep()
+    toggleModalDep()
   }
 
   const connectWyre = async () => {
@@ -264,15 +312,14 @@ const RampProvider = ({ children }) => {
       value={{
         isLoading,
         rampError, // Currently unused
-        deposit: depositWyre,
-        // deposit: toggleModalDep,
+        depositWyre,
+        deposit: toggleModalDep,
         withdraw: toggleModalWit,
-        ramps: [
+        offRamps: [
           {
             ...wyre,
             onConnect: connectWyre,
             onWithdraw: withdrawWyre,
-            onDeposit: depositWyre,
           },
           // Disabled
           // {
@@ -280,6 +327,7 @@ const RampProvider = ({ children }) => {
           //   onConnect: connectCoinbase,
           //   onWithdraw: withdrawCoinbase,
           // },
+          { ...pelerin },
         ],
       }}
     >

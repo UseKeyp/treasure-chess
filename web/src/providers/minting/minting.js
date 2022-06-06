@@ -12,6 +12,7 @@ import {
   PENDING_MINT_PURCHASES_QUERY,
   MINT_CHECKOUT_URL_MUTATION,
   MINT_WITH_CREDIT_MUTATION,
+  DELETE_PURCHASE_MUTATION,
 } from './graphql'
 
 import {
@@ -138,6 +139,8 @@ const MintingProvider = ({ children }) => {
 
   const [mintWithCreditMutation] = useMutation(MINT_WITH_CREDIT_MUTATION)
 
+  const [deleteMintingPurchaseMutation] = useMutation(DELETE_PURCHASE_MUTATION)
+
   const onPageLoad = async () => {
     const { data: { pendingMintPurchases } = {} } =
       await pendingMintPurchasesLazyQuery()
@@ -203,11 +206,13 @@ const MintingProvider = ({ children }) => {
     }
   }
 
-  const cancelMint = ({ _gameId, _endTime }) => toggleModalCancel()
-  const onConfirmCancel = () => {
+  const cancelMint = ({ _gameId, _endTime }) => toggleModalCancel({ _gameId })
+  const onConfirmCancel = ({ _gameId }) => {
     toggleModalCancel()
-    // TODO:  Delete mintPurchaseMutation
-    setState({ ...state, mintStatus: null, mintError: null })
+    deleteMintingPurchaseMutation({
+      variables: { _gameId },
+    })
+    setState({ ...state, mintStatus: FAILED, mintError: null })
   }
 
   const cleanupMintSuccess = () =>

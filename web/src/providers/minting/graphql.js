@@ -19,6 +19,16 @@ export const PENDING_MINT_PURCHASES_QUERY = gql`
   }
 `
 
+export const DELETE_PURCHASE_MUTATION = gql`
+  mutation deleteMintingPurchase($gameId: Int!) {
+    deleteMintingPurchase(gameId: $gameId) {
+      id
+      status
+      orderStatus
+    }
+  }
+`
+
 export const MINT_CHECKOUT_URL_MUTATION = gql`
   mutation mintCheckoutUrl(
     $gameId: String!

@@ -156,7 +156,7 @@ const RampProvider = ({ children }) => {
   })
   const [rampWithdrawMutation] = useMutation(RAMP_WITHDRAW_MUTATION)
 
-  const getRampDepositUrl = async (type) => {
+  const getRampUrl = async ({ type, direction }) => {
     const { data: { url } = {} } = await rampUrlQuery({
       variables: { direction: 'ON', type },
     })
@@ -247,9 +247,7 @@ const RampProvider = ({ children }) => {
       })
       toast.success(
         <TxToast text="Withdraw submitted" txHash={rampWithdraw.id} />,
-        {
-          id: rampWithdraw.id,
-        }
+        { id: rampWithdraw.id }
       )
     } catch (e) {
       setWyre({ isLoading: false, error: e.message, ...wyre })
@@ -314,7 +312,7 @@ const RampProvider = ({ children }) => {
       value={{
         isLoading,
         rampError, // Currently unused
-        getRampDepositUrl,
+        getRampUrl,
         deposit: toggleModalDep,
         withdraw: toggleModalWit,
         offRamps: [

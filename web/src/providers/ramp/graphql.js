@@ -13,7 +13,9 @@ export const MEMBER_RAMPS_QUERY = gql`
 
 export const RAMP_URL_QUERY = gql`
   query getRampUrl($type: String!, $direction: String!) {
-    url
+    getRampUrl(type: $type, direction: $direction) {
+      url
+    }
   }
 `
 

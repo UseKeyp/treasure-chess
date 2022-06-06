@@ -51,7 +51,9 @@ export const onConnected = async ({ refreshToken, accessToken, decoded }) => {
     return member
   } catch (e) {
     logger.error(e)
-    Sentry.captureException(e)
+    if (!e.message.contains('banned')) {
+      Sentry.captureException(e)
+    }
     throw `onConnected() ${e}`
   }
 }

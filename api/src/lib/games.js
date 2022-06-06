@@ -180,7 +180,6 @@ export const getGamesWithFilter = async ({ username, filter, page = 0 }) => {
       let gameState = game
       if (!game.termination) {
         gameState['termination'] = 'Unknown'
-        logger.error(`Termination error: ${game.externalUrl}`)
       }
       try {
         const fullGame = await getFullGameDetails({ game: gameState, username })

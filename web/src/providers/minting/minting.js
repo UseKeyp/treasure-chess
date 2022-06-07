@@ -1,7 +1,6 @@
 import { useLazyQuery, useQuery, useMutation } from '@apollo/client'
 import { useAuth } from '@redwoodjs/auth'
 import { isBrowser } from '@redwoodjs/prerender/browserUtils'
-
 import { useWallet } from 'src/providers/wallet'
 import { useModal } from 'src/hooks/useModal'
 import { useToast } from 'src/providers/toast'
@@ -206,13 +205,17 @@ const MintingProvider = ({ children }) => {
     }
   }
 
-  const cancelMint = ({ _gameId, _endTime }) => toggleModalCancel({ _gameId })
-  const onConfirmCancel = ({ _gameId }) => {
+  const cancelMint = ({ id }) => toggleModalCancel({ id })
+  const onConfirmCancel = ({ id, ...props }) => {
     toggleModalCancel()
-    deleteMintingPurchaseMutation({
-      variables: { _gameId },
-    })
     setState({ ...state, mintStatus: FAILED, mintError: null })
+    try {
+      deleteMintingPurchaseMutation({
+        variables: { id },
+      })
+    } catch (error) {
+      toastPurchase({ id, ...props })
+    }
   }
 
   const cleanupMintSuccess = () =>

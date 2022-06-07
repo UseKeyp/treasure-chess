@@ -151,20 +151,6 @@ export const createDepositReservation = async (destinationAddress) => {
   }
 }
 
-export const createWithdrawReservation = async () => {
-  try {
-    // TODO: Finish implementing off-ramp
-    const url = `${API_URL}/transfers`
-    const response = await fetchWyre(url)
-    return response
-  } catch (e) {
-    logger.error(e)
-    throw new Error(
-      'createDepositReservation() Error creating Wyre reservation'
-    )
-  }
-}
-
 export const createPaymentMethod = async (details) => {
   const url = `${API_URL_V2}/paymentMethods`
   const args = {

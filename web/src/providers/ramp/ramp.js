@@ -30,6 +30,10 @@ const RampProvider = ({ children }) => {
   const { toast } = useToast()
   const { getOAuthUrl, submitCodeGrant, error: errorOAuth } = useOAuth()
 
+  const [state, setState] = React.useState({
+    isLoading: false,
+    error: null,
+  })
   const [shouldPoll, setShouldPoll] = React.useState(true)
   const [coinbase, setCoinbase] = React.useState({
     isLoading: false,
@@ -39,6 +43,7 @@ const RampProvider = ({ children }) => {
   const [pelerin, _setPelerin] = React.useState({
     isLoading: false,
     name: 'Mt. Pelerin',
+    disabled: true,
     type: PELERIN,
     description: (
       <>
@@ -157,15 +162,27 @@ const RampProvider = ({ children }) => {
   const [rampWithdrawMutation] = useMutation(RAMP_WITHDRAW_MUTATION)
 
   const getRampUrl = async ({ type, direction }) => {
-    const { data: { url } = {} } = await rampUrlQuery({
-      variables: { direction: 'ON', type },
-    })
-    if (isBrowser)
-      window.open(
-        url,
-        'Treasure Chess - Deposit',
-        'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
-      )
+    try {
+      setState({ ...state, isLoading: true, rampError: '' })
+      const {
+        data: {
+          getRampUrl: { url },
+        },
+      } = await rampUrlQuery({
+        variables: { direction: 'ON', type },
+      })
+      console.log(url)
+      if (isBrowser && url)
+        window.open(
+          url,
+          'Treasure Chess - Deposit',
+          'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
+        )
+      setState({ ...state, isLoading: false, rampError: '' })
+    } catch (e) {
+      setState({ ...state, isLoading: false, rampError: e })
+      console.log(e)
+    }
     toggleModalDep()
   }
 
@@ -305,13 +322,18 @@ const RampProvider = ({ children }) => {
   //   }
   // }
 
-  const isLoading = rampsLoading || coinbase.isLoading || wyre.isLoading
+  const isLoading =
+    state.isLoadng ||
+    rampsLoading ||
+    coinbase.isLoading ||
+    wyre.isLoading ||
+    pelerin.isLoading
 
   return (
     <RampContext.Provider
       value={{
         isLoading,
-        rampError, // Currently unused
+        rampError: rampError || state.rampError,
         getRampUrl,
         deposit: toggleModalDep,
         withdraw: toggleModalWit,

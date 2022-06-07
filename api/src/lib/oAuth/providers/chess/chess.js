@@ -99,10 +99,9 @@ export const refreshChessTokens = async (refreshToken) => {
     const response = await fetch(CHESS_OAUTH_URL_TOKEN, {
       method: 'post',
       body: encodedBody,
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     }).then((res) => {
+      logger.debug({ custom: res })
       if (res.status == 401)
         throw new Error('Chess.com basic authorization failed')
       return res.json()

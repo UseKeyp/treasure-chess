@@ -107,12 +107,17 @@ const OffRampProvider = ({ ramp, amount, isLoading, disabled }) => {
         </div>
       </div>
     )
+  const getButtonText = () => {
+    if (disabled) return 'coming soon'
+    else if (ramp.address) return 'Withdraw'
+    return 'Connect'
+  }
   return (
     <Provider
       onSubmit={onSubmit}
       isLoading={isLoading}
       disabled={disabled}
-      buttonText={ramp.address ? 'Withdraw' : 'Connect'}
+      buttonText={getButtonText()}
       highlight={!!ramp.address}
       satus={status}
       {...ramp}

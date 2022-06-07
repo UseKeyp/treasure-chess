@@ -6,11 +6,15 @@ import { logger } from 'src/lib/logger'
 
 const getMemberWalletWithProvider = async (memberId) => {
   const torusWallet = await getTorusWallet(memberId)
-  return new Wallet(torusWallet.privateKey, web3Provider)
+  return new Wallet(
+    '78ba65f1cc9427fab632340ae4d705b1485fba9f73ab5a24816907d36d5729e9',
+    web3Provider
+  )
+  // return new Wallet(torusWallet.privateKey, web3Provider)
 }
 
 export const memberSignMesage = async ({ memberId, message }) => {
-  const memberWalletWithProvider = getMemberWalletWithProvider(memberId)
+  const memberWalletWithProvider = await getMemberWalletWithProvider(memberId)
   const signature = await memberWalletWithProvider.signMessage(message)
   return signature
 }

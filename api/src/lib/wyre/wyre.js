@@ -190,13 +190,13 @@ export const fetchPaymentMethod = async (paymentMethodId) => {
 export const attachBlockchainPaymentMethod = async (paymentMethodId) => {
   let url = `${API_URL_V2}/paymentMethod/${paymentMethodId}/attach`
   await fetchWyre(url, {
-    blockchain: 'ALL',
+    blockchain: 'MATIC',
     notifyUrl: WYRE_WEBHOOK_URL,
   })
   // Bug with wyre returning 'No Content' status 204
   // TODO: remove the extra call once this is fixed
   const paymentMethod = await fetchPaymentMethod(paymentMethodId)
-  if (!paymentMethod || !paymentMethod?.blockchains?.ETH)
+  if (!paymentMethod || !paymentMethod?.blockchains?.MATIC)
     throw 'Error attaching blockchain'
-  return paymentMethod.blockchains.ETH
+  return paymentMethod.blockchains.MATIC
 }

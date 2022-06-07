@@ -79,7 +79,7 @@ const pinFile = async (blob, filename) => {
     }).then((res) => {
       return res.json()
     })
-    if (!response.IpfsHash) throw `Couldn't pin file: ${blob}`
+    if (!response.IpfsHash) throw `Couldn't pin file ${filename}`
     return `ipfs://${response.IpfsHash}`
   } catch (e) {
     logger.error(e)

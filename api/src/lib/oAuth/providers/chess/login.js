@@ -14,14 +14,15 @@ export const onConnected = async ({ refreshToken, accessToken, decoded }) => {
     logger.debug({ custom: decoded }, 'onConnected() decoded')
     // Create member if needed, and get current avatar
     const member = await fetchMember(preferred_username, true)
-    if (member.banned) {
-      throw new AuthenticationError('user is banned')
+    if (member) {
+      if (member.banned) {
+        throw new AuthenticationError('user is banned')
+      }
+      if (user_id !== member.id)
+        throw new AuthenticationError(
+          `user_id in JWT doesn't match player_id from API`
+        )
     }
-    if (user_id !== member.id)
-      throw new AuthenticationError(
-        `user_id in JWT doesn't match player_id from API`
-      )
-
     await db.member.update({
       where: { id: member.id },
       data: {
@@ -51,9 +52,7 @@ export const onConnected = async ({ refreshToken, accessToken, decoded }) => {
     return member
   } catch (e) {
     logger.error(e)
-    if (!e.message.contains('banned')) {
-      Sentry.captureException(e)
-    }
+    Sentry.captureException(e)
     throw `onConnected() ${e}`
   }
 }

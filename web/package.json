@@ -28,6 +28,7 @@
     "@treasure-chess/web3-helpers": "^1.0.6-staging.9",
     "bad-words": "^3.0.4",
     "canvas": "2.9.1",
+    "clsx": "^1.1.1",
     "i18next": "^21.6.14",
     "i18next-browser-languagedetector": "^6.1.3",
     "prop-types": "^15.7.2",

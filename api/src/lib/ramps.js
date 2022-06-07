@@ -1,5 +1,6 @@
-import { createDepositReservation } from 'src/lib/wyre'
+import { EnvelopError } from '@envelop/core'
 
+import { createDepositReservation } from 'src/lib/wyre'
 import { encodeBody } from 'src/lib/oAuth/helpers'
 import { logger } from 'src/lib/logger'
 import { db } from 'src/lib/db'
@@ -9,12 +10,12 @@ const WYRE = 'WYRE'
 const RAMP_NETWORK = 'RAMP_NETWORK'
 export const RAMP_DEPOSIT_TYPES_ENABLED = [MT_PELERIN, WYRE, RAMP_NETWORK]
 
-export const getRampOffUrl = async ({ type }) => {
-  let url
-  const address = context.currentUser.address
-  if (type === WYRE) {
-  }
-  return url
+export const getRampOffUrl = async ({ _type }) => {
+  // let url
+  // const address = context.currentUser.address
+  // if (type === WYRE) {
+  // }
+  // return url
 }
 
 export const getRampOnUrl = async ({ type }) => {

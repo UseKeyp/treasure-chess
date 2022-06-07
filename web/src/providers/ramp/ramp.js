@@ -168,10 +168,7 @@ const RampProvider = ({ children }) => {
         data: {
           getRampUrl: { url },
         },
-      } = await rampUrlQuery({
-        variables: { direction: 'ON', type },
-      })
-      console.log(url)
+      } = await rampUrlQuery({ variables: { direction, type } })
       if (isBrowser && url)
         window.open(
           url,
@@ -181,7 +178,6 @@ const RampProvider = ({ children }) => {
       setState({ ...state, isLoading: false, rampError: '' })
     } catch (e) {
       setState({ ...state, isLoading: false, rampError: e })
-      console.log(e)
     }
     toggleModalDep()
   }

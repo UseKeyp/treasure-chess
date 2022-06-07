@@ -6,6 +6,7 @@ import { db } from 'src/lib/db'
 import { sendDiscordAdminAlert } from 'src/lib/discord/admin'
 import { isProduction } from 'src/lib/helpers'
 import { logger } from 'src/lib/logger'
+import { processMintPurchaseOrder } from 'src/lib/mintPurchases'
 
 const DISCORD_WYRE_DASHBOARD_URL = isProduction
   ? 'https://www.sendwyre.com/#/dashboard'
@@ -276,7 +277,11 @@ ${JSON.stringify(order, undefined, 4)}
   }
 }
 
-export const processWyreWebhook = async () => {
+export const processWyreWebhook = async ({
+  reservation,
+  orderId,
+  mintPurchase,
+}) => {
   // Ensure orderId hasn't already used with a different reservation
   if (mintPurchase && mintPurchase.reservation !== reservation)
     throw new Error(
@@ -284,15 +289,10 @@ export const processWyreWebhook = async () => {
     )
   const order = await fetchOrder(orderId)
   if (order.status === 'PROCESSING') return // Don't throw errors and do nothing
-  if (order.destCurrency === 'MUSDC')
-    return processDepositOrder({ order, orderId, reservation })
-  validateMintOrder(order)
-  mintPurchase = await db.mintPurchase.findUnique({
-    where: { reservation },
-    include: { member: true },
-  })
-  if (!mintPurchase)
-    throw new Error(
-      `MintPurchase not found for reservation: ${reservation} orderId: ${orderId}`
-    )
+  if (order.destCurrency === 'MUSDC') {
+    // Deposit, not a mint
+    return processDepositOrder({ order, reservation })
+  } else {
+    return processMintPurchaseOrder({ order, reservation })
+  }
 }

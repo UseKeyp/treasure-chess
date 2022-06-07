@@ -13,6 +13,56 @@ export const PENDING = 'PENDING'
 
 const AVAILABLE_CHECKOUT_PAYMENT_TYPES = ['WYRE', 'STRIPE']
 
+const validateMintOrder = (order) => {
+  try {
+    if (order.status !== 'COMPLETE') throw "status' not COMPLETE"
+    if (order.sourceCurrency !== 'USD') throw "sourceCurrency' is not USD"
+    if (order.destCurrency !== 'USD') throw "destCurrency' is not USD"
+    // TODO: Check if this is still valid we finalize the fee amount with Wyre
+    // if (order.usdSourceAmount != process.env.WYRE_MINT_USD_SOURCE_AMOUNT)
+    //   throw `usdSourceAmount' is not ${process.env.WYRE_MINT_USD_SOURCE_AMOUNT}`
+    //
+    // if (order.usdPurchaseAmount != process.env.WYRE_MINT_USD_PURCHASE_AMOUNT)
+    //   throw `usdPurchaseAmount' is not ${process.env.WYRE_MINT_USD_PURCHASE_AMOUNT}`
+    const destString = `account:${process.env.WYRE_ACCOUNT_ID_TREASURE}`
+    if (order.dest !== destString) throw `dest' is not ${destString}`
+  } catch (e) {
+    throw Error(
+      `Wyre mint order invalid: 'order.${e} . Received from Wyre: ${JSON.stringify(
+        order
+      )}`
+    )
+  }
+}
+
+export const processMintPurchaseOrder = async ({ order, reservation }) => {
+  validateMintOrder(order)
+  const mintPurchaseFromReservation = await db.mintPurchase.findUnique({
+    where: { reservation },
+    include: { member: true },
+  })
+  if (!mintPurchaseFromReservation)
+    throw new Error(
+      `MintPurchase not found for reservation: ${reservation} orderId: ${orderId}`
+    )
+  await db.mintPurchase.update({
+    where: { id: mintPurchase.id },
+    data: { orderId, orderStatus: 'COMPLETE' },
+  })
+  await sendDiscordAdminAlert({
+    embed: {
+      color: 3066993,
+      title: `✨💳  debit card mint success!`,
+      description: `Wyre order ID: ${orderId}
+    member: ${mintPurchase.member.username}
+    mintPurchase: ${mintPurchase.id}`,
+      footer: { text: new Date().toString() },
+      type: 'link',
+    },
+    channelName: 'orders',
+  })
+}
+
 const fetchPendingMintPurchases = () => {
   return db.mintPurchase.findMany({
     where: {

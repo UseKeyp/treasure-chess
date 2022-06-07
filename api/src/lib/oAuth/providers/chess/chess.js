@@ -101,7 +101,6 @@ export const refreshChessTokens = async (refreshToken) => {
       body: encodedBody,
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     }).then((res) => {
-      logger.debug({ custom: res })
       if (res.status == 401)
         throw new Error('Chess.com basic authorization failed')
       return res.json()

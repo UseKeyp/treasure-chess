@@ -80,7 +80,7 @@ const OnRampProvider = ({ ramp, toggleModal }) => {
   return <Provider onSubmit={onSubmit} highlight={true} {...ramp} />
 }
 
-const OffRampProvider = ({ ramp, amount, isLoading, disabled }) => {
+const OffRampProvider = ({ ramp, amount, isLoading }) => {
   if (!ramp) return null
   let onSubmit = ramp.onConnect
   if (ramp.address) onSubmit = () => ramp.onWithdraw(amount)
@@ -98,7 +98,7 @@ const OffRampProvider = ({ ramp, amount, isLoading, disabled }) => {
           </h4>
         </div>
         <div className="flex ml-4 align-center">
-          <Button onClick={onSubmit} disabled={isLoading || disabled}>
+          <Button onClick={onSubmit} disabled={isLoading || ramp.disabled}>
             <div className="flex flex-row items-center">
               <Icon name="circle_arrow" height="13" color="white" />
               <p className="ml-2">Update</p>
@@ -108,7 +108,7 @@ const OffRampProvider = ({ ramp, amount, isLoading, disabled }) => {
       </div>
     )
   const getButtonText = () => {
-    if (disabled) return 'coming soon'
+    if (ramp.disabled) return 'coming soon'
     else if (ramp.address) return 'Withdraw'
     return 'Connect'
   }
@@ -116,7 +116,7 @@ const OffRampProvider = ({ ramp, amount, isLoading, disabled }) => {
     <Provider
       onSubmit={onSubmit}
       isLoading={isLoading}
-      disabled={disabled}
+      disabled={ramp.disabled}
       buttonText={getButtonText()}
       highlight={!!ramp.address}
       satus={status}

@@ -1,7 +1,6 @@
 import { createDepositReservation } from 'src/lib/wyre'
 
 import { encodeBody } from 'src/lib/oAuth/helpers'
-import { verifyMessage } from '@ethersproject/wallet'
 import { logger } from 'src/lib/logger'
 import { db } from 'src/lib/db'
 import { memberSignMesage } from 'src/lib/web3/wallets'
@@ -25,23 +24,15 @@ export const getRampOnUrl = async ({ type }) => {
     let url
     const address = context.currentUser.address
     if (type === MT_PELERIN) {
-      let code = Math.floor(Math.random() * 9999)
-      code = 1234
+      const code = Math.floor(Math.random() * 9999)
       const message = `MtPelerin-${code}`
       const signature = await memberSignMesage({
         memberId: context.currentUser.id,
         message,
       })
-      const hash = btoa(signature)
-      logger.debug(signature)
-      logger.debug(hash)
-      logger.debug(code)
-      try {
-        const publicAddress = verifyMessage(message, atob(hash))
-        logger.debug(`recovered address: ${publicAddress}`)
-      } catch (e) {
-        logger.error(e)
-      }
+      const hash = Buffer.from(signature.replace('0x', ''), 'hex').toString(
+        'base64'
+      )
       url =
         'https://buy.mtpelerin.com/?' +
         encodeBody({
@@ -56,8 +47,7 @@ export const getRampOnUrl = async ({ type }) => {
           success: '#0096c6',
           // TODO:  add referral code
           // rfr:""
-          // addr: address,
-          addr: '0xEa22e16EA50A43092853329F3cEEa0825Cb9B03e',
+          addr: address,
           code,
           hash,
         })

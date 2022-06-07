@@ -6,6 +6,7 @@ import { useModal } from 'src/hooks/useModal'
 import { useToast } from 'src/providers/toast'
 import { MintingToast } from './toasts'
 import { CancelModal, SuccessModal } from './modals'
+import { useState } from 'react'
 
 import {
   PENDING_MINT_PURCHASES_QUERY,
@@ -25,6 +26,7 @@ import {
   // RESERVATION,
   // PENDING,
 } from 'src/providers/minting/constants'
+import { useEffect } from 'react'
 
 const MintingContext = React.createContext({
   mintStatus: null,
@@ -41,6 +43,8 @@ const MintingProvider = ({ children }) => {
     useModal()
   const { isVisible: isVisibleModalSuccess, toggleModal: toggleModalSuccess } =
     useModal()
+
+  const [mintCreditPurchase, setMintCreditPurchase] = useState(null)
 
   const [state, setState] = React.useState({
     mintStatus: null,
@@ -140,6 +144,10 @@ const MintingProvider = ({ children }) => {
 
   const [deleteMintingPurchaseMutation] = useMutation(DELETE_PURCHASE_MUTATION)
 
+  useEffect(() => {
+    console.log(state.pendingMintPurchases)
+  }, [])
+
   const onPageLoad = async () => {
     const { data: { pendingMintPurchases } = {} } =
       await pendingMintPurchasesLazyQuery()
@@ -186,6 +194,7 @@ const MintingProvider = ({ children }) => {
           await mintWithCreditMutation({
             variables: { title, gameId, endTime },
           })
+
         setState({
           ...state,
           pendingMintPurchases: [mintPurchase],
@@ -205,16 +214,23 @@ const MintingProvider = ({ children }) => {
     }
   }
 
-  const cancelMint = ({ id }) => toggleModalCancel({ id })
-  const onConfirmCancel = ({ id, ...props }) => {
+  const cancelMint = ({ _gameId }) => toggleModalCancel({ _gameId })
+  const onConfirmCancel = () => {
     toggleModalCancel()
-    setState({ ...state, mintStatus: FAILED, mintError: null })
+    console.log(state.pendingMintPurchases)
+    const lastPurchase = state.pendingMintPurchases[0]
+    setState({
+      ...state,
+      mintStatus: FAILED,
+      mintError: null,
+      mintLoading: false,
+    })
     try {
       deleteMintingPurchaseMutation({
-        variables: { id },
+        variables: { id: lastPurchase.id },
       })
     } catch (error) {
-      toastPurchase({ id, ...props })
+      toastPurchase({ ...lastPurchase })
     }
   }
 

@@ -20,8 +20,8 @@ export const mintPurchases = () => {
 
 export const pendingMintPurchases = () => processPendingPurchases()
 
-export const deleteMintingPurchase = async (mintPurchaseId) => {
-  return await db.mintPurchase.delete({ where: { id: mintPurchaseId } })
+export const deleteMintingPurchase = async ({ id }) => {
+  return await db.mintPurchase.delete({ where: { id } })
 }
 
 export const mintWithCredit = async ({ gameId, endTime, title }) => {

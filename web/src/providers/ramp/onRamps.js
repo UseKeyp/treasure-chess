@@ -37,7 +37,7 @@ export const getOnramps = ({ onSubmit }) => {
       iconName: 'wyre',
       name: 'Wyre',
       helperText:
-        'Tip: Do not use auto-complete, a password manager, or copy/paste. Try using different emails.',
+        'Tip: Do not use auto-complete, a password manager, or copy/paste. Try using a different email if your first attempt fails.',
       description: (
         <p className="mt-4">
           Regions: Most places (

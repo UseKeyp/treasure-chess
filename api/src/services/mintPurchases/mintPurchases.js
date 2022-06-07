@@ -63,12 +63,8 @@ export const mintCheckoutUrl = async ({
   let url
   let reservation
   if (paymentType === 'STRIPE') {
-    ;({ url } = await createCheckoutSession({
-      username,
-      gameId,
-      endTime,
-      address,
-      title,
+    ;({ url, paymentIntentId } = await createCheckoutSession({
+      metadata: { username, gameId, endTime, address, title },
     }))
   } else if (paymentType === 'WYRE') {
     ;({ url, reservation } = await createMintReservation({
@@ -86,6 +82,7 @@ export const mintCheckoutUrl = async ({
       member: { connect: { id: userId } },
       reservation,
       gameId,
+      ...(paymentIntentId && { orderId: paymentIntentId }),
       gameEndTime: endTime,
       title,
       paymentType,

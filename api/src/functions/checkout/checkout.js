@@ -8,17 +8,17 @@ export const handler = async (event) => {
   let statusCode = 200
 
   try {
-    // TODO:  Add logging
-    // Webhook sent by Wyre (or anyone on the web) after Wyre checkout
     const stripeSignature = event.headers['stripe-signature']
     let body = event.body
-    if (typeof body === 'string') body = JSON.parse(body)
+    // Don't modify the body if Stripe
+    if (!stripeSignature && typeof body === 'string') body = JSON.parse(body)
 
     await processOrder({ body, stripeSignature })
 
     return {
       statusCode,
       body: { message: 'Success!' },
+      rawBody: event.body,
     }
   } catch (e) {
     /* eslint-disable-next-line no-console */

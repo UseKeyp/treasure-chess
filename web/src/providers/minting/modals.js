@@ -111,7 +111,7 @@ export const MintModal = ({ isVisible, toggleModal, onSubmit }) => {
       type: 'WYRE',
       description: 'Pay by card',
       helperText:
-        'To ensure success, manually enter your card details when prompted. Do not use auto-complete, a password manager, or copy/paste. If this fails, try using a different email.',
+        'Tip: Do not use auto-complete, a password manager, or copy/paste. Try using a different email if your first attempt fails.',
       iconName: 'wyre',
     },
   ]

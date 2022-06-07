@@ -277,22 +277,64 @@ ${JSON.stringify(order, undefined, 4)}
   }
 }
 
-export const processWyreWebhook = async ({
-  reservation,
-  orderId,
-  mintPurchase,
-}) => {
-  // Ensure orderId hasn't already used with a different reservation
-  if (mintPurchase && mintPurchase.reservation !== reservation)
-    throw new Error(
-      `Wyre mint order invalid. orderId ${orderId} / reservation ${reservation} has already been used with reservation ${mintPurchase.reservation} and purchase #${mintPurchase.id}`
+const validateMintWyreOrder = (order) => {
+  try {
+    if (order.status !== 'COMPLETE') throw "status' not COMPLETE"
+    if (order.sourceCurrency !== 'USD') throw "sourceCurrency' is not USD"
+    if (order.destCurrency !== 'USD') throw "destCurrency' is not USD"
+    // TODO: Check if this is still valid we finalize the fee amount with Wyre
+    // if (order.usdSourceAmount != process.env.WYRE_MINT_USD_SOURCE_AMOUNT)
+    //   throw `usdSourceAmount' is not ${process.env.WYRE_MINT_USD_SOURCE_AMOUNT}`
+    //
+    // if (order.usdPurchaseAmount != process.env.WYRE_MINT_USD_PURCHASE_AMOUNT)
+    //   throw `usdPurchaseAmount' is not ${process.env.WYRE_MINT_USD_PURCHASE_AMOUNT}`
+    const destString = `account:${process.env.WYRE_ACCOUNT_ID_TREASURE}`
+    if (order.dest !== destString) throw `dest' is not ${destString}`
+  } catch (e) {
+    throw Error(
+      `Wyre mint order invalid: 'order.${e} . Received from Wyre: ${JSON.stringify(
+        order
+      )}`
     )
+  }
+}
+
+export const processWyreWebhook = async ({ body }) => {
+  // Wyre order
+  const { reservation, orderId } = body
+
+  if (!reservation || !orderId)
+    throw 'No reservation or orderId provided for Wyre order'
+  // Fetch the username and inject into Sentry
+  let username
+  const mintPurchase = await db.mintPurchase.findUnique({
+    where: { orderId }, // Wyre or Stripe
+    include: { member: true },
+  })
+  const depositOrder = await db.depositOrder.findUnique({
+    where: { orderId }, // Wyre only here
+    include: { member: true },
+  })
+  if (mintPurchase) {
+    username = mintPurchase.member.username
+  } else {
+    username = depositOrder.member.username
+  }
+  Sentry.setUser({ username })
+
   const order = await fetchOrder(orderId)
   if (order.status === 'PROCESSING') return // Don't throw errors and do nothing
   if (order.destCurrency === 'MUSDC') {
-    // Deposit, not a mint
-    return processDepositOrder({ order, reservation })
+    // Deposit order
+    return await processDepositOrder({ order, reservation })
   } else {
-    return processMintPurchaseOrder({ order, reservation })
+    // Mint order
+    // Ensure orderId hasn't already used with a different reservation
+    if (mintPurchase && mintPurchase.reservation !== reservation)
+      throw new Error(
+        `Wyre mint order invalid. orderId ${orderId} / reservation ${reservation} has already been used with reservation ${mintPurchase.reservation} and purchase #${mintPurchase.id}`
+      )
+    validateMintWyreOrder(order)
+    return await processMintPurchaseOrder({ mintPurchase })
   }
 }

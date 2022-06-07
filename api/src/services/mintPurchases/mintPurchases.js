@@ -20,7 +20,7 @@ export const mintPurchases = () => {
 
 export const pendingMintPurchases = () => processPendingPurchases()
 
-export const deleteMintingPurchase = async ({ id }) => {
+export const cancelMintingPurchase = async ({ id }) => {
   return await db.mintPurchase.delete({ where: { id } })
 }
 

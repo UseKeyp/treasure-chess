@@ -6,13 +6,12 @@ import { useModal } from 'src/hooks/useModal'
 import { useToast } from 'src/providers/toast'
 import { MintingToast } from './toasts'
 import { CancelModal, SuccessModal } from './modals'
-import { useState } from 'react'
 
 import {
   PENDING_MINT_PURCHASES_QUERY,
   MINT_CHECKOUT_URL_MUTATION,
   MINT_WITH_CREDIT_MUTATION,
-  DELETE_PURCHASE_MUTATION,
+  CANCEL_PURCHASE_MUTATION,
 } from './graphql'
 
 import {
@@ -26,7 +25,6 @@ import {
   // RESERVATION,
   // PENDING,
 } from 'src/providers/minting/constants'
-import { useEffect } from 'react'
 
 const MintingContext = React.createContext({
   mintStatus: null,
@@ -43,8 +41,6 @@ const MintingProvider = ({ children }) => {
     useModal()
   const { isVisible: isVisibleModalSuccess, toggleModal: toggleModalSuccess } =
     useModal()
-
-  const [mintCreditPurchase, setMintCreditPurchase] = useState(null)
 
   const [state, setState] = React.useState({
     mintStatus: null,
@@ -142,11 +138,7 @@ const MintingProvider = ({ children }) => {
 
   const [mintWithCreditMutation] = useMutation(MINT_WITH_CREDIT_MUTATION)
 
-  const [deleteMintingPurchaseMutation] = useMutation(DELETE_PURCHASE_MUTATION)
-
-  useEffect(() => {
-    console.log(state.pendingMintPurchases)
-  }, [])
+  const [cancelMintingPurchaseMutation] = useMutation(CANCEL_PURCHASE_MUTATION)
 
   const onPageLoad = async () => {
     const { data: { pendingMintPurchases } = {} } =
@@ -217,7 +209,6 @@ const MintingProvider = ({ children }) => {
   const cancelMint = ({ _gameId }) => toggleModalCancel({ _gameId })
   const onConfirmCancel = () => {
     toggleModalCancel()
-    console.log(state.pendingMintPurchases)
     const lastPurchase = state.pendingMintPurchases[0]
     setState({
       ...state,
@@ -226,7 +217,7 @@ const MintingProvider = ({ children }) => {
       mintLoading: false,
     })
     try {
-      deleteMintingPurchaseMutation({
+      cancelMintingPurchaseMutation({
         variables: { id: lastPurchase.id },
       })
     } catch (error) {

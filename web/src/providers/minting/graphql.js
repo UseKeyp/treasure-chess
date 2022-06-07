@@ -19,9 +19,9 @@ export const PENDING_MINT_PURCHASES_QUERY = gql`
   }
 `
 
-export const DELETE_PURCHASE_MUTATION = gql`
-  mutation deleteMintingPurchase($id: Int!) {
-    deleteMintingPurchase(id: $id) {
+export const CANCEL_PURCHASE_MUTATION = gql`
+  mutation cancelMintingPurchase($id: Int!) {
+    cancelMintingPurchase(id: $id) {
       id
       status
       orderStatus

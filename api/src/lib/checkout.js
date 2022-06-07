@@ -1,7 +1,5 @@
-const stripe = require('stripe')
 import Sentry from 'src/lib/sentry'
 
-import { db } from 'src/lib/db'
 import { processWyreWebhook } from 'src/lib/wyre'
 import { processStripeWebhook } from 'src/lib/stripe'
 import { sendDiscordAdminAlert } from 'src/lib/discord/admin'

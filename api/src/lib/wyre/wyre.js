@@ -335,6 +335,6 @@ export const processWyreWebhook = async ({ body }) => {
         `Wyre mint order invalid. orderId ${orderId} / reservation ${reservation} has already been used with reservation ${mintPurchase.reservation} and purchase #${mintPurchase.id}`
       )
     validateMintWyreOrder(order)
-    return await processMintPurchaseOrder({ mintPurchase })
+    return await processMintPurchaseOrder({ mintPurchase, orderId })
   }
 }

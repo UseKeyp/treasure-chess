@@ -62,6 +62,7 @@ export const mintCheckoutUrl = async ({
   const { username, address, id: userId } = context.currentUser
   let url
   let reservation
+  let paymentIntentId
   if (paymentType === 'STRIPE') {
     ;({ url, paymentIntentId } = await createCheckoutSession({
       metadata: { username, gameId, endTime, address, title },
@@ -82,6 +83,7 @@ export const mintCheckoutUrl = async ({
       member: { connect: { id: userId } },
       reservation,
       gameId,
+      // If Stripe, then we can set the payment intent now
       ...(paymentIntentId && { orderId: paymentIntentId }),
       gameEndTime: endTime,
       title,

@@ -3,6 +3,8 @@ import { EnvelopError } from '@envelop/core'
 import { db } from 'src/lib/db'
 import { validateTreasureTitle } from 'src/lib/helpers'
 import { mintTreasureAndUpdatePurchase } from 'src/lib/web3'
+import { sendDiscordAdminAlert } from 'src/lib/discord/admin'
+
 import { getTokenIdFromHashId } from 'src/lib/web3/treasure'
 import { fetchGame } from 'src/lib/games'
 import { logger } from 'src/lib/logger'
@@ -16,6 +18,7 @@ const AVAILABLE_CHECKOUT_PAYMENT_TYPES = ['WYRE', 'STRIPE']
 export const processMintPurchaseOrder = async ({ mintPurchase, orderId }) => {
   await db.mintPurchase.update({
     where: { id: mintPurchase.id },
+    // For Wyre, we must update the orderId
     data: { ...(orderId && { orderId }), orderStatus: 'COMPLETE' },
   })
   await sendDiscordAdminAlert({

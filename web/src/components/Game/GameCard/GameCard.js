@@ -1,3 +1,5 @@
+import clsx from 'clsx'
+
 import { P } from 'src/components/Typography'
 import Loader from 'src/components/Loader'
 const {
@@ -122,7 +124,7 @@ const GameCard = ({
   }
 
   return (
-    <div className="container">
+    <div className={clsx('container', disableAnimation && 'select-none')}>
       <div className="gameCardWrapper">
         {isMinting && (
           <div className="gameCardMintingContainer">

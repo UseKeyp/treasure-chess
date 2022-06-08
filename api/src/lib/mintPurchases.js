@@ -105,39 +105,45 @@ export const validateMintRequest = async ({
 }
 
 // Part of the polling system. Triggers minting.
-// TODO: (maybe) add admin ability to trigger this, rather than only by the user
 export const processPendingPurchases = async () => {
   let pendingPurchases = await fetchPendingMintPurchases()
-  pendingPurchases = await Promise.all(
-    pendingPurchases.map(async (mintPurchase) => {
-      logger.debug(
-        { custom: { ...mintPurchase, member: 'REDACTED' } },
-        'mintPurchase'
-      )
-      if (mintPurchase.orderStatus !== COMPLETE) {
-        var FIFTEEN_MINUTES = 15 * 60 * 1000
-        const now = new Date()
-        if (now - new Date(mintPurchase.createdAt) > FIFTEEN_MINUTES) {
-          const updatedMintPurchase = await db.mintPurchase.update({
-            where: { id: mintPurchase.id },
-            data: { status: FAILED, orderStatus: COMPLETE },
-          })
-          return updatedMintPurchase
+  try {
+    pendingPurchases = await Promise.all(
+      pendingPurchases.map(async (mintPurchase) => {
+        logger.debug(
+          { custom: { ...mintPurchase, member: 'REDACTED' } },
+          'mintPurchase'
+        )
+        if (mintPurchase.orderStatus !== COMPLETE) {
+          var FIFTEEN_MINUTES = 15 * 60 * 1000
+          const now = new Date()
+          if (now - new Date(mintPurchase.createdAt) > FIFTEEN_MINUTES) {
+            const updatedMintPurchase = await db.mintPurchase.update({
+              where: { id: mintPurchase.id },
+              data: { status: FAILED, orderStatus: COMPLETE },
+            })
+            return updatedMintPurchase
+          }
+          return mintPurchase
+        }
+        if (![COMPLETE, FAILED].includes(mintPurchase.status)) {
+          // Treasure not successfully minted. Proceed to mint!
+          logger.debug(`Pending Purchase: #${mintPurchase.id}`)
+          return mintTreasureAndUpdatePurchase({ mintPurchase })
         }
         return mintPurchase
-      }
-      if (![COMPLETE, FAILED].includes(mintPurchase.status)) {
-        // Treasure not successfully minted. Proceed to mint!
-        logger.debug(`Pending Purchase: #${mintPurchase.id}`)
-        return mintTreasureAndUpdatePurchase({ mintPurchase })
-      }
-      return mintPurchase
-    })
-  )
-  pendingPurchases[0] &&
-    logger.debug(
-      { custom: { ...pendingPurchases[0], member: 'REDACTED' } },
-      'mintPurchase'
+      })
     )
-  return pendingPurchases
+    // pendingPurchases[0] &&
+    //   logger.debug(
+    //     { custom: { ...pendingPurchases[0], member: 'REDACTED' } },
+    //     'pendingPurchases[0]'
+    //   )
+    logger.debug({ custom: typeof pendingPurchases })
+    logger.debug({ custom: pendingPurchases.length })
+    return pendingPurchases
+  } catch (e) {
+    throw e
+    logger.error(`processPendingPurchases() ${e}`)
+  }
 }

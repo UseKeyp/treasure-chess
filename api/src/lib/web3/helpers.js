@@ -11,6 +11,7 @@ export const DEFAULT_GAS_MAX_FEE_PER_GAS = parseUnits('10', 'gwei')
 
 export const getProviderByChainId = (chainId) => {
   try {
+    if (chainId == 1) return new JsonRpcProvider(process.env.MAINNET_RPC)
     if (chainId == 100) return new JsonRpcProvider(process.env.XDAI_RPC)
     if (chainId == 137) return new JsonRpcProvider(process.env.MATIC_RPC)
     if (chainId == 80001) return new JsonRpcProvider(process.env.MUMBAI_RPC)
@@ -24,6 +25,7 @@ export const getProviderByChainId = (chainId) => {
 }
 
 export const web3Provider = getProviderByChainId(CHAIN_ID)
+export const web3MainnetProvider = getProviderByChainId(1)
 
 export const getGasSettings = async () => {
   let maxFeePerGas = parseUnits('40', 'gwei') // fallback to 40 gwei

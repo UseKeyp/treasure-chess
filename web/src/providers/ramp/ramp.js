@@ -39,6 +39,34 @@ const RampProvider = ({ children }) => {
     isLoading: true,
     name: 'Coinbase',
     type: COINBASE,
+    iconName: 'coinbase',
+    description: (
+      <>
+        <p>
+          Regions: Most places (
+          <a
+            href="https://developers.mtpelerin.com/service-information/supported-countries"
+            target="_blank"
+            className="underline"
+            rel="noreferrer"
+          >
+            list
+          </a>
+          )
+          <br />
+          Fee: Free up to $499, then 1.3% (
+          <a
+            href="https://www.mtpelerin.com/pricing"
+            target="_blank"
+            className="underline"
+            rel="noreferrer"
+          >
+            details
+          </a>
+          )
+        </p>
+      </>
+    ),
   })
   const [pelerin, _setPelerin] = React.useState({
     // isLoading: true,
@@ -59,7 +87,7 @@ const RampProvider = ({ children }) => {
           </a>
           )
           <br />
-          Fee: Free up to $499, then 1.3% (
+          Fee: 0% (
           <a
             href="https://www.mtpelerin.com/pricing"
             target="_blank"
@@ -261,56 +289,56 @@ const RampProvider = ({ children }) => {
     }
   }
 
-  // const connectCoinbase = async () => {
-  //   document.getElementById('connection-button').disabled = true
-  //   setCoinbase({ isLoading: true, error: '', ...coinbase })
-  //   try {
-  //     const oAuthUrl = await getOAuthUrl(COINBASE)
-  //     if (
-  //       (oAuthUrl == null || oAuthUrl == '') &&
-  //       errorOAuth != '' &&
-  //       errorOAuth != null
-  //     ) {
-  //       if (errorOAuth.contains('COINBASE')) {
-  //         coinbase.error = errorOAuth
-  //         document.getElementById('connection-button').disabled = false
-  //         return setCoinbase({ isLoading: false, ...coinbase })
-  //       }
-  //     }
-  //     if (isBrowser)
-  //     window.open(
-  //       oAuthUrl.url,
-  //       'Coinbase - Connect',
-  //       'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
-  //     )
-  //     setShouldPoll(true)
-  //     document.getElementById('connection-button').disabled = false
-  //   } catch (error) {
-  //     coinbase.error = error
-  //     document.getElementById('connection-button').disabled = false
-  //     return setCoinbase({ isLoading: false, error: error, ...coinbase })
-  //   }
-  // }
+  const connectCoinbase = async () => {
+    document.getElementById('connection-button').disabled = true
+    setCoinbase({ isLoading: true, error: '', ...coinbase })
+    try {
+      const oAuthUrl = await getOAuthUrl(COINBASE)
+      if (
+        (oAuthUrl == null || oAuthUrl == '') &&
+        errorOAuth != '' &&
+        errorOAuth != null
+      ) {
+        if (errorOAuth.contains('COINBASE')) {
+          coinbase.error = errorOAuth
+          document.getElementById('connection-button').disabled = false
+          return setCoinbase({ isLoading: false, ...coinbase })
+        }
+      }
+      if (isBrowser)
+        window.open(
+          oAuthUrl.url,
+          'Coinbase - Connect',
+          'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
+        )
+      setShouldPoll(true)
+      document.getElementById('connection-button').disabled = false
+    } catch (error) {
+      coinbase.error = error
+      document.getElementById('connection-button').disabled = false
+      return setCoinbase({ isLoading: false, error: error, ...coinbase })
+    }
+  }
 
-  // const withdrawCoinbase = async (amount) => {
-  //   try {
-  //     setCoinbase({ isLoading: true, error: null, ...coinbase })
-  //     const {
-  //       data: { rampWithdraw },
-  //     } = await rampWithdrawMutation({
-  //       variables: { type: COINBASE, amount },
-  //     })
-  //     toast.success(
-  //       <TxToast text="Withdraw submitted" txHash={rampWithdraw.id} />,
-  //       {
-  //         id: rampWithdraw.id,
-  //       }
-  //     )
-  //     setCoinbase({ isLoading: false, ...coinbase })
-  //   } catch (e) {
-  //     setCoinbase({ isLoading: false, error: e.message, ...coinbase })
-  //   }
-  // }
+  const withdrawCoinbase = async (amount) => {
+    try {
+      setCoinbase({ isLoading: true, error: null, ...coinbase })
+      const {
+        data: { rampWithdraw },
+      } = await rampWithdrawMutation({
+        variables: { type: COINBASE, amount },
+      })
+      toast.success(
+        <TxToast text="Withdraw submitted" txHash={rampWithdraw.id} />,
+        {
+          id: rampWithdraw.id,
+        }
+      )
+      setCoinbase({ isLoading: false, ...coinbase })
+    } catch (e) {
+      setCoinbase({ isLoading: false, error: e.message, ...coinbase })
+    }
+  }
 
   return (
     <RampContext.Provider
@@ -326,12 +354,11 @@ const RampProvider = ({ children }) => {
             onConnect: connectWyre,
             onWithdraw: withdrawWyre,
           },
-          // Disabled
-          // {
-          //   ...coinbase,
-          //   onConnect: connectCoinbase,
-          //   onWithdraw: withdrawCoinbase,
-          // },
+          {
+            ...coinbase,
+            onConnect: connectCoinbase,
+            onWithdraw: withdrawCoinbase,
+          },
           { ...pelerin },
         ],
       }}

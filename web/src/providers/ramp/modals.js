@@ -129,12 +129,9 @@ const OffRampProvider = ({ ramp, amount }) => {
 export const DepositModal = ({ isVisible, toggleModal }) => {
   const { getRampUrl, isLoading } = useRamp()
   const onSubmit = (type) => getRampUrl({ direction: 'ON', type })
-  console.log(onRamps)
-  // return <></>
   return (
     <ModalContainer
       isVisible={isVisible}
-      // isVisible={true}
       hideModal={toggleModal}
       headerText="Add Funds"
       content={

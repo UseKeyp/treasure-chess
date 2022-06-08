@@ -95,8 +95,6 @@ const MintingProvider = ({ children }) => {
         if (!last.map((item) => item.id).includes(purchase.id))
           return toastPurchase(purchase)
         const lastPurchase = last.find((item) => item.id === purchase.id)
-        console.debug({ lastPurchase: lastPurchase.orderStatus })
-        console.debug({ current: purchase.orderStatus })
         if (
           lastPurchase.orderStatus !== purchase.orderStatus ||
           lastPurchase.status !== purchase.status ||

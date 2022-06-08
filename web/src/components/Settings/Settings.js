@@ -16,7 +16,7 @@ const Settings = () => {
       title: 'Beta Access',
       description: 'Preview new features before they are released.',
       button: (
-        <Button size="small" onClick={toggleModalBeta}>
+        <Button variant="blue" size="small" onClick={toggleModalBeta}>
           Request
         </Button>
       ),

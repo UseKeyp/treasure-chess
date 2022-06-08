@@ -1,6 +1,7 @@
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
 import { useAuth } from '@redwoodjs/auth'
 import { isBrowser } from '@redwoodjs/prerender/browserUtils'
+import { Link, routes } from '@redwoodjs/router'
 
 import { useToast } from 'src/providers/toast'
 import { TxToast } from 'src/providers/market/toasts'
@@ -14,6 +15,7 @@ import {
 import { useModal } from 'src/hooks/useModal'
 import { DepositModal, WithdrawModal } from 'src/providers/ramp/modals'
 
+const EXTERNAL_TRANSFER = 'EXTERNAL_TRANSFER'
 const PLAID = 'PLAID'
 const COINBASE = 'COINBASE'
 const WYRE = 'WYRE'
@@ -26,7 +28,7 @@ const RampContext = React.createContext({
 const useRamp = () => React.useContext(RampContext)
 
 const RampProvider = ({ children }) => {
-  const { isAuthenticated } = useAuth()
+  const { isAuthenticated, currentUser } = useAuth()
   const { toast } = useToast()
   const { getOAuthUrl, submitCodeGrant, error: errorOAuth } = useOAuth()
 
@@ -94,6 +96,30 @@ const RampProvider = ({ children }) => {
       </>
     ),
   })
+  const externalTransfer = {
+    isLoading: false,
+    type: EXTERNAL_TRANSFER,
+    name: 'External Transfer',
+    description: (
+      <>
+        <p>
+          Regions: All
+          <br />
+          Fee: Free
+        </p>
+      </>
+    ),
+    disabled: !currentUser?.betaAccess,
+    helperText: (
+      <p>
+        Request access via the Beta Tester program in{' '}
+        <a className="underline" href="/settings">
+          Settings
+        </a>
+        .
+      </p>
+    ),
+  }
 
   const { isVisible: isVisibleDep, toggleModal: toggleModalDep } = useModal()
   const { isVisible: isVisibleWit, toggleModal: toggleModalWit } = useModal()
@@ -333,6 +359,7 @@ const RampProvider = ({ children }) => {
           //   onWithdraw: withdrawCoinbase,
           // },
           { ...pelerin },
+          { ...externalTransfer },
         ],
       }}
     >

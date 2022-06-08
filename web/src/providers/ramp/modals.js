@@ -23,7 +23,7 @@ const Provider = ({
 }) => {
   let backgroundColor =
     isLoading || disabled ? 'bg-chessBlack-200 pointer-events-none' : 'bg-green'
-  const buttonClassName = `mt-4 w-[272px] h-[40px] text-xl shadow-m hover:sm hover:bg-greenDark hover:shadow-greenDark ${backgroundColor}`
+  const buttonClassName = `mt-2 w-[272px] h-[40px] text-xl shadow-m hover:sm hover:bg-greenDark hover:shadow-greenDark ${backgroundColor}`
   let errorText
   if (error != null && error != '' && error.length > 0) {
     errorText = error.substring(0, 200)
@@ -54,13 +54,13 @@ const Provider = ({
       }`}
     >
       <div className="flex align-center items-center">{iconContent}</div>
-      {description && <div className="mt-4">{description}</div>}
+      {description && <div className="mt-2">{description}</div>}
       <h2 className="mt-2">{status}</h2>
       {!hideButton && button}
       {errorText && (
         <div className="mt-4 font-bold text-errorYellow">{errorText}</div>
       )}
-      {helperText && <p className="mt-3 italic">{helperText}</p>}
+      {helperText && <div className="mt-2">{helperText}</div>}
     </div>
   )
 }
@@ -117,7 +117,7 @@ const OffRampProvider = ({ ramp, amount }) => {
       </div>
     )
   const getButtonText = () => {
-    if (ramp.disabled) return 'coming soon'
+    if (ramp.disabled) return 'Coming soon'
     else if (ramp.address) return 'Withdraw'
     return 'Connect'
   }

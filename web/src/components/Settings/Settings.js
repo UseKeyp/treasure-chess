@@ -1,16 +1,15 @@
 import { useAuth } from '@redwoodjs/auth'
 import ModalContainer from 'src/components/ModalContainer'
 import Button from 'src/components/Button'
-import { routes } from '@redwoodjs/router'
 
 import { useModal } from 'src/hooks/useModal'
 
 const Settings = () => {
+  const { isVisible: isVisibleBeta, toggleModal: toggleModalBeta } = useModal()
   const { currentUser } = useAuth()
   if (!currentUser) {
     return <></>
   }
-  const { isVisible: isVisibleBeta, toggleModal: toggleModalBeta } = useModal()
 
   const items = [
     {
@@ -21,7 +20,7 @@ const Settings = () => {
           Request
         </Button>
       ),
-      status: !!currentUser.betaAccess ? 'Enabled' : 'Disabled',
+      status: currentUser.betaAccess ? 'Enabled' : 'Disabled',
       highlight: currentUser.betaAccess,
     },
   ]
@@ -68,6 +67,7 @@ const Settings = () => {
         content={
           <>
             <iframe
+              title="Request Beta Access"
               src="https://mautic.tools.treasurechess.com/form/2"
               width="100%"
               height="500"

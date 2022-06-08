@@ -252,6 +252,12 @@ const RampProvider = ({ children }) => {
 
   const withdrawWyre = async (amount) => {
     try {
+      if (amount < 1)
+        return setWyre({
+          ...wyre,
+          isLoading: false,
+          error: 'Amount must be greater than 0',
+        })
       setWyre({ isLoading: true, error: null, ...wyre })
       const {
         data: { rampWithdraw },
@@ -263,7 +269,7 @@ const RampProvider = ({ children }) => {
         { id: rampWithdraw.id }
       )
     } catch (e) {
-      setWyre({ isLoading: false, error: e.message, ...wyre })
+      setWyre({ ...wyre, isLoading: false, error: e.message })
     }
   }
 

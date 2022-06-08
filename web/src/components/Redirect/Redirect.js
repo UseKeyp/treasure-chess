@@ -1,4 +1,4 @@
-import { routes } from '@redwoodjs/router'
+import { routes, Link } from '@redwoodjs/router'
 import { useRedirection } from 'src/providers/redirection'
 
 import Loader from 'src/components/Loader'
@@ -55,7 +55,9 @@ const Redirect = ({ type }) => {
     <div className="flex flex-col min-h-screen">
       <div className="flex flex-grow flex-col w-full justify-center align-center items-center">
         <div className="redirect-container w-80 sm:w-96">
-          <Icon name="treasure_chess_full" height="35px" color="#fff" />
+          <Link to={routes.home()}>
+            <Icon name="treasure_chess_full" height="35px" color="#fff" />
+          </Link>
           <div className="redirect-contents w-full">
             <div
               className={`flex align-center bg-black p-4 rounded-lg border-2 border-${

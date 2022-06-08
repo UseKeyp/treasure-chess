@@ -64,7 +64,7 @@ const Provider = ({
       <h2 className="mt-2">{status}</h2>
       {!hideButton && button}
       {errorText && (
-        <div className="mt-8 font-bold text-errorYellow">{errorText}</div>
+        <div className="mt-4 font-bold text-errorYellow">{errorText}</div>
       )}
       {helperText && <p className="mt-3 italic">{helperText}</p>}
     </div>

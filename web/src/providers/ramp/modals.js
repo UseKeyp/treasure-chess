@@ -4,7 +4,7 @@ import FilterPriceInput from 'src/components/FilterPriceInput'
 import { useRamp } from 'src/providers/ramp/ramp'
 import LoadingDots from 'src/components/LoadingDots'
 import Button from 'src/components/Button'
-import { trimAddress } from 'src/utils/helpers'
+import { trimAddress, getBlockExplorerUrl } from 'src/utils/helpers'
 import { onRamps, feedbackSuggestionCta } from 'src/providers/ramp/onRamps'
 const Provider = ({
   error,
@@ -85,14 +85,22 @@ const OffRampProvider = ({ ramp, amount }) => {
   if (!ramp) return null
   let onSubmit = ramp.onConnect
   if (ramp.address) onSubmit = () => ramp.onWithdraw(amount)
-
   let status
   if (ramp.address)
     status = (
       <div className="flex align-center">
         <div>
           <h4>
-            <i>Connected to {trimAddress(ramp.address)}</i>
+            <i>
+              Connected to{' '}
+              <a
+                href={getBlockExplorerUrl({ address: ramp.address })}
+                rel="noreferrer"
+                target="_blank"
+              >
+                {trimAddress(ramp.address)}
+              </a>
+            </i>
           </h4>
           <h4>
             <i>{ramp.accountNickname}</i>
@@ -120,7 +128,7 @@ const OffRampProvider = ({ ramp, amount }) => {
       disabled={ramp.disabled}
       buttonText={getButtonText()}
       highlight={!!ramp.address}
-      satus={status}
+      status={status}
       {...ramp}
     />
   )
@@ -168,10 +176,10 @@ export const WithdrawModal = ({ isVisible, toggleModal }) => {
         <>
           <p className="text-base">Send funds to your bank at any time.</p>
           {isConnected && (
-            <>
-              <h4 className="mt-4 ">Amount to cash out</h4>
+            <div className="bg-chessBlack-100 p-2 mt-4 rounded-lg ">
+              <h4 className="mb-2">Amount</h4>
               <FilterPriceInput value={amount} setValue={setAmount} />
-            </>
+            </div>
           )}
           {[...offRamps, feedbackSuggestionCta].map((ramp) => (
             <OffRampProvider

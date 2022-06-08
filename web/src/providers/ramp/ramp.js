@@ -108,22 +108,8 @@ const RampProvider = ({ children }) => {
     fetchPolicy: 'network-only',
   })
   const updateRamps = () => {
-    // const handleClickInsideModal = () => {
-    //   setCoinbase({
-    //     error: '',
-    //     ...coinbase,
-    //     ...coinbaseRamp,
-    //   })
-    //   setWyre({
-    //     error: '',
-    //     ...wyre,
-    //     ...wyreRamp,
-    //   })
-    // }
-    // document.addEventListener('click', handleClickInsideModal, true)
     const coinbaseRamp = ramps.find((ramp) => ramp.type === COINBASE)
     const wyreRamp = ramps.find((ramp) => ramp.type === WYRE)
-    // TODO:  only continue if there's been a change, otherwise keep polling.
     setCoinbase({
       ...coinbase,
       ...coinbaseRamp,

@@ -134,13 +134,16 @@ const MemberDetails = ({ member, isProfile }) => {
             )}
           </div>
           {isProfile && (
-            <div className="mt-4 member-details--member-content">
+            <div className="mt-4 grid  gap-4  member-details--member-content">
               <p>
                 <Link
                   to={routes.member({ usernameOrAddress: member.username })}
                 >
-                  {t('View public profile')}
+                  {t('Public Profile')}
                 </Link>
+              </p>
+              <p>
+                <Link to={routes.settings()}>{t('Settings')}</Link>
               </p>
             </div>
           )}

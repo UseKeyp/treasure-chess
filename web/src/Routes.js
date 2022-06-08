@@ -20,6 +20,7 @@ const Routes = () => {
         <Route path="/members/{usernameOrAddress}" page={MemberMemberPage} name="member" />
         <Private unauthenticated="signin">
           {/*    <Private unauthenticated="signin" whileLoadingAuth={Loader}> */}
+          <Route path="/settings" page={SettingsPage} name="settings" />
           <Route path="/profile" page={ProfilePage} name="profile" />
         </Private>
         <Route path="/treasures/{tokenId:String}" page={TreasureTreasurePage} name="treasure" />

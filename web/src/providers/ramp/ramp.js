@@ -54,16 +54,7 @@ const RampProvider = ({ children }) => {
           </a>
           )
           <br />
-          Fee: Free up to $499, then 1.3% (
-          <a
-            href="https://www.mtpelerin.com/pricing"
-            target="_blank"
-            className="underline"
-            rel="noreferrer"
-          >
-            details
-          </a>
-          )
+          Fee: 0.25% and $20+ blockchain network fee
         </p>
       </>
     ),

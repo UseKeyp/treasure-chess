@@ -36,12 +36,12 @@ const RampProvider = ({ children }) => {
   })
   const [shouldPoll, setShouldPoll] = React.useState(true)
   const [coinbase, setCoinbase] = React.useState({
-    isLoading: false,
+    isLoading: true,
     name: 'Coinbase',
     type: COINBASE,
   })
   const [pelerin, _setPelerin] = React.useState({
-    isLoading: false,
+    // isLoading: true,
     name: 'Mt. Pelerin',
     disabled: true,
     type: PELERIN,
@@ -74,7 +74,7 @@ const RampProvider = ({ children }) => {
     ),
   })
   const [wyre, setWyre] = React.useState({
-    isLoading: false,
+    isLoading: true,
     type: WYRE,
     name: 'Wyre + Plaid',
     icon: (
@@ -108,29 +108,31 @@ const RampProvider = ({ children }) => {
     fetchPolicy: 'network-only',
   })
   const updateRamps = () => {
-    const handleClickInsideModal = () => {
-      setCoinbase({
-        error: '',
-        ...coinbase,
-        ...coinbaseRamp,
-      })
-      setWyre({
-        error: '',
-        ...wyre,
-        ...wyreRamp,
-      })
-    }
-    document.addEventListener('click', handleClickInsideModal, true)
+    // const handleClickInsideModal = () => {
+    //   setCoinbase({
+    //     error: '',
+    //     ...coinbase,
+    //     ...coinbaseRamp,
+    //   })
+    //   setWyre({
+    //     error: '',
+    //     ...wyre,
+    //     ...wyreRamp,
+    //   })
+    // }
+    // document.addEventListener('click', handleClickInsideModal, true)
     const coinbaseRamp = ramps.find((ramp) => ramp.type === COINBASE)
     const wyreRamp = ramps.find((ramp) => ramp.type === WYRE)
     // TODO:  only continue if there's been a change, otherwise keep polling.
     setCoinbase({
       ...coinbase,
       ...coinbaseRamp,
+      isLoading: false,
     })
     setWyre({
       ...wyre,
       ...wyreRamp,
+      isLoading: false,
     })
     setShouldPoll(false)
   }
@@ -163,7 +165,7 @@ const RampProvider = ({ children }) => {
 
   const getRampUrl = async ({ type, direction }) => {
     try {
-      setState({ ...state, isLoading: true, rampError: '' })
+      setState({ ...state, isLoading: type, rampError: '' })
       const {
         data: {
           getRampUrl: { url },
@@ -258,7 +260,7 @@ const RampProvider = ({ children }) => {
           isLoading: false,
           error: 'Amount must be greater than 0',
         })
-      setWyre({ isLoading: true, error: null, ...wyre })
+      setWyre({ ...wyre, isLoading: true, error: null })
       const {
         data: { rampWithdraw },
       } = await rampWithdrawMutation({
@@ -324,17 +326,10 @@ const RampProvider = ({ children }) => {
   //   }
   // }
 
-  const isLoading =
-    state.isLoadng ||
-    rampsLoading ||
-    coinbase.isLoading ||
-    wyre.isLoading ||
-    pelerin.isLoading
-
   return (
     <RampContext.Provider
       value={{
-        isLoading,
+        isLoading: state.isLoading || rampsLoading,
         rampError: rampError || state.rampError,
         getRampUrl,
         deposit: toggleModalDep,

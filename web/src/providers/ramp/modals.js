@@ -5,7 +5,7 @@ import { useRamp } from 'src/providers/ramp/ramp'
 import LoadingDots from 'src/components/LoadingDots'
 import Button from 'src/components/Button'
 import { trimAddress } from 'src/utils/helpers'
-import { getOnramps, feedbackSuggestionCta } from 'src/providers/ramp/onRamps'
+import { onRamps, feedbackSuggestionCta } from 'src/providers/ramp/onRamps'
 const Provider = ({
   error,
   isLoading,
@@ -38,13 +38,7 @@ const Provider = ({
       onClick={onSubmit}
       disabled={isLoading || disabled}
     >
-      {isLoading ? (
-        <p className="text-white flex justify-center text-[10px]">
-          <LoadingDots />
-        </p>
-      ) : (
-        buttonText
-      )}
+      {isLoading ? <LoadingDots /> : buttonText}
     </Button>
   )
   let iconContent = iconName ? (
@@ -71,16 +65,23 @@ const Provider = ({
   )
 }
 
-const OnRampProvider = ({ ramp, toggleModal }) => {
+const OnRampProvider = ({ ramp, toggleModal, isLoading, onSubmit }) => {
   if (!ramp) return null
-  const onSubmit = () => {
-    ramp.onSubmit()
+  const onClick = async () => {
+    await onSubmit(ramp.type)
     toggleModal()
   }
-  return <Provider onSubmit={onSubmit} highlight={true} {...ramp} />
+  return (
+    <Provider
+      onSubmit={onClick}
+      highlight={true}
+      isLoading={isLoading === ramp.type}
+      {...ramp}
+    />
+  )
 }
 
-const OffRampProvider = ({ ramp, amount, isLoading }) => {
+const OffRampProvider = ({ ramp, amount }) => {
   if (!ramp) return null
   let onSubmit = ramp.onConnect
   if (ramp.address) onSubmit = () => ramp.onWithdraw(amount)
@@ -98,7 +99,7 @@ const OffRampProvider = ({ ramp, amount, isLoading }) => {
           </h4>
         </div>
         <div className="flex ml-4 align-center">
-          <Button onClick={onSubmit} disabled={isLoading || ramp.disabled}>
+          <Button onClick={onSubmit} disabled={ramp.isLoading || ramp.disabled}>
             <div className="flex flex-row items-center">
               <Icon name="circle_arrow" height="13" color="white" />
               <p className="ml-2">Update</p>
@@ -115,7 +116,7 @@ const OffRampProvider = ({ ramp, amount, isLoading }) => {
   return (
     <Provider
       onSubmit={onSubmit}
-      isLoading={isLoading}
+      isLoading={ramp.isLoading}
       disabled={ramp.disabled}
       buttonText={getButtonText()}
       highlight={!!ramp.address}
@@ -126,10 +127,10 @@ const OffRampProvider = ({ ramp, amount, isLoading }) => {
 }
 
 export const DepositModal = ({ isVisible, toggleModal }) => {
-  const { getRampUrl } = useRamp()
-  const onRamps = getOnramps({
-    onSubmit: (type) => getRampUrl({ direction: 'ON', type }),
-  })
+  const { getRampUrl, isLoading } = useRamp()
+  const onSubmit = (type) => getRampUrl({ direction: 'ON', type })
+  console.log(onRamps)
+  // return <></>
   return (
     <ModalContainer
       isVisible={isVisible}
@@ -139,11 +140,13 @@ export const DepositModal = ({ isVisible, toggleModal }) => {
       content={
         <>
           <p className="text-base">Instantly add funds using a debit card.</p>
-          {onRamps.map((ramp) => (
+          {[...onRamps, feedbackSuggestionCta].map((ramp) => (
             <OnRampProvider
               key={ramp.name}
               ramp={ramp}
               toggleModal={toggleModal}
+              isLoading={isLoading}
+              onSubmit={onSubmit}
             />
           ))}
         </>
@@ -158,7 +161,6 @@ export const WithdrawModal = ({ isVisible, toggleModal }) => {
   const isConnected = offRamps
     .map((ramp) => ramp.address && true)
     .includes(true)
-
   return (
     <ModalContainer
       headerText="Cash Out"

@@ -49,7 +49,7 @@ const ListItem = ({
     if (mintStatus === MINT_STATUS_ADDING_FUNDS)
       return (
         <div className="games-history-list__status">
-          Finish your purchase using the popup
+          Waiting for payment
           <button
             className="games-history-list__reset-button"
             onClick={onReset}

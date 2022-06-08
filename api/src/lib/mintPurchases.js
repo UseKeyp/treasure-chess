@@ -136,12 +136,7 @@ export const processPendingPurchases = async () => {
   )
   pendingPurchases[0] &&
     logger.debug(
-      {
-        custom: {
-          ...pendingPurchases[0],
-          member: 'REDACTED',
-        },
-      },
+      { custom: { ...pendingPurchases[0], member: 'REDACTED' } },
       'mintPurchase'
     )
   return pendingPurchases

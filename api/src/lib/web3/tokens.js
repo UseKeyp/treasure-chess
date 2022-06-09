@@ -75,6 +75,6 @@ export const transferUsdc = async ({ to, amount }) => {
     return tx
   } catch (e) {
     logger.error(e)
-    throw new EnvelopError(`Error transferring USDC - ${e?.message || e}`)
+    throw new EnvelopError(`Request failed - ${e?.message || e}`)
   }
 }

@@ -14,32 +14,32 @@ const SupportPage = () => {
     }
   })
 
-  const supportLink = (
+  const supportText = (
     <>
-      <a href="https://support.chess.com/" target="_blank" rel="noreferrer">
-        https://support.chess.com/
-      </a>
+      <Trans i18nKey="web:supportHelpArea">
+        Feel free to reach out for questions or support at{' '}
+        <a
+          className="underline"
+          href="mailto:support@treasurechess.com"
+          target="_blank"
+          rel="noreferrer"
+        >
+          support@treasurechess.com
+        </a>
+      </Trans>
     </>
   )
 
-  const supportText = [
-    t(
-      'Feel free to reach out for questions or support. We are always happy to help! You can get in touch with us at '
-    ),
-    supportLink,
-  ]
-
   const supportContent = [
     [
-      // [0] = title
-      t('How can we help?'),
-      // [1] = answer
-      supportText,
-      // [2] = icon
-      '🛠️ ',
-      // [3] = featured
+      t('Questions or need help?'),
+      t(
+        'Use the chat widget at the bottom right of your screen for quick questions and troubleshooting.'
+      ),
+      '🤔',
       true,
     ],
+    [t('Have a request?'), supportText, '📨'],
   ]
 
   return (

@@ -30,6 +30,9 @@ const ToastProvider = ({ children }) => {
     >
       <Toaster
         position="bottom-right"
+        containerStyle={{
+          bottom: 100,
+        }}
         toastOptions={{
           className: '',
           style: {

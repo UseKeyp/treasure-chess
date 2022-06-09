@@ -5,7 +5,7 @@ const FaqItem = ({ icon, question, answer, feature }) => {
       <div className="mb-2">
         {icon ? <div className="text-lg">{icon}</div> : <></>}
         <div className="flex justify-between">
-          <h3 className="text-base font-bold color-grey-light">{question}</h3>
+          <h2 className=" font-bold color-grey-light">{question}</h2>
         </div>
       </div>
       <p className="answer-container text-sm font-normal color-grey-light tracking-tight">

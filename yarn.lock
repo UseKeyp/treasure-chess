@@ -6256,6 +6256,11 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-16.11.28.tgz#4c16c266882b1cbd268719ea6c7c8ff3c60aae39"
   integrity sha512-l/y1ZZpWqevemVQmk0Q1TPohlJTul7u9ysq3bw6xlRDO8z+98JBI6gp4JS0OK8YkWUdYxnJU35H4vOzuiOFIag==
 
+"@types/node@>=8.1.0":
+  version "17.0.39"
+  resolved "https://registry.npmjs.org/@types/node/-/node-17.0.39.tgz#3652d82e2a16b4ea679d5ea3143b816c91b7e113"
+  integrity sha512-JDU3YLlnPK3WDao6/DlXLOgSNpG13ct+CwIO17V8q0/9fWJyeMJJ/VyZ1lv8kDprihvZMydzVwf0tQOqGiY2Nw==
+
 "@types/node@^12.12.6":
   version "12.20.50"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.20.50.tgz#14ba5198f1754ffd0472a2f84ab433b45ee0b65e"
@@ -22192,6 +22197,14 @@ strip-json-comments@~2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-2.0.1.tgz#3c531942e908c2697c0ec344858c286c7ca0a60a"
   integrity sha1-PFMZQukIwml8DsNEhYwobHygpgo=
+
+stripe@^9.6.0:
+  version "9.6.0"
+  resolved "https://registry.npmjs.org/stripe/-/stripe-9.6.0.tgz#7b9e3b1ee509b77c0e9f2406b347adc1488a1852"
+  integrity sha512-CwXh2+e0fG/L1TtfVIlLKxqxU1bLtNfu15cyg/jq8s22lfvIZlUxKvGS3rlGCsLhwxh5UAaisxSwxf51RQ+Ddw==
+  dependencies:
+    "@types/node" ">=8.1.0"
+    qs "^6.10.3"
 
 strong-log-transformer@^2.1.0:
   version "2.1.0"

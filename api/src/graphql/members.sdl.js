@@ -4,6 +4,7 @@ export const schema = gql`
     username: String!
     locale: String
     address: String
+    email: String
     treasuresOwned: [Treasure]!
     treasuresMinted: [Treasure]!
     treasuresPlayedWhite: [Treasure]!

@@ -3,7 +3,7 @@ import { useAuth } from '@redwoodjs/auth'
 
 import { useModal } from 'src/hooks/useModal'
 
-import { WithdrawModal, DepositModal, AddressModal } from './modals'
+import { AddressModal } from './modals'
 import {
   MEMBER_BALANCE_QUERY,
   TRANSFER_ERC721_MUTATION,
@@ -33,8 +33,6 @@ const WalletProvider = ({ children }) => {
     React.useState(false)
   const [transferErc721Error, setTransferErc721Error] = React.useState()
 
-  const { isVisible: isVisibleDep, toggleModal: toggleModalDep } = useModal()
-  const { isVisible: isVisibleWit, toggleModal: toggleModalWit } = useModal()
   const { isVisible: isVisibleAdd, toggleModal: toggleModalAdd } = useModal()
 
   const {
@@ -95,8 +93,6 @@ const WalletProvider = ({ children }) => {
   return (
     <WalletContext.Provider
       value={{
-        deposit: toggleModalDep,
-        withdraw: toggleModalWit,
         getAddress,
         usdcBalance: state.usdcBalance,
         mintCreditBalance: state.mintCreditBalance,
@@ -110,8 +106,6 @@ const WalletProvider = ({ children }) => {
         transferErc20Loading,
       }}
     >
-      <DepositModal isVisible={isVisibleDep} toggleModal={toggleModalDep} />
-      <WithdrawModal isVisible={isVisibleWit} toggleModal={toggleModalWit} />
       <AddressModal
         address={state.addressToCopy}
         isVisible={isVisibleAdd}

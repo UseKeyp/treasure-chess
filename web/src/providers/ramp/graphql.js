@@ -10,18 +10,11 @@ export const MEMBER_RAMPS_QUERY = gql`
     }
   }
 `
-export const WYRE_DEPOSIT_URL_QUERY = gql`
-  query wyreDepositUrlQuery {
-    wyreDepositUrl
-  }
-`
 
-export const OAUTH_URL_QUERY = gql`
-  query oAuthUrlQuery($type: String!) {
-    oAuthUrl(type: $type) {
+export const RAMP_URL_QUERY = gql`
+  query getRampUrl($type: String!, $direction: RampDirection!) {
+    getRampUrl(type: $type, direction: $direction) {
       url
-      type
-      text
     }
   }
 `

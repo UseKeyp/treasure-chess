@@ -54,6 +54,7 @@ const GameCard = ({
           ...game,
           achievements,
           title: title || game.title || 'Add a title',
+          tooltiptext: title || game.title || 'Add a title',
         },
         gifUrl: showGif ? game.gifUrl : imageSrc,
       })
@@ -126,9 +127,9 @@ const GameCard = ({
         {isMinting && (
           <div className="gameCardMintingContainer">
             <div className="gameCardMintingOverlay" />
-            <div>
-              <div className="mb-6 h-full">
-                <Loader />
+            <div className="w-full">
+              <div className="mb-6 ">
+                <Loader small />
               </div>
               <P
                 fontWeight={700}

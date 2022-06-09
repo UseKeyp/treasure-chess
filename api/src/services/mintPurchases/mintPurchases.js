@@ -9,6 +9,7 @@ import {
   processPendingPurchases,
 } from 'src/lib/mintPurchases'
 import { createMintReservation } from 'src/lib/wyre'
+import { createCheckoutSession } from 'src/lib/stripe'
 
 export const mintPurchases = () => {
   return db.mintPurchase.findMany({
@@ -51,23 +52,42 @@ export const mintWithCredit = async ({ gameId, endTime, title }) => {
   }
 }
 
-export const mintCheckoutUrl = async ({ gameId, endTime, title }) => {
-  await validateMintRequest({ gameId, endTime, title })
+export const mintCheckoutUrl = async ({
+  gameId,
+  endTime,
+  title,
+  paymentType,
+}) => {
+  await validateMintRequest({ gameId, endTime, title, paymentType })
   const { username, address, id: userId } = context.currentUser
-  const { url, reservation } = await createMintReservation({
-    username,
-    gameId,
-    endTime,
-    address,
-    title,
-  })
+  let url
+  let reservation
+  let paymentIntentId
+  if (paymentType === 'STRIPE') {
+    ;({ url, paymentIntentId } = await createCheckoutSession({
+      metadata: { username, gameId, endTime, address, title },
+    }))
+  } else if (paymentType === 'WYRE') {
+    ;({ url, reservation } = await createMintReservation({
+      username,
+      gameId,
+      endTime,
+      address,
+      title,
+    }))
+  } else {
+    throw new Error('Payment provider not found')
+  }
   await db.mintPurchase.create({
     data: {
       member: { connect: { id: userId } },
       reservation,
       gameId,
+      // If Stripe, then we can set the payment intent now
+      ...(paymentIntentId && { orderId: paymentIntentId }),
       gameEndTime: endTime,
       title,
+      paymentType,
       orderStatus: 'RESERVATION',
     },
   })

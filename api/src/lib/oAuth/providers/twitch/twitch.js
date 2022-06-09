@@ -5,6 +5,7 @@ import { isDevelopment } from 'src/lib/helpers'
 import Sentry from 'src/lib/sentry'
 
 import { encodeBody, getExpiration } from 'src/lib/oAuth/helpers'
+import { processPromotion } from 'src/lib/promotions'
 
 export const TWITCH = 'TWITCH'
 export const TWITCH_OAUTH_URL_AUTHORIZE =
@@ -102,6 +103,7 @@ export const onConnected = async ({
         },
       },
     })
+    await processPromotion('TWITCH_CONNECTION')
     return { status: 'SUCCESS' }
   } catch (e) {
     Sentry.captureException(e)

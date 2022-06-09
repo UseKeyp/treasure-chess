@@ -6,7 +6,7 @@ import { useWallet } from 'src/providers/wallet'
 import { useModal } from 'src/hooks/useModal'
 import { useToast } from 'src/providers/toast'
 import { MintingToast } from './toasts'
-import { CancelModal, SuccessModal } from './modals'
+import { CancelModal, SuccessModal, MintModal } from './modals'
 
 import {
   PENDING_MINT_PURCHASES_QUERY,
@@ -20,10 +20,6 @@ import {
   MINT_STATUS_SUCCESS,
   FAILED,
   COMPLETE,
-  // SUBMITTED,
-  // WYRE,
-  // RESERVATION,
-  // PENDING,
 } from 'src/providers/minting/constants'
 
 const MintingContext = React.createContext({
@@ -41,6 +37,8 @@ const MintingProvider = ({ children }) => {
     useModal()
   const { isVisible: isVisibleModalSuccess, toggleModal: toggleModalSuccess } =
     useModal()
+  const { isVisible: isVisibleModalMint, toggleModal: toggleModalMint } =
+    useModal()
 
   const [state, setState] = React.useState({
     mintStatus: null,
@@ -48,6 +46,9 @@ const MintingProvider = ({ children }) => {
     pendingMintPurchases: [],
     successfulMintPurchase: null,
     mintLoading: false,
+    title: null,
+    gameId: null,
+    endTime: null,
   })
 
   const toastPurchase = (purchase) => {
@@ -95,6 +96,7 @@ const MintingProvider = ({ children }) => {
           return toastPurchase(purchase)
         const lastPurchase = last.find((item) => item.id === purchase.id)
         if (
+          lastPurchase.orderStatus !== purchase.orderStatus ||
           lastPurchase.status !== purchase.status ||
           purchase?.tx?.id || // Handle when previous has no purchase
           lastPurchase?.tx?.id !== purchase?.tx?.id
@@ -145,18 +147,30 @@ const MintingProvider = ({ children }) => {
     pendingMintPurchases.map((purchase) => toastPurchase(purchase))
     setState({ ...state, pendingMintPurchases, shouldPoll: true })
   }
-  const mint = async ({ title, gameId, endTime }) => {
+
+  const mint = ({ title, gameId, endTime }) => {
+    setState({ ...state, title, gameId, endTime })
+    toggleModalMint()
+  }
+
+  const onConfirmMint = async (paymentType) => {
     setState({
       ...state,
       mintStatus: MINT_STATUS_MINTING,
       mintLoading: true,
       mintError: false,
+      mintCheckoutpaymentType: paymentType,
     })
-    if (mintCreditBalance < 1) {
+    if (paymentType !== 'CREDIT') {
       try {
         const { data: { mintCheckoutUrl } = {} } =
           await mintCheckoutUrlMutation({
-            variables: { title, gameId, endTime },
+            variables: {
+              title: state.title,
+              gameId: state.gameId,
+              endTime: state.endTime,
+              paymentType,
+            },
           })
         setState({
           ...state,
@@ -182,7 +196,11 @@ const MintingProvider = ({ children }) => {
       try {
         const { data: { mintWithCredit: mintPurchase } = {} } =
           await mintWithCreditMutation({
-            variables: { title, gameId, endTime },
+            variables: {
+              title: state.title,
+              gameId: state.gameId,
+              endTime: state.endTime,
+            },
           })
         setState({
           ...state,
@@ -203,10 +221,11 @@ const MintingProvider = ({ children }) => {
     }
   }
 
-  const cancelMint = ({ _gameId, _endTime }) => toggleModalCancel()
+  const cancelMint = () => toggleModalCancel()
+
   const onConfirmCancel = () => {
     toggleModalCancel()
-    // TODO:  Delete mintPurchaseMutation
+    // TODO: Delete the mint. mintPurchaseMutation
     setState({ ...state, mintStatus: null, mintError: null })
   }
 
@@ -234,8 +253,15 @@ const MintingProvider = ({ children }) => {
         mintStatus: state.mintStatus,
         mintError: state.mintError,
         mintLoading: state.mintLoading,
+        mintCheckoutpaymentType: state.mintCheckoutpaymentType,
       }}
     >
+      <MintModal
+        onSubmit={onConfirmMint}
+        isVisible={isVisibleModalMint}
+        toggleModal={toggleModalMint}
+        mintCreditBalance={mintCreditBalance}
+      />
       <CancelModal
         onSubmit={onConfirmCancel}
         isVisible={isVisibleModalCancel}

@@ -14,7 +14,7 @@ export const treasure = async ({ tokenId }) => {
   let id
   if (tokenId.startsWith('0x')) id = tokenId
 
-  const treasure = await db.treasure.update({
+  return await db.treasure.update({
     where: { ...(id ? { id } : { tokenId: Number(tokenId) }) },
     data: { viewCount: { increment: 1 } },
     include: {
@@ -22,8 +22,6 @@ export const treasure = async ({ tokenId }) => {
       marketSales: { orderBy: { id: 'desc' }, take: 2 },
     },
   })
-
-  return treasure
 }
 // Used to get the latest market sale, without slowing down the normal query
 export const treasureWithMarketSales = async ({ tokenId }) => {

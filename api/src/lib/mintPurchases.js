@@ -3,6 +3,8 @@ import { EnvelopError } from '@envelop/core'
 import { db } from 'src/lib/db'
 import { validateTreasureTitle } from 'src/lib/helpers'
 import { mintTreasureAndUpdatePurchase } from 'src/lib/web3'
+import { sendDiscordAdminAlert } from 'src/lib/discord/admin'
+
 import { getTokenIdFromHashId } from 'src/lib/web3/treasure'
 import { fetchGame } from 'src/lib/games'
 import { logger } from 'src/lib/logger'
@@ -10,6 +12,26 @@ import { logger } from 'src/lib/logger'
 export const COMPLETE = 'COMPLETE'
 export const FAILED = 'FAILED'
 export const PENDING = 'PENDING'
+
+const AVAILABLE_CHECKOUT_PAYMENT_TYPES = ['WYRE', 'STRIPE']
+
+export const processMintPurchaseOrder = async ({ mintPurchase, orderId }) => {
+  await db.mintPurchase.update({
+    where: { id: mintPurchase.id },
+    // For Wyre, we must update the orderId
+    data: { ...(orderId && { orderId }), orderStatus: 'COMPLETE' },
+  })
+  await sendDiscordAdminAlert({
+    embed: {
+      color: 3066993,
+      title: `✨💳 ${mintPurchase.paymentType} card mint success!`,
+      description: `member: ${mintPurchase.member.username}
+    mintPurchase: ${mintPurchase.id}`,
+      footer: { text: new Date().toString() },
+    },
+    channelName: 'orders',
+  })
+}
 
 const fetchPendingMintPurchases = () => {
   return db.mintPurchase.findMany({
@@ -43,7 +65,14 @@ export const fetchMintPurchase = async ({ gameId, endTime, memberId }) => {
   return mintPurchases[0] || null
 }
 
-export const validateMintRequest = async ({ gameId, endTime, title }) => {
+export const validateMintRequest = async ({
+  gameId,
+  endTime,
+  title,
+  paymentType,
+}) => {
+  if (!AVAILABLE_CHECKOUT_PAYMENT_TYPES.includes(paymentType))
+    throw new EnvelopError(`Provider "${paymentType}" currently unavailable.`)
   validateTreasureTitle(title)
   const existingPurchase = await fetchMintPurchase({
     gameId,
@@ -76,7 +105,6 @@ export const validateMintRequest = async ({ gameId, endTime, title }) => {
 }
 
 // Part of the polling system. Triggers minting.
-// TODO: (maybe) add admin ability to trigger this, rather than only by the user
 export const processPendingPurchases = async () => {
   let pendingPurchases = await fetchPendingMintPurchases()
   pendingPurchases = await Promise.all(
@@ -105,15 +133,12 @@ export const processPendingPurchases = async () => {
       return mintPurchase
     })
   )
-  pendingPurchases[0] &&
-    logger.debug(
-      {
-        custom: {
-          ...pendingPurchases[0],
-          member: 'REDACTED',
-        },
-      },
-      'mintPurchase'
-    )
+  // pendingPurchases[0] &&
+  //   logger.debug(
+  //     { custom: { ...pendingPurchases[0], member: 'REDACTED' } },
+  //     'pendingPurchases[0]'
+  //   )
+  logger.debug({ custom: typeof pendingPurchases })
+  logger.debug({ custom: pendingPurchases.length })
   return pendingPurchases
 }

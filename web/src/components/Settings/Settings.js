@@ -23,26 +23,41 @@ const Settings = () => {
       status: currentUser.betaAccess ? 'Enabled' : 'Disabled',
       highlight: currentUser.betaAccess,
     },
+    {
+      title: 'Feedback',
+      description: (
+        <div className="flex align-start">
+          <iframe
+            src={`https://mautic.tools.treasurechess.com/form/3?username=${currentUser.username}`}
+            width="500"
+            height="300"
+            title="Feedback form"
+          >
+            <p>Your browser does not support iframes.</p>
+          </iframe>
+        </div>
+      ),
+    },
   ]
 
   return (
     <div className="max-width-container">
       <h1>{'Settings'}</h1>
 
-      <div className="grid grid-rows-2">
+      <div className="">
         {items.map((item) => (
           <div
             key={item.title}
-            className={`grid grid-cols-2 align-center gap-4  bg-chessBlack-100 mt-6 p-4 rounded-lg border-[1px] ${
+            className={`grid grid-cols-4 gap-4 align-center  bg-chessBlack-100 mt-6 p-4 rounded-lg border-[1px] ${
               item.highlight ? 'border-green' : 'border-chessBlack-100'
             }`}
           >
-            <div>
+            <div className="col-span-3">
               <div className="flex align-center items-center">
                 {item.iconContent || <h3>{item.title}</h3>}
               </div>
               {item.description && <p className="mt-2">{item.description}</p>}
-              <p className="mt-4">{item.status}</p>
+              {item.status && <p className="mt-4">{item.status}</p>}
               {item.errorText && (
                 <div className="mt-4 font-bold text-errorYellow">
                   {item.errorText}
@@ -52,8 +67,8 @@ const Settings = () => {
                 <p className="mt-3 italic">{item.helperText}</p>
               )}
             </div>
-            {!item.hideButton && (
-              <div className="flex justify-end">
+            {!item.hideButton && item.button && (
+              <div className="flex justify-center">
                 <div>{item.button}</div>
               </div>
             )}
@@ -65,16 +80,16 @@ const Settings = () => {
         hideModal={toggleModalBeta}
         headerText="Request Beta Access"
         content={
-          <>
+          <div className="p-4 rounded-lg bg-chessBlack-100">
             <iframe
               title="Request Beta Access"
-              src="https://mautic.tools.treasurechess.com/form/2"
+              src={`https://mautic.tools.treasurechess.com/form/2?username=${currentUser.username}`}
               width="100%"
               height="500"
             >
               <p>Your browser does not support iframes.</p>
             </iframe>
-          </>
+          </div>
         }
       />
     </div>

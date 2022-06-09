@@ -21,6 +21,12 @@ export const mintPurchases = () => {
 export const pendingMintPurchases = () => processPendingPurchases()
 
 export const cancelMintingPurchase = async ({ id }) => {
+  const { memberId } = await db.mintPurchase.findFirst({
+    where: { id },
+  })
+
+  if (memberId !== context.currentUser.id)
+    throw new EnvelopError('Unauthorized')
   return await db.mintPurchase.delete({ where: { id } })
 }
 

@@ -13,6 +13,7 @@ import {
 } from './graphql'
 import { useModal } from 'src/hooks/useModal'
 import { DepositModal, WithdrawModal } from 'src/providers/ramp/modals'
+import Icon from 'src/components/Icon/Icon'
 
 const EXTERNAL_TRANSFER = 'EXTERNAL_TRANSFER'
 const PLAID = 'PLAID'
@@ -44,6 +45,7 @@ const RampProvider = ({ children }) => {
   const [pelerin, _setPelerin] = React.useState({
     // isLoading: true,
     name: 'Mt. Pelerin',
+    icon: <Icon name="mt_pelerin" />,
     disabled: true,
     type: PELERIN,
     description: (

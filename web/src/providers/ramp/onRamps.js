@@ -2,6 +2,7 @@ export const onRamps = [
   {
     // iconName: 'ramp_network',
     type: 'RAMP_NETWORK',
+    iconName: 'ramp_network',
     name: 'Ramp Network',
     description: (
       <p className="mt-4">
@@ -66,7 +67,7 @@ export const onRamps = [
     ),
   },
   {
-    // iconName: 'mt_pelerin',
+    iconName: 'mt_pelerin',
     name: 'Mt Pelerin',
     type: 'MT_PELERIN',
     description: (

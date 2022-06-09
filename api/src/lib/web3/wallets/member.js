@@ -4,6 +4,17 @@ import { web3Provider, getGasSettings } from 'src/lib/web3/helpers'
 import { getTorusWallet } from 'src/lib/torus'
 import { logger } from 'src/lib/logger'
 
+const getMemberWalletWithProvider = async (memberId) => {
+  const torusWallet = await getTorusWallet(memberId)
+  return new Wallet(torusWallet.privateKey, web3Provider)
+}
+
+export const memberSignMesage = async ({ memberId, message }) => {
+  const memberWalletWithProvider = await getMemberWalletWithProvider(memberId)
+  const signature = await memberWalletWithProvider.signMessage(message)
+  return signature
+}
+
 export const memberSendTransaction = async ({ memberId, unsignedTx }) => {
   try {
     if (process.env.IMPERSONATE_USERNAME)
@@ -11,11 +22,8 @@ export const memberSendTransaction = async ({ memberId, unsignedTx }) => {
         { custom: unsignedTx },
         'IMPERSONATE_USERNAME tx skipped'
       )
-    const torusWallet = await getTorusWallet(memberId)
-    const memberWalletWithProvider = new Wallet(
-      torusWallet.privateKey,
-      web3Provider
-    )
+
+    const memberWalletWithProvider = getMemberWalletWithProvider(memberId)
     const gasSettings = await getGasSettings()
     return memberWalletWithProvider.sendTransaction({
       ...unsignedTx,

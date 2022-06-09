@@ -49,7 +49,7 @@ const ListItem = ({
     if (mintStatus === MINT_STATUS_ADDING_FUNDS)
       return (
         <div className="games-history-list__status">
-          Continue via Wyre popup.
+          Waiting for payment
           <button
             className="games-history-list__reset-button"
             onClick={onReset}

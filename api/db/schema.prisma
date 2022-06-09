@@ -181,7 +181,7 @@ model MintPurchase {
   // Order details
   paymentType       String                   @default("WYRE") // WYRE, MINTCREDIT
   status            RampStatus               @default(PENDING)
-  // Wyre
+  // Wyre or Stripe
   orderStatus       MintPurchaseOrderStatus?
   orderId           String?                  @unique // Wyre orderId
   reservation       String?                  @unique // Wyre reservation

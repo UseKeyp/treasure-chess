@@ -126,18 +126,20 @@ const getWhereQueryFromArgs = ({ username, filter, owner }) => {
     : null
 
   return {
-    ...(usernameQuery && usernameQuery),
-    ...(ownerQuery && ownerQuery),
-    ...(achievementQuery && achievementQuery),
-    ...(outcomeQuery && outcomeQuery),
-    ...(moveCountQuery && moveCountQuery),
-    ...(titleQuery && titleQuery),
-    ...(openingQuery && openingQuery),
-    ...(saleQuery && saleQuery),
-    ...(filterObj.color && { cardColor: filterObj.color }),
-    ...(filterObj.termination && { termination: filterObj.termination }),
-    ...(filterObj.timeControl && { timeControl: filterObj.timeControl }),
-    ...(filterObj.rarity && { rarity: filterObj.rarity }),
+    AND: [
+      usernameQuery,
+      ownerQuery,
+      achievementQuery,
+      outcomeQuery,
+      moveCountQuery,
+      titleQuery,
+      openingQuery,
+      saleQuery,
+      filterObj.color && { cardColor: filterObj.color },
+      filterObj.termination && { termination: filterObj.termination },
+      filterObj.timeControl && { timeControl: filterObj.timeControl },
+      filterObj.rarity && { rarity: filterObj.rarity },
+    ].filter((query) => query),
     // TODO:  implement sale, and price
     // lowPrice,
     // highPrice,
@@ -181,16 +183,13 @@ export const getTreasuresWithFilter = async ({
 }) => {
   const whereQuery = getWhereQueryFromArgs({ username, filter, owner, sort })
   const orderByQuery = getOrderByQueryFromArgs({ sort })
+  logger.debug(`filter: ${filter}`)
+  logger.debug(`owner: ${owner}`)
   // Cannot use cursor pagination, since custom sorting is needed
   const skip = page * TREASURES_PER_PAGE
   const treasures = await db.treasure.findMany({
     skip,
-    include: {
-      marketSales: {
-        orderBy: { updatedAt: 'desc' },
-        take: 1,
-      },
-    },
+    include: { marketSales: { orderBy: { updatedAt: 'desc' }, take: 1 } },
     // Taking 9 elements may cause issues if there's only <9 to take?
     take: TREASURES_PER_PAGE,
     // take: Math.min(count - skip, TREASURES_PER_PAGE),
@@ -198,7 +197,7 @@ export const getTreasuresWithFilter = async ({
     // TODO: add sorting, see https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#orderby
     orderBy: orderByQuery,
   })
-  logger.debug({ custom: treasures[0] }, 'one treasure')
+  // logger.debug({ custom: treasures[0] }, 'one treasure')
   return treasures
 }
 

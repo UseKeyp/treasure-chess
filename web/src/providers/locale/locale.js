@@ -1,6 +1,6 @@
 import { useAuth } from '@redwoodjs/auth'
-// import { useMutation } from '@redwoodjs/web'
-// import { USER_LOCALE_MUTATION } from './graphql'
+import { useMutation } from '@redwoodjs/web'
+import { USER_LOCALE_MUTATION } from './graphql'
 import { isBrowser } from '@redwoodjs/prerender/browserUtils'
 
 const LocaleContext = React.createContext({})
@@ -22,15 +22,15 @@ const LocaleProvider = ({ children }) => {
   globalThis.t = t
   globalThis.Trans = Trans
 
-  // const [userLocale] = useMutation(USER_LOCALE_MUTATION)
+  const [userLocale] = useMutation(USER_LOCALE_MUTATION)
 
   const updateLocale = async () => {
     try {
-      // await userLocale({
-      //   variables: {
-      //     locale,
-      //   },
-      // })
+      await userLocale({
+        variables: {
+          locale,
+        },
+      })
     } catch (e) {
       /* eslint-disable-next-line no-console */
       console.error(e)

@@ -11,9 +11,12 @@ import MemberMintCredits from 'src/components/Member/MemberMintCredits'
 import globalConfig from 'src/global.config'
 
 import { getFlagBase64 } from '@treasure-chess/treasure-html'
-import { useWallet } from 'src/providers/wallet'
 
 import { trimAddress } from 'src/utils/helpers'
+import { useRamp } from 'src/providers/ramp/ramp'
+import { useWallet } from 'src/providers/wallet'
+
+import Tooltip from 'src/components/Tooltip/Tooltip'
 
 const TWITCH = 'TWITCH'
 
@@ -37,10 +40,23 @@ const TwitchLink = ({ isProfile, username: twitchUsername }) => {
   if (isProfile) {
     return (
       <Button disabled={isLoading} onClick={onClickTwitch} className="ml-2">
-        <div className="flex flex-row">
-          <TwitchIcon color={username ? undefined : '#ABB6B9'} />
-          <p className="ml-1">{username ? 'Disconnect' : 'Connect'}</p>
-        </div>
+        <Tooltip
+          effect="solid"
+          tooltipChild={
+            <div className="flex flex-col text-md text-bold text-center">
+              <div className="whitespace-nowrap">Earn $5 in credits</div>
+              <div className="whitespace-nowrap">when you connect</div>
+              <div className="whitespace-nowrap">your Twitch account</div>
+            </div>
+          }
+          position="right"
+          bgColor="dark"
+        >
+          <div className="flex flex-row">
+            <TwitchIcon color={username ? undefined : '#ABB6B9'} />
+            <p className="ml-1">{username ? 'Disconnect' : 'Connect'}</p>
+          </div>
+        </Tooltip>
       </Button>
     )
   }
@@ -60,7 +76,8 @@ const TwitchLink = ({ isProfile, username: twitchUsername }) => {
 }
 
 const MemberDetails = ({ member, isProfile }) => {
-  const { deposit, withdraw, getAddress } = useWallet()
+  const { getAddress } = useWallet()
+  const { deposit, withdraw } = useRamp()
   return (
     <section className="member-details p-4">
       <div className="member-details--inner">
@@ -99,9 +116,9 @@ const MemberDetails = ({ member, isProfile }) => {
             {isProfile ? (
               <div className="flex">
                 <p className="mr-2">{trimAddress(member.address)}</p>
-                <button onClick={() => getAddress(member.address)}>
+                <Button onClick={() => getAddress(member.address)}>
                   <Icon name="copy" color="#147DDD" />
-                </button>
+                </Button>
               </div>
             ) : (
               member.address && (
@@ -117,13 +134,16 @@ const MemberDetails = ({ member, isProfile }) => {
             )}
           </div>
           {isProfile && (
-            <div className="mt-4 member-details--member-content">
+            <div className="mt-4 grid  gap-4  member-details--member-content">
               <p>
                 <Link
                   to={routes.member({ usernameOrAddress: member.username })}
                 >
-                  {t('View public profile')}
+                  {t('Public Profile')}
                 </Link>
+              </p>
+              <p>
+                <Link to={routes.settings()}>{t('Settings')}</Link>
               </p>
             </div>
           )}

@@ -30,8 +30,10 @@ const Settings = () => {
           <iframe
             src={`https://mautic.tools.treasurechess.com/form/3?username=${currentUser.username}`}
             width="500"
-            height="300"
+            height="220"
             title="Feedback form"
+            scrolling="no"
+            frameBorder="0"
           >
             <p>Your browser does not support iframes.</p>
           </iframe>

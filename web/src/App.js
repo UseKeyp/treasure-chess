@@ -1,6 +1,5 @@
-import * as Sentry from '@sentry/browser'
 import { FatalErrorBoundary, RedwoodProvider } from '@redwoodjs/web'
-import { AuthProvider, useAuth } from '@redwoodjs/auth'
+import { AuthProvider } from '@redwoodjs/auth'
 import { RedwoodApolloProvider } from '@redwoodjs/web/apollo'
 
 import AllContextProviders from 'src/providers'
@@ -38,32 +37,6 @@ class AuthProviderExtended extends AuthProvider {
   }
 }
 
-const SentryInjector = () => {
-  const { currentUser } = useAuth
-  try {
-    Sentry.init({
-      dsn: process.env.SENTRY_DSN,
-      environment: process.env.ENVIRONMENT,
-      // beforeSend(event) {
-      // Check if it is an exception, and if so, show the report dialog
-      // if (event.exception) {
-      //   Sentry.showReportDialog({ eventId: event.event_id })
-      // }
-      //   return event
-      // },
-    })
-  } catch (e) {
-    /* eslint-disable-next-line no-console */
-    console.log(e)
-  }
-  if (currentUser) {
-    /* eslint-disable-next-line no-undef */
-    _paq.push(['setUserId', currentUser.username]) // Matomo user
-    Sentry.setUser(currentUser)
-  }
-  return null
-}
-
 const App = () => (
   <FatalErrorBoundary page={FatalErrorPage}>
     <RedwoodProvider titleTemplate="%AppTitle | %PageTitle">
@@ -71,7 +44,6 @@ const App = () => (
         type="dbAuth"
         config={{ fetchConfig: { credentials: 'include' } }}
       >
-        <SentryInjector />
         <RedwoodApolloProvider
           graphQLClientConfig={{ httpLinkConfig: { credentials: 'include' } }}
         >

@@ -10,6 +10,7 @@ import { RampProvider } from './ramp'
 import { LocaleProvider } from './locale'
 import { OAuthProvider } from './oAuth'
 import { RedirectionProvider } from './redirection'
+import { TrackingProvider } from './tracking'
 
 const AllContextProviders = ({ children }) => {
   // Add additional context providers here
@@ -17,6 +18,7 @@ const AllContextProviders = ({ children }) => {
 
   return (
     <RestrictedProvider>
+      <TrackingProvider />
       <LocaleProvider>
         <ThemeContextProvider>
           <FilterProvider>

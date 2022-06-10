@@ -5,7 +5,6 @@ import { db } from 'src/lib/db'
 import { isHexAddress } from 'src/lib/helpers'
 import { fetchChessMember } from 'src/lib/chessCom/chessCom'
 import { logger } from 'src/lib/logger'
-import { EnvelopError } from '@envelop/core'
 import { refreshChessTokens } from 'src/lib/oAuth/providers/chess'
 
 import { web3Provider } from 'src/lib/web3/helpers'
@@ -23,8 +22,7 @@ export const fetchMemberAndGiveCredits = async (username, creditsToGive) => {
   } else if (!member) {
     // Created the member
     const chessData = await fetchChessMember(username)
-    if (!chessData.email)
-      throw new EnvelopError(`Couldn't fetch email for user ${username}`)
+
     let country = 'US'
     try {
       country = chessData.country.split('country/')[1]
@@ -36,7 +34,6 @@ export const fetchMemberAndGiveCredits = async (username, creditsToGive) => {
       data: {
         id: chessData.player_id.toString(),
         username: chessData.username,
-        email: chessData.email,
         mintCredits:
           Number(process.env.MINT_CREDITS_NEW_MEMBER) + creditsToGive,
         ...(chessData.avatar && { imageSrc: chessData.avatar }),
@@ -62,10 +59,6 @@ export const fetchMemberAndUpdateBan = async (username, shouldBan) => {
   } else if (!member) {
     // Created the member
     const chessData = await fetchChessMember(username)
-    if (!chessData.username)
-      throw new EnvelopError(`Couldn't fetch user ${username}`)
-    if (!chessData.email)
-      throw new EnvelopError(`Couldn't fetch email for user ${username}`)
     let country = 'US'
     try {
       country = chessData.country.split('country/')[1]
@@ -77,7 +70,6 @@ export const fetchMemberAndUpdateBan = async (username, shouldBan) => {
       data: {
         id: chessData.player_id.toString(),
         username: chessData.username,
-        email: chessData.email,
         mintCredits: Number(process.env.MINT_CREDITS_NEW_MEMBER),
         ...(chessData.avatar && { imageSrc: chessData.avatar }),
         ...(chessData.masterTitle && {
@@ -112,8 +104,6 @@ export const fetchMemberAndBlock = async (username, shouldIgnoreAddress) => {
     } else if (!member) {
       // Created the member
       const chessData = await fetchChessMember(username)
-      if (!chessData.email)
-        throw new EnvelopError(`Couldn't fetch email for user ${username}`)
 
       let country = 'US'
       try {
@@ -127,7 +117,6 @@ export const fetchMemberAndBlock = async (username, shouldIgnoreAddress) => {
           data: {
             id: chessData.player_id.toString(),
             username: chessData.username,
-            email: chessData.email,
             mintCredits: Number(process.env.MINT_CREDITS_NEW_MEMBER),
             ...(chessData.avatar && { imageSrc: chessData.avatar }),
             ...(chessData.masterTitle && {
@@ -190,16 +179,10 @@ export const fetchMember = async (
               data: { username },
             })
           } else {
-            if (!chessData.email)
-              throw new EnvelopError(
-                `Couldn't fetch email for user ${username} in fetchMember function`
-              )
-
             member = await db.member.create({
               data: {
                 id: chessData.player_id.toString(),
                 username: chessData.username,
-                email: chessData.email,
                 mintCredits: Number(process.env.MINT_CREDITS_NEW_MEMBER),
                 ...(chessData.avatar && { imageSrc: chessData.avatar }),
                 ...(chessData.title && {
@@ -239,19 +222,6 @@ export const fetchMember = async (
           country: 'ETHER',
         },
       })
-    } else if (member) {
-      if (!member['email']) {
-        const chessData = await fetchChessMember(member.username)
-        console.log({ chessData })
-        if (!chessData.email)
-          throw new EnvelopError(`Couldn't fetch email for user ${username}`)
-        await db.member.update({
-          where: { id: member.id },
-          data: {
-            email: chessData.email,
-          },
-        })
-      }
     }
     return {
       ...member,

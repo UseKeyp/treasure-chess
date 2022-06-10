@@ -1,0 +1,12 @@
+.use-spring-carousel-main-wrapper {
+  max-width: theme('maxWidth.7xl');
+  overflow-x: clip;
+}
+
+.use-spring-carousel-item {
+  justify-content: center;
+}
+
+.use-spring-carousel-item:active {
+  cursor: grabbing;
+}

@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useSpringCarousel } from 'react-spring-carousel'
 
+import Button from 'src/components/Button'
+
 // --
 
 const ITEMS_PER_SLIDE = 4
@@ -26,12 +28,11 @@ const Carousel = ({ enableAutoSlide, items }) => {
 
   const {
     carouselFragment,
+    slideToPrevItem,
     slideToNextItem,
     useListenToCustomEvent,
     getCurrentActiveItem,
   } = useSpringCarousel({
-    gutter: 24,
-    startEndGutter: 24,
     itemsPerSlide: !hasItems
       ? 1
       : items.length <= ITEMS_PER_SLIDE
@@ -39,7 +40,10 @@ const Carousel = ({ enableAutoSlide, items }) => {
       : ITEMS_PER_SLIDE,
     items: !hasItems
       ? [{ id: '1', renderItem: null }]
-      : items.map((renderItem, id) => ({ id, renderItem })),
+      : items.map((renderItem, id) => ({
+          id,
+          renderItem,
+        })),
   })
 
   // --
@@ -91,7 +95,33 @@ const Carousel = ({ enableAutoSlide, items }) => {
 
   // --
 
-  return <div className="overflow-x-hidden">{carouselFragment}</div>
+  return (
+    <div className="relative">
+      <div className="absolute hidden md:flex -top-12 right-0 flex-row space-x-4 text-sm">
+        <Button
+          disabled={!hasItems}
+          variant="black"
+          onClick={() => {
+            setAutoSliding(false)
+            slideToPrevItem()
+          }}
+        >
+          Previous Treasure
+        </Button>
+        <Button
+          disabled={!hasItems}
+          variant="black"
+          onClick={() => {
+            setAutoSliding(false)
+            slideToNextItem()
+          }}
+        >
+          Next Treasure
+        </Button>
+      </div>
+      {carouselFragment}
+    </div>
+  )
 }
 
 export default Carousel

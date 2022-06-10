@@ -174,6 +174,54 @@ const getOrderByQueryFromArgs = ({ sort }) => {
   }
 }
 
+function matchTerminationFilterQueryToBackend(filter) {
+  if (filter) {
+    if (filter.includes('Draw+by+Agreement')) {
+      filter = filter.toString().replace('Draw+by+Agreement', 'Agreement')
+    }
+    if (filter.includes('Draw+by+Repetition')) {
+      filter = filter.toString().replace('Draw+by+Repetition', 'Repetition')
+    }
+    if (filter.includes('Insufficient+Material')) {
+      filter = filter
+        .toString()
+        .replace('Insufficient+Material', 'Insufficient')
+    }
+    if (filter.includes('Draw+by+50-Move+Rule')) {
+      filter = filter.toString().replace('Draw+by+50-Move+Rule', 'FiftyMove')
+    }
+    if (filter.includes('Opponent+King+Reached+the+Hill')) {
+      filter = filter
+        .toString()
+        .replace('Opponent+King+Reached+the+Hill', 'KingOfTheHill')
+    }
+    if (filter.includes('Checked+for+the+Third+Time')) {
+      filter = filter
+        .toString()
+        .replace('Checked+for+the+Third+Time', 'ThreeCheck')
+    }
+    if (filter.includes('Draw+by+Timeout+vs+Insufficient')) {
+      filter = filter
+        .toString()
+        .replace('Draw+by+Timeout+vs+Insufficient', 'TimeVsInsufficient')
+    }
+    if (filter.includes('Bughouse+Partner+Lost')) {
+      filter = filter
+        .toString()
+        .replace('Bughouse+Partner+Lost', 'BughousePartnerLose')
+    }
+    if (filter.includes('Losers+All+Captured')) {
+      filter = filter
+        .toString()
+        .replace('Losers+All+Captured', 'LosersAllCaptured')
+    }
+    if (filter.includes('Losers+Stalemate')) {
+      filter = filter.toString().replace('Losers+Stalemate', 'LosersStalemate')
+    }
+  }
+  return filter
+}
+
 export const getTreasuresWithFilter = async ({
   username,
   owner,
@@ -181,6 +229,7 @@ export const getTreasuresWithFilter = async ({
   sort,
   page = 0,
 }) => {
+  filter = matchTerminationFilterQueryToBackend(filter)
   const whereQuery = getWhereQueryFromArgs({ username, filter, owner, sort })
   const orderByQuery = getOrderByQueryFromArgs({ sort })
   logger.debug(`filter: ${filter}`)
@@ -206,6 +255,7 @@ export const getTreasuresWithFilterCount = async ({
   filter,
   owner,
 }) => {
+  filter = matchTerminationFilterQueryToBackend(filter)
   const whereQuery = getWhereQueryFromArgs({ username, filter, owner })
   // Note: count takes up to 2+ seconds to the query for large db (1M+ elements)
   return db.treasure.count({ where: whereQuery })

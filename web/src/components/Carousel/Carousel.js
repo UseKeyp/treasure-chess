@@ -42,7 +42,7 @@ const Carousel = ({ enableAutoSlide, items }) => {
       ? [{ id: '1', renderItem: null }]
       : items.map((renderItem, id) => ({
           id,
-          renderItem,
+          renderItem: <div className="min-w-[304px] mx-auto">{renderItem}</div>,
         })),
   })
 

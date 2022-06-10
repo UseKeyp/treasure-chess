@@ -9,14 +9,16 @@ import { useOAuth } from 'src/providers/oAuth'
 import {
   MEMBER_RAMPS_QUERY,
   RAMP_WITHDRAW_MUTATION,
-  WYRE_DEPOSIT_URL_QUERY,
+  RAMP_URL_QUERY,
 } from './graphql'
 import { useModal } from 'src/hooks/useModal'
 import { DepositModal, WithdrawModal } from 'src/providers/ramp/modals'
 
+const EXTERNAL_TRANSFER = 'EXTERNAL_TRANSFER'
 const PLAID = 'PLAID'
 const COINBASE = 'COINBASE'
 const WYRE = 'WYRE'
+const PELERIN = 'PELERIN'
 
 const RampContext = React.createContext({
   isLoading: true,
@@ -25,21 +27,98 @@ const RampContext = React.createContext({
 const useRamp = () => React.useContext(RampContext)
 
 const RampProvider = ({ children }) => {
-  const { isAuthenticated } = useAuth()
+  const { isAuthenticated, currentUser } = useAuth()
   const { toast } = useToast()
   const { getOAuthUrl, submitCodeGrant, error: errorOAuth } = useOAuth()
 
+  const [state, setState] = React.useState({
+    isLoading: false,
+    error: null,
+  })
   const [shouldPoll, setShouldPoll] = React.useState(true)
   const [coinbase, setCoinbase] = React.useState({
-    isLoading: false,
+    isLoading: true,
     name: 'Coinbase',
     type: COINBASE,
   })
+  const [pelerin, _setPelerin] = React.useState({
+    // isLoading: true,
+    name: 'Mt. Pelerin',
+    disabled: true,
+    type: PELERIN,
+    description: (
+      <>
+        <p>
+          Regions: Most places excluding the US (
+          <a
+            href="https://developers.mtpelerin.com/service-information/supported-countries"
+            target="_blank"
+            className="underline"
+            rel="noreferrer"
+          >
+            list
+          </a>
+          )
+          <br />
+          Fee: Free up to $499, then 1.3% (
+          <a
+            href="https://www.mtpelerin.com/pricing"
+            target="_blank"
+            className="underline"
+            rel="noreferrer"
+          >
+            details
+          </a>
+          )
+        </p>
+      </>
+    ),
+  })
   const [wyre, setWyre] = React.useState({
-    isLoading: false,
+    isLoading: true,
     type: WYRE,
     name: 'Wyre + Plaid',
+    icon: (
+      <img
+        src="/icons/wyre_plaid.png"
+        alt="Wyre and Plaid logos"
+        className="h-12"
+      />
+    ),
+    description: (
+      <>
+        <p>
+          Regions: US, MX, AU, EU, CN, BR
+          <br />
+          Fee: 0.2%
+        </p>
+      </>
+    ),
   })
+  const externalTransfer = {
+    isLoading: false,
+    type: EXTERNAL_TRANSFER,
+    name: 'External Transfer',
+    description: (
+      <>
+        <p>
+          Regions: All
+          <br />
+          Fee: Free
+        </p>
+      </>
+    ),
+    disabled: !currentUser?.betaAccess,
+    helperText: (
+      <p>
+        Request access via the Beta Tester program in{' '}
+        <a className="underline" href="/settings">
+          Settings
+        </a>
+        .
+      </p>
+    ),
+  }
 
   const { isVisible: isVisibleDep, toggleModal: toggleModalDep } = useModal()
   const { isVisible: isVisibleWit, toggleModal: toggleModalWit } = useModal()
@@ -54,29 +133,17 @@ const RampProvider = ({ children }) => {
     fetchPolicy: 'network-only',
   })
   const updateRamps = () => {
-    const handleClickInsideModal = () => {
-      setCoinbase({
-        error: '',
-        ...coinbase,
-        ...coinbaseRamp,
-      })
-      setWyre({
-        error: '',
-        ...wyre,
-        ...wyreRamp,
-      })
-    }
-    document.addEventListener('click', handleClickInsideModal, true)
     const coinbaseRamp = ramps.find((ramp) => ramp.type === COINBASE)
     const wyreRamp = ramps.find((ramp) => ramp.type === WYRE)
-    // TODO:  only continue if there's been a change, otherwise keep polling.
     setCoinbase({
       ...coinbase,
       ...coinbaseRamp,
+      isLoading: false,
     })
     setWyre({
       ...wyre,
       ...wyreRamp,
+      isLoading: false,
     })
     setShouldPoll(false)
   }
@@ -102,21 +169,30 @@ const RampProvider = ({ children }) => {
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [ramps, errorOAuth])
 
-  const [wyreDepositUrlQuery] = useLazyQuery(WYRE_DEPOSIT_URL_QUERY, {
+  const [rampUrlQuery] = useLazyQuery(RAMP_URL_QUERY, {
     fetchPolicy: 'network-only',
   })
   const [rampWithdrawMutation] = useMutation(RAMP_WITHDRAW_MUTATION)
 
-  const depositWyre = async () => {
-    const { data: { wyreDepositUrl } = {} } = await wyreDepositUrlQuery()
-    if (isBrowser)
-      window.open(
-        wyreDepositUrl,
-        'Treasure Chess - Deposit',
-        'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
-      )
-    // TODO: Close the modal
-    // toggleModalDep()
+  const getRampUrl = async ({ type, direction }) => {
+    try {
+      setState({ ...state, isLoading: type, rampError: '' })
+      const {
+        data: {
+          getRampUrl: { url },
+        },
+      } = await rampUrlQuery({ variables: { direction, type } })
+      if (isBrowser && url)
+        window.open(
+          url,
+          'Treasure Chess - Deposit',
+          'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
+        )
+      setState({ ...state, isLoading: false, rampError: '' })
+    } catch (e) {
+      setState({ ...state, isLoading: false, rampError: e })
+    }
+    toggleModalDep()
   }
 
   const connectWyre = async () => {
@@ -189,7 +265,13 @@ const RampProvider = ({ children }) => {
 
   const withdrawWyre = async (amount) => {
     try {
-      setWyre({ isLoading: true, error: null, ...wyre })
+      if (amount < 1)
+        return setWyre({
+          ...wyre,
+          isLoading: false,
+          error: 'Amount must be greater than 0',
+        })
+      setWyre({ ...wyre, isLoading: true, error: null })
       const {
         data: { rampWithdraw },
       } = await rampWithdrawMutation({
@@ -197,12 +279,10 @@ const RampProvider = ({ children }) => {
       })
       toast.success(
         <TxToast text="Withdraw submitted" txHash={rampWithdraw.id} />,
-        {
-          id: rampWithdraw.id,
-        }
+        { id: rampWithdraw.id }
       )
     } catch (e) {
-      setWyre({ isLoading: false, error: e.message, ...wyre })
+      setWyre({ ...wyre, isLoading: false, error: e.message })
     }
   }
 
@@ -257,22 +337,19 @@ const RampProvider = ({ children }) => {
   //   }
   // }
 
-  const isLoading = rampsLoading || coinbase.isLoading || wyre.isLoading
-
   return (
     <RampContext.Provider
       value={{
-        isLoading,
-        rampError, // Currently unused
-        deposit: depositWyre,
-        // deposit: toggleModalDep,
+        isLoading: state.isLoading || rampsLoading,
+        rampError: rampError || state.rampError,
+        getRampUrl,
+        deposit: toggleModalDep,
         withdraw: toggleModalWit,
-        ramps: [
+        offRamps: [
           {
             ...wyre,
             onConnect: connectWyre,
             onWithdraw: withdrawWyre,
-            onDeposit: depositWyre,
           },
           // Disabled
           // {
@@ -280,6 +357,8 @@ const RampProvider = ({ children }) => {
           //   onConnect: connectCoinbase,
           //   onWithdraw: withdrawCoinbase,
           // },
+          { ...pelerin },
+          { ...externalTransfer },
         ],
       }}
     >

@@ -44,7 +44,7 @@ export const fetchChessGame = async ({ username, gameId, endTime }) => {
     let month = new Date(endTime).getMonth() + 1
     if (month.toString().length < 2) month = '0' + month
     const games = await fetchChessGames({ username, year, month })
-    logger.debug({ custom: games }, 'fetchChessGame games')
+    // logger.debug({ custom: games }, 'fetchChessGame games')
     const game = games.find((g) => g.url.includes(gameId))
     return game
   } catch (e) {

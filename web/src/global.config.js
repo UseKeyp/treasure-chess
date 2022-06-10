@@ -12,7 +12,7 @@ const config = {
   BLOG_URL: 'http://blog.treasurechess.com/',
   TOC_URL: '/terms',
   PRIVACY_POLICY_URL: '/privacy',
-  SUPPORT_URL: 'https://support.chess.com/',
+  SUPPORT_URL: '/support',
 }
 
 export const featuredPlayers = [

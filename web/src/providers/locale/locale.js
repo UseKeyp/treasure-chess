@@ -18,7 +18,7 @@ const LocaleProvider = ({ children }) => {
 
   const { t } = useTranslation('web')
 
-  /*global globalThis*/
+  /*global global*/
   global.t = t
   global.Trans = Trans
 

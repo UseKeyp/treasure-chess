@@ -3,11 +3,10 @@ import React, { useEffect } from 'react'
 import { navigate } from '@redwoodjs/router'
 import { App, URLOpenListenerEvent } from '@capacitor/app'
 
-const checkAppLaunchUrl = async () => {
-  const { url } = await App.getLaunchUrl()
-
-  // console.log('App opened with URL: ' + url)
-}
+// const checkAppLaunchUrl = async () => {
+// const { url } = await App.getLaunchUrl()
+// console.log('App opened with URL: ' + url)
+// }
 
 App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
   // Example url: https://beerswift.app/tabs/tab2
@@ -27,9 +26,9 @@ App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
 // })
 /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 const AppUrlListener: React.FC<any> = () => {
-  useEffect(() => {
-    checkAppLaunchUrl()
-  }, [])
+  // useEffect(() => {
+  // checkAppLaunchUrl()
+  // }, [])
 
   return null
 }

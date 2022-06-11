@@ -6,7 +6,6 @@ import { useRamp } from 'src/providers/ramp/ramp'
 import { useLocale } from 'src/providers/locale'
 
 import { Menu } from 'framework7-icons/react'
-import { Icon as KonstaIcon } from 'konsta/react'
 
 import Icon from 'src/components/Icon/Icon'
 import Avatar from 'src/components/Avatar/Avatar'

@@ -21,7 +21,7 @@ const RedirectionProvider = ({ children }) => {
   let orderId
   let type
 
-  if (true) {
+  if (isBrowser) {
     url = new URL(window.location.href) // Support prerender
     code = url.searchParams.get('code')
     grantState = url.searchParams.get('state')

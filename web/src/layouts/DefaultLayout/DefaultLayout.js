@@ -13,7 +13,7 @@ import { Person, WalletFill } from 'framework7-icons/react'
 import { isMobile } from 'src/utils/helpers'
 
 const DefaultLayout = ({ children }) => {
-  const [activeTab, setActiveTab] = useState('home')
+  const [activeTab, setActiveTab] = useState('profile')
   React.useEffect(() => {
     navigate(routes[activeTab]())
   }, [activeTab])

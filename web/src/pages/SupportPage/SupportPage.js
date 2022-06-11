@@ -34,7 +34,7 @@ const SupportPage = () => {
     [
       t('Questions or need help?'),
       t(
-        'Use the chat widget at the bottom right of your screen for quick questions and troubleshooting.'
+        'Use the chat widget at the bottom right for quick questions and troubleshooting.'
       ),
       '🤔',
       true,

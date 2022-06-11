@@ -6,14 +6,15 @@ import CampaignBanner from 'src/components/CampaignBanner/CampaignBanner'
 import Icon from 'src/components/Icon'
 
 import { Tabbar, TabbarLink, Icon as KonstaIcon } from 'konsta/react'
-import { navigate, routes } from '@redwoodjs/router'
+import { navigate, routes, useLocation } from '@redwoodjs/router'
 
-import { Person, WalletFill } from 'framework7-icons/react'
+import { Person, WalletFill, QuestionCircle } from 'framework7-icons/react'
 
 import { isMobile } from 'src/utils/helpers'
 
 const DefaultLayout = ({ children }) => {
-  const [activeTab, setActiveTab] = useState('profile')
+  const { pathname } = useLocation()
+  const [activeTab, setActiveTab] = useState(pathname.split('/')[1])
   React.useEffect(() => {
     navigate(routes[activeTab]())
   }, [activeTab])
@@ -66,6 +67,17 @@ const DefaultLayout = ({ children }) => {
                 />
               }
               label="Wallet"
+            />
+            <TabbarLink
+              active={activeTab === 'support'}
+              onClick={() => setActiveTab('support')}
+              icon={
+                <KonstaIcon
+                  ios={<QuestionCircle className="w-7 h-7" />}
+                  material={<QuestionCircle className="w-6 h-6" />}
+                />
+              }
+              label="Support"
             />
           </Tabbar>
         )}

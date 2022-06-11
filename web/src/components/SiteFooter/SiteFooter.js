@@ -6,8 +6,8 @@ import globalConfig from 'src/global.config.js'
 const SiteFooter = () => {
   const currentYear = new Date().getFullYear()
   return (
-    <div className="w-full flex items-center justify-center">
-      <div className="max-w-7xl flex-1 flex flex-col items-center justify-between py-12 px-4 text-sm md:flex-row">
+    <div className="w-full flex justify-center items-center bg-chessBlack-200 mb-12 sm:mb-0">
+      <div className="max-w-7xl flex-1 flex flex-col items-center justify-between py-5 px-4 text-sm md:flex-row">
         <div className="flex items-center mt-4 md:mt-0 flex-col sm:flex-row">
           <div className="flex items-center">
             <a href={globalConfig.DISCORD_URL} className="inline-block mr-4">
@@ -23,14 +23,9 @@ const SiteFooter = () => {
               <span className="sr-only">Github</span>
             </a>
           </div>
-          <a
-            href={globalConfig.BLOG_URL}
-            className="inline-block my-6 sm:mr-4 sm:my-0"
-          >
-            Blog
-          </a>
         </div>
-        <div className="flex flex-col sm:flex-row text-center mb-6 sm:my-0 sm:space-x-4 space-y-6 sm:space-y-0">
+        <div className="flex flex-col sm:flex-row text-center mb-6 mt-4 sm:my-0 sm:space-x-4 space-y-6 sm:space-y-0">
+          <a href={globalConfig.BLOG_URL}>Blog</a>
           <a href={globalConfig.TOC_URL}>Terms of Service</a>
           <a href={globalConfig.PRIVACY_POLICY_URL}>Privacy Policy</a>
           <a href={globalConfig.SUPPORT_URL}>Support</a>

@@ -13,7 +13,6 @@ import globalConfig from 'src/global.config'
 import { getFlagBase64 } from '@treasure-chess/treasure-html'
 
 import { trimAddress } from 'src/utils/helpers'
-import { useRamp } from 'src/providers/ramp/ramp'
 import { useWallet } from 'src/providers/wallet'
 
 import Tooltip from 'src/components/Tooltip/Tooltip'
@@ -77,7 +76,6 @@ const TwitchLink = ({ isProfile, username: twitchUsername }) => {
 
 const MemberDetails = ({ member, isProfile }) => {
   const { getAddress } = useWallet()
-  const { deposit, withdraw } = useRamp()
   return (
     <section className="member-details p-4">
       <div className="member-details--inner">
@@ -158,21 +156,12 @@ const MemberDetails = ({ member, isProfile }) => {
               <MemberMintCredits />
             </div>
             <Button
-              onClick={deposit}
+              to={routes.wallet()}
               variant="blue"
-              size="small"
-              className="w-32 "
-            >
-              {t('Add Funds')}
-            </Button>
-            <Button
-              onClick={withdraw}
-              variant="green"
-              // textColor="black"
               size="small"
               className="w-32"
             >
-              {t('Cash Out')}
+              {t('Wallet')}
             </Button>
           </div>
         )}

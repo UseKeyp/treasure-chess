@@ -6,7 +6,7 @@ import globalConfig from 'src/global.config.js'
 const SiteFooter = () => {
   const currentYear = new Date().getFullYear()
   return (
-    <div className="w-full flex justify-center items-center bg-chessBlack-200 mb-12 sm:mb-0">
+    <div className="w-full flex justify-center items-center bg-chessBlack-200 mb-12 sm:mb-0 mt-12">
       <div className="max-w-7xl flex-1 flex flex-col items-center justify-between py-5 px-4 text-sm md:flex-row">
         <div className="flex items-center mt-4 md:mt-0 flex-col sm:flex-row">
           <div className="flex items-center">

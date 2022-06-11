@@ -22,14 +22,17 @@ const Wallet = () => {
 
   const items = [
     {
-      title: 'Balances',
+      title: 'Details',
       description: (
-        <div className="flex">
-          <p className="mr-2">{trimAddress(currentUser.address)}</p>
-          <Button onClick={() => getAddress(currentUser.address)}>
-            <Icon name="copy" color="#147DDD" />
-          </Button>
-        </div>
+        <>
+          Address:
+          <div className="flex align-center py-2">
+            <p className="mr-2">{trimAddress(currentUser.address)}</p>
+            <Button onClick={() => getAddress(currentUser.address)}>
+              <Icon name="copy" color="#147DDD" />
+            </Button>
+          </div>
+        </>
       ),
       button: (
         <>

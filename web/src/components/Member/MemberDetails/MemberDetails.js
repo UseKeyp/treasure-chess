@@ -4,6 +4,7 @@ import Button from 'src/components/Button/Button'
 import { Link, routes } from '@redwoodjs/router'
 import Icon, { TwitchIcon } from 'src/components/Icon'
 import { useOAuth } from 'src/providers/oAuth'
+import { WalletFill, Gear } from 'framework7-icons/react'
 
 import MemberBalance from 'src/components/Member/MemberBalance'
 import MemberMintCredits from 'src/components/Member/MemberMintCredits'
@@ -110,27 +111,18 @@ const MemberDetails = ({ member, isProfile }) => {
               isProfile={isProfile}
             />
           </div>
-          <div className="mt-4 w-full content-center member-details--member-content">
-            {isProfile ? (
-              <div className="flex">
-                <p className="mr-2">{trimAddress(member.address)}</p>
-                <Button onClick={() => getAddress(member.address)}>
-                  <Icon name="copy" color="#147DDD" />
-                </Button>
-              </div>
-            ) : (
-              member.address && (
-                <Button
-                  onClick={() => getAddress(member.address)}
-                  variant="green"
-                  size="small"
-                  className="w-40"
-                >
-                  {t('Donate')}
-                </Button>
-              )
-            )}
-          </div>
+          {!isProfile && member.address && (
+            <div className="mt-4 w-full content-center member-details--member-content">
+              <Button
+                onClick={() => getAddress(member.address)}
+                variant="green"
+                size="small"
+                className="w-40"
+              >
+                {t('Donate')}
+              </Button>
+            </div>
+          )}
           {isProfile && (
             <div className="mt-4 grid  gap-4  member-details--member-content">
               <p>
@@ -140,29 +132,42 @@ const MemberDetails = ({ member, isProfile }) => {
                   {t('Public Profile')}
                 </Link>
               </p>
-              <p>
-                <Link to={routes.settings()}>{t('Settings')}</Link>
-              </p>
             </div>
           )}
         </div>
 
         {isProfile && (
           <div className="member-details--funds-actions">
-            <div>
-              <MemberBalance />
-            </div>
-            <div className="mt-2 mb-4">
+            <MemberBalance />
+            <div className="mt-2">
               <MemberMintCredits />
             </div>
-            <Button
-              to={routes.wallet()}
-              variant="blue"
-              size="small"
-              className="w-32"
-            >
-              {t('Wallet')}
-            </Button>
+            <div className="mt-4">
+              <Button
+                to={routes.wallet()}
+                variant="blue"
+                size="small"
+                className="w-32"
+              >
+                <div className="flex py-1 justify-center align-center">
+                  <WalletFill className="w-6 h-6 mr-3" />
+                  <div>{t('Wallet')}</div>
+                </div>
+              </Button>
+            </div>
+            <div>
+              <Button
+                to={routes.settings()}
+                variant="grey"
+                size="small"
+                className="w-32 mt-4"
+              >
+                <div className="flex py-1 justify-center align-center">
+                  <Gear className="w-6 h-6 mr-3" />
+                  <div>{t('Settings')}</div>
+                </div>
+              </Button>
+            </div>
           </div>
         )}
       </div>

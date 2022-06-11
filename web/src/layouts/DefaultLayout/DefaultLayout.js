@@ -14,7 +14,7 @@ import { isMobile } from 'src/utils/helpers'
 
 const DefaultLayout = ({ children }) => {
   const { pathname } = useLocation()
-  const [activeTab, setActiveTab] = useState(pathname.split('/')[1])
+  const [activeTab, setActiveTab] = useState(pathname.split('/')[1] || 'home')
   React.useEffect(() => {
     navigate(routes[activeTab]())
   }, [activeTab])
@@ -28,10 +28,10 @@ const DefaultLayout = ({ children }) => {
             <header className="relative mb-8 mt-4">
               <Header />
             </header>
-            <div className="mx-4">{children}</div>
+            <div className="mx-4 min-h-screen">{children}</div>
           </div>
         </div>
-        <SiteFooter className="fixed inset-x-0 bottom-0 mx-4" />
+        <SiteFooter />
         {isMobile && (
           <Tabbar labels={true} className="left-0 bottom-0 fixed">
             <TabbarLink

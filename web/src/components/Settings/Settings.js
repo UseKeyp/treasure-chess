@@ -16,8 +16,13 @@ const Settings = () => {
       title: 'Beta Access',
       description: 'Preview new features before they are released.',
       button: (
-        <Button variant="blue" size="small" onClick={toggleModalBeta}>
-          Request
+        <Button
+          variant="blue"
+          size="small"
+          className="w-32"
+          onClick={toggleModalBeta}
+        >
+          {t('Request')}
         </Button>
       ),
       status: currentUser.betaAccess ? 'Enabled' : 'Disabled',

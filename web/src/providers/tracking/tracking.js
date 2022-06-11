@@ -31,7 +31,10 @@ const TrackingProvider = () => {
       {},
       {
         onload: () => {
-          mt('send', 'pageview', { username: currentUser.username })
+          mt('send', 'pageview', {
+            username: currentUser.username,
+            chessId: currentUser.id,
+          })
         },
         onerror: () => {},
       }

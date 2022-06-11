@@ -59,6 +59,7 @@ export const fetchMemberAndUpdateBan = async (username, shouldBan) => {
   } else if (!member) {
     // Created the member
     const chessData = await fetchChessMember(username)
+    if (!chessData.username) throw `Couldn't fetch user ${username}`
     let country = 'US'
     try {
       country = chessData.country.split('country/')[1]
@@ -104,7 +105,7 @@ export const fetchMemberAndBlock = async (username, shouldIgnoreAddress) => {
     } else if (!member) {
       // Created the member
       const chessData = await fetchChessMember(username)
-
+      if (!chessData.username) throw `Couldn't fetch user ${username}`
       let country = 'US'
       try {
         country = chessData.country.split('country/')[1]

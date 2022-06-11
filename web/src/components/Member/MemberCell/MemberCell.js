@@ -1,4 +1,5 @@
 import Member from 'src/components/Member/Member'
+import Loader from 'src/components/Loader'
 
 export const QUERY = gql`
   query FindMemberByUsernameOrAddress($usernameOrAddress: String!) {
@@ -32,7 +33,7 @@ export const QUERY = gql`
   }
 `
 
-export const Loading = () => <div>Loading...</div>
+export const Loading = () => <Loader />
 
 export const Error = () => <div>Member not found</div>
 

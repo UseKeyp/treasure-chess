@@ -17,42 +17,9 @@ const FilterCheckbox = (props) => {
       <h4>{props.category}</h4>
       <div className="checkBoxWrapper">
         {options?.map((option, index) => {
-          if (option === 'black') {
-            return (
-              <BlackKingFilterListItem
-                isSelected={currentSelection?.includes(option)}
-                clickFunction={setCurrentSelection}
-                label={option}
-                keyVal={`${option}-${index}`}
-                key={`${option}-filterButton`}
-              />
-            )
-          }
-          if (option === 'white') {
-            return (
-              <WhiteKingFilterListItem
-                isSelected={currentSelection?.includes(option)}
-                clickFunction={setCurrentSelection}
-                label={option}
-                keyVal={`${option}-${index}`}
-                key={`${option}-filterButton`}
-              />
-            )
-          }
-          if (option === 'draw') {
-            return (
-              <TwoKingFilterListItem
-                isSelected={currentSelection?.includes(option)}
-                clickFunction={setCurrentSelection}
-                label={option}
-                keyVal={`${option}-${index}`}
-                key={`${option}-filterButton`}
-              />
-            )
-          }
           return (
             <FilterListItem
-              isSelected={currentSelection?.includes(option)}
+              isSelected={currentSelection === option}
               label={option}
               clickFunction={handleSelectionUpdate}
               keyVal={`${option}-${index}`}
@@ -87,86 +54,18 @@ const FilterListItem = (props) => {
         }}
         key={props.keyVal}
       >
-        {props.label}
-      </button>
-    </>
-  )
-}
-
-const BlackKingFilterListItem = (props) => {
-  return (
-    <>
-      <button
-        className={
-          props.isSelected
-            ? `filterListItem filterListItemSelected`
-            : `filterListItem`
-        }
-        onClick={() => props.clickFunction(props.label)}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            props.clickFunction(props.label)
-          }
-        }}
-        onMouseLeave={(e) => {
-          e.target.blur()
-        }}
-        key={props.keyVal}
-      >
-        <img src="/icons/BK.svg" alt={props.label} />
-      </button>
-    </>
-  )
-}
-
-const WhiteKingFilterListItem = (props) => {
-  return (
-    <>
-      <button
-        className={
-          props.isSelected
-            ? `filterListItem filterListItemSelected`
-            : `filterListItem`
-        }
-        onClick={() => props.clickFunction(props.label)}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            props.clickFunction(props.label)
-          }
-        }}
-        onMouseLeave={(e) => {
-          e.target.blur()
-        }}
-        key={props.keyVal}
-      >
-        <img src="/icons/WK.svg" alt={props.label} />
-      </button>
-    </>
-  )
-}
-
-const TwoKingFilterListItem = (props) => {
-  return (
-    <>
-      <button
-        className={
-          props.isSelected
-            ? `filterListItem filterListItemSelected`
-            : `filterListItem`
-        }
-        onClick={() => props.clickFunction(props.label)}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            props.clickFunction(props.label)
-          }
-        }}
-        onMouseLeave={(e) => {
-          e.target.blur()
-        }}
-        key={props.keyVal}
-      >
-        <img src="/icons/BK.svg" alt={props.label} />
-        <img src="/icons/WK.svg" alt={props.label} />
+        {props.label === 'black' ? (
+          <img src="/icons/BK.svg" alt={props.label} />
+        ) : props.label === 'white' ? (
+          <img src="/icons/WK.svg" alt={props.label} />
+        ) : props.label === 'draw' ? (
+          <>
+            <img src="/icons/BK.svg" alt={props.label} />
+            <img src="/icons/WK.svg" alt={props.label} />
+          </>
+        ) : (
+          props.label
+        )}
       </button>
     </>
   )

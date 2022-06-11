@@ -286,7 +286,7 @@ export const getMemberRawData = async (username) => {
     refreshToken: 'REDACTED',
   }))
   return {
-    member,
+    member: { ...member, accessToken: 'REDACTED', refreshToken: 'REDACTED' },
     web3: { etherBalance, usdcBalance },
     ...details,
     ramps,

@@ -1,10 +1,10 @@
 import { Link, routes } from '@redwoodjs/router'
 
 import GameCard from 'src/components/Game/GameCard/GameCard'
-import TreasureSocial from '../TreasureSocial/TreasureSocial'
-import TreasureMoves from '../TreasureMoves/TreasureMoves'
+import TreasureSocial from 'src/components/Treasure/TreasureSocial/TreasureSocial'
+import TreasureMoves from 'src/components/Treasure/TreasureMoves/TreasureMoves'
 import TreasureMarketInteraction from 'src/components/Treasure/TreasureMarketInteraction'
-import TreasureActivity from '../TreasureActivity/TreasureActivity'
+import TreasureActivity from 'src/components/Treasure/TreasureActivity/TreasureActivity'
 import TreasuresFetcher from 'src/components/Treasure/TreasuresFetcher'
 
 const Treasure = ({ treasure, isLoading }) => {

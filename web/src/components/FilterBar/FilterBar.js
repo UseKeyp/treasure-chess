@@ -15,6 +15,7 @@ const FilterBar = ({
   hideOnMobile = false,
   showScrollbar = false,
   extendAchievements = false,
+  disableUsername,
 }) => {
   const { filter, setFilter, resetFilter } = useFilter()
 
@@ -30,7 +31,7 @@ const FilterBar = ({
     filter.termination ?? defaultParams?.termination
   )
   const [rarity, setRarity] = useState(filter.rarity)
-  const [sale, setSale] = useState(defaultParams?.sale || filter.sale)
+  const [sale, setSale] = useState(filter.sale ?? defaultParams?.sale)
   const [outcome, setOutcome] = useState(
     filter.outcome ?? defaultParams?.outcome
   )
@@ -113,10 +114,12 @@ const FilterBar = ({
           </button>
         </div>
 
-        <div className="dropdownRowSpacing">
-          <h4 style={{ marginBottom: `0.5em` }}>Username</h4>
-          <UsernameSearchBar />
-        </div>
+        {!disableUsername && (
+          <div className="dropdownRowSpacing">
+            <h4 style={{ marginBottom: `0.5em` }}>Username</h4>
+            <UsernameSearchBar />
+          </div>
+        )}
         <div className="dropdownRowSpacing">
           <Dropdown
             category={'Opening'}

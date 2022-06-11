@@ -20,12 +20,15 @@ const Routes = () => {
         <Route path="/signin" page={SignInPage} name="signin" />
         <Route notfound page={NotFoundPage} />
         <Route path="/members/{usernameOrAddress}" page={MemberMemberPage} name="member" />
-        <Private unauthenticated="signin" whileLoadingAuth={Loader}>
+        <Private unauthenticated="signin">
+          {/*    <Private unauthenticated="signin" whileLoadingAuth={Loader}> */}
+          <Route path="/settings" page={SettingsPage} name="settings" />
           <Route path="/profile" page={ProfilePage} name="profile" />
         </Private>
         <Route path="/treasures/{tokenId:String}" page={TreasureTreasurePage} name="treasure" />
         <Route path="/treasures" page={TreasureTreasuresPage} name="treasures" />
         <Route path="/chain-data" page={ChainDataPage} name="chainData" />
+        <Route path="/support" page={SupportPage} name="support" />
       </Set>
     </Router>
   )

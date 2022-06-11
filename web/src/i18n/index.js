@@ -10,7 +10,7 @@ i18n
     resources,
     fallbackLng: 'en',
     ns: ['web'],
-    debug: process.env.ENVIRONMENT === 'local',
+    // debug: process.env.ENVIRONMENT === 'local',
     whitelist: languageData.map((language) => language.id),
     returnEmptyString: false,
     // saveMissing: true, // send not translated keys to endpoint

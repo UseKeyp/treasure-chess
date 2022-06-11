@@ -33,7 +33,6 @@ const OAuthProvider = ({ children }) => {
       return data.oAuthUrl
     } catch (e) {
       const errorMessage = `Error fetching ${type} link. ${e?.message}`
-      toast.error(errorMessage)
       return setState({ error: errorMessage, isLoading: false })
     }
   }

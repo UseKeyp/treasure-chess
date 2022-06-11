@@ -8,7 +8,7 @@ import Icon from 'src/components/Icon'
 import { Tabbar, TabbarLink, Icon as KonstaIcon } from 'konsta/react'
 import { navigate, routes } from '@redwoodjs/router'
 
-import { House, Wallet, Gear } from 'framework7-icons/react'
+import { House, WalletFill, Gear } from 'framework7-icons/react'
 
 import { isMobile } from 'src/utils/helpers'
 
@@ -45,18 +45,18 @@ const DefaultLayout = ({ children }) => {
               label="Home"
             />
             <TabbarLink
-              active={activeTab === 'settings'}
-              onClick={() => setActiveTab('settings')}
-              icon={<Icon name="treasure" />}
-              label="Demo"
+              active={activeTab === 'treasures'}
+              onClick={() => setActiveTab('treasures')}
+              icon={<Icon name="treasure_chess" color="#000" height={22} />}
+              label="Treasures"
             />
             <TabbarLink
               active={activeTab === 'wallet'}
               onClick={() => setActiveTab('wallet')}
               icon={
                 <KonstaIcon
-                  ios={<Wallet className="w-7 h-7" />}
-                  material={<Wallet className="w-6 h-6" />}
+                  ios={<WalletFill className="w-7 h-7" />}
+                  material={<WalletFill className="w-6 h-6" />}
                 />
               }
               label="Mail"

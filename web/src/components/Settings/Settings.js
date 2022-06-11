@@ -13,22 +13,28 @@ const Settings = () => {
 
   const items = [
     {
-      title: 'Beta Access',
-      description: 'Preview new features before they are released.',
-      button: (
-        <Button variant="blue" size="small" onClick={toggleModalBeta}>
-          Request
-        </Button>
-      ),
-      status: currentUser.betaAccess ? 'Enabled' : 'Disabled',
-      highlight: currentUser.betaAccess,
-    },
-    {
-      title: 'Feedback',
+      title: 'Subscribe to Updates',
       description: (
         <div className="flex align-start">
           <iframe
-            src={`https://mautic.tools.treasurechess.com/form/3?username=${currentUser.username}`}
+            src={`https://mautic.tools.treasurechess.com/form/1?username=${currentUser.username}`}
+            width="500"
+            height="175"
+            title="Subscribe form"
+            scrolling="no"
+            frameBorder="0"
+          >
+            <p>Your browser does not support iframes.</p>
+          </iframe>
+        </div>
+      ),
+    },
+    {
+      title: 'Share Feedback',
+      description: (
+        <div className="flex align-start">
+          <iframe
+            src={`https://mautic.tools.treasurechess.com/form/3?username1=${currentUser.username}`}
             width="500"
             height="220"
             title="Feedback form"
@@ -39,6 +45,17 @@ const Settings = () => {
           </iframe>
         </div>
       ),
+    },
+    {
+      title: 'Beta Access',
+      description: 'Preview new features before they are released.',
+      button: (
+        <Button variant="blue" size="small" onClick={toggleModalBeta}>
+          Request
+        </Button>
+      ),
+      status: currentUser.betaAccess ? 'Enabled' : 'Disabled',
+      highlight: currentUser.betaAccess,
     },
   ]
 
@@ -85,7 +102,7 @@ const Settings = () => {
           <div className="p-4 rounded-lg bg-chessBlack-100">
             <iframe
               title="Request Beta Access"
-              src={`https://mautic.tools.treasurechess.com/form/2?username=${currentUser.username}`}
+              src={`https://mautic.tools.treasurechess.com/form/2?username1=${currentUser.username}`}
               width="100%"
               height="500"
             >

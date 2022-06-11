@@ -34,7 +34,6 @@ const SiteFooter = () => {
           <a href={globalConfig.TOC_URL}>Terms of Service</a>
           <a href={globalConfig.PRIVACY_POLICY_URL}>Privacy Policy</a>
           <a href={globalConfig.SUPPORT_URL}>Support</a>
-          <Link to={routes.feedback()}>Feedback</Link>
         </div>
         <div className="flex items-center mt-4 md:mt-0">
           <a href={globalConfig.CHESS_COM_BASE_URL} className="mr-4">

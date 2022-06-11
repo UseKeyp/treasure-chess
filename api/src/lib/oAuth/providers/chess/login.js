@@ -65,6 +65,6 @@ export const onConnected = async ({ refreshToken, accessToken, decoded }) => {
   } catch (e) {
     logger.error(e)
     Sentry.captureException(e)
-    throw `onConnected() ${e}`
+    throw `onConnected() error`
   }
 }

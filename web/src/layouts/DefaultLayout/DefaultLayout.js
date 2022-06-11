@@ -47,7 +47,13 @@ const DefaultLayout = ({ children }) => {
             <TabbarLink
               active={activeTab === 'treasures'}
               onClick={() => setActiveTab('treasures')}
-              icon={<Icon name="treasure_chess" color="#000" height={22} />}
+              icon={
+                <Icon
+                  name="treasure_chess"
+                  color={activeTab === 'treasures' ? '#272522' : '#8e8e8e'}
+                  height={22}
+                />
+              }
               label="Treasures"
             />
             <TabbarLink

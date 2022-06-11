@@ -2,7 +2,7 @@ import { useState } from 'react'
 import Avatar from 'src/components/Avatar'
 import Button from 'src/components/Button/Button'
 import { Link, routes } from '@redwoodjs/router'
-import Icon, { TwitchIcon } from 'src/components/Icon'
+import { TwitchIcon } from 'src/components/Icon'
 import { useOAuth } from 'src/providers/oAuth'
 import { WalletFill, Gear } from 'framework7-icons/react'
 
@@ -13,7 +13,6 @@ import globalConfig from 'src/global.config'
 
 import { getFlagBase64 } from '@treasure-chess/treasure-html'
 
-import { trimAddress } from 'src/utils/helpers'
 import { useWallet } from 'src/providers/wallet'
 
 import Tooltip from 'src/components/Tooltip/Tooltip'

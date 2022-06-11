@@ -1,5 +1,3 @@
-// Capacitor
-import React, { useEffect } from 'react'
 import { navigate } from '@redwoodjs/router'
 import { App, URLOpenListenerEvent } from '@capacitor/app'
 
@@ -26,7 +24,7 @@ App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
 // })
 /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 const AppUrlListener: React.FC<any> = () => {
-  // useEffect(() => {
+  // React.useEffect(() => {
   // checkAppLaunchUrl()
   // }, [])
 

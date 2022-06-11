@@ -28,18 +28,12 @@ export const onConnected = async ({ refreshToken, accessToken, decoded }) => {
         `Couldn't fetch email for user ${preferred_username} in fetchMember function`
       )
 
-    if (!member['email'] || member['email'] !== email) {
-      await db.member.update({
-        where: { id: member.id },
-        data: { email },
-      })
-    }
-
     await db.member.update({
       where: { id: member.id },
       data: {
         refreshToken,
         accessToken,
+        email,
         // NOTE: Updates user with their current avatar and country
         imageSrc: member.imageSrc,
         country: member.country,

@@ -1446,11 +1446,6 @@
   dependencies:
     tslib "^2.1.0"
 
-"@capacitor/device@^1.1.2":
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/@capacitor/device/-/device-1.1.2.tgz#ac22702ad29971456cb83143ab11e712174e38a0"
-  integrity sha512-1i6yvuSC7Ys7fs4JsUtfwG/00d2FF2TvWpbYs7YbkXhp1vOTL510gwjc5S6FTyhh8M9sAaUU5tKB68XwlSK/GA==
-
 "@chromaui/localtunnel@^2.0.3":
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/@chromaui/localtunnel/-/localtunnel-2.0.4.tgz#2459d5ae95e0c995c67d1a00edef111e0ff97c81"
@@ -12971,6 +12966,11 @@ fragment-cache@^0.2.1:
   dependencies:
     map-cache "^0.2.2"
 
+framework7-icons@^5.0.5:
+  version "5.0.5"
+  resolved "https://registry.npmjs.org/framework7-icons/-/framework7-icons-5.0.5.tgz#a067709755054c69c22318de94c92bca40f3a908"
+  integrity sha512-bvHMLyujV9TFuudehd3ORZ/EvNp19Ir3ckVzYAOf3MkLymHba/9oHLsgopCh0x5UsrYZUpkrE+fd7ggj5y4wRw==
+
 fresh@0.5.2:
   version "0.5.2"
   resolved "https://registry.yarnpkg.com/fresh/-/fresh-0.5.2.tgz#3d8cadd90d976569fa835ab1f8e4b23a105605a7"
@@ -16095,6 +16095,11 @@ klona@^2.0.4, klona@^2.0.5:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/klona/-/klona-2.0.5.tgz#d166574d90076395d9963aa7a928fabb8d76afbc"
   integrity sha512-pJiBpiXMbt7dkzXe8Ghj/u4FfXOOa98fPW+bihOJ4SjnoijweJrNThJfd3ifXpXhREjpoF2mZVH1GfS9LV3kHQ==
+
+konsta@^0.10.4:
+  version "0.10.4"
+  resolved "https://registry.npmjs.org/konsta/-/konsta-0.10.4.tgz#518226878e5b9bd1df0a0a45eb5116c1b5296e2b"
+  integrity sha512-XYfzKaWHIGPrat2/3l8373/vCeTBWdgMOtGVBzpsQNX/rInRu+QeRrO/kt7lVN9sGaQEwhsd7VhW1tEjglxVxA==
 
 lambdafs@^2.0.3:
   version "2.1.1"

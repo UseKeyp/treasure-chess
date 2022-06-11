@@ -1,9 +1,23 @@
-import Header from 'src/components/Header'
+import { useState } from 'react'
 
+import Header from 'src/components/Header'
 import SiteFooter from 'src/components/SiteFooter'
 import CampaignBanner from 'src/components/CampaignBanner/CampaignBanner'
+import Icon from 'src/components/Icon'
+
+import { Tabbar, TabbarLink, Icon as KonstaIcon } from 'konsta/react'
+import { navigate, routes } from '@redwoodjs/router'
+
+import { House, Wallet, Gear } from 'framework7-icons/react'
+
+import { isMobile } from 'src/utils/helpers'
 
 const DefaultLayout = ({ children }) => {
+  const [activeTab, setActiveTab] = useState('home')
+  React.useEffect(() => {
+    navigate(routes[activeTab]())
+  }, [activeTab])
+
   return (
     <div>
       <div className="flex flex-col min-h-screen">
@@ -17,6 +31,38 @@ const DefaultLayout = ({ children }) => {
           </div>
         </div>
         <SiteFooter className="fixed inset-x-0 bottom-0 mx-4" />
+        {isMobile && (
+          <Tabbar labels={true} className="left-0 bottom-0 fixed">
+            <TabbarLink
+              active={activeTab === 'profile'}
+              onClick={() => setActiveTab('profile')}
+              icon={
+                <KonstaIcon
+                  ios={<House className="w-7 h-7" />}
+                  material={<House className="w-6 h-6" />}
+                />
+              }
+              label="Home"
+            />
+            <TabbarLink
+              active={activeTab === 'settings'}
+              onClick={() => setActiveTab('settings')}
+              icon={<Icon name="treasure" />}
+              label="Demo"
+            />
+            <TabbarLink
+              active={activeTab === 'wallet'}
+              onClick={() => setActiveTab('wallet')}
+              icon={
+                <KonstaIcon
+                  ios={<Wallet className="w-7 h-7" />}
+                  material={<Wallet className="w-6 h-6" />}
+                />
+              }
+              label="Mail"
+            />
+          </Tabbar>
+        )}
       </div>
     </div>
   )

@@ -15,6 +15,7 @@ model Member {
   address              String?               @unique // Torus wallet address
   twitchUsername       String?               @unique // Twitch username
   locale               String?
+  email                String?               @unique // Email address
   // --------------- LINKS --------------
   treasuresOwned       Treasure[]            @relation("treasuresOwned")
   treasuresMinted      Treasure[]            @relation("treasuresMinted")

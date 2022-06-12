@@ -6,7 +6,7 @@ import AllContextProviders from 'src/providers'
 
 const Routes = () => {
   return (
-    <Router whileLoadingPage={Loader}>
+    <Router whileLoadingPage={() => <Loader />}>
       <AllContextProviders>
         <AppUrlListener />
         <Route path="/restricted" page={RestrictedPage} name="restricted" />
@@ -20,8 +20,7 @@ const Routes = () => {
           <Route path="/signin" page={SignInPage} name="signin" />
           <Route notfound page={NotFoundPage} />
           <Route path="/members/{usernameOrAddress}" page={MemberMemberPage} name="member" />
-          <Private unauthenticated="signin">
-            {/*    <Private unauthenticated="signin" whileLoadingAuth={Loader}> */}
+          <Private unauthenticated="signin" whileLoadingAuth={() => <Loader />}>
             <Route path="/wallet" page={WalletPage} name="wallet" />
             <Route path="/settings" page={SettingsPage} name="settings" />
             <Route path="/profile" page={ProfilePage} name="profile" />

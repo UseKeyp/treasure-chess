@@ -42,6 +42,14 @@ const TrackingProvider = () => {
     /* eslint-enable no-undef */
     Sentry.setUser(currentUser)
   }, [currentUser])
+
+  // Hide chat bubble except on support page
+  React.useEffect(() => {
+    console.log(window.$chatwoot)
+    if (!window.$chatwoot?.hasLoaded) return
+    window.$chatwoot?.toggleBubbleVisibility('hide')
+  }, [window.$chatwoot.hasLoaded])
+
   return null
 }
 export { TrackingProvider }

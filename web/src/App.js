@@ -46,7 +46,6 @@ const App = () => (
           type="dbAuth"
           config={{ fetchConfig: { credentials: 'include' } }}
         >
-          <SentryInjector />
           <RedwoodApolloProvider
             graphQLClientConfig={{ httpLinkConfig: { credentials: 'include' } }}
           >

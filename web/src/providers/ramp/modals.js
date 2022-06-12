@@ -80,7 +80,7 @@ const OnRampProvider = ({ ramp, toggleModal, isLoading, onSubmit }) => {
   if (ramp.type === 'WALLET_DEPOSIT')
     onClick = () => {
       toggleModal()
-      getAddress()
+      getAddress(currentUser.address)
     }
 
   return (

@@ -14,6 +14,14 @@ const SupportPage = () => {
     }
   })
 
+  React.useEffect(() => {
+    if (!window.$chatwoot?.hasLoaded) return
+    window.$chatwoot?.toggleBubbleVisibility('show')
+    return () => {
+      window.$chatwoot?.toggleBubbleVisibility('hide')
+    }
+  }, [window.$chatwoot.hasLoaded])
+
   const supportText = (
     <>
       <Trans i18nKey="web:supportHelpArea">
@@ -34,7 +42,7 @@ const SupportPage = () => {
     [
       t('Questions or need help?'),
       t(
-        'Use the chat widget at the bottom right of your screen for quick questions and troubleshooting.'
+        'Use the chat widget at the bottom right for quick questions and troubleshooting.'
       ),
       '🤔',
       true,

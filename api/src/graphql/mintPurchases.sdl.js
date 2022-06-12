@@ -27,5 +27,7 @@ export const schema = gql`
       endTime: DateTime!
       title: String!
     ): MintPurchase! @requireAuth
+
+    cancelMintingPurchase(id: Int!): MintPurchase! @requireAuth
   }
 `

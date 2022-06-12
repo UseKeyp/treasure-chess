@@ -5,6 +5,8 @@ import { useRamp } from 'src/providers/ramp/ramp'
 
 import { useLocale } from 'src/providers/locale'
 
+import { Menu } from 'framework7-icons/react'
+
 import Icon from 'src/components/Icon/Icon'
 import Avatar from 'src/components/Avatar/Avatar'
 import Button from 'src/components/Button/Button'
@@ -47,7 +49,7 @@ const MobileNav = () => {
   const navAnchorClasses = 'text-center w-full font-bold'
 
   return (
-    <MobileMenu triggerContents="Menu">
+    <MobileMenu triggerContents={<Menu className="w-7 h-7" />}>
       <div className="flex-1 flex justify-center">
         <nav>
           <ul className="h-full relative grid place-items-center">

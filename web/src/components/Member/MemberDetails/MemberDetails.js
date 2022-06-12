@@ -2,8 +2,9 @@ import { useState } from 'react'
 import Avatar from 'src/components/Avatar'
 import Button from 'src/components/Button/Button'
 import { Link, routes } from '@redwoodjs/router'
-import Icon, { TwitchIcon } from 'src/components/Icon'
+import { TwitchIcon } from 'src/components/Icon'
 import { useOAuth } from 'src/providers/oAuth'
+import { WalletFill, Gear } from 'framework7-icons/react'
 
 import MemberBalance from 'src/components/Member/MemberBalance'
 import MemberMintCredits from 'src/components/Member/MemberMintCredits'
@@ -12,8 +13,6 @@ import globalConfig from 'src/global.config'
 
 import { getFlagBase64 } from '@treasure-chess/treasure-html'
 
-import { trimAddress } from 'src/utils/helpers'
-import { useRamp } from 'src/providers/ramp/ramp'
 import { useWallet } from 'src/providers/wallet'
 
 import Tooltip from 'src/components/Tooltip/Tooltip'
@@ -77,7 +76,6 @@ const TwitchLink = ({ isProfile, username: twitchUsername }) => {
 
 const MemberDetails = ({ member, isProfile }) => {
   const { getAddress } = useWallet()
-  const { deposit, withdraw } = useRamp()
   return (
     <section className="member-details p-4">
       <div className="member-details--inner">
@@ -112,27 +110,18 @@ const MemberDetails = ({ member, isProfile }) => {
               isProfile={isProfile}
             />
           </div>
-          <div className="mt-4 w-full content-center member-details--member-content">
-            {isProfile ? (
-              <div className="flex">
-                <p className="mr-2">{trimAddress(member.address)}</p>
-                <Button onClick={() => getAddress(member.address)}>
-                  <Icon name="copy" color="#147DDD" />
-                </Button>
-              </div>
-            ) : (
-              member.address && (
-                <Button
-                  onClick={() => getAddress(member.address)}
-                  variant="green"
-                  size="small"
-                  className="w-40"
-                >
-                  {t('Donate')}
-                </Button>
-              )
-            )}
-          </div>
+          {!isProfile && member.address && (
+            <div className="mt-4 w-full content-center member-details--member-content">
+              <Button
+                onClick={() => getAddress(member.address)}
+                variant="green"
+                size="small"
+                className="w-40"
+              >
+                {t('Donate')}
+              </Button>
+            </div>
+          )}
           {isProfile && (
             <div className="mt-4 grid  gap-4  member-details--member-content">
               <p>
@@ -142,38 +131,42 @@ const MemberDetails = ({ member, isProfile }) => {
                   {t('Public Profile')}
                 </Link>
               </p>
-              <p>
-                <Link to={routes.settings()}>{t('Settings')}</Link>
-              </p>
             </div>
           )}
         </div>
 
         {isProfile && (
           <div className="member-details--funds-actions">
-            <div>
-              <MemberBalance />
-            </div>
-            <div className="mt-2 mb-4">
+            <MemberBalance />
+            <div className="mt-2">
               <MemberMintCredits />
             </div>
-            <Button
-              onClick={deposit}
-              variant="blue"
-              size="small"
-              className="w-32 "
-            >
-              {t('Add Funds')}
-            </Button>
-            <Button
-              onClick={withdraw}
-              variant="green"
-              // textColor="black"
-              size="small"
-              className="w-32"
-            >
-              {t('Cash Out')}
-            </Button>
+            <div className="mt-4">
+              <Button
+                to={routes.wallet()}
+                variant="blue"
+                size="small"
+                className="w-32"
+              >
+                <div className="flex py-1 justify-center items-center">
+                  <WalletFill className="w-6 h-6 mr-3" />
+                  <div>{t('Wallet')}</div>
+                </div>
+              </Button>
+            </div>
+            <div>
+              <Button
+                to={routes.settings()}
+                variant="grey"
+                size="small"
+                className="w-32 mt-4"
+              >
+                <div className="flex py-1 justify-center items-center">
+                  <Gear className="w-6 h-6 mr-3" />
+                  <div>{t('Settings')}</div>
+                </div>
+              </Button>
+            </div>
           </div>
         )}
       </div>

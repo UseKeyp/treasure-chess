@@ -1,7 +1,6 @@
 import { useLazyQuery, useQuery, useMutation } from '@apollo/client'
 import { useAuth } from '@redwoodjs/auth'
 import { isBrowser } from '@redwoodjs/prerender/browserUtils'
-
 import { useWallet } from 'src/providers/wallet'
 import { useModal } from 'src/hooks/useModal'
 import { useToast } from 'src/providers/toast'
@@ -12,6 +11,7 @@ import {
   PENDING_MINT_PURCHASES_QUERY,
   MINT_CHECKOUT_URL_MUTATION,
   MINT_WITH_CREDIT_MUTATION,
+  CANCEL_PURCHASE_MUTATION,
 } from './graphql'
 
 import {
@@ -140,6 +140,8 @@ const MintingProvider = ({ children }) => {
 
   const [mintWithCreditMutation] = useMutation(MINT_WITH_CREDIT_MUTATION)
 
+  const [cancelMintingPurchaseMutation] = useMutation(CANCEL_PURCHASE_MUTATION)
+
   const onPageLoad = async () => {
     const { data: { pendingMintPurchases } = {} } =
       await pendingMintPurchasesLazyQuery()
@@ -202,6 +204,7 @@ const MintingProvider = ({ children }) => {
               endTime: state.endTime,
             },
           })
+
         setState({
           ...state,
           pendingMintPurchases: [mintPurchase],
@@ -222,11 +225,22 @@ const MintingProvider = ({ children }) => {
   }
 
   const cancelMint = () => toggleModalCancel()
-
   const onConfirmCancel = () => {
     toggleModalCancel()
-    // TODO: Delete the mint. mintPurchaseMutation
-    setState({ ...state, mintStatus: null, mintError: null })
+    const lastPurchase = state.pendingMintPurchases[0]
+    setState({
+      ...state,
+      mintStatus: FAILED,
+      mintError: null,
+      mintLoading: false,
+    })
+    try {
+      cancelMintingPurchaseMutation({
+        variables: { id: lastPurchase.id },
+      })
+    } catch (error) {
+      toastPurchase({ ...lastPurchase })
+    }
   }
 
   const cleanupMintSuccess = () =>

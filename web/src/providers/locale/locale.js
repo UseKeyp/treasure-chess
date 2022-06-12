@@ -18,9 +18,9 @@ const LocaleProvider = ({ children }) => {
 
   const { t } = useTranslation('web')
 
-  /*global globalThis*/
-  globalThis.t = t
-  globalThis.Trans = Trans
+  /*global global*/
+  global.t = t
+  global.Trans = Trans
 
   const [userLocale] = useMutation(USER_LOCALE_MUTATION)
 

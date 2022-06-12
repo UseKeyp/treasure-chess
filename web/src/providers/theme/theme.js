@@ -1,4 +1,4 @@
-import themeConfig from '../../config/tailwind.config'
+import themeConfig from '../../../config/tailwind.config'
 import Background from 'src/components/Background'
 import { useState } from 'react'
 

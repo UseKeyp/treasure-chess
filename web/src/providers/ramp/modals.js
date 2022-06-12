@@ -6,6 +6,9 @@ import LoadingDots from 'src/components/LoadingDots'
 import Button from 'src/components/Button'
 import { trimAddress, getBlockExplorerUrl } from 'src/utils/helpers'
 import { onRamps, feedbackSuggestionCta } from 'src/providers/ramp/onRamps'
+import { useWallet } from 'src/providers/wallet'
+import { useAuth } from '@redwoodjs/auth'
+
 const Provider = ({
   error,
   isLoading,
@@ -66,11 +69,20 @@ const Provider = ({
 }
 
 const OnRampProvider = ({ ramp, toggleModal, isLoading, onSubmit }) => {
+  const { getAddress } = useWallet()
+  const { currentUser } = useAuth()
+
   if (!ramp) return null
-  const onClick = async () => {
+  let onClick = async () => {
     await onSubmit(ramp.type)
     toggleModal()
   }
+  if (ramp.type === 'WALLET_DEPOSIT')
+    onClick = () => {
+      toggleModal()
+      getAddress(currentUser.address)
+    }
+
   return (
     <Provider
       onSubmit={onClick}

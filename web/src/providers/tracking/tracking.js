@@ -1,8 +1,11 @@
 import * as Sentry from '@sentry/browser'
 import { useAuth } from '@redwoodjs/auth'
+import { useLocation } from '@redwoodjs/router'
 
 const TrackingProvider = () => {
   const { currentUser } = useAuth()
+  const { pathname } = useLocation()
+
   try {
     Sentry.init({
       dsn: process.env.SENTRY_DSN,
@@ -42,13 +45,32 @@ const TrackingProvider = () => {
     /* eslint-enable no-undef */
     Sentry.setUser(currentUser)
   }, [currentUser])
+  // Set chatwoot user
 
   // Hide chat bubble except on support page
-  React.useEffect(() => {
-    console.log(window.$chatwoot)
-    if (!window.$chatwoot?.hasLoaded) return
+  window.addEventListener('chatwoot:ready', function () {
+    let path
+    try {
+      path = pathname.split('/')[1]
+      if (path === 'support') return
+    } catch {}
     window.$chatwoot?.toggleBubbleVisibility('hide')
-  }, [window.$chatwoot.hasLoaded])
+  })
+
+  React.useEffect(() => {
+    if (!currentUser || !window.$chatwoot?.hasLoaded) return
+    try {
+      window.$chatwoot?.setUser(currentUser.id, {
+        name: currentUser.username,
+      })
+      window.$chatwoot?.setLocale(currentUser.locale)
+      window.$chatwoot?.setCustomAttributes({
+        ...currentUser,
+      })
+    } catch (e) {
+      console.log(e)
+    }
+  }, [window.$chatwoot?.hasLoaded, currentUser])
 
   return null
 }

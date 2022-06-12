@@ -42,8 +42,8 @@ const HomePage = () => {
         <div className="">
           <iframe
             src={`https://mautic.tools.treasurechess.com/form/1?username=${currentUser?.username}`}
-            width="300"
-            height="200"
+            className="max-w-[500px] w-full"
+            height="175"
             title="Subscribe form"
             scrolling="no"
             frameBorder="0"

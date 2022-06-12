@@ -1,4 +1,5 @@
 import fetch from 'node-fetch'
+import { logger } from 'src/lib/logger'
 
 const MAUTIC_API_BASE = 'https://mautic.tools.treaurechess.com'
 const MAUTIC_API = `${MAUTIC_API_BASE}/api`

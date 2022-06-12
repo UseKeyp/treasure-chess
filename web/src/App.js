@@ -49,10 +49,9 @@ const App = () => (
           <RedwoodApolloProvider
             graphQLClientConfig={{ httpLinkConfig: { credentials: 'include' } }}
           >
-            <AllContextProviders>
-              <LandingModal />
-              <Routes />
-            </AllContextProviders>
+            <LandingModal />
+
+            <Routes />
           </RedwoodApolloProvider>
         </AuthProviderExtended>
       </RedwoodProvider>

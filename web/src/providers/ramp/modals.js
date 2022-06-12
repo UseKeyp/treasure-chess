@@ -77,7 +77,6 @@ const OnRampProvider = ({ ramp, toggleModal, isLoading, onSubmit }) => {
     await onSubmit(ramp.type)
     toggleModal()
   }
-  console.log(getAddress)
   if (ramp.type === 'WALLET_DEPOSIT')
     onClick = () => {
       toggleModal()

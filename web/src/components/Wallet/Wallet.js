@@ -15,7 +15,6 @@ const Wallet = () => {
   const { isVisible: isVisibleBeta, toggleModal: toggleModalBeta } = useModal()
   const { currentUser } = useAuth()
   const { deposit, withdraw } = useRamp()
-  const { getAddress } = useWallet()
 
   if (!currentUser) {
     return <></>
@@ -27,18 +26,13 @@ const Wallet = () => {
       description: (
         <>
           <p>Address:</p>
-          <div className="flex align-center py-2">
-            <p className="mr-2">{trimAddress(currentUser.address)}</p>
-            <Button onClick={() => getAddress(currentUser.address)}>
-              <Icon name="copy" color="#147DDD" />
-            </Button>
-          </div>
+          <p className="">{trimAddress(currentUser.address)}</p>
         </>
       ),
       button: (
         <>
           <MemberBalance />
-          <div className="mt-2 mb-4">
+          <div className="mt-2">
             <MemberMintCredits />
           </div>
         </>

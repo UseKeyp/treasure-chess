@@ -73,9 +73,32 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
+label {
+  display: block;
+  margin-top: 1.5rem;
+}
+
 input {
   -moz-appearance: textfield;
   &::placeholder {
     color: color.scale(#4f4f4f, $lightness: 60%);
+  }
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  color: white;
+  outline: none;
+  transition: all 0.25s;
+  border-radius: 0.25rem;
+  background-color: #4f4f4f;
+  overflow: hidden;
+  padding: 0.5em 0.5em;
+  border: none;
+  border-radius: 0.25rem;
+  &:hover {
+    background-color: #47433f;
+  }
+  &:focus {
+    outline: none;
   }
 }

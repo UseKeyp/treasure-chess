@@ -33,7 +33,7 @@ export const createContact = async ({ member }) => {
       chess_id: member.id,
     }),
   }).then(async (res) => {
-    logger.debug({ custom: res }, 'getToken')
+    logger.debug({ custom: res }, 'createContact')
     const obj = await res.json()
     if (res.status === 204) return `No content returned by Wyre - ${url}`
     const data = await res.json()

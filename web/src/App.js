@@ -3,7 +3,6 @@ import { AuthProvider } from '@redwoodjs/auth'
 import { RedwoodApolloProvider } from '@redwoodjs/web/apollo'
 import { KonstaProvider } from 'konsta/react'
 
-import AllContextProviders from 'src/providers'
 import LandingModal from 'src/components/LandingModal'
 import { logIn } from 'src/utils/auth/client'
 import FatalErrorPage from 'src/pages/FatalErrorPage'

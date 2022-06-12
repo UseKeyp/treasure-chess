@@ -53,7 +53,9 @@ const TrackingProvider = () => {
     try {
       path = pathname.split('/')[1]
       if (path === 'support') return
-    } catch {}
+    } catch {
+      // Do nothing
+    }
     window.$chatwoot?.toggleBubbleVisibility('hide')
   })
 
@@ -67,9 +69,10 @@ const TrackingProvider = () => {
       window.$chatwoot?.setCustomAttributes({
         ...currentUser,
       })
-    } catch (e) {
-      console.log(e)
+    } catch {
+      // Do nothing
     }
+    /* eslint-enable react-hooks/exhaustive-deps */
   }, [window.$chatwoot?.hasLoaded, currentUser])
 
   return null

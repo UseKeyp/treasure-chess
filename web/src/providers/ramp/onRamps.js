@@ -1,3 +1,5 @@
+import Icon from 'src/components/Icon'
+
 export const onRamps = [
   {
     // iconName: 'ramp_network',
@@ -6,29 +8,31 @@ export const onRamps = [
     name: 'Ramp Network',
     description: (
       <p className="mt-4">
-        Regions: Most places (
-        <a
-          href="https://support.ramp.network/en/articles/433-supported-countries-and-territories"
-          target="_blank"
-          className="underline"
-          rel="noreferrer"
-        >
-          list
-        </a>
-        )
-        <br />
-        Limits: €100/day
-        <br />
-        Fees: 2.9% (
-        <a
-          href="https://support.ramp.network/en/articles/431-transaction-fees"
-          target="_blank"
-          className="underline"
-          rel="noreferrer"
-        >
-          details
-        </a>
-        )
+        <Trans i18nkey="web:RampOnRampDetails">
+          Regions: Most places (
+          <a
+            href="https://support.ramp.network/en/articles/433-supported-countries-and-territories"
+            target="_blank"
+            className="underline"
+            rel="noreferrer"
+          >
+            list
+          </a>
+          )
+          <br />
+          Limits: €100/day
+          <br />
+          Fees: 2.9% (
+          <a
+            href="https://support.ramp.network/en/articles/431-transaction-fees"
+            target="_blank"
+            className="underline"
+            rel="noreferrer"
+          >
+            details
+          </a>
+          )
+        </Trans>
       </p>
     ),
   },
@@ -38,35 +42,37 @@ export const onRamps = [
     name: 'Wyre',
     helperText: (
       <p>
-        Tip: Do not use auto-complete, a password manager, or copy/paste. Try
-        using a different email if your first attempt fails.
+        {t(`Tip: Do not use auto-complete, a password manager, or copy/paste. Try
+        using a different email if your first attempt fails.`)}
       </p>
     ),
     description: (
       <p className="mt-4">
-        Regions: Most places (
-        <a
-          href="https://docs.sendwyre.com/reference/hosted-checkout#supported-states-and-countries"
-          target="_blank"
-          className="underline"
-          rel="noreferrer"
-        >
-          list
-        </a>
-        )
-        <br />
-        Limits: $100/day
-        <br />
-        Fees: 2.9% + $0.30 (
-        <a
-          href="https://support.sendwyre.com/hc/en-us/articles/360059565013-Wyre-card-processing-fees"
-          target="_blank"
-          className="underline"
-          rel="noreferrer"
-        >
-          details
-        </a>
-        )
+        <Trans i18nkey="web:WyreOnRampDetails">
+          Regions: Most places (
+          <a
+            href="https://docs.sendwyre.com/reference/hosted-checkout#supported-states-and-countries"
+            target="_blank"
+            className="underline"
+            rel="noreferrer"
+          >
+            list
+          </a>
+          )
+          <br />
+          Limits: $100/day
+          <br />
+          Fees: 2.9% + $0.30 (
+          <a
+            href="https://support.sendwyre.com/hc/en-us/articles/360059565013-Wyre-card-processing-fees"
+            target="_blank"
+            className="underline"
+            rel="noreferrer"
+          >
+            details
+          </a>
+          )
+        </Trans>
       </p>
     ),
   },
@@ -76,38 +82,48 @@ export const onRamps = [
     type: 'MT_PELERIN',
     description: (
       <p className="mt-4">
-        Regions: Most places excluding the US (
-        <a
-          href="https://developers.mtpelerin.com/service-information/supported-countries"
-          target="_blank"
-          className="underline"
-          rel="noreferrer"
-        >
-          list
-        </a>
-        )
-        <br />
-        Limits: CHF 200/purchase
-        <br />
-        Fees: 1.5% + CHF 1.2 (
-        <a
-          href="https://www.mtpelerin.com/pricing"
-          target="_blank"
-          className="underline"
-          rel="noreferrer"
-        >
-          details
-        </a>
-        )
+        <Trans i18nkey="MtPelerinOnRampDetails">
+          Regions: Most places excluding the US (
+          <a
+            href="https://developers.mtpelerin.com/service-information/supported-countries"
+            target="_blank"
+            className="underline"
+            rel="noreferrer"
+          >
+            list
+          </a>
+          )
+          <br />
+          Limits: CHF 200/purchase
+          <br />
+          Fees: 1.5% + CHF 1.2 (
+          <a
+            href="https://www.mtpelerin.com/pricing"
+            target="_blank"
+            className="underline"
+            rel="noreferrer"
+          >
+            details
+          </a>
+          )
+        </Trans>
       </p>
     ),
   },
   {
-    iconName: 'metamask',
+    icon: (
+      <div className="flex py-1 justify-center flex-row items-center">
+        <Icon name="metamask" className="w-6 h-6 m-4" />
+        <img src="/rainbow_wallet.png" width="32px" className="ml-2" />
+        <h2 className="ml-2">{t('Web3 wallet')}</h2>
+      </div>
+    ),
     name: 'Manual',
     type: 'WALLET_DEPOSIT',
     description: (
-      <p className="mt-4">Send funds directly from another crypto wallet.</p>
+      <p className="mt-4">
+        {t('Send funds directly from another crypto wallet.')}
+      </p>
     ),
   },
 ]
@@ -119,15 +135,17 @@ export const feedbackSuggestionCta = {
   hideButton: true,
   description: (
     <p className="mt-4">
-      Have a suggestion?{' '}
-      <a
-        href="https://treasure.chess.com/feedback"
-        target="_blank"
-        className="underline"
-        rel="noreferrer"
-      >
-        Let us know!
-      </a>
+      <Trans i18nkey="FaroviteOnRampDetails">
+        Have a suggestion?{' '}
+        <a
+          href="https://treasure.chess.com/feedback"
+          target="_blank"
+          className="underline"
+          rel="noreferrer"
+        >
+          Let us know!
+        </a>
+      </Trans>
     </p>
   ),
 }

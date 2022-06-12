@@ -1,14 +1,12 @@
 import { useAuth } from '@redwoodjs/auth'
 import ModalContainer from 'src/components/ModalContainer'
 import Button from 'src/components/Button'
-import Icon from 'src/components/Icon'
 
 import { useModal } from 'src/hooks/useModal'
 import { useRamp } from 'src/providers/ramp/ramp'
 import MemberBalance from 'src/components/Member/MemberBalance'
 import MemberMintCredits from 'src/components/Member/MemberMintCredits'
 import { trimAddress } from 'src/utils/helpers'
-import { useWallet } from 'src/providers/wallet'
 import { ArrowUpSquareFill, ArrowDownSquareFill } from 'framework7-icons/react'
 
 const Wallet = () => {

@@ -28,13 +28,13 @@ export const fetchImageAndEncodeBase64 = async (url) => {
 
 export const getFlagBase64 = (code) => {
   let base64Image = flags['International']
-  // if (code) {
-  //   const regionNames = new Intl.DisplayNames(['en'], { type: 'region' })
-  //   const country = regionNames.of(code)
-  //   if (flags[country.replaceAll(' ', '-')] !== undefined) {
-  //     base64Image = flags[country.replaceAll(' ', '-')]
-  //   }
-  // }
+  if (code) {
+    const regionNames = new Intl.DisplayNames(['en'], { type: 'region' })
+    const country = regionNames.of(code)
+    if (flags[country.replaceAll(' ', '-')] !== undefined) {
+      base64Image = flags[country.replaceAll(' ', '-')]
+    }
+  }
   return `data:image/png;base64,${base64Image}`
 }
 

@@ -42,8 +42,8 @@ export const formatDate = (rawString) => {
   if (!rawString) return ''
   const date = new Date(rawString)
   let options = { month: 'short' }
-  const month = 12
-  // const month = new Intl.DateTimeFormat('en-US', options).format(date)
+  // TODO: Intl throws error in capacitor
+  const month = new Intl.DateTimeFormat('en-US', options).format(date)
   const day = date.getDate()
   const year = date.getFullYear()
   return `${month} ${day} ${year}`

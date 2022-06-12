@@ -14,6 +14,14 @@ const SupportPage = () => {
     }
   })
 
+  React.useEffect(() => {
+    window.$chatwoot?.hasLoaded &&
+      window.$chatwoot?.toggleBubbleVisibility('show')
+    return () => {
+      window.$chatwoot?.toggleBubbleVisibility('hide')
+    }
+  }, [window.$chatwoot.hasLoaded])
+
   const supportText = (
     <>
       <Trans i18nKey="web:supportHelpArea">

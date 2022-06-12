@@ -25,7 +25,11 @@ const Settings = () => {
           {t('Request')}
         </Button>
       ),
-      status: currentUser.betaAccess ? 'Enabled' : 'Disabled',
+      status: (
+        <p>
+          <i>{currentUser.betaAccess ? 'Enabled' : 'Disabled'}</i>
+        </p>
+      ),
       highlight: currentUser.betaAccess,
     },
   ]
@@ -47,15 +51,13 @@ const Settings = () => {
                 {item.iconContent || <h3>{item.title}</h3>}
               </div>
               {item.description && <p className="mt-2">{item.description}</p>}
-              <p className="mt-4">{item.status}</p>
+              <div className="mt-4">{item.status}</div>
               {item.errorText && (
                 <div className="mt-4 font-bold text-errorYellow">
                   {item.errorText}
                 </div>
               )}
-              {item.helperText && (
-                <p className="mt-3 italic">{item.helperText}</p>
-              )}
+              {item.helperText && <div className="mt-3">{item.helperText}</div>}
             </div>
             {!item.hideButton && (
               <div className="flex justify-end">

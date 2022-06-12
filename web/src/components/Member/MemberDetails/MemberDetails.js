@@ -148,7 +148,7 @@ const MemberDetails = ({ member, isProfile }) => {
                 size="small"
                 className="w-32"
               >
-                <div className="flex py-1 justify-center align-center">
+                <div className="flex py-1 justify-center items-center">
                   <WalletFill className="w-6 h-6 mr-3" />
                   <div>{t('Wallet')}</div>
                 </div>
@@ -161,7 +161,7 @@ const MemberDetails = ({ member, isProfile }) => {
                 size="small"
                 className="w-32 mt-4"
               >
-                <div className="flex py-1 justify-center align-center">
+                <div className="flex py-1 justify-center items-center">
                   <Gear className="w-6 h-6 mr-3" />
                   <div>{t('Settings')}</div>
                 </div>

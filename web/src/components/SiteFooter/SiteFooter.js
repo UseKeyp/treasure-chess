@@ -24,19 +24,19 @@ const SiteFooter = () => {
             </a>
           </div>
         </div>
-        <div className="flex flex-col sm:flex-row text-center mb-6 mt-4 sm:my-0 sm:space-x-4 space-y-6 sm:space-y-0">
+        <div className="flex items-center flex-col sm:flex-row text-center mt-4 sm:my-2 sm:space-x-6 space-y-2 sm:space-y-0">
           <a href={globalConfig.BLOG_URL}>Blog</a>
-          <a href={globalConfig.TOC_URL}>Terms of Service</a>
-          <a href={globalConfig.PRIVACY_POLICY_URL}>Privacy Policy</a>
-          <a href={globalConfig.SUPPORT_URL}>Support</a>
+          <Link to={routes.terms()}>Terms</Link>
+          <Link to={routes.privacy()}>Privacy</Link>
+          <Link to={routes.support()}>Support</Link>
           <Link to={routes.feedback()}>Feedback</Link>
         </div>
-        <div className="flex items-center mt-4 md:mt-0">
-          <a href={globalConfig.CHESS_COM_BASE_URL} className="mr-4">
+        <div className="flex items-center flex-row space-x-4 mt-2 space-y-2 ">
+          <a href={globalConfig.CHESS_COM_BASE_URL}>
             <Icon name="chess_com" height="25" />
             <span className="sr-only">Chess.com</span>
           </a>
-          <div className="mr-4">© Nifty Chess, Inc. {currentYear}</div>
+          <div>© Nifty Chess, Inc. {currentYear}</div>
           <div>{process.env.VERSION}</div>
         </div>
       </div>

@@ -15,8 +15,8 @@ const SupportPage = () => {
   })
 
   React.useEffect(() => {
-    window.$chatwoot?.hasLoaded &&
-      window.$chatwoot?.toggleBubbleVisibility('show')
+    if (!window.$chatwoot?.hasLoaded) return
+    window.$chatwoot?.toggleBubbleVisibility('show')
     return () => {
       window.$chatwoot?.toggleBubbleVisibility('hide')
     }

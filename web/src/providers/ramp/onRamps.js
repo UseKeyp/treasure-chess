@@ -36,8 +36,12 @@ export const onRamps = [
     type: 'WYRE',
     iconName: 'wyre',
     name: 'Wyre',
-    helperText:
-      'Tip: Do not use auto-complete, a password manager, or copy/paste. Try using a different email if your first attempt fails.',
+    helperText: (
+      <p>
+        Tip: Do not use auto-complete, a password manager, or copy/paste. Try
+        using a different email if your first attempt fails.
+      </p>
+    ),
     description: (
       <p className="mt-4">
         Regions: Most places (
@@ -96,6 +100,14 @@ export const onRamps = [
         </a>
         )
       </p>
+    ),
+  },
+  {
+    iconName: 'metamask',
+    name: 'Manual',
+    type: 'WALLET_DEPOSIT',
+    description: (
+      <p className="mt-4">Send funds directly from another crypto wallet.</p>
     ),
   },
 ]

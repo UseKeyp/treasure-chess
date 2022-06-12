@@ -9,6 +9,7 @@ import MemberBalance from 'src/components/Member/MemberBalance'
 import MemberMintCredits from 'src/components/Member/MemberMintCredits'
 import { trimAddress } from 'src/utils/helpers'
 import { useWallet } from 'src/providers/wallet'
+import { ArrowUpSquareFill, ArrowDownSquareFill } from 'framework7-icons/react'
 
 const Wallet = () => {
   const { isVisible: isVisibleBeta, toggleModal: toggleModalBeta } = useModal()
@@ -25,7 +26,7 @@ const Wallet = () => {
       title: 'Details',
       description: (
         <>
-          Address:
+          <p>Address:</p>
           <div className="flex align-center py-2">
             <p className="mr-2">{trimAddress(currentUser.address)}</p>
             <Button onClick={() => getAddress(currentUser.address)}>
@@ -45,16 +46,19 @@ const Wallet = () => {
     },
     {
       title: 'Add Funds',
-      description: 'Instantly add funds using a debit card.',
+      description: <p>Instantly add funds using a debit card.</p>,
       button: (
         <Button onClick={deposit} variant="blue" size="small" className="w-32">
-          {t('Add Funds')}
+          <div className="flex py-1 justify-center flex-row items-center">
+            <ArrowDownSquareFill className="w-6 h-6 mr-3" />
+            {t('Add funds')}
+          </div>
         </Button>
       ),
     },
     {
       title: 'Cash out',
-      description: 'Send funds to your bank at any time.',
+      description: <p>Send funds to your bank at any time.</p>,
       button: (
         <Button
           onClick={withdraw}
@@ -62,7 +66,10 @@ const Wallet = () => {
           size="small"
           className="w-32"
         >
-          {t('Cash Out')}
+          <div className="flex flex-row py-1 justify-center items-center">
+            <ArrowUpSquareFill className="w-6 h-6 mr-3" />
+            <div> {t('Cash out')}</div>
+          </div>
         </Button>
       ),
     },
@@ -71,8 +78,6 @@ const Wallet = () => {
   return (
     <div className="max-width-container">
       <h1>{'Wallet'}</h1>
-      <div className="member-details--funds-actions"></div>
-
       <div className="grid grid-rows-2">
         {items.map((item) => (
           <div
@@ -85,15 +90,17 @@ const Wallet = () => {
               <div className="flex align-center items-center">
                 {item.iconContent || <h3>{item.title}</h3>}
               </div>
-              {item.description && <p className="mt-2">{item.description}</p>}
-              <p className="mt-4">{item.status}</p>
+              {item.description && (
+                <div className="mt-2">{item.description}</div>
+              )}
+              <div className="mt-4">{item.status}</div>
               {item.errorText && (
                 <div className="mt-4 font-bold text-errorYellow">
                   {item.errorText}
                 </div>
               )}
               {item.helperText && (
-                <p className="mt-3 italic">{item.helperText}</p>
+                <div className="mt-3 ">{item.helperText}</div>
               )}
             </div>
             {!item.hideButton && (

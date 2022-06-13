@@ -83,7 +83,6 @@ const RampProvider = ({ children }) => {
     name: 'Wyre + Plaid',
     icon: (
       <img
-        alt="rainbow"
         src="/icons/wyre_plaid.png"
         alt="Wyre and Plaid logos"
         className="h-12"
@@ -105,7 +104,12 @@ const RampProvider = ({ children }) => {
     icon: (
       <div className="flex py-1 justify-center flex-row items-center">
         <Icon name="metamask" className="w-6 h-6 m-4" />
-        <img src="/rainbow_wallet.png" width="32px" className="ml-2" />
+        <img
+          alt="rainbow"
+          src="/rainbow_wallet.png"
+          width="32px"
+          className="ml-2"
+        />
         <h2 className="ml-2">{t('Web3 wallet')}</h2>
       </div>
     ),

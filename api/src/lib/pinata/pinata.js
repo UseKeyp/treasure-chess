@@ -177,7 +177,7 @@ export const pinTreasure = async ({ treasure, tcn, gameId }) => {
       image,
     }
     const stringifiedUriData = JSON.stringify(uriData)
-    logger.debug({ custom: uriData }, 'uriData')
+    // logger.debug({ custom: uriData }, 'uriData')
     const tokenUri = await pinJson(stringifiedUriData)
 
     let customLog = ''

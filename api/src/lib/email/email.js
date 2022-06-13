@@ -12,10 +12,7 @@ const EMAIL_CONFIG = {
     logger,
     host: process.env.SMTP_HOST,
     port: parseInt(process.env.SMTP_PORT),
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
-    },
+    auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
   },
 }
 
@@ -25,11 +22,8 @@ export const sendEmail = async ({ locals, member: { email }, template }) => {
   //
   await new Email(EMAIL_CONFIG).send({
     locals,
-    template: resolve(__dirname, '../../templates', template),
-    message: {
-      from: EMAIL_FROM,
-      to: email,
-    },
+    template: resolve(__dirname, '../../../templates', template),
+    message: { from: EMAIL_FROM, to: email },
   })
 }
 

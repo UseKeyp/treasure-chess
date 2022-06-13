@@ -6,7 +6,7 @@ import AllContextProviders from 'src/providers'
 
 const Routes = () => {
   return (
-    <Router whileLoadingPage={() => <Loader />}>
+    <Router whileLoadingPage={() => <Route path="/subscribe" page={SubscribePage} name="subscribe" /> <Loader />}>
       <AllContextProviders>
         <AppUrlListener />
         <Route path="/restricted" page={RestrictedPage} name="restricted" />

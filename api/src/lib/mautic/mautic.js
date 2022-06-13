@@ -30,7 +30,7 @@ const fetchMautic = async ({ body, method, path }) => {
   const authToken = await getMauticToken()
   return fetch(`${MAUTIC_API}${path}`, {
     method,
-    body: encodeBody(body),
+    ...(body && { body: encodeBody(body) }),
     headers: {
       Authorization: `Bearer ${authToken}`,
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -69,7 +69,6 @@ export const updateMauticContact = async ({ member, data }) => {
     })
     if (contacts.total === 0) throw `No contact found for ${member.username}`
     const contact = contacts.contacts[0]
-    logger.debug({ custom: contact })
     await fetchMautic({
       body: data,
       method: 'PATCH',
@@ -79,21 +78,52 @@ export const updateMauticContact = async ({ member, data }) => {
     logger.error(e)
   }
 }
+export const fetchContact = async ({ member }) => {
+  const data = await fetchMautic({
+    path: `/contacts?where[0][col]=username&where[0][expr]=in&where[0][val]=${member.username}`,
+  })
+  if (data.total === 0) throw `No contact found for ${member.username}`
+  const contact = data.contacts[Object.keys(data.contacts)[0]]
+  return contact
+}
 
-export const updateMauticContactMinted = async ({ member }) => {
+export const updateMauticContactMinted = async ({ member, purchase }) => {
   try {
-    const contacts = await fetchMautic({
-      path: `/contacts?where[0][col]=username&where[0][expr]=in&where[0][val]=${member.username}`,
-    })
-    if (contacts.total === 0) throw `No contact found for ${member.username}`
-    const contact = contacts.contacts[0]
+    const contact = await fetchContact({ member })
     const treasuresMinted = contact?.fields?.core?.treasures_minted?.value
     await fetchMautic({
       body: { treasures_minted: treasuresMinted + 1 },
       method: 'PATCH',
       path: `/contacts/${contact.id}/edit`,
     })
+    const tokenUrl = `${process.env.APP_DOMAIN}/treasures/${purchase.treasure.tokenId}`
+    const tokens = {}
+    if (treasuresMinted === 0)
+      await sendEmail({
+        emailId: 15, // First mint email
+        contact,
+        tokens: {
+          '{transaction_title}':
+            'Congratulations on minting your first Treasure!',
+          '{transaction_description}':
+            'Each Treasure has a level: Good, Great, Ultra, or Mythic. The level is calculated automatically based on the achievements earned. Do something amazing, like take all of your opponents pawns without losing any, and you will be on your way to a Mythic Treasure.',
+          '{column_1_title}': 'Treasure',
+          '{column_2_title}': 'Order Date',
+          '{column_3_title}': 'Total Amount',
+          '{column_1_text}': `#${purchase.treasure.tokenId}`,
+          '{column_2_text}': new Date().toString(),
+          '{column_3_text}': '$5',
+        },
+      })
   } catch (e) {
     logger.error(e)
   }
+}
+
+export const sendEmail = async ({ emailId, tokens, contact }) => {
+  await fetchMautic({
+    path: `/emails/${emailId}/contact/${contact.id}/send${member.username}`,
+    body: tokens,
+    method: 'POST',
+  })
 }

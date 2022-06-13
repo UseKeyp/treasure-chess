@@ -6,13 +6,14 @@ import AllContextProviders from 'src/providers'
 
 const Routes = () => {
   return (
-    <Router whileLoadingPage={() => <Route path="/subscribe" page={SubscribePage} name="subscribe" /> <Loader />}>
+    <Router whileLoadingPage={() => <Loader />}>
       <AllContextProviders>
         <AppUrlListener />
         <Route path="/restricted" page={RestrictedPage} name="restricted" />
         <Route path="/redirect/{type}" page={RedirectPage} name="redirect" />
         <Route path="/redirect/{type}/{error}" page={RedirectPage} name="redirect" />
         <Set wrap={DefaultLayout}>
+          <Route path="/subscribe" page={SubscribePage} name="subscribe" />
           <Route path="/terms" page={TermsPage} name="terms" />
           <Route path="/privacy" page={PrivacyPage} name="privacy" />
           <Route path="/" page={HomePage} name="home" />

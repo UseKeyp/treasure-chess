@@ -98,7 +98,8 @@ export const updateMauticContactMinted = async ({ member, purchase }) => {
     })
     const tokenUrl = `${process.env.APP_DOMAIN}/treasures/${purchase.treasure.tokenId}`
     const tokens = {}
-    if (treasuresMinted === 0)
+    // if (treasuresMinted === 0)
+    if (true)
       await sendEmail({
         emailId: 15, // First mint email
         contact,
@@ -108,10 +109,10 @@ export const updateMauticContactMinted = async ({ member, purchase }) => {
           '{transaction_description}':
             'Each Treasure has a level: Good, Great, Ultra, or Mythic. The level is calculated automatically based on the achievements earned. Do something amazing, like take all of your opponents pawns without losing any, and you will be on your way to a Mythic Treasure.',
           '{column_1_title}': 'Treasure',
-          '{column_2_title}': 'Order Date',
+          '{column_2_title}': 'Level',
           '{column_3_title}': 'Total Amount',
           '{column_1_text}': `#${purchase.treasure.tokenId}`,
-          '{column_2_text}': new Date().toString(),
+          '{column_2_text}': `${purchase.treasure.rarity}`,
           '{column_3_text}': '$5',
         },
       })
@@ -121,9 +122,21 @@ export const updateMauticContactMinted = async ({ member, purchase }) => {
 }
 
 export const sendEmail = async ({ emailId, tokens, contact }) => {
-  await fetchMautic({
-    path: `/emails/${emailId}/contact/${contact.id}/send${member.username}`,
-    body: tokens,
+  const authToken = await getMauticToken()
+  return fetch(`${MAUTIC_API}/emails/${emailId}/contact/${contact.id}/send`, {
     method: 'POST',
+    body: JSON.stringify({ tokens }),
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+      'Content-Type': 'application/json',
+    },
+  }).then(async (res) => {
+    logger.debug({ custom: res }, `sendEmail()`)
+    if (res.status === 204) throw `No content returned by Mautic`
+    const data = await res.json()
+    if (data.errors) {
+      throw `sendEmail() error ${JSON.stringify(data.errors)}`
+    }
+    return data
   })
 }

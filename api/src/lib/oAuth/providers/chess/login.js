@@ -3,6 +3,7 @@ import { AuthenticationError } from '@redwoodjs/graphql-server'
 import { db } from 'src/lib/db'
 import { EnvelopError } from '@envelop/core'
 
+import { createMauticContact } from 'src/lib/mautic'
 import { fetchMember } from 'src/lib/members'
 import { getTorusPublicAddress } from 'src/lib/torus/torus'
 import { logger } from 'src/lib/logger'
@@ -27,6 +28,14 @@ export const onConnected = async ({ refreshToken, accessToken, decoded }) => {
       throw new EnvelopError(
         `Couldn't fetch email for user ${preferred_username} in fetchMember function`
       )
+
+    await createMauticContact({
+      member: {
+        username: member.username,
+        email,
+        id: member.id,
+      },
+    })
 
     await db.member.update({
       where: { id: member.id },

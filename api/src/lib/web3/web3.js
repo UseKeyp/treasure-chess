@@ -12,6 +12,7 @@ import { generateTreasureData } from 'src/lib/treasures'
 import { sendDiscordAdminAlert } from 'src/lib/discord/admin'
 
 import { logger } from 'src/lib/logger'
+import { updateMauticContactMinted } from 'src/lib/mautic'
 import { isProduction, isOlderThanResubmitTimeout } from 'src/lib/helpers'
 import { getAdminBalance } from './wallets/admin'
 
@@ -150,6 +151,7 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
           tokenUri,
           openGraphImageSrc,
         })
+        await updateMauticContactMinted({ member })
         return purchase
       }
       if (status === SUBMITTED) {

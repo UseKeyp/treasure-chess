@@ -1,4 +1,8 @@
-# Database Docs
+# Database
+
+## Installation
+
+See this guide to setup local postgres https://www.prisma.io/dataguide/postgresql/setting-up-a-local-postgresql-database
 
 ### Last ditch effort
 

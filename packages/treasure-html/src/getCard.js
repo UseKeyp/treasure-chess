@@ -106,7 +106,7 @@ const getCardHtml = async ({
 
     const updateStyle = (id, property, content) => {
       const element = doc.getElementById(id)
-      if (!element) return // console.log(`No element with id ${id}`)
+      if (!element) return
       var replace = `${property}:(.+?);`
       var re = new RegExp(replace)
       const style = element

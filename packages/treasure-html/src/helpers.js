@@ -27,11 +27,13 @@ export const fetchImageAndEncodeBase64 = async (url) => {
 }
 
 export const getFlagBase64 = (code) => {
-  let base64Image = flags['XX']
+  let base64Image = flags['International']
   if (code) {
     const regionNames = new Intl.DisplayNames(['en'], { type: 'region' })
     const country = regionNames.of(code)
-    base64Image = flags[country.replaceAll(' ', '-')]
+    if (flags[country.replaceAll(' ', '-')] !== undefined) {
+      base64Image = flags[country.replaceAll(' ', '-')]
+    }
   }
   return `data:image/png;base64,${base64Image}`
 }
@@ -40,6 +42,7 @@ export const formatDate = (rawString) => {
   if (!rawString) return ''
   const date = new Date(rawString)
   let options = { month: 'short' }
+  // TODO: Intl throws error in capacitor
   const month = new Intl.DateTimeFormat('en-US', options).format(date)
   const day = date.getDate()
   const year = date.getFullYear()

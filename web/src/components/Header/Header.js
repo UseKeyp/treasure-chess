@@ -1,9 +1,11 @@
 import { useCallback, useEffect } from 'react'
 import { routes, useLocation } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
-import { useWallet } from 'src/providers/wallet'
+import { useRamp } from 'src/providers/ramp/ramp'
 
 import { useLocale } from 'src/providers/locale'
+
+import { Menu } from 'framework7-icons/react'
 
 import Icon from 'src/components/Icon/Icon'
 import Avatar from 'src/components/Avatar/Avatar'
@@ -16,7 +18,7 @@ import { trimAddress } from 'src/utils/helpers'
 import Tooltip from 'src/components/Tooltip/Tooltip'
 
 const WalletBalance = () => {
-  const { deposit } = useWallet()
+  const { deposit } = useRamp()
   return (
     <div className="flex flex-col flex-1 text-sm">
       <div className={'header__nav__balance'}>
@@ -47,7 +49,7 @@ const MobileNav = () => {
   const navAnchorClasses = 'text-center w-full font-bold'
 
   return (
-    <MobileMenu triggerContents="Menu">
+    <MobileMenu triggerContents={<Menu className="w-7 h-7" />}>
       <div className="flex-1 flex justify-center">
         <nav>
           <ul className="h-full relative grid place-items-center">

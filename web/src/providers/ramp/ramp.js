@@ -83,6 +83,7 @@ const RampProvider = ({ children }) => {
     name: 'Wyre + Plaid',
     icon: (
       <img
+        alt="rainbow"
         src="/icons/wyre_plaid.png"
         alt="Wyre and Plaid logos"
         className="h-12"

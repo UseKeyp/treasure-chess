@@ -10,7 +10,6 @@ import {
   ArrowDownSquareFill,
   PaperplaneFill,
 } from 'framework7-icons/react'
-import WalletFormTransfer20 from 'src/components/Wallet/WalletFormTransfer20'
 
 const Wallet = () => {
   const { currentUser } = useAuth()

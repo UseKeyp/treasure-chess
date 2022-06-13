@@ -72,7 +72,7 @@ const TrackingProvider = () => {
     } catch {
       // Do nothing
     }
-    /* eslint-enable react-hooks/exhaustive-deps */
+    /* eslint-disable react-hooks/exhaustive-deps */
   }, [window.$chatwoot?.hasLoaded, currentUser])
 
   return null

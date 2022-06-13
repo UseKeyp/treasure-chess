@@ -182,14 +182,14 @@ const Header = () => {
             <WalletBalance />
             <div className="ml-4">
               <Button onClick={logOut}>
-                {/*<Tooltip
+                <Tooltip
                   effect="solid"
                   text="Log Out"
                   position="bottom"
                   bgColor="dark"
                 >
-                </Tooltip> */}
-                <Icon name="logout" color="grey" />
+                  <Icon name="logout" color="grey" />
+                </Tooltip>
               </Button>
             </div>
           </div>

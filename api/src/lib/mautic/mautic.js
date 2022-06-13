@@ -96,10 +96,7 @@ export const updateMauticContactMinted = async ({ member, purchase }) => {
       method: 'PATCH',
       path: `/contacts/${contact.id}/edit`,
     })
-    const tokenUrl = `${process.env.APP_DOMAIN}/treasures/${purchase.treasure.tokenId}`
-    const tokens = {}
-    // if (treasuresMinted === 0)
-    if (true)
+    if (treasuresMinted === 0)
       await sendEmail({
         emailId: 15, // First mint email
         contact,

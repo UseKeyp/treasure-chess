@@ -266,7 +266,12 @@ export const DepositModal = ({ isVisible, toggleModal }) => {
       icon: (
         <div className="flex py-1 justify-center flex-row items-center">
           <Icon name="metamask" className="w-6 h-6 m-4" />
-          <img src="/rainbow_wallet.png" width="32px" className="ml-2" />
+          <img
+            alt="rainbow"
+            src="/rainbow_wallet.png"
+            width="32px"
+            className="ml-2"
+          />
           <h2 className="ml-2">{t('Web3 wallet')}</h2>
         </div>
       ),

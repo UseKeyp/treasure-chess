@@ -1,11 +1,8 @@
 import { MetaTags } from '@redwoodjs/web'
-import { routes } from '@redwoodjs/router'
-
-import Button from 'src/components/Button/Button'
-import Icon from 'src/components/Icon/Icon'
+import DefaultLayout from 'src/layouts/DefaultLayout'
 
 export default () => (
-  <>
+  <DefaultLayout>
     <MetaTags title="No Go" description="Page not found" />
     <main className="not-found">
       <section className="not-found--container">
@@ -13,15 +10,10 @@ export default () => (
           <img src="/no-go.png" className="h-auto w-full block" alt="" />
         </div>
         <div className="not-found--content">
-          <h1>Oops! 404</h1>
+          <h1>No go! 404</h1>
           <p>The page you are looking for doesn&apos;t exist</p>
-          <div className="not-found--content--go-home flex justify-center">
-            <Button to={routes.home()}>
-              <Icon name="treasure_chess_full" height="50px" color="#fff" />
-            </Button>
-          </div>
         </div>
       </section>
     </main>
-  </>
+  </DefaultLayout>
 )

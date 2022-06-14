@@ -72,7 +72,7 @@ const DefaultLayout = ({ children }) => {
             />
             <TabbarLink
               active={activeTab === 'support'}
-              onClick={() => setActiveTab('support')}
+              onClick={() => onClick('support')}
               icon={
                 <KonstaIcon
                   ios={<QuestionCircle className="w-7 h-7" />}

@@ -1,4 +1,5 @@
 import { useAuth } from '@redwoodjs/auth'
+import { routes, Link } from '@redwoodjs/router'
 import Button from 'src/components/Button'
 
 import { useRamp } from 'src/providers/ramp/ramp'
@@ -86,9 +87,9 @@ const Wallet = () => {
         <p className="italic">
           <Trans i18nkey="web:requestBetaAccess">
             Beta feature. Request to be a Beta Tester in{' '}
-            <a className="underline" href="/settings">
+            <Link className="underline" to={routes.settings()}>
               Settings
-            </a>
+            </Link>
             .
           </Trans>
         </p>

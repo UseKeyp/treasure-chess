@@ -107,9 +107,9 @@
 .rw-form-error-wrapper {
   padding: 1rem;
   background-color: #fff5f5;
-  color: #FFBB0D;
+  color: #ffbb0d;
   border-width: 1px;
-  border-color: #FFBB0D;
+  border-color: #ffbb0d;
   border-radius: 0.25rem;
   margin: 1rem 0;
 }
@@ -163,11 +163,11 @@
   background-color: #2b6cb0;
 }
 .rw-button.rw-button-red {
-  background-color: #FFBB0D;
+  background-color: #ffbb0d;
   color: #fff;
 }
 .rw-button.rw-button-red:hover {
-  background-color: #FFBB0D;
+  background-color: #ffbb0d;
 }
 .rw-button-icon {
   font-size: 1.25rem;
@@ -193,7 +193,7 @@
   font-weight: 600;
 }
 .rw-label.rw-label-error {
-  color: #FFBB0D;
+  color: #ffbb0d;
 }
 .rw-input {
   display: block;
@@ -212,11 +212,11 @@
   margin-left: 0;
 }
 .rw-input:focus {
-  border-color: #a0aec0;
+  /* border-color: #a0aec0; */
 }
 .rw-input-error {
-  border-color: #FFBB0D;
-  color: #FFBB0D;
+  border-color: #ffbb0d;
+  color: #ffbb0d;
 }
 .rw-field-error {
   display: block;
@@ -224,7 +224,7 @@
   font-weight: 600;
   text-transform: uppercase;
   font-size: 0.75rem;
-  color: #FFBB0D;
+  color: #ffbb0d;
 }
 .rw-table-wrapper-responsive {
   overflow-x: scroll;
@@ -292,10 +292,10 @@
   color: #fff;
 }
 .rw-table-actions .rw-button-red {
-  color: #FFBB0D;
+  color: #ffbb0d;
 }
 .rw-table-actions .rw-button-red:hover {
-  background-color: #FFBB0D;
+  background-color: #ffbb0d;
   color: #fff;
 }
 .rw-text-center {
@@ -316,6 +316,6 @@
 
 .rw-input-error:focus {
   outline: none;
-  border-color: #FFBB0D;
-  box-shadow: 0 0 5px #FFBB0D;
+  border-color: #ffbb0d;
+  box-shadow: 0 0 5px #ffbb0d;
 }

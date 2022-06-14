@@ -40,7 +40,7 @@ const Profile = () => {
           )}
         </p>
       </div>
-      <h1 className="mt-6">{t('Games')}</h1>
+      <h1 className="mt-10">{t('Mint new Treasures')}</h1>
       <div className="mt-4">
         <GameExplorer />
       </div>

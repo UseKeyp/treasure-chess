@@ -59,15 +59,46 @@ button {
   max-width: 1600px;
 }
 
+iframe {
+  &:focus-visible {
+    outline: none;
+  }
+  // background: url(/treasurechessfull-fatal-page.png) center center no-repeat;
+  background: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 100% 100%"><text fill="%23fff" x="50%" y="50%" font-family="\'Montserrat\', sans-serif" font-size="12" text-anchor="middle">Loading...</text></svg>')
+    0px 0px no-repeat;
+}
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appreance: none;
   margin: 0;
 }
 
+label {
+  display: block;
+  margin-top: 1.5rem;
+}
+
 input {
   -moz-appearance: textfield;
   &::placeholder {
     color: color.scale(#4f4f4f, $lightness: 60%);
+  }
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  color: white;
+  outline: none;
+  transition: all 0.25s;
+  border-radius: 0.25rem;
+  background-color: #4f4f4f;
+  overflow: hidden;
+  padding: 0.5em 0.5em;
+  border: none;
+  border-radius: 0.25rem;
+  &:hover {
+    background-color: #47433f;
+  }
+  &:focus {
+    outline: none;
   }
 }

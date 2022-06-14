@@ -5,7 +5,7 @@ import { parseUnits } from '@ethersproject/units'
 import { web3Provider } from 'src/lib/web3/helpers'
 import { getTreasureContract } from 'src/lib/web3/treasure'
 import { getTokenContract } from 'src/lib/web3/tokens'
-
+import { EnvelopError } from '@envelop/core'
 import { logger } from 'src/lib/logger'
 
 export const getTreasureMarketContract = () => {
@@ -85,6 +85,10 @@ export const list = async ({ treasure, amount }) => {
     })
     return tx
   } catch (e) {
+    if (e.error.error['code'] === -32000)
+      throw new EnvelopError(
+        'Things are a bit congested now, please try again in a few minutes'
+      )
     logger.error(e)
     throw new Error(`list() ${e}`)
   }

@@ -60,7 +60,11 @@ const WalletProvider = ({ children }) => {
       setTransferErc721Error(false)
 
       const { error, data } = await transferErc721Mutation({ variables: args })
-      if (error) throw error
+      if (error) {
+        if (error.error.error['code'] === -32000)
+          throw 'Things are a bit congested now, please try again in a few minutes'
+        else throw error
+      }
       return data
     } catch (e) {
       toast.error(e?.message)
@@ -74,7 +78,11 @@ const WalletProvider = ({ children }) => {
       setTransferErc20Error(false)
 
       const { error, data } = await transferErc20Mutation({ variables: args })
-      if (error) throw error
+      if (error) {
+        if (error.error.error['code'] === -32000)
+          throw 'Things are a bit congested now, please try again in a few minutes'
+        else throw error
+      }
       return data
     } catch (e) {
       toast.error(e?.message)

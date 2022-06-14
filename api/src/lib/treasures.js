@@ -198,15 +198,35 @@ export const getTreasuresWithFilter = async ({
   // logger.debug({ custom: treasures[0] }, 'one treasure')
 
   if (hasSortByPrice) {
+    // if sort by price is selected: sort by price
+    // this sort will preserve the original query, only will order by some rules:
     treasures = treasures.sort((a, b) => {
+      // sort A before B when A has LISTED
+      if (a.marketSaleStatus === 'LISTED') {
+        return -1
+      }
+      // sort A after B when A has no LISTED
+      if (b.marketSaleStatus !== 'LISTED') {
+        return 1
+      }
+
+      // keep the same if when A has no LISTED and B has LISTED
+      if (a.marketSaleStatus !== 'LISTED' && b.marketSaleStatus !== 'LISTED') {
+        return 0
+      }
+
+      // if A and B has LISTED, sort by price and compare which has higher price
       if (a.marketSaleStatus === 'LISTED' && b.marketSaleStatus === 'LISTED') {
+        // sort A after B (DESC) when B has Less Price than A otherwise the opposite
         if (sort === 'Price: Low to High') {
           return a.marketSales[0].amount > b.marketSales[0].amount ? -1 : 1
-        } else if (sort === 'Price: High to Low') {
+        }
+
+        // sort A beofre B (ASC) when B has Less Price than A otherwise the opposite
+        if (sort === 'Price: High to Low') {
           return a.marketSales[0].amount < b.marketSales[0].amount ? -1 : 1
         }
       }
-      return 0
     })
   }
 

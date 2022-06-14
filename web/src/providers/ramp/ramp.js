@@ -189,6 +189,7 @@ const RampProvider = ({ children }) => {
 
   const [rampUrlQuery] = useLazyQuery(RAMP_URL_QUERY, {
     fetchPolicy: 'network-only',
+    nextFetchPolicy: 'cache-first',
   })
   const [rampWithdrawMutation] = useMutation(RAMP_WITHDRAW_MUTATION)
 

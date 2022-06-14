@@ -19,11 +19,7 @@ const SupportPage = () => {
     if (isBrowser) {
       if (!window.$chatwoot?.hasLoaded) return
       window.$chatwoot?.toggleBubbleVisibility('show')
-      return () => {
-        window.$chatwoot?.toggleBubbleVisibility('hide')
-      }
     }
-    /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [])
 
   const supportText = (

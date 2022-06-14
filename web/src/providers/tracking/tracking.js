@@ -65,6 +65,7 @@ const TrackingProvider = () => {
     if (!currentUser || !window.$chatwoot?.hasLoaded) return
     try {
       if (isBrowser) {
+        console.log('Setting chatwoot user')
         window.$chatwoot?.setUser(currentUser.id, {
           name: currentUser.username,
         })
@@ -76,8 +77,8 @@ const TrackingProvider = () => {
     } catch {
       // Do nothing
     }
-    /* eslint-disable react-hooks/exhaustive-deps */
   }, [currentUser])
+  /* eslint-disable react-hooks/exhaustive-deps */
   // }, [window.$chatwoot?.hasLoaded, currentUser])
 
   return null

@@ -107,20 +107,6 @@ const LoginPortal = () => {
             .
           </h4>
         </Trans>
-        <Trans i18nKey="web:userAgreement2">
-          <h4 className="mt-4">
-            If you have any questions or concerns, please let us know using the
-            <a
-              className="mx-1  text-blue"
-              rel="noreferrer"
-              target="_blank"
-              href="/feedback"
-            >
-              Feedback Form
-            </a>
-            .
-          </h4>
-        </Trans>
       </div>
     </div>
   )

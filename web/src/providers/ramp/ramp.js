@@ -1,6 +1,7 @@
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
 import { useAuth } from '@redwoodjs/auth'
 import { isBrowser } from '@redwoodjs/prerender/browserUtils'
+import { routes, Link } from '@redwoodjs/router'
 
 import { DepositModal, WithdrawModal } from 'src/providers/ramp/modals'
 import Icon from 'src/components/Icon/Icon'
@@ -99,6 +100,7 @@ const RampProvider = ({ children }) => {
     ),
   })
   const externalTransfer = {
+    name: 'Web3 Wallet',
     isLoading: false,
     type: EXTERNAL_TRANSFER,
     icon: (
@@ -127,9 +129,9 @@ const RampProvider = ({ children }) => {
       <p className="italic">
         <Trans i18nkey="web:requestBetaAccess">
           Beta feature. Request to be a Beta Tester in{' '}
-          <a className="underline" href="/settings">
+          <Link className="underline" to={routes.settings()}>
             Settings
-          </a>
+          </Link>
           .
         </Trans>
       </p>
@@ -187,6 +189,7 @@ const RampProvider = ({ children }) => {
 
   const [rampUrlQuery] = useLazyQuery(RAMP_URL_QUERY, {
     fetchPolicy: 'network-only',
+    nextFetchPolicy: 'cache-first',
   })
   const [rampWithdrawMutation] = useMutation(RAMP_WITHDRAW_MUTATION)
 

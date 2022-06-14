@@ -1,6 +1,7 @@
 import FaqSection from 'src/components/FaqSection/FaqSection'
 import { MetaTags } from '@redwoodjs/web'
 import { useTheme } from 'src/providers/theme'
+import { isBrowser } from '@redwoodjs/prerender/browserUtils'
 
 import { useEffect } from 'react'
 
@@ -15,13 +16,11 @@ const SupportPage = () => {
   })
 
   React.useEffect(() => {
-    if (!window.$chatwoot?.hasLoaded) return
-    window.$chatwoot?.toggleBubbleVisibility('show')
-    return () => {
-      window.$chatwoot?.toggleBubbleVisibility('hide')
+    if (isBrowser) {
+      if (!window.$chatwoot?.hasLoaded) return
+      window.$chatwoot?.toggleBubbleVisibility('show')
     }
-    /* eslint-disable-next-line react-hooks/exhaustive-deps */
-  }, [window.$chatwoot.hasLoaded])
+  }, [])
 
   const supportText = (
     <>

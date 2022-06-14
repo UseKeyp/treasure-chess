@@ -1,6 +1,10 @@
 import { useLazyQuery } from '@apollo/client'
 import { TREASURES_PER_PAGE } from '@treasure-chess/treasure-filters'
 
+import Carousel from 'src/components/Carousel'
+import LoadingDots from 'src/components/LoadingDots'
+import SeeMore from 'src/components/SeeMore'
+import GameCard from 'src/components/Game/GameCard'
 import Treasures from 'src/components/Treasure/Treasures'
 
 const TREASURES_WITH_FILTER = gql`
@@ -135,15 +139,27 @@ const TreasuresFetcher = ({
 
   if (error) return <h2 className="rw-text-center">Something went wrong</h2>
   return !collapsedTreasures ? (
-    <Treasures
-      treasures={treasures}
-      count={count}
-      onLoadMore={onLoadMore}
-      page={page}
-      limit={limit}
-      loading={loading}
-      seeMore={seeMore}
-    />
+    limit ? (
+      <Carousel
+        enableAutoSlide
+        items={[
+          ...treasures.map((treasure, idx) => (
+            <GameCard disableAnimation key={idx} game={treasure} />
+          )),
+          treasures.length > 0 ? <SeeMore key="seeMore" /> : <LoadingDots />,
+        ]}
+      />
+    ) : (
+      <Treasures
+        treasures={treasures}
+        count={count}
+        onLoadMore={onLoadMore}
+        page={page}
+        limit={limit}
+        loading={loading}
+        seeMore={seeMore}
+      />
+    )
   ) : (
     <></>
   )

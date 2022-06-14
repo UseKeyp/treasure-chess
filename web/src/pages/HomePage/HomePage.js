@@ -26,19 +26,19 @@ const HomePage = () => {
       <MetaTags title="Play, Create, Collect" />
       {/* TODO: remaining home page content */}
       <HomePageHero />
-      <div className="mt-24">
-        <LandingPageBoxes />
-      </div>
-      <FeaturedPlayers />
       <div className="mt-16">
         <HeadingBar text={t('Newest Treasures')}>
           <AllTreasuresButton />
         </HeadingBar>
       </div>
       <TreasuresFetcher limit sort="Newest First" />
+      <div className="mt-24">
+        <LandingPageBoxes />
+      </div>
+      <FeaturedPlayers />
       <FaqSection />
+      <h2 className="mt-24">Subscribe to Updates</h2>
       <div className="mt-6 p-4 rounded-lg bg-chessBlack-100 ">
-        <h3>Stay in touch</h3>
         <div className="">
           <iframe
             src={`https://mautic.tools.treasurechess.com/form/1?username=${currentUser?.username}`}

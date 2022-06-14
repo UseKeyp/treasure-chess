@@ -105,12 +105,12 @@ export const updateMauticContactMinted = async ({ member, purchase }) => {
             'Congratulations on minting your first Treasure!',
           '{transaction_description}':
             'Each Treasure has a level: Good, Great, Ultra, or Mythic. The level is calculated automatically based on the achievements earned. Do something amazing, like take all of your opponents pawns without losing any, and you will be on your way to a Mythic Treasure.',
-          '{column_1_title}': 'Treasure',
-          '{column_2_title}': 'Level',
-          '{column_3_title}': 'Total Amount',
-          '{column_1_text}': `#${purchase.treasure.tokenId}`,
-          '{column_2_text}': `${purchase.treasure.rarity}`,
-          '{column_3_text}': '$5',
+          '{row_1_title}': 'Treasure',
+          '{row_2_title}': 'Level',
+          '{row_3_title}': 'Total Amount',
+          '{row_1_text}': `#${purchase.treasure.tokenId}`,
+          '{row_2_text}': `${purchase.treasure.rarity}`,
+          '{row_3_text}': '$5',
         },
       })
   } catch (e) {

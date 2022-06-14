@@ -1,0 +1,11 @@
+{
+	"appId": "com.treasurechess.app",
+	"appName": "Treasure Chess",
+	"webDir": "dist",
+	"npmClient": "yarn",
+	"bundledWebRuntime": false,
+	"server": {
+		"url": "http://c8e9-71-228-231-146.ngrok.io",
+		"cleartext": true
+	}
+}

@@ -34,9 +34,7 @@ export const onSubmitCode = async (code, { memberId }) => {
     const response = await fetch(COINBASE_OAUTH_URL_TOKEN, {
       method: 'post',
       body: encodedBody,
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     }).then((res) => {
       if (res.status != 200)
         throw `Coinbase API failed for /token. ${res.status} - ${res.statusText}`

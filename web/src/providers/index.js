@@ -10,35 +10,38 @@ import { RampProvider } from './ramp'
 import { LocaleProvider } from './locale'
 import { OAuthProvider } from './oAuth'
 import { RedirectionProvider } from './redirection'
+import { TrackingProvider } from './tracking'
 
 const AllContextProviders = ({ children }) => {
   // Add additional context providers here
   // This will be automatically injected in to the App and Storybook
 
   return (
-    <RestrictedProvider>
+    <>
+      {process.env.environment !== 'prod' && <RestrictedProvider />}
+      <TrackingProvider />
       <LocaleProvider>
         <ThemeContextProvider>
           <FilterProvider>
             <ToastProvider>
               <OAuthProvider>
                 <RedirectionProvider>
-                  <RampProvider>
-                    <WalletProvider>
+                  <WalletProvider>
+                    <RampProvider>
                       <GamesContextProvider>
                         <MintingProvider>
                           <MarketProvider>{children}</MarketProvider>
                         </MintingProvider>
                       </GamesContextProvider>
-                    </WalletProvider>
-                  </RampProvider>
+                    </RampProvider>
+                  </WalletProvider>
                 </RedirectionProvider>
               </OAuthProvider>
             </ToastProvider>
           </FilterProvider>
         </ThemeContextProvider>
       </LocaleProvider>
-    </RestrictedProvider>
+    </>
   )
 }
 

@@ -1,6 +1,7 @@
 import FaqSection from 'src/components/FaqSection/FaqSection'
 import { MetaTags } from '@redwoodjs/web'
 import { useTheme } from 'src/providers/theme'
+import { isBrowser } from '@redwoodjs/prerender/browserUtils'
 
 import { useEffect } from 'react'
 
@@ -13,6 +14,13 @@ const SupportPage = () => {
       toggleFaqTheme(false)
     }
   })
+
+  React.useEffect(() => {
+    if (isBrowser) {
+      if (!window.$chatwoot?.hasLoaded) return
+      window.$chatwoot?.toggleBubbleVisibility('show')
+    }
+  }, [])
 
   const supportText = (
     <>
@@ -34,7 +42,7 @@ const SupportPage = () => {
     [
       t('Questions or need help?'),
       t(
-        'Use the chat widget at the bottom right of your screen for quick questions and troubleshooting.'
+        'Use the chat widget at the bottom right for quick questions and troubleshooting.'
       ),
       '🤔',
       true,

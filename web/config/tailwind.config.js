@@ -1,7 +1,20 @@
-module.exports = {
+const konstaConfig = require('konsta/config')
+
+module.exports = konstaConfig({
   content: ['src/**/*.{js,jsx,ts,tsx}'],
   darkMode: 'media', // or 'media' or 'class'
   theme: {
+    extend: {
+      colors: {
+        // 'page-ios-light': '#fff',
+        // 'page-ios-dark': '#000',
+        primary: {
+          light: '#3d3a35',
+          DEFAULT: '#272522',
+          dark: '#11100f',
+        },
+      },
+    },
     screens: {
       sm: '480px',
       md: '768px',
@@ -33,4 +46,4 @@ module.exports = {
     extend: {},
   },
   plugins: [],
-}
+})

@@ -3,6 +3,7 @@ import TreasuresFetcher from 'src/components/Treasure/TreasuresFetcher'
 import FilterBar from 'src/components/FilterBar/FilterBar'
 import SortingDropdown from 'src/components/SortingDropdown/SortingDropdown'
 import MobileMenu from 'src/components/MobileMenu/MobileMenu'
+import { FunnelFill } from 'framework7-icons/react'
 
 import { useFilter } from 'src/providers/filters'
 import { useEffect, useState } from 'react'
@@ -35,7 +36,12 @@ const TreasuresPage = () => {
       <div className="mobile-filter">
         <MobileMenu
           direction="ltr"
-          triggerContents="Filter"
+          triggerContents={
+            <div className="flex justify-center align-center py-1">
+              <FunnelFill className="w-7 h-7 mr-3" />
+              <h2>Filter</h2>
+            </div>
+          }
           triggerProps={{ variant: 'grey', fluid: true }}
           disableAutoClose
           title="Filter"

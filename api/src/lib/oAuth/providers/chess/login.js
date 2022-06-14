@@ -1,7 +1,9 @@
 import Sentry from 'src/lib/sentry'
 import { AuthenticationError } from '@redwoodjs/graphql-server'
 import { db } from 'src/lib/db'
+import { EnvelopError } from '@envelop/core'
 
+import { createMauticContact } from 'src/lib/mautic'
 import { fetchMember } from 'src/lib/members'
 import { getTorusPublicAddress } from 'src/lib/torus/torus'
 import { logger } from 'src/lib/logger'
@@ -10,7 +12,7 @@ export const onConnected = async ({ refreshToken, accessToken, decoded }) => {
   try {
     if (!decoded) return null
     /* eslint-disable camelcase */
-    const { preferred_username, user_id } = decoded
+    const { preferred_username, user_id, email } = decoded
     logger.debug({ custom: decoded }, 'onConnected() decoded')
     // Create member if needed, and get current avatar
     const member = await fetchMember(preferred_username, true)
@@ -22,11 +24,25 @@ export const onConnected = async ({ refreshToken, accessToken, decoded }) => {
         `user_id in JWT doesn't match player_id from API`
       )
 
+    if (!email)
+      throw new EnvelopError(
+        `Couldn't fetch email for user ${preferred_username} in fetchMember function`
+      )
+
+    await createMauticContact({
+      member: {
+        username: member.username,
+        email,
+        id: member.id,
+      },
+    })
+
     await db.member.update({
       where: { id: member.id },
       data: {
         refreshToken,
         accessToken,
+        email,
         // NOTE: Updates user with their current avatar and country
         imageSrc: member.imageSrc,
         country: member.country,
@@ -52,6 +68,6 @@ export const onConnected = async ({ refreshToken, accessToken, decoded }) => {
   } catch (e) {
     logger.error(e)
     Sentry.captureException(e)
-    throw `onConnected() ${e}`
+    throw `onConnected() error`
   }
 }

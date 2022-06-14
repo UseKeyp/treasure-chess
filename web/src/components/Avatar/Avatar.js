@@ -3,7 +3,7 @@ import EmptyAvatar from './EmptyAvatar'
 const Avatar = ({ src, bgColor, size }) => {
   return (
     <div
-      className="avatar"
+      className={`avatar rounded-${size === '8rem' ? 'xl' : 'lg'}`}
       style={{ width: size, height: size, backgroundColor: bgColor }}
     >
       {src ? (

@@ -219,12 +219,12 @@ export const getTreasuresWithFilter = async ({
       if (a.marketSaleStatus === 'LISTED' && b.marketSaleStatus === 'LISTED') {
         // sort A after B (DESC) when B has Less Price than A otherwise the opposite
         if (sort === 'Price: Low to High') {
-          return a.marketSales[0].amount > b.marketSales[0].amount ? -1 : 1
+          return a.marketSales[0].amount > b.marketSales[0].amount ? 1 : -1
         }
 
         // sort A beofre B (ASC) when B has Less Price than A otherwise the opposite
         if (sort === 'Price: High to Low') {
-          return a.marketSales[0].amount < b.marketSales[0].amount ? -1 : 1
+          return a.marketSales[0].amount < b.marketSales[0].amount ? 1 : -1
         }
       }
     })

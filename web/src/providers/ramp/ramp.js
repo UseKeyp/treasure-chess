@@ -99,6 +99,7 @@ const RampProvider = ({ children }) => {
     ),
   })
   const externalTransfer = {
+    name: 'Web3 Wallet',
     isLoading: false,
     type: EXTERNAL_TRANSFER,
     icon: (

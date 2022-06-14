@@ -17,7 +17,8 @@ const AllContextProviders = ({ children }) => {
   // This will be automatically injected in to the App and Storybook
 
   return (
-    <RestrictedProvider>
+    <>
+      {process.env.environment !== 'prod' && <RestrictedProvider />}
       <TrackingProvider />
       <LocaleProvider>
         <ThemeContextProvider>
@@ -40,7 +41,7 @@ const AllContextProviders = ({ children }) => {
           </FilterProvider>
         </ThemeContextProvider>
       </LocaleProvider>
-    </RestrictedProvider>
+    </>
   )
 }
 

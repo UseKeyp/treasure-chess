@@ -41,7 +41,7 @@ export const generateTreasureData = ({ game, title, minter }) => {
 const getValueByName = (list, name) =>
   list.find((item) => item.name === name).value
 
-const getWhereQueryFromArgs = ({ username, filter, owner, sort }) => {
+const getWhereQueryFromArgs = ({ username, filter, owner }) => {
   const searchParams = new URLSearchParams(filter)
   let filterObj = {}
   // Convert text names to values
@@ -205,9 +205,8 @@ export const getTreasuresWithFilter = async ({
         } else if (sort === 'Price: High to Low') {
           return a.marketSales[0].amount < b.marketSales[0].amount ? -1 : 1
         }
-        return 1
       }
-      return -1
+      return 0
     })
   }
 

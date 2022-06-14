@@ -7,7 +7,7 @@ import Button from 'src/components/Button'
 
 const ITEMS_PER_SLIDE = 4
 
-const AUTO_SLIDE_TIMEOUT = 10000 // 10 seconds
+const AUTO_SLIDE_TIMEOUT = 5000 // 10 seconds
 
 const AUTO_SLIDING_STATE = {
   INITIAL: 'initial',

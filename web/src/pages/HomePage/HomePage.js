@@ -11,13 +11,13 @@ import { useEffect } from 'react'
 import { useAuth } from '@redwoodjs/auth'
 
 const HomePage = () => {
-  const { toggleHomeTheme } = useTheme()
+  const { toggleFaqTheme } = useTheme()
   const { currentUser } = useAuth()
 
   useEffect(() => {
-    toggleHomeTheme(true)
+    toggleFaqTheme(true)
     return function cleanup() {
-      toggleHomeTheme(false)
+      toggleFaqTheme(false)
     }
   })
 

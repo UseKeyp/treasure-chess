@@ -2,7 +2,9 @@ import { useSpring, animated } from 'react-spring'
 
 const Loader = ({ small }) => {
   const [flip, setFlip] = React.useState(false)
+  const [cancel, setCancel] = React.useState(false)
   const { x } = useSpring({
+    cancel,
     reset: true,
     reverse: flip,
     onRest: () => {
@@ -15,7 +17,7 @@ const Loader = ({ small }) => {
 
   React.useEffect(() => {
     // Prevent update to unmounted component
-    return () => setFlip(-1)
+    return () => setCancel(true)
   })
 
   const containerClassName = small

@@ -2,18 +2,19 @@ import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
 import { useAuth } from '@redwoodjs/auth'
 import { isBrowser } from '@redwoodjs/prerender/browserUtils'
 
+import { DepositModal, WithdrawModal } from 'src/providers/ramp/modals'
+import Icon from 'src/components/Icon/Icon'
+
 import { useToast } from 'src/providers/toast'
 import { TxToast } from 'src/providers/market/toasts'
 import { useOAuth } from 'src/providers/oAuth'
+import { useModal } from 'src/hooks/useModal'
 
 import {
   MEMBER_RAMPS_QUERY,
   RAMP_WITHDRAW_MUTATION,
   RAMP_URL_QUERY,
 } from './graphql'
-import { useModal } from 'src/hooks/useModal'
-import { DepositModal, WithdrawModal } from 'src/providers/ramp/modals'
-import Icon from 'src/components/Icon/Icon'
 
 const EXTERNAL_TRANSFER = 'EXTERNAL_TRANSFER'
 const PLAID = 'PLAID'
@@ -100,7 +101,18 @@ const RampProvider = ({ children }) => {
   const externalTransfer = {
     isLoading: false,
     type: EXTERNAL_TRANSFER,
-    name: 'External Transfer',
+    icon: (
+      <div className="flex py-1 justify-center flex-row items-center">
+        <Icon name="metamask" className="w-6 h-6 m-4" />
+        <img
+          alt="rainbow"
+          src="/rainbow_wallet.png"
+          width="32px"
+          className="ml-2"
+        />
+        <h2 className="ml-2">{t('Web3 wallet')}</h2>
+      </div>
+    ),
     description: (
       <>
         <p>
@@ -112,12 +124,14 @@ const RampProvider = ({ children }) => {
     ),
     disabled: !currentUser?.betaAccess,
     helperText: (
-      <p>
-        Request access via the Beta Tester program in{' '}
-        <a className="underline" href="/settings">
-          Settings
-        </a>
-        .
+      <p className="italic">
+        <Trans i18nkey="web:requestBetaAccess">
+          Beta feature. Request to be a Beta Tester in{' '}
+          <a className="underline" href="/settings">
+            Settings
+          </a>
+          .
+        </Trans>
       </p>
     ),
   }

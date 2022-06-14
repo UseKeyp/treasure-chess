@@ -8,9 +8,11 @@ import AllTreasuresButton from 'src/components/AllTreasuresButton/AllTreasuresBu
 import TreasuresFetcher from 'src/components/Treasure/TreasuresFetcher'
 import { useTheme } from 'src/providers/theme'
 import { useEffect } from 'react'
+import { useAuth } from '@redwoodjs/auth'
 
 const HomePage = () => {
   const { toggleHomeTheme } = useTheme()
+  const { currentUser } = useAuth()
 
   useEffect(() => {
     toggleHomeTheme(true)
@@ -35,6 +37,21 @@ const HomePage = () => {
       </div>
       <TreasuresFetcher limit sort="Newest First" />
       <FaqSection />
+      <div className="mt-6 p-4 rounded-lg bg-chessBlack-100 ">
+        <h3>Stay in touch</h3>
+        <div className="">
+          <iframe
+            src={`https://mautic.tools.treasurechess.com/form/1?username=${currentUser?.username}`}
+            className="max-w-[500px] w-full"
+            height="175"
+            title="Subscribe form"
+            scrolling="no"
+            frameBorder="0"
+          >
+            <p>Your browser does not support iframes.</p>
+          </iframe>
+        </div>
+      </div>
     </>
   )
 }

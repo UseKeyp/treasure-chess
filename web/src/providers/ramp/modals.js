@@ -5,9 +5,10 @@ import { useRamp } from 'src/providers/ramp/ramp'
 import LoadingDots from 'src/components/LoadingDots'
 import Button from 'src/components/Button'
 import { trimAddress, getBlockExplorerUrl } from 'src/utils/helpers'
-import { onRamps, feedbackSuggestionCta } from 'src/providers/ramp/onRamps'
+// import { onRamps, feedbackSuggestionCta } from 'src/providers/ramp/onRamps'
 import { useWallet } from 'src/providers/wallet'
 import { useAuth } from '@redwoodjs/auth'
+import { Trans, useTranslation } from 'react-i18next'
 
 const Provider = ({
   error,
@@ -149,6 +150,163 @@ const OffRampProvider = ({ ramp, amount }) => {
 export const DepositModal = ({ isVisible, toggleModal }) => {
   const { getRampUrl, isLoading } = useRamp()
   const onSubmit = (type) => getRampUrl({ direction: 'ON', type })
+  const { t } = useTranslation('web')
+
+  const onRamps = [
+    {
+      // iconName: 'ramp_network',
+      type: 'RAMP_NETWORK',
+      iconName: 'ramp_network',
+      name: 'Ramp Network',
+      description: (
+        <p className="mt-4">
+          <Trans i18nkey="web:RampOnRampDetails">
+            Regions: Most places (
+            <a
+              href="https://support.ramp.network/en/articles/433-supported-countries-and-territories"
+              target="_blank"
+              className="underline"
+              rel="noreferrer"
+            >
+              list
+            </a>
+            )
+            <br />
+            Limits: €100/day
+            <br />
+            Fees: 2.9% (
+            <a
+              href="https://support.ramp.network/en/articles/431-transaction-fees"
+              target="_blank"
+              className="underline"
+              rel="noreferrer"
+            >
+              details
+            </a>
+            )
+          </Trans>
+        </p>
+      ),
+    },
+    {
+      type: 'WYRE',
+      iconName: 'wyre',
+      name: 'Wyre',
+      helperText: (
+        <p>
+          {t(`Tip: Do not use auto-complete, a password manager, or copy/paste. Try
+          using a different email if your first attempt fails.`)}
+        </p>
+      ),
+      description: (
+        <p className="mt-4">
+          <Trans i18nkey="web:WyreOnRampDetails">
+            Regions: Most places (
+            <a
+              href="https://docs.sendwyre.com/reference/hosted-checkout#supported-states-and-countries"
+              target="_blank"
+              className="underline"
+              rel="noreferrer"
+            >
+              list
+            </a>
+            )
+            <br />
+            Limits: $100/day
+            <br />
+            Fees: 2.9% + $0.30 (
+            <a
+              href="https://support.sendwyre.com/hc/en-us/articles/360059565013-Wyre-card-processing-fees"
+              target="_blank"
+              className="underline"
+              rel="noreferrer"
+            >
+              details
+            </a>
+            )
+          </Trans>
+        </p>
+      ),
+    },
+    {
+      iconName: 'mt_pelerin',
+      name: 'Mt Pelerin',
+      type: 'MT_PELERIN',
+      description: (
+        <p className="mt-4">
+          <Trans i18nkey="MtPelerinOnRampDetails">
+            Regions: Most places excluding the US (
+            <a
+              href="https://developers.mtpelerin.com/service-information/supported-countries"
+              target="_blank"
+              className="underline"
+              rel="noreferrer"
+            >
+              list
+            </a>
+            )
+            <br />
+            Limits: CHF 200/purchase
+            <br />
+            Fees: 1.5% + CHF 1.2 (
+            <a
+              href="https://www.mtpelerin.com/pricing"
+              target="_blank"
+              className="underline"
+              rel="noreferrer"
+            >
+              details
+            </a>
+            )
+          </Trans>
+        </p>
+      ),
+    },
+    {
+      icon: (
+        <div className="flex py-1 justify-center flex-row items-center">
+          <Icon name="metamask" className="w-6 h-6 m-4" />
+          <img
+            alt="rainbow"
+            src="/rainbow_wallet.png"
+            width="32px"
+            className="ml-2"
+          />
+          <h2 className="ml-2">{t('Web3 wallet')}</h2>
+        </div>
+      ),
+      name: 'Manual',
+      type: 'WALLET_DEPOSIT',
+      description: (
+        <p className="mt-4">
+          {t('Send funds directly from another crypto wallet.')}
+        </p>
+      ),
+    },
+  ]
+
+  const feedbackSuggestionCta = {
+    name: 'Your favorite provider',
+    disabled: true,
+    highlight: false,
+    hideButton: true,
+    description: (
+      <p className="mt-4">
+        <Trans i18nkey="FaroviteOnRampDetails">
+          Have a suggestion?{' '}
+          <a
+            href="https://treasure.chess.com/feedback"
+            target="_blank"
+            className="underline"
+            rel="noreferrer"
+          >
+            Let us know!
+          </a>
+        </Trans>
+      </p>
+    ),
+  }
+
   return (
     <ModalContainer
       isVisible={isVisible}
@@ -178,6 +336,28 @@ export const WithdrawModal = ({ isVisible, toggleModal }) => {
   const isConnected = offRamps
     .map((ramp) => ramp.address && true)
     .includes(true)
+
+  const feedbackSuggestionCta = {
+    name: 'Your favorite provider',
+    disabled: true,
+    highlight: false,
+    hideButton: true,
+    description: (
+      <p className="mt-4">
+        <Trans i18nkey="FaroviteOnRampDetails">
+          Have a suggestion?{' '}
+          <a
+            href="https://treasure.chess.com/feedback"
+            target="_blank"
+            className="underline"
+            rel="noreferrer"
+          >
+            Let us know!
+          </a>
+        </Trans>
+      </p>
+    ),
+  }
   return (
     <ModalContainer
       headerText="Cash Out"

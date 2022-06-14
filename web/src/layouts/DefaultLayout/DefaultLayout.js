@@ -15,9 +15,11 @@ import { isMobile } from 'src/utils/helpers'
 const DefaultLayout = ({ children }) => {
   const { pathname } = useLocation()
   const [activeTab, setActiveTab] = useState(pathname.split('/')[1] || 'home')
-  React.useEffect(() => {
-    navigate(routes[activeTab]())
-  }, [activeTab])
+
+  const onClick = (routeName) => {
+    setActiveTab(routeName)
+    navigate(routes[routeName]())
+  }
 
   return (
     <div>
@@ -36,7 +38,7 @@ const DefaultLayout = ({ children }) => {
           <Tabbar labels={true} className="left-0 bottom-0 fixed">
             <TabbarLink
               active={activeTab === 'profile'}
-              onClick={() => setActiveTab('profile')}
+              onClick={() => onClick('profile')}
               icon={
                 <KonstaIcon
                   ios={<Person className="w-7 h-7" />}
@@ -47,7 +49,7 @@ const DefaultLayout = ({ children }) => {
             />
             <TabbarLink
               active={activeTab === 'treasures'}
-              onClick={() => setActiveTab('treasures')}
+              onClick={() => onClick('treasures')}
               icon={
                 <Icon
                   name="treasure_chess"
@@ -59,7 +61,7 @@ const DefaultLayout = ({ children }) => {
             />
             <TabbarLink
               active={activeTab === 'wallet'}
-              onClick={() => setActiveTab('wallet')}
+              onClick={() => onClick('wallet')}
               icon={
                 <KonstaIcon
                   ios={<WalletFill className="w-7 h-7" />}

@@ -106,7 +106,7 @@ const Carousel = ({ enableAutoSlide, items }) => {
             slideToPrevItem()
           }}
         >
-          Previous Treasure
+          Previous
         </Button>
         <Button
           disabled={!hasItems}
@@ -116,7 +116,7 @@ const Carousel = ({ enableAutoSlide, items }) => {
             slideToNextItem()
           }}
         >
-          Next Treasure
+          Next
         </Button>
       </div>
       {carouselFragment}

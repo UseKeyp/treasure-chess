@@ -27,16 +27,11 @@ const WalletFormTransfer20 = () => {
           listClassName="rw-form-error-list"
         />
 
-        <Label
-          name="tokenAddress"
-          className="rw-label"
-          errorClassName="rw-label rw-label-error"
-        >
+        <Label name="tokenAddress" errorClassName="rw-label rw-label-error">
           tokenAddress
         </Label>
         <TextField
           name="tokenAddress"
-          className="rw-input"
           errorClassName="rw-input rw-input-error"
           validation={{
             required: true,
@@ -47,16 +42,11 @@ const WalletFormTransfer20 = () => {
         />
         <FieldError name="tokenAddress" className="rw-field-error" />
 
-        <Label
-          name="amount"
-          className="rw-label"
-          errorClassName="rw-label rw-label-error"
-        >
+        <Label name="amount" errorClassName="rw-label rw-label-error">
           amount
         </Label>
         <NumberField
           name="amount"
-          className="rw-input"
           errorClassName="rw-input rw-input-error"
           validation={{
             required: true,
@@ -66,16 +56,11 @@ const WalletFormTransfer20 = () => {
         />
         <FieldError name="amount" className="rw-field-error" />
 
-        <Label
-          name="toAddress"
-          className="rw-label"
-          errorClassName="rw-label rw-label-error"
-        >
+        <Label name="toAddress" errorClassName="rw-label rw-label-error">
           Recipient Address
         </Label>
         <TextField
           name="toAddress"
-          className="rw-input"
           errorClassName="rw-input rw-input-error"
           validation={{
             required: true,
@@ -90,10 +75,11 @@ const WalletFormTransfer20 = () => {
           <Button
             disabled={transferErc20Loading}
             type="submit"
-            className={`rw-button rw-button-blue w-[200px] h-[40px] text-xl shadow-m hover:sm items-center ${
+            className={`rw-button rw-button-blue w-32 text-xl shadow-m hover:sm items-center ${
               transferErc20Loading && 'cursor-not-allowed'
             }`}
-            variant={transferErc20Loading ? 'grey' : 'transparent'}
+            size="small"
+            variant={transferErc20Loading ? 'grey' : 'blue'}
             label={transferErc20Loading ? <LoadingDots /> : 'Transfer'}
           />
         </div>

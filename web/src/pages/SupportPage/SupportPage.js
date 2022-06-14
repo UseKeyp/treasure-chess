@@ -20,6 +20,7 @@ const SupportPage = () => {
     return () => {
       window.$chatwoot?.toggleBubbleVisibility('hide')
     }
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [window.$chatwoot.hasLoaded])
 
   const supportText = (

@@ -40,6 +40,7 @@ const TwitchLink = ({ isProfile, username: twitchUsername }) => {
     return (
       <Button disabled={isLoading} onClick={onClickTwitch} className="ml-2">
         <Tooltip
+          id="twitch-tooltip"
           effect="solid"
           tooltipChild={
             <div className="flex flex-col text-md text-bold text-center">

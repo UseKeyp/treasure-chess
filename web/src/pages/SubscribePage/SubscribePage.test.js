@@ -1,14 +1,14 @@
 import { render } from '@redwoodjs/testing/web'
 
-import FeedbackPage from './FeedbackPage'
+import SubscribePage from './SubscribePage'
 
 //   Improve this test with help from the Redwood Testing Doc:
 //   https://redwoodjs.com/docs/testing#testing-pages-layouts
 
-describe('FeedbackPage', () => {
+describe('SubscribePage', () => {
   it('renders successfully', () => {
     expect(() => {
-      render(<FeedbackPage />)
+      render(<SubscribePage />)
     }).not.toThrow()
   })
 })

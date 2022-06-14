@@ -183,6 +183,7 @@ const Header = () => {
             <div className="ml-4">
               <Button onClick={logOut}>
                 <Tooltip
+                  id="logout-tooltip"
                   effect="solid"
                   text="Log Out"
                   position="bottom"

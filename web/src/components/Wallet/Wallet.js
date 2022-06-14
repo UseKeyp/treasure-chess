@@ -1,16 +1,17 @@
 import { useAuth } from '@redwoodjs/auth'
-import ModalContainer from 'src/components/ModalContainer'
 import Button from 'src/components/Button'
 
-import { useModal } from 'src/hooks/useModal'
 import { useRamp } from 'src/providers/ramp/ramp'
 import MemberBalance from 'src/components/Member/MemberBalance'
 import MemberMintCredits from 'src/components/Member/MemberMintCredits'
 import { trimAddress } from 'src/utils/helpers'
-import { ArrowUpSquareFill, ArrowDownSquareFill } from 'framework7-icons/react'
+import {
+  ArrowUpSquareFill,
+  ArrowDownSquareFill,
+  PaperplaneFill,
+} from 'framework7-icons/react'
 
 const Wallet = () => {
-  const { isVisible: isVisibleBeta, toggleModal: toggleModalBeta } = useModal()
   const { currentUser } = useAuth()
   const { deposit, withdraw } = useRamp()
 
@@ -65,6 +66,34 @@ const Wallet = () => {
         </Button>
       ),
     },
+    {
+      title: 'Send Tokens',
+      disabled: true,
+      button: (
+        <Button disabled variant="blue" size="small" className="w-32">
+          <div className="flex flex-row py-1 justify-center items-center">
+            <PaperplaneFill className="w-6 h-6 mr-3" />
+            <div> {t('Send')}</div>
+          </div>
+        </Button>
+      ),
+      description: (
+        <p className="mb-4">
+          Send ERC20 and ERC721 tokens to another web3 wallet.
+        </p>
+      ),
+      status: (
+        <p className="italic">
+          <Trans i18nkey="web:requestBetaAccess">
+            Beta feature. Request to be a Beta Tester in{' '}
+            <a className="underline" href="/settings">
+              Settings
+            </a>
+            .
+          </Trans>
+        </p>
+      ),
+    },
   ]
 
   return (
@@ -103,23 +132,6 @@ const Wallet = () => {
           </div>
         ))}
       </div>
-      <ModalContainer
-        isVisible={isVisibleBeta}
-        hideModal={toggleModalBeta}
-        headerText="Request Beta Access"
-        content={
-          <>
-            <iframe
-              title="Request Beta Access"
-              src="https://mautic.tools.treasurechess.com/form/2"
-              width="100%"
-              height="500"
-            >
-              <p>Your browser does not support iframes.</p>
-            </iframe>
-          </>
-        }
-      />
     </div>
   )
 }

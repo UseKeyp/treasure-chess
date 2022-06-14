@@ -19,9 +19,7 @@ export const fetchImageAndEncodeBase64 = async (url) => {
     if (result.status !== 200) throw "Couldn't get avatar"
     const buffer = await result.buffer()
     const base64Image = buffer.toString('base64')
-    if (base64Image) {
-      return `data:image/jpeg;base64,${base64Image}`
-    }
+    return `data:image/jpeg;base64,${base64Image}`
   } else {
     // If browser, just load the image directly
     return url

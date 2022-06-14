@@ -167,19 +167,17 @@ const MarketProvider = ({ children }) => {
         actionStatus: PENDING_LISTED,
         shouldPoll: true,
       })
-      if (Number(state.actionData.amount)) {
-        const { data: { marketSale } = {} } = await listTreasureMutation({
-          variables: { tokenId, amount: Number(state.actionData.amount) },
-        })
-        setState({
-          ...state,
-          marketSale,
-          actionLoading: true,
-          actionStatus: PENDING_LISTED,
-          shouldPoll: true,
-        })
-        toastAction(PENDING_LISTED, marketSale.listTxId)
-      }
+      const { data: { marketSale } = {} } = await listTreasureMutation({
+        variables: { tokenId, amount: Number(state.actionData.amount) },
+      })
+      setState({
+        ...state,
+        marketSale,
+        actionLoading: true,
+        actionStatus: PENDING_LISTED,
+        shouldPoll: true,
+      })
+      toastAction(PENDING_LISTED, marketSale.listTxId)
     } catch (error) {
       setState({
         ...state,

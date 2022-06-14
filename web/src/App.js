@@ -1,7 +1,7 @@
 import { FatalErrorBoundary, RedwoodProvider } from '@redwoodjs/web'
 import { AuthProvider } from '@redwoodjs/auth'
 import { RedwoodApolloProvider } from '@redwoodjs/web/apollo'
-// import { KonstaProvider } from 'konsta/react'
+import { KonstaProvider } from 'konsta/react'
 
 import LandingModal from 'src/components/LandingModal'
 import { logIn } from 'src/utils/auth/client'
@@ -39,20 +39,22 @@ class AuthProviderExtended extends AuthProvider {
 
 const App = () => (
   <FatalErrorBoundary page={FatalErrorPage}>
-    <RedwoodProvider titleTemplate="%AppTitle | %PageTitle">
-      <AuthProviderExtended
-        type="dbAuth"
-        config={{ fetchConfig: { credentials: 'include' } }}
-      >
-        <RedwoodApolloProvider
-          graphQLClientConfig={{ httpLinkConfig: { credentials: 'include' } }}
+    <KonstaProvider theme="ios">
+      <RedwoodProvider titleTemplate="%AppTitle | %PageTitle">
+        <AuthProviderExtended
+          type="dbAuth"
+          config={{ fetchConfig: { credentials: 'include' } }}
         >
-          <LandingModal />
+          <RedwoodApolloProvider
+            graphQLClientConfig={{ httpLinkConfig: { credentials: 'include' } }}
+          >
+            <LandingModal />
 
-          <Routes />
-        </RedwoodApolloProvider>
-      </AuthProviderExtended>
-    </RedwoodProvider>
+            <Routes />
+          </RedwoodApolloProvider>
+        </AuthProviderExtended>
+      </RedwoodProvider>
+    </KonstaProvider>
   </FatalErrorBoundary>
 )
 

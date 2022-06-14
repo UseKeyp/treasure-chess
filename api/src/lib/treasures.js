@@ -41,7 +41,10 @@ export const generateTreasureData = ({ game, title, minter }) => {
 const getValueByName = (list, name) =>
   list.find((item) => item.name === name).value
 
-const getWhereQueryFromArgs = ({ username, filter, owner }) => {
+const getWhereQueryFromArgs = ({ username, filter, owner, sort }) => {
+  const hasSortByPrice =
+    sort === 'Price: High to Low' || sort === 'Price: Low to High'
+
   const searchParams = new URLSearchParams(filter)
   let filterObj = {}
   // Convert text names to values
@@ -73,7 +76,6 @@ const getWhereQueryFromArgs = ({ username, filter, owner }) => {
       ],
     }
   }
-
   // Create each TreasureWhereInput
   const ownerQuery = owner
     ? {
@@ -120,7 +122,9 @@ const getWhereQueryFromArgs = ({ username, filter, owner }) => {
   const saleQuery = filterObj.sale
     ? {
         OR: filterObj.sale.split(',').map((status) => ({
-          marketSaleStatus: getValueByName(filters.saleList, status),
+          marketSaleStatus: hasSortByPrice
+            ? 'LISTED'
+            : getValueByName(filters.saleList, status),
         })),
       }
     : null
@@ -139,10 +143,7 @@ const getWhereQueryFromArgs = ({ username, filter, owner }) => {
       filterObj.termination && { termination: filterObj.termination },
       filterObj.timeControl && { timeControl: filterObj.timeControl },
       filterObj.rarity && { rarity: filterObj.rarity },
-    ].filter((query) => query),
-    // TODO:  implement sale, and price
-    // lowPrice,
-    // highPrice,
+    ].filter((item) => item !== null),
   }
 }
 
@@ -156,13 +157,6 @@ const getOrderByQueryFromArgs = ({ sort }) => {
       return { achievementScore: 'desc' }
     case 1:
       return { achievementScore: 'asc' }
-    // TODO: sort price
-    // case 2:
-    //   return {price: 'desc'}
-    //   break
-    // case 3:
-    //   return {price: 'desc'}
-    //   break
     case 4:
       return { createdAt: 'desc' }
     case 5:
@@ -187,17 +181,36 @@ export const getTreasuresWithFilter = async ({
   logger.debug(`owner: ${owner}`)
   // Cannot use cursor pagination, since custom sorting is needed
   const skip = page * TREASURES_PER_PAGE
-  const treasures = await db.treasure.findMany({
+
+  const hasSortByPrice =
+    sort === 'Price: High to Low' || sort === 'Price: Low to High'
+
+  let treasures
+
+  treasures = await db.treasure.findMany({
     skip,
-    include: { marketSales: { orderBy: { updatedAt: 'desc' }, take: 1 } },
+    include: {
+      marketSales: {
+        orderBy: { updatedAt: 'desc' },
+        take: 1,
+      },
+    },
     // Taking 9 elements may cause issues if there's only <9 to take?
     take: TREASURES_PER_PAGE,
     // take: Math.min(count - skip, TREASURES_PER_PAGE),
     where: whereQuery,
-    // TODO: add sorting, see https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#orderby
     orderBy: orderByQuery,
   })
   // logger.debug({ custom: treasures[0] }, 'one treasure')
+
+  if (hasSortByPrice) {
+    treasures = treasures.sort((a, b) => {
+      if (a.marketSales[0].price > b.marketSales[0].price) return -1
+      if (a.marketSales[0].price < b.marketSales[0].price) return 1
+      return 0
+    })
+  }
+
   return treasures
 }
 

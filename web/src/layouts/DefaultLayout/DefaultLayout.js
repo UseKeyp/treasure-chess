@@ -21,6 +21,12 @@ const DefaultLayout = ({ children }) => {
     navigate(routes[routeName]())
   }
 
+  React.useEffect(() => {
+    const cleanedPath = pathname.split('/')[1] || 'home'
+    const tabs = ['wallet', 'treasures', 'profile', 'support']
+    if (tabs.includes(cleanedPath)) setActiveTab(cleanedPath)
+  }, [pathname])
+
   return (
     <div>
       <div className="flex flex-col min-h-screen">

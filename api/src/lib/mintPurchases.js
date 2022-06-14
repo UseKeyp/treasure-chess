@@ -71,7 +71,7 @@ export const validateMintRequest = async ({
   title,
   paymentType,
 }) => {
-  if (paymentType && !AVAILABLE_CHECKOUT_PAYMENT_TYPES.includes(paymentType))
+  if (!AVAILABLE_CHECKOUT_PAYMENT_TYPES.includes(paymentType))
     throw new EnvelopError(`Provider "${paymentType}" currently unavailable.`)
   validateTreasureTitle(title)
   const existingPurchase = await fetchMintPurchase({

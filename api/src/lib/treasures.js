@@ -42,9 +42,6 @@ const getValueByName = (list, name) =>
   list.find((item) => item.name === name).value
 
 const getWhereQueryFromArgs = ({ username, filter, owner, sort }) => {
-  const hasSortByPrice =
-    sort === 'Price: High to Low' || sort === 'Price: Low to High'
-
   const searchParams = new URLSearchParams(filter)
   let filterObj = {}
   // Convert text names to values
@@ -208,8 +205,9 @@ export const getTreasuresWithFilter = async ({
         } else if (sort === 'Price: High to Low') {
           return a.marketSales[0].amount < b.marketSales[0].amount ? -1 : 1
         }
+        return 1
       }
-      return 0
+      return -1
     })
   }
 

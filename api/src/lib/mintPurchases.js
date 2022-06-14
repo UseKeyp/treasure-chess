@@ -71,7 +71,7 @@ export const validateMintRequest = async ({
   title,
   paymentType,
 }) => {
-  if (!AVAILABLE_CHECKOUT_PAYMENT_TYPES.includes(paymentType))
+  if (paymentType && !AVAILABLE_CHECKOUT_PAYMENT_TYPES.includes(paymentType))
     throw new EnvelopError(`Provider "${paymentType}" currently unavailable.`)
   validateTreasureTitle(title)
   const existingPurchase = await fetchMintPurchase({
@@ -109,10 +109,10 @@ export const processPendingPurchases = async () => {
   let pendingPurchases = await fetchPendingMintPurchases()
   pendingPurchases = await Promise.all(
     pendingPurchases.map(async (mintPurchase) => {
-      logger.debug(
-        { custom: { ...mintPurchase, member: 'REDACTED' } },
-        'mintPurchase'
-      )
+      // logger.debug(
+      //   { custom: { ...mintPurchase, member: 'REDACTED' } },
+      //   'mintPurchase'
+      // )
       if (mintPurchase.orderStatus !== COMPLETE) {
         var FIFTEEN_MINUTES = 15 * 60 * 1000
         const now = new Date()

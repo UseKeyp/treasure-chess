@@ -48,7 +48,6 @@ export default RedwoodDevFatalErrorPage ||
                 .footer-info {
                   position: relative;
                   margin-left: 8rem;
-
                 }
 
                 .header-mobile {
@@ -69,19 +68,31 @@ export default RedwoodDevFatalErrorPage ||
                   background: #272522;
                   border-radius: 12px;
                 }
-                .header-mobile {
+                .header-buttons-container {
+                  margin-left: auto;
+                  font-size: 16px;
+                }
+                .header-buttons {
+                  display: inline-flex;
                   font-weight: bold;
                 }
-                .header-container div {
+
+                .footer-info {
+                  position: relative;
+                  margin-left: 8rem;
+                }
+
+                .header-mobile {
                   display: none;
                 }
               }
 
               .error-container {
                   position: relative;
-                  top: 25vh;
+                  top: 20vh;
                   max-width: 50rem;
                   margin: 0 auto;
+                  padding: 0 10px;
                 }
                 .error-title {
                   margin-bottom: 1rem;
@@ -95,32 +106,35 @@ export default RedwoodDevFatalErrorPage ||
                 .error-content h4 {
                   font-weight: bold;
                 }
-
-                .footer-container {
+                .footer-container-fatal {
                   position: fixed;
+                  background-color: #272522;
                   left: 50%;
                   transform: translateX(-50%);
                   bottom: 0;
-                  max-width: 80rem;
+                  width:100%;
                   display: flex;
                   flex-wrap: wrap;
                   flex-direction: row;
-                  font-size: 13px;
+                  font-size: 12px;
                   justify-content: space-around;
                   text-align: center;
-                  margin-bottom: 2rem;
+                  padding-top: 2rem;
+                  padding-bottom: 2rem;
+                }
+                .footer-row {
+                  display: flex;
+                  align-items: center;
+                  margin-right: 1rem;
+                  margin: 10px 0;
+                }
+                .footer-row a {
+                  padding-right: 10px;
+                  text-decoration: underline;
                 }
                 .footer-container img {
                   margin-right: 1rem
                 }
-                .footer-container div {
-                  display: inline-flex;
-                  align-items: center;
-                }
-                .footer-info a {
-                  margin-right: 1rem;
-                }
-
             `,
         }}
       />
@@ -132,15 +146,12 @@ export default RedwoodDevFatalErrorPage ||
                   <a href="/">
                     <img src="/treasurechessfull-fatal-page.png" alt="TreasureChess.com" style="height: 35px"/>
                   </a>
-                  <h3 class="header-mobile">Menu</h3>
+                  <div class="header-mobile">
+                  </div>
                   <div class="header-buttons-container">
                     <a class="header-buttons" href="/treasures">
                       <img src="/icons/treasure_chess_small.png" alt="" style="height: 16px; padding: 0 8px"/>
                       Treasures
-                    </a>
-                    <a class="header-buttons" href="/about">
-                      <img src="/icons/HelpIcon.svg" alt="question mark icon" style="height: 16px; padding: 0 8px"/>
-                      About
                     </a>
                   </div>
                 </div>
@@ -153,21 +164,21 @@ export default RedwoodDevFatalErrorPage ||
                     </p>
                   </div>
                 </div>
-                <div class="footer-container">
-                  <div class="footer-socials">
+                <div class="footer-container-fatal">
+                  <div class="footer-row">
                     <a href=${globalConfig.DISCORD_URL}>
-                      <img src="/icons/discord.svg" alt="" />
+                      <img src="/icons/discord.svg" alt="Discord icon" />
                     </a>
-                    <a href=${globalConfig.BLOG_URL}>Blog</a>
                   </div>
-                  <div class="footer-info">
-                    <a href=${globalConfig.TOC_URL}>Terms of Service</a>
-                    <a href=${globalConfig.PRIVACY_POLICY_URL}>Privacy Policy</a>
+                  <div class="footer-row">
+                    <a href=${globalConfig.BLOG_URL}>Blog</a>
+                    <a href=${globalConfig.TOC_URL}>Terms</a>
+                    <a href=${globalConfig.PRIVACY_POLICY_URL}>Privacy</a>
                     <a href=${globalConfig.SUPPORT_URL}>Support</a>
                   </div>
-                  <div class="footer-branding">
+                  <div class="footer-row">
                     <a href=${globalConfig.CHESS_COM_BASE_URL}>
-                      <img src="/icons/chess_com.svg" alt="" />
+                      <img src="/icons/chess_com.svg" alt="Chess.com pawn logo" />
                     </a>
                     <p>© Nifty Chess, Inc. ${currentYear}</p>
                   </div>

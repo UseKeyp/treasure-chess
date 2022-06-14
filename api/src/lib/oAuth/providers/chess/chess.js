@@ -11,7 +11,7 @@ export const CHESS = 'CHESS'
 export const CHESS_OAUTH_URL_AUTHORIZE = 'https://oauth.chess.com/authorize'
 
 const CHESS_OAUTH_URL_TOKEN = 'https://oauth.chess.com/token'
-const CHESS_SCOPE = 'openid profile games:read'
+const CHESS_SCOPE = 'openid profile games:read email'
 const CHESS_REDIRECT_URI = process.env.APP_DOMAIN + '/redirect/chess'
 
 const params = {

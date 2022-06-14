@@ -1,23 +1,21 @@
 import { MetaTags } from '@redwoodjs/web'
-import Section from 'src/components/Section/Section'
-import WalletFormTransfer20 from 'src/components/Wallet/WalletFormTransfer20/WalletFormTransfer20'
-import WalletFormTransfer721 from 'src/components/Wallet/WalletFormTransfer721/WalletFormTransfer721'
+import Wallet from 'src/components/Wallet/Wallet'
+import { useTheme } from 'src/providers/theme'
+import { useEffect } from 'react'
 
 const WalletPage = () => {
+  const { toggleFaqTheme } = useTheme()
+
+  useEffect(() => {
+    toggleFaqTheme(true)
+    return function cleanup() {
+      toggleFaqTheme(false)
+    }
+  })
   return (
     <>
-      <MetaTags title="Wallet" description="Interact with your wallet" />
-      <h1>Wallet</h1>
-      <div className="transfer-container">
-        <Section>
-          <h1>Transfer ERC20</h1>
-          <WalletFormTransfer20 />
-        </Section>
-        <Section>
-          <h1>Transfer ERC721</h1>
-          <WalletFormTransfer721 />
-        </Section>
-      </div>
+      <MetaTags title="Wallet" description="Add funds or cash out." />
+      <Wallet />
     </>
   )
 }

@@ -104,7 +104,7 @@ export const MintModal = ({ isVisible, toggleModal, onSubmit }) => {
       type: 'STRIPE',
       description: 'Pay by card',
       helperText: '',
-      iconName: '',
+      iconName: 'stripe',
     },
     {
       name: 'Wyre',

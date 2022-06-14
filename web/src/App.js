@@ -4,7 +4,7 @@ import { RedwoodApolloProvider } from '@redwoodjs/web/apollo'
 import { KonstaProvider } from 'konsta/react'
 
 import LandingModal from 'src/components/LandingModal'
-import { logIn } from 'src/utils/auth/client'
+import { logIn, logOut } from 'src/utils/auth/client'
 import FatalErrorPage from 'src/pages/FatalErrorPage'
 import Routes from 'src/Routes'
 
@@ -34,6 +34,7 @@ class AuthProviderExtended extends AuthProvider {
   constructor(props) {
     super(props)
     this.rwClient.login = logIn
+    this.rwClient.logout = logOut
   }
 }
 

@@ -205,8 +205,11 @@ export const getTreasuresWithFilter = async ({
 
   if (hasSortByPrice) {
     treasures = treasures.sort((a, b) => {
-      if (a.marketSales[0].price > b.marketSales[0].price) return -1
-      if (a.marketSales[0].price < b.marketSales[0].price) return 1
+      if (sort === 'Price: Low to High') {
+        return a.marketSales[0].price > b.marketSales[0].price ? -1 : 1
+      } else if (sort === 'Price: High to Low') {
+        return a.marketSales[0].price < b.marketSales[0].price ? -1 : 1
+      }
       return 0
     })
   }

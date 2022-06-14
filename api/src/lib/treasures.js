@@ -122,9 +122,7 @@ const getWhereQueryFromArgs = ({ username, filter, owner, sort }) => {
   const saleQuery = filterObj.sale
     ? {
         OR: filterObj.sale.split(',').map((status) => ({
-          marketSaleStatus: hasSortByPrice
-            ? 'LISTED'
-            : getValueByName(filters.saleList, status),
+          marketSaleStatus: getValueByName(filters.saleList, status),
         })),
       }
     : null
@@ -143,7 +141,7 @@ const getWhereQueryFromArgs = ({ username, filter, owner, sort }) => {
       filterObj.termination && { termination: filterObj.termination },
       filterObj.timeControl && { timeControl: filterObj.timeControl },
       filterObj.rarity && { rarity: filterObj.rarity },
-    ].filter((item) => item !== null),
+    ],
   }
 }
 
@@ -181,7 +179,6 @@ export const getTreasuresWithFilter = async ({
   logger.debug(`owner: ${owner}`)
   // Cannot use cursor pagination, since custom sorting is needed
   const skip = page * TREASURES_PER_PAGE
-
   const hasSortByPrice =
     sort === 'Price: High to Low' || sort === 'Price: Low to High'
 
@@ -205,10 +202,12 @@ export const getTreasuresWithFilter = async ({
 
   if (hasSortByPrice) {
     treasures = treasures.sort((a, b) => {
-      if (sort === 'Price: Low to High') {
-        return a.marketSales[0].price > b.marketSales[0].price ? -1 : 1
-      } else if (sort === 'Price: High to Low') {
-        return a.marketSales[0].price < b.marketSales[0].price ? -1 : 1
+      if (a.marketSaleStatus === 'LISTED' && b.marketSaleStatus === 'LISTED') {
+        if (sort === 'Price: Low to High') {
+          return a.marketSales[0].amount > b.marketSales[0].amount ? -1 : 1
+        } else if (sort === 'Price: High to Low') {
+          return a.marketSales[0].amount < b.marketSales[0].amount ? -1 : 1
+        }
       }
       return 0
     })

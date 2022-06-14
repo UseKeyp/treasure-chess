@@ -1,14 +1,16 @@
+import { Trans, useTranslation } from 'react-i18next'
+import { useAuth } from '@redwoodjs/auth'
+import { Link, routes } from '@redwoodjs/router'
+
 import ModalContainer from 'src/components/ModalContainer'
 import Icon from 'src/components/Icon'
 import FilterPriceInput from 'src/components/FilterPriceInput'
-import { useRamp } from 'src/providers/ramp/ramp'
 import LoadingDots from 'src/components/LoadingDots'
 import Button from 'src/components/Button'
+
 import { trimAddress, getBlockExplorerUrl } from 'src/utils/helpers'
-// import { onRamps, feedbackSuggestionCta } from 'src/providers/ramp/onRamps'
+import { useRamp } from 'src/providers/ramp/ramp'
 import { useWallet } from 'src/providers/wallet'
-import { useAuth } from '@redwoodjs/auth'
-import { Trans, useTranslation } from 'react-i18next'
 
 const Provider = ({
   error,
@@ -294,14 +296,9 @@ export const DepositModal = ({ isVisible, toggleModal }) => {
       <p className="mt-4">
         <Trans i18nkey="FaroviteOnRampDetails">
           Have a suggestion?{' '}
-          <a
-            href="https://treasure.chess.com/feedback"
-            target="_blank"
-            className="underline"
-            rel="noreferrer"
-          >
+          <Link to={routes.settings()} className="underline">
             Let us know!
-          </a>
+          </Link>
         </Trans>
       </p>
     ),
@@ -346,14 +343,9 @@ export const WithdrawModal = ({ isVisible, toggleModal }) => {
       <p className="mt-4">
         <Trans i18nkey="FaroviteOnRampDetails">
           Have a suggestion?{' '}
-          <a
-            href="https://treasure.chess.com/feedback"
-            target="_blank"
-            className="underline"
-            rel="noreferrer"
-          >
+          <Link to={routes.settings()} className="underline">
             Let us know!
-          </a>
+          </Link>
         </Trans>
       </p>
     ),

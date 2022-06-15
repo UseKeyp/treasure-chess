@@ -62,7 +62,7 @@ const FaqPage = () => {
           className="underline"
           href="https://blog.treasurechess.com/p/share-your-treasures?s=w"
         >
-          Read more
+          See more
         </a>
       </Trans>,
     ],
@@ -92,7 +92,7 @@ const FaqPage = () => {
       <Trans i18nkey="web:environmentallyFriendlyTop">
         Creating new Treasures uses an equivalent amount of electricity as a
         search engine query, or sending a few emails. We are proud of our
-        technology and networks, and how efficient they are. Read how we{' '}
+        technology and networks, and how efficient they are. See how we{' '}
         <a
           target="_blank"
           rel="noreferrer"
@@ -157,7 +157,7 @@ const FaqPage = () => {
       t('Environmentally friendly'),
       <Trans i18nkey="web:environmentallyFriendly">
         We're not like the others. Minting Treasures consumes less energy than
-        sending an email. Read how we{' '}
+        sending an email. See how we{' '}
         <a
           target="_blank"
           rel="noreferrer"

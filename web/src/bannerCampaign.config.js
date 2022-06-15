@@ -1,6 +1,6 @@
 const campaignConfig = {
   text: 'This app uses the same amount of energy as sending an email.',
-  buttonText: 'Read how',
+  buttonText: 'See how',
   icon: '🌱',
   id: 'newOnRamps',
   href: 'https://blog.treasurechess.com/p/treasure-chess-and-energy-',

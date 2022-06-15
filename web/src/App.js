@@ -20,7 +20,7 @@ console.log(
   'color:red;font-family:sans-serif;font-size:4rem;-webkit-text-stroke: 1px black;font-weight:bold'
 )
 console.log(
-  `%c⚠️ This is a browser feature intended for developers. Do not paste anything here! If someone told you to copy and paste something here, it is a scam and could give them access to your Treasure Chess account. ⚠️`,
+  `%c⚠️ This is a browser feature intended for developers. Do not paste anything here! If someone told you to copy and paste something here, it is a scam and could give them access to your Treasure Chess wallet. ⚠️`,
   'font-family:sans-serif;font-size:1rem;-webkit-text-stroke: 1px black;'
 )
 console.log(

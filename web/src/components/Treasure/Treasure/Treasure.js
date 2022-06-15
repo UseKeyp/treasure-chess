@@ -40,8 +40,8 @@ const Treasure = ({ treasure, isLoading }) => {
         <p className="answer-container text-sm font-normal color-grey-light tracking-tight">
           <Trans i18nKey="web:treasure">
             Once a Treasure is listed for sale by its owner, it can be purchased
-            using your account balance. You can add funds to your account using
-            a debit card, and funds can be cashed-out to your bank via your
+            using your wallet balance. You can add funds to your wallet using a
+            debit card, and funds can be cashed-out to your bank via your
             <Link to={routes.profile()} className="underline">
               Profile
             </Link>

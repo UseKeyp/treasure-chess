@@ -376,7 +376,7 @@ export const WithdrawModal = ({ isVisible, toggleModal }) => {
           ))}
           <p className="mt-4 italic">
             For your protection, funds can only be sent one-way from your
-            Treasure Chess account to your bank. Funds can never be withdrawn
+            Treasure Chess wallet to your bank. Funds can never be withdrawn
             from your bank using this method.
           </p>
         </>

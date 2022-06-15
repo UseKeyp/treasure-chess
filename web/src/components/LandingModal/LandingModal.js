@@ -2,13 +2,7 @@ import Banner from 'src/components/Banner'
 import { useModal } from 'src/hooks/useModal'
 import { useEffect } from 'react'
 import { isBrowser } from '@redwoodjs/prerender/browserUtils'
-// import aboutContent from 'src/pages/AboutPage/about'
-// import FaqSection from 'src/components/FaqSection/FaqSection'
 
-// <FaqSection
-// title=""
-// questionList={[aboutContent[2], aboutContent[3], aboutContent[4]]}
-// />
 export const content = (
   <>
     <p className="">

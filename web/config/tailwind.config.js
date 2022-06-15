@@ -24,6 +24,12 @@ module.exports = konstaConfig({
     colors: {
       black: '#000000',
       blue: '#47A7FF',
+      rarity: {
+        good: '#8a8886',
+        great: '#7ea650',
+        ultra: '#c1a35a',
+        mythic: '#0096C6',
+      },
       blueLink: '#147DDD',
       blueDark: '#125BF5',
       chessBlack: {

@@ -52,7 +52,6 @@ const SupportPage = () => {
 
   return (
     <div>
-      <MetaTags title={t('Support')} />
       <MetaTags
         title={t('Support')}
         description={t('Contact us for questions or support.')}

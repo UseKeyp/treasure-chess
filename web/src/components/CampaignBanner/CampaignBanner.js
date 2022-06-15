@@ -15,6 +15,7 @@ const CampaignBanner = () => {
     } else {
       setShow(true)
     }
+    /* eslint-disable react-hooks/exhaustive-deps */
   }, [id])
 
   const closeBanner = () => {

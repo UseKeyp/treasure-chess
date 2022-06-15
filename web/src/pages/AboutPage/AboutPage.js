@@ -1,4 +1,4 @@
-import FaqSection, { FaqItem } from 'src/components/FaqSection/FaqSection'
+import FaqSection from 'src/components/FaqSection/FaqSection'
 import AchievementList from 'src/components/AchievementList/AchievementList'
 import Table from 'src/components/Table'
 import { MetaTags } from '@redwoodjs/web'

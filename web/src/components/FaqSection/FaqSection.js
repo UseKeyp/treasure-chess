@@ -1,4 +1,4 @@
-export const FaqItem = ({ icon, question, answer, feature }) => {
+const FaqItem = ({ icon, question, answer, feature }) => {
   return (
     <div className="question-wrapper" has-piece={feature ? 'true' : 'false'}>
       <div className="piece" />

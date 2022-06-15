@@ -52,8 +52,11 @@ const html = `<html lang="en">
         padding: 100px 0;
       }
       .container {
-        text-align: center;
-        padding: 150px 0;
+        position: fixed;
+        top: 40%;
+        left: 50%;
+        margin-top: -50px;
+        margin-left: -100px;
       }
       .chest {
         margin: 0 auto;
@@ -62,7 +65,6 @@ const html = `<html lang="en">
         &__body {
           width: 100%;
           height: 120px;
-          // background: #000;
           -webkit-border-radius: 50% / 40% 40% 60% 60%;
           border-radius: 50% / 40% 40% 60% 60%;
         }

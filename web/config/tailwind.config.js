@@ -41,7 +41,7 @@ module.exports = konstaConfig({
       greenDark: '#6C9D41',
       greenLight: '#9DBA5B',
       grey: '#ABB6B9',
-      greyLight: '#47433F',
+      greyLight: '#47433F', //Background color
       greyDark: '#4F4F4F',
       red: '#B23330',
       errorYellow: '#FFBB0D',

@@ -2,7 +2,7 @@ import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
 import { useAuth } from '@redwoodjs/auth'
 import { isBrowser } from '@redwoodjs/prerender/browserUtils'
 import { routes, Link } from '@redwoodjs/router'
-
+import rampLoadingHtml from 'src/providers/ramp/rampLoadingHtml'
 import { DepositModal, WithdrawModal } from 'src/providers/ramp/modals'
 import Icon from 'src/components/Icon/Icon'
 
@@ -194,22 +194,34 @@ const RampProvider = ({ children }) => {
   const [rampWithdrawMutation] = useMutation(RAMP_WITHDRAW_MUTATION)
 
   const getRampUrl = async ({ type, direction }) => {
+    let myWindow
+    console.log(direction)
     try {
+      myWindow = window.open(
+        '',
+        '_blank',
+        'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
+      )
+      // myWindow.document.write(`<p>Sending you...</p>`)
+      myWindow.document.write(rampLoadingHtml)
       setState({ ...state, isLoading: type, rampError: '' })
       const {
         data: {
           getRampUrl: { url },
         },
       } = await rampUrlQuery({ variables: { direction, type } })
-      if (isBrowser && url)
-        window.open(
-          url,
-          'Treasure Chess - Deposit',
-          'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
-        )
-      setState({ ...state, isLoading: false, rampError: '' })
+      if (isBrowser && url) {
+        myWindow.location = url
+        setState({ ...state, isLoading: false, rampError: '' })
+      }
     } catch (e) {
       setState({ ...state, isLoading: false, rampError: e })
+      myWindow.document.write(
+        `<h3>Oops! An error occured<br/><br/>Sending you back...</h3>`
+      )
+      setTimeout(() => {
+        myWindow.close()
+      }, 3000)
     }
     toggleModalDep()
   }

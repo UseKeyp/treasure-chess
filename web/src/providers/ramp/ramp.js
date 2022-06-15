@@ -2,7 +2,7 @@ import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
 import { useAuth } from '@redwoodjs/auth'
 import { isBrowser } from '@redwoodjs/prerender/browserUtils'
 import { routes, Link } from '@redwoodjs/router'
-import rampLoadingHtml from 'src/providers/ramp/rampLoadingHtml'
+import popupLoadingHtml from 'src/utils/popupLoadingHtml'
 import { DepositModal, WithdrawModal } from 'src/providers/ramp/modals'
 import Icon from 'src/components/Icon/Icon'
 
@@ -201,8 +201,7 @@ const RampProvider = ({ children }) => {
         '_blank',
         'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
       )
-      // myWindow.document.write(`<p>Sending you...</p>`)
-      myWindow.document.write(rampLoadingHtml)
+      myWindow.document.write(popupLoadingHtml)
       setState({ ...state, isLoading: type, rampError: '' })
       const {
         data: {
@@ -216,7 +215,7 @@ const RampProvider = ({ children }) => {
     } catch (e) {
       setState({ ...state, isLoading: false, rampError: e })
       myWindow.document.write(
-        `<h3>Oops! An error occured<br/><br/>Sending you back...</h3>`
+        `<h3>Oops! An error occured<br/><br/>Sending you back...</h3><p>${e}</p>`
       )
       setTimeout(() => {
         myWindow.close()
@@ -320,24 +319,7 @@ const RampProvider = ({ children }) => {
   //   document.getElementById('connection-button').disabled = true
   //   setCoinbase({ isLoading: true, error: '', ...coinbase })
   //   try {
-  //     const oAuthUrl = await getOAuthUrl(COINBASE)
-  //     if (
-  //       (oAuthUrl == null || oAuthUrl == '') &&
-  //       errorOAuth != '' &&
-  //       errorOAuth != null
-  //     ) {
-  //       if (errorOAuth.contains('COINBASE')) {
-  //         coinbase.error = errorOAuth
-  //         document.getElementById('connection-button').disabled = false
-  //         return setCoinbase({ isLoading: false, ...coinbase })
-  //       }
-  //     }
-  //     if (isBrowser)
-  //     window.open(
-  //       oAuthUrl.url,
-  //       'Coinbase - Connect',
-  //       'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
-  //     )
+  //     await openOAuthUrl(COINBASE)
   //     setShouldPoll(true)
   //     document.getElementById('connection-button').disabled = false
   //   } catch (error) {

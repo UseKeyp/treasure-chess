@@ -6,6 +6,7 @@ import { useModal } from 'src/hooks/useModal'
 import { useToast } from 'src/providers/toast'
 import { MintingToast } from './toasts'
 import { CancelModal, SuccessModal, MintModal } from './modals'
+import popupLoadingHtml from 'src/utils/popupLoadingHtml'
 
 import {
   PENDING_MINT_PURCHASES_QUERY,
@@ -164,7 +165,14 @@ const MintingProvider = ({ children }) => {
       mintCheckoutpaymentType: paymentType,
     })
     if (paymentType !== 'CREDIT') {
+      let myWindow
       try {
+        myWindow = window.open(
+          '',
+          '_blank',
+          'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
+        )
+        myWindow.document.write(popupLoadingHtml)
         const { data: { mintCheckoutUrl } = {} } =
           await mintCheckoutUrlMutation({
             variables: {
@@ -180,12 +188,7 @@ const MintingProvider = ({ children }) => {
           shouldPoll: true,
           mintLoading: false,
         })
-        if (isBrowser)
-          window.open(
-            mintCheckoutUrl,
-            'Treasure Chess Checkout',
-            'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
-          )
+        if (isBrowser) myWindow.location = mintCheckoutUrl
       } catch (error) {
         setState({
           ...state,
@@ -193,6 +196,12 @@ const MintingProvider = ({ children }) => {
           mintError: error.message,
           mintLoading: false,
         })
+        myWindow.document.write(
+          `<h3>Oops! An error occured<br/><br/>Sending you back...</h3>`
+        )
+        setTimeout(() => {
+          myWindow.close()
+        }, 3000)
       }
     } else {
       try {

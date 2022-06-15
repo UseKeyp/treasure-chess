@@ -43,9 +43,17 @@ const html = `<html lang="en">
         width: 100%;
         padding: 30px 0;
       }
+      p {
+        color: white;
+        font-family: 'Montserrat', sans-serif;
+        text-align: center;
+        margin: 0 auto;
+        width: 100%;
+        padding: 100px 0;
+      }
       .container {
         text-align: center;
-        padding: 100px 0;
+        padding: 150px 0;
       }
       .chest {
         margin: 0 auto;

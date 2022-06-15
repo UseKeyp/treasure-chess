@@ -23,9 +23,9 @@ const CampaignBanner = () => {
     setShow(false)
   }
   const onClick = () => {
-    closeBanner()
     if (route) return navigate(routes[route]())
-    window.open(href)
+    window.open(href, '_blank')
+    closeBanner()
   }
   if (show) {
     return (

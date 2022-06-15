@@ -1,4 +1,4 @@
-import { WalletFill, Gear } from 'framework7-icons/react'
+import { WalletFill } from 'framework7-icons/react'
 
 const campaignConfig = {
   text: 'We added 3 new ways to fund your wallet! More Cash Out options are in the works ⚙️',

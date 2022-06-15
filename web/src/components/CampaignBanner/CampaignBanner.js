@@ -15,7 +15,7 @@ const CampaignBanner = () => {
     } else {
       setShow(true)
     }
-  }, [])
+  }, [id])
 
   const closeBanner = () => {
     localStorage.setItem('campaign-name', JSON.stringify(id))

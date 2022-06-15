@@ -28,7 +28,7 @@ const CampaignBanner = () => {
   if (show) {
     return (
       <div className="bg-chessBlack-200">
-        <header className="flex justify-between items-center py-2 mb-2 max-w-7xl mx-auto">
+        <header className="flex justify-between items-center  mb-2 max-w-7xl mx-auto">
           <div className="flex ml-7 flex-row items-center space-x-2 sm:space-x-4">
             <div className="">
               {iconName ? (

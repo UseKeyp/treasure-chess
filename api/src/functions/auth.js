@@ -64,7 +64,9 @@ export const handler = async (event, context) => {
       // SameSite: 'None',
       SameSite: 'Strict',
       Secure: isProduction,
-      ...(isProduction && { Domain: process.env.APP_DOMAIN }),
+      ...(isProduction && {
+        Domain: process.env.APP_DOMAIN.split('://')[1],
+      }),
     },
   })
 

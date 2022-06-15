@@ -2,6 +2,8 @@ import FaqSection from 'src/components/FaqSection/FaqSection'
 import { MetaTags } from '@redwoodjs/web'
 import { useTheme } from 'src/providers/theme'
 import { isBrowser } from '@redwoodjs/prerender/browserUtils'
+import globalConfig from 'src/global.config'
+import Icon from 'src/components/Icon'
 
 import { useEffect } from 'react'
 
@@ -40,12 +42,28 @@ const SupportPage = () => {
 
   const supportContent = [
     [
-      t('Questions or need help?'),
+      t('Questions and Help'),
       t(
         'Use the chat widget at the bottom right for quick questions and troubleshooting.'
       ),
       '🤔',
       true,
+    ],
+    [
+      t('Community Chat'),
+      <Trans i18nkey="web:communityChatSupport">
+        Join our{' '}
+        <a
+          target="_blank"
+          rel="noreferrer"
+          className="underline"
+          href={globalConfig.DISCORD_URL}
+        >
+          Discord Server
+        </a>{' '}
+        to ask questions and hang out with the community.
+      </Trans>,
+      <Icon name="discord" size="20px" />,
     ],
     [t('Have a request?'), supportText, '📨'],
   ]

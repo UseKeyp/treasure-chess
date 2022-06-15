@@ -57,6 +57,8 @@ const FaqPage = () => {
       <Trans i18nkey="web:environmentallyFriendly">
         All prices in the marketplace are set by users, not by us.{' '}
         <a
+          target="_blank"
+          rel="noreferrer"
           className="underline"
           href="https://blog.treasurechess.com/p/share-your-treasures?s=w"
         >
@@ -87,9 +89,19 @@ const FaqPage = () => {
     ],
     [
       t('🌱 What is the environmental impact of Treasure Chess?'),
-      t(
-        'Creating new Treasures uses an equivalent amount of electricity as a search engine query, or sending a few emails. We are proud of our technology and networks, and how efficient they are.'
-      ),
+      <Trans i18nkey="web:environmentallyFriendlyTop">
+        Creating new Treasures uses an equivalent amount of electricity as a
+        search engine query, or sending a few emails. We are proud of our
+        technology and networks, and how efficient they are. Read how we{' '}
+        <a
+          target="_blank"
+          rel="noreferrer"
+          className="underline"
+          href="https://blog.treasurechess.com/p/treasure-chess-and-energy-"
+        >
+          made this possible.
+        </a>
+      </Trans>,
     ],
     [
       t('What if I have another question?'),
@@ -130,6 +142,8 @@ const FaqPage = () => {
           </li>
         </ul>
         <a
+          target="_blank"
+          rel="noreferrer"
           className="underline"
           href="https://blog.treasurechess.com/p/share-your-treasures?s=w"
         >
@@ -143,22 +157,27 @@ const FaqPage = () => {
       t('Environmentally friendly'),
       <Trans i18nkey="web:environmentallyFriendly">
         We're not like the others. Minting Treasures consumes less energy than
-        sending an email.{' '}
+        sending an email. Read how we{' '}
         <a
+          target="_blank"
+          rel="noreferrer"
           className="underline"
           href="https://blog.treasurechess.com/p/treasure-chess-and-energy-"
         >
-          Read how
-        </a>{' '}
-        we made this happen.
+          made this possible.
+        </a>
       </Trans>,
       '🌱',
     ],
   ]
 
   const getLevelRow = (level, points) => {
-    const bgColor = `bg-rarity-${level.toLowerCase()}`
-    console.log(bgColor)
+    const colorName = level.toLowerCase()
+    let bgColor = 'bg-rarity-good'
+    if (level === 'Great') bgColor = 'bg-rarity-great'
+    if (level === 'Ultra') bgColor = 'bg-rarity-ultra'
+    if (level === 'Mythic') bgColor = 'bg-rarity-mythic'
+
     return [
       {
         text: (
@@ -220,7 +239,7 @@ const FaqPage = () => {
           <FaqSection
             questionList={[
               [
-                t('Who decides the achievements?'),
+                t('Who decides Achievements?'),
                 t(
                   'There are currently 36 achievements. Who will be the first to earn them all? (send us a message if you have) We hope to add dozens more, using feedback and suggestions from the community. In the future there could even be a way to vote on what achievements are added to Treasure Chess.'
                 ),
@@ -239,14 +258,18 @@ const FaqPage = () => {
             [
               t('Can I build with Treasure Chess?'),
               <Trans i18nkey="web:forDevelopers">
-                Almost all of the code & tooling for Treasure Chess has been
-                open sourced. Analytics, trading bots, and wallet integrations
-                are all things that we'd be happy to help you build. Check out
-                our{' '}
-                <a className="underline" href={config.GITHUB_URL}>
+                Almost all of our code & tooling is open source. Analytics,
+                bots, and wallet integrations are all things that we'd love to
+                help you build. Check out our{' '}
+                <a
+                  target="_blank"
+                  rel="noreferrer"
+                  className="underline"
+                  href={config.GITHUB_URL}
+                >
                   GitHub
                 </a>{' '}
-                for more details. Happy building!
+                for more details, and get in touch with us. Happy building!
               </Trans>,
             ],
           ]}

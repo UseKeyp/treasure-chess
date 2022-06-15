@@ -8,7 +8,7 @@ const FaqItem = ({ icon, question, answer, feature }) => {
           <h2 className="">{question}</h2>
         </div>
       </div>
-      <p className="answer-container text-base">{answer}</p>
+      <div className="answer-container text-base">{answer}</div>
     </div>
   )
 }

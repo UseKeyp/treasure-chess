@@ -78,13 +78,11 @@ const Settings = () => {
         {items.map((item) => (
           <div
             key={item.title}
-            className={`grid grid-cols-${
-              item.hideButton ? '3' : '4'
-            } gap-4 align-center  bg-chessBlack-100 mt-6 p-4 rounded-lg border-[1px] ${
+            className={`grid grid-cols-2 align-center gap-4 bg-chessBlack-100 mt-6 p-4 rounded-lg border-[1px] ${
               item.highlight ? 'border-green' : 'border-chessBlack-100'
             }`}
           >
-            <div className="col-span-2 sm:col-span-3">
+            <div className="">
               <div className="flex align-center items-center">
                 {item.iconContent || <h3>{item.title}</h3>}
               </div>

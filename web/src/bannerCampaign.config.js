@@ -1,8 +1,12 @@
+import { WalletFill, Gear } from 'framework7-icons/react'
+
 const campaignConfig = {
-  text: 'Enjoy our new campaign! You really should click the green button!',
-  iconName: 'treasure_chess',
-  buttonText: 'Buy now',
-  title: 'Title',
+  text: 'We added 3 new ways to add funds! Additional Cash Out options are in the works ⚙️',
+  // iconName: 'wallet',
+  buttonText: 'View Wallet',
+  icon: <WalletFill className="w-6 h-6 " />,
+  id: 'newOnRamps',
+  route: 'wallet',
 }
 
 export default campaignConfig

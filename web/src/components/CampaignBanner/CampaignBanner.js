@@ -1,45 +1,54 @@
-import campaignConfig from 'src/bannerCampaign.config'
-import Icon from 'src/components/Icon/Icon'
 import { useEffect, useState } from 'react'
+import { routes, navigate } from '@redwoodjs/router'
+
+import Icon from 'src/components/Icon/Icon'
 import Button from 'src/components/Button/Button'
+
+import campaignConfig from 'src/bannerCampaign.config'
 
 const CampaignBanner = () => {
   const [show, setShow] = useState(false)
-
+  const { iconName, icon, id, buttonText, text, route } = campaignConfig
   useEffect(() => {
-    if (
-      JSON.parse(localStorage.getItem('campaign-name')) == campaignConfig.title
-    ) {
+    if (JSON.parse(localStorage.getItem('campaign-name')) == id) {
       setShow(false)
     } else {
-      setShow(true)
+      setTimeout(() => {
+        setShow(true)
+      }, 5000)
     }
   }, [])
 
   const closeBanner = () => {
-    localStorage.setItem('campaign-name', JSON.stringify(campaignConfig.title))
+    localStorage.setItem('campaign-name', JSON.stringify(id))
     setShow(false)
   }
-
+  const onClick = () => {
+    navigate(routes[route]())
+    closeBanner()
+  }
   if (show) {
     return (
       <div className="bg-chessBlack-200">
         <header className="flex justify-between items-center py-2 mb-2 max-w-7xl mx-auto">
-          <div className="flex flex-row items-center space-x-4 sm:space-x-4">
-            <div className="ml-7">
-              <Icon
-                name={campaignConfig.iconName}
-                color="#ffffff"
-                height="16px"
-              />
+          <div className="flex ml-7 flex-row items-center space-x-2 sm:space-x-4">
+            <div className="">
+              {iconName ? (
+                <Icon name={iconName} color="#ffffff" height="16px" />
+              ) : (
+                icon
+              )}
             </div>
             <div className="font-bold text-left break-normal sm:text-sm text-xs">
-              {campaignConfig.text}
+              {text}
             </div>
           </div>
           <div className="flex flex-row items-center ml-2 lg:mr-4 md:mr-4 mr-5">
-            <Button className="bg-greenLight text-white sm:text-sm text-xs font-bold my-4 sm:py-2 py-1 px-4 mr-2 rounded">
-              {campaignConfig.buttonText}
+            <Button
+              onClick={onClick}
+              className="bg-greenLight text-white sm:text-sm text-xs font-bold my-4 sm:py-2 py-1 px-4 mr-2 rounded"
+            >
+              {buttonText}
             </Button>
             <Button
               onClick={closeBanner}

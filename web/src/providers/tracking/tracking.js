@@ -54,11 +54,10 @@ const TrackingProvider = () => {
       let path
       try {
         path = pathname.split('/')[1]
-        if (path === 'support') return
+        if (path !== 'support') window.$chatwoot?.toggleBubbleVisibility('hide')
       } catch {
         // Do nothing
       }
-      window.$chatwoot?.toggleBubbleVisibility('hide')
     })
 
   React.useEffect(() => {

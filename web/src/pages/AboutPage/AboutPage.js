@@ -26,7 +26,7 @@ const FaqPage = () => {
     ],
     [
       t('What are Treasures?'),
-      <Trans i18nkey="web:whatAreTreasures">
+      <Trans key="whatAreTreasures" i18nkey="web:whatAreTreasures">
         Every game played on Chess.com can be turned into a Treasure. Only one
         Treasure per game per player can ever be minted. There can never be more
         than 2 Treasures for a game, and only the players can mint them.

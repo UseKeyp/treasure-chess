@@ -195,7 +195,6 @@ const RampProvider = ({ children }) => {
 
   const getRampUrl = async ({ type, direction }) => {
     let myWindow
-    console.log(direction)
     try {
       myWindow = window.open(
         '',

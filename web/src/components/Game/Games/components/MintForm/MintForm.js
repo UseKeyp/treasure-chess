@@ -18,14 +18,15 @@ const MintForm = ({
   const [inputValue, setInputValue] = React.useState('')
   const [errorText, setErrorText] = React.useState('')
 
-  const debounceChangeTitle = debounce((args) => {
+  const debounceChange = debounce((args) => {
     onChangeTitle(...args)
+    setErrorText('')
   }, 1000)
+
   const handleChange = (e) => {
     if (isMinting) return
-    setErrorText('')
     setInputValue(e.target.value)
-    debounceChangeTitle(e.target.value)
+    debounceChange(e.target.value)
   }
 
   const handleSubmit = () => {

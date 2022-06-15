@@ -51,7 +51,7 @@ const SupportPage = () => {
     ],
     [
       t('Community Chat'),
-      <Trans i18nkey="web:communityChatSupport">
+      <Trans key="communityChatSupport" i18nkey="web:communityChatSupport">
         Join our{' '}
         <a
           target="_blank"
@@ -63,7 +63,7 @@ const SupportPage = () => {
         </a>{' '}
         to ask questions and hang out with the community.
       </Trans>,
-      <Icon name="discord" size="20px" />,
+      <Icon key="discord" name="discord" size="20px" />,
     ],
     [t('Have a request?'), supportText, '📨'],
   ]

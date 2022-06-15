@@ -54,7 +54,10 @@ const FaqPage = () => {
     ],
     [
       t('🎁 Who decides the prices of Treasures in the Marketplace?'),
-      <Trans i18nkey="web:environmentallyFriendly">
+      <Trans
+        key="marketplacePriceDecision"
+        i18nkey="web:marketplacePriceDecision"
+      >
         All prices in the marketplace are set by users, not by us.{' '}
         <a
           target="_blank"
@@ -89,7 +92,7 @@ const FaqPage = () => {
     ],
     [
       t('🌱 What is the environmental impact of Treasure Chess?'),
-      <Trans i18nkey="web:environmentallyFriendlyTop">
+      <Trans key="environmentalImpact" i18nkey="web:environmentalImpact">
         Creating new Treasures uses an equivalent amount of electricity as a
         search engine query, or sending a few emails. We are proud of our
         technology and networks, and how efficient they are. See how we{' '}
@@ -133,8 +136,8 @@ const FaqPage = () => {
     ],
     [
       t('95% Goes to You!'),
-      <Trans i18nkey="web:environmentallyFriendly">
-        We're only successful when the Chess Community is.
+      <Trans key="95GoesToYou" i18nkey="web:95GoesToYou">
+        We&apos;re only successful when the Chess Community is.
         <ul>
           <li> First sale: 95% minter / 5% platform</li>
           <li>
@@ -155,9 +158,12 @@ const FaqPage = () => {
     ],
     [
       t('Environmentally friendly'),
-      <Trans i18nkey="web:environmentallyFriendly">
-        We're not like the others. Minting Treasures consumes less energy than
-        sending an email. See how we{' '}
+      <Trans
+        key="environmentallyFriendly"
+        i18nkey="web:environmentallyFriendly"
+      >
+        We're not like others web3 apps. Minting Treasures consumes less energy
+        than sending an email. See how we{' '}
         <a
           target="_blank"
           rel="noreferrer"
@@ -172,7 +178,6 @@ const FaqPage = () => {
   ]
 
   const getLevelRow = (level, points) => {
-    const colorName = level.toLowerCase()
     let bgColor = 'bg-rarity-good'
     if (level === 'Great') bgColor = 'bg-rarity-great'
     if (level === 'Ultra') bgColor = 'bg-rarity-ultra'
@@ -257,7 +262,7 @@ const FaqPage = () => {
           questionList={[
             [
               t('Can I build with Treasure Chess?'),
-              <Trans i18nkey="web:forDevelopers">
+              <Trans key="forDevelopers" i18nkey="web:forDevelopers">
                 Almost all of our code & tooling is open source. Analytics,
                 bots, and wallet integrations are all things that we'd love to
                 help you build. Check out our{' '}

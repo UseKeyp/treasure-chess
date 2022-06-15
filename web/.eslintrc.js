@@ -5,5 +5,6 @@ module.exports = {
   },
   rules: {
     'react/jsx-no-undef': ['error', { allowGlobals: true }],
+    'react/no-unescaped-entities': 0,
   },
 }

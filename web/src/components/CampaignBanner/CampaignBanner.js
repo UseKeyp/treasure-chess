@@ -8,7 +8,7 @@ import campaignConfig from 'src/bannerCampaign.config'
 
 const CampaignBanner = () => {
   const [show, setShow] = useState(false)
-  const { iconName, icon, id, buttonText, text, route } = campaignConfig
+  const { iconName, icon, id, buttonText, text, route, href } = campaignConfig
   useEffect(() => {
     if (JSON.parse(localStorage.getItem('campaign-name')) == id) {
       setShow(false)
@@ -23,8 +23,9 @@ const CampaignBanner = () => {
     setShow(false)
   }
   const onClick = () => {
-    navigate(routes[route]())
     closeBanner()
+    if (route) return navigate(routes[route]())
+    window.open(href)
   }
   if (show) {
     return (

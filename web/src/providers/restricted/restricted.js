@@ -14,17 +14,12 @@ const passedBasicAuth = () => {
   return false
 }
 
-const RestrictedContext = React.createContext({
-  passed: passedBasicAuth(),
-  status: '',
-})
+const RestrictedContext = React.createContext()
 
 const RestrictedProvider = ({ children }) => {
   const [state, setState] = React.useState({
     passed: passedBasicAuth(),
-    status: '',
   })
-  const { status, passed } = state
   const { pathname } = useLocation()
 
   const submitPassword = (password) => {
@@ -40,16 +35,16 @@ const RestrictedProvider = ({ children }) => {
   }
 
   React.useEffect(() => {
-    if (!passed) navigate(routes.restricted())
+    if (!state.passed) navigate(routes.restricted())
     /* eslint-disable-next-line react-hooks/exhaustive-deps*/
   }, [pathname])
 
   return (
     <RestrictedContext.Provider
       value={{
-        passed,
+        passed: state.passed,
         submitPassword,
-        status,
+        status: state.status,
       }}
     >
       {children}

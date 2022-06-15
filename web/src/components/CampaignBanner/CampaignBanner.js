@@ -13,9 +13,7 @@ const CampaignBanner = () => {
     if (JSON.parse(localStorage.getItem('campaign-name')) == id) {
       setShow(false)
     } else {
-      setTimeout(() => {
-        setShow(true)
-      }, 5000)
+      setShow(true)
     }
   }, [])
 

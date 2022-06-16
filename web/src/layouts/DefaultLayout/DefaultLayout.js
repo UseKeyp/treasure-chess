@@ -39,7 +39,7 @@ const DefaultLayout = ({ children }) => {
             <div className="mx-4 min-h-screen">{children}</div>
           </div>
         </div>
-        <SiteFooter />
+        {!isMobile && <SiteFooter />}
         {isMobile && (
           <Tabbar labels={true} className="left-0 bottom-0 fixed">
             <TabbarLink

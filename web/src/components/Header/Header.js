@@ -16,6 +16,7 @@ import MemberBalance from 'src/components/Member/MemberBalance'
 
 import { trimAddress } from 'src/utils/helpers'
 import Tooltip from 'src/components/Tooltip/Tooltip'
+import globalConfig from 'src/global.config'
 
 const WalletBalance = () => {
   const { deposit } = useRamp()
@@ -38,6 +39,7 @@ const WalletBalance = () => {
 }
 
 const MobileNav = () => {
+  const currentYear = new Date().getFullYear()
   const { isAuthenticated: isLoggedIn, logOut } = useAuth()
   const { pathname } = useLocation()
   const { t } = useLocale()
@@ -93,6 +95,74 @@ const MobileNav = () => {
                 </li>
               </>
             )}
+            <div className="flex mt-4 bg-chessBlack-100 pb-4 pr-4 pl-4 rounded-lg">
+              <div className="flex flex-col">
+                <div className="flex justify-center mt-4 space-x-6">
+                  <a href={globalConfig.DISCORD_URL}>
+                    <Icon name="discord" size="24px" />
+                    <span className="sr-only">discord</span>
+                  </a>
+                  <a href={globalConfig.TWITTER_URL}>
+                    <Icon name="twitter" color="#fff" size="24px" />
+                    <span className="sr-only">twitter</span>
+                  </a>
+                  <a href={globalConfig.GITHUB_URL}>
+                    <Icon name="github" size="24px" />
+                    <span className="sr-only">Github</span>
+                  </a>
+                </div>
+                <div className="flex justify-center">
+                  <li className={navItemClasses}>
+                    <Button className={navAnchorClasses}>
+                      <a
+                        className="hover:no-underline"
+                        href={globalConfig.BLOG_URL}
+                      >
+                        {t('Blog')}
+                      </a>
+                    </Button>
+                  </li>
+                  <li className={navItemClasses}>
+                    <Button
+                      isSelected={isOnAboutPage}
+                      className={navAnchorClasses}
+                    >
+                      {t('Terms')}
+                    </Button>
+                  </li>
+                </div>
+                <div className="flex justify-center">
+                  <li className={navItemClasses}>
+                    <Button
+                      isSelected={isOnAboutPage}
+                      to={routes.about()}
+                      className={navAnchorClasses}
+                    >
+                      {t('Privacy')}
+                    </Button>
+                  </li>
+                  <li className={navItemClasses}>
+                    <Button
+                      isSelected={isOnAboutPage}
+                      to={routes.about()}
+                      className={navAnchorClasses}
+                    >
+                      {t('Support')}
+                    </Button>
+                  </li>
+                </div>
+                <div className="flex items-center mt-4 space-x-4">
+                  <a href={globalConfig.CHESS_COM_BASE_URL}>
+                    <Icon name="chess_com" height="25" />
+                    <span className="sr-only">Chess.com</span>
+                  </a>
+                  <div className="text-sm">
+                    © Nifty Chess, Inc. {currentYear}
+                  </div>
+                  <div className="text-sm">{process.env.VERSION}</div>
+                </div>
+              </div>
+            </div>
           </ul>
         </nav>
       </div>

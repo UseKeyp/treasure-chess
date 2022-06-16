@@ -173,7 +173,7 @@ export const DepositModal = ({ isVisible, toggleModal }) => {
             </a>
             )
             <br />
-            Limit: High
+            Limit: $1,000/week
             <br />
             Fee: 5%
           </Trans>

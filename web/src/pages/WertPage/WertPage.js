@@ -1,9 +1,7 @@
-import { Link, routes } from '@redwoodjs/router'
 import { MetaTags } from '@redwoodjs/web'
 import WertModule from '@wert-io/module-react-component'
 import { isProduction } from 'src/utils/helpers'
 
-import { v4 as uuidv4 } from 'uuid'
 import Icon from 'src/components/Icon'
 
 const WertPage = () => {
@@ -27,7 +25,6 @@ const WertPage = () => {
                     : 'https://sandbox.wert.io',
                   partner_id: '01G5FDZZ2RY85QT8WY7AMN95P5',
                   container_id: 'wert',
-                  click_id: uuidv4(), // unique id of purhase in your system
                   // width: 400,
                   height: 550,
                   currency: 'USD',

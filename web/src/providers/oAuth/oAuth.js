@@ -49,7 +49,7 @@ const OAuthProvider = ({ children }) => {
         )
         myWindow.document.write(popupLoadingHtml)
         const oAuthUrl = await getOAuthUrl(type)
-        myWindow.location = oAuthUrl.url
+        // myWindow.location = oAuthUrl.url
       }
     } catch (e) {
       setState({ error: e?.message, isLoading: false })

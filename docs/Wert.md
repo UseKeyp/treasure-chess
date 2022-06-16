@@ -1,10 +1,20 @@
 # Wert.io
 
+Requires Name, Birthdate, Address
+
 https://wert.io/
 
 Developer Docs https://wert-io.notion.site/wert-io/Wert-integration-documents-f234ff717bfe416ca1c50f74c09ecfbe
 
 Sandbox dashboard https://partner-sandbox.wert.io/login/
+
+Testing instructions https://wert-io.notion.site/How-to-test-it-in-the-sandbox-f5604e1a65ce4693afc7cc9f875dbd97
+
+CC numbers
+
+> 4007410000000006
+> 4007400000000007
+> Enter 000 or 999 in the CVV field for the payment to fail.
 
 ### Resources
 

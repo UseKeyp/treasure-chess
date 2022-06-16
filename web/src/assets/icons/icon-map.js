@@ -856,7 +856,18 @@ const MtPelerin = () => (
   </svg>
 )
 
+const Wert = ({ color = 'white' }) => (
+  <div className={`flex font-wert align-center justify-center`}>
+    <div
+      className={`mt-2 flex align-center justify-center font-[700] color-${color}`}
+    >
+      Wert.io
+    </div>
+  </div>
+)
+
 export default {
+  wert: Wert,
   treasure_chess: TreasureChess,
   treasure_chess_full: TreasureChessFull,
   mobile_wallet: MobileWallet,

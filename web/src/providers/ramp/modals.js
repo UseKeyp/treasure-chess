@@ -156,7 +156,31 @@ export const DepositModal = ({ isVisible, toggleModal }) => {
 
   const onRamps = [
     {
-      // iconName: 'ramp_network',
+      type: 'WERT',
+      iconName: 'wert',
+      name: 'Wer.io',
+      description: (
+        <p className="mt-4">
+          <Trans i18nkey="web:RampOnRampDetails">
+            Regions: Most places (
+            <a
+              href="https://support.wert.io/en/articles/5194509-supported-countries"
+              target="_blank"
+              className="underline"
+              rel="noreferrer"
+            >
+              list
+            </a>
+            )
+            <br />
+            Limit: High
+            <br />
+            Fee: 5%
+          </Trans>
+        </p>
+      ),
+    },
+    {
       type: 'RAMP_NETWORK',
       iconName: 'ramp_network',
       name: 'Ramp Network',
@@ -174,9 +198,9 @@ export const DepositModal = ({ isVisible, toggleModal }) => {
             </a>
             )
             <br />
-            Limits: €100/day
+            Limit: €100/day
             <br />
-            Fees: 2.9% (
+            Fee: 2.9% (
             <a
               href="https://support.ramp.network/en/articles/431-transaction-fees"
               target="_blank"
@@ -214,9 +238,9 @@ export const DepositModal = ({ isVisible, toggleModal }) => {
             </a>
             )
             <br />
-            Limits: $100/day
+            Limit: $100/day
             <br />
-            Fees: 2.9% + $0.30 (
+            Fee: 2.9% + $0.30 (
             <a
               href="https://support.sendwyre.com/hc/en-us/articles/360059565013-Wyre-card-processing-fees"
               target="_blank"
@@ -248,9 +272,9 @@ export const DepositModal = ({ isVisible, toggleModal }) => {
             </a>
             )
             <br />
-            Limits: CHF 200/purchase
+            Limit: CHF 200/purchase
             <br />
-            Fees: 1.5% + CHF 1.2 (
+            Fee: 1.5% + CHF 1.2 (
             <a
               href="https://www.mtpelerin.com/pricing"
               target="_blank"
@@ -281,7 +305,9 @@ export const DepositModal = ({ isVisible, toggleModal }) => {
       type: 'WALLET_DEPOSIT',
       description: (
         <p className="mt-4">
-          {t('Send funds directly from another crypto wallet.')}
+          Regions: All
+          <br />
+          Fee: none
         </p>
       ),
     },
@@ -308,10 +334,10 @@ export const DepositModal = ({ isVisible, toggleModal }) => {
     <ModalContainer
       isVisible={isVisible}
       hideModal={toggleModal}
-      headerText="Add Funds"
+      headerText="Funding Options"
       content={
         <>
-          <p className="text-base">Instantly add funds using a debit card.</p>
+          <p className="text-base">Choose a payment provider</p>
           {[...onRamps, feedbackSuggestionCta].map((ramp) => (
             <OnRampProvider
               key={ramp.name}
@@ -352,13 +378,13 @@ export const WithdrawModal = ({ isVisible, toggleModal }) => {
   }
   return (
     <ModalContainer
-      headerText="Cash Out"
+      headerText="Cash Out Options"
       isVisible={isVisible}
       onSubmit={toggleModal}
       hideModal={toggleModal}
       content={
         <>
-          <p className="text-base">Send funds to your bank at any time.</p>
+          <p className="text-base">Choose a payment provider</p>
           {isConnected && (
             <div className="bg-chessBlack-100 p-2 mt-4 rounded-lg ">
               <h4 className="mb-2">Amount</h4>

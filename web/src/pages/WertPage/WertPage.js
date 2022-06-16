@@ -1,6 +1,7 @@
 import { Link, routes } from '@redwoodjs/router'
 import { MetaTags } from '@redwoodjs/web'
 import WertModule from '@wert-io/module-react-component'
+import { isProduction } from 'src/utils/helpers'
 
 import { v4 as uuidv4 } from 'uuid'
 import Icon from 'src/components/Icon'
@@ -13,7 +14,7 @@ const WertPage = () => {
     <>
       <MetaTags title="Wert" description="Wert.io checkout" />
       <div className="h-screen w-full flex justify-center items-center">
-        <div>
+        <div className="w-full sm:w-[400px]">
           <div className="wert-container w-full sm:w-[400px]">
             <div className="flex justify-center items-center h-[60px]">
               <Icon name="wert" />
@@ -21,9 +22,9 @@ const WertPage = () => {
             {address && (
               <WertModule
                 options={{
-                  // origin: isProduction
-                  //   ? 'https://widget.wert.io'
-                  //   : 'https://sandbox.wert.io',
+                  origin: isProduction
+                    ? 'https://widget.wert.io'
+                    : 'https://sandbox.wert.io',
                   partner_id: '01G5FDZZ2RY85QT8WY7AMN95P5',
                   container_id: 'wert',
                   click_id: uuidv4(), // unique id of purhase in your system
@@ -32,8 +33,8 @@ const WertPage = () => {
                   currency: 'USD',
                   // currency_amount: 100,
                   // commodity_amount: 5;
-                  commodity: 'USDC:polygon',
-                  commodities: 'USDC:polygon',
+                  commodity: isProduction ? 'MATIC:polygon' : 'ETH',
+                  commodities: isProduction ? 'MATIC:polygon' : 'ETH',
                   address,
                   email,
                   redirect_url: 'https://treasure.chess.com/redirect/wert',

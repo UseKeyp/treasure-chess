@@ -857,12 +857,12 @@ const MtPelerin = () => (
 )
 
 const Wert = ({ color = 'white' }) => (
-  <div className={`flex font-wert align-center justify-center`}>
-    <div
-      className={`mt-2 flex align-center justify-center font-[700] color-${color}`}
+  <div className="mt-2">
+    <h2
+      className={`font-wert flex align-center justify-center font-[700] color-${color}`}
     >
-      Wert.io
-    </div>
+      Wert
+    </h2>
   </div>
 )
 

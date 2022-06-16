@@ -120,7 +120,7 @@ const RampProvider = ({ children }) => {
         <p>
           Regions: All
           <br />
-          Fee: Free
+          Fee: none
         </p>
       </>
     ),

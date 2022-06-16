@@ -9,6 +9,7 @@ const Routes = () => {
     <Router>
       <AllContextProviders>
         <AppUrlListener />
+        <Route path="/wert" page={WertPage} name="wert" />
         <Route path="/restricted" page={RestrictedPage} name="restricted" />
         <Route path="/redirect/{type}" page={RedirectPage} name="redirect" />
         <Route path="/redirect/{type}/{error}" page={RedirectPage} name="redirect" />

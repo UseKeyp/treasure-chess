@@ -1,5 +1,5 @@
 import Sentry from 'src/lib/sentry'
-import { logger } from 'src/lib/logger'
+// import { logger } from 'src/lib/logger'
 import DiscordBot, { postToChannel } from 'src/lib/discord/discord'
 
 import { botToken, clientId } from 'src/lib/discord/admin/config'

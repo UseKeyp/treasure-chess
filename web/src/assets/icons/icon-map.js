@@ -856,12 +856,7 @@ const MtPelerin = () => (
 )
 
 const Wert = ({ color = 'white' }) => (
-  <svg
-    viewBox="0 0 150 48"
-    height="25"
-    xmlns="http://www.w3.org/2000/svg"
-    class="svg"
-  >
+  <svg viewBox="0 0 150 48" height="25" xmlns="http://www.w3.org/2000/svg">
     <path
       d="M0 0.0678933L10.5471 0L19.3251 34.761L28.6474 0.0678933H37.8336L46.8837 34.761L55.8658 0.0678933H66.2088L53.0079 47.5926H41.2359L33.0023 16.0226L24.9729 47.5926H13.2009L0 0.0678933Z"
       fill={color}

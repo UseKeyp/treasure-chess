@@ -1,6 +1,6 @@
 {
   "name": "widget-integration-example",
-  "version": "1.0.7-staging.7",
+  "version": "1.0.7-staging.8",
   "description": "Example of Wert widget integration",
   "main": "index.js",
   "scripts": {

@@ -33,17 +33,21 @@ const TreasureSocial = ({ treasure }) => {
         ></script>
         <div className="treasure-social__persons">
           <div className="flex space-x-3">
-            <p>Views: {treasure?.viewCount.toLocaleString()}</p>
+            <p>
+              Views:{' '}
+              {treasure?.viewCount &&
+                Math.floor(treasure?.viewCount / 2).toLocaleString()}
+            </p>
           </div>
-          <div className="flex space-x-3">
+          <div className="flex space-x-3 mt-2 align-center">
             <p>Owner</p> <MemberLink member={treasure?.owner} />
           </div>
-          <div className="flex space-x-3">
+          <div className="flex space-x-3  align-center">
             <p>Creator</p> <MemberLink member={treasure?.minter} />
           </div>
         </div>
-        <div className="treasure-social__socials">
-          <p className="treasure-social__title">Share this Treasure</p>
+        <div className="mt-2">
+          <p>Share this Treasure</p>
           <div className="treasure-social__buttons">
             <button onClick={labelHandler}>
               {label ? (

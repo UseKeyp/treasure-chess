@@ -235,6 +235,7 @@ ${EXPLORER_BASE_URL}token/${treasure.id}`
           }
         )
         .setThumbnail(member.imageSrc)
+      logger.debug({ custom: embed })
       interaction.editReply({
         embeds: [embed],
         files: [

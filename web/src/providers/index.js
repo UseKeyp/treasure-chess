@@ -10,35 +10,39 @@ import { RampProvider } from './ramp'
 import { LocaleProvider } from './locale'
 import { OAuthProvider } from './oAuth'
 import { RedirectionProvider } from './redirection'
+import { TrackingProvider } from './tracking'
 
 const AllContextProviders = ({ children }) => {
   // Add additional context providers here
   // This will be automatically injected in to the App and Storybook
 
   return (
-    <RestrictedProvider>
-      <LocaleProvider>
-        <ThemeContextProvider>
-          <FilterProvider>
-            <ToastProvider>
-              <OAuthProvider>
-                <RedirectionProvider>
-                  <RampProvider>
+    <>
+      <RestrictedProvider>
+        <TrackingProvider />
+        <LocaleProvider>
+          <ThemeContextProvider>
+            <FilterProvider>
+              <ToastProvider>
+                <OAuthProvider>
+                  <RedirectionProvider>
                     <WalletProvider>
-                      <GamesContextProvider>
-                        <MintingProvider>
-                          <MarketProvider>{children}</MarketProvider>
-                        </MintingProvider>
-                      </GamesContextProvider>
+                      <RampProvider>
+                        <GamesContextProvider>
+                          <MintingProvider>
+                            <MarketProvider>{children}</MarketProvider>
+                          </MintingProvider>
+                        </GamesContextProvider>
+                      </RampProvider>
                     </WalletProvider>
-                  </RampProvider>
-                </RedirectionProvider>
-              </OAuthProvider>
-            </ToastProvider>
-          </FilterProvider>
-        </ThemeContextProvider>
-      </LocaleProvider>
-    </RestrictedProvider>
+                  </RedirectionProvider>
+                </OAuthProvider>
+              </ToastProvider>
+            </FilterProvider>
+          </ThemeContextProvider>
+        </LocaleProvider>
+      </RestrictedProvider>
+    </>
   )
 }
 

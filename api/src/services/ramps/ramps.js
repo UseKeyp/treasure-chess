@@ -1,6 +1,7 @@
 import { db } from 'src/lib/db'
 import { EnvelopError } from '@envelop/core'
 import { transferUsdc } from 'src/lib/web3/tokens'
+import { getRampOffUrl, getRampOnUrl } from 'src/lib/ramps'
 
 export const ramps = async () => {
   const ramps = await db.ramp.findMany({
@@ -36,4 +37,9 @@ export const rampWithdraw = async ({ type, amount }) => {
     },
   })
   return { id: tx.hash }
+}
+
+export const getRampUrl = async ({ type, direction }) => {
+  if (direction === 'ON') return getRampOnUrl({ type })
+  return getRampOffUrl({ type })
 }

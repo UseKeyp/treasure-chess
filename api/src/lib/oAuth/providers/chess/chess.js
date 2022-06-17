@@ -11,7 +11,7 @@ export const CHESS = 'CHESS'
 export const CHESS_OAUTH_URL_AUTHORIZE = 'https://oauth.chess.com/authorize'
 
 const CHESS_OAUTH_URL_TOKEN = 'https://oauth.chess.com/token'
-const CHESS_SCOPE = 'openid profile games:read'
+const CHESS_SCOPE = 'openid profile games:read email'
 const CHESS_REDIRECT_URI = process.env.APP_DOMAIN + '/redirect/chess'
 
 const params = {
@@ -99,9 +99,7 @@ export const refreshChessTokens = async (refreshToken) => {
     const response = await fetch(CHESS_OAUTH_URL_TOKEN, {
       method: 'post',
       body: encodedBody,
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     }).then((res) => {
       if (res.status == 401)
         throw new Error('Chess.com basic authorization failed')

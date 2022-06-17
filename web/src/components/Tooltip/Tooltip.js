@@ -6,6 +6,7 @@ import ReactTooltip from 'react-tooltip'
  * Position Options: Top (Default), Right, Bottom, Left
  * bgColor Options: Dark (Default), Success, Warning, Error, Info, Light
  * Effect Options: Float (Default), Solid
+ * A unique ID for each tooltip must be provided to prevent duplicate rendering of tooltips
  **/
 
 const Tooltip = ({
@@ -15,14 +16,16 @@ const Tooltip = ({
   effect,
   bgColor,
   tooltipChild,
+  id,
 }) => {
-  if (text === '' || text === undefined) {
-    text = 'React-tooltip'
+  if (!text) {
+    text = ''
   }
   return (
-    <div data-tip={text}>
+    <div data-tip={text} data-for={id}>
       {children}
       <ReactTooltip
+        id={id}
         place={position}
         type={bgColor}
         effect={effect}

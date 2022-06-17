@@ -1,5 +1,6 @@
-import { navigate } from '@redwoodjs/router'
+import { navigate, routes } from '@redwoodjs/router'
 import { isBrowser } from '@redwoodjs/prerender/browserUtils'
+import { useLocation } from '@redwoodjs/router'
 
 const LOCAL_BASIC_AUTH_KEY = 'basic_auth'
 
@@ -13,24 +14,20 @@ const passedBasicAuth = () => {
   return false
 }
 
-const RestrictedContext = React.createContext({
-  passed: passedBasicAuth(),
-  status: '',
-})
+const RestrictedContext = React.createContext()
 
 const RestrictedProvider = ({ children }) => {
   const [state, setState] = React.useState({
     passed: passedBasicAuth(),
-    status: '',
   })
-  const { status, passed } = state
+  const { pathname } = useLocation()
 
   const submitPassword = (password) => {
     if (password === process.env.BASIC_AUTH_PASSWORD) {
       if (isBrowser) {
         localStorage.setItem(LOCAL_BASIC_AUTH_KEY, password)
         setState({ passed: true })
-        navigate('/')
+        navigate(routes.home())
       }
     } else {
       setState({ status: 'Incorrect password' })
@@ -38,16 +35,16 @@ const RestrictedProvider = ({ children }) => {
   }
 
   React.useEffect(() => {
-    if (!passed) navigate('/restricted')
+    if (!state.passed) navigate(routes.restricted())
     /* eslint-disable-next-line react-hooks/exhaustive-deps*/
-  }, [])
+  }, [pathname])
 
   return (
     <RestrictedContext.Provider
       value={{
-        passed,
+        passed: state.passed,
         submitPassword,
-        status,
+        status: state.status,
       }}
     >
       {children}

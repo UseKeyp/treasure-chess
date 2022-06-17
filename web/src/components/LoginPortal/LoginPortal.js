@@ -50,7 +50,7 @@ const LoginPortal = () => {
         <div className="mt-6">
           <div className="mb-2">
             <h3 className="text-base font-bold color-grey-light text-center">
-              {t('Create a Treasure Chess account')}
+              {t('Create a Treasure Chess wallet')}
             </h3>
           </div>
           <ul className="ml-6">
@@ -94,26 +94,15 @@ const LoginPortal = () => {
           <h4>
             By continuing you acknowledge that you have read, understand, and
             agree to the
-            <a className="text-blue" href={globalConfig.TOC_URL}>
+            <a className="mx-1 text-blue" href={globalConfig.TOC_URL}>
               Terms of Service
             </a>
             and
-            <a className="text-blue" href={globalConfig.PRIVACY_POLICY_URL}>
-              Privacy Policy
-            </a>
-            .
-          </h4>
-        </Trans>
-        <Trans i18nKey="web:userAgreement2">
-          <h4 className="mt-4">
-            If you have any questions or concerns, please let us know using the
             <a
-              className="text-blue"
-              rel="noreferrer"
-              target="_blank"
-              href="/feedback"
+              className="mx-1 text-blue"
+              href={globalConfig.PRIVACY_POLICY_URL}
             >
-              Feedback Form
+              Privacy Policy
             </a>
             .
           </h4>

@@ -69,4 +69,14 @@ export const getBoardLayout = (pgn) => {
   return boardLayout
 }
 
-export const corsOrigin = process.env.APP_DOMAIN
+export const cors = {
+  origin: isProduction
+    ? process.env.APP_DOMAIN
+    : [
+        'http://0.0.0.0:8910',
+        'http://localhost:8910',
+        'http://localhost',
+        'http://10.0.2.2:8910',
+      ],
+  credentials: true,
+}

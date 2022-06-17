@@ -12,6 +12,7 @@ import { generateTreasureData } from 'src/lib/treasures'
 import { sendDiscordAdminAlert } from 'src/lib/discord/admin'
 
 import { logger } from 'src/lib/logger'
+import { updateMauticContactMinted } from 'src/lib/mautic'
 import { isProduction, isOlderThanResubmitTimeout } from 'src/lib/helpers'
 import { getAdminBalance } from './wallets/admin'
 
@@ -97,14 +98,11 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
       includeTreasureData: true,
     })
     if (!game) throw `No game found ${gameId} ${gameEndTime}`
-    logger.debug({ custom: game }, 'Game')
+    // logger.debug({ custom: game }, 'Game')
     if (game.tokenId) {
       const GAME_ALREADY_MINTED = `Purchase found, but the Treasure was already minted. `
-      return logger.info(GAME_ALREADY_MINTED)
-      // return mintFailGracefully({
-      //   mintPurchase,
-      //   errorMessage: GAME_ALREADY_MINTED,
-      // })
+      logger.info(GAME_ALREADY_MINTED)
+      return mintPurchase
     }
 
     const treasureData = generateTreasureData({
@@ -153,6 +151,7 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
           tokenUri,
           openGraphImageSrc,
         })
+        await updateMauticContactMinted({ member })
         return purchase
       }
       if (status === SUBMITTED) {

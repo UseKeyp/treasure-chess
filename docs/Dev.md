@@ -18,6 +18,7 @@ Useful for testing webhook from Wyre. Open a ngrok to your local dev environment
 
 ```bash
 ngrok http --host-header=rewrite 10.61.141.225:8910
+ngrok http --host-header=rewrite 0.0.0.0:8911
 # OR using specified domain
 ngrok http --hostname=tc-checkout-dev.ngrok.io --host-header=rewrite 0.0.0.0:8911
 

@@ -4,7 +4,7 @@ import { useSentry } from '@envelop/sentry'
 import Sentry from 'src/lib/sentry'
 
 import { getCurrentUser } from 'src/lib/auth'
-import { corsOrigin } from 'src/lib/helpers'
+import { cors } from 'src/lib/helpers'
 import { logger } from 'src/lib/logger'
 import directives from 'src/directives/**/*.{js,ts}'
 import sdls from 'src/graphql/**/*.sdl.{js,ts}'
@@ -21,7 +21,7 @@ export const handler = createGraphQLHandler({
     logger,
     options: {
       tracing: false,
-      operationName: true,
+      operationName: false,
       query: false,
       data: false,
       excludeOperations: ['gamesWithFilter'],
@@ -30,10 +30,7 @@ export const handler = createGraphQLHandler({
   directives,
   sdls,
   services,
-  cors: {
-    origin: corsOrigin,
-    credentials: 'include',
-  },
+  cors,
   extraPlugins: [
     // useRateLimiter({
     //   // https://www.envelop.dev/plugins/use-rate-limiter

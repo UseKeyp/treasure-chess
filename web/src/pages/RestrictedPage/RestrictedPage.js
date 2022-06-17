@@ -1,11 +1,11 @@
-import { useRestricted } from 'src/providers/restricted'
+import { useRestricted } from 'src/providers/restricted/restricted'
 import { MetaTags } from '@redwoodjs/web'
-import { navigate } from '@redwoodjs/router'
 
 const RestrictedPage = () => {
-  const { submitPassword, status, passed } = useRestricted()
   const [value, setValue] = React.useState('')
-  if (passed) navigate('/')
+
+  const { submitPassword, status } = useRestricted()
+
   return (
     <>
       <MetaTags title="Restricted" />

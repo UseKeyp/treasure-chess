@@ -1,0 +1,24 @@
+{
+  "name": "widget-integration-example",
+  "version": "1.0.0",
+  "description": "Example of Wert widget integration",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --config webpack.config.js",
+    "start": "webpack serve --open"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@wert-io/widget-initializer": "^1.0.1",
+    "@wert-io/widget-sc-signer": "0.0.4",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "copy-webpack-plugin": "^10.0.0",
+    "eslint": "^8.4.1",
+    "webpack": "^5.65.0",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.6.0"
+  }
+}

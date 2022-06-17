@@ -24,11 +24,13 @@ export const QUERY = gql`
       }
       owner {
         id
+        imageSrc
         username
         address
       }
       minter {
         id
+        imageSrc
         username
         address
       }

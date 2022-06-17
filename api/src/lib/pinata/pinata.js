@@ -79,7 +79,7 @@ const pinFile = async (blob, filename) => {
     }).then((res) => {
       return res.json()
     })
-    if (!response.IpfsHash) throw `Couldn't pin file: ${blob}`
+    if (!response.IpfsHash) throw `Couldn't pin file ${filename}`
     return `ipfs://${response.IpfsHash}`
   } catch (e) {
     logger.error(e)
@@ -177,7 +177,7 @@ export const pinTreasure = async ({ treasure, tcn, gameId }) => {
       image,
     }
     const stringifiedUriData = JSON.stringify(uriData)
-    logger.debug({ custom: uriData }, 'uriData')
+    // logger.debug({ custom: uriData }, 'uriData')
     const tokenUri = await pinJson(stringifiedUriData)
 
     let customLog = ''

@@ -15,7 +15,7 @@ const WertPage = () => {
         <div className="w-full sm:w-[400px]">
           <div className="wert-container w-full sm:w-[400px]">
             <div className="flex justify-center items-center h-[60px]">
-              <Icon name="wert" />
+              <Icon name="wert" color="white" />
             </div>
             {address && (
               <WertModule

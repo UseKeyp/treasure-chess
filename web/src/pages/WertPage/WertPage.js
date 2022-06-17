@@ -1,8 +1,9 @@
-import { MetaTags } from '@redwoodjs/web'
 import WertModule from '@wert-io/module-react-component'
-import { isProduction } from 'src/utils/helpers'
+
+import { MetaTags } from '@redwoodjs/web'
 
 import Icon from 'src/components/Icon'
+import { isProduction } from 'src/utils/helpers'
 
 const WertPage = () => {
   const address = new URL(location.href).searchParams.get('address')

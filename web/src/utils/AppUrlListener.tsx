@@ -1,6 +1,7 @@
-import { navigate } from '@redwoodjs/router'
 import { App, URLOpenListenerEvent } from '@capacitor/app'
+
 import { isBrowser } from '@redwoodjs/prerender/browserUtils'
+import { navigate } from '@redwoodjs/router'
 
 // const checkAppLaunchUrl = async () => {
 // const { url } = await App.getLaunchUrl()

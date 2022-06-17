@@ -1,7 +1,9 @@
+import { useEffect } from 'react'
+
 import { MetaTags } from '@redwoodjs/web'
+
 import Wallet from 'src/components/Wallet/Wallet'
 import { useTheme } from 'src/providers/theme'
-import { useEffect } from 'react'
 
 const WalletPage = () => {
   const { toggleFaqTheme } = useTheme()

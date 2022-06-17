@@ -1,8 +1,9 @@
-import LoginPortal from 'src/components/LoginPortal'
+import { useEffect } from 'react'
+
 import { MetaTags } from '@redwoodjs/web'
 
+import LoginPortal from 'src/components/LoginPortal'
 import { useTheme } from 'src/providers/theme'
-import { useEffect } from 'react'
 
 const SignInPage = () => {
   const { toggleFaqTheme } = useTheme()

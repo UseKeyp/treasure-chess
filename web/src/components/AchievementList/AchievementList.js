@@ -1,5 +1,5 @@
-import props from 'prop-types'
 import filters from '@treasure-chess/treasure-filters'
+import props from 'prop-types'
 
 import Table from 'src/components/Table'
 

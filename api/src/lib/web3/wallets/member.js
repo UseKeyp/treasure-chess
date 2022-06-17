@@ -1,8 +1,8 @@
 import { Wallet } from '@ethersproject/wallet'
-import { web3Provider, getGasSettings } from 'src/lib/web3/helpers'
 
-import { getTorusWallet } from 'src/lib/torus'
 import { logger } from 'src/lib/logger'
+import { getTorusWallet } from 'src/lib/torus'
+import { web3Provider, getGasSettings } from 'src/lib/web3/helpers'
 
 const getMemberWalletWithProvider = async (memberId) => {
   const torusWallet = await getTorusWallet(memberId)

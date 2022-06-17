@@ -1,14 +1,15 @@
-import filters from '@treasure-chess/treasure-filters'
 import { useState } from 'react'
 
-import { anyValues } from './Logic'
+import filters from '@treasure-chess/treasure-filters'
+
+import AchievementScroll from 'src/components/AchievementScroll/AchievementScroll'
+import Dropdown from 'src/components/Dropdown/Dropdown'
 import FilterCheckbox from 'src/components/FilterCheckbox/FilterCheckbox'
 import FilterPriceInput from 'src/components/FilterPriceInput/FilterPriceInput'
-import Dropdown from 'src/components/Dropdown/Dropdown'
-import AchievementScroll from 'src/components/AchievementScroll/AchievementScroll'
 import UsernameSearchBar from 'src/components/UsernameSearchBar'
-
 import { useFilter } from 'src/providers/filters'
+
+import { anyValues } from './Logic'
 
 const FilterBar = ({
   defaultParams,

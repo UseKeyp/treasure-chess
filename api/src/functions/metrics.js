@@ -1,7 +1,8 @@
-import { logger } from 'src/lib/logger'
 import client from 'prom-client'
-import Sentry from 'src/lib/sentry'
+
+import { logger } from 'src/lib/logger'
 import { getBusinessMetrics } from 'src/lib/metrics'
+import Sentry from 'src/lib/sentry'
 
 export const handler = async (event, _context) => {
   logger.debug('Invoked /metrics ')

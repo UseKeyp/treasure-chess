@@ -1,11 +1,12 @@
-import FaqSection from 'src/components/FaqSection/FaqSection'
-import { MetaTags } from '@redwoodjs/web'
-import { useTheme } from 'src/providers/theme'
-import { isBrowser } from '@redwoodjs/prerender/browserUtils'
-import globalConfig from 'src/global.config'
-import Icon from 'src/components/Icon'
-
 import { useEffect } from 'react'
+
+import { isBrowser } from '@redwoodjs/prerender/browserUtils'
+import { MetaTags } from '@redwoodjs/web'
+
+import FaqSection from 'src/components/FaqSection/FaqSection'
+import Icon from 'src/components/Icon'
+import globalConfig from 'src/global.config'
+import { useTheme } from 'src/providers/theme'
 
 const SupportPage = () => {
   const { toggleFaqTheme } = useTheme()

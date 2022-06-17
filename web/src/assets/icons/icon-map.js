@@ -1,13 +1,13 @@
-import { ReactComponent as Facebook } from './facebook.svg'
-import { ReactComponent as Search } from './search.svg'
-import { ReactComponent as Play } from './play.svg'
-import { ReactComponent as Create } from './create.svg'
+import { ReactComponent as Bishiop } from './bishop.svg'
 import { ReactComponent as Collect } from './collect.svg'
-import { ReactComponent as Share } from './share.svg'
+import { ReactComponent as Create } from './create.svg'
+import { ReactComponent as Facebook } from './facebook.svg'
 import { ReactComponent as Github } from './github.svg'
 import { ReactComponent as Help } from './help.svg'
-import { ReactComponent as Bishiop } from './bishop.svg'
+import { ReactComponent as Play } from './play.svg'
 import { ReactComponent as Rook } from './rook.svg'
+import { ReactComponent as Search } from './search.svg'
+import { ReactComponent as Share } from './share.svg'
 
 const ChessCom = ({ height = '34' }) => (
   <svg

@@ -1,17 +1,19 @@
+import { useSpring, animated } from '@react-spring/web'
+import { getAchievementNamesFromValues } from '@treasure-chess/treasure-filters'
+import { getCardHtml } from '@treasure-chess/treasure-html'
 import clsx from 'clsx'
 
-import { P } from 'src/components/Typography'
 import Loader from 'src/components/Loader'
+import { CardSkeleton } from 'src/components/LoadingSkeleton'
+import { P } from 'src/components/Typography'
+import { isMobile } from 'src/utils/helpers'
+
+import placeholderGame from './placeholderGameData'
+
 const {
   getBoardLayout,
   getBoardBase64,
 } = require('@treasure-chess/chess-image-generator')
-import { getCardHtml } from '@treasure-chess/treasure-html'
-import { getAchievementNamesFromValues } from '@treasure-chess/treasure-filters'
-import placeholderGame from './placeholderGameData'
-import { useSpring, animated } from '@react-spring/web'
-import { CardSkeleton } from 'src/components/LoadingSkeleton'
-import { isMobile } from 'src/utils/helpers'
 
 const calc = (x, y) => [-y / 140, x / 45, 1.05]
 const trans = (x, y, s) =>

@@ -1,5 +1,7 @@
 import clsx from 'clsx'
+
 import { Link } from '@redwoodjs/router'
+
 import { RowsSkeleton } from 'src/components/LoadingSkeleton/LoadingSkeleton'
 
 const Table = ({

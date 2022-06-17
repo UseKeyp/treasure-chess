@@ -1,8 +1,7 @@
-import { db } from 'src/lib/db'
 import achievementsList from '@treasure-chess/chess-achievements/src/achievementsList'
 
+import { db } from 'src/lib/db'
 import { logger } from 'src/lib/logger'
-
 import { totalSupply } from 'src/lib/web3/treasure'
 
 export const getChainData = async () => {

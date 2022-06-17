@@ -1,5 +1,4 @@
 import Icon from 'src/components/Icon'
-
 import { getBlockExplorerUrl } from 'src/utils/helpers'
 
 export const TxToast = ({ txHash, text }) => (

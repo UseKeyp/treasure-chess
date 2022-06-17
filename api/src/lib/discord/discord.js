@@ -1,6 +1,8 @@
 import fetch from 'node-fetch'
-import Sentry from 'src/lib/sentry'
+
 import { logger } from 'src/lib/logger'
+import Sentry from 'src/lib/sentry'
+
 var path = require('path')
 
 const DISCORD_NO_DM_INVOCATION =

@@ -1,10 +1,8 @@
-import GamesCell from 'src/components/Game/GamesCell'
-import GameCard from 'src/components/Game/GameCard'
 import FilterItems from 'src/components/FilterItems'
-
-import { useMinting } from 'src/providers/minting'
+import GameCard from 'src/components/Game/GameCard'
+import GamesCell from 'src/components/Game/GamesCell'
 import { GamesContext } from 'src/providers/games'
-
+import { useMinting } from 'src/providers/minting'
 import {
   MINT_STATUS_ADDING_FUNDS,
   MINT_STATUS_MINTING,

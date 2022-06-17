@@ -1,5 +1,6 @@
-import { getBusinessMetrics, getChainData } from 'src/lib/metrics'
 import { ForbiddenError } from '@redwoodjs/graphql-server'
+
+import { getBusinessMetrics, getChainData } from 'src/lib/metrics'
 
 export const chainData = () => getChainData()
 

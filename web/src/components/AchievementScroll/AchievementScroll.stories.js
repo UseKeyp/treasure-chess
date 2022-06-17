@@ -1,5 +1,6 @@
-import AchievementScroll from './AchievementScroll'
 import filters from '@treasure-chess/treasure-filters'
+
+import AchievementScroll from './AchievementScroll'
 
 export const generated = () => {
   return <AchievementScroll achievements={filters.achievementList} />

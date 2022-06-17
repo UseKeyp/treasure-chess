@@ -6,10 +6,11 @@ import {
   FieldError,
   FormError,
 } from '@redwoodjs/forms'
-import { useWallet } from 'src/providers/wallet'
-import { isHexAddress } from 'src/utils/helpers'
+
 import Button from 'src/components/Button/Button'
 import LoadingDots from 'src/components/LoadingDots/LoadingDots'
+import { useWallet } from 'src/providers/wallet'
+import { isHexAddress } from 'src/utils/helpers'
 
 const WalletFormTransfer721 = () => {
   const { transferErc721, transferErc721Loading } = useWallet()

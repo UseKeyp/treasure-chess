@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
+
 import PropTypes from 'prop-types'
 
-import { Span } from 'src/components/Typography'
 import Dropdown from 'src/components/Dropdown'
 import FilterCheckbox from 'src/components/FilterCheckbox'
 import GameByIdForm from 'src/components/GameByIdForm'
+import { Span } from 'src/components/Typography'
 import UsernameSearchBar from 'src/components/UsernameSearchBar/UsernameSearchBar'
 
 const getYearsArray = () => {

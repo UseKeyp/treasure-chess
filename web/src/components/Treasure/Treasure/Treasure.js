@@ -1,9 +1,9 @@
 import GameCard from 'src/components/Game/GameCard/GameCard'
-import TreasureSocial from 'src/components/Treasure/TreasureSocial/TreasureSocial'
-import TreasureMoves from 'src/components/Treasure/TreasureMoves/TreasureMoves'
-import TreasureMarketInteraction from 'src/components/Treasure/TreasureMarketInteraction'
 import TreasureActivity from 'src/components/Treasure/TreasureActivity/TreasureActivity'
+import TreasureMarketInteraction from 'src/components/Treasure/TreasureMarketInteraction'
+import TreasureMoves from 'src/components/Treasure/TreasureMoves/TreasureMoves'
 import TreasuresFetcher from 'src/components/Treasure/TreasuresFetcher'
+import TreasureSocial from 'src/components/Treasure/TreasureSocial/TreasureSocial'
 
 const Treasure = ({ treasure, isLoading }) => {
   const players = [treasure?.white.username, treasure?.black.username]

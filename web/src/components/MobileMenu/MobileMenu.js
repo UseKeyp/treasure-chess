@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState, useRef } from 'react'
-import { createPortal } from 'react-dom'
+
 import PropTypes from 'prop-types'
+import { createPortal } from 'react-dom'
 
 import Button from 'src/components/Button/Button'
 import Icon from 'src/components/Icon/Icon'

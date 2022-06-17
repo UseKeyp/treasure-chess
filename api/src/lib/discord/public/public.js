@@ -1,9 +1,9 @@
 // NOTE: This file is currently not included in the app. It must be included for this bot to run..
 
-import { logger } from 'src/lib/logger'
 import DiscordBot from 'src/lib/discord/discord'
-import { botToken, clientId } from 'src/lib/discord/public/config'
 import commands from 'src/lib/discord/public/commands'
+import { botToken, clientId } from 'src/lib/discord/public/config'
+import { logger } from 'src/lib/logger'
 
 logger.debug(
   {

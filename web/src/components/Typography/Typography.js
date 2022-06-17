@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+
 import { getColorFromTheme } from 'src/utils/helpers'
 
 const getSpacingStyles = (props) => {

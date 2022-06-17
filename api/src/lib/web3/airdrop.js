@@ -1,12 +1,12 @@
 import { parseEther, formatEther } from '@ethersproject/units'
-import { web3Provider } from 'src/lib/web3/helpers'
-import { sendDiscordAdminAlert } from 'src/lib/discord/admin'
-import { payerSendTransaction } from 'src/lib/web3/wallets'
-import { payerAddress } from 'src/lib/web3/wallets/payer'
-
 import { getExplorerBaseUrlFromName } from '@treasure-chess/web3-helpers'
+
+import { sendDiscordAdminAlert } from 'src/lib/discord/admin'
 import { logger } from 'src/lib/logger'
 import Sentry from 'src/lib/sentry'
+import { web3Provider } from 'src/lib/web3/helpers'
+import { payerSendTransaction } from 'src/lib/web3/wallets'
+import { payerAddress } from 'src/lib/web3/wallets/payer'
 
 const MINIMUM_GAS_THRESHOLD = '0.019' // Units of Ether
 const DEFAULT_DROP_AMOUNT = '0.025' // Units of Ether

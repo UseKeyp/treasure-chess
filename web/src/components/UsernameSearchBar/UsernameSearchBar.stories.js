@@ -1,6 +1,7 @@
+import useState from 'storybook-addon-state'
+
 import UsernameSearchBar from './UsernameSearchBar'
 
-import useState from 'storybook-addon-state'
 export const Generated = () => {
   const [username] = useState('username', '')
 

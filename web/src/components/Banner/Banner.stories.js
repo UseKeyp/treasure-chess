@@ -1,8 +1,8 @@
-import Banner from './Banner'
-
+import GameCard from 'src/components/Game/GameCard'
 import Icon from 'src/components/Icon'
 import { ConfettiExplosion } from 'src/providers/minting/modals'
-import GameCard from 'src/components/Game/GameCard'
+
+import Banner from './Banner'
 
 const game = {
   __typename: 'Game',

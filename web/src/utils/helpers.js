@@ -1,5 +1,6 @@
-import themeConfig from '../../config/tailwind.config'
 import config from 'src/global.config'
+
+import themeConfig from '../../config/tailwind.config'
 
 export const isProduction = ['prod', 'staging'].includes(
   process.env.ENVIRONMENT

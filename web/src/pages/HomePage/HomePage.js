@@ -1,14 +1,16 @@
-import FaqSection from 'src/components/FaqSection/FaqSection'
+import { useEffect } from 'react'
+
+import { useAuth } from '@redwoodjs/auth'
 import { MetaTags } from '@redwoodjs/web'
-import FeaturedPlayers from 'src/components/FeaturedPlayers/FeaturedPlayers'
-import LandingPageBoxes from 'src/components/Landingpageboxes/LandingPageBoxes'
-import HomePageHero from 'src/components/HomePageHero/HomePageHero'
-import HeadingBar from 'src/components/HeadingBar/HeadingBar'
+
 import AllTreasuresButton from 'src/components/AllTreasuresButton/AllTreasuresButton'
+import FaqSection from 'src/components/FaqSection/FaqSection'
+import FeaturedPlayers from 'src/components/FeaturedPlayers/FeaturedPlayers'
+import HeadingBar from 'src/components/HeadingBar/HeadingBar'
+import HomePageHero from 'src/components/HomePageHero/HomePageHero'
+import LandingPageBoxes from 'src/components/Landingpageboxes/LandingPageBoxes'
 import TreasuresFetcher from 'src/components/Treasure/TreasuresFetcher'
 import { useTheme } from 'src/providers/theme'
-import { useEffect } from 'react'
-import { useAuth } from '@redwoodjs/auth'
 
 const HomePage = () => {
   const { toggleFaqTheme } = useTheme()

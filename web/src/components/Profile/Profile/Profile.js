@@ -1,12 +1,12 @@
 import { useAuth } from '@redwoodjs/auth'
 import { routes } from '@redwoodjs/router'
 
-import MemberDetails from 'src/components/Member/MemberDetails'
-import MemberActivityCell from 'src/components/Member/MemberActivityCell'
-import GameExplorer from 'src/components/Game/GameExplorer'
-import TreasuresFetcher from 'src/components/Treasure/TreasuresFetcher'
-import SortingDropdown from 'src/components/SortingDropdown/SortingDropdown'
 import FilterBar from 'src/components/FilterBar/FilterBar'
+import GameExplorer from 'src/components/Game/GameExplorer'
+import MemberActivityCell from 'src/components/Member/MemberActivityCell'
+import MemberDetails from 'src/components/Member/MemberDetails'
+import SortingDropdown from 'src/components/SortingDropdown/SortingDropdown'
+import TreasuresFetcher from 'src/components/Treasure/TreasuresFetcher'
 import { useFilter } from 'src/providers/filters'
 
 const Profile = () => {

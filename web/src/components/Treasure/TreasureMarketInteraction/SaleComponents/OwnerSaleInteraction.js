@@ -1,10 +1,8 @@
-import LoadingDots from 'src/components/LoadingDots/LoadingDots'
 import Button from 'src/components/Button/Button'
-
 import FilterPriceInput from 'src/components/FilterPriceInput'
+import LoadingDots from 'src/components/LoadingDots/LoadingDots'
 // import UsernameSearchBar from 'src/components/UsernameSearchBar/UsernameSearchBar'
 import { useMarket } from 'src/providers/market'
-
 import {
   PENDING_LISTED,
   PENDING_DELISTED,

@@ -1,6 +1,6 @@
+import { SaleSkeleton } from 'src/components/LoadingSkeleton'
 import { useMarket } from 'src/providers/market'
 
-import { SaleSkeleton } from 'src/components/LoadingSkeleton'
 import BuyerSaleInteraction from './SaleComponents/BuyerSaleInteraction'
 import OwnerSaleInteraction from './SaleComponents/OwnerSaleInteraction'
 

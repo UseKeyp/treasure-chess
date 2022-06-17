@@ -1,6 +1,8 @@
 import { useLazyQuery, useMutation } from '@apollo/client'
-import { useToast } from 'src/providers/toast'
+
 import { isBrowser } from '@redwoodjs/prerender/browserUtils'
+
+import { useToast } from 'src/providers/toast'
 import popupLoadingHtml from 'src/utils/popupLoadingHtml'
 
 import {

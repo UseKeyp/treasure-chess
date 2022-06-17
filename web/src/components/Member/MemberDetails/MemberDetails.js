@@ -1,21 +1,19 @@
 import { useState } from 'react'
-import Avatar from 'src/components/Avatar'
-import Button from 'src/components/Button/Button'
-import { Link, routes } from '@redwoodjs/router'
-import { TwitchIcon } from 'src/components/Icon'
-import { useOAuth } from 'src/providers/oAuth'
-import { WalletFill, Gear } from 'framework7-icons/react'
-
-import MemberBalance from 'src/components/Member/MemberBalance'
-import MemberMintCredits from 'src/components/Member/MemberMintCredits'
-
-import globalConfig from 'src/global.config'
 
 import { getFlagBase64 } from '@treasure-chess/treasure-html'
+import { WalletFill, Gear } from 'framework7-icons/react'
 
-import { useWallet } from 'src/providers/wallet'
+import { Link, routes } from '@redwoodjs/router'
 
+import Avatar from 'src/components/Avatar'
+import Button from 'src/components/Button/Button'
+import { TwitchIcon } from 'src/components/Icon'
+import MemberBalance from 'src/components/Member/MemberBalance'
+import MemberMintCredits from 'src/components/Member/MemberMintCredits'
 import Tooltip from 'src/components/Tooltip/Tooltip'
+import globalConfig from 'src/global.config'
+import { useOAuth } from 'src/providers/oAuth'
+import { useWallet } from 'src/providers/wallet'
 
 const TWITCH = 'TWITCH'
 

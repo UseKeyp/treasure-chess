@@ -1,15 +1,14 @@
 import { useState } from 'react'
 
-import Header from 'src/components/Header'
-import SiteFooter from 'src/components/SiteFooter'
-import CampaignBanner from 'src/components/CampaignBanner/CampaignBanner'
-import Icon from 'src/components/Icon'
-
+import { Person, WalletFill, QuestionCircle } from 'framework7-icons/react'
 import { Tabbar, TabbarLink, Icon as KonstaIcon } from 'konsta/react'
+
 import { navigate, routes, useLocation } from '@redwoodjs/router'
 
-import { Person, WalletFill, QuestionCircle } from 'framework7-icons/react'
-
+import CampaignBanner from 'src/components/CampaignBanner/CampaignBanner'
+import Header from 'src/components/Header'
+import Icon from 'src/components/Icon'
+import SiteFooter from 'src/components/SiteFooter'
 import { isMobile } from 'src/utils/helpers'
 
 const DefaultLayout = ({ children }) => {

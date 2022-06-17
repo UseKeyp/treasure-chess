@@ -1,10 +1,11 @@
-import MemberDetails from 'src/components/Member/MemberDetails'
-import MemberActivityCell from 'src/components/Member/MemberActivityCell'
-import TreasuresFetcher from 'src/components/Treasure/TreasuresFetcher'
 import { routes } from '@redwoodjs/router'
-import { useFilter } from 'src/providers/filters'
-import SortingDropdown from 'src/components/SortingDropdown/SortingDropdown'
+
 import FilterBar from 'src/components/FilterBar/FilterBar'
+import MemberActivityCell from 'src/components/Member/MemberActivityCell'
+import MemberDetails from 'src/components/Member/MemberDetails'
+import SortingDropdown from 'src/components/SortingDropdown/SortingDropdown'
+import TreasuresFetcher from 'src/components/Treasure/TreasuresFetcher'
+import { useFilter } from 'src/providers/filters'
 
 const Member = ({ member, isLoading }) => {
   const { filter, sort, defaultParams } = useFilter()

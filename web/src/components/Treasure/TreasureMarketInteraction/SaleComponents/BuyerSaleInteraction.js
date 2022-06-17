@@ -1,8 +1,6 @@
-import { useMarket } from 'src/providers/market'
-
-import LoadingDots from 'src/components/LoadingDots/LoadingDots'
 import Button from 'src/components/Button/Button'
-
+import LoadingDots from 'src/components/LoadingDots/LoadingDots'
+import { useMarket } from 'src/providers/market'
 import { PENDING_SOLD, SOLD, DELISTED } from 'src/providers/market/constants'
 
 const BuyerSaleInteraction = () => {

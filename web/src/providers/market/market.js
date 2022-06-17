@@ -1,18 +1,11 @@
 import { useLazyQuery, useQuery, useMutation } from '@apollo/client'
+
 import { useAuth } from '@redwoodjs/auth'
 import { isBrowser } from '@redwoodjs/prerender/browserUtils'
-import { useToast } from 'src/providers/toast'
-import { useModal } from 'src/hooks/useModal'
-import { ConfirmModal } from './modals'
-import { TxToast } from './toasts'
-import Confetti from 'src/components/Confetti'
 
-import {
-  TREASURE_WITH_MARKET_SALES_QUERY,
-  LIST_MARKET_SALE_MUTATION,
-  UNLIST_MARKET_SALE_MUTATION,
-  BUY_MARKET_SALE_MUTATION,
-} from './graphql'
+import Confetti from 'src/components/Confetti'
+import { useModal } from 'src/hooks/useModal'
+import { useToast } from 'src/providers/toast'
 
 import {
   PENDING_LISTED,
@@ -26,6 +19,14 @@ import {
   FAILED,
   // COMPLETE,
 } from './constants'
+import {
+  TREASURE_WITH_MARKET_SALES_QUERY,
+  LIST_MARKET_SALE_MUTATION,
+  UNLIST_MARKET_SALE_MUTATION,
+  BUY_MARKET_SALE_MUTATION,
+} from './graphql'
+import { ConfirmModal } from './modals'
+import { TxToast } from './toasts'
 
 const MarketContext = React.createContext({
   marketStatus: null,

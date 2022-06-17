@@ -1,7 +1,8 @@
-import { db } from 'src/lib/db'
 import { EnvelopError } from '@envelop/core'
-import { transferUsdc } from 'src/lib/web3/tokens'
+
+import { db } from 'src/lib/db'
 import { getRampOffUrl, getRampOnUrl } from 'src/lib/ramps'
+import { transferUsdc } from 'src/lib/web3/tokens'
 
 export const ramps = async () => {
   const ramps = await db.ramp.findMany({

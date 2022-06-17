@@ -1,6 +1,8 @@
-import { mintWithCredit, pendingMintPurchases } from './mintPurchases'
-import { generateRandomTreasures } from '../../../../scripts/seed/helpers'
 import { PENDING } from 'src/lib/mintPurchases'
+
+import { generateRandomTreasures } from '../../../../scripts/seed/helpers'
+
+import { mintWithCredit, pendingMintPurchases } from './mintPurchases'
 
 jest.setTimeout(60000)
 

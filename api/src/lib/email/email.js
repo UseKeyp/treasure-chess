@@ -1,5 +1,6 @@
-import Email from 'email-templates'
 import { resolve } from 'path'
+
+import Email from 'email-templates'
 
 import { logger } from 'src/lib/logger'
 

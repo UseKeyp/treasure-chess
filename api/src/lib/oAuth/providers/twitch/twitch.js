@@ -1,11 +1,11 @@
 import fetch from 'cross-fetch'
-import { db } from 'src/lib/db'
-import { logger } from 'src/lib/logger'
-import { isDevelopment } from 'src/lib/helpers'
-import Sentry from 'src/lib/sentry'
 
+import { db } from 'src/lib/db'
+import { isDevelopment } from 'src/lib/helpers'
+import { logger } from 'src/lib/logger'
 import { encodeBody, getExpiration } from 'src/lib/oAuth/helpers'
 import { processPromotion } from 'src/lib/promotions'
+import Sentry from 'src/lib/sentry'
 
 export const TWITCH = 'TWITCH'
 export const TWITCH_OAUTH_URL_AUTHORIZE =

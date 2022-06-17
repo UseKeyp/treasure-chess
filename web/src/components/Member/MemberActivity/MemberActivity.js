@@ -1,10 +1,10 @@
 // import MiniButton from 'src/components/MiniButton'
-import Table from 'src/components/Table/Table'
-import { formatDate } from 'src/utils/helpers'
-import TreasureLink from 'src/components/TreasureLink'
-import { useMinting } from 'src/providers/minting'
-import { P } from 'src/components/Typography'
 import LoadingDots from 'src/components/LoadingDots'
+import Table from 'src/components/Table/Table'
+import TreasureLink from 'src/components/TreasureLink'
+import { P } from 'src/components/Typography'
+import { useMinting } from 'src/providers/minting'
+import { formatDate } from 'src/utils/helpers'
 import { trimString } from 'src/utils/helpers'
 
 const TITLE = t('Activity')

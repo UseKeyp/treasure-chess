@@ -1,21 +1,19 @@
 import { useCallback, useEffect } from 'react'
-import { routes, useLocation } from '@redwoodjs/router'
-import { useAuth } from '@redwoodjs/auth'
-import { useRamp } from 'src/providers/ramp/ramp'
-
-import { useLocale } from 'src/providers/locale'
 
 import { Menu } from 'framework7-icons/react'
 
-import Icon from 'src/components/Icon/Icon'
+import { useAuth } from '@redwoodjs/auth'
+import { routes, useLocation } from '@redwoodjs/router'
+
 import Avatar from 'src/components/Avatar/Avatar'
 import Button from 'src/components/Button/Button'
-import MobileMenu from 'src/components/MobileMenu/MobileMenu'
-
+import Icon from 'src/components/Icon/Icon'
 import MemberBalance from 'src/components/Member/MemberBalance'
-
-import { trimAddress } from 'src/utils/helpers'
+import MobileMenu from 'src/components/MobileMenu/MobileMenu'
 import Tooltip from 'src/components/Tooltip/Tooltip'
+import { useLocale } from 'src/providers/locale'
+import { useRamp } from 'src/providers/ramp/ramp'
+import { trimAddress } from 'src/utils/helpers'
 
 const WalletBalance = () => {
   const { deposit } = useRamp()

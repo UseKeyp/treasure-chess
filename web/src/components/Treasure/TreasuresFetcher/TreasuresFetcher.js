@@ -2,9 +2,9 @@ import { useLazyQuery } from '@apollo/client'
 import { TREASURES_PER_PAGE } from '@treasure-chess/treasure-filters'
 
 import Carousel from 'src/components/Carousel'
+import GameCard from 'src/components/Game/GameCard'
 import LoadingDots from 'src/components/LoadingDots'
 import SeeMore from 'src/components/SeeMore'
-import GameCard from 'src/components/Game/GameCard'
 import Treasures from 'src/components/Treasure/Treasures'
 
 const TREASURES_WITH_FILTER = gql`

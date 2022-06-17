@@ -1,13 +1,13 @@
-import FormData from 'form-data'
-import fetch from 'cross-fetch'
-import { logger } from 'src/lib/logger'
-import { isProduction } from 'src/lib/helpers'
-
-import { getCardHtml } from '@treasure-chess/treasure-html'
 import { getAchievementNamesFromValues } from '@treasure-chess/treasure-filters'
+import { getCardHtml } from '@treasure-chess/treasure-html'
+import fetch from 'cross-fetch'
+import FormData from 'form-data'
 
-import { getDescription, getAttributes } from 'src/lib/pinata/helpers'
 import { getGifBase64 } from 'src/lib/chessCom/gifGetter'
+import { isProduction } from 'src/lib/helpers'
+import { logger } from 'src/lib/logger'
+import { getDescription, getAttributes } from 'src/lib/pinata/helpers'
+
 import placeholderImage from './logo'
 
 const PINATA_API_URL = 'https://api.pinata.cloud'

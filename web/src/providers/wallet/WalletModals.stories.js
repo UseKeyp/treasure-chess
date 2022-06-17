@@ -1,5 +1,6 @@
-import { AddressModal } from './modals'
 import { DepositModal, WithdrawModal } from 'src/providers/ramp/ramp'
+
+import { AddressModal } from './modals'
 
 export const address = () => (
   <AddressModal

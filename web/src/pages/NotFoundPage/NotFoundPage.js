@@ -1,4 +1,5 @@
 import { MetaTags } from '@redwoodjs/web'
+
 import DefaultLayout from 'src/layouts/DefaultLayout'
 
 export default () => (

@@ -1,10 +1,10 @@
 import { routes, Link } from '@redwoodjs/router'
-import { useRedirection } from 'src/providers/redirection'
 
-import Loader from 'src/components/Loader'
-import Icon from 'src/components/Icon'
 import Button from 'src/components/Button'
+import Icon from 'src/components/Icon'
+import Loader from 'src/components/Loader'
 import SiteFooter from 'src/components/SiteFooter'
+import { useRedirection } from 'src/providers/redirection'
 import { useTheme } from 'src/providers/theme'
 
 const Redirect = ({ type }) => {

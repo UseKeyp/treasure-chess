@@ -1,8 +1,9 @@
-const playwright = require('playwright-core')
+import Sentry from 'src/lib/sentry'
+
 const chromium = require('chrome-aws-lambda')
+const playwright = require('playwright-core')
 
 // import { logger } from 'src/lib/logger'
-import Sentry from 'src/lib/sentry'
 
 export const handler = async (event, _context) => {
   // logger.debug('Invoked /screenshot')

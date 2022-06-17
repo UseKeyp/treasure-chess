@@ -1,11 +1,12 @@
-import FaqSection from 'src/components/FaqSection/FaqSection'
-import AchievementList from 'src/components/AchievementList/AchievementList'
-import Table from 'src/components/Table'
-import { MetaTags } from '@redwoodjs/web'
-import { useTheme } from 'src/providers/theme'
-import config from 'src/global.config'
-
 import { useEffect } from 'react'
+
+import { MetaTags } from '@redwoodjs/web'
+
+import AchievementList from 'src/components/AchievementList/AchievementList'
+import FaqSection from 'src/components/FaqSection/FaqSection'
+import Table from 'src/components/Table'
+import config from 'src/global.config'
+import { useTheme } from 'src/providers/theme'
 
 const FaqPage = () => {
   const { toggleFaqTheme } = useTheme()
@@ -137,7 +138,7 @@ const FaqPage = () => {
     [
       t('95% Goes to You!'),
       <Trans key="95GoesToYou" i18nkey="web:95GoesToYou">
-        We&apos;re only successful when the Chess Community is.
+        We only earn when the Chess Community earns.
         <ul>
           <li> First sale: 95% minter / 5% platform</li>
           <li>

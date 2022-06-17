@@ -1,10 +1,10 @@
-import { P } from 'src/components/Typography'
+import ProfanityFilter from 'bad-words'
 
 import Button from 'src/components/Button/Button'
 import LoadingDots from 'src/components/LoadingDots'
+import { P } from 'src/components/Typography'
 import { debounce } from 'src/utils/helpers'
 
-import ProfanityFilter from 'bad-words'
 const profanityFilter = new ProfanityFilter()
 profanityFilter.removeWords('Pawn', 'pawn')
 

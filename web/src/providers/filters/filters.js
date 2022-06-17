@@ -1,6 +1,7 @@
+import filters from '@treasure-chess/treasure-filters'
+
 import { isBrowser } from '@redwoodjs/prerender/browserUtils'
 import { gHistory } from '@redwoodjs/router/dist/history'
-import filters from '@treasure-chess/treasure-filters'
 
 const FilterContext = React.createContext({})
 

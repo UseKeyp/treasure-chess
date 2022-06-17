@@ -1,11 +1,12 @@
 /* eslint-disable no-undef */
 const { readdirSync } = require('fs')
-const { isSVG, removeExtension } = require('./utils')
+const path = require('path')
+
 const {
   generateWebIconMap,
   generateIconComponentStory,
 } = require('./generators')
-const path = require('path')
+const { isSVG, removeExtension } = require('./utils')
 
 const ICON_SOURCE_FOLDER = path.join(__dirname, '../assets/icons')
 const ICON_OUTPUT_FOLDER = path.join(__dirname, '../components/Icon')

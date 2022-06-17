@@ -1,8 +1,10 @@
 import { Set, Router, Route, Private } from '@redwoodjs/router'
-import DefaultLayout from 'src/layouts/DefaultLayout'
+
 import Loader from 'src/components/Loader'
-import AppUrlListener from './utils/AppUrlListener'
+import DefaultLayout from 'src/layouts/DefaultLayout'
 import AllContextProviders from 'src/providers'
+
+import AppUrlListener from './utils/AppUrlListener'
 
 const Routes = () => {
   return (

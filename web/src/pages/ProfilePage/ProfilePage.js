@@ -1,5 +1,6 @@
-import Profile from 'src/components/Profile/Profile'
 import { MetaTags } from '@redwoodjs/web'
+
+import Profile from 'src/components/Profile/Profile'
 
 const ProfilePage = () => {
   return (

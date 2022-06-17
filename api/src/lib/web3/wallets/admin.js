@@ -1,7 +1,8 @@
 import { Wallet } from '@ethersproject/wallet'
-import { web3Provider, getGasSettings } from 'src/lib/web3/helpers'
 
 import { logger } from 'src/lib/logger'
+import { web3Provider, getGasSettings } from 'src/lib/web3/helpers'
+
 const adminWallet = Wallet.fromMnemonic(
   process.env.APP_ADMIN_WALLET_MNEMONIC.replace(/,/g, ' ')
 )

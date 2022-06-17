@@ -1,5 +1,6 @@
-import MemberCell from 'src/components/Member/MemberCell'
 import { MetaTags } from '@redwoodjs/web'
+
+import MemberCell from 'src/components/Member/MemberCell'
 
 const MemberPage = ({ usernameOrAddress }) => {
   return (

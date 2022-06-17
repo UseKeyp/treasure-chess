@@ -1,6 +1,7 @@
+import { routes, Link } from '@redwoodjs/router'
+
 import Avatar from 'src/components/Avatar'
 import { trimAddress } from 'src/utils/helpers'
-import { routes, Link } from '@redwoodjs/router'
 
 const MemberLink = ({ member = {} }) => {
   let linkText = member.username

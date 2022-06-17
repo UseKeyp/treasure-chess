@@ -1,5 +1,6 @@
-import HeadingBar from './HeadingBar'
 import Button from '../Button/Button'
+
+import HeadingBar from './HeadingBar'
 
 export const generated = () => {
   return <HeadingBar text="Featured Players" />

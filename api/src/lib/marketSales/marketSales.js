@@ -1,12 +1,12 @@
 import { EnvelopError } from '@envelop/core'
 
 import { db } from 'src/lib/db'
+import { logger } from 'src/lib/logger'
+import { fetchMember } from 'src/lib/members'
+import { getTxStatus, getSaleTxStatus } from 'src/lib/web3'
 import { checkGasAndAirdrop } from 'src/lib/web3/airdrop'
 import { getUsdcBalance } from 'src/lib/web3/tokens'
-import { getTxStatus, getSaleTxStatus } from 'src/lib/web3'
-import { fetchMember } from 'src/lib/members'
 import { list, unlist, buy } from 'src/lib/web3/treasureMarket'
-import { logger } from 'src/lib/logger'
 
 const PENDING_LISTED = 'PENDING_LISTED'
 const LISTED = 'LISTED'

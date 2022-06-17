@@ -1,5 +1,6 @@
-import CardsListWrapper from './CardsListWrapper'
 import GameCard from '../Game/GameCard/GameCard'
+
+import CardsListWrapper from './CardsListWrapper'
 
 const games = [
   {

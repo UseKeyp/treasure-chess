@@ -1,11 +1,11 @@
 import { useEffect } from 'react'
+
 import { useAuth } from '@redwoodjs/auth'
 import { routes, navigate, useParams } from '@redwoodjs/router'
-import { useToast } from 'src/providers/toast'
 
 import Button from 'src/components/Button'
-
 import globalConfig from 'src/global.config.js'
+import { useToast } from 'src/providers/toast'
 
 const LoginPortal = () => {
   const { signUp, isAuthenticated, reauthenticate } = useAuth()

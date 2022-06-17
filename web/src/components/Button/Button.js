@@ -1,5 +1,6 @@
-import { Link } from '@redwoodjs/router'
 import PropTypes from 'prop-types'
+
+import { Link } from '@redwoodjs/router'
 
 const Button = ({
   children,

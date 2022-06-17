@@ -1,5 +1,5 @@
-import Member from 'src/components/Member/Member'
 import Loader from 'src/components/Loader'
+import Member from 'src/components/Member/Member'
 
 export const QUERY = gql`
   query FindMemberByUsernameOrAddress($usernameOrAddress: String!) {

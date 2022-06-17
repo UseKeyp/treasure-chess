@@ -1,6 +1,7 @@
-import TreasureMoves from './TreasureMoves'
-import exampleTreasures from '../../../../../scripts/seed/treasure'
 import exampleMembers from '../../../../../scripts/seed/member'
+import exampleTreasures from '../../../../../scripts/seed/treasure'
+
+import TreasureMoves from './TreasureMoves'
 
 export const generated = () => {
   return (

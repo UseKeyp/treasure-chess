@@ -1,5 +1,6 @@
-const { toPascalCase } = require('./utils')
 const { writeFileSync } = require('fs')
+
+const { toPascalCase } = require('./utils')
 
 const generateIconComponentStory = (icons, { dir }) => {
   const indexContent = [

@@ -1,12 +1,13 @@
-const CryptoJS = require('crypto-js')
 import fetch from 'node-fetch'
 
-import Sentry from 'src/lib/sentry'
 import { db } from 'src/lib/db'
 import { sendDiscordAdminAlert } from 'src/lib/discord/admin'
 import { isProduction } from 'src/lib/helpers'
 import { logger } from 'src/lib/logger'
 import { processMintPurchaseOrder } from 'src/lib/mintPurchases'
+import Sentry from 'src/lib/sentry'
+
+const CryptoJS = require('crypto-js')
 
 const DISCORD_WYRE_DASHBOARD_URL = isProduction
   ? 'https://www.sendwyre.com/#/dashboard'

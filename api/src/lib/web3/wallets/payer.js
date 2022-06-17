@@ -1,7 +1,8 @@
 import { Wallet } from '@ethersproject/wallet'
-import { web3Provider, getGasSettings } from 'src/lib/web3/helpers'
 
 import { logger } from 'src/lib/logger'
+import { web3Provider, getGasSettings } from 'src/lib/web3/helpers'
+
 const payerWallet = Wallet.fromMnemonic(
   process.env.PAYER_WALLET_MNEMONIC.replace(/,/g, ' ')
 )

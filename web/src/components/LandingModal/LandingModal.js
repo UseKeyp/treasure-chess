@@ -1,7 +1,9 @@
+import { useEffect } from 'react'
+
+import { isBrowser } from '@redwoodjs/prerender/browserUtils'
+
 import Banner from 'src/components/Banner'
 import { useModal } from 'src/hooks/useModal'
-import { useEffect } from 'react'
-import { isBrowser } from '@redwoodjs/prerender/browserUtils'
 
 export const content = (
   <>

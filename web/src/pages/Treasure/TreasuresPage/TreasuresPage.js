@@ -1,12 +1,14 @@
-import { MetaTags } from '@redwoodjs/web'
-import TreasuresFetcher from 'src/components/Treasure/TreasuresFetcher'
-import FilterBar from 'src/components/FilterBar/FilterBar'
-import SortingDropdown from 'src/components/SortingDropdown/SortingDropdown'
-import MobileMenu from 'src/components/MobileMenu/MobileMenu'
+import { useEffect, useState } from 'react'
+
 import { FunnelFill } from 'framework7-icons/react'
 
+import { MetaTags } from '@redwoodjs/web'
+
+import FilterBar from 'src/components/FilterBar/FilterBar'
+import MobileMenu from 'src/components/MobileMenu/MobileMenu'
+import SortingDropdown from 'src/components/SortingDropdown/SortingDropdown'
+import TreasuresFetcher from 'src/components/Treasure/TreasuresFetcher'
 import { useFilter } from 'src/providers/filters'
-import { useEffect, useState } from 'react'
 
 const TreasuresPage = () => {
   const { filter, sort, username, defaultParams } = useFilter()

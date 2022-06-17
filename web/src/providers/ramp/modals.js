@@ -1,16 +1,16 @@
 import { Trans, useTranslation } from 'react-i18next'
+
 import { useAuth } from '@redwoodjs/auth'
 import { Link, routes } from '@redwoodjs/router'
 
-import ModalContainer from 'src/components/ModalContainer'
-import Icon from 'src/components/Icon'
-import FilterPriceInput from 'src/components/FilterPriceInput'
-import LoadingDots from 'src/components/LoadingDots'
 import Button from 'src/components/Button'
-
-import { trimAddress, getBlockExplorerUrl } from 'src/utils/helpers'
+import FilterPriceInput from 'src/components/FilterPriceInput'
+import Icon from 'src/components/Icon'
+import LoadingDots from 'src/components/LoadingDots'
+import ModalContainer from 'src/components/ModalContainer'
 import { useRamp } from 'src/providers/ramp/ramp'
 import { useWallet } from 'src/providers/wallet'
+import { trimAddress, getBlockExplorerUrl } from 'src/utils/helpers'
 
 const Provider = ({
   error,

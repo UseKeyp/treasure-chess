@@ -1,6 +1,7 @@
-import { toast } from '@redwoodjs/web/toast'
-import { getErrorResponse } from 'src/utils/auth/helpers'
 import { isBrowser } from '@redwoodjs/prerender/browserUtils'
+import { toast } from '@redwoodjs/web/toast'
+
+import { getErrorResponse } from 'src/utils/auth/helpers'
 
 export const logIn = async (attributes) => {
   try {

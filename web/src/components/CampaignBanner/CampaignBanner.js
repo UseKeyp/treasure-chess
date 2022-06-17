@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
+
 import { routes, navigate } from '@redwoodjs/router'
 
-import Icon from 'src/components/Icon/Icon'
-import Button from 'src/components/Button/Button'
-
 import campaignConfig from 'src/bannerCampaign.config'
+import Button from 'src/components/Button/Button'
+import Icon from 'src/components/Icon/Icon'
 
 const CampaignBanner = () => {
   const [show, setShow] = useState(false)

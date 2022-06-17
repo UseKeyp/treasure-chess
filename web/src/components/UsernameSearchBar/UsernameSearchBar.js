@@ -1,8 +1,10 @@
 import { useState, useRef } from 'react'
+
 import { useLazyQuery } from '@apollo/client'
-import { debounce } from 'src/utils/helpers'
 import { sortBy } from 'lodash'
+
 import { useFilter } from 'src/providers/filters'
+import { debounce } from 'src/utils/helpers'
 
 const USERNAME_QUERY = gql`
   query usernames($query: String!, $orderBy: UserNameOrderByInput) {

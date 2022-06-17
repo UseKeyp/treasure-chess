@@ -1,5 +1,5 @@
-import { navigate, routes } from '@redwoodjs/router'
 import { isBrowser } from '@redwoodjs/prerender/browserUtils'
+import { navigate, routes } from '@redwoodjs/router'
 import { useLocation } from '@redwoodjs/router'
 
 const LOCAL_BASIC_AUTH_KEY = 'basic_auth'

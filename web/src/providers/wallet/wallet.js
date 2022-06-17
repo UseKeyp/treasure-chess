@@ -1,16 +1,17 @@
 import { useQuery } from '@apollo/client'
+
 import { useAuth } from '@redwoodjs/auth'
+import { useMutation } from '@redwoodjs/web'
 
 import { useModal } from 'src/hooks/useModal'
+import { useToast } from 'src/providers/toast'
 
-import { AddressModal } from './modals'
 import {
   MEMBER_BALANCE_QUERY,
   TRANSFER_ERC721_MUTATION,
   TRANSFER_ERC20_MUTATION,
 } from './graphql'
-import { useMutation } from '@redwoodjs/web'
-import { useToast } from 'src/providers/toast'
+import { AddressModal } from './modals'
 
 const WalletContext = React.createContext({
   balanceLoading: true,

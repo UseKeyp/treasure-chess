@@ -5,12 +5,12 @@ global.document = null
 
 import NodeManager from '@toruslabs/fetch-node-details/dist/fetchNodeDetails-node'
 import TorusUtils from '@toruslabs/torus.js/dist/torusUtils-node'
-
-import { getNewIdToken } from 'src/lib/oAuth/jwt'
 import { decode as decodeJwt } from 'jsonwebtoken'
 import { keccak256 } from 'web3-utils'
+
 import { isProduction } from 'src/lib/helpers'
 import { logger } from 'src/lib/logger'
+import { getNewIdToken } from 'src/lib/oAuth/jwt'
 
 let config = {
   network: 'ropsten',

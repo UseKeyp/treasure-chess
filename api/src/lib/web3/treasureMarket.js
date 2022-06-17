@@ -1,12 +1,14 @@
-const treasureMerketArtifact = require('@treasure-chess/treasure-contracts/artifacts/contracts/TreasureMarket.sol/TreasureMarket.json')
-import { Contract } from '@ethersproject/contracts'
-import { memberSendTransaction } from 'src/lib/web3/wallets'
-import { parseUnits } from '@ethersproject/units'
-import { web3Provider } from 'src/lib/web3/helpers'
-import { getTreasureContract } from 'src/lib/web3/treasure'
-import { getTokenContract } from 'src/lib/web3/tokens'
 import { EnvelopError } from '@envelop/core'
+import { Contract } from '@ethersproject/contracts'
+import { parseUnits } from '@ethersproject/units'
+
 import { logger } from 'src/lib/logger'
+import { web3Provider } from 'src/lib/web3/helpers'
+import { getTokenContract } from 'src/lib/web3/tokens'
+import { getTreasureContract } from 'src/lib/web3/treasure'
+import { memberSendTransaction } from 'src/lib/web3/wallets'
+
+const treasureMerketArtifact = require('@treasure-chess/treasure-contracts/artifacts/contracts/TreasureMarket.sol/TreasureMarket.json')
 
 export const getTreasureMarketContract = () => {
   try {

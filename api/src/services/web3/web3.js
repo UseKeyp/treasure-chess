@@ -1,8 +1,8 @@
 import { EnvelopError } from '@envelop/core'
 
-import { transferERC721 } from 'src/lib/web3/erc721'
-import { fetchMember } from 'src/lib/members'
 import { logger } from 'src/lib/logger'
+import { fetchMember } from 'src/lib/members'
+import { transferERC721 } from 'src/lib/web3/erc721'
 
 const validateTransfer = async ({ toAddress }) => {
   const member = await fetchMember(toAddress)

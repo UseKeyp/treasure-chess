@@ -1,11 +1,18 @@
 import { useLazyQuery, useQuery, useMutation } from '@apollo/client'
+
 import { useAuth } from '@redwoodjs/auth'
 import { isBrowser } from '@redwoodjs/prerender/browserUtils'
-import { useWallet } from 'src/providers/wallet'
+
 import { useModal } from 'src/hooks/useModal'
+import {
+  MINT_STATUS_ADDING_FUNDS,
+  MINT_STATUS_MINTING,
+  MINT_STATUS_SUCCESS,
+  FAILED,
+  COMPLETE,
+} from 'src/providers/minting/constants'
 import { useToast } from 'src/providers/toast'
-import { MintingToast } from './toasts'
-import { CancelModal, SuccessModal, MintModal } from './modals'
+import { useWallet } from 'src/providers/wallet'
 import popupLoadingHtml from 'src/utils/popupLoadingHtml'
 
 import {
@@ -14,14 +21,8 @@ import {
   MINT_WITH_CREDIT_MUTATION,
   CANCEL_PURCHASE_MUTATION,
 } from './graphql'
-
-import {
-  MINT_STATUS_ADDING_FUNDS,
-  MINT_STATUS_MINTING,
-  MINT_STATUS_SUCCESS,
-  FAILED,
-  COMPLETE,
-} from 'src/providers/minting/constants'
+import { CancelModal, SuccessModal, MintModal } from './modals'
+import { MintingToast } from './toasts'
 
 const MintingContext = React.createContext({
   mintStatus: null,

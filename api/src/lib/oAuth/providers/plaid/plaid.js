@@ -5,15 +5,15 @@ import {
   Products,
   CountryCode,
 } from 'plaid'
-import Sentry from 'src/lib/sentry'
-import { logger } from 'src/lib/logger'
 
+import { db } from 'src/lib/db'
+import { isProduction } from 'src/lib/helpers'
+import { logger } from 'src/lib/logger'
+import Sentry from 'src/lib/sentry'
 import {
   createPaymentMethodFromPlaid,
   attachBlockchainPaymentMethod,
 } from 'src/lib/wyre'
-import { db } from 'src/lib/db'
-import { isProduction } from 'src/lib/helpers'
 
 export const PLAID = 'PLAID'
 export const WYRE = 'WYRE'

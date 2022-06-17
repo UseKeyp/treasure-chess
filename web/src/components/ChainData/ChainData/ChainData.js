@@ -1,6 +1,6 @@
 import Icon from 'src/components/Icon'
-import config from 'src/global.config'
 import Table from 'src/components/Table'
+import config from 'src/global.config'
 
 const TITLE = t('Chain Data')
 const HEIGHT = 300

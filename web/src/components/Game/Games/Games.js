@@ -1,14 +1,13 @@
+import { GAMES_PER_PAGE } from '@treasure-chess/treasure-filters'
+
 import { useAuth } from '@redwoodjs/auth'
 
-import Table from 'src/components/Table'
-
-import { getOutcomeText } from 'src/utils/helpers'
-import { useMinting } from 'src/providers/minting'
-import Pagination from 'src/components/Pagination/Pagination'
-import { GAMES_PER_PAGE } from '@treasure-chess/treasure-filters'
 import LoadingDots from 'src/components/LoadingDots'
-
+import Pagination from 'src/components/Pagination/Pagination'
+import Table from 'src/components/Table'
 import { GamesContext } from 'src/providers/games'
+import { useMinting } from 'src/providers/minting'
+import { getOutcomeText } from 'src/utils/helpers'
 
 import ListItem from './components/ListItem/ListItem'
 

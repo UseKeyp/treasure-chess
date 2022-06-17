@@ -6,7 +6,6 @@ import InfiniteScroll from 'src/components/InfiniteScroll'
 import LoadingDots from 'src/components/LoadingDots'
 import { CardSkeleton } from 'src/components/LoadingSkeleton'
 import SeeMore from 'src/components/SeeMore'
-
 import { isMobile } from 'src/utils/helpers'
 
 const TreasuresList = ({

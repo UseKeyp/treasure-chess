@@ -1,15 +1,16 @@
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
+
 import { useAuth } from '@redwoodjs/auth'
 import { isBrowser } from '@redwoodjs/prerender/browserUtils'
 import { routes, Link } from '@redwoodjs/router'
-import popupLoadingHtml from 'src/utils/popupLoadingHtml'
-import { DepositModal, WithdrawModal } from 'src/providers/ramp/modals'
-import Icon from 'src/components/Icon/Icon'
 
-import { useToast } from 'src/providers/toast'
+import Icon from 'src/components/Icon/Icon'
+import { useModal } from 'src/hooks/useModal'
 import { TxToast } from 'src/providers/market/toasts'
 import { useOAuth } from 'src/providers/oAuth'
-import { useModal } from 'src/hooks/useModal'
+import { DepositModal, WithdrawModal } from 'src/providers/ramp/modals'
+import { useToast } from 'src/providers/toast'
+import popupLoadingHtml from 'src/utils/popupLoadingHtml'
 
 import {
   MEMBER_RAMPS_QUERY,

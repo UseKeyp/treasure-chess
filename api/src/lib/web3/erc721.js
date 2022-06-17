@@ -1,8 +1,9 @@
-import { web3Provider } from 'src/lib/web3/helpers'
-import { Contract } from '@ethersproject/contracts'
 import { EnvelopError } from '@envelop/core'
-import { memberSendTransaction } from 'src/lib/web3/wallets'
+import { Contract } from '@ethersproject/contracts'
+
 import { logger } from 'src/lib/logger'
+import { web3Provider } from 'src/lib/web3/helpers'
+import { memberSendTransaction } from 'src/lib/web3/wallets'
 
 export const getERC721Contract = (tokenAddress) => {
   try {

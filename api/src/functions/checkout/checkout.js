@@ -1,6 +1,6 @@
-import Sentry from 'src/lib/sentry'
 import { processOrder } from 'src/lib/checkout'
 import { logger } from 'src/lib/logger'
+import Sentry from 'src/lib/sentry'
 
 export const handler = async (event) => {
   logger.debug('Invoked /checkout')

@@ -1,6 +1,6 @@
 import filters from '@treasure-chess/treasure-filters'
-import Dropdown from 'src/components/Dropdown/Dropdown'
 
+import Dropdown from 'src/components/Dropdown/Dropdown'
 import { useFilter } from 'src/providers/filters'
 
 const SortingDropdown = () => {

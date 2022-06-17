@@ -1,5 +1,6 @@
-import Section from './Section'
 import Table from 'src/components/Table'
+
+import Section from './Section'
 export const generated = () => {
   return <Section>Some basic text</Section>
 }

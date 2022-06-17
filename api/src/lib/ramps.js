@@ -1,9 +1,9 @@
 import { EnvelopError } from '@envelop/core'
 
-import { createDepositReservation } from 'src/lib/wyre'
-import { encodeBody } from 'src/lib/oAuth/helpers'
 import { logger } from 'src/lib/logger'
+import { encodeBody } from 'src/lib/oAuth/helpers'
 import { memberSignMesage } from 'src/lib/web3/wallets'
+import { createDepositReservation } from 'src/lib/wyre'
 const MT_PELERIN = 'MT_PELERIN'
 const WYRE = 'WYRE'
 const RAMP_NETWORK = 'RAMP_NETWORK'

@@ -1,6 +1,8 @@
-import themeConfig from '../../../config/tailwind.config'
-import Background from 'src/components/Background'
 import { useState } from 'react'
+
+import Background from 'src/components/Background'
+
+import themeConfig from '../../../config/tailwind.config'
 
 const ThemeContext = React.createContext()
 

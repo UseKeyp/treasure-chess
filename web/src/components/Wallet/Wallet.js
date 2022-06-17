@@ -1,16 +1,17 @@
-import { useAuth } from '@redwoodjs/auth'
-import { routes, Link } from '@redwoodjs/router'
-import Button from 'src/components/Button'
-
-import { useRamp } from 'src/providers/ramp/ramp'
-import MemberBalance from 'src/components/Member/MemberBalance'
-import MemberMintCredits from 'src/components/Member/MemberMintCredits'
-import { trimAddress } from 'src/utils/helpers'
 import {
   ArrowUpSquareFill,
   ArrowDownSquareFill,
   PaperplaneFill,
 } from 'framework7-icons/react'
+
+import { useAuth } from '@redwoodjs/auth'
+import { routes, Link } from '@redwoodjs/router'
+
+import Button from 'src/components/Button'
+import MemberBalance from 'src/components/Member/MemberBalance'
+import MemberMintCredits from 'src/components/Member/MemberMintCredits'
+import { useRamp } from 'src/providers/ramp/ramp'
+import { trimAddress } from 'src/utils/helpers'
 
 const Wallet = () => {
   const { currentUser } = useAuth()

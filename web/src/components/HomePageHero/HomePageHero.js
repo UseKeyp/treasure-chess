@@ -1,7 +1,10 @@
+import { getCardHtml } from '@treasure-chess/treasure-html'
+
+import { routes } from '@redwoodjs/router'
+
 import Button from 'src/components/Button/Button'
 import Icon from 'src/components/Icon/Icon'
-import { routes } from '@redwoodjs/router'
-import { getCardHtml } from '@treasure-chess/treasure-html'
+
 import { game } from './data.js'
 
 const HomePageHero = () => {

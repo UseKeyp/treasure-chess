@@ -1,11 +1,12 @@
-import FaqSection from 'src/components/FaqSection/FaqSection'
-import AchievementList from 'src/components/AchievementList/AchievementList'
-import Table from 'src/components/Table'
-import { MetaTags } from '@redwoodjs/web'
-import { useTheme } from 'src/providers/theme'
-import config from 'src/global.config'
-
 import { useEffect } from 'react'
+
+import { MetaTags } from '@redwoodjs/web'
+
+import AchievementList from 'src/components/AchievementList/AchievementList'
+import FaqSection from 'src/components/FaqSection/FaqSection'
+import Table from 'src/components/Table'
+import config from 'src/global.config'
+import { useTheme } from 'src/providers/theme'
 
 const FaqPage = () => {
   const { toggleFaqTheme } = useTheme()

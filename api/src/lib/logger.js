@@ -1,4 +1,5 @@
 import { createLogger, redactionsList } from '@redwoodjs/api/logger'
+
 import { isProduction } from 'src/lib/helpers'
 /**
  * Creates a logger with RedwoodLoggerOptions

@@ -1,7 +1,7 @@
-import Games from './Games'
-
 import { GamesContext } from 'src/providers/games'
 import { ADDING_FUNDS, MINTING, SUCCESS } from 'src/providers/minting/constants'
+
+import Games from './Games'
 
 const games = [
   {

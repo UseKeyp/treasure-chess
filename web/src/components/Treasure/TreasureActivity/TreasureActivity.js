@@ -1,9 +1,8 @@
-import Table from 'src/components/Table/Table'
-
-import MemberLink from 'src/components/MemberLink'
-import { formatDate } from 'src/utils/helpers'
-import { useMarket } from 'src/providers/market'
 import LoadingDots from 'src/components/LoadingDots'
+import MemberLink from 'src/components/MemberLink'
+import Table from 'src/components/Table/Table'
+import { useMarket } from 'src/providers/market'
+import { formatDate } from 'src/utils/helpers'
 
 const TITLE = t('Activity')
 

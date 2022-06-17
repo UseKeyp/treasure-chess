@@ -1,8 +1,10 @@
-import { P } from 'src/components/Typography'
-import Icon from 'src/components/Icon'
-import { trimString } from 'src/utils/helpers'
-import { routes, Link } from '@redwoodjs/router'
 import { getRarityColor } from '@treasure-chess/treasure-html'
+
+import { routes, Link } from '@redwoodjs/router'
+
+import Icon from 'src/components/Icon'
+import { P } from 'src/components/Typography'
+import { trimString } from 'src/utils/helpers'
 
 const TreasureLink = ({ treasure }) => {
   let rarityColor = getRarityColor(treasure.achievementScore)

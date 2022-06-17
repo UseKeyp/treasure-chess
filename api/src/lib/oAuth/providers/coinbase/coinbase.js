@@ -1,8 +1,8 @@
 import fetch from 'cross-fetch'
-import { db } from 'src/lib/db'
-import Sentry from 'src/lib/sentry'
 
+import { db } from 'src/lib/db'
 import { encodeBody, getExpiration } from 'src/lib/oAuth/helpers'
+import Sentry from 'src/lib/sentry'
 
 export const COINBASE = 'COINBASE'
 export const COINBASE_OAUTH_URL_AUTHORIZE =

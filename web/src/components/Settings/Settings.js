@@ -1,7 +1,7 @@
 import { useAuth } from '@redwoodjs/auth'
-import ModalContainer from 'src/components/ModalContainer'
-import Button from 'src/components/Button'
 
+import Button from 'src/components/Button'
+import ModalContainer from 'src/components/ModalContainer'
 import { useModal } from 'src/hooks/useModal'
 
 const Settings = () => {

@@ -1,8 +1,8 @@
-import Icon from 'src/components/Icon/Icon'
-import SeeMore from 'src/components/SeeMore/SeeMore'
 import Avatar from 'src/components/Avatar/Avatar'
 import avatar from 'src/components/Avatar/chess-avatar.png'
+import Icon from 'src/components/Icon/Icon'
 import MiniButton from 'src/components/MiniButton/MiniButton'
+import SeeMore from 'src/components/SeeMore/SeeMore'
 import Tooltip from 'src/components/Tooltip/Tooltip'
 
 function onClick() {

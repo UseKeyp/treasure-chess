@@ -1,7 +1,8 @@
 import * as Sentry from '@sentry/browser'
+
 import { useAuth } from '@redwoodjs/auth'
-import { useLocation } from '@redwoodjs/router'
 import { isBrowser } from '@redwoodjs/prerender/browserUtils'
+import { useLocation } from '@redwoodjs/router'
 
 const TrackingProvider = () => {
   const { currentUser } = useAuth()

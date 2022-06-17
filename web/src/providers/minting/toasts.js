@@ -1,7 +1,6 @@
 import Icon from 'src/components/Icon'
-
-import { getBlockExplorerUrl } from 'src/utils/helpers'
 import { FAILED } from 'src/providers/minting/constants'
+import { getBlockExplorerUrl } from 'src/utils/helpers'
 export const MintingToast = ({ mintPurchase }) => {
   if (mintPurchase.status == FAILED)
     return (

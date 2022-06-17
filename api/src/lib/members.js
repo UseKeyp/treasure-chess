@@ -1,13 +1,11 @@
 import { formatEther } from '@ethersproject/units'
 
-import Sentry from 'src/lib/sentry'
+import { fetchChessMember } from 'src/lib/chessCom/chessCom'
 import { db } from 'src/lib/db'
 import { isHexAddress } from 'src/lib/helpers'
-import { fetchChessMember } from 'src/lib/chessCom/chessCom'
 import { logger } from 'src/lib/logger'
-
 import { refreshChessTokens } from 'src/lib/oAuth/providers/chess'
-
+import Sentry from 'src/lib/sentry'
 import { web3Provider } from 'src/lib/web3/helpers'
 import { getUsdcBalance } from 'src/lib/web3/tokens'
 

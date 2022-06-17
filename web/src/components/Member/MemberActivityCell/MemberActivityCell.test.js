@@ -1,4 +1,5 @@
 import { render } from '@redwoodjs/testing'
+
 import { Loading, Empty, Failure, Success } from './MemberActivityCell'
 import { standard } from './MemberActivityCell.mock'
 

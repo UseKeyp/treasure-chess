@@ -1,5 +1,6 @@
-import Redirect from 'src/components/Redirect'
 import { MetaTags } from '@redwoodjs/web'
+
+import Redirect from 'src/components/Redirect'
 
 const RedirectPage = ({ type, error }) => {
   return (

@@ -1,5 +1,6 @@
-import { MintingToast } from './toasts'
 import { FAILED, SUCCESS } from 'src/providers/minting/constants'
+
+import { MintingToast } from './toasts'
 
 const mintPurchase = {
   transaction: {

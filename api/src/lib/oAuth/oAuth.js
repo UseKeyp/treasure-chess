@@ -1,13 +1,13 @@
-import { AuthenticationError } from '@redwoodjs/graphql-server'
-import { v4 as uuidv4 } from 'uuid'
 import pkceChallenge from 'pkce-challenge'
-import Sentry from 'src/lib/sentry'
+import { v4 as uuidv4 } from 'uuid'
+
+import { AuthenticationError } from '@redwoodjs/graphql-server'
 
 import { db } from 'src/lib/db'
 import { logger } from 'src/lib/logger'
-
 import { providers, types } from 'src/lib/oAuth/providers'
 import { createPlaidLink, PLAID } from 'src/lib/oAuth/providers/plaid'
+import Sentry from 'src/lib/sentry'
 
 export const oAuthUrl = async (type) => {
   try {

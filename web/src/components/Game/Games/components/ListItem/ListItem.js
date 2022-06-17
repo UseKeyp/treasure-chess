@@ -1,18 +1,17 @@
 import React from 'react'
 
-import { P } from 'src/components/Typography'
 import MintForm from 'src/components/Game/Games/components/MintForm'
-import LoadingDots from 'src/components/LoadingDots'
-import { useMinting } from 'src/providers/minting'
-import { formatDate } from 'src/utils/helpers'
-import TreasureLink from 'src/components/TreasureLink'
 import Icon from 'src/components/Icon'
-
+import LoadingDots from 'src/components/LoadingDots'
+import TreasureLink from 'src/components/TreasureLink'
+import { P } from 'src/components/Typography'
+import { useMinting } from 'src/providers/minting'
 import {
   MINT_STATUS_ADDING_FUNDS,
   MINT_STATUS_MINTING,
   MINT_STATUS_SUCCESS,
 } from 'src/providers/minting/constants'
+import { formatDate } from 'src/utils/helpers'
 
 const mainColor = '#C4C4C4'
 

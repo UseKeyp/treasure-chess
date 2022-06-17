@@ -1,8 +1,9 @@
-import { navigate } from '@redwoodjs/router'
-import { getRedirectTo, APPROVED_LOGIN_PROVIDERS } from 'src/utils/auth/helpers'
 import { useAuth } from '@redwoodjs/auth'
-import { useOAuth } from 'src/providers/oAuth'
 import { isBrowser } from '@redwoodjs/prerender/browserUtils'
+import { navigate } from '@redwoodjs/router'
+
+import { useOAuth } from 'src/providers/oAuth'
+import { getRedirectTo, APPROVED_LOGIN_PROVIDERS } from 'src/utils/auth/helpers'
 
 const RedirectionContext = React.createContext({})
 

@@ -1,10 +1,11 @@
 import { JsonRpcProvider, InfuraProvider } from '@ethersproject/providers'
-const { getIdFromNetworkName } = require('@treasure-chess/web3-helpers')
 import { parseUnits } from '@ethersproject/units'
 import fetch from 'cross-fetch'
-import { logger } from 'src/lib/logger'
 
 import { isProduction } from 'src/lib/helpers'
+import { logger } from 'src/lib/logger'
+
+const { getIdFromNetworkName } = require('@treasure-chess/web3-helpers')
 const CHAIN_ID = getIdFromNetworkName(process.env.ETHEREUM_NETWORK_NAME)
 export const DEFAULT_GAS_MAX_PRIORITY_FEE_PER_GAS = parseUnits('2', 'gwei')
 export const DEFAULT_GAS_MAX_FEE_PER_GAS = parseUnits('10', 'gwei')

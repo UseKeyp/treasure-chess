@@ -1,8 +1,6 @@
 import achievementsCalculator from '@treasure-chess/chess-achievements'
-const { id: sha3 } = require('@ethersproject/hash')
+import filters, { GAMES_PER_PAGE } from '@treasure-chess/treasure-filters'
 
-import { db } from 'src/lib/db'
-import { fetchMember } from 'src/lib/members'
 import {
   fetchChessGames,
   fetchChessGame,
@@ -11,9 +9,12 @@ import {
 } from 'src/lib/chessCom/chessCom'
 import { parseGameFromChessDotCom } from 'src/lib/chessCom/gameParsing'
 import { getGifUrl } from 'src/lib/chessCom/gifGetter'
+import { db } from 'src/lib/db'
 import { getBoardLayout } from 'src/lib/helpers'
 import { logger } from 'src/lib/logger'
-import filters, { GAMES_PER_PAGE } from '@treasure-chess/treasure-filters'
+import { fetchMember } from 'src/lib/members'
+
+const { id: sha3 } = require('@ethersproject/hash')
 
 const getRarity = (score) => {
   if (score < 6) return filters.rarityList[0]

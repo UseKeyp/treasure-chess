@@ -1,9 +1,9 @@
 import { db } from 'src/lib/db'
+import { processPendingMarketTransactions } from 'src/lib/marketSales'
 import {
   getTreasuresWithFilter,
   getTreasuresWithFilterCount,
 } from 'src/lib/treasures'
-import { processPendingMarketTransactions } from 'src/lib/marketSales'
 
 export const treasuresWithFilter = ({ username, owner, sort, filter, page }) =>
   getTreasuresWithFilter({ username, owner, sort, filter, page })

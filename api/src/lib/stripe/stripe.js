@@ -29,7 +29,6 @@ export const createCheckoutSession = async ({ metadata }) => {
     success_url: `${YOUR_DOMAIN}/redirect/stripe`,
     cancel_url: `${YOUR_DOMAIN}/redirect/stripe?error=cancelled`,
   })
-
   return { url: session.url, paymentIntentId: session.payment_intent }
 }
 

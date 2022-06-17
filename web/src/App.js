@@ -41,7 +41,7 @@ class AuthProviderExtended extends AuthProvider {
 const App = () => (
   <FatalErrorBoundary page={FatalErrorPage}>
     <KonstaProvider theme="ios" dark>
-      <RedwoodProvider titleTemplate="%AppTitle | %PageTitle">
+      <RedwoodProvider titleTemplate="%PageTitle | %AppTitle">
         <AuthProviderExtended
           type="dbAuth"
           config={{ fetchConfig: { credentials: 'include' } }}

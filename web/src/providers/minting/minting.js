@@ -197,7 +197,7 @@ const MintingProvider = ({ children }) => {
           mintLoading: false,
         })
         myWindow.document.write(
-          `<h3>Oops! An error occured<br/><br/>Sending you back...</h3>`
+          `<h3>Oops! An error occured<br/><br/>Sending you back...</h3><p>${error.message}</p>`
         )
         setTimeout(() => {
           myWindow.close()

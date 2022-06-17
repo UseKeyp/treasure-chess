@@ -2,6 +2,7 @@ import { EnvelopError } from '@envelop/core'
 import ProfanityFilter from 'bad-words'
 
 import { logger } from 'src/lib/logger'
+
 const chess = require('chess.js')
 const Chess = chess.Chess
 

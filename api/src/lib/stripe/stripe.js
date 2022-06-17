@@ -2,8 +2,8 @@ const stripe = require('stripe')(
   'sk_test_51IVOfvKppq5fi3qACb9WM00CtaWa2Bx9zKSLaMNIcDCJYQGWXqCNvLtUtOgx5VTaASG6jkRjmlR31EKO3x5DlOVr00K2VzJsxP'
 )
 
-import { isProduction } from 'src/lib/helpers'
 import { db } from 'src/lib/db'
+import { isProduction } from 'src/lib/helpers'
 import { processMintPurchaseOrder } from 'src/lib/mintPurchases'
 import Sentry from 'src/lib/sentry'
 

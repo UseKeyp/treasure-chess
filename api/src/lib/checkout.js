@@ -1,6 +1,7 @@
 import Sentry from 'src/lib/sentry'
 
 import { processWyreWebhook } from 'src/lib/wyre'
+import { processWertWebhook } from 'src/lib/wert'
 import { processStripeWebhook } from 'src/lib/stripe'
 import { sendDiscordAdminAlert } from 'src/lib/discord/admin'
 import { logger } from 'src/lib/logger'
@@ -11,6 +12,9 @@ export const processOrder = async ({ body, stripeSignature }) => {
       // Stripe order
       await processStripeWebhook({ body, stripeSignature })
     } else {
+      logger.debug({ custom: body })
+      const { order } = body
+      if (order) return processWertWebhook({ body })
       await processWyreWebhook({ body })
     }
   } catch (e) {

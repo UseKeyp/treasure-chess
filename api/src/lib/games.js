@@ -122,7 +122,7 @@ export const getGamesWithFilter = async ({ username, filter, page = 0 }) => {
   const month = filterObj.month || now.getMonth()
 
   let games = []
-  logger.debug({ custom: filterObj }, 'filterObj')
+  // logger.debug({ custom: filterObj }, 'filterObj')
   if (filterObj.url) {
     let gameById = await fetchGameByIdOrUrl(filterObj.url)
     // We don't trust the new v1/games endpoint, so we just grab the endtime

@@ -137,7 +137,7 @@ const FaqPage = () => {
     [
       t('95% Goes to You!'),
       <Trans key="95GoesToYou" i18nkey="web:95GoesToYou">
-        We&apos;re only successful when the Chess Community is.
+        We don't earn unless the Chess Community earns.
         <ul>
           <li> First sale: 95% minter / 5% platform</li>
           <li>

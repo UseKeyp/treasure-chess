@@ -3,10 +3,59 @@ import ModalContainer from 'src/components/ModalContainer'
 import Button from 'src/components/Button'
 
 import { useModal } from 'src/hooks/useModal'
+import Dropdown from 'src/components/Dropdown/Dropdown'
+import { languageData } from '@treasure-chess/localization'
+import { isBrowser } from 'src/utils/helpers'
+import { toast } from '@redwoodjs/web/toast'
+import { useLocale } from 'src/providers/locale/locale'
 
 const Settings = () => {
   const { isVisible: isVisibleBeta, toggleModal: toggleModalBeta } = useModal()
   const { currentUser } = useAuth()
+
+  const getLocaleCode = () => {
+    if (!isBrowser) return // Support prerender
+    return localStorage.getItem('i18nextLng')
+  }
+
+  const { setLocale } = useLocale()
+  const [defaultLocale] = React.useState(getLocaleCode())
+  const [localeError, setLocaleError] = React.useState('')
+  const [matchedLocale, _setMatchedLocale] = React.useState(getMatchedLocale())
+
+  function setMatchedLocale(newLocale) {
+    if (newLocale) {
+      const matched = languageData.find((lang) => lang.value === newLocale)
+      localStorage.setItem(
+        'i18nextLng',
+        matched.id.toString() + '-' + matched.region.toString()
+      )
+      _setMatchedLocale(matched.value)
+      try {
+        setLocale(matched.id.toString() + '-' + matched.region.toString())
+        toast.success('Changes saved')
+      } catch (e) {
+        setLocaleError(e.message)
+      }
+    } else {
+      const fallbackLocale = languageData.find(
+        (lang) => lang.id + '-' + lang.region === defaultLocale
+      )
+      localStorage.setItem(
+        'i18nextLng',
+        fallbackLocale.id.toString() + '-' + fallbackLocale.region.toString()
+      )
+      _setMatchedLocale(fallbackLocale.value)
+    }
+  }
+
+  function getMatchedLocale() {
+    const matchedLocale = languageData.find(
+      (lang) => lang.id + '-' + lang.region === defaultLocale
+    )
+    return matchedLocale.value
+  }
+
   if (!currentUser) {
     return <></>
   }
@@ -124,6 +173,21 @@ const Settings = () => {
           </div>
         }
       />
+      <div className="p-4 mt-6 rounded-lg bg-chessBlack-100">
+        <div className="flex flex-col">
+          <div className="text-sm">Language</div>
+        </div>
+        <div className="mt-2">
+          <Dropdown
+            category={'Change your preferred language'}
+            default={defaultLocale}
+            options={languageData.sort().map((lang) => lang.value)}
+            queryFilterFunction={setMatchedLocale}
+            queryFilter={matchedLocale}
+          />
+        </div>
+        <div className="text-errorYellow text-sm mt-2">{localeError}</div>
+      </div>
     </div>
   )
 }

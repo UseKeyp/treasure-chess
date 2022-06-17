@@ -66,6 +66,12 @@ docker-api:
     ENV ENVIRONMENT='local'
     COPY +build-app/api/dist /api/dist
     COPY +build-app/api/db /api/db
+    COPY +build-app/node_modules/.prisma node_modules/.prisma
+    COPY tasks/environment tasks/environment
+    COPY .env.dev.js.enc .
+    COPY .env.sandbox.js.enc .
+    COPY .env.staging.js.enc .
+    COPY .env.prod.js.enc .
     COPY serve-api.sh .
     COPY redwood.toml .
     COPY graphql.config.js .

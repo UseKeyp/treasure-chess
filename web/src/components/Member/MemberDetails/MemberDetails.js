@@ -20,20 +20,14 @@ import Tooltip from 'src/components/Tooltip/Tooltip'
 const TWITCH = 'TWITCH'
 
 const TwitchLink = ({ isProfile, username: twitchUsername }) => {
-  const { getOAuthUrl, revokeOAuth, isLoading } = useOAuth()
+  const { openOAuthUrl, revokeOAuth, isLoading } = useOAuth()
   const [username, setUsername] = useState(twitchUsername)
   const onClickTwitch = async () => {
     if (username) {
       const revoked = await revokeOAuth(TWITCH)
       if (revoked) setUsername('')
     } else {
-      const oAuthUrl = await getOAuthUrl(TWITCH)
-      if (oAuthUrl)
-        window.open(
-          oAuthUrl.url,
-          'Twitch - Connect',
-          'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
-        )
+      await openOAuthUrl(TWITCH)
     }
   }
   if (isProfile) {

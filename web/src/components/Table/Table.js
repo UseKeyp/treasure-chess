@@ -58,7 +58,11 @@ const Table = ({
   return (
     <div
       className="table-wrapper"
-      style={{ height, width, backgroundColor: bgColor }}
+      style={{
+        height,
+        width,
+        backgroundColor: bgColor,
+      }}
     >
       <h1 className="table-header">{title}</h1>
       <div className="table-component">{contents}</div>

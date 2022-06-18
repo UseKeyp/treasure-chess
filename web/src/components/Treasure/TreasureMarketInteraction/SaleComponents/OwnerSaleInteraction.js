@@ -44,6 +44,7 @@ const OwnerSaleInteraction = () => {
               <FilterPriceInput value={listAmount} setValue={setListAmount} />
             </div>
             <Button
+              disabled={!listAmount}
               className={`w-28 h-[40px] text-xl ml-2 hover:bg-green hover:shadow-greenDark ${
                 actionStatus === PENDING_LISTED && 'pointer-events-none'
               }`}

@@ -18,29 +18,30 @@ const AllContextProviders = ({ children }) => {
 
   return (
     <>
-      {process.env.environment !== 'prod' && <RestrictedProvider />}
-      <TrackingProvider />
-      <LocaleProvider>
-        <ThemeContextProvider>
-          <FilterProvider>
-            <ToastProvider>
-              <OAuthProvider>
-                <RedirectionProvider>
-                  <WalletProvider>
-                    <RampProvider>
-                      <GamesContextProvider>
-                        <MintingProvider>
-                          <MarketProvider>{children}</MarketProvider>
-                        </MintingProvider>
-                      </GamesContextProvider>
-                    </RampProvider>
-                  </WalletProvider>
-                </RedirectionProvider>
-              </OAuthProvider>
-            </ToastProvider>
-          </FilterProvider>
-        </ThemeContextProvider>
-      </LocaleProvider>
+      <RestrictedProvider>
+        <TrackingProvider />
+        <LocaleProvider>
+          <ThemeContextProvider>
+            <FilterProvider>
+              <ToastProvider>
+                <OAuthProvider>
+                  <RedirectionProvider>
+                    <WalletProvider>
+                      <RampProvider>
+                        <GamesContextProvider>
+                          <MintingProvider>
+                            <MarketProvider>{children}</MarketProvider>
+                          </MintingProvider>
+                        </GamesContextProvider>
+                      </RampProvider>
+                    </WalletProvider>
+                  </RedirectionProvider>
+                </OAuthProvider>
+              </ToastProvider>
+            </FilterProvider>
+          </ThemeContextProvider>
+        </LocaleProvider>
+      </RestrictedProvider>
     </>
   )
 }

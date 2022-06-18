@@ -27,7 +27,7 @@ services:
       REDWOOD_API_URL: 'http://0.0.0.0:8911'
       # To connect to a local database, run ifconfig docker0 and update the host for the database.
       # Learn more: https://stackoverflow.com/questions/31249112/allow-docker-container-to-connect-to-a-local-host-postgres-database
-      # DATABASE_URL: postgres://username:password@database:5432/treasurechessplayground?connection_limit=1
+      DATABASE_URL: postgres://username:password@database:5432/treasurechessplayground?connection_limit=1
   web:
     image: pi0neerpat/treasure-chess-web:latest
     # image: ghcr.io/pi0neerpat/treasure-chess-web:latest

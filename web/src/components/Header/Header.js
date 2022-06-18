@@ -117,8 +117,10 @@ const Header = () => {
   const address = trimAddress(profile?.address) || 'No address set'
 
   const handleUserStatus = useCallback(() => {
-    if (profile !== null && profile?.banned) {
-      logOut()
+    if (profile) {
+      if (profile?.banned) {
+        logOut()
+      }
     }
   }, [profile, logOut])
 

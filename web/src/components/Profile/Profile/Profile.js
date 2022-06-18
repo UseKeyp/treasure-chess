@@ -24,26 +24,6 @@ const Profile = () => {
           <MemberActivityCell usernameOrAddress={currentUser?.username} />
         </div>
       </div>
-
-      <div className="how-to-mint justify-center mt-6 p-4 bg-chessBlack-200">
-        <div className="mb-2">
-          <div className="text-lg">✨</div>
-          <div className="flex justify-between">
-            <h3 className="text-base font-bold color-grey-light">
-              {t('How to mint new treasures')}
-            </h3>
-          </div>
-        </div>
-        <p className="answer-container text-sm font-normal color-grey-light tracking-tight">
-          {t(
-            'Click a game below and enter a title. The fee for Minting is $5. You can use your Mint Credits or a debit card.'
-          )}
-        </p>
-      </div>
-      <h1 className="mt-10">{t('Mint new Treasures')}</h1>
-      <div className="mt-4">
-        <GameExplorer />
-      </div>
       <h1 className="mt-10">{t('Treasures Played')}</h1>
       <div className="flex mt-4">
         <TreasuresFetcher
@@ -52,6 +32,10 @@ const Profile = () => {
           seeMore={routes.treasures({ username: currentUser?.username })}
           sort="Highest Level"
         />
+      </div>
+      <h1 className="mt-10">{t('Mint new Treasures')}</h1>
+      <div className="mt-4">
+        <GameExplorer />
       </div>
       <h1 className="mt-10">{t('Treasures Owned')}</h1>
       <div className="flex mt-4">

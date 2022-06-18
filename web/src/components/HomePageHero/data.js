@@ -3,7 +3,7 @@ export const game = {
   createdAt: '2022-01-18T16:42:56.391Z',
   black: {
     username: 'Alice',
-    country: 'US',
+    country: 'CA',
     imageSrc:
       'https://lh3.googleusercontent.com/Q_9RVADPqO7JhaqsMo4x7bhcU7mKvFu4aAllfsuBr68OXqjhpbixnSGNTC-nfypQ5r3XV91q-VGxJIfirCN9QbRvVgufkQg_qCjR4g=w600',
     id: '106292268',
@@ -12,7 +12,7 @@ export const game = {
   white: {
     imageSrc:
       'https://lh3.googleusercontent.com/ddPzEJK044rGqrcWJ7waioVH9FwrCeymrxBB6RdHBX8V8fSRl2on5ntT2wszdeepODJ5Y2gVU35KCNy_48JZJbU7l5mn3M3xT91k2Wg=w600',
-    country: 'IN',
+    country: 'US',
     username: 'Joseph',
     id: '8538400',
     __typename: 'Member',
@@ -45,8 +45,8 @@ export const game = {
   externalUrl: 'https://www.chess.com/game/live/37327285807',
   opening: 'Giuoco Piano',
   achievements: ['750+ Winner', 'Pawn Shy', 'The Underdog'],
-  achievementScore: 6,
-  rarity: 'Great',
+  achievementScore: 14,
+  rarity: 'Mythic',
   tokenId: 1,
   __typename: 'Treasure',
 }

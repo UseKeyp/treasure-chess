@@ -55,7 +55,7 @@ const Settings = () => {
         <Button
           variant="blue"
           size="small"
-          // className="w-32"
+          className="w-32"
           onClick={toggleModalBeta}
         >
           {t('Request')}
@@ -78,13 +78,13 @@ const Settings = () => {
         {items.map((item) => (
           <div
             key={item.title}
-            className={`grid grid-cols-${
-              item.hideButton ? '3' : '4'
-            } gap-4 align-center  bg-chessBlack-100 mt-6 p-4 rounded-lg border-[1px] ${
+            className={`grid ${
+              item.hideButton ? 'grid-cols-1' : 'grid-cols-2'
+            } align-center gap-4 bg-chessBlack-100 mt-6 p-4 rounded-lg border-[1px] ${
               item.highlight ? 'border-green' : 'border-chessBlack-100'
             }`}
           >
-            <div className="col-span-2 sm:col-span-3">
+            <div className="">
               <div className="flex align-center items-center">
                 {item.iconContent || <h3>{item.title}</h3>}
               </div>
@@ -100,7 +100,7 @@ const Settings = () => {
               {item.helperText && <div className="mt-3">{item.helperText}</div>}
             </div>
             {!item.hideButton && item.button && (
-              <div className="col-span-2 sm:col-span-1 flex justify-end ">
+              <div className="flex justify-end ">
                 <div>{item.button}</div>
               </div>
             )}

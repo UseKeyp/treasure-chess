@@ -3,26 +3,23 @@
   background-color: #272522;
   border-radius: 12px;
   width: 100%;
-  // max-height: 80px;
 }
 .treasure-social {
-  display: flex;
   flex-wrap: wrap;
   width: 100%;
-  max-height: 80px;
   justify-content: space-between;
-
   &__persons {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    gap: .25rem;
+    justify-content: center;
+    gap: 0.25rem;
   }
 
   &__buttons {
     margin-top: 8px;
     display: flex;
-    justify-content: space-around;
+    width: 30%;
+    justify-content: space-between;
     align-items: center;
   }
 }

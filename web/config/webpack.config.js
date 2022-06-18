@@ -38,6 +38,12 @@ module.exports = (config, { mode }) => {
     crypto: require.resolve(`crypto-browserify`),
     path: require.resolve('path-browserify'),
   }
+  config.module.rules.push({
+    test: /\.m?js/,
+    resolve: {
+      fullySpecified: false,
+    },
+  })
   config.plugins.push(
     new webpack.ProvidePlugin({
       process: 'process/browser',

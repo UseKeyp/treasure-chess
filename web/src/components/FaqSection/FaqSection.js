@@ -5,12 +5,10 @@ const FaqItem = ({ icon, question, answer, feature }) => {
       <div className="mb-2">
         {icon ? <div className="text-lg">{icon}</div> : <></>}
         <div className="flex justify-between">
-          <h2 className=" font-bold color-grey-light">{question}</h2>
+          <h2 className="">{question}</h2>
         </div>
       </div>
-      <p className="answer-container text-sm font-normal color-grey-light tracking-tight">
-        {answer}
-      </p>
+      <div className="answer-container text-base">{answer}</div>
     </div>
   )
 }

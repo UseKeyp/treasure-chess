@@ -2,6 +2,7 @@ import { P } from 'src/components/Typography'
 
 import Button from 'src/components/Button/Button'
 import LoadingDots from 'src/components/LoadingDots'
+import { debounce } from 'src/utils/helpers'
 
 import ProfanityFilter from 'bad-words'
 const profanityFilter = new ProfanityFilter()
@@ -17,11 +18,15 @@ const MintForm = ({
   const [inputValue, setInputValue] = React.useState('')
   const [errorText, setErrorText] = React.useState('')
 
+  const debounceChange = debounce((args) => {
+    onChangeTitle(...args)
+    setErrorText('')
+  }, 1000)
+
   const handleChange = (e) => {
     if (isMinting) return
-    setErrorText('')
     setInputValue(e.target.value)
-    onChangeTitle(e.target.value)
+    debounceChange(e.target.value)
   }
 
   const handleSubmit = () => {
@@ -43,10 +48,6 @@ const MintForm = ({
     if (str.length > 25) return `Title must be 25 characters or less`
     return ''
   }
-
-  // React.useEffect(() => {
-  //   setInputValue('')
-  // }, [])
 
   React.useEffect(() => {
     setErrorText(queryErrorText)

@@ -87,7 +87,7 @@ const terminationList = [
     value: 'Agreement',
   },
   {
-    name: 'Draw by repetition',
+    name: 'Draw by Repetition',
     code: 'repetition',
     value: 'Repetition',
   },
@@ -107,7 +107,7 @@ const terminationList = [
     value: 'Insufficient',
   },
   {
-    name: 'Draw by 50-move rule',
+    name: 'Draw by 50-Move Rule',
     code: '50move',
     value: 'FiftyMove',
   },
@@ -117,32 +117,32 @@ const terminationList = [
     value: 'Abandoned',
   },
   {
-    name: 'Opponent king reached the hill',
+    name: 'Opponent King Reached the Hill',
     code: 'kingofthehill',
-    Value: 'KingOfTheHill',
+    value: 'KingOfTheHill',
   },
   {
-    name: 'Checked for the 3rd time',
+    name: 'Checked for the Third Time',
     code: 'threecheck',
     value: 'ThreeCheck',
   },
   {
-    name: 'Draw by timeout vs insufficient material',
+    name: 'Draw by Timeout vs Insufficient Material',
     code: 'timevsinsufficient',
     value: 'TimeVsInsufficient',
   },
   {
-    name: 'Bughouse partner lost',
+    name: 'Bughouse Partner Lost',
     code: 'bughousepartnerlose',
     value: 'BughousePartnerLose',
   },
   {
-    name: 'Losers all captured',
+    name: 'Losers All Captured',
     code: 'losersallcaptured',
     value: 'LosersAllCaptured',
   },
   {
-    name: 'Losers stalemate',
+    name: 'Losers Stalemate',
     code: 'losersstalemate',
     value: 'LosersStalemate',
   },

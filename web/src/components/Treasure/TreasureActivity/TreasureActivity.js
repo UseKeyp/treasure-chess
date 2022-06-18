@@ -38,7 +38,7 @@ const TreasureActivity = ({ treasure, isLoading }) => {
 
   return (
     <div>
-      <Table title={TITLE} isLoading={isLoading} height={150} data={list} />
+      <Table title={TITLE} isLoading={isLoading} height={275} data={list} />
     </div>
   )
 }

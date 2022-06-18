@@ -1,5 +1,7 @@
 import { useLazyQuery, useMutation } from '@apollo/client'
 import { useToast } from 'src/providers/toast'
+import { isBrowser } from '@redwoodjs/prerender/browserUtils'
+import popupLoadingHtml from 'src/utils/popupLoadingHtml'
 
 import {
   OAUTH_URL_QUERY,
@@ -32,8 +34,31 @@ const OAuthProvider = ({ children }) => {
       setState({})
       return data.oAuthUrl
     } catch (e) {
-      const errorMessage = `Error fetching ${type} link. ${e?.message}`
+      const errorMessage = `getOAuthUrl() Error fetching ${type}. ${e?.message}`
       return setState({ error: errorMessage, isLoading: false })
+    }
+  }
+  const openOAuthUrl = async (type) => {
+    let myWindow
+    try {
+      if (isBrowser) {
+        myWindow = window.open(
+          '',
+          '_blank',
+          'width=600,height=1000,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes'
+        )
+        myWindow.document.write(popupLoadingHtml)
+        const oAuthUrl = await getOAuthUrl(type)
+        myWindow.location = oAuthUrl.url
+      }
+    } catch (e) {
+      setState({ error: e?.message, isLoading: false })
+      myWindow.document.write(
+        `<h3>Oops! An error occured<br/><br/>Sending you back...</h3><p>${e?.message}</p>`
+      )
+      setTimeout(() => {
+        myWindow.close()
+      }, 3000)
     }
   }
   const revokeOAuth = async (type) => {
@@ -84,6 +109,7 @@ const OAuthProvider = ({ children }) => {
         isLoading: state.isLoading,
         error: state.error,
         getOAuthUrl,
+        openOAuthUrl,
         submitCodeGrant,
         revokeOAuth,
       }}

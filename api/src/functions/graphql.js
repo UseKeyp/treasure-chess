@@ -21,7 +21,7 @@ export const handler = createGraphQLHandler({
     logger,
     options: {
       tracing: false,
-      operationName: true,
+      operationName: false,
       query: false,
       data: false,
       excludeOperations: ['gamesWithFilter'],

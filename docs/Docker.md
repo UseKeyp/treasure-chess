@@ -1,5 +1,32 @@
 ## Docker
 
+### GCP registry
+
+Project name: `us-east4-docker.pkg.dev/chess-gcr1/treasure-chess`
+
+1. Setup docker to use the GCP registry using the google CLI https://cloud.google.com/sdk/docs/install, or do it manually.
+
+```bash
+gcloud auth configure-docker us-east4-docker.pkg.dev
+```
+
+Which just updates `/home/dev/.docker/config.json` to:
+
+```json
+{
+  "credHelpers": {
+    "us-east4-docker.pkg.dev": "gcloud"
+  }
+}
+```
+
+2. Base64 decode the SA key that we were given by chess to `credentials.json` (see the github action for command)
+3. Docker login to registry https://cloud.google.com/artifact-registry/docs/docker/authentication#json-key
+
+```
+cat credentials.json | docker login -u _json_key --password-stdin us-east4-docker.pkg.dev/chess-gcr1/treasure-chess
+```
+
 ### Overview
 
 **Web Docker image:**

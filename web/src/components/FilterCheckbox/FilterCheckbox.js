@@ -3,6 +3,7 @@ const FilterCheckbox = (props) => {
   const currentSelection = props.queryFilter
   const options = props.options
   const deselect = props.deselect
+  const category = props.category
 
   const handleSelectionUpdate = (data) => {
     deselect
@@ -11,7 +12,6 @@ const FilterCheckbox = (props) => {
         : setCurrentSelection(data)
       : setCurrentSelection(data)
   }
-
   return (
     <div className="checkBoxContainer">
       <h4>{props.category}</h4>
@@ -19,7 +19,11 @@ const FilterCheckbox = (props) => {
         {options?.map((option, index) => {
           return (
             <FilterListItem
-              isSelected={currentSelection === option}
+              isSelected={
+                category === 'Master Title'
+                  ? currentSelection === option
+                  : currentSelection?.includes(option)
+              }
               label={option}
               clickFunction={handleSelectionUpdate}
               keyVal={`${option}-${index}`}

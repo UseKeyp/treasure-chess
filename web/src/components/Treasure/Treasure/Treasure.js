@@ -4,6 +4,8 @@ import TreasureMoves from 'src/components/Treasure/TreasureMoves/TreasureMoves'
 import TreasureMarketInteraction from 'src/components/Treasure/TreasureMarketInteraction'
 import TreasureActivity from 'src/components/Treasure/TreasureActivity/TreasureActivity'
 import TreasuresFetcher from 'src/components/Treasure/TreasuresFetcher'
+import { MetaTags } from '@redwoodjs/web'
+import { trimString } from 'src/utils/helpers'
 
 const Treasure = ({ treasure, isLoading }) => {
   const players = [treasure?.white.username, treasure?.black.username]
@@ -12,6 +14,11 @@ const Treasure = ({ treasure, isLoading }) => {
   // <ItemSaleInteraction tokenId={tokenId} />
   return (
     <div>
+      {treasure && (
+        <MetaTags
+          title={`${trimString(treasure.title, 20)} - ${treasure.rarity}`}
+        />
+      )}
       <div className="grid md:grid-cols-3 grid-cols-1 gap-10">
         <div className="flex items-start justify-center">
           <GameCard game={treasure} isLoading={isLoading} showGif />

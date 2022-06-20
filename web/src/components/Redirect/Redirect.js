@@ -45,7 +45,7 @@ const Redirect = ({ type }) => {
     }
   }
   return (
-    <div className="flex flex-col min-h-screen chess-background">
+    <div className="flex flex-col min-h-screen">
       <div className="flex flex-grow flex-col w-full justify-center align-center items-center">
         <div className="redirect-container w-80 sm:w-96">
           <Link to={routes.home()}>

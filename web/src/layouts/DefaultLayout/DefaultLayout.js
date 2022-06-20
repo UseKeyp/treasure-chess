@@ -27,23 +27,18 @@ const DefaultLayout = ({ children }) => {
     if (tabs.includes(cleanedPath)) setActiveTab(cleanedPath)
   }, [pathname])
 
-  const pathsWithChessBackground = [
-    '/wallet',
-    '/about',
-    '/signin',
-    '/support',
-    '/subscribe',
-    '/terms',
-    '/privacy',
-    '/settings',
-    '/chain-data',
+  const pathsWithoutChessBackground = [
+    '/treasures',
+    '/profile',
+    '/'
   ]
 
   return (
     <div
       className={`${
-        pathsWithChessBackground.includes(pathname.toString())
-          ? 'chess-background'
+        pathsWithoutChessBackground.includes(pathname.toString()) ||
+        pathname.toString().includes('/members/')
+          ? 'no-background'
           : ''
       }`}
     >

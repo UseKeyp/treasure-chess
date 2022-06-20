@@ -17,6 +17,8 @@ import MemberBalance from 'src/components/Member/MemberBalance'
 import { trimAddress } from 'src/utils/helpers'
 import Tooltip from 'src/components/Tooltip/Tooltip'
 
+import SiteFooter from 'src/components/SiteFooter/SiteFooter'
+
 const WalletBalance = () => {
   const { deposit } = useRamp()
   return (
@@ -93,6 +95,9 @@ const MobileNav = () => {
                 </li>
               </>
             )}
+            <div className="fixed bottom-0">
+              <SiteFooter />
+            </div>
           </ul>
         </nav>
       </div>

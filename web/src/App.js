@@ -21,11 +21,11 @@ console.log(
 )
 console.log(
   `%c⚠️ This is a browser feature intended for developers. Do not paste anything here! If someone told you to copy and paste something here, it is a scam and could give them access to your Treasure Chess wallet. ⚠️`,
-  'font-family:sans-serif;font-size:1rem;-webkit-text-stroke: 1px black;'
+  'font-family:sans-serif;font-size:1rem;font-weight:bold'
 )
 console.log(
-  `%cAre you a developer? We have open positions posted here >> https://github.com/treasure-chess/jobs`,
-  'font-family:sans-serif;font-size:1rem;-webkit-text-stroke: 1px black;font-weight:bold'
+  `%c🛠️ Come build with the brightest minds! https://github.com/treasure-chess/jobs`,
+  'font-family:sans-serif;font-size:1rem;'
 )
 /* eslint-enable no-irregular-whitespace */
 /* eslint-enable no-console */

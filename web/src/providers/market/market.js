@@ -1,11 +1,12 @@
 import { useLazyQuery, useQuery, useMutation } from '@apollo/client'
 import { useAuth } from '@redwoodjs/auth'
-import { isBrowser } from '@redwoodjs/prerender/browserUtils'
 import { useToast } from 'src/providers/toast'
+import { useWallet } from 'src/providers/wallet'
 import { useModal } from 'src/hooks/useModal'
 import { ConfirmModal } from './modals'
 import { TxToast } from './toasts'
 import Confetti from 'src/components/Confetti'
+import { useLocation } from '@redwoodjs/router'
 
 import {
   TREASURE_WITH_MARKET_SALES_QUERY,
@@ -37,11 +38,12 @@ const MarketContext = React.createContext({
 
 const MarketProvider = ({ children }) => {
   const { currentUser, loading: authLoading } = useAuth()
+  const { usdcBalance } = useWallet()
   const { toast } = useToast()
-  // TODO: Figure out a better way to do this. useLocation throws an error
-  const tokenId = isBrowser
-    ? window.location.toString().split('treasures/')[1]
-    : 1
+  const { pathname } = useLocation()
+
+  const tokenId = pathname.split('treasures/')[1] || 1
+
   const { isVisible: isVisibleModalConfirm, toggleModal: toggleModalConfirm } =
     useModal()
 
@@ -82,7 +84,7 @@ const MarketProvider = ({ children }) => {
 
   useQuery(TREASURE_WITH_MARKET_SALES_QUERY, {
     pollInterval: 5000,
-    skip: !state.shouldPoll || !tokenId,
+    skip: !state.shouldPoll,
     fetchPolicy: 'network-only',
     variables: { tokenId },
     onCompleted: async ({ treasureWithMarketSales } = {}) => {
@@ -122,41 +124,52 @@ const MarketProvider = ({ children }) => {
   })
 
   const [treasureWithMarketSalesLazyQuery] = useLazyQuery(
-    TREASURE_WITH_MARKET_SALES_QUERY
+    TREASURE_WITH_MARKET_SALES_QUERY,
+    { fetchPolicy: 'network-only' }
   )
   const [listTreasureMutation] = useMutation(LIST_MARKET_SALE_MUTATION)
   const [unlistTreasureMutation] = useMutation(UNLIST_MARKET_SALE_MUTATION)
   const [buyTreasureMutation] = useMutation(BUY_MARKET_SALE_MUTATION)
 
   const fetchData = async () => {
-    const { data: { treasureWithMarketSales } = {} } =
-      await treasureWithMarketSalesLazyQuery({
-        variables: { tokenId },
-      })
-    const marketSale = [...treasureWithMarketSales.marketSales]?.sort(
-      (a, b) => b.id - a.id
-    )[0] // Gets the most recent item
-    if (!marketSale)
-      return setState({
+    try {
+      const { data: { treasureWithMarketSales } = {} } =
+        await treasureWithMarketSalesLazyQuery({
+          variables: { tokenId },
+        })
+      if (!treasureWithMarketSales?.marketSales?.length)
+        return setState({
+          ...state,
+          marketLoading: false,
+          marketStatus: null,
+          treasure: treasureWithMarketSales,
+        })
+      const marketSale = [...treasureWithMarketSales.marketSales]?.sort(
+        (a, b) => b.id - a.id
+      )[0] // Gets the most recent item
+      if (!marketSale)
+        return setState({
+          ...state,
+          marketLoading: false,
+          marketStatus: null,
+          treasure: treasureWithMarketSales,
+        })
+      const { status, isClosed, amount } = marketSale
+      let shouldPoll = false
+      if (status.includes('PENDING')) shouldPoll = true
+      setState({
         ...state,
         marketLoading: false,
-        marketStatus: null,
         treasure: treasureWithMarketSales,
+        marketSale,
+        marketStatus: status,
+        isClosed,
+        amount,
+        shouldPoll,
       })
-    const { status, isClosed, amount } = marketSale
-    let shouldPoll = false
-    if (status.includes('PENDING')) shouldPoll = true
-    setState({
-      ...state,
-
-      marketLoading: false,
-      treasure: treasureWithMarketSales,
-      marketSale,
-      marketStatus: status,
-      isClosed,
-      amount,
-      shouldPoll,
-    })
+    } catch (e) {
+      // Do nothing
+    }
   }
 
   const onConfirmList = async () => {
@@ -217,6 +230,10 @@ const MarketProvider = ({ children }) => {
   }
   const onConfirmBuy = async () => {
     try {
+      if (usdcBalance < state.amount)
+        throw new Error(
+          "You don't have enough funds to purchase this Treasure."
+        )
       setState({
         ...state,
         actionLoading: true,
@@ -295,7 +312,7 @@ const MarketProvider = ({ children }) => {
     if (!tokenId) return
     fetchData()
     /* eslint-disable-next-line react-hooks/exhaustive-deps*/
-  }, [tokenId])
+  }, [pathname])
   React.useEffect(() => {
     if (authLoading || !currentUser || !state.treasure) return
     if (currentUser.id === state.treasure.ownerId)

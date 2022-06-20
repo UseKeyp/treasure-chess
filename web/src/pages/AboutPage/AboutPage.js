@@ -2,21 +2,9 @@ import FaqSection from 'src/components/FaqSection/FaqSection'
 import AchievementList from 'src/components/AchievementList/AchievementList'
 import Table from 'src/components/Table'
 import { MetaTags } from '@redwoodjs/web'
-import { useTheme } from 'src/providers/theme'
 import config from 'src/global.config'
 
-import { useEffect } from 'react'
-
 const FaqPage = () => {
-  const { toggleFaqTheme } = useTheme()
-
-  useEffect(() => {
-    toggleFaqTheme(true)
-    return function cleanup() {
-      toggleFaqTheme(false)
-    }
-  })
-
   const faqs = [
     [
       t('What is Treasure Chess?'),

@@ -6,20 +6,10 @@ import HomePageHero from 'src/components/HomePageHero/HomePageHero'
 import HeadingBar from 'src/components/HeadingBar/HeadingBar'
 import AllTreasuresButton from 'src/components/AllTreasuresButton/AllTreasuresButton'
 import TreasuresFetcher from 'src/components/Treasure/TreasuresFetcher'
-import { useTheme } from 'src/providers/theme'
-import { useEffect } from 'react'
 import { useAuth } from '@redwoodjs/auth'
 
 const HomePage = () => {
-  const { toggleFaqTheme } = useTheme()
   const { currentUser } = useAuth()
-
-  useEffect(() => {
-    toggleFaqTheme(true)
-    return function cleanup() {
-      toggleFaqTheme(false)
-    }
-  })
 
   return (
     <>

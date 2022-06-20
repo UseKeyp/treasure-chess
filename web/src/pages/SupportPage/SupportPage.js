@@ -1,22 +1,10 @@
 import FaqSection from 'src/components/FaqSection/FaqSection'
 import { MetaTags } from '@redwoodjs/web'
-import { useTheme } from 'src/providers/theme'
 import { isBrowser } from '@redwoodjs/prerender/browserUtils'
 import globalConfig from 'src/global.config'
 import Icon from 'src/components/Icon'
 
-import { useEffect } from 'react'
-
 const SupportPage = () => {
-  const { toggleFaqTheme } = useTheme()
-
-  useEffect(() => {
-    toggleFaqTheme(true)
-    return function cleanup() {
-      toggleFaqTheme(false)
-    }
-  })
-
   React.useEffect(() => {
     if (isBrowser) {
       if (!window.$chatwoot?.hasLoaded) return

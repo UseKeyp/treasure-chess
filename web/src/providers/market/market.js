@@ -169,7 +169,7 @@ const MarketProvider = ({ children }) => {
         shouldPoll,
       })
     } catch (e) {
-      console.log(e)
+      // Do nothing
     }
   }
 

@@ -6,66 +6,37 @@ import {
   deleteTreasure,
 } from './treasures'
 
-import {
-  generateRandomTreasures,
-  generateRandomMembers,
-} from '../../../../scripts/seed/helpers'
+import { generatedTreasures } from './treasures.mocks'
 
 import { sortTreasuresByPrice } from '../../lib/treasures'
 
 describe('sort treasures by price', () => {
-  const members = generateRandomMembers(2, 0)
-
-  const treasuresLength = 20
-
   const HIGH_TO_LOW = 'Price: High to Low'
   const LOW_TO_HIGH = 'Price: Low to High'
-
   const isAscending = (sort) => (sort === 'Price: Low to High' ? true : false)
 
-  const generatedTreasures = generateRandomTreasures(
-    treasuresLength,
-    0,
-    members
-  )
-
-  const prices = [
-    20, 1, 5, 3, 19, 13, 95, 2, 9, 567, 177, 12, 37, 13, 14, 15, 36, 1, 1, 2, 3,
-    4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-  ]
-
-  const pricesAscending = [
+  const pricesAscendingResult = [
     1, 1, 1, 2, 2, 3, 5, 9, 12, 13, 13, 14, 15, 19, 20, 36, 37, 95, 177, 567,
   ]
-  const pricesDescending = [
+  const pricesDescendingResult = [
     567, 177, 95, 37, 36, 20, 19, 15, 14, 13, 13, 12, 9, 5, 3, 2, 2, 1, 1, 1,
   ]
 
-  // generate treasures with prices
-  generatedTreasures.map((treasure, i) => {
-    treasure['marketSaleStatus'] = 'LISTED'
-    treasure['marketSales'] = {
-      __typename: 'MarketSale',
-      // randomize prices
-      amount: prices[i],
-      id: i + 1 + Math.floor(i * 20),
-      status: 'LISTED',
-    }
+  it('should ascending sort', async () => {
+    const resultB = sortTreasuresByPrice(
+      generatedTreasures,
+      isAscending(LOW_TO_HIGH)
+    ).map((treasure) => treasure.marketSales.amount)
+
+    expect(resultB).toEqual(pricesAscendingResult)
   })
-
-  // sort treasures by price in descending order
-  const resultA = sortTreasuresByPrice(
-    generatedTreasures,
-    isAscending(HIGH_TO_LOW)
-  )
-  // sort treasures by price in ascending order
-  const resultB = sortTreasuresByPrice(
-    generatedTreasures,
-    isAscending(LOW_TO_HIGH)
-  )
-
-  expect(resultA).toEqual(pricesAscending)
-  expect(resultB).toEqual(pricesDescending)
+  it('should descending sort', async () => {
+    const resultA = sortTreasuresByPrice(
+      generatedTreasures,
+      isAscending(HIGH_TO_LOW)
+    ).map((treasure) => treasure.marketSales.amount)
+    expect(resultA).toEqual(pricesDescendingResult)
+  })
 })
 
 // describe('treasures', () => {

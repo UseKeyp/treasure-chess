@@ -1,6 +1,5 @@
 import { useLazyQuery, useQuery, useMutation } from '@apollo/client'
 import { useAuth } from '@redwoodjs/auth'
-import { isBrowser } from '@redwoodjs/prerender/browserUtils'
 import { useToast } from 'src/providers/toast'
 import { useWallet } from 'src/providers/wallet'
 import { useModal } from 'src/hooks/useModal'

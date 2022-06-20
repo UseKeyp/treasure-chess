@@ -5,7 +5,9 @@ import fetch from 'cross-fetch'
 import { logger } from 'src/lib/logger'
 
 import { isProduction } from 'src/lib/helpers'
-const CHAIN_ID = getIdFromNetworkName(process.env.ETHEREUM_NETWORK_NAME)
+const CHAIN_ID = getIdFromNetworkName(
+  process.env.ETHEREUM_NETWORK_NAME || 'matic'
+)
 export const DEFAULT_GAS_MAX_PRIORITY_FEE_PER_GAS = parseUnits('2', 'gwei')
 export const DEFAULT_GAS_MAX_FEE_PER_GAS = parseUnits('10', 'gwei')
 

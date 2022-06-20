@@ -62,7 +62,6 @@ const generateRandomTreasures = (count, highestTokenId, members) => {
       const ran2 = ran1 === members.length - 1 ? ran1 - 1 : ran1 + 1
       const black = members[ran1]
       const white = members[ran2]
-      const winner = randomInt(1, 2) > 1 ? black : white
       const minter = randomInt(1, 2) > 1 ? black : white
 
       const realGame = realGames[randomInt(0, realGames.length - 1)]

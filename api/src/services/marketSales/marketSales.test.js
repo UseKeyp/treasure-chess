@@ -2,6 +2,7 @@ import { EnvelopError } from '@envelop/core'
 import { listTreasure, unlistTreasure, buyTreasure } from './marketSales'
 
 jest.setTimeout(20000)
+
 jest.mock('../../lib/torus/torus', () => {
   return {
     getTorusWallet: jest.fn(() => ({
@@ -10,12 +11,14 @@ jest.mock('../../lib/torus/torus', () => {
     })),
   }
 })
-jest.mock('../../lib/web3/airdrop/airdrop', () => {
+
+jest.mock('../../lib/web3/airdrop.js', () => {
   return {
     airdropGasTransaction: jest.fn(() => null),
   }
 })
-jest.mock('../../lib/web3/member', () => {
+
+jest.mock('../../lib/web3/wallets/member', () => {
   return {
     memberSendTransaction: jest.fn(() => ({
       hash: `0x56570de287d73cd1cb6092bb8fdee6173974955fdef345ae579ee9f475ea${Math.floor(
@@ -24,6 +27,7 @@ jest.mock('../../lib/web3/member', () => {
     })),
   }
 })
+
 jest.mock('../../lib/web3/tokens', () => {
   return {
     getUsdcBalance: jest.fn((address) => {
@@ -32,6 +36,18 @@ jest.mock('../../lib/web3/tokens', () => {
     }),
   }
 })
+
+jest.mock('../../lib/web3/treasureMarket', () => {
+  return {
+    checkAndSetMarketApprovals: jest.fn(function foo() {}),
+  }
+})
+
+// jest.mock('../../lib/web3/treasure', () => {
+//   return {
+//     checkAndSetMarketApprovals: jest.fn(function foo() {}),
+//   }
+// })
 
 // NOTE: alice and bob own all the treasures
 describe('listTreasure', () => {
@@ -42,7 +58,7 @@ describe('listTreasure', () => {
     })
     try {
       await listTreasure({
-        treasureId: scenario.treasure[0].id,
+        tokenId: scenario.treasure[0].id,
         amount: '0',
       })
     } catch (e) {
@@ -53,7 +69,7 @@ describe('listTreasure', () => {
     mockCurrentUser({ id: 1111, address: scenario.member.alice.address })
     try {
       await listTreasure({
-        treasureId: scenario.treasure[0].id,
+        tokenId: scenario.treasure[0].id,
         amount: 1,
       })
     } catch (e) {
@@ -64,7 +80,7 @@ describe('listTreasure', () => {
     mockCurrentUser({ id: scenario.treasure[1].ownerId })
     try {
       await listTreasure({
-        treasureId: scenario.treasure[1].id,
+        tokenId: scenario.treasure[1].id,
         amount: 1,
       })
     } catch (e) {
@@ -79,7 +95,7 @@ describe('listTreasure', () => {
       address: process.env.TEST_USER_PUBLIC_ADDRESS,
     })
     const response = await listTreasure({
-      treasureId: scenario.treasure[0].id,
+      tokenId: scenario.treasure[0].id,
       amount: 1,
     })
     expect(response.status).toBe('PENDING_LISTED')
@@ -91,7 +107,7 @@ describe('unlistTreasure', () => {
     mockCurrentUser({ id: 123, address: process.env.TEST_USER_PUBLIC_ADDRESS })
     try {
       await unlistTreasure({
-        treasureId: scenario.treasure[1].id,
+        tokenId: scenario.treasure[1].id,
       })
     } catch (e) {
       expect(e).toStrictEqual(new EnvelopError(`You don't own this Treasure.`))
@@ -104,7 +120,7 @@ describe('unlistTreasure', () => {
     })
     try {
       await unlistTreasure({
-        treasureId: scenario.treasure[0].id,
+        tokenId: scenario.treasure[0].id,
       })
     } catch (e) {
       expect(e).toStrictEqual(new EnvelopError(`This Treasure is not listed.`))
@@ -117,11 +133,11 @@ describe('unlistTreasure', () => {
     })
     try {
       await listTreasure({
-        treasureId: scenario.treasure[0].id,
+        tokenId: scenario.treasure[0].id,
         amount: 1,
       })
       await unlistTreasure({
-        treasureId: scenario.treasure[0].id,
+        tokenId: scenario.treasure[0].id,
       })
     } catch (e) {
       expect(e).toStrictEqual(new EnvelopError(`This Treasure is not listed.`))
@@ -133,7 +149,7 @@ describe('unlistTreasure', () => {
       address: process.env.TEST_USER_PUBLIC_ADDRESS,
     })
     const response = await unlistTreasure({
-      treasureId: scenario.treasure[1].id,
+      tokenId: scenario.treasure[1].id,
     })
     expect(response.status).toBe('PENDING_DELISTED')
   })
@@ -146,7 +162,7 @@ describe('buyTreasure', () => {
     })
     try {
       await buyTreasure({
-        treasureId: scenario.treasure[1].id,
+        tokenId: scenario.treasure[1].id,
       })
     } catch (e) {
       expect(e).toStrictEqual(
@@ -160,7 +176,7 @@ describe('buyTreasure', () => {
     })
     try {
       await buyTreasure({
-        treasureId: scenario.treasure[0].id,
+        tokenId: scenario.treasure[0].id,
       })
     } catch (e) {
       expect(e).toStrictEqual(
@@ -175,7 +191,7 @@ describe('buyTreasure', () => {
     })
     try {
       await buyTreasure({
-        treasureId: scenario.treasure[1].id,
+        tokenId: scenario.treasure[1].id,
       })
     } catch (e) {
       expect(e).toStrictEqual(
@@ -191,7 +207,7 @@ describe('buyTreasure', () => {
       address: process.env.TEST_USER_PUBLIC_ADDRESS,
     })
     const response = await buyTreasure({
-      treasureId: scenario.treasure[1].id,
+      tokenId: scenario.treasure[1].id,
     })
     expect(response.status).toBe('PENDING_SOLD')
   })

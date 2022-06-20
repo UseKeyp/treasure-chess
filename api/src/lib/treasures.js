@@ -225,6 +225,7 @@ export const getTreasuresWithFilter = async ({
   logger.debug(`owner: ${owner}`)
   // Cannot use cursor pagination, since custom sorting is needed
   const skip = page * TREASURES_PER_PAGE
+
   const hasSortByPrice =
     sort === 'Price: High to Low' || sort === 'Price: Low to High'
 
@@ -246,37 +247,8 @@ export const getTreasuresWithFilter = async ({
   })
   // logger.debug({ custom: treasures[0] }, 'one treasure')
 
-  if (hasSortByPrice) {
-    // if sort by price is selected: sort by price
-    // this sort will preserve the original query, only will order by some rules:
-    treasures = treasures.sort((a, b) => {
-      // sort A before B when A has LISTED
-      if (a.marketSaleStatus === 'LISTED') {
-        return -1
-      }
-      // sort A after B when A has no LISTED
-      if (b.marketSaleStatus !== 'LISTED') {
-        return 1
-      }
-
-      // keep the same if when A has no LISTED and B has LISTED
-      if (a.marketSaleStatus !== 'LISTED' && b.marketSaleStatus !== 'LISTED') {
-        return 0
-      }
-
-      // if A and B has LISTED, sort by price and compare which has higher price
-      if (a.marketSaleStatus === 'LISTED' && b.marketSaleStatus === 'LISTED') {
-        // sort A after B (DESC) when B has Less Price than A otherwise the opposite
-        if (sort === 'Price: Low to High') {
-          return a.marketSales[0].amount > b.marketSales[0].amount ? 1 : -1
-        }
-
-        // sort A beofre B (ASC) when B has Less Price than A otherwise the opposite
-        if (sort === 'Price: High to Low') {
-          return a.marketSales[0].amount < b.marketSales[0].amount ? 1 : -1
-        }
-      }
-    })
+  if (hasSortByPrice && treasures.length > 0) {
+    treasures = sortTreasuresByPrice(treasures, sort)
   }
 
   return treasures
@@ -291,4 +263,35 @@ export const getTreasuresWithFilterCount = async ({
   const whereQuery = getWhereQueryFromArgs({ username, filter, owner })
   // Note: count takes up to 2+ seconds to the query for large db (1M+ elements)
   return db.treasure.count({ where: whereQuery })
+}
+
+// sort utils
+
+export const sortTreasuresByPrice = (
+  treasures,
+  isAscending = true,
+  field = 'marketSales',
+  target = 'amount'
+) => {
+  const customSort = (array, check = 0, i = 0) => {
+    if (array.length <= 1) return array
+    if (array[i + 1] === undefined) return customSort(array, check, 0)
+    if (array.length === check) return array
+
+    let actual = array[i]
+    let next = array[i + 1]
+
+    const ascendingOrientation = isAscending
+      ? actual[field][target] <= next[field][target]
+      : actual[field][target] >= next[field][target]
+
+    if (ascendingOrientation) return customSort(array, check + 1, i + 1)
+    else {
+      array[i] = next
+      array[i + 1] = actual
+      return customSort(array, 0, i + 1)
+    }
+  }
+
+  return customSort(treasures)
 }

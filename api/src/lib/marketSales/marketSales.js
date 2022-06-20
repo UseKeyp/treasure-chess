@@ -211,8 +211,8 @@ export const createNewTreasureListing = async ({ treasure, amount }) => {
     return marketSale
   } catch (e) {
     /* eslint-disable-next-line no-console */
-    logger.error(e.message)
-    throw new Error(`createNewTreasureListing() ${e.message}`)
+    logger.error(e)
+    throw new Error(`createNewTreasureListing() ${e}`)
   }
 }
 

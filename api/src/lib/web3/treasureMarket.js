@@ -85,7 +85,7 @@ export const list = async ({ treasure, amount }) => {
     })
     return tx
   } catch (e) {
-    if (e.error.error['code'] === -32000)
+    if (e?.error?.error['code'] === -32000)
       throw new EnvelopError(
         'Things are a bit congested now, please try again in a few minutes'
       )

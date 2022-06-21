@@ -156,13 +156,10 @@ const getOrderByQueryFromArgs = ({ sort }) => {
       return { achievementScore: 'desc' }
     case 1:
       return { achievementScore: 'asc' }
-    // TODO: sort price
-    // case 2:
-    //   return {price: 'desc'}
-    //   break
-    // case 3:
-    //   return {price: 'desc'}
-    //   break
+    case 2:
+      return { price: 'desc' }
+    case 3:
+      return { price: 'asc' }
     case 4:
       return { createdAt: 'desc' }
     case 5:

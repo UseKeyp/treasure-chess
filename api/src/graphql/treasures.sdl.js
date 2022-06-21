@@ -48,6 +48,7 @@ export const schema = gql`
     achievements: [Achievement!]!
     achievementScore: Int!
     rarity: Rarity!
+    price: Int
   }
 
   type TreasureNftDetails {

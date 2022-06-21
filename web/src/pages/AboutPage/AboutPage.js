@@ -200,8 +200,8 @@ const FaqPage = () => {
   const levelTableData = [
     getLevelRow('Good', '1 - 5 Points'),
     getLevelRow('Great', '6 - 10 Points'),
-    getLevelRow('Ultra', '11 - 14 Points'),
-    getLevelRow('Mythic', '15+ Points'),
+    getLevelRow('Ultra', '11 - 13 Points'),
+    getLevelRow('Mythic', '14 - 15 Points'),
   ]
   return (
     <div>

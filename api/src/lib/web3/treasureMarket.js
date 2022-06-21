@@ -7,6 +7,7 @@ import { getTreasureContract } from 'src/lib/web3/treasure'
 import { getTokenContract } from 'src/lib/web3/tokens'
 import { EnvelopError } from '@envelop/core'
 import { logger } from 'src/lib/logger'
+import { db } from 'src/lib/db'
 
 export const getTreasureMarketContract = () => {
   try {
@@ -83,6 +84,14 @@ export const list = async ({ treasure, amount }) => {
       memberId: treasure.ownerId,
       unsignedTx,
     })
+    tx &&
+      (await db.treasure.update({
+        where: { id: treasure.id },
+        data: {
+          price: amount,
+        },
+      }))
+
     return tx
   } catch (e) {
     if (e.error.error['code'] === -32000)
@@ -108,6 +117,14 @@ export const unlist = async ({ treasure }) => {
       memberId: treasure.ownerId,
       unsignedTx,
     })
+
+    tx &&
+      (await db.treasure.update({
+        where: { id: treasure.id },
+        data: {
+          price: null,
+        },
+      }))
     return tx
   } catch (e) {
     logger.error(e)
@@ -130,6 +147,13 @@ export const buy = async ({ treasure }) => {
       memberId: context.currentUser.id,
       unsignedTx,
     })
+    tx &&
+      (await db.treasure.update({
+        where: { id: treasure.id },
+        data: {
+          price: null,
+        },
+      }))
     return tx
   } catch (e) {
     logger.error(e)

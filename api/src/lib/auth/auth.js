@@ -19,6 +19,7 @@ export const getCurrentUser = async (session) => {
         mintCredits: true,
         country: true,
         banned: true,
+        email: true,
       },
     })
   } else {
@@ -35,6 +36,7 @@ export const getCurrentUser = async (session) => {
         mintCredits: true,
         country: true,
         banned: true,
+        email: true,
       },
     })
   }

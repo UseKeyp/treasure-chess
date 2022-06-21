@@ -256,7 +256,7 @@ const FaqPage = () => {
       <div className="mt-8">
         <FaqSection title={<>❓ {t("FAQ's")}</>} questionList={[...faqs]} />
       </div>
-      <div className="mt-4">
+      <div className="mt-4 mb-15 md:mb-0">
         <FaqSection
           title={<>🛠️ {t('For Developers')}</>}
           questionList={[

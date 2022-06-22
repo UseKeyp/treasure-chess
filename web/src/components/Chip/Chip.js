@@ -32,20 +32,20 @@ const Chip = ({ variant, label, icon }) => {
   }, [setLabel, label, isCreditVariant, setTooltipMsg, tooltipMsg])
 
   return (
-    <Tooltip
-      id="chip-label"
-      effect="float"
-      position="right"
-      bgColor="dark"
-      text={tooltipMsg}
-    >
-      <div className="rounded-md max-h-8 px-2 min-h-5 py-0.25 text-sm bg-greyDark">
-        <div className="flex flex-nowrap justify-center items-center">
-          <div className="mr-2">{chipLabel}</div>
+    <div className="rounded-md mx-2 max-h-8 px-2 min-h-5 py-0.25 text-sm bg-greyDark">
+      <div className="flex flex-nowrap justify-center items-center">
+        <div className="mr-2">{chipLabel}</div>
+        <Tooltip
+          id="chip-label"
+          effect="float"
+          position="right"
+          bgColor="dark"
+          text={tooltipMsg}
+        >
           {Icon}
-        </div>
+        </Tooltip>
       </div>
-    </Tooltip>
+    </div>
   )
 }
 

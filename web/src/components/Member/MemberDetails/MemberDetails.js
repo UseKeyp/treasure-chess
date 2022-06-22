@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Avatar from 'src/components/Avatar'
 import Chip from 'src/components/Chip'
 import Button from 'src/components/Button/Button'
@@ -10,6 +10,8 @@ import { WalletFill, Gear } from 'framework7-icons/react'
 import MemberBalance from 'src/components/Member/MemberBalance'
 import MemberMintCredits from 'src/components/Member/MemberMintCredits'
 
+import { useQuery } from '@redwoodjs/web'
+
 import globalConfig from 'src/global.config'
 
 import { getFlagBase64 } from '@treasure-chess/treasure-html'
@@ -17,6 +19,7 @@ import { getFlagBase64 } from '@treasure-chess/treasure-html'
 import { useWallet } from 'src/providers/wallet'
 
 import Tooltip from 'src/components/Tooltip/Tooltip'
+import { memberTwitchConnected } from './MemberDetails.stories'
 
 const TWITCH = 'TWITCH'
 
@@ -72,6 +75,39 @@ const TwitchLink = ({ isProfile, username: twitchUsername }) => {
 
 const MemberDetails = ({ member, isProfile }) => {
   const { getAddress } = useWallet()
+  const [twitchConnected, setTwitchConnected] = useState(false)
+
+  useEffect(() => {
+    member['twitchUsername'] && setTwitchConnected(true)
+  }, [member])
+
+  // useEffect(() => {
+  //   // look for TWITCH_CONNECTION promotions
+  //   // Chip will be shown on frontend for
+  //   const days = 7
+  //   // days after the last twitch connection
+
+  //   let lastTwitchConnectPromotionDate = 0
+  //   if (member['promotions'] && member['twitchUsername']) {
+  //     if (member['promotions'].lengh <= 1) {
+  //       lastTwitchConnectPromotionDate =
+  //         member?.promotions[0]?.promotion?.type === 'TWITCH_CONNECTION' &&
+  //         Number(member?.promotions[0]?.promotion?.createdAt)
+  //     } else {
+  //       member?.promotions.map((promotion) => {
+  //         if (promotion?.type === 'TWITCH_CONNECTION') {
+  //           lastTwitchConnectPromotionDate = promotion.createdAt
+  //         }
+  //       })
+  //     }
+  //   }
+  //   if (lastTwitchConnectPromotionDate > 0) {
+  //     lastTwitchConnectPromotionDate <=
+  //       Number(new Date() - 1000 * 60 * 60 * 24 * days) &&
+  //       setTwitchConnected(true)
+  //   }
+  // }, [member])
+
   return (
     <section className="member-details p-4">
       <div className="member-details--inner">
@@ -105,7 +141,7 @@ const MemberDetails = ({ member, isProfile }) => {
               username={member.twitchUsername}
               isProfile={isProfile}
             />
-            <Chip variant="credit" />
+            {twitchConnected ? <Chip variant="credit" /> : <></>}
           </div>
           {!isProfile && member.address && (
             <div className="mt-4 w-full content-center member-details--member-content">

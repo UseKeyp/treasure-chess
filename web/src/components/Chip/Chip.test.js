@@ -1,14 +1,14 @@
 import { render } from '@redwoodjs/testing/web'
 
-import Label from './Label'
+import Chip from './Chip'
 
 //   Improve this test with help from the Redwood Testing Doc:
 //    https://redwoodjs.com/docs/testing#testing-components
 
-describe('Label', () => {
+describe('Chip', () => {
   it('renders successfully', () => {
     expect(() => {
-      render(<Label />)
+      render(<Chip />)
     }).not.toThrow()
   })
 })

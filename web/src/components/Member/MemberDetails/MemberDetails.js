@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Avatar from 'src/components/Avatar'
+import Chip from 'src/components/Label'
 import Button from 'src/components/Button/Button'
 import { Link, routes } from '@redwoodjs/router'
 import { TwitchIcon } from 'src/components/Icon'
@@ -104,6 +105,7 @@ const MemberDetails = ({ member, isProfile }) => {
               username={member.twitchUsername}
               isProfile={isProfile}
             />
+            <Chip variant="credit" />
           </div>
           {!isProfile && member.address && (
             <div className="mt-4 w-full content-center member-details--member-content">

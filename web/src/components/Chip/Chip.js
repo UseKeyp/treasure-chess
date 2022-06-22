@@ -8,15 +8,19 @@ const Chip = ({ variant, label, icon }) => {
     <div className="bg-chessBlack-200 h-4 w-4 rounded-md" />
   )
 
+  // useEffect for setting values coming from component
+  // properties
   useEffect(() => {
     label && setLabel(label)
     icon && setIcon(icon)
   }, [])
 
+  // useEffect for asserting the variant of the Chip
   useEffect(() => {
     variant === 'credit' && setCreditVariant(true)
   }, [])
 
+  // useEffect for setting up the variant and his particularities
   useEffect(() => {
     if (isCreditVariant) {
       setLabel('+1')

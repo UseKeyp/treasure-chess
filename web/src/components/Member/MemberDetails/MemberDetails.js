@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import Avatar from 'src/components/Avatar'
-import Chip from 'src/components/Label'
+import Chip from 'src/components/Chip'
 import Button from 'src/components/Button/Button'
 import { Link, routes } from '@redwoodjs/router'
 import { TwitchIcon } from 'src/components/Icon'

@@ -11,7 +11,7 @@ const WertPage = () => {
   return (
     <>
       <MetaTags title="Wert" description="Wert.io checkout" />
-      <div className="h-screen w-full flex justify-center items-center">
+      <div className="h-screen w-full flex justify-center items-center chess-background">
         <div className="w-full sm:w-[400px]">
           <div className="wert-container w-full sm:w-[400px]">
             <div className="flex justify-center items-center h-[60px]">

@@ -12,7 +12,7 @@ import { Person, WalletFill, QuestionCircle } from 'framework7-icons/react'
 
 import { isMobile } from 'src/utils/helpers'
 
-const DefaultLayout = ({ children }) => {
+const DefaultLayout = ({ children, background }) => {
   const { pathname } = useLocation()
   const [activeTab, setActiveTab] = useState(pathname.split('/')[1] || 'home')
 
@@ -28,7 +28,7 @@ const DefaultLayout = ({ children }) => {
   }, [pathname])
 
   return (
-    <div>
+    <div className={background ? background : 'chess-background'}>
       <div className="flex flex-col min-h-screen">
         <div className="flex-grow">
           <CampaignBanner />

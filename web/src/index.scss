@@ -59,6 +59,27 @@ button {
   max-width: 1600px;
 }
 
+.chess-background {
+  background-image: url(assets/background/about.svg), radial-gradient(#595552 2px, transparent 0);
+  background-size: auto, 25px 25px;
+  background-repeat: repeat repeat;
+  background-color: #47433f;
+  background-attachment: fixed, fixed;
+}
+
+.homepage-background {
+  background-image: radial-gradient(#595552 2px, transparent 0);
+  background-size: 25px 25px;
+  background-repeat: repeat;
+  background-color: #47433f;
+  background-attachment: fixed;
+}
+
+.no-background {
+  background-image: none;
+  background-color: #47433f;
+}
+
 iframe {
   &:focus-visible {
     outline: none;

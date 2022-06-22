@@ -10,8 +10,6 @@ import { WalletFill, Gear } from 'framework7-icons/react'
 import MemberBalance from 'src/components/Member/MemberBalance'
 import MemberMintCredits from 'src/components/Member/MemberMintCredits'
 
-import { useQuery } from '@redwoodjs/web'
-
 import globalConfig from 'src/global.config'
 
 import { getFlagBase64 } from '@treasure-chess/treasure-html'
@@ -19,7 +17,6 @@ import { getFlagBase64 } from '@treasure-chess/treasure-html'
 import { useWallet } from 'src/providers/wallet'
 
 import Tooltip from 'src/components/Tooltip/Tooltip'
-import { memberTwitchConnected } from './MemberDetails.stories'
 
 const TWITCH = 'TWITCH'
 

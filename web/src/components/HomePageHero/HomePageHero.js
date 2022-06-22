@@ -3,9 +3,11 @@ import Icon from 'src/components/Icon/Icon'
 import { routes } from '@redwoodjs/router'
 import { getCardHtml } from '@treasure-chess/treasure-html'
 import { game } from './data.js'
+import LoadingDots from 'src/components/LoadingDots/LoadingDots'
 
 const HomePageHero = () => {
   const [card, setCard] = React.useState()
+  const [loading, setLoading] = React.useState(true)
 
   const update = async () => {
     const raw = await getCardHtml({
@@ -27,11 +29,14 @@ const HomePageHero = () => {
     )
 
     setCard(replacedRaw)
+    setLoading(false)
   }
   React.useEffect(() => {
     update()
   }, [])
-  return (
+  return loading ? (
+    <LoadingDots />
+  ) : (
     <div className="homePageWrapper">
       <div className="homePageContent">
         <div>

@@ -5,6 +5,7 @@ export const QUERY = gql`
     member(usernameOrAddress: $usernameOrAddress) {
       id
       username
+      imageSrc
       treasuresMinted {
         id
         createdAt

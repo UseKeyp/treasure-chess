@@ -84,13 +84,6 @@ export const list = async ({ treasure, amount }) => {
       memberId: treasure.ownerId,
       unsignedTx,
     })
-    tx &&
-      (await db.treasure.update({
-        where: { id: treasure.id },
-        data: {
-          price: amount,
-        },
-      }))
 
     return tx
   } catch (e) {
@@ -117,14 +110,6 @@ export const unlist = async ({ treasure }) => {
       memberId: treasure.ownerId,
       unsignedTx,
     })
-
-    tx &&
-      (await db.treasure.update({
-        where: { id: treasure.id },
-        data: {
-          price: null,
-        },
-      }))
     return tx
   } catch (e) {
     logger.error(e)
@@ -147,13 +132,7 @@ export const buy = async ({ treasure }) => {
       memberId: context.currentUser.id,
       unsignedTx,
     })
-    tx &&
-      (await db.treasure.update({
-        where: { id: treasure.id },
-        data: {
-          price: null,
-        },
-      }))
+
     return tx
   } catch (e) {
     logger.error(e)

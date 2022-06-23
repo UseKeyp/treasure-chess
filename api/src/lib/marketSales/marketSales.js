@@ -70,10 +70,7 @@ const validatePurchaseRequest = async ({ treasure }) => {
     )
 }
 
-export const processPendingMarketTransactions = async ({
-  treasure,
-  amount,
-}) => {
+export const processPendingMarketTransactions = async ({ treasure }) => {
   try {
     logger.debug(
       { custom: treasure.marketSales },
@@ -82,6 +79,7 @@ export const processPendingMarketTransactions = async ({
     // WARNING: the next line doesn't account for re-orgs.
     // marketSales marked completed are not re-checked
     let currentMarketSale = treasure.marketSales[0]
+    const { amount } = currentMarketSale
     if (!currentMarketSale) return treasure
     let transactions = { saleTransactions: [] }
     let newMarketSale = currentMarketSale
@@ -196,11 +194,12 @@ export const processPendingMarketTransactions = async ({
   }
 }
 
-export const createNewTreasureListing = async ({ treasure, amount }) => {
+export const createNewTreasureListing = async ({ treasure }) => {
   const updatedTreasure = await processPendingMarketTransactions({
     treasure,
-    amount,
   })
+
+  let { amount } = treasure.marketSales[0]
   validateCreateNewListingRequest({ treasure: updatedTreasure, amount })
   try {
     try {

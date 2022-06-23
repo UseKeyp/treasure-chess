@@ -36,7 +36,7 @@ const DefaultLayout = ({ children, background }) => {
             <header className="relative mb-8 mt-4">
               <Header />
             </header>
-            <div className="mx-4 min-h-screen">{children}</div>
+            <div className="mx-4 min-h-screen mb-15 md:mb-0">{children}</div>
           </div>
         </div>
         {!isMobile && <SiteFooter />}

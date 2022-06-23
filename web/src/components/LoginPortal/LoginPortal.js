@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useAuth } from '@redwoodjs/auth'
 import { routes, navigate, useParams } from '@redwoodjs/router'
 import { useToast } from 'src/providers/toast'
-
+import { saveRedirectTo } from 'src/utils/auth/helpers'
 import Button from 'src/components/Button'
 
 import globalConfig from 'src/global.config.js'
@@ -27,7 +27,7 @@ const LoginPortal = () => {
 
   useEffect(() => {
     if (redirectTo) {
-      reauthenticate()
+      saveRedirectTo(redirectTo) && reauthenticate()
     }
   }, [redirectTo, reauthenticate])
 

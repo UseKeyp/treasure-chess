@@ -69,7 +69,12 @@ export const mintCheckoutUrl = async ({
   paymentType,
 }) => {
   await validateMintRequest({ gameId, endTime, title, paymentType })
-  const { email, username, address, id: userId } = context.currentUser
+  const { username, address, id: userId } = context.currentUser
+
+  const { email } = db.member.findFirst({
+    where: { id: userId },
+  })
+
   let url
   let reservation
   let paymentIntentId

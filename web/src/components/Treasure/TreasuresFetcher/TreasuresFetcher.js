@@ -140,15 +140,17 @@ const TreasuresFetcher = ({
   if (error) return <h2 className="rw-text-center">Something went wrong</h2>
   return !collapsedTreasures ? (
     limit ? (
-      <Carousel
-        enableAutoSlide
-        items={[
-          ...treasures.map((treasure, idx) => (
-            <GameCard disableAnimation key={idx} game={treasure} />
-          )),
-          treasures.length > 0 ? <SeeMore key="seeMore" /> : <LoadingDots />,
-        ]}
-      />
+      <div className="w-screen">
+        <Carousel
+          enableAutoSlide
+          items={[
+            ...treasures.map((treasure, idx) => (
+              <GameCard disableAnimation key={idx} game={treasure} />
+            )),
+            treasures.length > 0 ? <SeeMore key="seeMore" /> : <LoadingDots />,
+          ]}
+        />
+      </div>
     ) : (
       <Treasures
         treasures={treasures}

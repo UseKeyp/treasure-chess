@@ -15,12 +15,12 @@ const resources = {
 }
 
 const languageData = [
-  { id: 'de', region: 'DE', value: 'Deutsch' },
-  { id: 'en', region: 'US', value: 'English' },
-  { id: 'es', region: 'ES', value: 'Español' },
-  { id: 'fr', region: 'FR', value: 'Français' },
-  { id: 'pt', region: 'PT', value: 'Português' },
-  { id: 'vi', region: 'VI', value: 'Tiếng Việt' },
+  { id: 'de', region: 'DE', value: 'Deutsch', locale: 'de-DE' },
+  { id: 'en', region: 'US', value: 'English', locale: 'en-US' },
+  { id: 'es', region: 'ES', value: 'Español', locale: 'es-ES' },
+  { id: 'fr', region: 'FR', value: 'Français', locale: 'fr-FR' },
+  { id: 'pt', region: 'PT', value: 'Português', locale: 'pt-PT' },
+  { id: 'vi', region: 'VI', value: 'Tiếng Việt', locale: 'vi-VI' },
   // { id: 'ja', region: 'JP', value: '日本語' },
   // { id: 'ru', region: 'RU', value: 'Pусский' },
   // value in Devanagari or in International Alphabet of Sanskrit Transliteration

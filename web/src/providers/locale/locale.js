@@ -6,10 +6,18 @@ import { isBrowser } from '@redwoodjs/prerender/browserUtils'
 const LocaleContext = React.createContext({})
 const LOCALE_LOCAL_KEY = 'i18nextLng'
 import { useTranslation, Trans } from 'react-i18next'
+import { languageData } from '@treasure-chess/localization'
 
 const getLocaleCode = () => {
   if (!isBrowser) return // Support prerender
   return localStorage.getItem(LOCALE_LOCAL_KEY)
+}
+
+const getLanguageFromLocale = (code) => {
+  const matchedLanguage = languageData.find((item) => code === item.locale)
+  if (matchedLanguage) {
+    return matchedLanguage
+  }
 }
 
 const LocaleProvider = ({ children }) => {
@@ -60,4 +68,4 @@ const LocaleProvider = ({ children }) => {
 
 const useLocale = () => React.useContext(LocaleContext)
 
-export { LocaleProvider, useLocale }
+export { LocaleProvider, useLocale, getLanguageFromLocale }

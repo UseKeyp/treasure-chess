@@ -53,6 +53,7 @@ const Settings = () => {
       description: <p>Preview new features before they are released.</p>,
       button: (
         <Button
+          disabled={currentUser.betaAccess}
           variant="blue"
           size="small"
           className="w-32"

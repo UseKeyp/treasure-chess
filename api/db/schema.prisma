@@ -42,6 +42,7 @@ model Member {
   ramps                Ramp[]
   OAuth                OAuth[]
   promotions           PromotionsOnMembers[]
+  betaAccess           Boolean                @default(false)
 }
 
 model Ramp {

@@ -42,7 +42,7 @@ const MarketProvider = ({ children }) => {
   const { toast } = useToast()
   const { pathname } = useLocation()
 
-  const tokenId = pathname.split('treasures/')[1] || 1
+  const tokenId = pathname.split('treasures/')[1] || '1'
 
   const { isVisible: isVisibleModalConfirm, toggleModal: toggleModalConfirm } =
     useModal()

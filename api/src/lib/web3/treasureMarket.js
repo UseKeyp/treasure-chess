@@ -7,7 +7,6 @@ import { getTreasureContract } from 'src/lib/web3/treasure'
 import { getTokenContract } from 'src/lib/web3/tokens'
 import { EnvelopError } from '@envelop/core'
 import { logger } from 'src/lib/logger'
-import { db } from 'src/lib/db'
 
 export const getTreasureMarketContract = () => {
   try {

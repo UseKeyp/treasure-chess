@@ -235,7 +235,11 @@ export const mintTreasureAndUpdatePurchase = async ({ mintPurchase }) => {
     throw `mintTreasureAndUpdatePurchase() ${JSON.stringify(
       {
         ...mintPurchase,
-        member: { ...mintPurchase.member, refreshToken: 'REDACTED' },
+        member: {
+          ...mintPurchase.member,
+          refreshToken: 'REDACTED',
+          accessToken: 'REDACTED',
+        },
       },
       undefined,
       4

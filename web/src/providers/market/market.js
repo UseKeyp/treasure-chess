@@ -50,7 +50,6 @@ const MarketProvider = ({ children }) => {
   const [state, setState] = React.useState({
     shouldPoll: false,
     marketStatus: null,
-
     marketLoading: true,
     amount: null,
     isOwner: false,
@@ -93,7 +92,11 @@ const MarketProvider = ({ children }) => {
         [...treasureWithMarketSales.marketSales].sort(
           (a, b) => b.id - a.id
         )[0] || {}
-      if (current.status === last.status) return
+      if (current.status === last.status)
+        return setState({
+          ...state,
+          marketSale: false,
+        })
       const { status, isClosed, amount } = current
       let shouldPoll = false
 
@@ -132,11 +135,18 @@ const MarketProvider = ({ children }) => {
   const [buyTreasureMutation] = useMutation(BUY_MARKET_SALE_MUTATION)
 
   const fetchData = async () => {
+    console.log(`fetchData ${state.marketLoading}`)
     try {
       const { data: { treasureWithMarketSales } = {} } =
         await treasureWithMarketSalesLazyQuery({
           variables: { tokenId },
         })
+      console.log({ treasureWithMarketSales })
+      console.log(`treasureWithMarketSales ${state.marketLoading}`)
+      setState({
+        ...state,
+        marketLoading: false,
+      })
       if (!treasureWithMarketSales?.marketSales?.length)
         return setState({
           ...state,
@@ -169,6 +179,7 @@ const MarketProvider = ({ children }) => {
       })
     } catch (e) {
       // Do nothing
+      console.log('error')
     }
   }
 

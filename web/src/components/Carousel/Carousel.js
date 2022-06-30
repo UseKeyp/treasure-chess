@@ -40,11 +40,23 @@ const Carousel = ({ enableAutoSlide, items }) => {
       : ITEMS_PER_SLIDE,
     items: !hasItems
       ? [{ id: '1', renderItem: null }]
-      : items.map((renderItem, id) => ({
+      : cleanItems(items).map((renderItem, id) => ({
           id,
           renderItem: <div className="min-w-[304px] mx-auto">{renderItem}</div>,
         })),
   })
+
+  function cleanItems(itemsList) {
+    if (
+      itemsList.length < 3 &&
+      itemsList[0] === false &&
+      itemsList[1] === false
+    ) {
+      return itemsList
+    } else {
+      return itemsList.filter((item) => item !== false)
+    }
+  }
 
   // --
 

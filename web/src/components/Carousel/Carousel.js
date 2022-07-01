@@ -46,15 +46,15 @@ const Carousel = ({ enableAutoSlide, items }) => {
         })),
   })
 
+  /**
+   * Ensures that the carousel will not pass empty items into the div surrounding {renderItem}
+   * @param itemsList - list of items to clean
+   */
   function cleanItems(itemsList) {
-    if (
-      itemsList.length < 3 &&
-      itemsList[0] === false &&
-      itemsList[1] === false
-    ) {
-      return itemsList
-    } else {
+    if (itemsList[0] !== false && itemsList?.length > 2) {
       return itemsList.filter((item) => item !== false)
+    } else {
+      return itemsList
     }
   }
 
@@ -114,7 +114,7 @@ const Carousel = ({ enableAutoSlide, items }) => {
           disabled={!hasItems}
           variant="black"
           onClick={() => {
-            setAutoSliding(false)
+            setAutoSliding('false')
             slideToPrevItem()
           }}
         >
@@ -124,7 +124,7 @@ const Carousel = ({ enableAutoSlide, items }) => {
           disabled={!hasItems}
           variant="black"
           onClick={() => {
-            setAutoSliding(false)
+            setAutoSliding('false')
             slideToNextItem()
           }}
         >

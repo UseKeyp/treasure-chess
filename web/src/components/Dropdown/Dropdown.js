@@ -94,11 +94,11 @@ const Dropdown = ({
                     name={`${dropdownElementName}`}
                     className="dropdownObject"
                     onClick={() => {
-                      handleSelection(obj)
+                      handleSelection(obj.value)
                     }}
                     onKeyDown={(e) => handleKeyDown(e, obj, obj.id)}
                   >
-                    {obj.value}
+                    {obj.id}
                   </div>
                 )
               })}

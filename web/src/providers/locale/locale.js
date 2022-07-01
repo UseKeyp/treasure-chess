@@ -7,21 +7,23 @@ const LocaleContext = React.createContext({})
 const LOCALE_LOCAL_KEY = 'i18nextLng'
 import { useTranslation, Trans } from 'react-i18next'
 import { languageData } from '@treasure-chess/localization'
+import { toast } from '@redwoodjs/web/toast'
 
 const getLocaleCode = () => {
   if (!isBrowser) return // Support prerender
   return localStorage.getItem(LOCALE_LOCAL_KEY)
 }
 
-const getLanguageFromLocale = (code) => {
-  const matchedLanguage = languageData.find((item) => code === item.locale)
+const getLanguageFromLocale = (localeCode) => {
+  const matchedLanguage = languageData.find((item) => localeCode === item.id)
   if (matchedLanguage) {
-    return matchedLanguage
+    return matchedLanguage.value
   }
 }
 
 const LocaleProvider = ({ children }) => {
   const [locale, setLocale] = React.useState(getLocaleCode())
+  const [localeError, setLocaleError] = React.useState('')
   const { currentUser } = useAuth()
 
   const { t } = useTranslation('web')
@@ -39,7 +41,13 @@ const LocaleProvider = ({ children }) => {
           locale,
         },
       })
+      toast.success(<div>{t('Changes Saved')}</div>)
+      localStorage.setItem('i18nextLng', locale.toString())
+      if (localeError) {
+        setLocaleError('')
+      }
     } catch (e) {
+      setLocaleError(e.toString())
       /* eslint-disable-next-line no-console */
       console.error(e)
     }
@@ -58,6 +66,9 @@ const LocaleProvider = ({ children }) => {
       value={{
         locale: locale,
         setLocale: setLocale,
+        localeError: localeError,
+        setLocaleError: setLocaleError,
+        localeLanguage: getLanguageFromLocale(locale),
         t,
       }}
     >
@@ -68,4 +79,4 @@ const LocaleProvider = ({ children }) => {
 
 const useLocale = () => React.useContext(LocaleContext)
 
-export { LocaleProvider, useLocale, getLanguageFromLocale }
+export { LocaleProvider, useLocale }

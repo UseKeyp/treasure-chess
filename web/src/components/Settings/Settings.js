@@ -5,29 +5,12 @@ import Button from 'src/components/Button'
 import { useModal } from 'src/hooks/useModal'
 import Dropdown from 'src/components/Dropdown/Dropdown'
 import { languageData } from '@treasure-chess/localization'
-import { toast } from '@redwoodjs/web/toast'
-import { useLocale, getLanguageFromLocale } from 'src/providers/locale/locale'
+import { useLocale } from 'src/providers/locale/locale'
 
 const Settings = () => {
   const { isVisible: isVisibleBeta, toggleModal: toggleModalBeta } = useModal()
   const { currentUser } = useAuth()
-
-  const { setLocale, locale } = useLocale()
-  const [currentLocaleData, _setCurrentLocaleData] = React.useState(getLanguageFromLocale(locale) || <div>{t('Select')}</div>)
-  const [localeError, setLocaleError] = React.useState('')
-
-  function setCurrentLocale(newLocale) {
-    if (newLocale) {
-      try {
-        setLocale(newLocale.locale.toString())
-        toast.success(<div>{t('Changes Saved')}</div>)
-        localStorage.setItem('i18nextLng', newLocale.locale.toString())
-        _setCurrentLocaleData(newLocale)
-      } catch (e) {
-        setLocaleError(e.message)
-      }
-    }
-  }
+  const { setLocale, localeError, localeLanguage } = useLocale()
 
   if (!currentUser) {
     return <></>
@@ -153,13 +136,20 @@ const Settings = () => {
         <div className="mt-2">
           <Dropdown
             category={t('Change your preferred language')}
-            default={currentLocaleData.value}
-            queryFilterFunction={setCurrentLocale}
-            queryFilter={currentLocaleData.value}
-            arrayOfObjects={languageData}
+            default={localeLanguage}
+            queryFilter={localeLanguage}
+            queryFilterFunction={setLocale}
+            arrayOfObjects={languageData.map((item) => {
+              return {
+                id: item.value,
+                value: item.id,
+              }
+            })}
           />
         </div>
-        <div className="text-errorYellow text-sm mt-2">{localeError}</div>
+        <div className="text-errorYellow font-bold text-sm mt-2">
+          {localeError}
+        </div>
       </div>
     </div>
   )

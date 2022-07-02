@@ -194,12 +194,11 @@ export const processPendingMarketTransactions = async ({ treasure }) => {
   }
 }
 
-export const createNewTreasureListing = async ({ treasure }) => {
+export const createNewTreasureListing = async ({ treasure, amount }) => {
   const updatedTreasure = await processPendingMarketTransactions({
     treasure,
   })
 
-  let { amount } = treasure.marketSales[0]
   validateCreateNewListingRequest({ treasure: updatedTreasure, amount })
   try {
     try {

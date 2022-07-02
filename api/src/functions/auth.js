@@ -61,7 +61,6 @@ export const handler = async (event, context) => {
     cookie: {
       HttpOnly: true,
       Path: '/',
-      // SameSite: 'None',
       SameSite: 'Strict',
       Secure: isProduction,
       ...(isProduction && {

@@ -18,6 +18,7 @@ export const QUERY = gql`
           updatedAt
           buyer {
             id
+            imageSrc
             username
           }
         }

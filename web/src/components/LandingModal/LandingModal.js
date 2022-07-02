@@ -6,8 +6,8 @@ import { isBrowser } from '@redwoodjs/prerender/browserUtils'
 export const content = (
   <>
     <p className="">
-      We need your consent to set cookies on your device as defined in our{' '}
-      <a href="/privacy" target="_blank" className="underline">
+      Allow necessary cookies.{' '}
+      <a href="/privacy" target="_blank" className="">
         Privacy Policy
       </a>
       .

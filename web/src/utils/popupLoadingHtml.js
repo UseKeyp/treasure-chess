@@ -49,7 +49,7 @@ const html = `<html lang="en">
         text-align: center;
         margin: 0 auto;
         width: 100%;
-        padding: 100px 0;
+        padding: 30px 0;
       }
       .container {
         position: fixed;

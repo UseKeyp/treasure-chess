@@ -16,7 +16,7 @@ const getMauticToken = async () => {
     body: encodeBody(body),
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
   }).then(async (res) => {
-    logger.debug({ custom: res }, 'getMauticToken()')
+    // logger.debug({ custom: res }, 'getMauticToken()')
     if (res.status === 204) throw `No content returned by Mautic`
     const data = await res.json()
     if (data.errors || !data.access_token) {
@@ -27,6 +27,7 @@ const getMauticToken = async () => {
 }
 
 const fetchMautic = async ({ body, method, path }) => {
+  if (!process.env.MAUTIC_CLIENT_SECRET) return
   const authToken = await getMauticToken()
   return fetch(`${MAUTIC_API}${path}`, {
     method,
@@ -36,7 +37,7 @@ const fetchMautic = async ({ body, method, path }) => {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
   }).then(async (res) => {
-    logger.debug({ custom: res }, `fetchMautic() ${path}`)
+    // logger.debug({ custom: res }, `fetchMautic() ${path}`)
     if (res.status === 204) throw `No content returned by Mautic`
     const data = await res.json()
     if (data.errors) {
@@ -119,6 +120,7 @@ export const updateMauticContactMinted = async ({ member, purchase }) => {
 }
 
 export const sendEmail = async ({ emailId, tokens, contact }) => {
+  if (!process.env.MAUTIC_CLIENT_SECRET) return
   const authToken = await getMauticToken()
   return fetch(`${MAUTIC_API}/emails/${emailId}/contact/${contact.id}/send`, {
     method: 'POST',

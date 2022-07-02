@@ -138,7 +138,6 @@ export const processPendingPurchases = async () => {
   //     { custom: { ...pendingPurchases[0], member: 'REDACTED' } },
   //     'pendingPurchases[0]'
   //   )
-  logger.debug({ custom: typeof pendingPurchases })
-  logger.debug({ custom: pendingPurchases.length })
+  // logger.debug({ custom: pendingPurchases.length })
   return pendingPurchases
 }

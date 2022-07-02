@@ -2,21 +2,9 @@ import FaqSection from 'src/components/FaqSection/FaqSection'
 import AchievementList from 'src/components/AchievementList/AchievementList'
 import Table from 'src/components/Table'
 import { MetaTags } from '@redwoodjs/web'
-import { useTheme } from 'src/providers/theme'
 import config from 'src/global.config'
 
-import { useEffect } from 'react'
-
 const FaqPage = () => {
-  const { toggleFaqTheme } = useTheme()
-
-  useEffect(() => {
-    toggleFaqTheme(true)
-    return function cleanup() {
-      toggleFaqTheme(false)
-    }
-  })
-
   const faqs = [
     [
       t('What is Treasure Chess?'),
@@ -137,7 +125,7 @@ const FaqPage = () => {
     [
       t('95% Goes to You!'),
       <Trans key="95GoesToYou" i18nkey="web:95GoesToYou">
-        We&apos;re only successful when the Chess Community is.
+        We don't earn unless the Chess Community earns.
         <ul>
           <li> First sale: 95% minter / 5% platform</li>
           <li>
@@ -200,8 +188,8 @@ const FaqPage = () => {
   const levelTableData = [
     getLevelRow('Good', '1 - 5 Points'),
     getLevelRow('Great', '6 - 10 Points'),
-    getLevelRow('Ultra', '11 - 14 Points'),
-    getLevelRow('Mythic', '15+ Points'),
+    getLevelRow('Ultra', '11 - 13 Points'),
+    getLevelRow('Mythic', '14+ Points'),
   ]
   return (
     <div>

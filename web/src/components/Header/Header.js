@@ -17,6 +17,8 @@ import MemberBalance from 'src/components/Member/MemberBalance'
 import { trimAddress } from 'src/utils/helpers'
 import Tooltip from 'src/components/Tooltip/Tooltip'
 
+import SiteFooter from 'src/components/SiteFooter/SiteFooter'
+
 const WalletBalance = () => {
   const { deposit } = useRamp()
   return (
@@ -91,6 +93,9 @@ const MobileNav = () => {
                     {t('Log Out')}
                   </Button>
                 </li>
+                <div className="fixed bottom-0">
+                  <SiteFooter />
+                </div>
               </>
             )}
           </ul>
@@ -117,8 +122,10 @@ const Header = () => {
   const address = trimAddress(profile?.address) || 'No address set'
 
   const handleUserStatus = useCallback(() => {
-    if (profile !== null && profile?.banned) {
-      logOut()
+    if (profile) {
+      if (profile?.banned) {
+        logOut()
+      }
     }
   }, [profile, logOut])
 

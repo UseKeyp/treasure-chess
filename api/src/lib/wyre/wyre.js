@@ -226,6 +226,7 @@ export const processDepositOrder = async ({ order, reservation }) => {
         embed: {
           color: 3066993, // https://gist.github.com/thomasbnt/b6f455e2c7d743b796917fa3c205f812
           title: `🤑 Deposit Success!`,
+          thumbnail: { url: 'https://www.sendwyre.com/favicon-32x32.png' },
           description: `Wyre order ID: ${order.id}
           sourceCurrency: ${order.sourceCurrency}
 usdSourceAmount: **$${order.usdSourceAmount}**
@@ -244,6 +245,7 @@ user: https://treasure.chess.com/members/${depositOrder?.member?.username}`,
         extraDetails = `Couldn't update database for reservation ${reservation}.`
       await sendDiscordAdminAlert({
         embed: {
+          thumbnail: { url: 'https://www.sendwyre.com/favicon-32x32.png' },
           color: 2067276, // https://gist.github.com/thomasbnt/b6f455e2c7d743b796917fa3c205f812
           title: `❓🤑 Deposit data received`,
           description: `See below to confirm if successful
@@ -259,6 +261,7 @@ ${JSON.stringify(order, undefined, 4)}
   } catch (e) {
     await sendDiscordAdminAlert({
       embed: {
+        thumbnail: { url: 'https://www.sendwyre.com/favicon-32x32.png' },
         color: 2067276,
         title: `❓🤑 Deposit processing error`,
         description: `See below to confirm if successful.

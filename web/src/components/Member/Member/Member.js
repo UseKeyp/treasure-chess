@@ -4,6 +4,8 @@ import TreasuresFetcher from 'src/components/Treasure/TreasuresFetcher'
 import { routes } from '@redwoodjs/router'
 import { useFilter } from 'src/providers/filters'
 import SortingDropdown from 'src/components/SortingDropdown/SortingDropdown'
+import { MetaTags } from '@redwoodjs/web'
+
 import FilterBar from 'src/components/FilterBar/FilterBar'
 
 const Member = ({ member, isLoading }) => {
@@ -13,6 +15,7 @@ const Member = ({ member, isLoading }) => {
   // const twitchSrc = `https://player.twitch.tv/?channel=jpegjames&parent=localhost&muted=true&autoplay=true`
   return (
     <div className="max-width-container">
+      {member && <MetaTags title={member?.username} />}
       <div className="grid grid-rows-1 gap-10">
         <div className="grid md:grid-cols-2 grid-cols-1 gap-10">
           <MemberDetails member={member} isLoading={isLoading} />

@@ -4,12 +4,15 @@ module.exports = konstaConfig({
   content: ['src/**/*.{js,jsx,ts,tsx}'],
   darkMode: 'media', // or 'media' or 'class'
   theme: {
+    fontFamily: {
+      wert: ['Aeonik', 'Helvetica', 'Arial', 'sans-serif'],
+    },
     extend: {
       colors: {
         // 'page-ios-light': '#fff',
         // 'page-ios-dark': '#000',
         primary: {
-          light: '#3d3a35',
+          light: '#fff',
           DEFAULT: '#272522',
           dark: '#11100f',
         },

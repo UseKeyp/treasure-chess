@@ -4,7 +4,7 @@ import TreasureCell from 'src/components/Treasure/TreasureCell/TreasureCell'
 const TreasurePage = ({ tokenId }) => {
   return (
     <div>
-      <MetaTags title="Collectible" />
+      <MetaTags title="Treasure" />
       <TreasureCell tokenId={tokenId} />
     </div>
   )

@@ -118,7 +118,7 @@ const GameCard = ({
     )
 
   let listAmount = 0
-  if (game.marketSaleStatus === 'LISTED' && game.marketSales?.length) {
+  if (game?.marketSaleStatus === 'LISTED' && game?.marketSales?.length) {
     let sorted = [...game.marketSales]
     listAmount = sorted?.sort((a, b) => b.id - a.id)[0].amount
   }

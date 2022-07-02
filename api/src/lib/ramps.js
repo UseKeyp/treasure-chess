@@ -7,7 +7,8 @@ import { memberSignMesage } from 'src/lib/web3/wallets'
 const MT_PELERIN = 'MT_PELERIN'
 const WYRE = 'WYRE'
 const RAMP_NETWORK = 'RAMP_NETWORK'
-export const RAMP_DEPOSIT_TYPES_ENABLED = [MT_PELERIN, WYRE, RAMP_NETWORK]
+const WERT = 'WERT'
+export const RAMP_DEPOSIT_TYPES_ENABLED = [WERT, MT_PELERIN, WYRE, RAMP_NETWORK]
 
 export const getRampOffUrl = async ({ _type }) => {
   // let url
@@ -65,6 +66,8 @@ export const getRampOnUrl = async ({ type }) => {
         })
     } else if (type === WYRE) {
       ;({ url } = await createDepositReservation(address))
+    } else if (type === WERT) {
+      url = `${process.env.APP_DOMAIN}/wert?address=${address}`
     }
 
     // TODO:  implement database update

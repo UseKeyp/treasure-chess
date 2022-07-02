@@ -3,9 +3,11 @@ import Icon from 'src/components/Icon/Icon'
 import { routes } from '@redwoodjs/router'
 import { getCardHtml } from '@treasure-chess/treasure-html'
 import { game } from './data.js'
+import { CardSkeleton } from 'src/components/LoadingSkeleton/LoadingSkeleton'
 
 const HomePageHero = () => {
   const [card, setCard] = React.useState()
+  const [loading, setLoading] = React.useState(true)
 
   const update = async () => {
     const raw = await getCardHtml({
@@ -27,10 +29,12 @@ const HomePageHero = () => {
     )
 
     setCard(replacedRaw)
+    setLoading(false)
   }
   React.useEffect(() => {
     update()
   }, [])
+
   return (
     <div className="homePageWrapper">
       <div className="homePageContent">
@@ -56,10 +60,16 @@ const HomePageHero = () => {
             </Button>
           </div>
         </div>
-        <div
-          className="mt-6 mx-auto lg:mx-0 md:mt-0"
-          dangerouslySetInnerHTML={{ __html: card }}
-        />
+        {loading ? (
+          <div className="mt-6 mx-auto lg:mx-0 md:mt-0">
+            <CardSkeleton />
+          </div>
+        ) : (
+          <div
+            className="mt-6 mx-auto lg:mx-0 md:mt-0"
+            dangerouslySetInnerHTML={{ __html: card }}
+          />
+        )}
       </div>
     </div>
   )

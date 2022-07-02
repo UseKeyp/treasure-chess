@@ -23,7 +23,7 @@ export const memberSendTransaction = async ({ memberId, unsignedTx }) => {
         'IMPERSONATE_USERNAME tx skipped'
       )
 
-    const memberWalletWithProvider = getMemberWalletWithProvider(memberId)
+    const memberWalletWithProvider = await getMemberWalletWithProvider(memberId)
     const gasSettings = await getGasSettings()
     return memberWalletWithProvider.sendTransaction({
       ...unsignedTx,

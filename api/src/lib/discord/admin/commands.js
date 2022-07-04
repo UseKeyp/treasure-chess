@@ -11,6 +11,7 @@ import {
   fetchMemberAndBlock,
   fetchMemberAndUpdateBan,
   fetchMemberAndGiveCredits,
+  fetchMemberAndUpdateBetaAccess,
   getMemberRawData,
 } from 'src/lib/members'
 
@@ -245,6 +246,43 @@ ${EXPLORER_BASE_URL}token/${treasure.id}`
           },
         ],
       })
+    },
+  },
+  {
+    data: new SlashCommandBuilder()
+      .setName('beta')
+      .setDescription(`Update a member's beta access`)
+      .addStringOption((option) =>
+        option
+          .setName('username')
+          .setDescription('Who to grant beta access')
+          .setRequired(true)
+      )
+      .addBooleanOption((option) =>
+        option
+          .setName('granted')
+          .setDescription('"True" to grant access, "False" to remove access')
+          .setRequired(true)
+      ),
+    execute: async (interaction) => {
+      const username = interaction.options.getString('username')
+      const isBetaMember = interaction.options.getBoolean('granted')
+      const member = await fetchMemberAndUpdateBetaAccess(
+        username,
+        isBetaMember
+      )
+      // fetchMemberAndUpdateBetaAccess doesn't throw errors, so we must do it manually
+      if (!member) throw 'Member not found'
+      const betaMemberCount = await db.member.count({
+        where: { betaAccess: true },
+      })
+      if (isBetaMember)
+        return interaction.editReply(
+          `**${username}** now has beta access. \`Beta members: ${betaMemberCount.toLocaleString()}\``
+        )
+      interaction.editReply(
+        `**${username}** no longer has beta access. \`Beta members: ${betaMemberCount.toLocaleString()}\``
+      )
     },
   },
 ]

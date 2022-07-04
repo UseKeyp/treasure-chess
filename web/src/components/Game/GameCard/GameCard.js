@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-
+import { useEffect } from 'react'
 import { P } from 'src/components/Typography'
 import Loader from 'src/components/Loader'
 const {
@@ -12,7 +12,7 @@ import placeholderGame from './placeholderGameData'
 import { useSpring, animated } from '@react-spring/web'
 import { CardSkeleton } from 'src/components/LoadingSkeleton'
 import { isMobile } from 'src/utils/helpers'
-
+import VerticalProgress from 'src/components/VerticalProgress/VerticalProgress'
 const calc = (x, y) => [-y / 140, x / 45, 1.05]
 const trans = (x, y, s) =>
   `perspective(600px) rotateX(${x}deg) rotateY(${y}deg) scale(${s})`
@@ -37,6 +37,7 @@ const GameCard = ({
     xys: [0, 0, 1],
     config: { mass: 4, tension: 450, friction: 40 },
   }))
+
   const [imageSrc, setImageSrc] = React.useState('/loading-board.png') // Use loading image
   const ref = React.useRef(null)
   const update = async () => {
@@ -128,6 +129,7 @@ const GameCard = ({
       <div className="gameCardWrapper">
         {isMinting && (
           <div className="gameCardMintingContainer">
+            <VerticalProgress />
             <div className="gameCardMintingOverlay" />
             <div className="w-full">
               <div className="mb-6 ">

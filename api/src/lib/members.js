@@ -48,6 +48,45 @@ export const fetchMemberAndGiveCredits = async (username, creditsToGive) => {
   }
 }
 
+export const fetchMemberAndUpdateBetaAccess = async (
+  username,
+  shouldGrantAccess
+) => {
+  const member = await db.member.findUnique({
+    where: { username: username.toLowerCase() },
+  })
+  if (member) {
+    return await db.member.update({
+      where: { id: member.id },
+      data: { betaAccess: shouldGrantAccess },
+    })
+  } else if (!member) {
+    // Created the member
+    const chessData = await fetchChessMember(username)
+    if (!chessData.username) throw `Couldn't fetch user ${username}`
+    let country = 'US'
+    try {
+      country = chessData.country.split('country/')[1]
+    } catch (e) {
+      /* eslint-disable-next-line no-console */
+      logger.error('Error calculating member country', e)
+    }
+    return await db.member.create({
+      data: {
+        id: chessData.player_id.toString(),
+        username: chessData.username,
+        mintCredits: Number(process.env.MINT_CREDITS_NEW_MEMBER),
+        ...(chessData.avatar && { imageSrc: chessData.avatar }),
+        ...(chessData.masterTitle && {
+          masterTitle: chessData.masterTitle,
+        }),
+        country,
+        betaAccess: shouldGrantAccess,
+      },
+    })
+  }
+}
+
 export const fetchMemberAndUpdateBan = async (username, shouldBan) => {
   const member = await db.member.findUnique({
     where: { username: username.toLowerCase() },

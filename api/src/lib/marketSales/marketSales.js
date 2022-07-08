@@ -79,6 +79,7 @@ export const processPendingMarketTransactions = async ({ treasure }) => {
     // WARNING: the next line doesn't account for re-orgs.
     // marketSales marked completed are not re-checked
     let currentMarketSale = treasure.marketSales[0]
+    const { amount } = currentMarketSale
     if (!currentMarketSale) return treasure
     let transactions = { saleTransactions: [] }
     let newMarketSale = currentMarketSale
@@ -106,7 +107,9 @@ export const processPendingMarketTransactions = async ({ treasure }) => {
                 data: {
                   status: LISTED,
                   isClosed: false,
-                  treasure: { update: { marketSaleStatus: LISTED } },
+                  treasure: {
+                    update: { marketSaleStatus: LISTED, price: amount },
+                  },
                 },
               })
             } else if (tx.status === FAILED) {
@@ -122,7 +125,9 @@ export const processPendingMarketTransactions = async ({ treasure }) => {
                 data: {
                   status: DELISTED,
                   isClosed: true,
-                  treasure: { update: { marketSaleStatus: DELISTED } },
+                  treasure: {
+                    update: { marketSaleStatus: DELISTED, price: null },
+                  },
                 },
               })
             } else if (tx.status === FAILED) {
@@ -156,6 +161,7 @@ export const processPendingMarketTransactions = async ({ treasure }) => {
                   update: {
                     owner: { connect: { id: buyer.id } },
                     marketSaleStatus: DELISTED,
+                    price: null,
                   },
                 },
               },
@@ -189,7 +195,10 @@ export const processPendingMarketTransactions = async ({ treasure }) => {
 }
 
 export const createNewTreasureListing = async ({ treasure, amount }) => {
-  const updatedTreasure = await processPendingMarketTransactions({ treasure })
+  const updatedTreasure = await processPendingMarketTransactions({
+    treasure,
+  })
+
   validateCreateNewListingRequest({ treasure: updatedTreasure, amount })
   try {
     try {

@@ -3,6 +3,7 @@ import { ReactComponent as Carat } from '../../assets/icons/carat.svg'
 
 const Dropdown = ({
   options,
+  arrayOfObjects,
   queryFilter,
   queryFilterFunction,
   category,
@@ -81,6 +82,29 @@ const Dropdown = ({
             </>
           )}
         </div>
+        {isOpen && typeof arrayOfObjects !== 'undefined' ? (
+          <div className="optionContainerWrap">
+            <div className="optionContainer">
+              {arrayOfObjects.map((obj) => {
+                return (
+                  <div
+                    key={obj.id}
+                    role={'button'}
+                    tabIndex={0}
+                    name={`${dropdownElementName}`}
+                    className="dropdownObject"
+                    onClick={() => {
+                      handleSelection(obj.value)
+                    }}
+                    onKeyDown={(e) => handleKeyDown(e, obj, obj.id)}
+                  >
+                    {obj.id}
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        ) : null}
         {isOpen && typeof options !== 'undefined' ? (
           <div className="optionContainerWrap">
             <div className="optionContainer">

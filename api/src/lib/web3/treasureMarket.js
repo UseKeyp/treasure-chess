@@ -83,6 +83,7 @@ export const list = async ({ treasure, amount }) => {
       memberId: treasure.ownerId,
       unsignedTx,
     })
+
     return tx
   } catch (e) {
     if (e.error.error['code'] === -32000)
@@ -130,6 +131,7 @@ export const buy = async ({ treasure }) => {
       memberId: context.currentUser.id,
       unsignedTx,
     })
+
     return tx
   } catch (e) {
     logger.error(e)

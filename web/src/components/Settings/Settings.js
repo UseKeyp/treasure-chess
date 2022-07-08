@@ -3,10 +3,15 @@ import ModalContainer from 'src/components/ModalContainer'
 import Button from 'src/components/Button'
 
 import { useModal } from 'src/hooks/useModal'
+import Dropdown from 'src/components/Dropdown/Dropdown'
+import { languageData } from '@treasure-chess/localization'
+import { useLocale } from 'src/providers/locale/locale'
 
 const Settings = () => {
   const { isVisible: isVisibleBeta, toggleModal: toggleModalBeta } = useModal()
   const { currentUser } = useAuth()
+  const { setLocale, localeError, localeLanguage } = useLocale()
+
   if (!currentUser) {
     return <></>
   }
@@ -53,6 +58,7 @@ const Settings = () => {
       description: <p>Preview new features before they are released.</p>,
       button: (
         <Button
+          disabled={currentUser.betaAccess}
           variant="blue"
           size="small"
           className="w-32"
@@ -124,6 +130,28 @@ const Settings = () => {
           </div>
         }
       />
+      <div className="p-4 mt-6 rounded-lg bg-chessBlack-100">
+        <div className="flex flex-col">
+          <div className="text-sm">{t('Language')}</div>
+        </div>
+        <div className="mt-2">
+          <Dropdown
+            category={t('Change your preferred language')}
+            default={localeLanguage}
+            queryFilter={localeLanguage}
+            queryFilterFunction={setLocale}
+            arrayOfObjects={languageData.map((item) => {
+              return {
+                id: item.value,
+                value: item.id,
+              }
+            })}
+          />
+        </div>
+        <div className="text-errorYellow font-bold text-sm mt-2">
+          {localeError}
+        </div>
+      </div>
     </div>
   )
 }

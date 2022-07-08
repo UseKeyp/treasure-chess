@@ -19,6 +19,7 @@ export const getCurrentUser = async (session) => {
         mintCredits: true,
         country: true,
         banned: true,
+        betaAccess: true,
       },
     })
   } else {
@@ -35,6 +36,7 @@ export const getCurrentUser = async (session) => {
         mintCredits: true,
         country: true,
         banned: true,
+        betaAccess: true,
       },
     })
   }
@@ -100,5 +102,16 @@ export const requireAuth = ({ roles } = {}) => {
 
   if (!hasRole({ roles })) {
     throw new ForbiddenError("You don't have access to do that.")
+  }
+}
+
+/**
+ * Checks if currentUser is a member of the beta program and will throw an error if not
+ *
+ * @throws {ForbiddenError} If the currentUser is not a member of the beta program
+ */
+export const betaAccess = () => {
+  if (!context.currentUser.betaAccess) {
+    throw new ForbiddenError("You don't have access to that")
   }
 }

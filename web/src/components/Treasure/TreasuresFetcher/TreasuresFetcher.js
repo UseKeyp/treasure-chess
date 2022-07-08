@@ -152,7 +152,7 @@ const TreasuresFetcher = ({
             ]}
           />
           {treasures.length === 0 && count === 0 && (
-            <div className="flex justify-center">That's everything</div>
+            <div className="flex justify-start sm:justify-center">That's everything</div>
           )}
         </div>
       ) : (

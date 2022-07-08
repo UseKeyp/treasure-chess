@@ -5,12 +5,12 @@ const LoadingCards = () => {
   const { innerWidth: width, innerHeight: height } = window
   const [props] = useSprings(80, (i) => {
     return {
-      x: getRandomArbitrary(-150, width),
-      y: getRandomArbitrary(-height + 200, height / 2 - 80),
-      scale: 1.2,
+      x: getRandomArbitrary(-150, width - 100),
+      y: getRandomArbitrary(-height + 300, height / 2 - 130),
+      scale: 1,
       rot: -10 + Math.random() * 20,
       delay: i * Math.random() * 600,
-      from: { x: width / 2, rot: 0, scale: 2, y: -3000 },
+      from: { x: width / 2 - 150, rot: 0, scale: 1.2, y: height },
     }
   }) // Create a bunch of springs using the helpers above
   // Create a gesture, we're interested in down-state, delta (current-pos - click-pos), direction and velocity

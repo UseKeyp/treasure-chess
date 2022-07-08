@@ -10,12 +10,12 @@ import LoadingCards from 'src/components/LoadingCards'
 const Redirect = ({ type }) => {
   const { errorMessage, successMessage, isLoading } = useRedirection()
 
-  if (isLoading)
-    return (
-      <div className="min-w-full min-h-screen flex items-center justify-center">
-        <LoadingCards />
-      </div>
-    )
+  // if (isLoading)
+  return (
+    <div className="min-w-full min-h-screen flex items-center justify-center">
+      <LoadingCards />
+    </div>
+  )
 
   let callToAction
   let iconName = type

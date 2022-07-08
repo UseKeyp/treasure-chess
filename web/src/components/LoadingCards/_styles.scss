@@ -19,13 +19,11 @@
   max-height: 280px;
   will-change: transform;
   border-radius: 10px;
-  // box-shadow: 0 12.5px 100px -10px rgba(50, 50, 73, 0.4),
-  //   0 10px 10px -10px rgba(50, 50, 73, 0.3);
 }
 
 .container-loading-cards {
   width: 100%;
-  // position: absolute;
+  position: fixed;
   overflow: hidden;
   height: 100%;
   padding: 400px 0;

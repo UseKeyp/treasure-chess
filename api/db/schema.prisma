@@ -42,6 +42,7 @@ model Member {
   ramps                Ramp[]
   OAuth                OAuth[]
   promotions           PromotionsOnMembers[]
+  betaAccess           Boolean                @default(false)
 }
 
 model Ramp {
@@ -120,6 +121,7 @@ model Treasure {
   marketSales       MarketSale[]
   openGraphImageSrc String?
   marketSaleStatus  MarketSaleStatus @default(DELISTED)
+  price             Int?
 }
 
 model MarketSale {

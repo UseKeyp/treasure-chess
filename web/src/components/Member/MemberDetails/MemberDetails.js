@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Avatar from 'src/components/Avatar'
+import Chip from 'src/components/Chip'
 import Button from 'src/components/Button/Button'
 import { Link, routes } from '@redwoodjs/router'
 import { TwitchIcon } from 'src/components/Icon'
@@ -30,6 +31,7 @@ const TwitchLink = ({ isProfile, username: twitchUsername }) => {
       await openOAuthUrl(TWITCH)
     }
   }
+
   if (isProfile) {
     return (
       <Button disabled={isLoading} onClick={onClickTwitch} className="ml-2">
@@ -49,6 +51,7 @@ const TwitchLink = ({ isProfile, username: twitchUsername }) => {
           <div className="flex flex-row">
             <TwitchIcon color={username ? undefined : '#ABB6B9'} />
             <p className="ml-1">{username ? 'Disconnect' : 'Connect'}</p>
+            {!twitchUsername ? <Chip variant="credit" /> : <></>}
           </div>
         </Tooltip>
       </Button>
@@ -71,6 +74,7 @@ const TwitchLink = ({ isProfile, username: twitchUsername }) => {
 
 const MemberDetails = ({ member, isProfile }) => {
   const { getAddress } = useWallet()
+
   return (
     <section className="member-details p-4">
       <div className="member-details--inner">

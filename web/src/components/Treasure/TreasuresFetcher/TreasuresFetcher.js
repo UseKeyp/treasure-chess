@@ -140,15 +140,27 @@ const TreasuresFetcher = ({
   if (error) return <h2 className="rw-text-center">Something went wrong</h2>
   return !collapsedTreasures ? (
     limit ? (
-      <div className="w-full">
-        <Carousel
-          enableAutoSlide
-          items={[
-            ...treasures.map((treasure, idx) => (
-              <GameCard disableAnimation key={idx} game={treasure} />
-            )),
-            loading && (
-              <div className="flex flex-row space-x-8">
+      !loading ? (
+        <div className="w-full">
+          <Carousel
+            enableAutoSlide
+            items={[
+              ...treasures.map((treasure, idx) => (
+                <GameCard disableAnimation key={idx} game={treasure} />
+              )),
+              treasures.length > 0 && <SeeMore key="seeMore" />,
+            ]}
+          />
+          {treasures.length === 0 && count === 0 && (
+            <div className="flex justify-center">That's everything</div>
+          )}
+        </div>
+      ) : (
+        <div className="w-full">
+          <Carousel
+            enableAutoSlide
+            items={[
+              treasures.length < 1 && (
                 <SkeletonTheme baseColor="#272522" highlightColor="#21201D">
                   <div className="flex flex-row space-x-8">
                     {Array(6)
@@ -162,12 +174,11 @@ const TreasuresFetcher = ({
                       ))}
                   </div>
                 </SkeletonTheme>
-              </div>
-            ),
-            treasures.length > 0 && !loading && <SeeMore key="seeMore" />,
-          ]}
-        />
-      </div>
+              ),
+            ]}
+          />
+        </div>
+      )
     ) : (
       <Treasures
         treasures={treasures}

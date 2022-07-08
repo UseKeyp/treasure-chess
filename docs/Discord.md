@@ -36,8 +36,10 @@ Bot commands can have localization strings. See https://discord.com/developers/d
 
 If you add new commands, they must be registered with:
 
+> NOTE: You must set ENABLE_DISCORD_BOTS=false in your .env
+
 ```bash
-$(node tasks/environment/setupEnv) yarn rw exec --prisma=false discord
+$(node tasks/environment/setupEnv) && yarn rw exec discord
 ```
 
 Notes:

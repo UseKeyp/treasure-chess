@@ -15,6 +15,7 @@ export const schema = gql`
     country: String
     masterTitle: MasterTitle
     twitchUsername: String
+    betaAccess: Boolean!
   }
 
   type Profile {

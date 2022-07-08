@@ -1,5 +1,4 @@
-// Run with this command: $(node tasks/environment/setupEnv) && yarn rw exec --prisma=false discord
-// NOTE: You must set ENABLE_DISCORD_BOTS=false in your .env
+// See Discord.md
 
 const { Routes } = require('discord-api-types/v9')
 const { REST } = require('@discordjs/rest')
@@ -88,4 +87,4 @@ const deleteCommands = async () => {
 }
 
 registerCommands()
-// deleteCommands()
+//deleteCommands()

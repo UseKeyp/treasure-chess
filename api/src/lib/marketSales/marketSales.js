@@ -79,8 +79,8 @@ export const processPendingMarketTransactions = async ({ treasure }) => {
     // WARNING: the next line doesn't account for re-orgs.
     // marketSales marked completed are not re-checked
     let currentMarketSale = treasure.marketSales[0]
-    const { amount } = currentMarketSale
     if (!currentMarketSale) return treasure
+    const { amount } = currentMarketSale
     let transactions = { saleTransactions: [] }
     let newMarketSale = currentMarketSale
 

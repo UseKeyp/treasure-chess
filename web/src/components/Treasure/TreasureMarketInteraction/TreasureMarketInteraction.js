@@ -6,7 +6,6 @@ import OwnerSaleInteraction from './SaleComponents/OwnerSaleInteraction'
 
 const TreasureMarketInteraction = () => {
   const { marketLoading, isOwner } = useMarket()
-  console.log(`marketLoading ${marketLoading}`)
   if (marketLoading) return <SaleSkeleton />
   if (isOwner) return <OwnerSaleInteraction />
   return <BuyerSaleInteraction />

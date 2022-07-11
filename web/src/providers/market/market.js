@@ -1,4 +1,4 @@
-import { useLazyQuery, useQuery, useMutation } from '@apollo/client'
+import { useQuery, useMutation } from '@apollo/client'
 import { useAuth } from '@redwoodjs/auth'
 import { useToast } from 'src/providers/toast'
 import { useWallet } from 'src/providers/wallet'

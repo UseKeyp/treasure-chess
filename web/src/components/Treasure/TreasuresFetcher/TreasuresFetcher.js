@@ -137,7 +137,8 @@ const TreasuresFetcher = ({
     /* eslint-disable-next-line react-hooks/exhaustive-deps*/
   }, [username, filter])
 
-  if (error) return <h2 className="rw-text-center">Something went wrong</h2>
+  if (error)
+    return <h2 className="rw-text-center">{t('Something went wrong')}</h2>
   return !collapsedTreasures ? (
     limit ? (
       !loading ? (
@@ -152,7 +153,9 @@ const TreasuresFetcher = ({
             ]}
           />
           {treasures.length === 0 && count === 0 && (
-            <div className="flex justify-start sm:justify-center">That's everything</div>
+            <div className="flex justify-start sm:justify-center">
+              {t("That's everything")}
+            </div>
           )}
         </div>
       ) : (

@@ -2,10 +2,10 @@ import { useLazyQuery } from '@apollo/client'
 import { TREASURES_PER_PAGE } from '@treasure-chess/treasure-filters'
 
 import Carousel from 'src/components/Carousel'
-import LoadingDots from 'src/components/LoadingDots'
 import SeeMore from 'src/components/SeeMore'
 import GameCard from 'src/components/Game/GameCard'
 import Treasures from 'src/components/Treasure/Treasures'
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 
 const TREASURES_WITH_FILTER = gql`
   query TreasuresSearchQuery(
@@ -140,17 +140,45 @@ const TreasuresFetcher = ({
   if (error) return <h2 className="rw-text-center">Something went wrong</h2>
   return !collapsedTreasures ? (
     limit ? (
-      <div className="w-screen">
-        <Carousel
-          enableAutoSlide
-          items={[
-            ...treasures.map((treasure, idx) => (
-              <GameCard disableAnimation key={idx} game={treasure} />
-            )),
-            treasures.length > 0 ? <SeeMore key="seeMore" /> : <LoadingDots />,
-          ]}
-        />
-      </div>
+      !loading ? (
+        <div className="w-full">
+          <Carousel
+            enableAutoSlide
+            items={[
+              ...treasures.map((treasure, idx) => (
+                <GameCard disableAnimation key={idx} game={treasure} />
+              )),
+              treasures.length > 0 && <SeeMore key="seeMore" />,
+            ]}
+          />
+          {treasures.length === 0 && count === 0 && (
+            <div className="flex justify-start sm:justify-center">That's everything</div>
+          )}
+        </div>
+      ) : (
+        <div className="w-full">
+          <Carousel
+            enableAutoSlide
+            items={[
+              treasures.length < 1 && (
+                <SkeletonTheme baseColor="#272522" highlightColor="#21201D">
+                  <div className="flex flex-row space-x-8">
+                    {Array(6)
+                      .fill(null)
+                      .map((_, index) => (
+                        <Skeleton
+                          key={index}
+                          className="relative w-[266px] h-[476px] rounded-[12px]"
+                          count={1}
+                        />
+                      ))}
+                  </div>
+                </SkeletonTheme>
+              ),
+            ]}
+          />
+        </div>
+      )
     ) : (
       <Treasures
         treasures={treasures}

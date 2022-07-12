@@ -77,12 +77,12 @@ const OnRampProvider = ({ ramp, toggleModal, isLoading, onSubmit }) => {
   if (!ramp) return null
   let onClick = async () => {
     await onSubmit(ramp.type)
-    toggleModal()
+    toggleModal && toggleModal()
   }
   if (ramp.type === 'WALLET_DEPOSIT')
     onClick = () => {
       toggleModal()
-      getAddress(currentUser.address)
+      toggleModal && getAddress(currentUser.address)
     }
 
   return (

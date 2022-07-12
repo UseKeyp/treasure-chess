@@ -1,4 +1,4 @@
-import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
 import { useAuth } from '@redwoodjs/auth'
 import { isBrowser } from '@redwoodjs/prerender/browserUtils'
 import { routes, Link } from '@redwoodjs/router'
@@ -14,7 +14,7 @@ import { useModal } from 'src/hooks/useModal'
 import {
   MEMBER_RAMPS_QUERY,
   RAMP_WITHDRAW_MUTATION,
-  RAMP_URL_QUERY,
+  RAMP_URL_MUTATION,
 } from './graphql'
 
 const EXTERNAL_TRANSFER = 'EXTERNAL_TRANSFER'
@@ -167,7 +167,7 @@ const RampProvider = ({ children }) => {
     setShouldPoll(false)
   }
 
-  const [rampUrlQuery] = useLazyQuery(RAMP_URL_QUERY, {
+  const [rampUrlMutation] = useMutation(RAMP_URL_MUTATION, {
     fetchPolicy: 'network-only',
     // nextFetchPolicy: 'cache-first',
   })
@@ -175,7 +175,6 @@ const RampProvider = ({ children }) => {
   const [rampWithdrawMutation] = useMutation(RAMP_WITHDRAW_MUTATION)
 
   const getRampUrl = async ({ type, direction }) => {
-    // console.log(`getRampUrl ${JSON.stringify(state)}`)
     let myWindow
     try {
       myWindow = window.open(
@@ -185,11 +184,10 @@ const RampProvider = ({ children }) => {
       )
       myWindow.document.write(popupLoadingHtml)
       setState({ ...state, isLoading: type, rampError: '' })
-      const { data, error } = await rampUrlQuery({
+      const { data, error } = await rampUrlMutation({
         variables: { direction, type },
       })
       if (error) throw error
-      // console.log(url)
       const {
         getRampUrl: { url },
       } = data
@@ -198,7 +196,6 @@ const RampProvider = ({ children }) => {
         setState({ ...state, isLoading: false, rampError: '' })
       }
     } catch (e) {
-      // console.log(`error ${e}`)
       setState({ ...state, isLoading: false, rampError: e })
       myWindow.document.write(
         `<h3>Oops! An error occured<br/><br/>Sending you back...</h3><p>${e}</p>`
@@ -207,7 +204,6 @@ const RampProvider = ({ children }) => {
         myWindow.close()
       }, 3000)
     }
-    toggleModalDep()
   }
 
   const connectWyre = async () => {

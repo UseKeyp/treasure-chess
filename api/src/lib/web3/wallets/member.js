@@ -20,7 +20,7 @@ export const memberSendTransaction = async ({ memberId, unsignedTx }) => {
     if (process.env.IMPERSONATE_USERNAME)
       return logger.warn(
         { custom: unsignedTx },
-        'IMPERSONATE_USERNAME tx skipped'
+        'IMPERSONATE_USERNAME - tx will be skipped'
       )
 
     const memberWalletWithProvider = await getMemberWalletWithProvider(memberId)

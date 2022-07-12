@@ -58,6 +58,7 @@ const MemberActivity = ({ member, isLoading, refetch }) => {
 
   if (pendingMintPurchases) {
     pendingMintPurchases.map((purchase) => {
+      if (!purchase) return
       list.unshift([
         'Now',
         <div

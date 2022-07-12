@@ -150,6 +150,7 @@ const RampProvider = ({ children }) => {
     skip: !isAuthenticated || !shouldPoll,
     fetchPolicy: 'network-only',
   })
+
   const updateRamps = () => {
     const coinbaseRamp = ramps.find((ramp) => ramp.type === COINBASE)
     const wyreRamp = ramps.find((ramp) => ramp.type === WYRE)
@@ -166,34 +167,15 @@ const RampProvider = ({ children }) => {
     setShouldPoll(false)
   }
 
-  React.useEffect(() => {
-    if (errorOAuth != '' && errorOAuth != null) {
-      if (errorOAuth.includes('COINBASE')) {
-        coinbase.error = errorOAuth
-        setCoinbase({
-          ...coinbase,
-          error: errorOAuth,
-        })
-      } else if (errorOAuth.includes('WYRE')) {
-        wyre.error = errorOAuth
-        setWyre({
-          ...wyre,
-          error: errorOAuth,
-        })
-      }
-    }
-    if (!ramps) return
-    updateRamps()
-    /* eslint-disable-next-line react-hooks/exhaustive-deps */
-  }, [ramps, errorOAuth])
-
   const [rampUrlQuery] = useLazyQuery(RAMP_URL_QUERY, {
     fetchPolicy: 'network-only',
-    nextFetchPolicy: 'cache-first',
+    // nextFetchPolicy: 'cache-first',
   })
+
   const [rampWithdrawMutation] = useMutation(RAMP_WITHDRAW_MUTATION)
 
   const getRampUrl = async ({ type, direction }) => {
+    console.log(`getRampUrl ${JSON.stringify(state)}`)
     let myWindow
     try {
       myWindow = window.open(
@@ -203,16 +185,20 @@ const RampProvider = ({ children }) => {
       )
       myWindow.document.write(popupLoadingHtml)
       setState({ ...state, isLoading: type, rampError: '' })
+      const { data, error } = await rampUrlQuery({
+        variables: { direction, type },
+      })
+      if (error) throw error
+      console.log(url)
       const {
-        data: {
-          getRampUrl: { url },
-        },
-      } = await rampUrlQuery({ variables: { direction, type } })
+        getRampUrl: { url },
+      } = data
       if (isBrowser && url) {
         myWindow.location = url
         setState({ ...state, isLoading: false, rampError: '' })
       }
     } catch (e) {
+      console.log(e)
       setState({ ...state, isLoading: false, rampError: e })
       myWindow.document.write(
         `<h3>Oops! An error occured<br/><br/>Sending you back...</h3><p>${e}</p>`
@@ -348,6 +334,27 @@ const RampProvider = ({ children }) => {
   //     setCoinbase({ isLoading: false, error: e.message, ...coinbase })
   //   }
   // }
+
+  // React.useEffect(() => {
+  //   if (errorOAuth != '' && errorOAuth != null) {
+  //     if (errorOAuth.includes('COINBASE')) {
+  //       coinbase.error = errorOAuth
+  //       setCoinbase({
+  //         ...coinbase,
+  //         error: errorOAuth,
+  //       })
+  //     } else if (errorOAuth.includes('WYRE')) {
+  //       wyre.error = errorOAuth
+  //       setWyre({
+  //         ...wyre,
+  //         error: errorOAuth,
+  //       })
+  //     }
+  //   }
+  //   if (!ramps) return
+  //   updateRamps()
+  //   /* eslint-disable-next-line react-hooks/exhaustive-deps */
+  // }, [ramps, errorOAuth])
 
   return (
     <RampContext.Provider

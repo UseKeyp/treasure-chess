@@ -88,7 +88,7 @@ const OnRampProvider = ({ ramp, toggleModal, isLoading, onSubmit }) => {
 
   return (
     <Provider
-      onSubmit={onClick}
+      onSubmit={async () => await onClick()}
       highlight={true}
       isLoading={isLoading === ramp.type}
       {...ramp}
@@ -149,11 +149,26 @@ const OffRampProvider = ({ ramp, amount }) => {
   )
 }
 
-export const DepositModal = ({ isVisible, toggleModal }) => {
+export const getDepositOptions = (toggleModal) => {
   const { getRampUrl, isLoading } = useRamp()
-  const onSubmit = (type) => getRampUrl({ direction: 'ON', type })
+  const onSubmit = async (type) => await getRampUrl({ direction: 'ON', type })
   const { t } = useTranslation('web')
-
+  const feedbackSuggestionCta = {
+    name: 'Your favorite provider',
+    disabled: true,
+    highlight: false,
+    hideButton: true,
+    description: (
+      <p className="mt-4">
+        <Trans i18nkey="FaroviteOnRampDetails">
+          Have a suggestion?{' '}
+          <Link to={routes.settings()} className="underline">
+            Let us know!
+          </Link>
+        </Trans>
+      </p>
+    ),
+  }
   const onRamps = [
     {
       type: 'RAMP_NETWORK',
@@ -314,24 +329,17 @@ export const DepositModal = ({ isVisible, toggleModal }) => {
       ),
     },
   ]
-
-  const feedbackSuggestionCta = {
-    name: 'Your favorite provider',
-    disabled: true,
-    highlight: false,
-    hideButton: true,
-    description: (
-      <p className="mt-4">
-        <Trans i18nkey="FaroviteOnRampDetails">
-          Have a suggestion?{' '}
-          <Link to={routes.settings()} className="underline">
-            Let us know!
-          </Link>
-        </Trans>
-      </p>
-    ),
-  }
-
+  return [...onRamps, feedbackSuggestionCta].map((ramp) => (
+    <OnRampProvider
+      key={ramp.name}
+      ramp={ramp}
+      toggleModal={toggleModal}
+      isLoading={isLoading}
+      onSubmit={onSubmit}
+    />
+  ))
+}
+export const DepositModal = ({ isVisible, toggleModal }) => {
   return (
     <ModalContainer
       isVisible={isVisible}
@@ -340,15 +348,7 @@ export const DepositModal = ({ isVisible, toggleModal }) => {
       content={
         <>
           <p className="text-base">Choose a payment provider</p>
-          {[...onRamps, feedbackSuggestionCta].map((ramp) => (
-            <OnRampProvider
-              key={ramp.name}
-              ramp={ramp}
-              toggleModal={toggleModal}
-              isLoading={isLoading}
-              onSubmit={onSubmit}
-            />
-          ))}
+          {getDepositOptions(toggleModal)}
         </>
       }
     />

@@ -79,6 +79,7 @@ const MarketProvider = ({ children }) => {
   useQuery(TREASURE_WITH_MARKET_SALES_QUERY, {
     pollInterval: 10000,
     fetchPolicy: 'network-only',
+    skip: !!state.tokenId,
     variables: { tokenId: state.tokenId },
     onError: () => {
       setState({ ...state, marketLoading: false })

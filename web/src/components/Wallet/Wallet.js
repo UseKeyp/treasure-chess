@@ -6,6 +6,8 @@ import { useRamp } from 'src/providers/ramp/ramp'
 import MemberBalance from 'src/components/Member/MemberBalance'
 import MemberMintCredits from 'src/components/Member/MemberMintCredits'
 import { trimAddress } from 'src/utils/helpers'
+import { getDepositOptions } from 'src/providers/ramp/modals'
+
 import {
   ArrowUpSquareFill,
   ArrowDownSquareFill,
@@ -40,7 +42,14 @@ const Wallet = () => {
     },
     {
       title: 'Add Funds',
-      description: <p>Instantly add funds using a debit card.</p>,
+      description: (
+        <div className="w-full">
+          <p>Instantly add funds using a debit card.</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
+            {getDepositOptions()}
+          </div>
+        </div>
+      ),
       button: (
         <Button onClick={deposit} variant="blue" size="small" className="w-32">
           <div className="flex py-1 justify-center flex-row items-center">
@@ -100,15 +109,15 @@ const Wallet = () => {
   return (
     <div className="max-width-container">
       <h1>{'Wallet'}</h1>
-      <div className="grid grid-rows-2">
+      <div className="grid">
         {items.map((item) => (
           <div
             key={item.title}
-            className={`grid grid-cols-2 align-center gap-4  bg-chessBlack-100 mt-6 p-4 rounded-lg border-[1px] ${
+            className={`grid grid-cols-4 align-center gap-4  bg-chessBlack-100 mt-6 p-4 rounded-lg border-[1px] ${
               item.highlight ? 'border-green' : 'border-chessBlack-100'
             }`}
           >
-            <div>
+            <div className="w-full col-span-3">
               <div className="flex align-center items-center">
                 {item.iconContent || <h3>{item.title}</h3>}
               </div>
@@ -126,7 +135,7 @@ const Wallet = () => {
               )}
             </div>
             {!item.hideButton && (
-              <div className="flex justify-end">
+              <div className="flex justify-end ">
                 <div>{item.button}</div>
               </div>
             )}

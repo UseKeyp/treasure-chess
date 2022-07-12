@@ -175,7 +175,7 @@ const RampProvider = ({ children }) => {
   const [rampWithdrawMutation] = useMutation(RAMP_WITHDRAW_MUTATION)
 
   const getRampUrl = async ({ type, direction }) => {
-    console.log(`getRampUrl ${JSON.stringify(state)}`)
+    // console.log(`getRampUrl ${JSON.stringify(state)}`)
     let myWindow
     try {
       myWindow = window.open(
@@ -189,7 +189,7 @@ const RampProvider = ({ children }) => {
         variables: { direction, type },
       })
       if (error) throw error
-      console.log(url)
+      // console.log(url)
       const {
         getRampUrl: { url },
       } = data
@@ -198,7 +198,7 @@ const RampProvider = ({ children }) => {
         setState({ ...state, isLoading: false, rampError: '' })
       }
     } catch (e) {
-      console.log(`error ${e}`)
+      // console.log(`error ${e}`)
       setState({ ...state, isLoading: false, rampError: e })
       myWindow.document.write(
         `<h3>Oops! An error occured<br/><br/>Sending you back...</h3><p>${e}</p>`

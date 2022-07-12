@@ -95,7 +95,7 @@ const Wallet = () => {
       status: (
         <p className="italic">
           <Trans i18nkey="web:requestBetaAccess">
-            Beta feature. Request to be a Beta Tester in{' '}
+            <b>Beta feature</b>. Request to be a Beta Tester in{' '}
             <Link className="underline" to={routes.settings()}>
               Settings
             </Link>

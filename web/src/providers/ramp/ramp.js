@@ -198,7 +198,7 @@ const RampProvider = ({ children }) => {
         setState({ ...state, isLoading: false, rampError: '' })
       }
     } catch (e) {
-      console.log(e)
+      console.log(`error ${e}`)
       setState({ ...state, isLoading: false, rampError: e })
       myWindow.document.write(
         `<h3>Oops! An error occured<br/><br/>Sending you back...</h3><p>${e}</p>`
@@ -335,26 +335,26 @@ const RampProvider = ({ children }) => {
   //   }
   // }
 
-  // React.useEffect(() => {
-  //   if (errorOAuth != '' && errorOAuth != null) {
-  //     if (errorOAuth.includes('COINBASE')) {
-  //       coinbase.error = errorOAuth
-  //       setCoinbase({
-  //         ...coinbase,
-  //         error: errorOAuth,
-  //       })
-  //     } else if (errorOAuth.includes('WYRE')) {
-  //       wyre.error = errorOAuth
-  //       setWyre({
-  //         ...wyre,
-  //         error: errorOAuth,
-  //       })
-  //     }
-  //   }
-  //   if (!ramps) return
-  //   updateRamps()
-  //   /* eslint-disable-next-line react-hooks/exhaustive-deps */
-  // }, [ramps, errorOAuth])
+  React.useEffect(() => {
+    if (errorOAuth != '' && errorOAuth != null) {
+      if (errorOAuth.includes('COINBASE')) {
+        coinbase.error = errorOAuth
+        setCoinbase({
+          ...coinbase,
+          error: errorOAuth,
+        })
+      } else if (errorOAuth.includes('WYRE')) {
+        wyre.error = errorOAuth
+        setWyre({
+          ...wyre,
+          error: errorOAuth,
+        })
+      }
+    }
+    if (!ramps) return
+    updateRamps()
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
+  }, [ramps, errorOAuth])
 
   return (
     <RampContext.Provider

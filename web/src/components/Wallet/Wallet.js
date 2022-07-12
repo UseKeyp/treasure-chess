@@ -16,7 +16,7 @@ import {
 
 const Wallet = () => {
   const { currentUser } = useAuth()
-  const { deposit, withdraw } = useRamp()
+  const { deposit, withdraw, getRampUrl, isLoading } = useRamp()
 
   if (!currentUser) {
     return <></>
@@ -46,7 +46,7 @@ const Wallet = () => {
         <div className="w-full">
           <p>Instantly add funds using a debit card.</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
-            {getDepositOptions()}
+            {getDepositOptions({ getRampUrl, isLoading })}
           </div>
         </div>
       ),

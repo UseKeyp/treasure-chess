@@ -1,4 +1,3 @@
-import { Trans, useTranslation } from 'react-i18next'
 import { useAuth } from '@redwoodjs/auth'
 import { Link, routes } from '@redwoodjs/router'
 
@@ -149,10 +148,8 @@ const OffRampProvider = ({ ramp, amount }) => {
   )
 }
 
-export const getDepositOptions = (toggleModal) => {
-  const { getRampUrl, isLoading } = useRamp()
+export const getDepositOptions = ({ getRampUrl, isLoading, toggleModal }) => {
   const onSubmit = async (type) => await getRampUrl({ direction: 'ON', type })
-  const { t } = useTranslation('web')
   const feedbackSuggestionCta = {
     name: 'Your favorite provider',
     disabled: true,

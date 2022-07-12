@@ -6,6 +6,7 @@ import { mintTreasureAndUpdatePurchase } from 'src/lib/web3'
 import { sendDiscordAdminAlert } from 'src/lib/discord/admin'
 
 import { getTokenIdFromHashId } from 'src/lib/web3/treasure'
+import { getUsdcBalance } from 'src/lib/web3/tokens.js'
 import { fetchGame } from 'src/lib/games'
 import { logger } from 'src/lib/logger'
 
@@ -102,6 +103,44 @@ export const validateMintRequest = async ({
     throw new EnvelopError(
       `This Treasure has already been minted with tokenId ${tokenId}.`
     )
+}
+export const processMintBalanceRequest = async ({
+  gameId,
+  endTime,
+  title,
+  paymentType,
+}) => {
+  if (paymentType === 'MINTCREDIT' && context.currentUser.mintCredits < 1)
+    throw new EnvelopError(`Insufficient mint credits`)
+  if (paymentType === 'BALANCE_MUSDC') {
+    const usdcBalance = await getUsdcBalance(context.currentUser.address)
+    if (usdcBalance / process.env.WYRE_MINT_USD_PURCHASE_AMOUNT < 1)
+      throw new EnvelopError(`Insufficient balance`)
+  }
+
+  if (context.currentUser.mintCredits > 0) {
+    const mintPurchase = await db.mintPurchase.create({
+      data: {
+        member: { connect: { id: context.currentUser.id } },
+        gameId,
+        paymentType,
+        orderStatus: 'COMPLETE',
+        gameEndTime: endTime,
+        title,
+      },
+    })
+    try {
+      await checkGasAndAirdrop({ member: context.currentUser })
+      await checkAndSetMarketApprovals({ member: context.currentUser })
+    } catch {
+      // Do nothing
+    }
+    await db.member.update({
+      where: { id: context.currentUser.id },
+      data: { mintCredits: context.currentUser.mintCredits - 1 },
+    })
+    return mintPurchase
+  }
 }
 
 // Part of the polling system. Triggers minting.

@@ -45,13 +45,19 @@ export const MINT_CHECKOUT_URL_MUTATION = gql`
   }
 `
 
-export const MINT_WITH_CREDIT_MUTATION = gql`
-  mutation mintWithCredit(
+export const MINT_BALANCE_MUTATION = gql`
+  mutation mintBalance(
     $gameId: String!
     $endTime: DateTime!
     $title: String!
+    $paymentType: String!
   ) {
-    mintWithCredit(gameId: $gameId, endTime: $endTime, title: $title) {
+    mintBalance(
+      gameId: $gameId
+      endTime: $endTime
+      title: $title
+      paymentType: $paymentType
+    ) {
       id
       orderStatus
       gameId

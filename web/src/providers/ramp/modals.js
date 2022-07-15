@@ -28,7 +28,7 @@ const Provider = ({
 }) => {
   let backgroundColor =
     isLoading || disabled ? 'bg-chessBlack-200 pointer-events-none' : 'bg-green'
-  const buttonClassName = `mt-2 w-[272px] h-[40px] text-xl shadow-m hover:sm hover:bg-greenDark hover:shadow-greenDark ${backgroundColor}`
+  const buttonClassName = `mt-2 w-full h-[40px] shrink text-xl shadow-m hover:sm hover:bg-greenDark hover:shadow-greenDark ${backgroundColor}`
   let errorText
   if (error != null && error != '' && error.length > 0) {
     errorText = error.substring(0, 200)
@@ -335,21 +335,6 @@ export const getDepositOptions = ({ getRampUrl, isLoading, toggleModal }) => {
       onSubmit={onSubmit}
     />
   ))
-}
-export const DepositModal = ({ isVisible, toggleModal }) => {
-  return (
-    <ModalContainer
-      isVisible={isVisible}
-      hideModal={toggleModal}
-      headerText="Funding Options"
-      content={
-        <>
-          <p className="text-base">Choose a payment provider</p>
-          {getDepositOptions(toggleModal)}
-        </>
-      }
-    />
-  )
 }
 
 export const WithdrawModal = ({ isVisible, toggleModal }) => {

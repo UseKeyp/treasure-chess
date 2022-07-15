@@ -3,7 +3,7 @@ import { useAuth } from '@redwoodjs/auth'
 import { isBrowser } from '@redwoodjs/prerender/browserUtils'
 import { routes, Link } from '@redwoodjs/router'
 import popupLoadingHtml from 'src/utils/popupLoadingHtml'
-import { DepositModal, WithdrawModal } from 'src/providers/ramp/modals'
+import { WithdrawModal } from 'src/providers/ramp/modals'
 import Icon from 'src/components/Icon/Icon'
 
 import { useToast } from 'src/providers/toast'
@@ -377,7 +377,6 @@ const RampProvider = ({ children }) => {
         ],
       }}
     >
-      <DepositModal isVisible={isVisibleDep} toggleModal={toggleModalDep} />
       <WithdrawModal isVisible={isVisibleWit} toggleModal={toggleModalWit} />
       {children}
     </RampContext.Provider>

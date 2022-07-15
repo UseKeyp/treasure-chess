@@ -30,7 +30,7 @@ jobs:
     name: Update Version
     runs-on: ubuntu-latest
     needs: [skip-release]
-    if: needs.update-version.outputs.SKIP_RELEASE == 0
+    if: needs.skip-release.outputs.SKIP_RELEASE == 0
     outputs:
       IS_PRERELEASE: ${{ steps.update_version.IS_PRERELEASE }}
       VERSION: ${{ steps.update_version.VERSION }}
@@ -88,7 +88,7 @@ jobs:
   create-release-draft:
     name: Create Release Draft
     needs: [skip-release, update-version, build]
-    if: needs.update-version.outputs.SKIP_RELEASE == 0
+    if: needs.skip-release.outputs.SKIP_RELEASE == 0
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Source

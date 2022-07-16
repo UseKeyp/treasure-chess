@@ -28,7 +28,7 @@ const Provider = ({
 }) => {
   let backgroundColor =
     isLoading || disabled ? 'bg-chessBlack-200 pointer-events-none' : 'bg-green'
-  const buttonClassName = `mt-2 w-full h-[40px] shrink text-xl shadow-m hover:sm hover:bg-greenDark hover:shadow-greenDark ${backgroundColor}`
+  const buttonClassName = `mt-2 w-full h-[40px] text-xl shadow-m hover:sm hover:bg-greenDark hover:shadow-greenDark ${backgroundColor}`
   let errorText
   if (error != null && error != '' && error.length > 0) {
     errorText = error.substring(0, 200)
@@ -43,7 +43,9 @@ const Provider = ({
       onClick={onSubmit}
       disabled={isLoading || disabled}
     >
-      {isLoading ? <LoadingDots /> : buttonText}
+      <div className="text-base sm:text-xl md:text-2xl">
+        {isLoading ? <LoadingDots /> : buttonText}
+      </div>
     </Button>
   )
   let iconContent = iconName ? (
@@ -54,7 +56,7 @@ const Provider = ({
   if (icon) iconContent = icon
   return (
     <div
-      className={`align-center bg-chessBlack-100 mt-6 p-4 rounded-lg border-[1px] ${
+      className={`align-center h-full bg-chessBlack-100 mt-6 p-4 rounded-lg border-[1px] ${
         highlight ? 'border-green' : 'border-chessBlack-100'
       }`}
     >
@@ -157,7 +159,7 @@ export const getDepositOptions = ({ getRampUrl, isLoading, toggleModal }) => {
     hideButton: true,
     description: (
       <p className="mt-4">
-        <Trans i18nkey="FaroviteOnRampDetails">
+        <Trans i18nkey="FavoriteOnRampDetails">
           Have a suggestion?{' '}
           <Link to={routes.settings()} className="underline">
             Let us know!
@@ -304,15 +306,19 @@ export const getDepositOptions = ({ getRampUrl, isLoading, toggleModal }) => {
     },
     {
       icon: (
-        <div className="flex py-1 justify-center flex-row items-center">
-          <Icon name="metamask" className="w-6 h-6 m-4" />
-          <img
-            alt="rainbow"
-            src="/rainbow_wallet.png"
-            width="32px"
-            className="ml-2"
-          />
-          <h2 className="ml-2">{t('Web3 wallet')}</h2>
+        <div className="py-1 flex flex-row justify-center items-center">
+          <div className="flex flex-row flex-shrink-0">
+            <Icon name="metamask" className="w-6 h-6 m-4" />
+            <img
+              alt="rainbow"
+              src="/rainbow_wallet.png"
+              width="32px"
+              className="ml-2"
+            />
+          </div>
+          <h2 className="ml-2 text-sm sm:text-xl md:text-3xl">
+            {t('Web3 wallet')}
+          </h2>
         </div>
       ),
       name: 'Manual',
@@ -337,6 +343,128 @@ export const getDepositOptions = ({ getRampUrl, isLoading, toggleModal }) => {
   ))
 }
 
+export const getWithdrawalOptions = ({
+  getRampUrl,
+  isLoading,
+  toggleModal,
+}) => {
+  const onSubmit = async (type) => await getRampUrl({ direction: 'ON', type })
+  const feedbackSuggestionCta = {
+    name: 'Your favorite provider',
+    disabled: true,
+    highlight: false,
+    hideButton: true,
+    description: (
+      <p className="mt-4">
+        <Trans i18nkey="FavoriteOnRampDetails">
+          Have a suggestion?{' '}
+          <Link to={routes.settings()} className="underline">
+            Let us know!
+          </Link>
+        </Trans>
+      </p>
+    ),
+  }
+  const offRampList = [
+    {
+      type: 'WYRE',
+      icon: (
+        <div className="flex justify-center">
+          <img
+            alt="Wyre and Plaid logos"
+            src="/icons/wyre_plaid.png"
+            className="h-12"
+          />
+        </div>
+      ),
+      name: 'Wyre + Plaid',
+      description: (
+        <>
+          <p>
+            Regions: US, MX, AU, EU, CN, BR
+            <br />
+            Fee: 0.2%
+          </p>
+        </>
+      ),
+    },
+    {
+      iconName: 'mt_pelerin',
+      buttonText: 'Coming Soon',
+      name: 'Mt Pelerin',
+      disabled: true,
+      type: 'MT_PELERIN',
+      description: (
+        <p className="mt-4">
+          <Trans i18nkey="MtPelerinOnRampDetails">
+            Regions: Most places excluding the US (
+            <a
+              href="https://developers.mtpelerin.com/service-information/supported-countries"
+              target="_blank"
+              className="underline"
+              rel="noreferrer"
+            >
+              list
+            </a>
+            )
+            <br />
+            Limit: CHF 200/purchase
+            <br />
+            Fee: 1.5% + CHF 1.2 (
+            <a
+              href="https://www.mtpelerin.com/pricing"
+              target="_blank"
+              className="underline"
+              rel="noreferrer"
+            >
+              details
+            </a>
+            )
+          </Trans>
+        </p>
+      ),
+    },
+    {
+      icon: (
+        <div className="py-1 flex flex-row justify-center items-center">
+          <div className="flex flex-row flex-shrink-0">
+            <Icon name="metamask" className="w-6 h-6 m-4" />
+            <img
+              alt="rainbow"
+              src="/rainbow_wallet.png"
+              width="32px"
+              className="ml-2"
+            />
+          </div>
+          <h2 className="ml-2 text-sm sm:text-xl md:text-3xl">
+            {t('Web3 wallet')}
+          </h2>
+        </div>
+      ),
+      name: 'Manual',
+      type: 'WALLET_DEPOSIT',
+      disabled: true,
+      buttonText: 'Coming Soon',
+      description: (
+        <p className="mt-4">
+          Regions: All
+          <br />
+          Fee: none
+        </p>
+      ),
+    },
+  ]
+  return [...offRampList, feedbackSuggestionCta].map((ramp) => (
+    <OnRampProvider
+      key={ramp.name}
+      ramp={ramp}
+      toggleModal={toggleModal}
+      isLoading={isLoading}
+      onSubmit={onSubmit}
+    />
+  ))
+}
+
 export const WithdrawModal = ({ isVisible, toggleModal }) => {
   const [amount, setAmount] = React.useState('0')
   const { offRamps, isLoading } = useRamp()
@@ -351,7 +479,7 @@ export const WithdrawModal = ({ isVisible, toggleModal }) => {
     hideButton: true,
     description: (
       <p className="mt-4">
-        <Trans i18nkey="FaroviteOnRampDetails">
+        <Trans i18nkey="FavoriteOnRampDetails">
           Have a suggestion?{' '}
           <Link to={routes.settings()} className="underline">
             Let us know!
@@ -375,15 +503,20 @@ export const WithdrawModal = ({ isVisible, toggleModal }) => {
               <FilterPriceInput value={amount} setValue={setAmount} />
             </div>
           )}
-          {[...offRamps, feedbackSuggestionCta].map((ramp) => (
-            <OffRampProvider
-              key={ramp.name}
-              isLoading={isLoading}
-              amount={amount}
-              ramp={ramp}
-              toggleModal={toggleModal}
-            />
-          ))}
+          {[...offRamps, feedbackSuggestionCta].map(
+            (ramp) => (
+              console.log(ramp),
+              (
+                <OffRampProvider
+                  key={ramp.name}
+                  isLoading={isLoading}
+                  amount={amount}
+                  ramp={ramp}
+                  toggleModal={toggleModal}
+                />
+              )
+            )
+          )}
           <p className="mt-4 italic">
             For your protection, funds can only be sent one-way from your
             Treasure Chess wallet to your bank. Funds can never be withdrawn

@@ -105,7 +105,9 @@ const RampProvider = ({ children }) => {
     type: EXTERNAL_TRANSFER,
     icon: (
       <div className="flex py-1 justify-center flex-row items-center">
-        <Icon name="metamask" className="w-6 h-6 m-4" />
+        <div className="w-6 h-6 m-4 min-w-6 min-h-6">
+          <Icon name="metamask" className="w-6 h-6 m-4" />
+        </div>
         <img
           alt="rainbow"
           src="/rainbow_wallet.png"

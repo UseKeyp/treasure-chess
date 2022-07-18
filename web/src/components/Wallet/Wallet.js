@@ -181,7 +181,7 @@ const Wallet = () => {
         {arrayToMap.map((item) => (
           <div
             key={item.title}
-            className={`pr-4 flex rounded-lg  ${
+            className={`pr-4 flex rounded-lg mb-6 sm:mb-2 ${
               item.highlight ? 'border-green' : 'border-chessBlack-100'
             }`}
           >

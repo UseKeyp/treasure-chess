@@ -1,14 +1,11 @@
 import { useAuth } from '@redwoodjs/auth'
 import { Link, routes } from '@redwoodjs/router'
 
-import ModalContainer from 'src/components/ModalContainer'
 import Icon from 'src/components/Icon'
-import FilterPriceInput from 'src/components/FilterPriceInput'
 import LoadingDots from 'src/components/LoadingDots'
 import Button from 'src/components/Button'
 
 import { trimAddress, getBlockExplorerUrl } from 'src/utils/helpers'
-import { useRamp } from 'src/providers/ramp/ramp'
 import { useWallet } from 'src/providers/wallet'
 
 const Provider = ({
@@ -143,7 +140,7 @@ const OffRampProvider = ({ ramp, amount }) => {
       isLoading={ramp.isLoading}
       disabled={ramp.disabled}
       buttonText={getButtonText()}
-      highlight={!!ramp.address}
+      highlight={true}
       status={status}
       {...ramp}
     />
@@ -455,7 +452,7 @@ export const getWithdrawalOptions = ({
     },
   ]
   return [...offRampList, feedbackSuggestionCta].map((ramp) => (
-    <OnRampProvider
+    <OffRampProvider
       key={ramp.name}
       ramp={ramp}
       toggleModal={toggleModal}
@@ -463,67 +460,4 @@ export const getWithdrawalOptions = ({
       onSubmit={onSubmit}
     />
   ))
-}
-
-export const WithdrawModal = ({ isVisible, toggleModal }) => {
-  const [amount, setAmount] = React.useState('0')
-  const { offRamps, isLoading } = useRamp()
-  const isConnected = offRamps
-    .map((ramp) => ramp.address && true)
-    .includes(true)
-
-  const feedbackSuggestionCta = {
-    name: 'Your favorite provider',
-    disabled: true,
-    highlight: false,
-    hideButton: true,
-    description: (
-      <p className="mt-4">
-        <Trans i18nkey="FavoriteOnRampDetails">
-          Have a suggestion?{' '}
-          <Link to={routes.settings()} className="underline">
-            Let us know!
-          </Link>
-        </Trans>
-      </p>
-    ),
-  }
-  return (
-    <ModalContainer
-      headerText="Cash Out Options"
-      isVisible={isVisible}
-      onSubmit={toggleModal}
-      hideModal={toggleModal}
-      content={
-        <>
-          <p className="text-base">Choose a payment provider</p>
-          {isConnected && (
-            <div className="bg-chessBlack-100 p-2 mt-4 rounded-lg ">
-              <h4 className="mb-2">Amount</h4>
-              <FilterPriceInput value={amount} setValue={setAmount} />
-            </div>
-          )}
-          {[...offRamps, feedbackSuggestionCta].map(
-            (ramp) => (
-              console.log(ramp),
-              (
-                <OffRampProvider
-                  key={ramp.name}
-                  isLoading={isLoading}
-                  amount={amount}
-                  ramp={ramp}
-                  toggleModal={toggleModal}
-                />
-              )
-            )
-          )}
-          <p className="mt-4 italic">
-            For your protection, funds can only be sent one-way from your
-            Treasure Chess wallet to your bank. Funds can never be withdrawn
-            from your bank using this method.
-          </p>
-        </>
-      }
-    />
-  )
 }

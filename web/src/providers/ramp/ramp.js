@@ -3,7 +3,6 @@ import { useAuth } from '@redwoodjs/auth'
 import { isBrowser } from '@redwoodjs/prerender/browserUtils'
 import { routes, Link } from '@redwoodjs/router'
 import popupLoadingHtml from 'src/utils/popupLoadingHtml'
-import { WithdrawModal } from 'src/providers/ramp/modals'
 import Icon from 'src/components/Icon/Icon'
 
 import { useToast } from 'src/providers/toast'
@@ -140,8 +139,8 @@ const RampProvider = ({ children }) => {
     ),
   }
 
-  const { isVisible: isVisibleDep, toggleModal: toggleModalDep } = useModal()
-  const { isVisible: isVisibleWit, toggleModal: toggleModalWit } = useModal()
+  const { toggleModal: toggleModalDep } = useModal()
+  const { toggleModal: toggleModalWit } = useModal()
 
   const {
     data: { ramps } = {},
@@ -379,7 +378,6 @@ const RampProvider = ({ children }) => {
         ],
       }}
     >
-      <WithdrawModal isVisible={isVisibleWit} toggleModal={toggleModalWit} />
       {children}
     </RampContext.Provider>
   )

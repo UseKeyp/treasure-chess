@@ -85,7 +85,8 @@ const RampProvider = ({ children }) => {
       <img
         src="/icons/wyre_plaid.png"
         alt="Wyre and Plaid logos"
-        className="h-12"
+        className="h-[38px]"
+        height="38px"
       />
     ),
     description: (

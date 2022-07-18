@@ -305,12 +305,12 @@ export const getDepositOptions = ({ getRampUrl, isLoading, toggleModal }) => {
       icon: (
         <div className="py-1 flex flex-row justify-center items-center">
           <div className="flex flex-row flex-shrink-0">
-            <Icon name="metamask" className="w-6 h-6 m-4" />
+            <Icon name="metamask" className="w-6 m-4" />
             <img
               alt="rainbow"
               src="/rainbow_wallet.png"
               width="32px"
-              className="ml-2"
+              className="ml-2 h-[38px]"
             />
           </div>
           <h2 className="ml-2 text-sm sm:text-xl md:text-3xl">
@@ -370,14 +370,14 @@ export const getWithdrawalOptions = ({
           <img
             alt="Wyre and Plaid logos"
             src="/icons/wyre_plaid.png"
-            className="h-12"
+            className="h-[38px]"
           />
         </div>
       ),
       name: 'Wyre + Plaid',
       description: (
         <>
-          <p>
+          <p className="mt-4">
             Regions: US, MX, AU, EU, CN, BR
             <br />
             Fee: 0.2%

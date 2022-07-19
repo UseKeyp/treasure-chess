@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const Accordion = ({ unexpandedContent, content, clickTrigger }) => {
+const Accordion = ({ unexpandedContent, children, toggle }) => {
   const [isActive, setIsActive] = useState(false)
 
   return (
@@ -8,10 +8,10 @@ const Accordion = ({ unexpandedContent, content, clickTrigger }) => {
       <div className="accordion-title">
         <div className="flex justify-between">
           {unexpandedContent}
-          <button onClick={() => setIsActive(!isActive)}>{clickTrigger}</button>
+          <button onClick={() => setIsActive(!isActive)}>{toggle}</button>
         </div>
       </div>
-      {isActive && <div className="accordion-content">{content}</div>}
+      {isActive && <div className="accordion-content">{children}</div>}
     </div>
   )
 }

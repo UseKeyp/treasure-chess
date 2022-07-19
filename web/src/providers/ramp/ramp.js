@@ -8,7 +8,6 @@ import Icon from 'src/components/Icon/Icon'
 import { useToast } from 'src/providers/toast'
 import { TxToast } from 'src/providers/market/toasts'
 import { useOAuth } from 'src/providers/oAuth'
-import { useModal } from 'src/hooks/useModal'
 
 import {
   MEMBER_RAMPS_QUERY,
@@ -139,9 +138,6 @@ const RampProvider = ({ children }) => {
       </p>
     ),
   }
-
-  const { toggleModal: toggleModalDep } = useModal()
-  const { toggleModal: toggleModalWit } = useModal()
 
   const {
     data: { ramps } = {},
@@ -360,8 +356,6 @@ const RampProvider = ({ children }) => {
         isLoading: state.isLoading || rampsLoading,
         rampError: rampError || state.rampError,
         getRampUrl,
-        deposit: toggleModalDep,
-        withdraw: toggleModalWit,
         offRamps: [
           {
             ...wyre,

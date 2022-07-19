@@ -53,7 +53,7 @@ const Provider = ({
   if (icon) iconContent = icon
   return (
     <div
-      className={`align-center h-full bg-chessBlack-100 mt-6 p-4 rounded-lg border-[1px] ${
+      className={`align-center h-full bg-chessBlack-100 p-4 rounded-lg border-[1px] ${
         highlight ? 'border-green' : 'border-chessBlack-100'
       }`}
     >
@@ -140,7 +140,7 @@ const OffRampProvider = ({ ramp, amount }) => {
       isLoading={ramp.isLoading}
       disabled={ramp.disabled}
       buttonText={getButtonText()}
-      highlight={true}
+      highlight={!!ramp.address}
       status={status}
       {...ramp}
     />
@@ -313,9 +313,7 @@ export const getDepositOptions = ({ getRampUrl, isLoading, toggleModal }) => {
               className="ml-2 h-[38px]"
             />
           </div>
-          <h2 className="ml-2 text-sm sm:text-xl md:text-3xl">
-            {t('Web3 wallet')}
-          </h2>
+          <h2 className="ml-2 text-2xl">{t('Web3 wallet')}</h2>
         </div>
       ),
       name: 'Manual',
@@ -433,9 +431,7 @@ export const getWithdrawalOptions = ({
               className="ml-2"
             />
           </div>
-          <h2 className="ml-2 text-sm sm:text-xl md:text-3xl">
-            {t('Web3 wallet')}
-          </h2>
+          <h2 className="ml-2 text-2xl">{t('Web3 wallet')}</h2>
         </div>
       ),
       name: 'Manual',

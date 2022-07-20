@@ -173,6 +173,7 @@ const RampProvider = ({ children }) => {
   const [rampWithdrawMutation] = useMutation(RAMP_WITHDRAW_MUTATION)
 
   const getRampUrl = async ({ type, direction }) => {
+    console.log(type, direction)
     let myWindow
     try {
       myWindow = window.open(

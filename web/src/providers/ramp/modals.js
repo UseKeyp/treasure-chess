@@ -39,10 +39,11 @@ const Provider = ({
       className={buttonClassName}
       onClick={onSubmit}
       disabled={isLoading || disabled}
+      size="small"
+      className="w-32"
+      variant="green"
     >
-      <div className="text-base sm:text-xl md:text-2xl">
-        {isLoading ? <LoadingDots /> : buttonText}
-      </div>
+      {isLoading ? <LoadingDots /> : buttonText}
     </Button>
   )
   let iconContent = iconName ? (
@@ -53,8 +54,8 @@ const Provider = ({
   if (icon) iconContent = icon
   return (
     <div
-      className={`align-center h-full bg-chessBlack-100 p-4 rounded-lg border-[1px] ${
-        highlight ? 'border-green' : 'border-chessBlack-100'
+      className={`align-center h-full bg-chessBlack-200 p-4 rounded-lg border-[1px] ${
+        highlight ? 'border-green' : 'border-chessBlack-200'
       }`}
     >
       <div className="flex align-center items-center">{iconContent}</div>
@@ -80,13 +81,13 @@ const OnRampProvider = ({ ramp, toggleModal, isLoading, onSubmit }) => {
   }
   if (ramp.type === 'WALLET_DEPOSIT')
     onClick = () => {
-      toggleModal()
-      toggleModal && getAddress(currentUser.address)
+      if (toggleModal) toggleModal()
+      getAddress(currentUser.address)
     }
 
   return (
     <Provider
-      onSubmit={async () => await onClick()}
+      onSubmit={onClick}
       highlight={true}
       isLoading={isLoading === ramp.type}
       {...ramp}
@@ -166,6 +167,31 @@ export const getDepositOptions = ({ getRampUrl, isLoading, toggleModal }) => {
     ),
   }
   const onRamps = [
+    {
+      type: 'WERT',
+      iconName: 'wert',
+      name: 'Wert.io',
+      description: (
+        <p className="mt-4">
+          <Trans i18nkey="web:RampOnRampDetails">
+            Regions: Most places (
+            <a
+              href="https://support.wert.io/en/articles/5194509-supported-countries"
+              target="_blank"
+              className="underline"
+              rel="noreferrer"
+            >
+              list
+            </a>
+            )
+            <br />
+            Limit: $1,000/week
+            <br />
+            Fee: 5%
+          </Trans>
+        </p>
+      ),
+    },
     {
       type: 'RAMP_NETWORK',
       iconName: 'ramp_network',
@@ -270,33 +296,6 @@ export const getDepositOptions = ({ getRampUrl, isLoading, toggleModal }) => {
               details
             </a>
             )
-          </Trans>
-        </p>
-      ),
-    },
-    {
-      type: 'WERT',
-      iconName: 'wert',
-      buttonText: 'Coming Soon',
-      name: 'Wer.io',
-      disabled: true,
-      description: (
-        <p className="mt-4">
-          <Trans i18nkey="web:RampOnRampDetails">
-            Regions: Most places (
-            <a
-              href="https://support.wert.io/en/articles/5194509-supported-countries"
-              target="_blank"
-              className="underline"
-              rel="noreferrer"
-            >
-              list
-            </a>
-            )
-            <br />
-            Limit: $1,000/week
-            <br />
-            Fee: 5%
           </Trans>
         </p>
       ),

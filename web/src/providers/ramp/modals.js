@@ -36,11 +36,10 @@ const Provider = ({
   let button = (
     <Button
       id="connection-button"
-      className={buttonClassName}
+      className={`w-32 ${buttonClassName}`}
       onClick={onSubmit}
       disabled={isLoading || disabled}
       size="small"
-      className="w-32"
       variant="green"
     >
       {isLoading ? <LoadingDots /> : buttonText}

@@ -51,12 +51,6 @@ const MarketProvider = ({ children }) => {
     tokenId: pathname.split('treasures/')[1],
   })
 
-  React.useEffect(() => {
-    const tokenId = pathname.split('treasures/')[1]
-    setState({ ...state, tokenId })
-    /* eslint-disable-next-line react-hooks/exhaustive-deps */
-  }, [pathname])
-
   const toastAction = (type, txHash) => {
     // TODO: Add more data to toasts (links, etc.)
     if (type === PENDING_LISTED)
@@ -100,6 +94,7 @@ const MarketProvider = ({ children }) => {
       if (current.status === last.status)
         return setState({
           ...state,
+          treasure: treasureWithMarketSales,
           marketSale: false,
           marketLoading: false,
         })
@@ -109,6 +104,7 @@ const MarketProvider = ({ children }) => {
       if (status.includes('PENDING')) shouldPoll = true
       setState({
         ...state,
+        treasure: treasureWithMarketSales,
         marketSale: current,
         marketStatus: status,
         marketLoading: false,
@@ -273,6 +269,12 @@ const MarketProvider = ({ children }) => {
       setState({ ...state, isOwner: true })
     /* eslint-disable-next-line react-hooks/exhaustive-deps*/
   }, [currentUser, state.treasure, authLoading])
+
+  React.useEffect(() => {
+    const tokenId = pathname.split('treasures/')[1]
+    setState({ ...state, tokenId })
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
+  }, [pathname])
 
   const onSubmit = () => {
     if (state.actionData.type === PENDING_LISTED) return onConfirmList()

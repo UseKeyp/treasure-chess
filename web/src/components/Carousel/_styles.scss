@@ -1,6 +1,7 @@
 .use-spring-carousel-main-wrapper {
   max-width: theme('maxWidth.7xl');
-  overflow-x: clip;
+  overflow-x: hidden;
+  padding-top: 32px;
 }
 
 .use-spring-carousel-item {

@@ -49,7 +49,7 @@ const OnRamps = () => {
             </a>
             )
             <br />
-            Limit: $1,000/week
+            Limit: $1,000 w/o KYC
           </Trans>
         </p>
       ),

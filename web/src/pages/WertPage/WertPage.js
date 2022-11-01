@@ -32,8 +32,8 @@ const WertPage = () => {
                   currency: 'USD',
                   // currency_amount: 100,
                   // commodity_amount: 5;
-                  commodity: isProduction ? 'MATIC:polygon' : 'ETH',
-                  commodities: isProduction ? 'MATIC:polygon' : 'ETH',
+                  commodity: isProduction ? 'USDC:polygon' : 'ETH',
+                  commodities: isProduction ? 'USDC:polygon' : 'ETH',
                   address,
                   email,
                   redirect_url: 'https://treasure.chess.com/redirect/wert',

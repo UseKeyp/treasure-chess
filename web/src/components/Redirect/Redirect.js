@@ -36,7 +36,7 @@ const Redirect = ({ type }) => {
           size="large"
           color="green"
         >
-          See Profile
+          See Profile to mint Treasures and view your collection
         </Button>
       )
     } else {

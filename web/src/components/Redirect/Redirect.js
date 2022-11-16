@@ -9,14 +9,7 @@ import { useTheme } from 'src/providers/theme'
 import LoadingCards from 'src/components/LoadingCards'
 
 const Redirect = ({ type }) => {
-  const { toggleFaqTheme } = useTheme()
   const { errorMessage, successMessage, isLoading } = useRedirection()
-  React.useEffect(() => {
-    toggleFaqTheme(true)
-    return function cleanup() {
-      toggleFaqTheme(false)
-    }
-  })
   if (isLoading)
     return (
       <div className="min-w-full min-h-screen flex items-center justify-center">

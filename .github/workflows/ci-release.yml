@@ -40,10 +40,10 @@ jobs:
         with:
           token: ${{ secrets.PAT_GITHUB }}
 
-      - name: Use Node.js 12.x
+      - name: Use Node.js 18.x
         uses: actions/setup-node@v1
         with:
-          node-version: 12.x
+          node-version: 18.x
           registry-url: https://registry.npmjs.org/
 
       - name: Update version
@@ -52,14 +52,14 @@ jobs:
           GH_TOKEN: ${{ secrets.PAT_GITHUB }}
         run: |
           IS_PRERELEASE=true
-          #git config user.name "GITHUB-ACTION-CI-RELEASE"
-          #git config user.email "${{ github.actor }}@users.noreply.github.com"
-          #if [ ${{ github.ref_name }} == "main" ] ; then
-          #   npx lerna version --conventional-graduate --conventional-commits --yes
-          #   IS_PRERELEASE=false
-          #else
-          #   npx lerna version prerelease --yes --preid staging
-          #fi
+          git config user.name "GITHUB-ACTION-CI-RELEASE"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+          # if [ ${{ github.ref_name }} == "main" ] ; then
+          #    npx lerna version --conventional-graduate --conventional-commits --yes
+          #    IS_PRERELEASE=false
+          # else
+          #    npx lerna version prerelease --yes --preid staging
+          # fi
           npx lerna version prerelease --yes --preid staging
           VERSION=v$(jq -r .version lerna.json)
           echo "::set-output name=VERSION::$VERSION"

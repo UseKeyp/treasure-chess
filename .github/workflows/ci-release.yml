@@ -52,8 +52,8 @@ jobs:
           GH_TOKEN: ${{ secrets.PAT_GITHUB }}
         run: |
           IS_PRERELEASE=true
-          git config user.name "GITHUB-ACTION-CI-RELEASE"
-          git config user.email "${{ github.actor }}@users.noreply.github.com"
+          #git config user.name "GITHUB-ACTION-CI-RELEASE"
+          #git config user.email "${{ github.actor }}@users.noreply.github.com"
           #if [ ${{ github.ref_name }} == "main" ] ; then
           #   npx lerna version --conventional-graduate --conventional-commits --yes
           #   IS_PRERELEASE=false

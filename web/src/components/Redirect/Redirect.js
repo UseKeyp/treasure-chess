@@ -4,7 +4,6 @@ import { useRedirection } from 'src/providers/redirection'
 import Icon from 'src/components/Icon'
 import Button from 'src/components/Button'
 import SiteFooter from 'src/components/SiteFooter'
-import { useTheme } from 'src/providers/theme'
 
 import LoadingCards from 'src/components/LoadingCards'
 

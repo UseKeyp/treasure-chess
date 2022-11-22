@@ -1,5 +1,4 @@
 import clsx from 'clsx'
-import { useEffect } from 'react'
 import { P } from 'src/components/Typography'
 import Loader from 'src/components/Loader'
 const {

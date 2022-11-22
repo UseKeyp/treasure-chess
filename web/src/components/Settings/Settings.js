@@ -18,7 +18,7 @@ const Settings = () => {
 
   const items = [
     {
-      title: 'Subscribe to Updates',
+      title: t('Subscribe to Updates'),
       hideButton: true,
       description: (
         <div className="">
@@ -36,7 +36,7 @@ const Settings = () => {
       ),
     },
     {
-      title: 'Share Feedback',
+      title: t('Share Feedback'),
       hideButton: true,
       description: (
         <div className="flex align-start items-start justify-start">
@@ -54,7 +54,7 @@ const Settings = () => {
       ),
     },
     {
-      title: 'Beta Access',
+      title: t('Beta Access'),
       description: <p>Preview new features before they are released.</p>,
       button: (
         <Button
@@ -69,16 +69,40 @@ const Settings = () => {
       ),
       status: (
         <p>
-          <i>{currentUser.betaAccess ? 'Enabled' : 'Disabled'}</i>
+          <i>{currentUser.betaAccess ? t('Enabled') : t('Disabled')}</i>
         </p>
       ),
       highlight: currentUser.betaAccess,
+    },
+    {
+      title: t('Language'),
+      description: <p>{t('Change your preferred language')}</p>,
+      button: (
+        <div className="w-full">
+          <Dropdown
+            default={localeLanguage}
+            queryFilter={localeLanguage}
+            queryFilterFunction={setLocale}
+            arrayOfObjects={languageData.map((item) => {
+              return {
+                id: item.value,
+                value: item.id,
+              }
+            })}
+          />
+        </div>
+      ),
+      status: (
+        <div className="text-errorYellow font-bold text-sm mt-2">
+          {localeError}
+        </div>
+      ),
     },
   ]
 
   return (
     <div className="max-width-container">
-      <h1>{'Settings'}</h1>
+      <h1>{t('Settings')}</h1>
 
       <div className="">
         {items.map((item) => (
@@ -116,7 +140,7 @@ const Settings = () => {
       <ModalContainer
         isVisible={isVisibleBeta}
         hideModal={toggleModalBeta}
-        headerText="Request Beta Access"
+        headerText={t('Request Beta Access')}
         content={
           <div className="p-4 rounded-lg bg-chessBlack-100">
             <iframe
@@ -130,28 +154,6 @@ const Settings = () => {
           </div>
         }
       />
-      <div className="p-4 mt-6 rounded-lg bg-chessBlack-100">
-        <div className="flex flex-col">
-          <div className="text-sm">{t('Language')}</div>
-        </div>
-        <div className="mt-2">
-          <Dropdown
-            category={t('Change your preferred language')}
-            default={localeLanguage}
-            queryFilter={localeLanguage}
-            queryFilterFunction={setLocale}
-            arrayOfObjects={languageData.map((item) => {
-              return {
-                id: item.value,
-                value: item.id,
-              }
-            })}
-          />
-        </div>
-        <div className="text-errorYellow font-bold text-sm mt-2">
-          {localeError}
-        </div>
-      </div>
     </div>
   )
 }

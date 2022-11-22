@@ -8,10 +8,10 @@ import { MetaTags } from '@redwoodjs/web'
 import { trimString } from 'src/utils/helpers'
 
 const Treasure = ({ treasure, isLoading }) => {
-  const players = [treasure?.white.username, treasure?.black.username]
-  const getUsernames = (players) => Object.values(players).toString()
-  // const currentMarketSale = treasure.marketSales ? treasure.marketSales[0] : {}
-  // <ItemSaleInteraction tokenId={tokenId} />
+  const playerSearchString = [
+    treasure?.white.username,
+    treasure?.black.username,
+  ].toString()
   return (
     <div>
       {treasure && (
@@ -59,10 +59,10 @@ const Treasure = ({ treasure, isLoading }) => {
           </Trans>
         </p>
       </div>*/}
-      <h1 className="mt-16">{t('More by these users')}</h1>
+      <h1 className="mt-16">{t('More by these players')}</h1>
       <div className="w-full mt-4">
         <TreasuresFetcher
-          username={getUsernames(players)}
+          username={playerSearchString}
           sort="Price: Low to High"
         />
       </div>

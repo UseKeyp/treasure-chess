@@ -1,10 +1,10 @@
-import { useLazyQuery, useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client'
 import { useToast } from 'src/providers/toast'
 import { isBrowser } from '@redwoodjs/prerender/browserUtils'
 import popupLoadingHtml from 'src/utils/popupLoadingHtml'
 
 import {
-  OAUTH_URL_QUERY,
+  OAUTH_URL_MUTATION,
   OAUTH_CODE_GRANT_MUTATION,
   OAUTH_REVOKE_MUTATION,
 } from './graphql'
@@ -17,9 +17,7 @@ const OAuthProvider = ({ children }) => {
   const { toast } = useToast()
   const [state, setState] = React.useState({})
 
-  const [oAuthUrlQuery] = useLazyQuery(OAUTH_URL_QUERY, {
-    fetchPolicy: 'network-only',
-  })
+  const [oAuthUrlMutation] = useMutation(OAUTH_URL_MUTATION)
   const [codeGrantMutation] = useMutation(OAUTH_CODE_GRANT_MUTATION)
   const [revokeMutation] = useMutation(OAUTH_REVOKE_MUTATION)
 
@@ -27,7 +25,7 @@ const OAuthProvider = ({ children }) => {
     try {
       if (!type) throw 'No type provided'
       setState({ isLoading: true })
-      const { data, error } = await oAuthUrlQuery({
+      const { data, error } = await oAuthUrlMutation({
         variables: { type },
       })
       if (error) throw error

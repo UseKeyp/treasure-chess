@@ -121,6 +121,7 @@ model Treasure {
   marketSales       MarketSale[]
   openGraphImageSrc String?
   marketSaleStatus  MarketSaleStatus @default(DELISTED)
+  price             Int?
 }
 
 model MarketSale {

@@ -36,7 +36,7 @@ const InfiniteScroll = ({
         endMessage={
           !limit && (
             <div className="mt-8 rw-text-center">
-              <h3>That&apos;s everything</h3>
+              <h3>{t("That's everything")}</h3>
             </div>
           )
         }

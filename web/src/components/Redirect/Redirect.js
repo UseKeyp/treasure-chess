@@ -1,18 +1,18 @@
 import { routes, Link } from '@redwoodjs/router'
 import { useRedirection } from 'src/providers/redirection'
 
-import Loader from 'src/components/Loader'
 import Icon from 'src/components/Icon'
 import Button from 'src/components/Button'
 import SiteFooter from 'src/components/SiteFooter'
 
+import LoadingCards from 'src/components/LoadingCards'
+
 const Redirect = ({ type }) => {
   const { errorMessage, successMessage, isLoading } = useRedirection()
-
   if (isLoading)
     return (
       <div className="min-w-full min-h-screen flex items-center justify-center">
-        <Loader />
+        <LoadingCards />
       </div>
     )
 

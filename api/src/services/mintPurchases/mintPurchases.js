@@ -2,11 +2,10 @@ import { EnvelopError } from '@envelop/core'
 
 import { db } from 'src/lib/db'
 import { logger } from 'src/lib/logger'
-import { checkGasAndAirdrop } from 'src/lib/web3/airdrop'
-import { checkAndSetMarketApprovals } from 'src/lib/web3/treasureMarket'
 import {
   validateMintRequest,
   processPendingPurchases,
+  processMintBalanceRequest,
 } from 'src/lib/mintPurchases'
 import { createMintReservation } from 'src/lib/wyre'
 import { createCheckoutSession } from 'src/lib/stripe'
@@ -31,35 +30,11 @@ export const cancelMintingPurchase = async ({ id }) => {
   return await db.mintPurchase.delete({ where: { id } })
 }
 
-export const mintWithCredit = async ({ gameId, endTime, title }) => {
+export const mintBalance = async ({ gameId, endTime, title, paymentType }) => {
   await validateMintRequest({ gameId, endTime, title })
   logger.debug(`title: ${title}`)
   logger.debug(`context.currentUser.id: ${context.currentUser.id}`)
-  if (context.currentUser.mintCredits > 0) {
-    const mintPurchase = await db.mintPurchase.create({
-      data: {
-        member: { connect: { id: context.currentUser.id } },
-        gameId,
-        paymentType: 'MINTCREDIT',
-        orderStatus: 'COMPLETE',
-        gameEndTime: endTime,
-        title,
-      },
-    })
-    try {
-      await checkGasAndAirdrop({ member: context.currentUser })
-      await checkAndSetMarketApprovals({ member: context.currentUser })
-    } catch {
-      // Do nothing
-    }
-    await db.member.update({
-      where: { id: context.currentUser.id },
-      data: { mintCredits: context.currentUser.mintCredits - 1 },
-    })
-    return mintPurchase
-  } else {
-    throw new EnvelopError(`Insufficient mint credits`)
-  }
+  return processMintBalanceRequest({ gameId, endTime, title, paymentType })
 }
 
 export const mintCheckoutUrl = async ({
@@ -70,12 +45,18 @@ export const mintCheckoutUrl = async ({
 }) => {
   await validateMintRequest({ gameId, endTime, title, paymentType })
   const { username, address, id: userId } = context.currentUser
+
+  const { email } = db.member.findFirst({
+    where: { id: userId },
+  })
+
   let url
   let reservation
   let paymentIntentId
   if (paymentType === 'STRIPE') {
     ;({ url, paymentIntentId } = await createCheckoutSession({
       metadata: { username, gameId, endTime, address, title },
+      email,
     }))
   } else if (paymentType === 'WYRE') {
     ;({ url, reservation } = await createMintReservation({

@@ -12,6 +12,7 @@ export const schema = gql`
     getRampUrl(type: String!, direction: RampDirection!): LoginUrl! @requireAuth
   }
   type Mutation {
+    getRampUrl(type: String!, direction: RampDirection!): LoginUrl! @requireAuth
     rampWithdraw(type: String, amount: String!): Transaction! @requireAuth
   }
   enum RampDirection {

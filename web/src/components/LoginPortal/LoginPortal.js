@@ -53,26 +53,6 @@ const LoginPortal = () => {
               {t('Create a Treasure Chess wallet')}
             </h3>
           </div>
-          <ul className="ml-6">
-            <li>
-              <h4 className="-indent-6 ">
-                <span className="mr-2">✨</span>
-                {t('Mint new Treasures')}
-              </h4>
-            </li>
-            <li>
-              <h4 className="-indent-6 ">
-                <span className="mr-2">❤️</span>
-                {t('Collect Treasures from your favorite players')}
-              </h4>
-            </li>
-            <li>
-              <h4 className="-indent-6 ">
-                <span className="mr-2">🎁</span>
-                {t('Treasures you appear in can be sold in the Marketplace')}
-              </h4>
-            </li>
-          </ul>
         </div>
 
         <div className="login-portal-container--button-wrapper">
@@ -88,25 +68,39 @@ const LoginPortal = () => {
               <span className="mr-2">{t('Sign in with Chess.com')}</span>
             </div>
           </Button>
+          {errorText && <div className="mt-2 rw-cell-error">{errorText}</div>}
         </div>
-        {errorText && <div className="mt-8 rw-cell-error">{errorText}</div>}
-        <Trans i18nKey="web:userAgreement">
-          <h4>
-            By continuing you acknowledge that you have read, understand, and
-            agree to the
-            <a className="mx-1 text-blue" href={globalConfig.TOC_URL}>
-              Terms of Service
-            </a>
-            and
-            <a
-              className="mx-1 text-blue"
-              href={globalConfig.PRIVACY_POLICY_URL}
-            >
-              Privacy Policy
-            </a>
-            .
-          </h4>
-        </Trans>
+        <div className="w-full text-center">
+          <ul className="ml-6 ">
+            <li>
+              <h4 className="-indent-6">
+                <span className="mr-2">🔐</span>
+                {t('Store funds')}
+              </h4>
+            </li>
+            <li>
+              <h4 className="-indent-6">
+                <span className="mr-2">🪂</span>
+                {t('Send and receive')}
+              </h4>
+              <li>
+                <h4 className="-indent-6">
+                  <span className="mr-2">🎁</span>
+                  {t('Make purchases')}
+                </h4>
+              </li>
+            </li>
+          </ul>
+        </div>
+        <h4 className="mt-6">
+          <a className="mr-2 text-blue" href={globalConfig.TOC_URL}>
+            Terms of Service
+          </a>
+          ·
+          <a className="ml-2 text-blue" href={globalConfig.PRIVACY_POLICY_URL}>
+            Privacy Policy
+          </a>
+        </h4>
       </div>
     </div>
   )

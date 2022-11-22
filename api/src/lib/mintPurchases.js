@@ -5,7 +5,11 @@ import { validateTreasureTitle } from 'src/lib/helpers'
 import { mintTreasureAndUpdatePurchase } from 'src/lib/web3'
 import { sendDiscordAdminAlert } from 'src/lib/discord/admin'
 
+import { checkGasAndAirdrop } from 'src/lib/web3/airdrop'
+import { checkAndSetMarketApprovals } from 'src/lib/web3/treasureMarket'
+import { transferUsdc } from 'src/lib/web3/tokens'
 import { getTokenIdFromHashId } from 'src/lib/web3/treasure'
+import { getUsdcBalance } from 'src/lib/web3/tokens.js'
 import { fetchGame } from 'src/lib/games'
 import { logger } from 'src/lib/logger'
 
@@ -102,6 +106,51 @@ export const validateMintRequest = async ({
     throw new EnvelopError(
       `This Treasure has already been minted with tokenId ${tokenId}.`
     )
+}
+
+export const processMintBalanceRequest = async ({
+  gameId,
+  endTime,
+  title,
+  paymentType,
+}) => {
+  try {
+    await checkGasAndAirdrop({ member: context.currentUser })
+    await checkAndSetMarketApprovals({ member: context.currentUser })
+  } catch {
+    // Do nothing
+  }
+  if (paymentType === 'MINTCREDIT') {
+    if (context.currentUser.mintCredits < 1)
+      throw new EnvelopError(`Insufficient mint credits`)
+    await db.member.update({
+      where: { id: context.currentUser.id },
+      data: { mintCredits: { decrement: 1 } },
+    })
+  }
+  if (paymentType === 'BALANCE_MUSDC') {
+    const usdcBalance = await getUsdcBalance(context.currentUser.address)
+    if (usdcBalance / process.env.WYRE_MINT_USD_PURCHASE_AMOUNT < 1)
+      throw new EnvelopError(`Insufficient balance`)
+    // Transfer funds from wallet to admin
+    // NOTE: There is an exploit which allows minting many times while
+    // the balance change tx is pending. We should check for pending purchases in the future.
+    await transferUsdc({
+      to: process.env.APP_ADMIN_WALLET_ADDRESS,
+      amount: process.env.WYRE_MINT_USD_PURCHASE_AMOUNT,
+    })
+  }
+  const mintPurchase = await db.mintPurchase.create({
+    data: {
+      member: { connect: { id: context.currentUser.id } },
+      gameId,
+      paymentType,
+      orderStatus: 'COMPLETE',
+      gameEndTime: endTime,
+      title,
+    },
+  })
+  return mintPurchase
 }
 
 // Part of the polling system. Triggers minting.

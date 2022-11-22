@@ -55,7 +55,9 @@ const CheckoutProvider = ({ provider, onSubmit }) => {
         className={buttonClassName}
         disabled={true}
       >
-        Coming soon
+        {typeof provider.disabled === 'string'
+          ? provider.disabled
+          : 'Coming soon'}
       </Button>
     )
 
@@ -85,19 +87,30 @@ const CheckoutProvider = ({ provider, onSubmit }) => {
 }
 
 export const MintModal = ({ isVisible, toggleModal, onSubmit }) => {
-  const { mintCreditBalance } = useWallet()
+  const { mintCreditBalance, usdcBalance } = useWallet()
   const providers = [
     {
       name: 'Mint Credits',
-      type: 'CREDIT',
+      type: 'MINTCREDIT',
       description: (
         <>
-          Balance: <b>${mintCreditBalance}</b>
+          Credits: <b>${mintCreditBalance}</b>{' '}
+        </>
+      ),
+      // iconName: 'treasure_chess_full',
+      disabled: mintCreditBalance < 5 ? 'Insufficient credits' : false,
+      helperText: 'Earn more credits by completing tasks.',
+    },
+    {
+      name: 'Balance',
+      type: 'BALANCE_MUSDC',
+      description: (
+        <>
+          Pay with your Balance: <b>${usdcBalance}</b>
         </>
       ),
       helperText: '',
-      // iconName: 'treasure_chess_full',
-      disabled: mintCreditBalance < 1,
+      // disabled: usdcBalance < 5 ? 'Insufficient balance' : false,
     },
     {
       name: 'Wyre',
@@ -107,14 +120,14 @@ export const MintModal = ({ isVisible, toggleModal, onSubmit }) => {
         'Tip: Do not use auto-complete, a password manager, or copy/paste. Try using a different email if your first attempt fails.',
       iconName: 'wyre',
     },
-    {
-      name: 'Stripe',
-      type: 'STRIPE',
-      description: 'Pay with card',
-      helperText: '',
-      disabled: true,
-      iconName: 'stripe',
-    },
+    // {
+    //   name: 'Stripe',
+    //   type: 'STRIPE',
+    //   description: 'Pay with card',
+    //   helperText: '',
+    //   disabled: true,
+    //   iconName: 'stripe',
+    // },
   ]
   const onClick = (type) => {
     toggleModal()
@@ -130,8 +143,10 @@ export const MintModal = ({ isVisible, toggleModal, onSubmit }) => {
       content={
         <>
           <p className="text-base">
-            Choose a payment method. The $5 minting fee helps keep the world
-            free from spam Treasures.
+            <Trans i18nkey="mintingFeeSpam">
+              The <b>$5 mint fee</b> helps reduce the amount of spam Treasures.
+              Choose a payment method:
+            </Trans>
           </p>
           {providers.map((provider) => (
             <CheckoutProvider

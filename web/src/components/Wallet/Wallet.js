@@ -2,10 +2,14 @@ import { useAuth } from '@redwoodjs/auth'
 import { routes, Link } from '@redwoodjs/router'
 import Button from 'src/components/Button'
 
-import { useRamp } from 'src/providers/ramp/ramp'
 import MemberBalance from 'src/components/Member/MemberBalance'
 import MemberMintCredits from 'src/components/Member/MemberMintCredits'
+import Accordion from 'src/components/Accordion/Accordion'
+import OnRamps from 'src/components/Ramp/OnRamps'
+import OffRamps from 'src/components/Ramp/OffRamps'
+
 import { trimAddress } from 'src/utils/helpers'
+
 import {
   ArrowUpSquareFill,
   ArrowDownSquareFill,
@@ -14,7 +18,9 @@ import {
 
 const Wallet = () => {
   const { currentUser } = useAuth()
-  const { deposit, withdraw } = useRamp()
+
+  const [addFundsToggle, setAddFundsToggle] = React.useState(false)
+  const [cashOutToggle, setCashOutToggle] = React.useState(false)
 
   if (!currentUser) {
     return <></>
@@ -22,27 +28,32 @@ const Wallet = () => {
 
   const items = [
     {
-      title: 'Details',
-      description: (
-        <>
-          <p>Address:</p>
-          <p className="">{trimAddress(currentUser.address)}</p>
-        </>
-      ),
+      title: t('Details'),
+      subtitle: `Address ${trimAddress(currentUser.address)}`,
       button: (
         <>
           <MemberBalance />
-          <div className="mt-2">
+          <div className="mt-2 pb-4">
             <MemberMintCredits />
           </div>
         </>
       ),
     },
     {
-      title: 'Add Funds',
-      description: <p>Instantly add funds using a debit card.</p>,
+      title: t('Add Funds'),
+      subtitle: t('Instantly add funds using a debit card.'),
+      contents: (
+        <Accordion toggle={addFundsToggle}>
+          <OnRamps />
+        </Accordion>
+      ),
       button: (
-        <Button onClick={deposit} variant="blue" size="small" className="w-32">
+        <Button
+          onClick={() => setAddFundsToggle(!addFundsToggle)}
+          variant="blue"
+          size="small"
+          className="w-32"
+        >
           <div className="flex py-1 justify-center flex-row items-center">
             <ArrowDownSquareFill className="w-6 h-6 mr-3" />
             {t('Add funds')}
@@ -51,25 +62,36 @@ const Wallet = () => {
       ),
     },
     {
-      title: 'Cash out',
-      description: <p>Send funds to your bank at any time.</p>,
+      title: t('Cash out'),
+      subtitle: t('Send funds to your bank at any time.'),
+      contents: (
+        <Accordion toggle={cashOutToggle}>
+          <p className="pr-4 pb-4 italic">
+            {t(
+              'For your protection, funds can only be sent one-way from your Treasure Chess wallet to your bank. Funds can never be withdrawn from your bank using this method.'
+            )}
+          </p>
+          <OffRamps />
+        </Accordion>
+      ),
       button: (
         <Button
-          onClick={withdraw}
+          onClick={() => setCashOutToggle(!cashOutToggle)}
           variant="green"
           size="small"
           className="w-32"
         >
-          <div className="flex flex-row py-1 justify-center items-center">
+          <div className="flex py-1 justify-center flex-row items-center">
             <ArrowUpSquareFill className="w-6 h-6 mr-3" />
-            <div> {t('Cash out')}</div>
+            {t('Cash out')}
           </div>
         </Button>
       ),
     },
     {
-      title: 'Send Tokens',
+      title: t('Send Tokens'),
       disabled: true,
+      subtitle: t('Send ERC20 and ERC721 tokens to another web3 wallet.'),
       button: (
         <Button disabled variant="blue" size="small" className="w-32">
           <div className="flex flex-row py-1 justify-center items-center">
@@ -78,15 +100,10 @@ const Wallet = () => {
           </div>
         </Button>
       ),
-      description: (
-        <p className="mb-4">
-          Send ERC20 and ERC721 tokens to another web3 wallet.
-        </p>
-      ),
-      status: (
+      contents: (
         <p className="italic">
           <Trans i18nkey="web:requestBetaAccess">
-            Beta feature. Request to be a Beta Tester in{' '}
+            <b>Beta feature</b>. Request to be a Beta Tester in{' '}
             <Link className="underline" to={routes.settings()}>
               Settings
             </Link>
@@ -100,39 +117,35 @@ const Wallet = () => {
   return (
     <div className="max-width-container">
       <h1>{'Wallet'}</h1>
-      <div className="grid grid-rows-2">
-        {items.map((item) => (
-          <div
-            key={item.title}
-            className={`grid grid-cols-2 align-center gap-4  bg-chessBlack-100 mt-6 p-4 rounded-lg border-[1px] ${
-              item.highlight ? 'border-green' : 'border-chessBlack-100'
-            }`}
-          >
-            <div>
-              <div className="flex align-center items-center">
-                {item.iconContent || <h3>{item.title}</h3>}
-              </div>
-              {item.description && (
-                <div className="mt-2">{item.description}</div>
-              )}
-              <div className="mt-4">{item.status}</div>
-              {item.errorText && (
-                <div className="mt-4 font-bold text-errorYellow">
-                  {item.errorText}
+      {
+        <div>
+          {items.map((item) => (
+            <div
+              key={item.title}
+              className={` bg-chessBlack-100 mt-6 p-4 rounded-lg border-[1px] ${
+                item.highlight ? 'border-green' : 'border-chessBlack-100'
+              }`}
+            >
+              <div className="grid grid-cols-3 align-center">
+                <div className="col-span-2 mr-5">
+                  <div className="flex align-center">
+                    {item.iconContent || <h3>{item.title}</h3>}
+                  </div>
+                  {item.subtitle && <p className="mt-2">{item.subtitle}</p>}
                 </div>
-              )}
-              {item.helperText && (
-                <div className="mt-3 ">{item.helperText}</div>
-              )}
-            </div>
-            {!item.hideButton && (
-              <div className="flex justify-end">
-                <div>{item.button}</div>
+                <div className="col-span-1">
+                  {!item.hideButton && (
+                    <div className="flex justify-end ml-10">
+                      <div>{item.button}</div>
+                    </div>
+                  )}
+                </div>
               </div>
-            )}
-          </div>
-        ))}
-      </div>
+              {item.contents && <div className="mt-4">{item.contents}</div>}
+            </div>
+          ))}
+        </div>
+      }
     </div>
   )
 }

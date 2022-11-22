@@ -1,5 +1,5 @@
-<h1 align="center"><img width="600" style="border-radius: 30px;" src="https://github.com/treasure-chess/treasure-chess/blob/main/github-header.png?raw=true"/></h1>
-<h1 align="center">Welcome to treasure-chess 👋</h1>
+ <h1 align="center"><img width="600" style="border-radius: 30px;" src="https://github.com/treasure-chess/treasure-chess/blob/main/github-header.png?raw=true"/></h1>
+<h1 align="center">Welcome to treasure-chess 👋 </h1>
 
 <p  align="center">
   <a href="#" target="_blank">

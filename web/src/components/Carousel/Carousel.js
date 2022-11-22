@@ -40,11 +40,23 @@ const Carousel = ({ enableAutoSlide, items }) => {
       : ITEMS_PER_SLIDE,
     items: !hasItems
       ? [{ id: '1', renderItem: null }]
-      : items.map((renderItem, id) => ({
+      : cleanItems(items).map((renderItem, id) => ({
           id,
           renderItem: <div className="min-w-[304px] mx-auto">{renderItem}</div>,
         })),
   })
+
+  /**
+   * Ensures that the carousel will not pass empty items into the div surrounding {renderItem}
+   * @param itemsList - list of items to clean
+   */
+  function cleanItems(itemsList) {
+    if (itemsList[0] !== false && itemsList?.length > 2) {
+      return itemsList.filter((item) => item !== false)
+    } else {
+      return itemsList
+    }
+  }
 
   // --
 
@@ -102,7 +114,7 @@ const Carousel = ({ enableAutoSlide, items }) => {
           disabled={!hasItems}
           variant="black"
           onClick={() => {
-            setAutoSliding(false)
+            setAutoSliding('false')
             slideToPrevItem()
           }}
         >
@@ -112,7 +124,7 @@ const Carousel = ({ enableAutoSlide, items }) => {
           disabled={!hasItems}
           variant="black"
           onClick={() => {
-            setAutoSliding(false)
+            setAutoSliding('false')
             slideToNextItem()
           }}
         >

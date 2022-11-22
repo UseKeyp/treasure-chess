@@ -246,6 +246,7 @@ export const fetchMember = async (
       return {
         ...member,
         refreshToken: 'REDACTED',
+        accessToken: 'REDACTED',
         ...chessData,
         // Overwrite with current values from chess.com
         imageSrc: chessData.avatar,
@@ -267,6 +268,7 @@ export const fetchMember = async (
     return {
       ...member,
       refreshToken: 'REDACTED',
+      accessToken: 'REDACTED',
     }
   } catch (e) {
     logger.error(e)

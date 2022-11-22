@@ -11,7 +11,7 @@ import popupLoadingHtml from 'src/utils/popupLoadingHtml'
 import {
   PENDING_MINT_PURCHASES_QUERY,
   MINT_CHECKOUT_URL_MUTATION,
-  MINT_WITH_CREDIT_MUTATION,
+  MINT_BALANCE_MUTATION,
   CANCEL_PURCHASE_MUTATION,
 } from './graphql'
 
@@ -53,6 +53,7 @@ const MintingProvider = ({ children }) => {
   })
 
   const toastPurchase = (purchase) => {
+    if (!purchase) return
     // TODO: "Remove toasts"
     // return
     // TODO: Add more data to toasts (links, etc.)
@@ -139,7 +140,7 @@ const MintingProvider = ({ children }) => {
 
   const [mintCheckoutUrlMutation] = useMutation(MINT_CHECKOUT_URL_MUTATION)
 
-  const [mintWithCreditMutation] = useMutation(MINT_WITH_CREDIT_MUTATION)
+  const [mintBalanceMutation] = useMutation(MINT_BALANCE_MUTATION)
 
   const [cancelMintingPurchaseMutation] = useMutation(CANCEL_PURCHASE_MUTATION)
 
@@ -164,7 +165,7 @@ const MintingProvider = ({ children }) => {
       mintError: false,
       mintCheckoutpaymentType: paymentType,
     })
-    if (paymentType !== 'CREDIT') {
+    if (!['BALANCE_MUSDC', 'MINTCREDIT'].includes(paymentType)) {
       let myWindow
       try {
         myWindow = window.open(
@@ -205,12 +206,13 @@ const MintingProvider = ({ children }) => {
       }
     } else {
       try {
-        const { data: { mintWithCredit: mintPurchase } = {} } =
-          await mintWithCreditMutation({
+        const { data: { mintBalance: mintPurchase } = {} } =
+          await mintBalanceMutation({
             variables: {
               title: state.title,
               gameId: state.gameId,
               endTime: state.endTime,
+              paymentType,
             },
           })
 

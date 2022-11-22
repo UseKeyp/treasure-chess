@@ -11,9 +11,4 @@ export const providers = {
   [PLAID]: plaidProvider,
 }
 
-export const types = [
-  // COINBASE, // disabled
-  CHESS,
-  TWITCH,
-  PLAID,
-]
+export const types = [COINBASE, CHESS, TWITCH, PLAID]

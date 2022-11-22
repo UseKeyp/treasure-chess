@@ -14,10 +14,8 @@ export const schema = gql`
     status: CodeGrantStatus
   }
 
-  type Query {
-    oAuthUrl(type: String!): LoginUrl! @requireAuth
-  }
   type Mutation {
+    oAuthUrl(type: String!): LoginUrl! @requireAuth
     codeGrant(
       type: String!
       code: String!

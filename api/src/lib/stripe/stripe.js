@@ -12,10 +12,9 @@ const STRIPE_WEBHOOK_SECRET = isProduction
   : 'whsec_9b44ae98a6e0e6b55e47482362f86e6d03f0aaabc0a971d589e14eb2f45cd055'
 const YOUR_DOMAIN = process.env.APP_DOMAIN
 
-export const createCheckoutSession = async ({ metadata }) => {
+export const createCheckoutSession = async ({ metadata, email }) => {
   const session = await stripe.checkout.sessions.create({
-    // TODO:  Add customer email
-    // customer_email: ""
+    customer_email: email,
     metadata,
     line_items: [
       {

@@ -1,5 +1,5 @@
-export const OAUTH_URL_QUERY = gql`
-  query oAuthUrlQuery($type: String!) {
+export const OAUTH_URL_MUTATION = gql`
+  mutation oAuthUrlQuery($type: String!) {
     oAuthUrl(type: $type) {
       url
       type

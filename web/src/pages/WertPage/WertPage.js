@@ -23,15 +23,17 @@ const WertPage = () => {
                   origin: isProduction
                     ? 'https://widget.wert.io'
                     : 'https://sandbox.wert.io',
-                  partner_id: '01G5FDZZ2RY85QT8WY7AMN95P5',
+                  partner_id: isProduction
+                    ? '01G6BAFZZKJW8SN5P3FRCKGDHV'
+                    : '01G5FDZZ2RY85QT8WY7AMN95P5',
                   container_id: 'wert',
                   // width: 400,
                   height: 550,
                   currency: 'USD',
                   // currency_amount: 100,
                   // commodity_amount: 5;
-                  commodity: isProduction ? 'MATIC:polygon' : 'ETH',
-                  commodities: isProduction ? 'MATIC:polygon' : 'ETH',
+                  commodity: isProduction ? 'USDC:polygon' : 'ETH',
+                  commodities: isProduction ? 'USDC:polygon' : 'ETH',
                   address,
                   email,
                   redirect_url: 'https://treasure.chess.com/redirect/wert',

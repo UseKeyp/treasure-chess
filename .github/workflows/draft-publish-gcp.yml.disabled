@@ -1,0 +1,121 @@
+# The idea here is that the "draft" images on GHCR can just be re-tagged.
+# and pushed to the production registry, without building new ones.
+# The problem is that env variables in production won't allow testing locally
+# Such as the domain/origin stuff.
+
+name: 'GCP Publish Docker'
+on:
+  release:
+    types: [published]
+
+env:
+  ENVIRONMENT: ${{ github.event.inputs.image_tag_prefix }}
+  GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+  GITHUB_SHA: ${{ github.sha }}
+  GITHUB_BRANCH: ${{ github.ref_name }}
+  GITHUB_REPOSIOTORY: ${{ github.repository }}
+jobs:
+  setup:
+    name: Setup
+    runs-on: ubuntu-20.04
+    outputs:
+      RELEASE_HTML_URL: ${{ steps.get_release.outputs.html_url }}
+      ENVIRONMENT: ${{ steps.get_variables.outputs.ENVIRONMENT }}
+      VERSION: ${{ steps.get_version.outputs.VERSION }}
+    steps:
+      - name: Show context
+        run: |
+          echo github.event_name: ${{ github.event_name }}
+          echo github.sha: ${{ github.sha }}
+          echo github.repository: ${{ github.repository }}
+          echo github.ref: ${{ github.ref }}
+          echo github.head_ref: ${{ github.head_ref }}
+          echo github.base_ref: ${{ github.base_ref }}
+          echo github.event.inputs.image_tag_prefix: ${{ github.event.inputs.image_tag_prefix }}
+      - name: Get release
+        continue-on-error: true
+        id: get_release
+        uses: bruceadams/get-release@v1.2.3
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - name: Get variables
+        id: get_variables
+        run: |
+          ENVIRONMENT=staging
+          VERSION=${{ steps.get_release.outputs.tag_name }}
+          if [ ${{ github.event.inputs.image_tag_prefix }} ] ; then
+             ENVIRONMENT=${{ github.event.inputs.image_tag_prefix }}
+             BRANCH=${{ github.ref_name }}
+          elif ! grep -q "staging" <<< "${{ steps.get_release.outputs.tag_name }}" ; then
+             ENVIRONMENT=prod
+          fi
+          echo ENVIRONMENT: $ENVIRONMENT
+          echo VERSION: $VERSION
+          echo "::set-output name=ENVIRONMENT::$ENVIRONMENT"
+          echo "::set-output name=VERSION::$VERSION"
+  publish:
+    runs-on: ubuntu-20.04
+    needs: setup
+    steps:
+      - name: Set up gcloud
+        uses: google-github-actions/setup-gcloud@v0
+        with:
+          version: '330.0.0'
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+      - name: Configure docker auth
+        run: gcloud auth configure-docker us-east4-docker.pkg.dev
+      - name: Pull release images from GHCR
+        run: |
+          REDWOOD_API_URL="https://treasure.gcp-staging.chess-platform.com"
+          APP_DOMAIN="https://treasure.gcp-staging.chess-platform.com"
+          ETHEREUM_NETWORK_NAME=matic
+          BASIC_AUTH_PASSWORD=pauliemorphy
+          ENVIRONMENT=${{ needs.setup.outputs.ENVIRONMENT }}
+          SENTRY_DSN="https://0723d14bc0b94064902f01f77a915392@o1016103.ingest.sentry.io/5981718"
+          if [ $ENVIRONMENT == "prod" ] ; then
+             REDWOOD_API_URL="https://treasure.chess.com"
+             APP_DOMAIN="https://treasure.chess.com"
+             BASIC_AUTH_PASSWORD=""
+          fi
+          IMAGE_TAG=${{ needs.setup.outputs.VERSION }}
+          IMAGE_NAME=$(echo $GITHUB_REPOSIOTORY | cut -c 12-)
+          COMPONENTS="api web"
+          PROJECT_NAME=us-east4-docker.pkg.dev/chess-gcr1/treasure-chess
+          for COMPONENT in $COMPONENTS
+          do
+
+              echo "branch: $GITHUB_BRANCH, building image... $PROJECT_NAME/$IMAGE_NAME-$COMPONENT:$IMAGE_TAG"
+              echo "$GCP_SA_KEY" | base64 -d > ./credentials.json
+              docker build -t $PROJECT_NAME/$IMAGE_NAME-$COMPONENT:$IMAGE_TAG \
+                --build-arg ENVIRONMENT=$ENVIRONMENT \
+                --build-arg VERSION=$IMAGE_TAG \
+                --build-arg REDWOOD_API_URL=$REDWOOD_API_URL \
+                --build-arg APP_DOMAIN=$APP_DOMAIN \
+                --build-arg ETHEREUM_NETWORK_NAME=$ETHEREUM_NETWORK_NAME \
+                --build-arg BASIC_AUTH_PASSWORD=$BASIC_AUTH_PASSWORD \
+                --build-arg SENTRY_DSN=$SENTRY_DSN \
+                 -f ./$COMPONENT/Dockerfile .
+
+              echo "pushing image... $PROJECT_NAME/$IMAGE_NAME:$IMAGE_TAG"
+              docker push $PROJECT_NAME/$IMAGE_NAME-$COMPONENT:$IMAGE_TAG
+
+              if [ $PREFIX == "prod" ] ; then
+                 echo "pushing image... $PROJECT_NAME/$IMAGE_NAME-$COMPONENT:latest"
+                 docker tag $PROJECT_NAME/$IMAGE_NAME-$COMPONENT:$IMAGE_TAG $PROJECT_NAME/$IMAGE_NAME-$COMPONENT:latest
+                 docker push $PROJECT_NAME/$IMAGE_NAME-$COMPONENT:latest
+              fi
+          done
+  notify:
+    name: Notify
+    runs-on: ubuntu-20.04
+    needs:
+      - setup
+      - publish
+    steps:
+      - name: Discord notify complete
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_RELEASE }}
+        uses: Ilshidur/action-discord@0c4b27844ba47cb1c7bee539c8eead5284ce9fa9
+        with:
+          args: |
+            🚢 Images deployed! `${{ needs.setup.outputs.VERSION }}` ${{ needs.setup.outputs.RELEASE_HTML_URL }}

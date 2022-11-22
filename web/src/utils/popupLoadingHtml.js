@@ -121,6 +121,7 @@ const html = `<html lang="en">
     </style>
   </head>
   <body>
+    <div id="timeoutError" style="display:none;"><h3>Oops! An error occured<br/><br/>Sending you back...</h3><p>The request took too long.</p></div>
     <div class="container">
       <div class="chest">
         <div class="chest__body">
@@ -142,6 +143,16 @@ const html = `<html lang="en">
       </div>
       <div class="shadow"></div>
     </div>
+    <script>
+      console.log('%cTreasure Chess', 'color:#88C54B;font-family:sans-serif;font-size:4rem;-webkit-text-stroke: 1px black;font-weight:bold');
+      setTimeout(() => {
+        const staticImageSrc = document.getElementById("timeoutError").src
+        document.getElementById("timeoutError").style = "";
+        setTimeout(() => {
+          window.close()
+        },2000)
+      },10000)
+    </script>
   </body>
 </html>
 `

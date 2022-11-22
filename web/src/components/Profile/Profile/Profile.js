@@ -25,7 +25,7 @@ const Profile = () => {
         </div>
       </div>
       <h1 className="mt-10">{t('Treasures Played')}</h1>
-      <div className="flex mt-4 h-[476px]">
+      <div className="flex mt-4 ">
         <TreasuresFetcher
           limit
           username={currentUser?.username}

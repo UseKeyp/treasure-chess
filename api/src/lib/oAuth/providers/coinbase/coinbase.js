@@ -3,7 +3,6 @@ import { db } from 'src/lib/db'
 import Sentry from 'src/lib/sentry'
 
 import { encodeBody, getExpiration } from 'src/lib/oAuth/helpers'
-import { logger } from 'src/lib/logger'
 
 export const COINBASE = 'COINBASE'
 export const COINBASE_OAUTH_URL_AUTHORIZE =

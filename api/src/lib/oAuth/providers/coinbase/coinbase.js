@@ -3,6 +3,7 @@ import { db } from 'src/lib/db'
 import Sentry from 'src/lib/sentry'
 
 import { encodeBody, getExpiration } from 'src/lib/oAuth/helpers'
+import { logger } from 'src/lib/logger'
 
 export const COINBASE = 'COINBASE'
 export const COINBASE_OAUTH_URL_AUTHORIZE =
@@ -10,7 +11,7 @@ export const COINBASE_OAUTH_URL_AUTHORIZE =
 
 const COINBASE_OAUTH_URL_TOKEN = 'https://www.coinbase.com/oauth/token'
 const COINBASE_SCOPE =
-  'wallet:accounts:read,wallet:addresses:read,wallet:user:email'
+  'wallet:accounts:read,wallet:accounts:create,wallet:addresses:read,wallet:addresses:create,wallet:user:email'
 const COINBASE_REDIRECT_URI = process.env.APP_DOMAIN + '/redirect/coinbase'
 
 const params = {
@@ -64,31 +65,54 @@ export const onSubmitCode = async (code, { memberId }) => {
 export const onConnected = async ({ accessToken, refreshToken, memberId }) => {
   try {
     const userDetails = await fetch('https://api.coinbase.com/v2/user', {
-      headers: { Authorization: `Bearer ${accessToken}` },
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'CB-VERSION': '2022-11-22',
+      },
     }).then((res) => {
       if (res.status != 200)
         throw 'Coinbase authorization failed, or secret invalid'
       return res.json()
     })
-    const accounts = await fetch(`https://api.coinbase.com/v2/accounts`, {
-      headers: { Authorization: `Bearer ${accessToken}` },
+    const accounts = await fetch(`https://api.coinbase.com/v2/accounts/ETH`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'CB-VERSION': '2022-11-22',
+      },
     }).then((res) => {
-      if (res.status != 200)
-        throw 'Coinbase authorization failed, or secret invalid'
+      if (res.status != 200) throw "Couldn't get ETH account on Coinbase"
       return res.json()
     })
-    const ethAccount = accounts.data.find(
-      (account) => account.currency === 'ETH'
-    )
+    const ethAccount = accounts.data
     const addresses = await fetch(
       `https://api.coinbase.com/v2/accounts/${ethAccount.id}/addresses`,
-      { headers: { Authorization: `Bearer ${accessToken}` } }
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'CB-VERSION': '2022-11-22',
+        },
+      }
     ).then((res) => {
-      if (res.status != 200)
-        throw 'Coinbase authorization failed, or secret invalid'
+      if (res.status != 200) throw "Could't get ETH addresses from Coinbase"
       return res.json()
     })
-    const address = addresses.data[0].address
+    let address = addresses.data[0].address
+    if (!address) {
+      const newAddress = await fetch(
+        `https://api.coinbase.com/v2/accounts/${ethAccount.id}/addresses`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            'CB-VERSION': '2022-11-22',
+          },
+        }
+      ).then((res) => {
+        if (res.status != 201) throw "Couldn't create ETH address on Coinbase"
+        return res.json()
+      })
+      address = newAddress.data.address
+    }
     await db.ramp.create({
       data: {
         address,

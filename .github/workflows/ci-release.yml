@@ -24,7 +24,7 @@ jobs:
             SKIP_RELEASE=1
           fi
           echo SKIP_RELEASE: $SKIP_RELEASE
-          echo "::set-output name=SKIP_RELEASE::$SKIP_RELEASE"
+          echo "{SKIP_RELEASE}={SKIP_RELEASE} >> $GITHUB_OUTPUT"
 
   update-version:
     name: Update Version
@@ -41,7 +41,7 @@ jobs:
           token: ${{ secrets.PAT_GITHUB }}
 
       - name: Use Node.js 18.x
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: 18.x
           registry-url: https://registry.npmjs.org/
@@ -62,8 +62,8 @@ jobs:
           fi
           npx lerna version prerelease --yes --preid staging
           VERSION=v$(jq -r .version lerna.json)
-          echo "::set-output name=VERSION::$VERSION"
-          echo "::set-output name=IS_PRERELEASE::$IS_PRERELEASE"
+          echo "{VERSION}={VERSION} >> $GITHUB_OUTPUT"
+          echo "{IS_PRERELEASE}={IS_PRERELEASE} >> $GITHUB_OUTPUT"
 
   build:
     name: Build and Push Images
@@ -99,6 +99,12 @@ jobs:
     needs: [build, update-version]
     runs-on: ubuntu-20.04
     steps:
+      - name: Use Node.js 18.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          registry-url: https://registry.npmjs.org/
+
       - name: Checkout Source
         uses: actions/checkout@v2
 

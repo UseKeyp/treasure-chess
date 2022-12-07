@@ -65,7 +65,7 @@ jobs:
             SKIP_RELEASE=1
           fi
           echo SKIP_RELEASE: $SKIP_RELEASE
-          echo "::set-output name=SKIP_RELEASE::$SKIP_RELEASE"
+          echo "{SKIP_RELEASE}={SKIP_RELEASE} >> $GITHUB_OUTPUT"
   create-release-draft:
     name: Create Release Draft
     needs: runCI
@@ -76,10 +76,10 @@ jobs:
         uses: actions/checkout@v2
         with:
           token: ${{ secrets.PAT_GITHUB }}
-      - name: Use Node.js 12.x
-        uses: actions/setup-node@v1
+      - name: Use Node.js 18.x
+        uses: actions/setup-node@v3
         with:
-          node-version: 12.x
+          node-version: 18.x
           registry-url: https://registry.npmjs.org/
       - name: Update version
         id: update_version
@@ -97,8 +97,8 @@ jobs:
              npx lerna version prerelease --yes --preid staging
           fi
           VERSION=v$(jq -r .version lerna.json)
-          echo "::set-output name=VERSION::$VERSION"
-          echo "::set-output name=IS_PRERELEASE::$IS_PRERELEASE"
+          echo "{VERSION}={VERSION} >> $GITHUB_OUTPUT"
+          echo "{IS_PRERELEASE}={IS_PRERELEASE} >> $GITHUB_OUTPUT"
       - name: Create release draft
         id: create_release
         uses: actions/create-release@v1

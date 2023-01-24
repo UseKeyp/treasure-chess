@@ -35,6 +35,9 @@ const SiteFooter = () => {
           <Link className="underline" to={routes.support()}>
             Support
           </Link>
+          <Link className="underline" to={routes.keyp()}>
+            Treasure Chess was built using Keyp
+          </Link>
         </div>
         <div className="flex items-center  space-x-4">
           <a href={globalConfig.CHESS_COM_BASE_URL}>

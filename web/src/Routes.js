@@ -39,6 +39,7 @@ const Routes = () => {
           </Private>
           <Route path="/chain-data" page={ChainDataPage} name="chainData" />
           <Route path="/support" page={SupportPage} name="support" />
+          <Route path="https://usekeyp.com" name="key"
         </Set>
       </AllContextProviders>
     </Router>

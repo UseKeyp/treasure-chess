@@ -46,7 +46,7 @@ const HomePage = () => {
       <FeaturedPlayers />
       <FaqSection />
       <h2 className="mt-24">Subscribe to Updates</h2>
-      <div className="mt-6 p-4 mb-20 lg:mb-0 md:mb-20 sm:mb-20 rounded-lg bg-chessBlack-100">
+      <div className="mt-6 p-4 mb-20 lg:mb-0 md:mb-20 sm:mb-20 mh-4 rounded-lg bg-chessBlack-100">
         <div id="hubspotForm"></div>
       </div>
     </>

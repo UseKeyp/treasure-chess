@@ -1,6 +1,5 @@
 import { useAuth } from '@redwoodjs/auth'
 import ModalContainer from 'src/components/ModalContainer'
-import Button from 'src/components/Button'
 
 import { useModal } from 'src/hooks/useModal'
 import Dropdown from 'src/components/Dropdown/Dropdown'
@@ -17,63 +16,63 @@ const Settings = () => {
   }
 
   const items = [
-    {
-      title: t('Subscribe to Updates'),
-      hideButton: true,
-      description: (
-        <div className="">
-          <iframe
-            src={`https://mautic.tools.treasurechess.com/form/1?username=${currentUser.username}`}
-            className="max-w-[500px] w-full"
-            height="175"
-            title="Subscribe form"
-            scrolling="no"
-            frameBorder="0"
-          >
-            <p>Your browser does not support iframes.</p>
-          </iframe>
-        </div>
-      ),
-    },
-    {
-      title: t('Share Feedback'),
-      hideButton: true,
-      description: (
-        <div className="flex align-start items-start justify-start">
-          <iframe
-            src={`https://mautic.tools.treasurechess.com/form/3?username1=${currentUser.username}`}
-            height="220"
-            className="max-w-[500px] w-full"
-            title="Feedback form"
-            scrolling="no"
-            frameBorder="0"
-          >
-            <p>Your browser does not support iframes.</p>
-          </iframe>
-        </div>
-      ),
-    },
-    {
-      title: t('Beta Access'),
-      description: <p>Preview new features before they are released.</p>,
-      button: (
-        <Button
-          disabled={currentUser.betaAccess}
-          variant="blue"
-          size="small"
-          className="w-32"
-          onClick={toggleModalBeta}
-        >
-          {t('Request')}
-        </Button>
-      ),
-      status: (
-        <p>
-          <i>{currentUser.betaAccess ? t('Enabled') : t('Disabled')}</i>
-        </p>
-      ),
-      highlight: currentUser.betaAccess,
-    },
+    // {
+    //   title: t('Subscribe to Updates'),
+    //   hideButton: true,
+    //   description: (
+    //     <div className="">
+    //       <iframe
+    //         src={`https://mautic.tools.treasurechess.com/form/1?username=${currentUser.username}`}
+    //         className="max-w-[500px] w-full"
+    //         height="175"
+    //         title="Subscribe form"
+    //         scrolling="no"
+    //         frameBorder="0"
+    //       >
+    //         <p>Your browser does not support iframes.</p>
+    //       </iframe>
+    //     </div>
+    //   ),
+    // },
+    // {
+    //   title: t('Share Feedback'),
+    //   hideButton: true,
+    //   description: (
+    //     <div className="flex align-start items-start justify-start">
+    //       <iframe
+    //         src={`https://mautic.tools.treasurechess.com/form/3?username1=${currentUser.username}`}
+    //         height="220"
+    //         className="max-w-[500px] w-full"
+    //         title="Feedback form"
+    //         scrolling="no"
+    //         frameBorder="0"
+    //       >
+    //         <p>Your browser does not support iframes.</p>
+    //       </iframe>
+    //     </div>
+    //   ),
+    // },
+    // {
+    //   title: t('Beta Access'),
+    //   description: <p>Preview new features before they are released.</p>,
+    //   button: (
+    //     <Button
+    //       disabled={currentUser.betaAccess}
+    //       variant="blue"
+    //       size="small"
+    //       className="w-32"
+    //       onClick={toggleModalBeta}
+    //     >
+    //       {t('Request')}
+    //     </Button>
+    //   ),
+    //   status: (
+    //     <p>
+    //       <i>{currentUser.betaAccess ? t('Enabled') : t('Disabled')}</i>
+    //     </p>
+    //   ),
+    //   highlight: currentUser.betaAccess,
+    // },
     {
       title: t('Language'),
       description: <p>{t('Change your preferred language')}</p>,

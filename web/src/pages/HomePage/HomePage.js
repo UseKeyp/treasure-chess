@@ -6,11 +6,8 @@ import HomePageHero from 'src/components/HomePageHero/HomePageHero'
 import HeadingBar from 'src/components/HeadingBar/HeadingBar'
 import AllTreasuresButton from 'src/components/AllTreasuresButton/AllTreasuresButton'
 import TreasuresFetcher from 'src/components/Treasure/TreasuresFetcher'
-import { useAuth } from '@redwoodjs/auth'
 
 const HomePage = () => {
-  const { currentUser } = useAuth()
-
   React.useEffect(() => {
     const script = document.createElement('script')
     script.src = 'https://js.hsforms.net/forms/v2.js'

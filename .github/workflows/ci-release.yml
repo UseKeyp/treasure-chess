@@ -55,12 +55,11 @@ jobs:
           git config user.name "GITHUB-ACTION-CI-RELEASE"
           git config user.email "${{ github.actor }}@users.noreply.github.com"
           if [ ${{ github.ref_name }} == "main" ] ; then
-             npx lerna version --conventional-graduate --conventional-commits --yes
-             IS_PRERELEASE=false
+              npx lerna version --conventional-graduate --conventional-commits --yes || npx lerna version --conventional-graduate --conventional-commits --yes || npx lerna version --conventional-commits --yes
+              IS_PRERELEASE=false
           else
-             npx lerna version prerelease --yes --preid staging
+              npx lerna version prerelease --yes --preid staging
           fi
-          npx lerna version prerelease --yes --preid staging
           VERSION=v$(jq -r .version lerna.json)
           echo "{VERSION}={VERSION} >> $GITHUB_OUTPUT"
           echo "{IS_PRERELEASE}={IS_PRERELEASE} >> $GITHUB_OUTPUT"

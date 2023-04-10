@@ -57,7 +57,7 @@ docker-web:
     COPY +build-app/web/dist /usr/share/nginx/html
     RUN ls -lA /usr/share/nginx/html
     EXPOSE 8910
-    SAVE IMAGE --push ghcr.io/pi0neerpat/treasure-chess-web:$VERSION
+    SAVE IMAGE --push ghcr.io/usekeyp/treasure-chess-web:$VERSION
 
 docker-api:
     FROM +deps
@@ -73,7 +73,7 @@ docker-api:
       apt-get update && apt install -y nano ncdu
     EXPOSE 8911
     ENTRYPOINT ["./serve-api.sh"]
-    SAVE IMAGE --push ghcr.io/pi0neerpat/treasure-chess-api:$VERSION
+    SAVE IMAGE --push ghcr.io/usekeyp/treasure-chess-api:$VERSION
 
 docker:
   BUILD +docker-web
@@ -84,9 +84,9 @@ test-images:
     ARG VERSION='latest'
     RUN apk add curl
     WITH DOCKER \
-        --load ghcr.io/pi0neerpat/treasure-chess-web:$VERSION=+docker-web \
-        --load ghcr.io/pi0neerpat/treasure-chess-api:$VERSION=+docker-api
-        RUN docker run -d -p 8910:8910 ghcr.io/pi0neerpat/treasure-chess-web && \
+        --load ghcr.io/usekeyp/treasure-chess-web:$VERSION=+docker-web \
+        --load ghcr.io/usekeyp/treasure-chess-api:$VERSION=+docker-api
+        RUN docker run -d -p 8910:8910 ghcr.io/usekeyp/treasure-chess-web && \
             sleep 5 && \
             curl 0.0.0.0:8910 | grep 'Treasure Chess'
     END

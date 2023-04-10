@@ -19,7 +19,7 @@
 ```js
 import filters from '@treasure-chess/treasure-filters'
 
-const sortedAchievements = filters.achievementList.sort(
+const sortedAchievements = filters.achievementsList.sort(
   (a, b) => b.points - a.points
 )
 ```

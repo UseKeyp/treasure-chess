@@ -8,7 +8,7 @@ const AchievementList = ({ achievements, ...rest }) => {
 }
 
 AchievementList.defaultProps = {
-  achievements: filters.achievementList
+  achievements: filters.achievementsList
     .sort((a, b) => b.points - a.points)
     .map((achievement) => [
       { text: achievement.name, style: { flex: 2 } },

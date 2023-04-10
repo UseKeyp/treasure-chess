@@ -123,12 +123,16 @@ jobs:
             ## Added
             ## Fixes
             ## Breaking
-
+            ### Install with
+            ```bash
+            docker pull ghcr.io/usekeyp/treasure-chess-api:${{ needs.update-version.outputs.VERSION }}
+            docker pull ghcr.io/usekeyp/treasure-chess-web:${{ needs.update-version.outputs.VERSION }}
+            ```
       - name: Discord notify release draft
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_RELEASE }}
         uses: Ilshidur/action-discord@0c4b27844ba47cb1c7bee539c8eead5284ce9fa9
         with:
           args: |
-            🗒️ Draft Release created for `${{ needs.update-version.outputs.VERSION }}` ${{ steps.create_release.outputs.html_url }}
-            `docker pull ghcr.io/pi0neerpat/treasure-chess-api:${{ needs.update-version.outputs.VERSION }}`
+            🗒️ Draft Release created for `${{ github.repository }}` __${{ needs.update-version.outputs.VERSION }}__ ${{ steps.create_release.outputs.html_url }}
+

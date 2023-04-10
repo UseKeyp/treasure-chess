@@ -6,10 +6,25 @@ import HomePageHero from 'src/components/HomePageHero/HomePageHero'
 import HeadingBar from 'src/components/HeadingBar/HeadingBar'
 import AllTreasuresButton from 'src/components/AllTreasuresButton/AllTreasuresButton'
 import TreasuresFetcher from 'src/components/Treasure/TreasuresFetcher'
-import { useAuth } from '@redwoodjs/auth'
 
 const HomePage = () => {
-  const { currentUser } = useAuth()
+  React.useEffect(() => {
+    const script = document.createElement('script')
+    script.src = 'https://js.hsforms.net/forms/v2.js'
+    document.body.appendChild(script)
+
+    script.addEventListener('load', () => {
+      // @TS-ignore
+      if (window.hbspt) {
+        // @TS-ignore
+        window.hbspt.forms.create({
+          portalId: '24364914',
+          formId: 'abfbec57-701f-49ca-867a-9dbc0b9670e7',
+          target: '#hubspotForm',
+        })
+      }
+    })
+  }, [])
 
   return (
     <>
@@ -28,19 +43,8 @@ const HomePage = () => {
       <FeaturedPlayers />
       <FaqSection />
       <h2 className="mt-24">Subscribe to Updates</h2>
-      <div className="mt-6 p-4 mb-20 lg:mb-0 md:mb-20 sm:mb-20 rounded-lg bg-chessBlack-100">
-        <div className="">
-          <iframe
-            src={`https://mautic.tools.treasurechess.com/form/1?username=${currentUser?.username}`}
-            className="max-w-[500px] w-full"
-            height="175"
-            title="Subscribe form"
-            scrolling="no"
-            frameBorder="0"
-          >
-            <p>Your browser does not support iframes.</p>
-          </iframe>
-        </div>
+      <div className="mt-6 p-4 mb-20 lg:mb-0 md:mb-20 sm:mb-20 mh-4 rounded-lg bg-chessBlack-100">
+        <div id="hubspotForm"></div>
       </div>
     </>
   )

@@ -32,7 +32,7 @@ export const logOut = async () => {
       body: JSON.stringify({ method: 'logout' }),
     })
 
-    isBrowser && window.$chatwoot.reset()
+    isBrowser && window?.$chatwoot?.reset()
   } catch (e) {
     /* eslint-disable-next-line no-console */
     const errorMessage = getErrorResponse(`${e}.`, 'logout').error.message

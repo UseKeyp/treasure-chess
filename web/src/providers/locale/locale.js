@@ -7,7 +7,6 @@ const LocaleContext = React.createContext({})
 const LOCALE_LOCAL_KEY = 'i18nextLng'
 import { useTranslation, Trans } from 'react-i18next'
 import { languageData } from '@treasure-chess/localization'
-import { toast } from '@redwoodjs/web/toast'
 
 const getLocaleCode = () => {
   if (!isBrowser) return // Support prerender
@@ -41,7 +40,6 @@ const LocaleProvider = ({ children }) => {
           locale,
         },
       })
-      toast.success(<div>{t('Changes Saved')}</div>)
       localStorage.setItem('i18nextLng', locale.toString())
       if (localeError) {
         setLocaleError('')

@@ -3,7 +3,6 @@ global.atob = require('atob')
 global.window = null
 global.document = null
 
-import NodeManager from '@toruslabs/fetch-node-details/dist/fetchNodeDetails-node'
 import TorusUtils from '@toruslabs/torus.js/dist/torusUtils-node'
 
 import { getNewIdToken } from 'src/lib/oAuth/jwt'
@@ -12,16 +11,28 @@ import { keccak256 } from 'web3-utils'
 import { isProduction } from 'src/lib/helpers'
 import { logger } from 'src/lib/logger'
 
-let config = {
-  network: 'ropsten',
-  proxyAddress: '0x6258c9d6c12ed3edda59a1a6527e469517744aa7',
-}
-if (isProduction)
-  config = {
-    network: 'polygon-mainnet',
-    proxyAddress: '0x9f072ba19b3370e512aa1b4bfcdaf97283168005',
-  }
-const fetchNodeDetails = new NodeManager(config)
+const NodeDetailManager =
+  require('@toruslabs/fetch-node-details/dist/fetchNodeDetails-node.js').default
+// This require causes an issue for some reason
+// const TorusUtils =
+//   require('@toruslabs/torus.js/dist/torusUtils-node.js').default
+
+const config = isProduction
+  ? {
+      network: 'cyan',
+      proxyAddress: NodeDetailManager.PROXY_ADDRESS_CYAN,
+    }
+  : {
+      network: 'testnet',
+      proxyAddress: NodeDetailManager.PROXY_ADDRESS_TESTNET,
+    }
+
+const nodeDetailManager = new NodeDetailManager(config)
+
+const TORUS_VERIFIER = isProduction
+  ? 'treasure-chess-prod-1'
+  : 'treasure-chess-sandbox-aggregate'
+
 const torusUtils = new TorusUtils(
   isProduction
     ? {
@@ -37,11 +48,11 @@ export const getTorusPublicAddress = async (userId) => {
     /* eslint-disable camelcase */
     const { user_id: verifierId } = decodeJwt(idToken)
     const verifierDetails = {
-      verifier: process.env.TORUS_VERIFIER,
+      verifier: TORUS_VERIFIER,
       verifierId: verifierId,
     }
     const { torusNodeEndpoints, torusNodePub } =
-      await fetchNodeDetails.getNodeDetails(verifierDetails)
+      await nodeDetailManager.getNodeDetails(verifierDetails)
 
     const publicAddress = await torusUtils.getPublicAddress(
       torusNodeEndpoints,
@@ -61,18 +72,18 @@ export const getTorusWallet = async (userId) => {
     /* eslint-disable camelcase */
     const { user_id: verifierId } = decodeJwt(idToken)
     const verifierDetails = {
-      verifier: process.env.TORUS_VERIFIER,
+      verifier: TORUS_VERIFIER,
       verifierId: verifierId,
     }
 
     const hashedIdToken = keccak256(idToken)
 
     const { torusNodeEndpoints, torusIndexes } =
-      await fetchNodeDetails.getNodeDetails(verifierDetails)
+      await nodeDetailManager.getNodeDetails(verifierDetails)
     const retrieveSharesResponse = await torusUtils.retrieveShares(
       torusNodeEndpoints,
       torusIndexes,
-      process.env.TORUS_VERIFIER,
+      TORUS_VERIFIER,
       {
         verify_params: [{ verifier_id: verifierId, idtoken: idToken }],
         sub_verifier_ids: ['chess'],

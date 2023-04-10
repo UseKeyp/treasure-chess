@@ -1,6 +1,6 @@
 import { useAuth } from '@redwoodjs/auth'
-import { routes, Link } from '@redwoodjs/router'
 import Button from 'src/components/Button'
+import Icon from 'src/components/Icon'
 
 import MemberBalance from 'src/components/Member/MemberBalance'
 import MemberMintCredits from 'src/components/Member/MemberMintCredits'
@@ -10,11 +10,7 @@ import OffRamps from 'src/components/Ramp/OffRamps'
 
 import { trimAddress } from 'src/utils/helpers'
 
-import {
-  ArrowUpSquareFill,
-  ArrowDownSquareFill,
-  PaperplaneFill,
-} from 'framework7-icons/react'
+import { ArrowUpSquareFill, ArrowDownSquareFill } from 'framework7-icons/react'
 
 const Wallet = () => {
   const { currentUser } = useAuth()
@@ -89,25 +85,28 @@ const Wallet = () => {
       ),
     },
     {
-      title: t('Send Tokens'),
+      title: t('Manage Wallet'),
       disabled: true,
-      subtitle: t('Send ERC20 and ERC721 tokens to another web3 wallet.'),
+      subtitle: t('Access additional wallet features.'),
       button: (
-        <Button disabled variant="blue" size="small" className="w-32">
+        <Button
+          onClick={() => window.open('https://app.usekeyp.com')}
+          variant="white"
+          size="small"
+          className="w-32"
+        >
           <div className="flex flex-row py-1 justify-center items-center">
-            <PaperplaneFill className="w-6 h-6 mr-3" />
-            <div> {t('Send')}</div>
+            <Icon name="keyp" height="24px" />
+            <span className="sr-only">Keyp</span>
+            <div className="ml-2 text-black">Keyp</div>
           </div>
         </Button>
       ),
       contents: (
         <p className="italic">
           <Trans i18nkey="web:requestBetaAccess">
-            <b>Beta feature</b>. Request to be a Beta Tester in{' '}
-            <Link className="underline" to={routes.settings()}>
-              Settings
-            </Link>
-            .
+            Use the Keyp app and select the Chess.com option during sign-in to
+            view and manage your wallet.
           </Trans>
         </p>
       ),

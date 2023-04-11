@@ -24,7 +24,7 @@ jobs:
             SKIP_RELEASE=1
           fi
           echo SKIP_RELEASE: $SKIP_RELEASE
-          echo "{SKIP_RELEASE}={SKIP_RELEASE} >> $GITHUB_OUTPUT"
+          echo "::set-output name=SKIP_RELEASE::$SKIP_RELEASE"
 
   update-version:
     name: Update Version
@@ -61,8 +61,8 @@ jobs:
               npx lerna version prerelease --yes --preid staging
           fi
           VERSION=v$(jq -r .version lerna.json)
-          echo "{VERSION}={VERSION} >> $GITHUB_OUTPUT"
-          echo "{IS_PRERELEASE}={IS_PRERELEASE} >> $GITHUB_OUTPUT"
+          echo "::set-output name=VERSION::$VERSION"
+          echo "::set-output name=IS_PRERELEASE::$IS_PRERELEASE"
 
   build:
     name: Build and Push Images
@@ -76,7 +76,7 @@ jobs:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_RELEASE }}
         uses: Ilshidur/action-discord@0c4b27844ba47cb1c7bee539c8eead5284ce9fa9
         with:
-          args: 🏭 Building draft image for GHCR... `${{  needs.update-version.outputs.VERSION }}`
+          args: 🏭 Building draft image for `${{ github.repository }}` __${{  needs.update-version.outputs.VERSION }}__
       - name: Checkout Source
         uses: actions/checkout@v3
 
@@ -98,12 +98,6 @@ jobs:
     needs: [build, update-version]
     runs-on: ubuntu-20.04
     steps:
-      - name: Use Node.js 18.x
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18.x
-          registry-url: https://registry.npmjs.org/
-
       - name: Checkout Source
         uses: actions/checkout@v2
 

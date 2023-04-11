@@ -47,6 +47,7 @@ build-app:
     SAVE ARTIFACT web/dist web/dist # AS LOCAL ./web/dist
     SAVE ARTIFACT api/dist api/dist # AS LOCAL ./api/dist
     SAVE ARTIFACT api/db api/db
+    SAVE ARTIFACT node_modules/.prisma node_modules/.prisma
 
 docker-web:
     FROM nginx
@@ -66,11 +67,18 @@ docker-api:
     ENV ENVIRONMENT='local'
     COPY +build-app/api/dist /api/dist
     COPY +build-app/api/db /api/db
+    COPY +build-app/node_modules/.prisma node_modules/.prisma
     COPY serve-api.sh .
+    COPY tasks/environment tasks/environment
+    COPY .env.dev.js.enc .
+    COPY .env.sandbox.js.enc .
+    COPY .env.staging.js.enc .
+    COPY .env.prod.js.enc .
     COPY redwood.toml .
     COPY graphql.config.js .
     RUN yarn global add @redwoodjs/api-server @redwoodjs/internal prisma && \
       apt-get update && apt install -y nano ncdu
+    RUN yarn rw prisma generate
     EXPOSE 8911
     ENTRYPOINT ["./serve-api.sh"]
     SAVE IMAGE --push ghcr.io/usekeyp/treasure-chess-api:$VERSION

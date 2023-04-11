@@ -10,8 +10,8 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: default_database
   api:
-    image: 'pi0neerpat/treasure-chess-api:latest'
-    # image: ghcr.io/pi0neerpat/treasure-chess-api:latest
+    # image: 'usekeyp/treasure-chess-api:latest'
+    image: ghcr.io/usekeyp/treasure-chess-api:latest
     depends_on:
       - database
     ports:
@@ -29,11 +29,13 @@ services:
       # Learn more: https://stackoverflow.com/questions/31249112/allow-docker-container-to-connect-to-a-local-host-postgres-database
       DATABASE_URL: postgres://username:password@database:5432/treasurechessplayground?connection_limit=1
   web:
-    image: pi0neerpat/treasure-chess-web:latest
-    # image: ghcr.io/pi0neerpat/treasure-chess-web:latest
+    # image: usekeyp/treasure-chess-web:latest
+    image: ghcr.io/usekeyp/treasure-chess-web:latest
     ports:
       - '8910:8910'
     depends_on:
+      - api
+    links:
       - api
     logging:
       driver: 'json-file'

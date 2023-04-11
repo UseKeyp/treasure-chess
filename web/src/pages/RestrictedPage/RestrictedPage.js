@@ -12,12 +12,10 @@ const RestrictedPage = () => {
       <div className="chess-background w-screen h-screen">
         <main className="not-found">
           <section className="not-found--container">
-            <div className="not-found--img">
-              <img src="/no-go.png" className="h-auto w-full block" alt="" />
-            </div>
             <div className="not-found--content">
-              <h1>This site is restricted</h1>
-              <div className="not-found--content--go-home flex justify-center">
+              <h1>🛠️ Maintenance in Progress 🚧</h1>
+              <h3 className="mt-10 ">Please check back later</h3>
+              <div className="not-found--content--go-home flex justify-center ">
                 <input
                   placeholder="Password"
                   className="restrictedInput"
@@ -25,6 +23,7 @@ const RestrictedPage = () => {
                   value={value}
                 />
                 <button
+                  className="text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded text-lg"
                   onClick={() => {
                     submitPassword(value)
                   }}

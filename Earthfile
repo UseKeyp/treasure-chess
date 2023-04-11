@@ -71,7 +71,6 @@ docker-api:
     COPY serve-api.sh .
     COPY tasks/environment tasks/environment
     COPY .env.dev.js.enc .
-    COPY .env.sandbox.js.enc .
     COPY .env.staging.js.enc .
     COPY .env.prod.js.enc .
     COPY redwood.toml .

@@ -34,7 +34,7 @@
   }
 
   &--content {
-    @apply text-center mt-12 max-w-md;
+    @apply text-center mt-60  max-w-md;
 
     h1 {
       @apply max-w-xl m-auto text-3xl md:text-4xl;
@@ -45,7 +45,7 @@
     }
 
     &--go-home {
-      @apply mt-12;
+      @apply mt-80;
 
       img {
         @apply m-auto;

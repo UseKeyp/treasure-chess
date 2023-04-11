@@ -37,6 +37,8 @@ services:
       - api
     links:
       - api
+    environment:
+      REDWOOD_API_URL: 'http://0.0.0.0:8911'
     logging:
       driver: 'json-file'
       options:
